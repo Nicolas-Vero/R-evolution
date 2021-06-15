@@ -1,0 +1,14 @@
+<svg id="Groupe_5290" data-name="Groupe 5290" xmlns="http://www.w3.org/2000/svg" width="26.459" height="26.459" viewBox="0 0 26.459 26.459">
+  <g id="garbage" transform="translate(5.88 5.145)">
+    <g id="Groupe_5268" data-name="Groupe 5268" transform="translate(0)">
+      <path id="Tracé_1010" data-name="Tracé 1010" d="M41.141,2.379H37.7V1.818A1.82,1.82,0,0,0,35.884,0H32.615A1.82,1.82,0,0,0,30.8,1.818v.561H27.359a.459.459,0,0,0,0,.917h.829V14.074a2.457,2.457,0,0,0,2.453,2.453h7.217a2.457,2.457,0,0,0,2.453-2.453V3.3h.829a.459.459,0,0,0,0-.917Zm-9.426-.561a.9.9,0,0,1,.9-.9h3.269a.9.9,0,0,1,.9.9v.561h-5.07Zm7.679,12.256a1.539,1.539,0,0,1-1.536,1.536H30.641a1.539,1.539,0,0,1-1.536-1.536V3.3H39.4V14.074Z" transform="translate(-26.9)" fill="#fff"/>
+      <path id="Tracé_1011" data-name="Tracé 1011" d="M230.128,153.815a.426.426,0,0,0,.428-.428v-7.56a.428.428,0,1,0-.855,0v7.557A.429.429,0,0,0,230.128,153.815Z" transform="translate(-222.778 -140.058)" fill="#fff"/>
+      <path id="Tracé_1012" data-name="Tracé 1012" d="M142.028,167.674a.426.426,0,0,0,.428-.428v-6.619a.428.428,0,0,0-.855,0v6.619A.428.428,0,0,0,142.028,167.674Z" transform="translate(-137.685 -154.41)" fill="#fff"/>
+      <path id="Tracé_1013" data-name="Tracé 1013" d="M318.228,167.674a.426.426,0,0,0,.428-.428v-6.619a.428.428,0,0,0-.855,0v6.619A.426.426,0,0,0,318.228,167.674Z" transform="translate(-307.871 -154.41)" fill="#fff"/>
+    </g>
+  </g>
+  <g id="Ellipse_152" data-name="Ellipse 152" transform="translate(0)" fill="none" stroke="#fff" stroke-width="1">
+    <circle cx="13.229" cy="13.229" r="13.229" stroke="none"/>
+    <circle cx="13.229" cy="13.229" r="12.729" fill="none"/>
+  </g>
+</svg>

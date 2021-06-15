@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="17.977" height="30.784" viewBox="0 0 17.977 30.784">
+  <g id="mobile-phone" transform="translate(-56.396 -0.017)">
+    <g id="Groupe_6770" data-name="Groupe 6770" transform="translate(56.397 0.017)">
+      <g id="Groupe_6769" data-name="Groupe 6769" transform="translate(0 0)">
+        <path id="Tracé_1969" data-name="Tracé 1969" d="M70.748.022H59.94a3.492,3.492,0,0,0-2.581.935,3.622,3.622,0,0,0-.956,2.69V27.175A3.371,3.371,0,0,0,60.029,30.8H70.748a3.371,3.371,0,0,0,3.625-3.625V3.641A3.366,3.366,0,0,0,70.748.022Zm2.806,27.153a2.569,2.569,0,0,1-2.8,2.806H60.036a2.575,2.575,0,0,1-2.806-2.806V24.991H73.561v2.185Zm0-2.99H57.223V4.781H73.554Zm0-20.216H57.223V3.648a2.879,2.879,0,0,1,.717-2.11,2.77,2.77,0,0,1,2.041-.7H70.755a2.575,2.575,0,0,1,2.806,2.806v.321Z" transform="translate(-56.397 -0.017)" fill="#acacac"/>
+      </g>
+    </g>
+    <g id="Groupe_6772" data-name="Groupe 6772" transform="translate(63.702 2.023)">
+      <g id="Groupe_6771" data-name="Groupe 6771" transform="translate(0)">
+        <path id="Tracé_1970" data-name="Tracé 1970" d="M166.377,29.4H163.81a.41.41,0,1,0,0,.819h2.567a.411.411,0,0,0,.41-.41A.407.407,0,0,0,166.377,29.4Z" transform="translate(-163.4 -29.4)" fill="#acacac"/>
+      </g>
+    </g>
+    <g id="Groupe_6774" data-name="Groupe 6774" transform="translate(63.6 25.769)">
+      <g id="Groupe_6773" data-name="Groupe 6773">
+        <path id="Tracé_1971" data-name="Tracé 1971" d="M163.688,377.2a1.8,1.8,0,1,0,1.8,1.8A1.793,1.793,0,0,0,163.688,377.2Zm0,2.772h0a.973.973,0,1,1,.983-.969A.981.981,0,0,1,163.688,379.972Z" transform="translate(-161.899 -377.2)" fill="#acacac"/>
+      </g>
+    </g>
+  </g>
+</svg>

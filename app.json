@@ -1,0 +1,12 @@
+{
+  "name": "R_evolution",
+  "displayName": "R_evolution",
+  "expo": {
+    "name": "R_evolution",
+    "slug": "R_evolution",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}

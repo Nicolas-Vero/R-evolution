@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="67" height="66" viewBox="0 0 67 66">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#68c8c7"/>
+      <stop offset="0.744" stop-color="#81dfcf"/>
+      <stop offset="1" stop-color="#99e5cb"/>
+    </linearGradient>
+  </defs>
+  <g id="Groupe_6887" data-name="Groupe 6887" transform="translate(0 -551)">
+    <path id="Rectangle_820" data-name="Rectangle 820" d="M25,0H42A25,25,0,0,1,67,25V66a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V25A25,25,0,0,1,25,0Z" transform="translate(0 551)" fill="url(#linear-gradient)"/>
+    <g id="Groupe_5274" data-name="Groupe 5274" transform="translate(1 -184)">
+      <path id="Tracé_1005" data-name="Tracé 1005" d="M-274.034,452.26l4.971,4.065,7.6-8.363h0" transform="translate(300.178 316.381)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="3"/>
+      <g id="Ellipse_105" data-name="Ellipse 105" transform="translate(19 755)" fill="none" stroke="#fff" stroke-width="2">
+        <circle cx="13.19" cy="13.19" r="13.19" stroke="none"/>
+        <circle cx="13.19" cy="13.19" r="12.19" fill="none"/>
+      </g>
+    </g>
+  </g>
+</svg>

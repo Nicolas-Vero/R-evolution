@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="110.032" height="110.032" viewBox="0 0 110.032 110.032">
+  <g id="add" transform="translate(-17 -290)">
+    <rect id="Rectangle_830" data-name="Rectangle 830" width="110.032" height="110.032" rx="17" transform="translate(17 290)" fill="#f4f4f4"/>
+    <g id="Ellipse_162" data-name="Ellipse 162" transform="translate(49 322)" fill="none" stroke="#b4b4b4" stroke-width="3">
+      <circle cx="23" cy="23" r="23" stroke="none"/>
+      <circle cx="23" cy="23" r="21.5" fill="none"/>
+    </g>
+    <g id="add-2" data-name="add" transform="translate(60 332.999)">
+      <g id="Group_5292" data-name="Group 5292" transform="translate(0 0.001)">
+        <path id="Path_1043" data-name="Path 1043" d="M22.565,10.266H13.595V1.3A1.609,1.609,0,0,0,11.93,0,1.609,1.609,0,0,0,10.265,1.3v8.971H1.295A1.609,1.609,0,0,0,0,11.931,1.609,1.609,0,0,0,1.295,13.6h8.971v8.971a1.609,1.609,0,0,0,1.665,1.295,1.609,1.609,0,0,0,1.665-1.295V13.6h8.971a1.609,1.609,0,0,0,1.295-1.665A1.609,1.609,0,0,0,22.565,10.266Z" transform="translate(0 -0.001)" fill="#b4b4b4"/>
+      </g>
+    </g>
+  </g>
+</svg>
