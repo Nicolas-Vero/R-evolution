@@ -2,18 +2,19 @@ import React from 'react';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
-import DashboardScreen from '../screens/dashboard/index';
-import SignInScreen from '../screens/signIn/index';
-import SignUpScreen from '../screens/signUp/index';
+// import DashboardScreen from '../screens/dashboard/index';
+// import SignInScreen from '../screens/signIn/index';
+// import SignUpScreen from '../screens/signUp/index';
 
 import { IconCommunity, IconSimpleLine } from '@expo/vector-icons';
 import CustomMainTabBar from '../components/nav/customMainTabBar';
+import AddSpecialities from '../screens/Auth/AddSpecialities';
 
 // Auth bottom tabs menu
 const AuthTabsNavigator = createMaterialTopTabNavigator(
   {
     SignIn: {
-      screen: SignInScreen,
+      screen: AddSpecialities,
       navigationOptions: {
         tabBarLabel: 'Sign in',
         tabBarIcon: ({tintColor}) => (
@@ -22,7 +23,7 @@ const AuthTabsNavigator = createMaterialTopTabNavigator(
       },
     },
     SignUp: {
-      screen: SignUpScreen,
+      screen: AddSpecialities,
       navigationOptions: {
         tabBarLabel: 'Sign up',
         tabBarIcon: ({tintColor}) => (
@@ -41,7 +42,7 @@ const AuthTabsNavigator = createMaterialTopTabNavigator(
       tabBarVisible: true,
       animationEnabled: true,
     },
-    tabBarComponent: props => <CustomMainTabBar {...props} main={false} />,
+ //   tabBarComponent: props => <CustomMainTabBar {...props} main={false} />,
     tabBarOptions: {
       activeTintColor: 'white',
       inactiveTintColor: 'grey',
@@ -55,7 +56,7 @@ const AuthTabsNavigator = createMaterialTopTabNavigator(
 const AppTabsNavigator = createMaterialTopTabNavigator(
   {
     Dashboard: {
-      screen: DashboardScreen,
+      screen: AddSpecialities,
       navigationOptions: {
         tabBarLabel: 'Dashboard',
         tabBarIcon: ({tintColor}) => (
@@ -74,7 +75,7 @@ const AppTabsNavigator = createMaterialTopTabNavigator(
       tabBarVisible: true,
       animationEnabled: true,
     },
-    tabBarComponent: props => <CustomMainTabBar {...props} main={true} />,
+   // tabBarComponent: props => <CustomMainTabBar {...props} main={true} />,
     tabBarOptions: {
       activeTintColor: 'white',
       inactiveTintColor: 'grey',
@@ -91,7 +92,7 @@ const App = createSwitchNavigator(
     Auth: AuthTabsNavigator,
   },
   {
-    initialRouteName: 'Loading',
+    initialRouteName: 'Auth',
   },
 );
 

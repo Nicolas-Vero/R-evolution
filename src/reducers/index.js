@@ -1,10 +1,10 @@
 import {combineReducers} from 'redux';
 import session from './session';
-import user from './user';
+//import user from './user';
 
 const combinedReducer = combineReducers({
   session,
-  user,
+ // user,
 });
 
 const rootReducer = (state, action) => {

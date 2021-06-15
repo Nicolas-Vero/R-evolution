@@ -32,7 +32,7 @@ export class App extends Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <View style={styles.appGlobal}>
+          <View >
             <Router
               ref={navigatorRef => {
                 AppNavigation.setTopLevelNavigator(navigatorRef);

@@ -1,5 +1,5 @@
 import * as types from '../actions/types';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import _ from 'lodash';
 
 export const clearToken = async () => {
