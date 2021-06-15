@@ -6,7 +6,7 @@ import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 // import SignInScreen from '../screens/signIn/index';
 // import SignUpScreen from '../screens/signUp/index';
 
-import { IconCommunity, IconSimpleLine } from '@expo/vector-icons';
+import { IconCommunity, Ionicons } from '@expo/vector-icons';
 import CustomMainTabBar from '../components/nav/customMainTabBar';
 import AddSpecialities from '../screens/Auth/AddSpecialities';
 
@@ -18,7 +18,7 @@ const AuthTabsNavigator = createMaterialTopTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Sign in',
         tabBarIcon: ({tintColor}) => (
-          <IconSimpleLine name="login" size={20} color={tintColor} />
+          <Ionicons  size={20} color={tintColor} />
         ),
       },
     },
@@ -27,14 +27,14 @@ const AuthTabsNavigator = createMaterialTopTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Sign up',
         tabBarIcon: ({tintColor}) => (
-          <IconSimpleLine name="user-follow" size={20} color={tintColor} />
+          <Ionicons  size={20} color={tintColor} />
         ),
       },
     },
   },
   {
     lazy: true,
-    initialRouteName: 'SignIn',
+    initialRouteName: 'SignUp',
     swipeEnabled: true,
     animationEnabled: true,
     tabBarPosition: 'bottom',
@@ -60,14 +60,14 @@ const AppTabsNavigator = createMaterialTopTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Dashboard',
         tabBarIcon: ({tintColor}) => (
-          <IconCommunity name="home" size={20} color={tintColor} />
+          <Ionicons  size={20} color={tintColor} />
         ),
       },
     },
   },
   {
     lazy: true,
-    initialRouteName: 'Dashboard',
+    initialRouteName:'Dashboard',
     swipeEnabled: true,
     animationEnabled: true,
     tabBarPosition: 'bottom',
@@ -92,7 +92,7 @@ const App = createSwitchNavigator(
     Auth: AuthTabsNavigator,
   },
   {
-    initialRouteName: 'Auth',
+    initialRouteName:'Auth',
   },
 );
 
