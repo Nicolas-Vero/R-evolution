@@ -11,8 +11,8 @@ export const clearToken = async () => {
 };
 
 const initialState = {
-  authenticated: false,
-  entryLoading: false,
+  authenticated: true,
+  entryLoading: true,
 };
 
 const session = (state = initialState, action) => {

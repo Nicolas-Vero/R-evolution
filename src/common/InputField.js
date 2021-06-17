@@ -62,6 +62,7 @@ export default class InputField extends React.Component {
             disabled={this.props.disabled}
             ref={ref => this.field = ref}
             autoCorrect={false}
+            autoCapitalize='none'
             onChangeText={this.props.onChangeText}
             style={[styles.inputField, this.props.inputField, {color: editableTextColor}]}
             placeholder={this.props.placeholder}

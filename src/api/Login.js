@@ -3,7 +3,7 @@ import {API_URL} from '../configs/Constants';
 
 /*
 * Method: POST
-* Desc: Allows a professional to register
+* Desc: Allow a profession to log in
 * Notes: In the headers, you get 'access-token', 'token-name' (always => 'Bearer'),
 *        'uid', 'client', and 'expiry', to access the other resources.
 *        For security reasons, 'access-token' and 'expiry' change at each request to the api.
@@ -13,20 +13,15 @@ import {API_URL} from '../configs/Constants';
 * email     | form | string | (req)
 * password  | form | string | (req)
 * */
-export const auth = params => {
-  const data = params
-  console.log(data);
-  // data.append('email', params.email);
-  // data.append('password', params.password);
-  // data.append('first_name', params.first_name);
-  // data.append('last_name', params.last_name);
-  // data.append('phone', params.phone);
-  // data.append('degrees', params.degrees);
-  // data.append('xp_years', params.xp_years);
-  // data.append('avatar', params.avatar);
+export const sign_in = params=> {
+  const data = params;
   return axios({
     method: 'POST',
-    url: `http://localhost:3000/user/signup`,
+    url:`http://localhost:3000/signin`,
     data: data
-  });
-};
+  }).then((response) => {
+    console.log(response);
+  }, (error) => {
+    console.log(error);
+  })
+}

@@ -9,12 +9,14 @@ import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import { IconCommunity, Ionicons } from '@expo/vector-icons';
 import CustomMainTabBar from '../components/nav/customMainTabBar';
 import AddSpecialities from '../screens/Auth/AddSpecialities';
+import RegisterInfo from '../screens/Auth/RegisterInfo';
+import Login from '../screens/Auth/Login';
 
 // Auth bottom tabs menu
-const AuthTabsNavigator = createMaterialTopTabNavigator(
+const AuthTabsNavigator = createStackNavigator(
   {
     SignIn: {
-      screen: AddSpecialities,
+      screen: Login,
       navigationOptions: {
         tabBarLabel: 'Sign in',
         tabBarIcon: ({tintColor}) => (
@@ -23,7 +25,7 @@ const AuthTabsNavigator = createMaterialTopTabNavigator(
       },
     },
     SignUp: {
-      screen: AddSpecialities,
+      screen: RegisterInfo,
       navigationOptions: {
         tabBarLabel: 'Sign up',
         tabBarIcon: ({tintColor}) => (
@@ -34,7 +36,7 @@ const AuthTabsNavigator = createMaterialTopTabNavigator(
   },
   {
     lazy: true,
-    initialRouteName: 'SignUp',
+    initialRouteName: 'SignIn',
     swipeEnabled: true,
     animationEnabled: true,
     tabBarPosition: 'bottom',
