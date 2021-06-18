@@ -11,6 +11,8 @@ import ResponsiveText from '../../common/ResponsiveText';
 import AuthInput from '../../common/AuthInput';
 import {auth} from '../../api/Register';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE } from '../../configs/Constants';
+
 export default class RegisterInfo extends React.Component {
 
   state = {
@@ -53,19 +55,18 @@ export default class RegisterInfo extends React.Component {
 
 
   async onContinuePress() {
-    console.log(this);
     if (this.state.password === this.state.confirmPassword) {
       const {name, first_name, telephone, mail,password} = this.state;
       const body = {first_name:first_name, last_name:name,phone:telephone, email: mail, password:password};
       this.setState({loading: true});
       auth(body)
         .then(res => ({
-          data: res.data.data,
+          data:res.data.data,
           headers: {
-            access_token: res.headers['access-token'],
-            token_type: res.headers['token-name'],
-            uid: res.headers['uid'],
-            client: res.headers['client'],
+            access_token: res.data.headers['access-token'],
+            token_type: res.data.headers['token-name'],
+            uid: res.data.headers['uid'],
+           // client: res.headers['client'],
         //    expiry: res.headers['expiry'],
           }
         }))
@@ -73,13 +74,9 @@ export default class RegisterInfo extends React.Component {
           await AsyncStorage.setItem(STORAGE.USER, JSON.stringify(res.data));
           await AsyncStorage.setItem(STORAGE.HEADERS, JSON.stringify(res.headers));
         })
-      .then(res => {
-        try {
+      .then(() => {
           this.setState({loading: false});
-          this.props.navigation.navigate('AddDegrees');
-        } catch (error) {
-          console.warn(err)
-        }
+          this.props.navigation.navigate('AddSpecialities');
         })
         .catch(err => {
           this.setState({loading: false});

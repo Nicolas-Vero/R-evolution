@@ -14,8 +14,7 @@ import {API_URL} from '../configs/Constants';
 * password  | form | string | (req)
 * */
 export const auth = params => {
-  const data = params
-  console.log(data);
+  const data = params;
   // data.append('email', params.email);
   // data.append('password', params.password);
   // data.append('first_name', params.first_name);

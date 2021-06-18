@@ -1,4 +1,4 @@
-export const API_URL = 'https://api-dev.macoiffeuseafro.com:443/api/v1/dashboard/';
+export const API_URL = 'localhost:3000/';
 
 export const STORAGE = {
   USER: 'USER',

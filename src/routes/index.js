@@ -6,16 +6,20 @@ import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 // import SignInScreen from '../screens/signIn/index';
 // import SignUpScreen from '../screens/signUp/index';
 
+import AddGym from '../screens/Auth/AddGym';
+import AddPhoto from '../screens/Auth/AddPhoto';
+import AddSpecialities from '../screens/Auth/AddSpecialities';
+import AddXp from '../screens/Auth/AddXp';
 import { IconCommunity, Ionicons } from '@expo/vector-icons';
 import CustomMainTabBar from '../components/nav/customMainTabBar';
-import AddSpecialities from '../screens/Auth/AddSpecialities';
 import RegisterInfo from '../screens/Auth/RegisterInfo';
 import Login from '../screens/Auth/Login';
+import AddDegrees from '../screens/Auth/AddDegrees';
 
 // Auth bottom tabs menu
 const AuthTabsNavigator = createStackNavigator(
   {
-    SignIn: {
+    Login: {
       screen: Login,
       navigationOptions: {
         tabBarLabel: 'Sign in',
@@ -24,7 +28,7 @@ const AuthTabsNavigator = createStackNavigator(
         ),
       },
     },
-    SignUp: {
+    RegisterInfo: {
       screen: RegisterInfo,
       navigationOptions: {
         tabBarLabel: 'Sign up',
@@ -33,10 +37,50 @@ const AuthTabsNavigator = createStackNavigator(
         ),
       },
     },
+    AddSpecialities: {
+      screen: AddSpecialities,
+      navigationOptions: {
+        tabBarLabel: 'Sign up',
+        tabBarIcon: ({tintColor}) => (
+          <Ionicons  size={20} color={tintColor} />
+        ),
+      },
+    },
+
+    AddDegrees: {
+      screen: AddDegrees,
+      navigationOptions: {
+        tabBarLabel: 'Sign up',
+        tabBarIcon: ({tintColor}) => (
+          <Ionicons  size={20} color={tintColor} />
+        ),
+      },
+    },
+
+    AddXp: {
+      screen: AddXp,
+      navigationOptions: {
+        tabBarLabel: 'Sign up',
+        tabBarIcon: ({tintColor}) => (
+          <Ionicons  size={20} color={tintColor} />
+        ),
+      },
+    },
+
+    AddPhoto: {
+      screen: AddPhoto,
+      navigationOptions: {
+        tabBarLabel: 'Sign up',
+        tabBarIcon: ({tintColor}) => (
+          <Ionicons  size={20} color={tintColor} />
+        ),
+      },
+    },
+
   },
   {
     lazy: true,
-    initialRouteName: 'SignIn',
+    initialRouteName: 'AddSpecialities',
     swipeEnabled: true,
     animationEnabled: true,
     tabBarPosition: 'bottom',

@@ -143,7 +143,7 @@ export default class Login extends React.Component {
               textStyle={{
                 color: Color.Secondary,
               }}
-              onPress={() => this.props.navigation.navigate('SignUp')}
+              onPress={() => this.props.navigation.navigate('RegisterInfo')}
             />
             <View style={{marginVertical: 5}}/>
             {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('ResetPassword')}>
