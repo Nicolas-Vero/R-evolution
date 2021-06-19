@@ -1,17 +1,22 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import { Field ,FieldArray, reduxForm } from 'redux-form'
 import { TextInput } from "react-native-gesture-handler";
-
-const onSubmit = async values => {
-  await sleep(300)
-  window.alert(JSON.stringify(values, 0, 2))
-}
+import InputField from "../../common/InputField";
+import Stepper from "../../components/Stepper";
 
 export default class AddSpecialities extends React.Component{
 
+  state = {
+    degreesText:'',
+    degrees: [],
+    specialities:[],
+    xp: '',
+    gymPlace: '',
+    avatar: '',
+  };
 
   static navigationOptions = {
     header: null
@@ -25,10 +30,12 @@ export default class AddSpecialities extends React.Component{
     }
   };
 
-  RenderDegrees = ({ fields, meta: { error } }) => {
+  RenderDegrees = (/*{ fields, meta: { error } }*/) => {
+    const {degrees, degreesText} = this.state
+    console.log(this.state.degreesText);
 		return (
 			<View>
-				{fields.map((degrees, index) => (
+				{degrees.map((degrees, index) => (
 					<View key={index} >
 						<TextInput
 							name={`${degrees}.degrees`}
@@ -37,10 +44,10 @@ export default class AddSpecialities extends React.Component{
 
 						/>
 						<TouchableOpacity
-							onPress={() => fields.remove(index)}
+							onPress={() => degrees.remove(index)}
 						
 						>
-							<Icon name="trash"  />
+							{/* <Icon name="trash"  /> */}
 						</TouchableOpacity>
 					</View>
 				))}
@@ -49,16 +56,19 @@ export default class AddSpecialities extends React.Component{
 					iconLeft
 					small
 					rounded
-					onPress={() => fields.push({ aroma: "" })}
+					onPress={() => degrees.push({aroma:"toto" })}
 				>
-					<Icon name="add" />
-					<Text>Add aroma</Text>
+					{/* <Icon name="add" /> */}
+					<Text>Add arooooma</Text>
 				</Button>
 			</View>
 		);
+    
 	};
 
-
+  onDegreesChange(degreesText) {
+    this.setState({degreesText})
+  }
 
    onNextStep = () => {
     console.log('called next step');
@@ -81,14 +91,26 @@ render() {
     <View style={{ flex: 1, marginTop: 50 }}>
       <ProgressSteps>
         <ProgressStep
-          label="Payment"
-          onNext={this.onPaymentStepComplete}
+          label="Degrees"
+          onNext={this.handleDegrees}
           onPrevious={this.onPrevStep}
           scrollViewProps={this.defaultScrollViewProps}
         >
           <View style={{ alignItems: 'center' }}>
             <Text>DIPLÔME</Text>
-          
+            <Stepper onSubmit={this.handleBeerAddFormSubmit}
+					initialValues={this.state.degrees}
+			
+            />
+
+            <InputField
+            //={Icons.PersonAuth({width: wp('5%'), resizeMode: 'contain', tintColor: '#BCBCBC'})}
+              keyboardType={'default'}
+              placeholder='Identifiant'
+              value={this.state.degreesText}
+              onChangeText={this.onDegreesChange.bind(this)}
+            />
+            <Button title='add degrees'onPress={this.RenderDegrees.bind(this)}></Button>
             {/* <FieldArray
             name="degrees"
 						component={this.RenderDegrees}/>
