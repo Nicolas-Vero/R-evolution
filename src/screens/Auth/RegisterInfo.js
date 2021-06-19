@@ -12,20 +12,59 @@ import AuthInput from '../../common/AuthInput';
 import {auth} from '../../api/Register';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../../configs/Constants';
+import { BasicTextInput } from '../../components/inputs/index';
+import {Formik} from 'formik';
+import {Icon} from 'react-native-elements';
+
+
+const inputs = [
+  {name: 'firstName', type: 'default', component: BasicTextInput},
+  {name: 'lastName', type: 'default', component: BasicTextInput},
+  {name: 'email', type: 'email-address', component: BasicTextInput},
+];
+
 
 export default class RegisterInfo extends React.Component {
 
-  state = {
-    name: '',
-    first_name: '',
-    telephone: '',
-    mail: '',
-    password: '',
-    confirmPassword: '',
-    passwordShow: true,
-    confirmPasswordShow: true,
-    loading: false,
-    message: '',
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      step: 0,
+      progress: 0,
+    };
+  }
+
+  // state = {
+  //   name: '',
+  //   first_name: '',
+  //   telephone: '',
+  //   mail: '',
+  //   password: '',
+  //   confirmPassword: '',
+  //   passwordShow: true,
+  //   confirmPasswordShow: true,
+  //   loading: false,
+  //   message: '',
+  // };
+
+
+  // handleErrorsTab(errors) {
+  //   const indexes = [];
+  //   Object.keys(errors).some(v => {
+  //     const idx = inputs.map(e => e.name).indexOf(v);
+  //     indexes.push(idx);
+  //   });
+
+  //   var min = Math.min(...indexes);
+  //   this.changeStep(min);
+  // }
+
+
+  changeStep = newStep => {
+    const inputLenght = inputs.length;
+    const percent = ((newStep + 1) / inputLenght) * 1.0;
+    this.setState({step: newStep, progress: percent});
   };
 
 
@@ -93,94 +132,105 @@ export default class RegisterInfo extends React.Component {
   }
 
   render() {
+    const {step, progress} = this.state;
+    const Layout = inputs[step].component;
     return (
 
         <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
-        <ScrollView style={{
-          flex: 1,
-        }}>
-          <View style={styles.logoContainer}>
-            {/* <Logo/> */}
-            <ResponsiveText
-              style={{
-                
-                fontSize: '5%',
-                alignSelf: 'center',
-                marginTop: 20
-              }}>{this.state.message}</ResponsiveText>
-          </View>
+       <Formik
+                innerRef={this.formikRef}
+                initialValues={{
+                  name: '',
+                  first_name: '',
+                  telephone: '',
+                  mail: '',
+                  password: '',
+                  confirmPassword: '',
+                  passwordShow: true,
+                  confirmPasswordShow: true,
+                  loading: false,
+                  message: '',
+                }}
+                onSubmit={(values, actions) =>
+                  this.handleFormSubmit(values, actions)
+                }>
+                {({
+                      values,
+                      errors,
+                      touched,
+                      dirty,
+                      isValid,
+                      isSubmitting,
+                      handleChange,
+                      handleSubmit,
+                      setValues,
+                      setFieldError,
+                      setFieldTouched,
+                      setFieldValue,
+                }) => (
+                  <View>
+                    <View >
+                    <Layout
+                    placeholder={inputs[step].name}
+                    component={inputs[step].component}
+                    name={inputs[step].name}
+                    onChangeText={this.onChangeText}
+                    keyboardType={inputs[step].type}
+                    secureTextEntry={
+                      inputs[step] && inputs[step].secureEntry
+                    }
+                    errorContainer={{
+                      alignItems: 'center',
+                      paddingLeft: 50,
+                    }}
+                    values={values}
+                    setFieldValue={setFieldValue}
+                    setFieldTouched={setFieldTouched}
+                    setValues={setValues}
+                    errors={errors}
 
-          <View style={styles.form}>
-            <AuthInput
-              
-             // leftIcon={Icons.PersonAuth({width: wp('7%'), height: wp('7%'), tintColor: '#BCBCBC'})}
-              keyboardType={'default'}
-              placeholder='Nom'
-              value={this.state.name}
-              onChangeText={this.onNameChange.bind(this)}
-            />
-            <AuthInput
-              
-              keyboardType={'default'}
-              placeholder='Prénom'
-              value={this.state.first_name}
-              onChangeText={this.onfirst_nameChange.bind(this)}
-            />
-            <AuthInput
-              
-            //  leftIcon={Icons.Mobile({width: wp('5%'), resizeMode: 'contain', tintColor: '#BCBCBC'})}
-              keyboardType={'numeric'}
-              placeholder='Téléphone'
-              value={this.state.telephone}
-              onChangeText={this.onTelephoneChange.bind(this)}
-            />
-            <AuthInput
-              
-             // leftIcon={Icons.Mail({width: wp('6%'), resizeMode: 'contain', tintColor: '#BCBCBC'})}
-              keyboardType={'default'}
-              placeholder='Mail'
-              value={this.state.mail}
-              onChangeText={this.onMailChange.bind(this)}
-            />
-              
-              <AuthInput
-                  secureTextEntry={this.state.password}
-                  //leftIcon={Icons.LockFill({width: wp('5%'), resizeMode: 'contain', tintColor: '#BCBCBC'})}
-                  keyboardType={'default'}
-                  placeholder='Mot de passe'
-                  value={this.state.password}
-                  onChangeText={this.onPasswordChange.bind(this)}
-                />
-                <TouchableOpacity onPress={() => this.setState({password: !this.state.password})}>
-                 {/* {Icons.ShowIcon({width: wp('6%'), resizeMode: 'contain', marginHorizontal: 10})} */}
-                </TouchableOpacity>
-              <AuthInput
-                  secureTextEntry={this.state.confirmPassword}
-                 // leftIcon={Icons.LockFill({width: wp('5%'), resizeMode: 'contain', tintColor: '#BCBCBC'})}
-                  keyboardType={'default'}
-                  placeholder='Confirmation du mot de passe '
-                  value={this.state.confirmPassword}
-                  onChangeText={this.onConfirmPasswordChange.bind(this)}
+                  />
+                    </View>
+                    <View>
+                      {step >= 1 && (
+                        <TouchableOpacity
+                          onPress={() => this.changeStep(step - 1)}>
+                          <View >
+                            <Icon
+                              name="arrow-left"
+                              type="material-community"
+                              color="#949CC5"
+                            />
+                          </View>
+                        </TouchableOpacity>
+                      )}
 
-                />
-                <TouchableOpacity onPress={() => this.setState({confirmPasswordShow: !this.state.confirmPasswordShow})}>
-                  {
-                  //  Icons.ShowIcon({width: wp('6%'), resizeMode: 'contain', marginHorizontal: 10})
-                  }
-                </TouchableOpacity>
-              
-          </View>
-            <Button
-              //right={Icons.RightArrow({width: wp('6%'), resizeMode: 'contain',})}
-              title={'Rejoins-nous'}
-              loading={this.state.loading}
-              gradientStyle={{
-                marginHorizontal: wp('20%')
-              }}
-              onPress={this.onContinuePress.bind(this)}
-            />
-         
-        </ScrollView>
+                      {isSubmitting ? (
+                        <Loader />
+                      ) : (
+                        <TouchableOpacity
+                          onPress={
+                            inputs[inputs.length - 1] &&
+                            step === inputs.length - 1
+                              ? handleSubmit
+                              : () => this.changeStep(step + 1)
+                          }
+                          disabled={Object.keys(errors).some(v =>
+                            inputs[step].name.includes(v),
+                          )}>
+                          <View>
+                            <Icon
+                              name="check"
+                              type="material-community"
+                              color="#FFFFFF"
+                            />
+                          </View>
+                        </TouchableOpacity>
+                      )}
+                    </View>
+                  </View>
+                )}
+              </Formik>
         </KeyboardAvoidingView>
     );
   }

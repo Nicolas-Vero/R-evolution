@@ -7,6 +7,10 @@ import { TextInput } from "react-native-gesture-handler";
 import InputField from "../../common/InputField";
 import Stepper from "../../components/Stepper";
 
+
+
+
+
 export default class AddSpecialities extends React.Component{
 
   state = {
@@ -30,41 +34,6 @@ export default class AddSpecialities extends React.Component{
     }
   };
 
-  RenderDegrees = (/*{ fields, meta: { error } }*/) => {
-    const {degrees, degreesText} = this.state
-    console.log(this.state.degreesText);
-		return (
-			<View>
-				{degrees.map((degrees, index) => (
-					<View key={index} >
-						<TextInput
-							name={`${degrees}.degrees`}
-							label="Degrees"
-							component={TextInput}
-
-						/>
-						<TouchableOpacity
-							onPress={() => degrees.remove(index)}
-						
-						>
-							{/* <Icon name="trash"  /> */}
-						</TouchableOpacity>
-					</View>
-				))}
-				<Button
-					light
-					iconLeft
-					small
-					rounded
-					onPress={() => degrees.push({aroma:"toto" })}
-				>
-					{/* <Icon name="add" /> */}
-					<Text>Add arooooma</Text>
-				</Button>
-			</View>
-		);
-    
-	};
 
   onDegreesChange(degreesText) {
     this.setState({degreesText})

@@ -80,7 +80,7 @@ const AuthTabsNavigator = createStackNavigator(
   },
   {
     lazy: true,
-    initialRouteName: 'AddSpecialities',
+    initialRouteName: 'RegisterInfo',
     swipeEnabled: true,
     animationEnabled: true,
     tabBarPosition: 'bottom',
