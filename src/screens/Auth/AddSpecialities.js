@@ -1,15 +1,10 @@
 import React from "react";
 import { View, Text, Button } from "react-native";
 import { SafeAreaView } from "react-navigation";
-import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import { Field ,FieldArray, reduxForm } from 'redux-form'
 import { TextInput } from "react-native-gesture-handler";
 import InputField from "../../common/InputField";
 import Stepper from "../../components/Stepper";
-
-
-
-
 
 export default class AddSpecialities extends React.Component{
 

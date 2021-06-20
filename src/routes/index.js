@@ -13,12 +13,21 @@ import AddXp from '../screens/Auth/AddXp';
 import { IconCommunity, Ionicons } from '@expo/vector-icons';
 import CustomMainTabBar from '../components/nav/customMainTabBar';
 import RegisterInfo from '../screens/Auth/RegisterInfo';
+
+// Auth import
+import AuthEntry from '../screens/Auth/index';
 import Login from '../screens/Auth/Login';
 import AddDegrees from '../screens/Auth/AddDegrees';
 
 // Auth bottom tabs menu
 const AuthTabsNavigator = createStackNavigator(
   {
+    AuthEntry: {
+      screen: AuthEntry,
+      navigationOptions: {
+        header: null,
+      },
+    },
     Login: {
       screen: Login,
       navigationOptions: {
@@ -28,13 +37,14 @@ const AuthTabsNavigator = createStackNavigator(
         ),
       },
     },
-    RegisterInfo: {
+    Register: {
       screen: RegisterInfo,
       navigationOptions: {
         tabBarLabel: 'Sign up',
         tabBarIcon: ({tintColor}) => (
           <Ionicons  size={20} color={tintColor} />
         ),
+        header: null,
       },
     },
     AddSpecialities: {
@@ -80,12 +90,13 @@ const AuthTabsNavigator = createStackNavigator(
   },
   {
     lazy: true,
-    initialRouteName: 'RegisterInfo',
+    initialRouteName: 'AuthEntry',
     swipeEnabled: true,
     animationEnabled: true,
     tabBarPosition: 'bottom',
     navigationOptions: {
-      tabBarVisible: true,
+      tabBarVisible: false,
+      headerVisible: false,
       animationEnabled: true,
     },
  //   tabBarComponent: props => <CustomMainTabBar {...props} main={false} />,
@@ -118,7 +129,7 @@ const AppTabsNavigator = createMaterialTopTabNavigator(
     animationEnabled: true,
     tabBarPosition: 'bottom',
     navigationOptions: {
-      tabBarVisible: true,
+      tabBarVisible: false,
       animationEnabled: true,
     },
    // tabBarComponent: props => <CustomMainTabBar {...props} main={true} />,

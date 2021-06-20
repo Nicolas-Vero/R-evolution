@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="12.36" height="12.36" viewBox="0 0 12.36 12.36">
-  <g id="time" transform="translate(0.15 0.15)">
-    <path id="Tracé_867" data-name="Tracé 867" d="M6.03,0a6.03,6.03,0,1,0,6.03,6.03A6.037,6.037,0,0,0,6.03,0Zm0,11.658A5.628,5.628,0,1,1,11.658,6.03,5.634,5.634,0,0,1,6.03,11.658Z" fill="#707070" stroke="#707070" stroke-width="0.3"/>
-    <path id="Tracé_868" data-name="Tracé 868" d="M16.417,6a.2.2,0,0,0-.2.2v4.623H13.2a.2.2,0,1,0,0,.4h3.216a.2.2,0,0,0,.2-.2V6.2A.2.2,0,0,0,16.417,6Z" transform="translate(-10.387 -4.794)" fill="#707070" stroke="#707070" stroke-width="0.3"/>
-  </g>
-</svg>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, FlatList, Image, Dimensions, TouchableOpacity} from 'react-native'
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import source from '../../assets/icons/logo.png'
+import source from '../../assets/images/logo.png'
 
 export default class Logo extends React.Component {
 
