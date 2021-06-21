@@ -39,7 +39,6 @@ export const BasicTextInput = React.forwardRef(
           ? fieldError.join(' & ')
           : fieldError;
       const shouldDisplayError = formatedFieldError && touched[name];
-        console.log(values)
       return (
         <View>
           <View>
@@ -92,7 +91,6 @@ export const multipleInputs = React.forwardRef(
           ? fieldError.join(' & ')
           : fieldError;
       const shouldDisplayError = formatedFieldError && touched[name];
-        console.log(values)
       return (
         <View>
           <View>

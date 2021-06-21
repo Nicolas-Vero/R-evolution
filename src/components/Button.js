@@ -1,6 +1,6 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
-
+import {View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Dimensions } from 'react-native';
+const {width} = Dimensions.get('window');
 export const Button = (props) => {
     return (
     <TouchableOpacity onPress={props.onPress} disabled={props.loading}>
@@ -20,7 +20,7 @@ export const Button = (props) => {
 
 const defaultStyle = StyleSheet.create({
     container: {
-        width: 343, 
+        width: width, 
         height: 48, 
         backgroundColor: '#2CDEE4', 
         borderRadius: 3, 
@@ -28,6 +28,6 @@ const defaultStyle = StyleSheet.create({
         justifyContent: 'center'
     },
     textStyle: {
-        color: "#FFFFFF"
+        color: "#000000"
     }
 })

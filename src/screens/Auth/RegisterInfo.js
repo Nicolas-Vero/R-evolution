@@ -20,13 +20,17 @@ import {Icon, CheckBox} from 'react-native-elements';
 import {BasicTextInput} from '../../components/inputs/index';
 import {Button} from '../../components/Button';
 import Header from '../../components/Header';
-
+//import { Slider } from 'react-native-elements';
+import { ElementSlider } from '../../components/ElementSlider';
 const {width} = Dimensions.get('window')
-
+import DynamicInput from '../../components/DynamicInput';
 const inputs = [
-  {name: 'firstName', type: 'default', component: BasicTextInput},
-  {name: 'lastName', type: 'default', component: BasicTextInput},
-  {name: 'email', type: 'email-address', component: BasicTextInput},
+
+  {name: 'degrees', type: 'default', component: DynamicInput},
+  {name: 'xP', type: 'default', component: ElementSlider},
+  {name: 'spécialities', type: 'default', component: DynamicInput},
+  {name: 'gymPlace', type: 'default', component: BasicTextInput},
+  {name: 'avatar', type: 'default', component: BasicTextInput},
 ];
 
 export default class RegisterInfo extends React.Component {
@@ -34,7 +38,7 @@ export default class RegisterInfo extends React.Component {
     super(props);
 
     this.state = {
-      step: 'initial',
+      step: 'complementary',
       stepperStep: 0,
       progress: 0,
     };
@@ -50,31 +54,42 @@ export default class RegisterInfo extends React.Component {
   //   var min = Math.min(...indexes);
   //   this.changeStep(min);
   // }
-
   changeStep = newStep => {
+
     const inputLenght = inputs.length;
     const percent = ((newStep + 1) / inputLenght) * 1.0;
-    this.setState({stepperStep: newStep, progress: percent});
+    this.setState({stepperStep: newStep, progress: percent,step:'complementary'});
+    // switch (this.step) {
+    //   case 'initial':
+    //     this.setState({step:'complementary'})
+    //     break;
+    //   case 'complementary':
+    //     this.setState({step:'payment'})
+    //   default:
+    //     break;
+    // }
   };
 
   async onContinuePress() {
-    if (this.state.password === this.state.confirmPassword) {
-      const {name, first_name, telephone, mail, password} = this.state;
+    console.log('tthiisss',this);
+    if (this.password === this.confirmPassword) {
+      const {gender, first_name, last_name, telephone, email, password} = this;
       const body = {
+        gender: gender,
         first_name: first_name,
-        last_name: name,
+        last_name: last_name,
         phone: telephone,
-        email: mail,
+        email: email,
         password: password,
       };
-      this.setState({loading: true});
+     // this.setState({loading: true});
       auth(body)
         .then(res => ({
           data: res.data.data,
           headers: {
             access_token: res.data.headers['access-token'],
             token_type: res.data.headers['token-name'],
-            uid: res.data.headers.uid,
+            uid: res.data.headers['uid'],
             // client: res.headers['client'],
             //    expiry: res.headers['expiry'],
           },
@@ -87,22 +102,24 @@ export default class RegisterInfo extends React.Component {
           );
         })
         .then(() => {
-          this.setState({loading: false});
+          console.log
+          this.changeStep
 
-          // this.props.navigation.navigate('AddSpecialities');
+           //this.props.navigation.navigate('AddSpecialities');
         })
         .catch(err => {
-          this.setState({loading: false});
+        //  this.setState({loading: false});
           if (err.request && err.request.status === 422) {
-            this.setState({
-              message: 'Email déjà utilisé, veuillez vous connecter.',
-            });
+            // this.setState({
+            //   message: 'Email déjà utilisé, veuillez vous connecter.',
+            // });
           } else {
             console.log(err);
             //alert('Please try again. ');
           }
         });
     } else {
+      console.log('invalid confirmation')
       //alert('Passwords don\'t match');
     }
   }
@@ -110,11 +127,13 @@ export default class RegisterInfo extends React.Component {
   render() {
     const {navigation} = this.props
     const {stepperStep, step} = this.state;
+    console.log(stepperStep);
     const Layout = inputs[stepperStep].component;
     return (
-      <View style={{flex: 1, backgroundColor: '#060606'}}>
+      <View style={{flex: 1, backgroundColor: 'grey'}}>
         <SafeAreaView style={styles.safeArea} />
-          <Header title="inscription" />
+       {/*todo relier correctement les pages precedentes*/}
+         { stepperStep < 1?<Header title="inscription" />:<Header title="let's go" onPress={() => this.changeStep(stepperStep - 1)}/>               }
           <View style={{paddingLeft: 16, paddingRight: 16}}>
           {step === 'initial' && (
             <View>
@@ -123,15 +142,16 @@ export default class RegisterInfo extends React.Component {
                   gender: 'male',
                   first_name: '',
                   last_name: '',
-                  mail: '',
+                  email: '',
                   phone: '',
                   password: '',
+                  confirmPassword:'',
                   termsCondition: false,
                 }}
-                onSubmit={values => console.log(values)}>
+                onSubmit={(values) => onContinuePress(values)}>
                 {({handleChange, handleBlur, handleSubmit, setFieldValue, values}) => (
                   <View>
-                    {console.log(values)}
+                    {/* {console.log(values)} */}
                     <View style={{flexDirection: 'row', marginBottom: 15}}>
                       <CheckBox
                         containerStyle={{paddingLeft: 0, marginLeft: 0, backgroundColor: 'transparent', borderWidth: 0}}
@@ -144,7 +164,7 @@ export default class RegisterInfo extends React.Component {
                       />
                       <CheckBox
                         containerStyle={{paddingLeft: 0, marginLeft: 0, backgroundColor: 'transparent', borderWidth: 0}}
-                        title='M'
+                        title='Mme'
                         checkedIcon='dot-circle-o'
                         uncheckedIcon='circle-o'
                         checked={values.gender === 'female'}
@@ -174,9 +194,9 @@ export default class RegisterInfo extends React.Component {
                       <TextInput
                         placeholder="Email"
                         style={{backgroundColor: '#FFFFFF', paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}}
-                        onChangeText={handleChange('mail')}
-                        onBlur={handleBlur('mail')}
-                        value={values.mail}
+                        onChangeText={handleChange('email')}
+                        onBlur={handleBlur('email')}
+                        value={values.email}
                       />
                     </View>
                     <View style={{marginBottom: 15}}>
@@ -197,6 +217,15 @@ export default class RegisterInfo extends React.Component {
                         value={values.password}
                       />
                     </View>
+                    <View style={{marginBottom: 15}}>
+                      <TextInput
+                        placeholder="Confirmer votre mot de passe"
+                        style={{backgroundColor: '#FFFFFF', paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}}
+                        onChangeText={handleChange('confirmPassword')}
+                        onBlur={handleBlur('confirmPassword')}
+                        value={values.confirmPassword}
+                      />
+                    </View>
 
                     <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 15, marginBottom: 24}}>
                       <CheckBox
@@ -209,7 +238,7 @@ export default class RegisterInfo extends React.Component {
                     </View>
 
                     <View style={{alignItems: 'center'}}>
-                      <Button loading={false}>Rejoins-nous</Button>
+                      <Button loading={false} title ='Rejoins-nous' onPress={this.onContinuePress.bind(values)}/>
                     </View>
                   </View>
                 )}
@@ -221,16 +250,11 @@ export default class RegisterInfo extends React.Component {
             <Formik
               innerRef={this.formikRef}
               initialValues={{
-                name: '',
-                first_name: '',
-                telephone: '',
-                mail: '',
-                password: '',
-                confirmPassword: '',
-                passwordShow: true,
-                confirmPasswordShow: true,
-                loading: false,
-                message: '',
+                degrees:[],
+                xP:'',
+                spécialities:[],
+                gymPlace: '',
+                avatar: '',
               }}
               onSubmit={(values, actions) =>
                 this.handleFormSubmit(values, actions)
@@ -245,10 +269,10 @@ export default class RegisterInfo extends React.Component {
                 setFieldValue,
               }) => (
                 <View>
-                  <View>
+                   <View style={{paddingLeft: 16, paddingRight: 16}}>
                     <Layout
-                        placeholder={inputs[stepperStep].name}
                         component={inputs[stepperStep].component}
+                        placeholder={inputs[stepperStep].name}
                         name={inputs[stepperStep].name}
                         onChangeText={this.onChangeText}
                         keyboardType={inputs[stepperStep].type}
@@ -267,23 +291,12 @@ export default class RegisterInfo extends React.Component {
                       />
                   </View>
                   <View>
-                    {stepperStep >= 1 && (
-                      <TouchableOpacity
-                        onPress={() => this.changeStep(step - 1)}>
-                        <View>
-                          <Icon
-                            name="arrow-left"
-                            type="material-community"
-                            color="#949CC5"
-                          />
-                        </View>
-                      </TouchableOpacity>
-                    )}
-
+                    
                     {isSubmitting ? (
                       <Loader />
                     ) : (
-                      <TouchableOpacity
+                      <Button
+                      title = 'Suivant'
                         onPress={
                           inputs[inputs.length - 1] &&
                           stepperStep === inputs.length - 1
@@ -293,14 +306,14 @@ export default class RegisterInfo extends React.Component {
                         disabled={Object.keys(errors).some(v =>
                           inputs[stepperStep].name.includes(v),
                         )}>
-                        <View>
+                        {/* <View>
                           <Icon
                             name="check"
                             type="material-community"
                             color="#FFFFFF"
                           />
-                        </View>
-                      </TouchableOpacity>
+                        </View> */}
+                      </Button>
                     )}
                   </View>
                 </View>

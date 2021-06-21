@@ -35,6 +35,7 @@ const AuthTabsNavigator = createStackNavigator(
         tabBarIcon: ({tintColor}) => (
           <Ionicons  size={20} color={tintColor} />
         ),
+        header: null,
       },
     },
     Register: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {AsyncStorage, View, TouchableOpacity, KeyboardAvoidingView, ScrollView, Button} from 'react-native'
+import {AsyncStorage, View, ImageBackground,SafeAreaView,StyleSheet,Dimensions, Image,TextInput,Text} from 'react-native'
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Container from '../../common/Container';
 import InputField from '../../common/InputField';
@@ -7,16 +7,22 @@ import Icons from '../../configs/design/icon';
 //import Button from '../../common/Button';
 import Color from '../../configs/design/color';
 import ResponsiveText from '../../common/ResponsiveText';
-import {sign_in} from '../../api/Login';
+import {sign_in} from '../../api/Login'; 
+import Header from '../../components/Header';
+const {width} = Dimensions.get('window');
+import {Formik} from 'formik';
+import {Button} from '../../components/Button';
+import LinearGradient from 'react-native-linear-gradient';
+import { color } from 'react-native-elements/dist/helpers';
 export default class Login extends React.Component {
 
-  state = {
-    email: '',
-    password: '',
-    message: 'Bienvenue',
-    errorMessage: '',
-    loading: false,
-  };
+  // state = {
+  //   email: '',
+  //   password: '',
+  //   message: 'Bienvenue',
+  //   errorMessage: '',
+  //   loading: false,
+  // };
 
   // componentDidMount() {
   //   return axios({
@@ -32,18 +38,18 @@ export default class Login extends React.Component {
   // }
 
 
-  onEmailChange(email) {
-    this.setState({email})
-  }
+  // onEmailChange(email) {
+  //   this.setState({email})
+  // }
 
-  onPasswordChange(password) {
-    this.setState({password})
-  }
+  // onPasswordChange(password) {
+  //   this.setState({password})
+  // }
 
   async onLoginPress() {
     const {email, password} = this.state;
     const body = {email, password};
-   console.log(body);
+   console.log(this);
     this.setState({loading: true});
     sign_in(body)
       .then(res => ({
@@ -98,76 +104,189 @@ export default class Login extends React.Component {
 
   render() {
     return (
-        <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
-          <ScrollView style={styles.container}>
-          <View style={styles.logoContainer}>
-            {/* <Logo/> */}
-            <ResponsiveText style={styles.logoText}>{this.state.message}</ResponsiveText>
-          </View>
-          {this.getErrorMessage()}
-          <View style={{paddingVertical: 20}} />
-          <View style={styles.form}>
-            <InputField
-            //={Icons.PersonAuth({width: wp('5%'), resizeMode: 'contain', tintColor: '#BCBCBC'})}
-              keyboardType={'default'}
-              placeholder='Identifiant'
-              value={this.state.email}
-              onChangeText={this.onEmailChange.bind(this)}
-            />
-            <InputField
-             // leftIcon={Icons.Lock({width: wp('5%'), resizeMode: 'contain'})}
-              keyboardType={'default'}
-              placeholder='Mot de passe'
-              value={this.state.password}
-              secureTextEntry={true}
-              onChangeText={this.onPasswordChange.bind(this)}
-            />
-            <Button
-              style={{width: '100%'}}
-              loading={this.state.loading}
-              title={'Connexion'}
-              gradientStyle={{
-                marginHorizontal: 30
-              }}
-              onPress={this.onLoginPress.bind(this)}
-            />
-            <Button
-              style={{width: '100%'}}
-              title={'Je m’inscris'}
-              gradientStyle={{
-                marginHorizontal: 30,
-                borderColor: Color.Secondary,
-                borderWidth: 1
-              }}
-              colors={['#fff', '#fff', '#fff']}
-              textStyle={{
-                color: Color.Secondary,
-              }}
-              onPress={() => this.props.navigation.navigate('RegisterInfo')}
-            />
-            <View style={{marginVertical: 5}}/>
-            {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('ResetPassword')}>
-              <Text style={{color:Color.Primary}}>Mot de passe oublié ?</Text>
-            </TouchableOpacity>
-            <View style={{marginVertical: 5}}/>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Support')}>
-              <Text style={{color: Color.Primary}}>Besoin d'aide ?</Text>
-            </TouchableOpacity> */}
-          </View>
+     
+      <View style={{flex: 1, backgroundColor: '#060606'}}>
+           
+         
+      <SafeAreaView style={styles.safeArea} />
+      
+      <Header title="inscription" />
+      <View style={styles.logoContainer}>
+      <Image source={require('../../../assets/images/logo.png')}  
+                style={styles.image}
+            ></Image>
+      </View>
+      
+        <View style={{paddingLeft: 15, paddingRight: 15}}>
 
-        </ScrollView>
-        </KeyboardAvoidingView>
+     
+      <Formik
+                initialValues={{
+                  email: '',
+                  password: '',         
+                }}
+                onSubmit={(values,{onLoginPress}) => onLoginPress(values)}>
+                {({handleChange, handleBlur, handleSubmit, setFieldValue, values}) => (
+                  <View>
+                    {/* {console.log(values)} */}
+
+                    <View style={{marginBottom: 15}}>
+                      <TextInput
+                        placeholder="Email"
+                        style={{backgroundColor: '#FFFFFF', paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}}
+                        onChangeText={handleChange('mail')}
+                        onBlur={handleBlur('mail')}
+                        value={values.mail}
+                      />
+                    </View>
+                    <View style={{marginBottom: 15}}>
+                      <TextInput
+                        placeholder="Mot de passe"
+                        style={{backgroundColor: '#FFFFFF', paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}}
+                        onChangeText={handleChange('password')}
+                        onBlur={handleBlur('password')}
+                        value={values.password}
+                      />
+                    </View>
+                    
+                    <View style={{alignItems: 'center',paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}}>
+                      <Button  style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}} loading={false} title ='Se connecter' onPress={this.onLoginPress.bind(this)}/>
+                    </View>
+                    <View>
+                    <Text style={{color:'#FFFFFF'}}>Pas encore membre?  </Text>
+                    </View>
+                  </View>
+                )}
+              </Formik>
+              </View>
+            </View>
+
+
+        // <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
+        //   <ScrollView style={styles.container}>
+        //   <View style={styles.logoContainer}>
+        //     {/* <Logo/> */}
+        //     <ResponsiveText style={styles.logoText}>{this.state.message}</ResponsiveText>
+        //   </View>
+        //   {this.getErrorMessage()}
+        //   <View style={{paddingVertical: 20}} />
+        //   <View style={styles.form}>
+        //     <InputField
+        //     //={Icons.PersonAuth({width: wp('5%'), resizeMode: 'contain', tintColor: '#BCBCBC'})}
+        //       keyboardType={'default'}
+        //       placeholder='Identifiant'
+        //       value={this.state.email}
+        //       onChangeText={this.onEmailChange.bind(this)}
+        //     />
+        //     <InputField
+        //      // leftIcon={Icons.Lock({width: wp('5%'), resizeMode: 'contain'})}
+        //       keyboardType={'default'}
+        //       placeholder='Mot de passe'
+        //       value={this.state.password}
+        //       secureTextEntry={true}
+        //       onChangeText={this.onPasswordChange.bind(this)}
+        //     />
+        //     <Button
+        //       style={{width: '100%'}}
+        //       loading={this.state.loading}
+        //       title={'Connexion'}
+        //       gradientStyle={{
+        //         marginHorizontal: 30
+        //       }}
+        //       onPress={this.onLoginPress.bind(this)}
+        //     />
+        //     <Button
+        //       style={{width: '100%'}}
+        //       title={'Je m’inscris'}
+        //       gradientStyle={{
+        //         marginHorizontal: 30,
+        //         borderColor: Color.Secondary,
+        //         borderWidth: 1
+        //       }}
+        //       colors={['#fff', '#fff', '#fff']}
+        //       textStyle={{
+        //         color: Color.Secondary,
+        //       }}
+        //       onPress={() => this.props.navigation.navigate('RegisterInfo')}
+        //     />
+        //     <View style={{marginVertical: 5}}/>
+        //     {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('ResetPassword')}>
+        //       <Text style={{color:Color.Primary}}>Mot de passe oublié ?</Text>
+        //     </TouchableOpacity>
+        //     <View style={{marginVertical: 5}}/>
+        //     <TouchableOpacity onPress={() => this.props.navigation.navigate('Support')}>
+        //       <Text style={{color: Color.Primary}}>Besoin d'aide ?</Text>
+        //     </TouchableOpacity> */}
+        //   </View>
+
+        // </ScrollView>
+        // </KeyboardAvoidingView>
     );
   }
 }
 
-const styles = {
+  const styles = StyleSheet.create({
+    image:{
+
+      width: width,
+    },
+    backgroundContainer: {    
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center",
+    },
+    container: {flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.88)', alignItems: 'center'},
+    safeArea: {
+      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      width: width,
+      height: 49,
+      marginTop: 29,
+      marginBottom: 49,
+      paddingLeft: 16, 
+      paddingRight: 16
+    },
+    title: {
+        color: "#FFFFFF", 
+        fontWeight: '500', 
+        fontSize: 15, 
+        fontStyle: 'italic',
+        textAlign: 'center', 
+        marginTop: 112
+    },
+    buttonContainer: {
+        flexDirection: 'row', 
+        width: width, 
+        justifyContent: 'space-between',
+        marginBottom: 35
+    },
+    loginButton: {
+        width: 158.4, 
+        height: 48, 
+        borderRadius: 10,
+        borderWidth: 1, 
+        marginRight: 22,
+        borderColor: '#2CDEE4',
+        backgroundColor: 'transparent'
+    },
+    registerButton: {
+        width: 158.4, 
+        height: 48, 
+        backgroundColor: '#FFFFFF', 
+        borderRadius: 10,
+         marginLeft: 22
+    },
     container: {
         flex: 1,
     },
     logoContainer: {
         justifyContent: 'center',
         alignItems: 'center',
+        paddingLeft:30,
         marginTop: 45,
         marginBottom: 50,
     },
@@ -181,8 +300,8 @@ const styles = {
     },
     logoText: {
         color: Color.Primary,
-        fontSize: '5%',
+        fontSize: 5,
         alignSelf: 'center',
         marginTop: 20
     },
-};
+});
