@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-navigation";
 import { Field ,FieldArray, reduxForm } from 'redux-form'
 import { TextInput } from "react-native-gesture-handler";
 import InputField from "../../common/InputField";
-import Stepper from "../../components/Stepper";
+
 
 export default class AddSpecialities extends React.Component{
 

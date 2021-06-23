@@ -23,12 +23,12 @@ import Header from '../../components/Header';
 //import { Slider } from 'react-native-elements';
 import { ElementSlider } from '../../components/ElementSlider';
 const {width} = Dimensions.get('window')
-import DynamicInput from '../../components/DynamicInput';
+import { dynamicInput } from '../../components/inputs/dynamicInput';
 const inputs = [
 
-  {name: 'degrees', type: 'default', component: DynamicInput},
+  {name: 'degrees', type: 'default', component: dynamicInput},
   {name: 'xP', type: 'default', component: ElementSlider},
-  {name: 'spécialities', type: 'default', component: DynamicInput},
+  {name: 'spécialities', type: 'default', component: dynamicInput},
   {name: 'gymPlace', type: 'default', component: BasicTextInput},
   {name: 'avatar', type: 'default', component: BasicTextInput},
 ];
