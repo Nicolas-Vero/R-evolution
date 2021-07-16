@@ -24,12 +24,14 @@ import Header from '../../components/Header';
 import { ElementSlider } from '../../components/ElementSlider';
 const {width} = Dimensions.get('window')
 import { dynamicInput } from '../../components/inputs/dynamicInput';
+import { dynamicList } from '../../components/dynamicList';
+import { selectList } from '../../components/selectList';
 const inputs = [
 
+  {name: 'spécialities', type: 'default', component: dynamicList},
   {name: 'degrees', type: 'default', component: dynamicInput},
   {name: 'xP', type: 'default', component: ElementSlider},
-  {name: 'spécialities', type: 'default', component: dynamicInput},
-  {name: 'gymPlace', type: 'default', component: BasicTextInput},
+  {name: 'gymPlace', type: 'default', component: selectList},
   {name: 'avatar', type: 'default', component: BasicTextInput},
 ];
 
@@ -252,7 +254,7 @@ export default class RegisterInfo extends React.Component {
               initialValues={{
                 degrees:[],
                 xP:'',
-                spécialities:[],
+                spécialities:[{name:'muscu',selected:0},{name:'endurance',selected:0},{name:'force',selected:0}],
                 gymPlace: '',
                 avatar: '',
               }}

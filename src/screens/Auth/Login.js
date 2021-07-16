@@ -67,7 +67,7 @@ export default class Login extends React.Component {
           await AsyncStorage.setItem(STORAGE.USER, JSON.stringify(res.data));
           await AsyncStorage.setItem(STORAGE.HEADERS, JSON.stringify(res.headers));
           this.setState({loading: false});
-          this.props.navigation.navigate('DashboardStack')
+          this.props.navigation.navigate('Dashboard')
         } catch (err) {
           this.setState({loading: false});
           //alert('Please try again. ');

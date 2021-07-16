@@ -67,7 +67,6 @@ export const dynamicInput = React.forwardRef(
         </DefaultText>
       )}
     </View>
-   <Text>Value: {field.value}</Text>
   </View>
 );
 }}
