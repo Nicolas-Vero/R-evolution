@@ -1,8 +1,8 @@
 import React from 'react'
-import {View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Dimensions } from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Dimensions,Image } from 'react-native';
 const {width} = Dimensions.get('window');
 import {Field} from 'formik';
-import { Slider } from 'react-native-elements';
+import Slider from "react-native-slider";
 import { Icon } from 'react-native-elements';
 export const ElementSlider = React.forwardRef(
 (
@@ -30,30 +30,30 @@ export const ElementSlider = React.forwardRef(
             : fieldError;
         const shouldDisplayError = formatedFieldError && touched[name];
         return (
-          console.log('top',values),
+     
     <View>
-    <View>
+       <View>
+                <Image
+                  source={require('../../assets/images/Group_1.png')}
+                  style={{ width: 350 }}
+                />
+              </View>
+      <View style={{ alignItems:'center', borderColor:'green',borderWidth:3,marginTop:75}}>
+        <Text style={{fontWeight:'bold',fontSize:20, color:'#FFFF'}}>ANNEE(S) D'EXPERIENCE</Text>
+      </View>
+    <View style={{borderColor:'green',borderWidth:3,marginTop:150}}>
     <Slider
+          trackStyle={{ height: 10, backgroundColor: 'blue' }}
+          thumbStyle={{ height: 20, width: 20, backgroundColor: 'white' }}
+          track
+          containerStyle={{ bottom: 20, right: 20 }}
            ref={ref}
            name={name}
           onSlidingComplete={num => {field.onChange(name)(''+num)}}
           maximumValue={10}
           minimumValue={0}
           step={1}
-          trackStyle={{ height: 10, backgroundColor: 'transparent' }}
-          thumbStyle={{ height: 20, width: 20, backgroundColor: 'transparent' }}
-          thumbProps={{
-            children: (
-              <Icon
-                name="heartbeat"
-                type="font-awesome"
-                size={20}
-                reverse
-                containerStyle={{ bottom: 20, right: 20 }}
-                color="#f50"
-              />
-            ),
-          }}
+      
         />
     </View>
     <View>
@@ -72,8 +72,9 @@ export const ElementSlider = React.forwardRef(
 )
 
 
-const defaultStyle = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
+
         width: width, 
         height: 48, 
         backgroundColor: '#2CDEE4', 
@@ -83,5 +84,8 @@ const defaultStyle = StyleSheet.create({
     },
     textStyle: {
         color: "#000000"
+    },
+    slider:{
+
     }
 })

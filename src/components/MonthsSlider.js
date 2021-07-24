@@ -54,13 +54,13 @@ export default class MonthsSlider extends React.Component {
       <View style={styles.container}>
 
         <TouchableOpacity onPress={this.onLeftPress.bind(this)}>
-        <AntDesign name="left" size={24} color="black" />
+        <AntDesign name="left" size={24} color="white" />
         </TouchableOpacity>
 
         <ResponsiveText style={styles.text}>{this.getMonth()}</ResponsiveText>
 
         <TouchableOpacity onPress={this.onRightPress.bind(this)}>
-        <AntDesign name="right" size={24} color="black" />
+        <AntDesign name="right" size={24} color="white" />
         </TouchableOpacity>
 
       </View>
@@ -71,19 +71,17 @@ export default class MonthsSlider extends React.Component {
 const styles = {
   container: {
     width: width,
-   
-    borderBottomRightRadius: 30,
-    borderBottomLeftRadius: 30,
+    backgroundColor:'black',
     paddingVertical: 20,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-    marginBottom: 5,
   },
   icon: {height: wp('4%'), resizeMode: 'contain'},
   text: {
     fontSize: "4%",
-    color: '#8D303C',
+    color:'white',
+    fontWeight:'bold',
     paddingHorizontal: wp('6%')
   }
 }

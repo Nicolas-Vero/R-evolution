@@ -15,6 +15,7 @@
     "axios": "^0.21.1",
     "expo": "~41.0.1",
     "expo-linear-gradient": "~9.1.0",
+    "expo-notifications": "~0.11.6",
     "expo-splash-screen": "~0.10.2",
     "expo-status-bar": "~1.0.4",
     "expo-updates": "~0.5.4",
@@ -38,6 +39,8 @@
     "react-native-responsive-screen": "^1.4.2",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "~3.0.0",
+    "react-native-select-dropdown": "^1.0.9",
+    "react-native-slider": "^0.11.0",
     "react-native-switch-selector": "^2.1.4",
     "react-native-unimodules": "~0.13.3",
     "react-native-web": "~0.13.12",
@@ -51,6 +54,7 @@
     "redux-persist": "^6.0.0",
     "redux-reset": "^0.3.0",
     "redux-thunk": "^2.3.0",
+    "uuid": "^3.4.0",
     "yup": "^0.32.9"
   },
   "devDependencies": {

@@ -3,14 +3,7 @@ import {Image} from 'react-native'
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
-// import DashboardScreen from '../screens/dashboard/index';
-// import SignInScreen from '../screens/signIn/index';
-// import SignUpScreen from '../screens/signUp/index';
-
-import AddGym from '../screens/Auth/AddGym';
-import AddPhoto from '../screens/Auth/AddPhoto';
-import AddSpecialities from '../screens/Auth/AddSpecialities';
-import AddXp from '../screens/Auth/AddXp';
+import AddAvatar from '../components/AddAvatar';
 import { IconCommunity, Ionicons } from '@expo/vector-icons';
 import CustomMainTabBar from '../components/nav/customMainTabBar';
 import RegisterInfo from '../screens/Auth/RegisterInfo';
@@ -18,7 +11,6 @@ import Dashboard from '../screens/Dashboard'
 // Auth import
 import AuthEntry from '../screens/Auth/index';
 import Login from '../screens/Auth/Login';
-import AddDegrees from '../screens/Auth/AddDegrees';
 
 // Auth bottom tabs menu
 const AuthTabsNavigator = createStackNavigator(
@@ -39,7 +31,7 @@ const AuthTabsNavigator = createStackNavigator(
         header: null,
       },
     },
-    Register: {
+    RegisterInfo: {
       screen: RegisterInfo,
       navigationOptions: {
         tabBarLabel: 'Sign up',
@@ -49,38 +41,9 @@ const AuthTabsNavigator = createStackNavigator(
         header: null,
       },
     },
-    AddSpecialities: {
-      screen: AddSpecialities,
-      navigationOptions: {
-        tabBarLabel: 'Sign up',
-        tabBarIcon: ({tintColor}) => (
-          <Ionicons  size={20} color={tintColor} />
-        ),
-      },
-    },
 
-    AddDegrees: {
-      screen: AddDegrees,
-      navigationOptions: {
-        tabBarLabel: 'Sign up',
-        tabBarIcon: ({tintColor}) => (
-          <Ionicons  size={20} color={tintColor} />
-        ),
-      },
-    },
-
-    AddXp: {
-      screen: AddXp,
-      navigationOptions: {
-        tabBarLabel: 'Sign up',
-        tabBarIcon: ({tintColor}) => (
-          <Ionicons  size={20} color={tintColor} />
-        ),
-      },
-    },
-
-    AddPhoto: {
-      screen: AddPhoto,
+    AddAvatar: {
+      screen: AddAvatar,
       navigationOptions: {
         tabBarLabel: 'Sign up',
         tabBarIcon: ({tintColor}) => (
@@ -189,7 +152,7 @@ const App = createSwitchNavigator(
     Auth: AuthTabsNavigator,
   },
   {
-    initialRouteName:'App',
+    initialRouteName:'Auth',
   },
 );
 

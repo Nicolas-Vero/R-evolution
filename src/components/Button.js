@@ -19,8 +19,7 @@ export const Button = (props) => {
 }
 
 const defaultStyle = StyleSheet.create({
-    container: {
-        width: width, 
+    container: { 
         height: 48, 
         backgroundColor: '#2CDEE4', 
         borderRadius: 3, 
