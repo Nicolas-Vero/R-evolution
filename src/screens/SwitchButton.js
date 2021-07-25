@@ -14,7 +14,7 @@ export default class SwitchButton extends Component {
     return `${day} ${date.getDate()} ${month}`;
   }
 
-  getSlot(time, status,slot, item, onChangeParams, ) {
+  getSlot(time, status, item, onChangeParams, ) {
     const {disabled} = this.props;
     return (
       <View style={styles.container}>
@@ -22,7 +22,8 @@ export default class SwitchButton extends Component {
         {status==false?<ResponsiveText style={{ fontSize: '4%',color:'white'}}>indisponible</ResponsiveText>:<ResponsiveText style={{ fontSize: '4%',color:'white'}}>Dispo</ResponsiveText>}
         <Switch thumbColor={'#fff'}
                 disabled={disabled}
-                onValueChange={() => this.props.onSlotAvailabilityChange(item.availability_id ,slot, onChangeParams)}
+               onValueChange={() => this.props.onSlotAvailabilityChange(item.availability_id, onChangeParams)}
+              //  onValueChange={() => console.log('iiiiiiii',item.availability_id, onChangeParams)}
                 trackColor={{true: '#93D088', false: '#E26C6C'}}
                 value={status}
                 ios_backgroundColor={'#E26C6C'}
@@ -34,6 +35,7 @@ export default class SwitchButton extends Component {
 
 
     const item = this.props.item;
+    console.log(item)
     const availability_slot_1 = item.availability_slot_1
     const availability_slot_2 = item.availability_slot_2
     const availability_slot_3 = item.availability_slot_3
@@ -76,10 +78,10 @@ export default class SwitchButton extends Component {
           {this.getSlotTime(item.date)}
         </ResponsiveText>
         <View style={styles.slotsContainer}>
-          {this.getSlot('0 h - 1 h', availability_slot_1,'availability_slot_1', item, {availability_slot_1: !availability_slot_1})}
-          {this.getSlot('1 h - 2 h', availability_slot_2,'availability_slot_2', item, {availability_slot_2: !availability_slot_2})}
-          {this.getSlot('2 h - 3 h',availability_slot_3 ,'availability_slot_3', item, {availability_slot_3: !availability_slot_1})}
-          {/* {this.getSlot('3 h - 4 h',availability_slot_4 , item, {availability_slot_4: !availability_slot_4})}
+          {this.getSlot('0 h - 1 h', availability_slot_1, item, {availability_slot_1: !availability_slot_1})}
+          {this.getSlot('1 h - 2 h', availability_slot_2, item, {availability_slot_2: !availability_slot_2})}
+          {this.getSlot('2 h - 3 h',availability_slot_3 , item, {availability_slot_3: !availability_slot_3})}
+          {this.getSlot('3 h - 4 h',availability_slot_4 , item, {availability_slot_4: !availability_slot_4})}
           {this.getSlot('4 h - 5 h',availability_slot_5 , item, {availability_slot_5: !availability_slot_5})}
           {this.getSlot('5 h - 6 h',availability_slot_6 , item, {availability_slot_6: !availability_slot_6})}
           {this.getSlot('6 h - 7 h',availability_slot_7 , item, {availability_slot_7: !availability_slot_7})}
@@ -89,17 +91,17 @@ export default class SwitchButton extends Component {
           {this.getSlot('10 h - 11 h',availability_slot_11 , item, {availability_slot_11: !availability_slot_11})}
           {this.getSlot('11 h - 12 h',availability_slot_12 , item, {availability_slot_12: !availability_slot_12})}
           {this.getSlot('12 h - 13 h',availability_slot_13 , item, {availability_slot_13: !availability_slot_13})}
-          {this.getSlot('13 h - 14 h',availability_slot_14 , item, {availability_slot_14: !availability_slot_14})} */}
-          {/* {this.getSlot('14 h - 15 h',availability_slot_15 , item, {slot_15: !slot_15})}
-          {this.getSlot('15 h - 16 h',availability_slot_16 , item, {slot_16: !slot_16})}
-          {this.getSlot('16 h - 17 h',availability_slot_17 , item, {slot_17: !slot_17})}
-          {this.getSlot('17 h - 18 h',availability_slot_18 , item, {slot_18: !slot_18})}
-          {this.getSlot('18 h - 19 h',availability_slot_19 , item, {slot_19: !slot_19})}
-          {this.getSlot('19 h - 20 h',availability_slot_20 , item, {slot_20: !slot_20})}
-          {this.getSlot('20 h - 21 h',availability_slot_21 , item, {slot_21: !slot_21})}
-          {this.getSlot('21 h - 22 h',availability_slot_22 , item, {slot_22: !slot_22})}
-          {this.getSlot('22 h - 23 h',availability_slot_23 , item, {slot_23: !slot_23})}
-          {this.getSlot('23 h - 00 h',availability_slot_24, item, {slot_24: !slot_24})} */}
+          {this.getSlot('13 h - 14 h',availability_slot_14 , item, {availability_slot_14: !availability_slot_14})} 
+          {this.getSlot('14 h - 15 h',availability_slot_15 , item, {availability_slot_15: !availability_slot_15})}
+          {this.getSlot('15 h - 16 h',availability_slot_16 , item, {availability_slot_16: !availability_slot_16})}
+          {this.getSlot('16 h - 17 h',availability_slot_17 , item, {availability_slot_17: !availability_slot_17})}
+          {this.getSlot('17 h - 18 h',availability_slot_18 , item, {availability_slot_18: !availability_slot_18})}
+          {this.getSlot('18 h - 19 h',availability_slot_19 , item, {availability_slot_19: !availability_slot_19})}
+          {this.getSlot('19 h - 20 h',availability_slot_20 , item, {availability_slot_20: !availability_slot_20})}
+          {this.getSlot('20 h - 21 h',availability_slot_21 , item, {availability_slot_21: !availability_slot_21})}
+          {this.getSlot('21 h - 22 h',availability_slot_22 , item, {availability_slot_22: !availability_slot_22})}
+          {this.getSlot('22 h - 23 h',availability_slot_23 , item, {availability_slot_23: !availability_slot_23})}
+          {this.getSlot('23 h - 00 h',availability_slot_24, item, {availability_slot_24: !availability_slot_24})}
         </View>
         </LinearGradient>
       </View>
