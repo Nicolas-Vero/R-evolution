@@ -29,3 +29,19 @@ export const auth = params => {
     data: data
   });
 };
+export const AddMoreInfo = params => {
+  const data = params;
+  // data.append('email', params.email);
+  // data.append('password', params.password);
+  // data.append('first_name', params.first_name);
+  // data.append('last_name', params.last_name);
+  // data.append('phone', params.phone);
+  // data.append('degrees', params.degrees);
+  // data.append('xp_years', params.xp_years);
+  // data.append('avatar', params.avatar);
+  return axios({
+    method: 'POST',
+    url: `http://localhost:3000/user/update`,
+    data: data
+  });
+};

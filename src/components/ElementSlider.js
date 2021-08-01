@@ -34,7 +34,7 @@ export const ElementSlider = React.forwardRef(
     <View>
        <View>
                 <Image
-                  source={require('../../assets/images/Group_1.png')}
+                  source={require('../../assets/images/Group_2.png')}
                   style={{ width: 350 }}
                 />
               </View>

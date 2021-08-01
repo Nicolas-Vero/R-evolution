@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {View} from 'react-native'
 import {Switch} from 'native-base';
-import ResponsiveText from '../components/ResponsiveText';
-import {FrenchConfig} from '../components/FrenchCalendar';
+import ResponsiveText from './ResponsiveText';
+import {FrenchConfig} from './FrenchCalendar';
 import { FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 export default class SwitchButton extends Component {

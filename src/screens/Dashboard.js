@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
-import {LinearGradient} from 'expo-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 import {
   TouchableOpacity,
   View,
@@ -15,7 +15,11 @@ import {
   TouchableOpacityBase,
 } from 'react-native';
 import { v4 as uuidv4 } from 'uuid';
-import { get_availabilities, updateorcreate_availability ,update_availability} from '../api/Availabilities';
+import {
+  get_availabilities,
+  updateorcreate_availability,
+  update_availability,
+} from '../api/Availabilities';
 import SwitchSelector from 'react-native-switch-selector';
 import { Card, Icon, Avatar } from 'react-native-elements';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
@@ -23,9 +27,11 @@ const { width } = Dimensions.get('window');
 import { LocaleConfig } from 'react-native-calendars';
 import MonthsSlider from '../components/MonthsSlider';
 import { Task } from '../api/Task';
-import SwitchButton from './SwitchButton';
-import {} from '../api/Availabilities'
+import SwitchButton from '../components/SwitchButton';
+import {} from '../api/Availabilities';
 import { FrenchConfig } from '../components/FrenchCalendar';
+import { Entypo } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 LocaleConfig.locales['fr'] = {
   monthNames: [
     'Janvier',
@@ -130,7 +136,7 @@ export default class Dashboard extends React.Component {
         { date: '2018-07-19', content: 'add stone wall', slot: '12H-13H' },
       ],
     },
-    currentAvailabilities: [ ],
+    currentAvailabilities: [],
     markedDate: {
       '2021-07-15': { marked: true, dotColor: '#50cebb' },
       '2021-05-16': { marked: true, dotColor: '#50cebb' },
@@ -146,21 +152,20 @@ export default class Dashboard extends React.Component {
       '2021-05-25': { endingDay: true, color: '#50cebb', textColor: 'white' },
     },
     // ajouter le coach id pour pouvoir associe des dispo a un coacg
-     availabilities: [],
+    availabilities: [],
   };
 
   onSlotAvailabilityChange(id, params) {
     this.setState({ updating: true });
-    update_availability({ id,params }, this.props.navigation)
+    update_availability({ id, params }, this.props.navigation)
       .then((res) => {
-        
-        get_availabilities(res.availability_date).then(()=>{
+        get_availabilities(res.availability_date).then(() => {
           this.setState({ updating: false });
-            const test = res
-            this.setState({currentAvailabilities:test})
-            this.setState({onRefresh:false})    
-      });
-       })
+          const test = res;
+          this.setState({ currentAvailabilities: test });
+          this.setState({ onRefresh: false });
+        });
+      })
       .catch((err) => console.warn(err));
   }
   getSlotTime(time) {
@@ -188,15 +193,21 @@ export default class Dashboard extends React.Component {
     setIsFetching(false);
   };
 
-   show(item) {
-     const  params={availability_date:item.availability_date,coachId:item.coachId};
-    get_availabilities(params).then((res)=>{this.setState({currentAvailabilities:res})
-    this.setState({ currentAvailabilities: res[0] });
-  }).catch((error)=>{
-      console.log("Api call error");
-      alert(error.message);
-   });
- 
+  show(item) {
+    const params = {
+      availability_date: item.availability_date,
+      coachId: item.coachId,
+    };
+    get_availabilities(params)
+      .then((res) => {
+        this.setState({ currentAvailabilities: res });
+        this.setState({ currentAvailabilities: res[0] });
+      })
+      .catch((error) => {
+        console.log('Api call error');
+        alert(error.message);
+      });
+
     this.setState({ currentAvailabilities: item });
     this.setState({ refresh: !this.state.refresh });
   }
@@ -211,26 +222,25 @@ export default class Dashboard extends React.Component {
     return arrDays.reverse();
   }
   getAvailabilities(date) {
-    console.log('aaaaa')
+    console.log('aaaaa');
     // todo requete en base pour trouver des availabilities existante
     const coachId = 1;
-  const  params={date:date,coachId:coachId};
- get_availabilities(params)
- .then((res)=>{
-   const test = res
-   this.setState({currentAvailabilities:test})
-   this.setState({onRefresh:false})
-  })
-  
-  //console.log('response', this.state.currentAvailabilities)
-  // if (condition) {
-    
-  // } else {
-    
-  // }
-  
+    const params = { date: date, coachId: coachId };
+    get_availabilities(params).then((res) => {
+      const test = res;
+      this.setState({ currentAvailabilities: test });
+      this.setState({ onRefresh: false });
+    });
+
+    //console.log('response', this.state.currentAvailabilities)
+    // if (condition) {
+
+    // } else {
+
+    // }
+
     var item = [];
-    console.log('iciii')
+    console.log('iciii');
     var ArrayOfday = this.getDaysArrayByMonth(date);
     // si les availabilities n'existes pas les initialiser
     ArrayOfday.forEach((element) => {
@@ -254,6 +264,7 @@ export default class Dashboard extends React.Component {
         availability_slot_13: false,
         availability_slot_14: false,
         availability_slot_15: false,
+        availability_slot_16: false,
         availability_slot_17: false,
         availability_slot_18: false,
         availability_slot_19: false,
@@ -266,16 +277,16 @@ export default class Dashboard extends React.Component {
       item.push(Object);
     });
     this.setState({ availabilities: item });
-    const response = updateorcreate_availability(item)
-   // console.log(response)
-    
-    //  ({date}, this.props.navigation)
+    const response = updateorcreate_availability(item);
+    // console.log(response)
+
+    //  ({date}, this.props.navigation)<Ionicons name="md-notifications-circle" size={24} color="black" />
     //   .then(res => res.data.data)
     //   .then(availabilities => this.setState({availabilities, updating: false}))
     //   .catch(err => console.warn(err));
   }
-  onMonthChange (date) {
-     this.getAvailabilities(this.getDate(date));
+  onMonthChange(date) {
+    this.getAvailabilities(this.getDate(date));
   }
   async changeTaskList(data) {
     const formatdata = {
@@ -311,7 +322,7 @@ export default class Dashboard extends React.Component {
       </TouchableOpacity>
     );
     const onRefresh = () => {
-       this.setState({refresh:true});
+      this.setState({ refresh: true });
       console.log(this.state.refresh);
     };
     const renderItem = ({ item }) => {
@@ -319,56 +330,45 @@ export default class Dashboard extends React.Component {
     };
 
     return (
-    //  <View style={{ flex: 1, backgroundColor: 'black' }}>
-              <LinearGradient
-          colors={['#060606', '#2D333C']}
-          start={{
-            x: 0,
-            y: 0,
-          }}
-          end={{
-            x: 1,
-            y: 1,
-          }}
-          style={styles.background}
-        >
-
+      //  <View style={{ flex: 1, backgroundColor: 'black' }}>
+      <LinearGradient
+        colors={['#060606', '#2D333C']}
+        start={{
+          x: 0,
+          y: 0,
+        }}
+        end={{
+          x: 1,
+          y: 1,
+        }}
+        style={styles.background}>
         <SafeAreaView>
-        <Image
-          resizeMode="cover"
-          rounded
-          source={{ uri: this.state.user.avatar }}
-        />
-        <Text>{this.state.user.name}</Text>
-        <View style={{ flexDirection: 'row' }}>
-          <Button
-            type="clear"
-            buttonStyle={{
-              borderRadius: 0,
-              marginLeft: 0,
-              marginRight: 0,
-              marginBottom: 0,
-            }}
-            title="VIEW NOW"
+          <Image
+            resizeMode="cover"
+            rounded
+            source={{ uri: this.state.user.avatar }}
           />
-          <Button
-            type="clear"
-            buttonStyle={{
-              borderRadius: 0,
-              marginLeft: 0,
-              marginRight: 0,
-              marginBottom: 0,
-            }}
-            title="VIEW NOW"
-          />
-        </View>
-        <View
-          style={{
-            height: 50,
-            borderBottomColor: '#2CDEE4',
-            borderBottomWidth: 2,
-            marginBottom: 35,
-          }}></View>
+          <Text>{this.state.user.name}</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+            <TouchableOpacity onPress={()=>{navigate('AwaitingDemand')}} style={{ marginLeft: 35, marginRight: 10 }}>
+              <Ionicons name="person-add" size={35} color="white" />
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={()=>{navigate('Activite')}} style={{ marginLeft: 35, marginRight: 10 }}>
+              <Ionicons
+                name="md-notifications-circle"
+                size={35}
+                color="white"
+              />
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              height: 20,
+              borderBottomColor: '#2CDEE4',
+              borderBottomWidth: 2,
+              marginBottom: 35,
+            }}></View>
           <View>
             <View></View>
             <View>
@@ -405,6 +405,13 @@ export default class Dashboard extends React.Component {
                     markedDates={this.state.markedDate}
                     style={styles.calendar}
                   />
+                  <TouchableOpacity
+                    style={{ position: 'absolute' }}
+                    onPress={() => {
+                      navigate('CreateBook');
+                    }}>
+                    <Entypo name="circle-with-plus" size={40} color="BLUE" />
+                  </TouchableOpacity>
                 </View>
               </View>
             ) : (
@@ -415,11 +422,15 @@ export default class Dashboard extends React.Component {
                     <MonthsSlider onChange={this.onMonthChange.bind(this)} />
                     <View>
                       <FlatList
-                      style={{borderWidth:3,borderColor:'green',backgroundColor:'black'}}
+                        style={{
+                          borderWidth: 3,
+                          borderColor: 'green',
+                          backgroundColor: 'black',
+                        }}
                         horizontal={true}
                         data={this.state.availabilities}
                         extraData={this.state}
-                       // onRefresh={onRefresh}
+                        // onRefresh={onRefresh}
                         refreshing={this.state.refresh}
                         keyExtractor={(item) => item.date}
                         renderItem={({ item }) => (
@@ -428,16 +439,19 @@ export default class Dashboard extends React.Component {
                               onPress={() => {
                                 this.show(item);
                               }}>
-                              <Text style={{color:'white'}}> {this.getSlotTime(item.availability_date)} </Text>
+                              <Text style={{ color: 'white' }}>
+                                {' '}
+                                {this.getSlotTime(item.availability_date)}{' '}
+                              </Text>
                             </TouchableOpacity>
                           </View>
                         )}
                       />
                       <FlatList
-                      style={{maxHeight:550}}
+                        style={{ maxHeight: 550 }}
                         data={[this.state.currentAvailabilities]}
                         extraData={this.state}
-                    //      onRefresh={onRefresh}
+                        //      onRefresh={onRefresh}
                         refreshing={this.state.refresh}
                         // keyExtractor={(item) => {item.date;}}
                         keyExtractor={(item, index) => `${index}`}
@@ -458,8 +472,8 @@ export default class Dashboard extends React.Component {
             )}
           </View>
         </SafeAreaView>
-        </LinearGradient>
-  //    </View>
+      </LinearGradient>
+      //    </View>
     );
   }
 }
@@ -494,15 +508,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     flex: 1,
   },
-  day:{borderWidth:3,
-    borderColor:'blue',
-    height:80,
-    width:50,
-    backgroundColor:'#2D333C',
-    margin:5,
-    justifyContent:'center',
-    alignItems:'center',
-    borderRadius:10
+  day: {
+    borderWidth: 3,
+    borderColor: 'blue',
+    height: 80,
+    width: 50,
+    backgroundColor: '#2D333C',
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
   },
   emptyDate: {
     height: 15,

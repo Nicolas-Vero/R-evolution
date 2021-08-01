@@ -17,7 +17,7 @@ const options = [
   { label: 'NOTIFICATIONS', value: 'NOTIFICATIONS' },
   { label: 'RAPPELS', value: 'RAPPELS' },
 ];
-export default class Activite extends React.Component {
+export default class AwaitingDemand extends React.Component {
   state = {
     refresh: false,
     user: { name: 'toto', avatar: 'string avatar' },
@@ -91,26 +91,9 @@ export default class Activite extends React.Component {
         style={styles.background}>
           
         <SafeAreaView>
-        <Header title="ACTIVITE" />
+        <Header title="DEMANDES EN ATTENTE"/>
           <View>
-            <View>
-              <SwitchSelector
-                options={options}
-                initial={0}
-                onPress={(value) => this.setState({ screen: value })}
-                backgroundColor="#1E2026"
-                buttonColor="#2CDEE4"
-                borderRadius="5"
-              />
-            </View>
-            {this.state.screen == 'Planning' ? (
-              <View>
-              </View>
-            ) : (
-              <View>
-               
-              </View>
-            )}
+            
           </View>
         </SafeAreaView>
       </LinearGradient>

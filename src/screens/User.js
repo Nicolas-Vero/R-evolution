@@ -9,23 +9,19 @@ import {
   StatusBar,
   Dimensions,
 } from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { auth } from '../../api/Register';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { STORAGE } from '../../configs/Constants';
+//import { auth } from '../../api/Register';
 import { Formik } from 'formik';
 import { CheckBox } from 'react-native-elements';
-import Loader from 'react-loader-spinner';
-import { Button } from '../../components/Button';
-import Header from '../../components/Header';
+import { Button } from '../components/Button';
+import Header from '../components/Header';
 //import { Slider } from 'react-native-elements';
-import { ElementSlider } from '../../components/ElementSlider';
+import { ElementSlider } from '../components/ElementSlider';
 const { width } = Dimensions.get('window');
-import { dynamicInput } from '../../components/inputs/dynamicInput';
-import { dynamicList } from '../../components/dynamicList';
-import { selectList } from '../../components/selectList';
+import { dynamicInput } from '../components/inputs/dynamicInput';
+import { dynamicList } from '../components/dynamicList';
+import { selectList } from '../components/selectList';
 import { LinearGradient } from 'expo-linear-gradient';
-import { avatar } from '../../components/avatar';
+import { avatar } from '../components/avatar';
 const inputs = [
   { name: 'degrees', type: 'default', component: dynamicInput },
   { name: 'xP', type: 'default', component: ElementSlider },
@@ -34,45 +30,10 @@ const inputs = [
   { name: 'avatar', type: 'default', component: avatar },
 ];
 
-export default class RegisterInfo extends React.Component {
+export default class User extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      step: 'initial',
-      stepperStep: 0,
-      progress: 0,
-    };
   }
-
-  // handleErrorsTab(errors) {
-  //   const indexes = [];
-  //   Object.keys(errors).some(v => {
-  //     const idx = inputs.map(e => e.name).indexOf(v);
-  //     indexes.push(idx);
-  //   });
-
-  //   var min = Math.min(...indexes);
-  //   this.changeStep(min);
-  // }
-  changeStep = (newStep) => {
-    const inputLenght = inputs.length;
-    const percent = ((newStep + 1) / inputLenght) * 1.0;
-    this.setState({
-      stepperStep: newStep,
-      progress: percent,
-      step: 'initial',
-    });
-    // switch (this.step) {
-    //   case 'initial':
-    //     this.setState({step:'complementary'})
-    //     break;
-    //   case 'complementary':
-    //     this.setState({step:'payment'})
-    //   default:
-    //     break;
-    // }
-  };
 
   async onContinuePress() {
     if (this.password === this.confirmPassword) {
@@ -87,52 +48,8 @@ export default class RegisterInfo extends React.Component {
         password: password,
       };
       // this.setState({loading: true});
-      auth(body)
-        .then(
-          (res) => (
-            {
-              data: res.data.data,
-              headers: {
-                access_token: res.data.headers['access-token'],
-                token_type: res.data.headers['token-name'],
-                uid: res.data.headers['uid'],
-                // client: res.headers['client'],
-                //    expiry: res.headers['expiry'],
-              },
-            },
-            this.changeStep,
-            console.log(header)
-          ),
-        )
-        .then(async (res) => {
-          await AsyncStorage.setItem(STORAGE.USER, JSON.stringify(res.data));
-          await AsyncStorage.setItem(
-            STORAGE.HEADERS,
-            JSON.stringify(res.headers),
-          );
-        })
-        .then(() => {
-          console.log;
-          this.changeStep;
-
-          //this.props.navigation.navigate('AddSpecialities');
-        })
-        .catch((err) => {
-          //  this.setState({loading: false});
-          if (err.request && err.request.status === 422) {
-            // this.setState({
-            //   message: 'Email déjà utilisé, veuillez vous connecter.',
-            // });
-          } else {
-            console.log(err);
-            //alert('Please try again. ');
-          }
-        });
-    } else {
-      console.log('invalid confirmation');
-      //alert('Passwords don\'t match');
-    }
-  }
+      
+  }}
 
   render() {
     const { navigation } = this.props;
@@ -153,15 +70,6 @@ export default class RegisterInfo extends React.Component {
           }}
           style={styles.background}
         />
-        <SafeAreaView style={styles.safeArea} />
-        {stepperStep < 1 ? (
-          <Header title="inscription" />
-        ) : (
-          <Header
-            title="let's go"
-            onPress={() => this.changeStep(stepperStep - 1)}
-          />
-        )}
         <View style={{ paddingLeft: 16, paddingRight: 16 }}>
           {step === 'initial' && (
             <View>
@@ -374,8 +282,6 @@ export default class RegisterInfo extends React.Component {
             </View>
           )}
 
-
-          {step === 'payment' && <View />}
         </View>
       </View>
     );

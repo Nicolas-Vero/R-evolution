@@ -36,7 +36,7 @@ export const avatar = React.forwardRef(
     <View>
        <View>
                 <Image
-                  source={require('../../assets/images/Group_1.png')}
+                  source={require('../../assets/images/Group_4.png')}
                   style={{ width: 350 }}
                 />
               </View>

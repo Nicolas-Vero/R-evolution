@@ -46,10 +46,10 @@ export default class Login extends React.Component {
   //   this.setState({password})
   // }
 
-  async onLoginPress() {
-    const {email, password} = this.state;
+  async onLoginPress(values) {
+    const {email, password}=values;
     const body = {email, password};
-   console.log(this);
+    console.log(values);
     this.setState({loading: true});
     sign_in(body)
       .then(res => ({
@@ -134,8 +134,8 @@ export default class Login extends React.Component {
                       <TextInput
                         placeholder="Email"
                         style={{backgroundColor: '#FFFFFF', paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}}
-                        onChangeText={handleChange('mail')}
-                        onBlur={handleBlur('mail')}
+                        onChangeText={handleChange('email')}
+                        onBlur={handleBlur('email')}
                         value={values.mail}
                       />
                     </View>
@@ -150,7 +150,7 @@ export default class Login extends React.Component {
                     </View>
                     
                     <View style={{alignItems: 'center',paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}}>
-                      <Button  style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}} loading={false} title ='Se connecter' onPress={this.onLoginPress.bind(this)}/>
+                      <Button  style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}} loading={false} title ='Se connecter' onPress={this.onLoginPress.bind()}/>
                     </View>
                     <View>
                     <Text style={{color:'#FFFFFF'}}>Pas encore membre?  </Text>
@@ -236,9 +236,9 @@ export default class Login extends React.Component {
         justifyContent: "center",
     },
     container: {flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.88)', alignItems: 'center'},
-    safeArea: {
-      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-    },
+    // safeArea: {
+    //   paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+    // },
     header: {
       flexDirection: 'row',
       alignItems: 'center',

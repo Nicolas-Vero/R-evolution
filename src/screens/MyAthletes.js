@@ -14,10 +14,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../components/Header';
 
 const options = [
-  { label: 'NOTIFICATIONS', value: 'NOTIFICATIONS' },
-  { label: 'RAPPELS', value: 'RAPPELS' },
+  { label: 'ACTIFS', value: 'ACTIFS' },
+  { label: 'INACTIFS', value: 'INACTIFS' },
+  { label: 'PROSPECTS', value: 'PROSPECTS' },
 ];
-export default class Activite extends React.Component {
+export default class MyAthletes extends React.Component {
   state = {
     refresh: false,
     user: { name: 'toto', avatar: 'string avatar' },
