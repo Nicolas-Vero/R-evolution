@@ -3,6 +3,7 @@ import moment from 'moment';
 import { Button } from 'react-native-elements';
 import axios from 'axios';
 import { LinearGradient } from 'expo-linear-gradient';
+import Pager from '../common/Carrousel';
 import {
   TouchableOpacity,
   View,
@@ -330,18 +331,7 @@ export default class Dashboard extends React.Component {
     };
 
     return (
-      //  <View style={{ flex: 1, backgroundColor: 'black' }}>
-      <LinearGradient
-        colors={['#060606', '#2D333C']}
-        start={{
-          x: 0,
-          y: 0,
-        }}
-        end={{
-          x: 1,
-          y: 1,
-        }}
-        style={styles.background}>
+        <View style={{ flex: 1, backgroundColor: 'black' }}>
         <SafeAreaView>
           <Image
             resizeMode="cover"
@@ -390,13 +380,15 @@ export default class Dashboard extends React.Component {
                     {''}
                     {/*this.state.currentDate.date*/}
                   </Text>
-                  <FlatList
+                  {/* <FlatList
                     style={styles.containers}
                     data={this.state.currentDate.dayItem}
                     renderItem={renderItem}
                     keyExtractor={(item) => item.availability_id}
-                  />
+                  /> */}
+              
                 </View>
+                <Pager/>
                 <View>
                   <Calendar
                     theme={{ calendarBackground: '#2D333C' }}
@@ -472,8 +464,7 @@ export default class Dashboard extends React.Component {
             )}
           </View>
         </SafeAreaView>
-      </LinearGradient>
-      //    </View>
+          </View>
     );
   }
 }

@@ -71,12 +71,12 @@ const AuthStack = createStackNavigator(
   {
     lazy: true,
     initialRouteName: 'AuthEntry',
-    swipeEnabled: true,
     animationEnabled: true,
     tabBarPosition: 'bottom',
     navigationOptions: {
       tabBarVisible: false,
       headerVisible: false,
+      swipeEnabled: false,
       animationEnabled: true,
     },
  //   tabBarComponent: props => <CustomMainTabBar {...props} main={false} />,

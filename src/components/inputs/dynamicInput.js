@@ -45,7 +45,9 @@ export const dynamicInput = React.forwardRef(
                 />
               </View>
               <View style={styles.container}>
-                
+              <View style={{borderWidth:4,}}> 
+              <Text>DIPLOME(S)</Text>
+              </View>
                 <FieldArray
                   name={name}
                   render={(arrayhelper) => (

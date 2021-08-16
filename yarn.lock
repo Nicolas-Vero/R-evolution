@@ -6096,6 +6096,11 @@
   optionalDependencies:
     "moment" "^2.24.0"
 
+"react-native-carousel-pager@^1.5.0":
+  "integrity" "sha512-tijpGdXFA/DZHxtBTbVUxRJy+oklU4BuBE+CgrwUGDrhYsVm1nSTh6h4VBJCtMPw3gTgcXtt63PK08Os6tmA3g=="
+  "resolved" "https://registry.npmjs.org/react-native-carousel-pager/-/react-native-carousel-pager-1.5.0.tgz"
+  "version" "1.5.0"
+
 "react-native-drawer@2.5.1":
   "integrity" "sha512-cxcQNbSWy5sbGi7anSVp6EDr6JarOBMY9lbFOeLFeVYbONiudoqRKbgEsSDgSw3/LFCLvUXK5zdjXCOedeytxQ=="
   "resolved" "https://registry.npmjs.org/react-native-drawer/-/react-native-drawer-2.5.1.tgz"

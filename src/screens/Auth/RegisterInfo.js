@@ -74,20 +74,11 @@ export default class RegisterInfo extends React.Component {
     // }
   };
 
-  async onContinuePress() {
-    if (this.password === this.confirmPassword) {
-      const { gender, first_name, last_name, telephone, email, password } =
-        this;
-      const body = {
-        gender: gender,
-        first_name: first_name,
-        last_name: last_name,
-        phone: telephone,
-        email: email,
-        password: password,
-      };
-      // this.setState({loading: true});
-      auth(body)
+   onContinuePress(values) {
+    
+    if (values.password === values.confirmPassword) {
+    console.log('toto',values)
+      auth(values)
         .then(
           (res) => (
             {
@@ -96,8 +87,6 @@ export default class RegisterInfo extends React.Component {
                 access_token: res.data.headers['access-token'],
                 token_type: res.data.headers['token-name'],
                 uid: res.data.headers['uid'],
-                // client: res.headers['client'],
-                //    expiry: res.headers['expiry'],
               },
             },
             this.changeStep,
@@ -347,9 +336,7 @@ export default class RegisterInfo extends React.Component {
                       <Button
                         loading={false}
                         title="Rejoins-nous"
-                        onPress={()=>{
-                          navigate('MoreInfo')
-                          this.onContinuePress.bind(values)}
+                        onPress={()=>{navigation.navigate('MoreInfo',{item:values})}
                         }
                       />
                     </View>

@@ -15,17 +15,10 @@ import {API_URL} from '../configs/Constants';
 * */
 export const auth = params => {
   const data = params;
-  // data.append('email', params.email);
-  // data.append('password', params.password);
-  // data.append('first_name', params.first_name);
-  // data.append('last_name', params.last_name);
-  // data.append('phone', params.phone);
-  // data.append('degrees', params.degrees);
-  // data.append('xp_years', params.xp_years);
-  // data.append('avatar', params.avatar);
+console.log('register',data)
   return axios({
     method: 'POST',
-    url: `http://localhost:3000/user/signup`,
+    url: `http://localhost:4001/api/v1/auth/coach/sign-up`,
     data: data
   });
 };

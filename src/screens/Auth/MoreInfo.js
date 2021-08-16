@@ -18,6 +18,7 @@ import { CheckBox } from 'react-native-elements';
 import Loader from 'react-loader-spinner';
 import { Button } from '../../components/Button';
 import Header from '../../components/Header';
+
 //import { Slider } from 'react-native-elements';
 import { ElementSlider } from '../../components/ElementSlider';
 const { width } = Dimensions.get('window');
@@ -33,7 +34,6 @@ const inputs = [
   { name: 'gymPlace', type: 'default', component: selectList },
   { name: 'avatar', type: 'default', component: avatar },
 ];
-
 export default class MoreInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -42,19 +42,15 @@ export default class MoreInfo extends React.Component {
       step: 'initial',
       stepperStep: 0,
       progress: 0,
+      values:{} 
     };
   }
-
-  // handleErrorsTab(errors) {
-  //   const indexes = [];
-  //   Object.keys(errors).some(v => {
-  //     const idx = inputs.map(e => e.name).indexOf(v);
-  //     indexes.push(idx);
-  //   });
-
-  //   var min = Math.min(...indexes);
-  //   this.changeStep(min);
-  // }
+ 
+  Pvalues = ({navigation})=>{
+    
+      console.log(navigation)
+  
+  }
   changeStep = (newStep) => {
     const inputLenght = inputs.length;
     const percent = ((newStep + 1) / inputLenght) * 1.0;
@@ -124,6 +120,8 @@ export default class MoreInfo extends React.Component {
   }
 
   render() {
+    
+    this.Pvalues()
     const { navigation } = this.props;
     const { stepperStep, step } = this.state;
     console.log(stepperStep);
