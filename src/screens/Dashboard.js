@@ -27,7 +27,7 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 const { width } = Dimensions.get('window');
 import { LocaleConfig } from 'react-native-calendars';
 import MonthsSlider from '../components/MonthsSlider';
-import { Task } from '../api/Task';
+import { get_appointement } from '../api/Coach'; 
 import SwitchButton from '../components/SwitchButton';
 import {} from '../api/Availabilities';
 import { FrenchConfig } from '../components/FrenchCalendar';
@@ -294,9 +294,7 @@ export default class Dashboard extends React.Component {
       coachId: 1,
       date: data.dateString,
     };
-
-    const daytak = [];
-    datas = await Task(formatdata);
+    datas = await get_appointement(formatdata);
     datas.forEach((element) => {
       daytak.push({
         date: element.date,
@@ -368,7 +366,6 @@ export default class Dashboard extends React.Component {
                 onPress={(value) => this.setState({ screen: value })}
                 backgroundColor="#1E2026"
                 buttonColor="#2CDEE4"
-                borderRadius="5"
               />
             </View>
             <View>{/*TO DO: passe les jours en francais  */}</View>
@@ -380,13 +377,6 @@ export default class Dashboard extends React.Component {
                     {''}
                     {/*this.state.currentDate.date*/}
                   </Text>
-                  {/* <FlatList
-                    style={styles.containers}
-                    data={this.state.currentDate.dayItem}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.availability_id}
-                  /> */}
-              
                 </View>
                 <Pager/>
                 <View>
@@ -402,7 +392,7 @@ export default class Dashboard extends React.Component {
                     onPress={() => {
                       navigate('CreateBook');
                     }}>
-                    <Entypo name="circle-with-plus" size={40} color="BLUE" />
+                    <Entypo name="circle-with-plus" size={40} color="blue" />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -489,11 +479,10 @@ const styles = StyleSheet.create({
     marginTop: 17,
   },
   calendar: {
-    borderRadius: 15,
+    borderRadius: 30,
     padding: 10,
     marginRight: 10,
-    marginTop: 20,
-    height: 400,
+    marginTop: 20, 
   },
   background: {
     backgroundColor: 'black',

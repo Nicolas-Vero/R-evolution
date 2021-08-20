@@ -15,7 +15,6 @@ import {API_URL} from '../configs/Constants';
 * */
 export const auth = params => {
   const data = params;
-console.log('register',data)
   return axios({
     method: 'POST',
     url: `http://localhost:4001/api/v1/auth/coach/sign-up`,

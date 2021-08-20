@@ -16,33 +16,13 @@ import { CheckBox, Text } from 'react-native-elements';
 import { Button } from '../components/Button';
 import Header from '../components/Header';
 import { Right } from 'native-base';
+import { AddOffer } from '../api/Offers';
 //import { Slider } from 'react-native-elements';
 const { width } = Dimensions.get('window');
 export default class OffreCreation extends React.Component {
   state = {
     type: 'Coaching',
   };
-
-  // componentDidMount() {
-  //   return axios({
-  //     method: 'GET',
-  //     url: `${API_URL}text_contents/home_app_info`,
-  //   })
-  //       .then((res) => res.data.data)
-  //       .then((res) => {
-  //         if (res.attributes.content.length > 0){
-  //           Alert.alert("À propos", res.attributes.content)
-  //         }
-  //       })
-  // }
-
-  // onEmailChange(email) {
-  //   this.setState({email})
-  // }
-
-  // onPasswordChange(password) {
-  //   this.setState({password})
-  // }
 
   async onLoginPress(values) {
     console.log(values);
@@ -80,7 +60,7 @@ export default class OffreCreation extends React.Component {
               type: 'Coaching',
               title: '',
               content: '',
-              nbSeance: '',
+              nb_credits: '',
               price: '',
             }}
             onSubmit={(values, { onLoginPress }) => onLoginPress(values)}>
@@ -141,7 +121,7 @@ export default class OffreCreation extends React.Component {
                     }}
                     onChangeText={handleChange('title')}
                     onBlur={handleBlur('title')}
-                    value={values.mail}
+                    value={values.title}
                   />
                 </View>
                 <View style={{ marginBottom: 15 }}>
@@ -155,9 +135,9 @@ export default class OffreCreation extends React.Component {
                       paddingRight: 15,
                       height: 180,
                     }}
-                    onChangeText={handleChange('Description')}
-                    onBlur={handleBlur('Description')}
-                    value={values.password}
+                    onChangeText={handleChange('content')}
+                    onBlur={handleBlur('content')}
+                    value={values.content}
                   />
                 </View>
                 {this.state.type == 'Coaching' ? (
@@ -175,9 +155,9 @@ export default class OffreCreation extends React.Component {
                           marginRight: 90,
                           width: wp(20),
                         }}
-                        onChangeText={handleChange('nbSeance')}
-                        onBlur={handleBlur('nbSeance')}
-                        value={values.password}
+                        onChangeText={handleChange('nb_credits')}
+                        onBlur={handleBlur('nb_credits')}
+                        value={values.nb_credits}
                       />
                     </View>
 
@@ -197,7 +177,7 @@ export default class OffreCreation extends React.Component {
                           }}
                           onChangeText={handleChange('price')}
                           onBlur={handleBlur('price')}
-                          value={values.password}
+                          value={values.price}
                         />
                         <Text style={styles.euro}>€</Text>
                       </View>
@@ -238,7 +218,7 @@ export default class OffreCreation extends React.Component {
                     }}
                     loading={false}
                     title="Créer loffre"
-                    onPress={console.log(values)}
+                    onPress={()=>{AddOffer(values)}}
                   />
                 </View>
               </View>
@@ -246,66 +226,6 @@ export default class OffreCreation extends React.Component {
           </Formik>
         </View>
       </View>
-
-      // <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
-      //   <ScrollView style={styles.container}>
-      //   <View style={styles.logoContainer}>
-      //     {/* <Logo/> */}
-      //     <ResponsiveText style={styles.logoText}>{this.state.message}</ResponsiveText>
-      //   </View>
-      //   {this.getErrorMessage()}
-      //   <View style={{paddingVertical: 20}} />
-      //   <View style={styles.form}>
-      //     <InputField
-      //     //={Icons.PersonAuth({width: wp('5%'), resizeMode: 'contain', tintColor: '#BCBCBC'})}
-      //       keyboardType={'default'}
-      //       placeholder='Identifiant'
-      //       value={this.state.email}
-      //       onChangeText={this.onEmailChange.bind(this)}
-      //     />
-      //     <InputField
-      //      // leftIcon={Icons.Lock({width: wp('5%'), resizeMode: 'contain'})}
-      //       keyboardType={'default'}
-      //       placeholder='Mot de passe'
-      //       value={this.state.password}
-      //       secureTextEntry={true}
-      //       onChangeText={this.onPasswordChange.bind(this)}
-      //     />
-      //     <Button
-      //       style={{width: '100%'}}
-      //       loading={this.state.loading}
-      //       title={'Connexion'}
-      //       gradientStyle={{
-      //         marginHorizontal: 30
-      //       }}
-      //       onPress={this.onLoginPress.bind(this)}
-      //     />
-      //     <Button
-      //       style={{width: '100%'}}
-      //       title={'Je m’inscris'}
-      //       gradientStyle={{
-      //         marginHorizontal: 30,
-      //         borderColor: Color.Secondary,
-      //         borderWidth: 1
-      //       }}
-      //       colors={['#fff', '#fff', '#fff']}
-      //       textStyle={{
-      //         color: Color.Secondary,
-      //       }}
-      //       onPress={() => this.props.navigation.navigate('RegisterInfo')}
-      //     />
-      //     <View style={{marginVertical: 5}}/>
-      //     {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('ResetPassword')}>
-      //       <Text style={{color:Color.Primary}}>Mot de passe oublié ?</Text>
-      //     </TouchableOpacity>
-      //     <View style={{marginVertical: 5}}/>
-      //     <TouchableOpacity onPress={() => this.props.navigation.navigate('Support')}>
-      //       <Text style={{color: Color.Primary}}>Besoin d'aide ?</Text>
-      //     </TouchableOpacity> */}
-      //   </View>
-
-      // </ScrollView>
-      // </KeyboardAvoidingView>
     );
   }
 }

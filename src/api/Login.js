@@ -17,11 +17,7 @@ export const sign_in = params=> {
   const data = params;
   return axios({
     method: 'POST',
-    url:`http://localhost:3000/signin`,
-    data: data
-  }).then((response) => {
-    console.log(response);
-  }, (error) => {
-    console.log(error);
+    url:`http://localhost:4001/api/v1/auth/coach-login`,
+    data:data
   })
 }

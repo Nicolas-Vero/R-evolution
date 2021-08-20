@@ -1,6 +1,6 @@
 import React from 'react';
 import {AsyncStorage, Alert} from 'react-native';
-import {is_pro_signed_in} from "./Pros";
+import {is_pro_signed_in} from "./Coach";
 
 class MiddleWare {
   static validateRequest = (requestMethod, navigation) => {

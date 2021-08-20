@@ -47,7 +47,6 @@ export default class MoreInfo extends React.Component {
   }
  
   Pvalues = ({navigation})=>{
-    
       console.log(navigation)
   
   }

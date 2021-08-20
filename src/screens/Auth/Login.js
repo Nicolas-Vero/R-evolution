@@ -1,9 +1,5 @@
 import React from 'react';
-import {AsyncStorage, View, ImageBackground,SafeAreaView,StyleSheet,Dimensions, Image,TextInput,Text} from 'react-native'
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import Container from '../../common/Container';
-import InputField from '../../common/InputField';
-import Icons from '../../configs/design/icon';
+import {View, SafeAreaView,StyleSheet,Dimensions, Image,TextInput,Text} from 'react-native'
 //import Button from '../../common/Button';
 import Color from '../../configs/design/color';
 import ResponsiveText from '../../common/ResponsiveText';
@@ -11,40 +7,10 @@ import {sign_in} from '../../api/Login';
 import Header from '../../components/Header';
 const {width} = Dimensions.get('window');
 import {Formik} from 'formik';
+import { STORAGE } from '../../configs/Constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Button} from '../../components/Button';
-import LinearGradient from 'react-native-linear-gradient';
-import { color } from 'react-native-elements/dist/helpers';
 export default class Login extends React.Component {
-
-  // state = {
-  //   email: '',
-  //   password: '',
-  //   message: 'Bienvenue',
-  //   errorMessage: '',
-  //   loading: false,
-  // };
-
-  // componentDidMount() {
-  //   return axios({
-  //     method: 'GET',
-  //     url: `${API_URL}text_contents/home_app_info`,
-  //   })
-  //       .then((res) => res.data.data)
-  //       .then((res) => {
-  //         if (res.attributes.content.length > 0){
-  //           Alert.alert("À propos", res.attributes.content)
-  //         }
-  //       })
-  // }
-
-
-  // onEmailChange(email) {
-  //   this.setState({email})
-  // }
-
-  // onPasswordChange(password) {
-  //   this.setState({password})
-  // }
 
   async onLoginPress(values) {
     const {email, password}=values;
@@ -52,18 +18,19 @@ export default class Login extends React.Component {
     console.log(values);
     this.setState({loading: true});
     sign_in(body)
-      .then(res => ({
-        data: res.data.data,
-        headers: {
-          access_token: res.headers['access-token'],
-          token_type: res.headers['token-name'],
-          uid: res.headers['uid'],
-          client: res.headers['client'],
-          expiry: res.headers['expiry'],
-        }
+      .then( res => ({
+        
+         data: res.data,
+         headers: {
+           access_token: res.data.token,
+           token_type: 'Bearer',
+           id: res.data.user.id,
+          }
+        
       }))
-      .then(async res => {
+      .then( async res => {
         try {
+          console.log('toto',res)
           await AsyncStorage.setItem(STORAGE.USER, JSON.stringify(res.data));
           await AsyncStorage.setItem(STORAGE.HEADERS, JSON.stringify(res.headers));
           this.setState({loading: false});
@@ -135,6 +102,7 @@ export default class Login extends React.Component {
                         placeholder="Email"
                         style={{backgroundColor: '#FFFFFF', paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}}
                         onChangeText={handleChange('email')}
+                        autoCapitalize='none'
                         onBlur={handleBlur('email')}
                         value={values.mail}
                       />
@@ -144,13 +112,14 @@ export default class Login extends React.Component {
                         placeholder="Mot de passe"
                         style={{backgroundColor: '#FFFFFF', paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}}
                         onChangeText={handleChange('password')}
+                        autoCapitalize='none'
                         onBlur={handleBlur('password')}
                         value={values.password}
                       />
                     </View>
                     
                     <View style={{alignItems: 'center',paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}}>
-                      <Button  style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}} loading={false} title ='Se connecter' onPress={this.onLoginPress.bind()}/>
+                      <Button  style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}} loading={false} title ='Se connecter' onPress={()=>{this.onLoginPress(values)}}/>
                     </View>
                     <View>
                     <Text style={{color:'#FFFFFF'}}>Pas encore membre?  </Text>
@@ -160,67 +129,6 @@ export default class Login extends React.Component {
               </Formik>
               </View>
             </View>
-
-
-        // <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
-        //   <ScrollView style={styles.container}>
-        //   <View style={styles.logoContainer}>
-        //     {/* <Logo/> */}
-        //     <ResponsiveText style={styles.logoText}>{this.state.message}</ResponsiveText>
-        //   </View>
-        //   {this.getErrorMessage()}
-        //   <View style={{paddingVertical: 20}} />
-        //   <View style={styles.form}>
-        //     <InputField
-        //     //={Icons.PersonAuth({width: wp('5%'), resizeMode: 'contain', tintColor: '#BCBCBC'})}
-        //       keyboardType={'default'}
-        //       placeholder='Identifiant'
-        //       value={this.state.email}
-        //       onChangeText={this.onEmailChange.bind(this)}
-        //     />
-        //     <InputField
-        //      // leftIcon={Icons.Lock({width: wp('5%'), resizeMode: 'contain'})}
-        //       keyboardType={'default'}
-        //       placeholder='Mot de passe'
-        //       value={this.state.password}
-        //       secureTextEntry={true}
-        //       onChangeText={this.onPasswordChange.bind(this)}
-        //     />
-        //     <Button
-        //       style={{width: '100%'}}
-        //       loading={this.state.loading}
-        //       title={'Connexion'}
-        //       gradientStyle={{
-        //         marginHorizontal: 30
-        //       }}
-        //       onPress={this.onLoginPress.bind(this)}
-        //     />
-        //     <Button
-        //       style={{width: '100%'}}
-        //       title={'Je m’inscris'}
-        //       gradientStyle={{
-        //         marginHorizontal: 30,
-        //         borderColor: Color.Secondary,
-        //         borderWidth: 1
-        //       }}
-        //       colors={['#fff', '#fff', '#fff']}
-        //       textStyle={{
-        //         color: Color.Secondary,
-        //       }}
-        //       onPress={() => this.props.navigation.navigate('RegisterInfo')}
-        //     />
-        //     <View style={{marginVertical: 5}}/>
-        //     {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('ResetPassword')}>
-        //       <Text style={{color:Color.Primary}}>Mot de passe oublié ?</Text>
-        //     </TouchableOpacity>
-        //     <View style={{marginVertical: 5}}/>
-        //     <TouchableOpacity onPress={() => this.props.navigation.navigate('Support')}>
-        //       <Text style={{color: Color.Primary}}>Besoin d'aide ?</Text>
-        //     </TouchableOpacity> */}
-        //   </View>
-
-        // </ScrollView>
-        // </KeyboardAvoidingView>
     );
   }
 }

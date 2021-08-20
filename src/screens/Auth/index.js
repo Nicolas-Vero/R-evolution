@@ -33,7 +33,7 @@ export default class Index extends React.Component {
                           title="Se connecter"
                           customTextStyle={{color: "#FFFFFF"}}
                           customContainerStyles={styles.loginButton} 
-                          onPress={() => navigate('Dashboard')}
+                          onPress={() => navigate('Login')}
                         />
                     </View>
                 </View>
