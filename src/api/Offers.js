@@ -16,30 +16,41 @@ import { getHeaders } from './Global';
 * */
 
 
-export const AddOffer = params => {
+export const AddOffer = async(params) => {
   const data = params;
+  const headers = await getHeaders();
   return axios({
     method: 'PUT',
-    url: `h${API_URL}/coach-offer`,
+    url: `${API_URL}/coach-offer`,
     data: data,
-    headers: {
-      Authorization: 'Bearer ' + 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE2MjkyMTIzMjY4ODgsImV4cCI6MTYzMDQyMTkyNjg4OCwidXNlciI6eyJpZCI6NCwidHlwZSI6ImNvYWNoIiwiZmlyc3RfbmFtZSI6InRvdG8iLCJsYXN0X25hbWUiOiJ0b290byJ9fQ.jNBxXqV3CwucvvMq28uCFrDi1D-B0_VUSvg77lsasvYvk6m4sQsoTVumUjnuEMl3po-cZz9-r76Otr4NugZedw' //the token is a variable which holds the token
-    }
+    headers: headers
   });
 };
-export const get_coach_offers = params => {
-  const data = params;
 
+export const UpdateOffer = async(params) => {
+  const data = params;
+  const headers = await getHeaders();
   return axios({
     method: 'POST',
+    url: `${API_URL}/coach-offer`,
+    data: data,
+    headers: headers
+  });
+};
+export const get_coach_offers = async() => {
+ 
+  const header = await getHeaders()
+
+  return axios({
+    method: 'GET',
     url: `${API_URL}/coach-offers`,
-    data: data
+    headers:header
   });
 };
 
-export const get_coach_specific_offers = params => {
+export const get_coach_specific_offers = async(params) => {
   const data = params;
- const headers = getHeaders();
+ const headers = await getHeaders();
   return axios({
     method: 'GET',
     url: `${API_URL}/coach-offers/${params.id}`,

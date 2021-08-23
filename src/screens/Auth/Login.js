@@ -13,7 +13,8 @@ import {Button} from '../../components/Button';
 export default class Login extends React.Component {
 
   async onLoginPress(values) {
-    const {email, password}=values;
+   // const {email, password}=values;
+    const {email, password}={email:"blakonino@gmail.com", password:"abcd"};
     const body = {email, password};
     console.log(values);
     this.setState({loading: true});
@@ -22,10 +23,8 @@ export default class Login extends React.Component {
         
          data: res.data,
          headers: {
-           access_token: res.data.token,
-           token_type: 'Bearer',
-           id: res.data.user.id,
-          }
+          Authorization:'Bearer ' + res.data.token
+        }
         
       }))
       .then( async res => {
@@ -39,6 +38,13 @@ export default class Login extends React.Component {
           this.setState({loading: false});
           //alert('Please try again. ');
           console.warn(err)
+        }
+      }).then(async()=>{
+        try {
+         const test = await AsyncStorage.getItem(STORAGE.HEADERS);
+         console.log('*******',test);
+        } catch (error) {
+          
         }
       })
       .catch((error) => {

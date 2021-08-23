@@ -26,18 +26,24 @@ export const invite_prospect = params=> {
 }
 
 
-export const get_appointement = async (params, navigation) => (
-  MiddleWare.validateRequest(
-    async () => {
-      const headers = await getHeaders();
-      const date = '10-08-2021'
+export const get_appointement = async (params, navigation) => {
+ // MiddleWare.validateRequest(
+  
+  //  async () => {
+    const date =  params ; 
+     const headers = await getHeaders();
+     console.log('***',headers)
+     console.log('ttt',date)
+      //const date = '2021-08-10'
       return axios({
         method: 'GET',
-        url: `${API_URL}/coach/${params.id}`,
-        headers: headers,
-        params: {date:date}
+        url: `${API_URL}/coach/appointment`,
+        headers: headers ,
+        params: {date:date.date}
       })
-    }, navigation));
+ //   }
+    //, navigation)
+    };
 
 export const add_manual_payment = async (params, navigation) => (
   MiddleWare.validateRequest(

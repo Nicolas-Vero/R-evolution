@@ -16,10 +16,13 @@ import { CheckBox, Text } from 'react-native-elements';
 import { Button } from '../components/Button';
 import Header from '../components/Header';
 import { Right } from 'native-base';
-import { AddOffer } from '../api/Offers';
+import { UpdateOffer } from '../api/Offers';
 //import { Slider } from 'react-native-elements';
 const { width } = Dimensions.get('window');
-export default class OffreCreation extends React.Component {
+export default class OffreUpdate extends React.Component {
+
+
+
   state = {
     type: 'Coaching',
   };
@@ -28,15 +31,15 @@ export default class OffreCreation extends React.Component {
     console.log(values);
   }
 
-  createOffer(values){
+  Update(values){
     try {
-      AddOffer(values).then(
+      UpdateOffer(values).then(
         this.props.navigation.navigate('Offres')
       )
     } catch (error) {
       this.setState({loading: false});
           //alert('Please try again. ');
-          console.warn(err)
+          console.warn(error)
     }
 
 
@@ -61,20 +64,22 @@ export default class OffreCreation extends React.Component {
   }
 
   render() {
+    const initialValues =this.props.navigation.state.params.item
+    console.log(initialValues)
     return (
       <View style={{ flex: 1, backgroundColor: '#060606' }}>
         <SafeAreaView style={styles.safeArea} />
 
-        <Header title="Créer une offre" />
+        <Header title="Mettre à jour une offre" />
 
         <View style={{ paddingLeft: 15, paddingRight: 15 }}>
           <Formik
             initialValues={{
-              type: 'Coaching',
-              title: '',
-              content: '',
-              nb_credits: '',
-              price: '',
+              type: initialValues.type,
+              title: initialValues.title,
+              content: initialValues.content,
+              nb_credits: initialValues.nb_credits.toString(),
+              price:initialValues.price.toString(),
             }}
             onSubmit={(values, { onLoginPress }) => onLoginPress(values)}>
             {({
@@ -230,8 +235,8 @@ export default class OffreCreation extends React.Component {
                       paddingRight: 15,
                     }}
                     loading={false}
-                    title="Créer loffre"
-                    onPress={()=>{this.createOffer(values)}}
+                    title="Mettre a jour l'offre "
+                    onPress={()=>{this.Update(values)}}
                   />
                 </View>
               </View>

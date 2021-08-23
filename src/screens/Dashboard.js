@@ -151,9 +151,18 @@ export default class Dashboard extends React.Component {
       },
       '2021-05-24': { color: '#70d7c7', textColor: 'white' },
       '2021-05-25': { endingDay: true, color: '#50cebb', textColor: 'white' },
+
     },
     // ajouter le coach id pour pouvoir associe des dispo a un coacg
     availabilities: [],
+    page:[
+      <View key={1}><Text>toto</Text><Text>hello</Text></View>,
+      <View key={2}><Text>tot</Text></View>,
+      <View key={3}><Text>hoo</Text></View>,  
+      <View key={4}><Text>gg</Text></View>,  
+      <View key={5}><Text>hh</Text></View>,  
+      <View key={6}><Text>zz</Text></View>,
+  ],
   };
 
   onSlotAvailabilityChange(id, params) {
@@ -232,14 +241,6 @@ export default class Dashboard extends React.Component {
       this.setState({ currentAvailabilities: test });
       this.setState({ onRefresh: false });
     });
-
-    //console.log('response', this.state.currentAvailabilities)
-    // if (condition) {
-
-    // } else {
-
-    // }
-
     var item = [];
     console.log('iciii');
     var ArrayOfday = this.getDaysArrayByMonth(date);
@@ -289,22 +290,21 @@ export default class Dashboard extends React.Component {
   onMonthChange(date) {
     this.getAvailabilities(this.getDate(date));
   }
-  async changeTaskList(data) {
+  async changeTaskList(date) {
     const formatdata = {
-      coachId: 1,
-      date: data.dateString,
+      date: date.dateString,
     };
-    datas = await get_appointement(formatdata);
-    datas.forEach((element) => {
-      daytak.push({
-        date: element.date,
-        content: element.content,
-        slot: element.slot,
-      });
-    });
-    this.setState({
-      currentDate: { date: data.dateString, day: data.day, dayItem: daytak },
-    });
+ 
+get_appointement(formatdata).then(res =>{
+ const arrayOfAppointment =res.data
+ const arrayOfPage = [];
+  arrayOfAppointment.forEach(rdv => {
+    arrayOfPage.push(<View key={rdv.id}><Text>{rdv.athlete.first_name}</Text><Text>{rdv.athlete.last_name}</Text></View>,)
+  });
+  this.setState({page:arrayOfPage})
+  console.log(this.state.page);
+});
+    
   }
 
   render() {
@@ -366,6 +366,7 @@ export default class Dashboard extends React.Component {
                 onPress={(value) => this.setState({ screen: value })}
                 backgroundColor="#1E2026"
                 buttonColor="#2CDEE4"
+                borderRadius={10}
               />
             </View>
             <View>{/*TO DO: passe les jours en francais  */}</View>
@@ -378,7 +379,8 @@ export default class Dashboard extends React.Component {
                     {/*this.state.currentDate.date*/}
                   </Text>
                 </View>
-                <Pager/>
+                {console.log(this.state.page == [])}
+                {this.state.page == []?(<Text> pas de rendez-vous Aujourd'hui</Text> ):(<Pager pager={this.state.page}/>)}
                 <View>
                   <Calendar
                     theme={{ calendarBackground: '#2D333C' }}
