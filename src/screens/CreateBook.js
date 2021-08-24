@@ -310,7 +310,12 @@ export default class CreateBook extends React.Component {
                       </View>
                     </View>
                     </ScrollView>
-                  ) : null}
+                  ) : <View><SelectDropdown
+                  data={this.state.countries}
+                  onSelect={(selectedItem, index) => {
+                    console.log(selectedItem, index);
+                  }}
+                /></View>}
                 </View>
 
                 <View

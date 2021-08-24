@@ -32,9 +32,6 @@ export const get_appointement = async (params, navigation) => {
   //  async () => {
     const date =  params ; 
      const headers = await getHeaders();
-     console.log('***',headers)
-     console.log('ttt',date)
-      //const date = '2021-08-10'
       return axios({
         method: 'GET',
         url: `${API_URL}/coach/appointment`,
@@ -104,16 +101,18 @@ export const get_coach_by_id = async (params, navigation) => (
     }, navigation));
 
 
-export const get_coach = async (navigation) => (
-  MiddleWare.validateRequest(
-    async () => {
+export const get_coach = async (navigation) => {
+  //MiddleWare.validateRequest(
+ //   async () => {
       const headers = await getHeaders();
       return axios({
         method: 'GET',
         url: `${API_URL}/coach/me`,
         headers: headers
       })
-    }, navigation));
+   //}, navigation));
+    }
+
 
     export const verify_coach = async (navigation) => (
   MiddleWare.validateRequest(

@@ -10,13 +10,14 @@ import {Formik} from 'formik';
 import { STORAGE } from '../../configs/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Button} from '../../components/Button';
+import { get_coach } from '../../api/Coach';
 export default class Login extends React.Component {
 
   async onLoginPress(values) {
    // const {email, password}=values;
     const {email, password}={email:"blakonino@gmail.com", password:"abcd"};
     const body = {email, password};
-    console.log(values);
+    console.log(body);
     this.setState({loading: true});
     sign_in(body)
       .then( res => ({
@@ -30,24 +31,25 @@ export default class Login extends React.Component {
       .then( async res => {
         try {
           console.log('toto',res)
-          await AsyncStorage.setItem(STORAGE.USER, JSON.stringify(res.data));
           await AsyncStorage.setItem(STORAGE.HEADERS, JSON.stringify(res.headers));
           this.setState({loading: false});
-          this.props.navigation.navigate('Dashboard')
+       
         } catch (err) {
           this.setState({loading: false});
           //alert('Please try again. ');
           console.warn(err)
         }
-      }).then(async()=>{
-        try {
-         const test = await AsyncStorage.getItem(STORAGE.HEADERS);
-         console.log('*******',test);
-        } catch (error) {
-          
+      }).then(()=>{
+        get_coach().then(async(res)=>{
+          await AsyncStorage.setItem(STORAGE.USER, JSON.stringify(res.data));
+          this.props.navigation.navigate('Dashboard')
         }
-      })
-      .catch((error) => {
+        ).then(async()=>{
+          const test = await AsyncStorage.getItem(STORAGE.USER)
+          console.log('*******',test)
+        })
+       
+    }).catch((error) => {
         if (error.response.status === 401) {
           Alert.alert("Login failed", error.response.data.errors[0])
         }

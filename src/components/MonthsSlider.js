@@ -23,9 +23,11 @@ export default class MonthsSlider extends React.Component {
     date.subtract(1, 'months');
     this.setState({date});
     this.props.onChange(new Date(date.format("LLLL")));
+    this.getDaysArrayByMonth();
   }
 
   onRightPress() {
+    
     let {date} = this.state;
     date.add(1, 'months');
     this.setState({date});
@@ -34,7 +36,7 @@ export default class MonthsSlider extends React.Component {
   }
 
   getMonth() {
-    const date = new Date(this.state.date.format("LLLL"));
+    const date = new Date(this.state.date);
     return `${FrenchConfig.monthNames[date.getMonth()]} ${date.getFullYear()}`;
   }
   getDaysArrayByMonth() {
@@ -43,12 +45,14 @@ export default class MonthsSlider extends React.Component {
   
     while(daysInMonth) {
       var current = moment().date(daysInMonth);
+  
       arrDays.push(current);
       daysInMonth--;
     }
     return arrDays;
   }
   render() {
+    
     
     return (
       <View style={styles.container}>

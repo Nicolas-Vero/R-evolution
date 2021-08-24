@@ -27,7 +27,7 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 const { width } = Dimensions.get('window');
 import { LocaleConfig } from 'react-native-calendars';
 import MonthsSlider from '../components/MonthsSlider';
-import { get_appointement } from '../api/Coach'; 
+import { get_appointement } from '../api/Coach';
 import SwitchButton from '../components/SwitchButton';
 import {} from '../api/Availabilities';
 import { FrenchConfig } from '../components/FrenchCalendar';
@@ -71,7 +71,7 @@ LocaleConfig.locales['fr'] = {
     'Vendredi',
     'Samedi',
   ],
-  dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.'],
+  dayNamesShort: ['D', 'L', 'M', 'MM', 'J', 'V', 'S'],
   today: "Aujourd'hui",
 };
 LocaleConfig.defaultLocale = 'fr';
@@ -99,7 +99,70 @@ const dayNames = [
   'Vendredi',
   'Samedi',
 ];
-
+//  moment.locale('fr', {
+//   months:
+//     'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split(
+//       '_',
+//     ),
+//   monthsShort:
+//     'janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.'.split('_'),
+//   monthsParseExact: true,
+//   weekdays: 'dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi'.split('_'),
+//   weekdaysShort: 'dim._lun._mar._mer._jeu._ven._sam.'.split('_'),
+//   weekdaysMin: 'D_L_M_M_J_V_S'.split('_'),
+//   weekdaysParseExact: true,
+//   longDateFormat: {
+//     LT: 'HH:mm',
+//     LTS: 'HH:mm:ss',
+//     L: 'DD/MM/YYYY',
+//     LL: 'D MMMM YYYY',
+//     LLL: 'D MMMM YYYY HH:mm',
+//     LLLL: 'dddd D MMMM YYYY HH:mm',
+//   },
+//   calendar: {
+//     sameDay: '[Aujourd’hui à] LT',
+//     nextDay: '[Demain à] LT',
+//     nextWeek: 'dddd [à] LT',
+//     lastDay: '[Hier à] LT',
+//     lastWeek: 'dddd [dernier à] LT',
+//     sameElse: 'L',
+//   },
+//   relativeTime: {
+//     future: 'dans %s',
+//     past: 'il y a %s',
+//     s: 'quelques secondes',
+//     m: 'une minute',
+//     mm: '%d minutes',
+//     h: 'une heure',
+//     hh: '%d heures',
+//     d: 'un jour',
+//     dd: '%d jours',
+//     M: 'un mois',
+//     MM: '%d mois',
+//     y: 'un an',
+//     yy: '%d ans',
+//   },
+//   dayOfMonthOrdinalParse: /\d{1,2}(er|e)/,
+//   ordinal: function (number) {
+//     return number + (number === 1 ? 'er' : 'e');
+//   },
+//   meridiemParse: /PD|MD/,
+//   isPM: function (input) {
+//     return input.charAt(0) === 'M';
+//   },
+//   // In case the meridiem units are not separated around 12, then implement
+//   // this function (look at locale/id.js for an example).
+//   // meridiemHour : function (hour, meridiem) {
+//   //     return /* 0-23 hour, given meridiem token and hour 1-12 */ ;
+//   // },
+//   meridiem: function (hours, minutes, isLower) {
+//     return hours < 12 ? 'PD' : 'MD';
+//   },
+//   week: {
+//     dow: 1, // Monday is the first day of the week.
+//     doy: 4, // Used to determine first week of the year.
+//   },
+//  });
 const options = [
   { label: 'Planning', value: 'Planning' },
   { label: 'Disponibilité', value: 'Disponibilite' },
@@ -129,14 +192,8 @@ export default class Dashboard extends React.Component {
       { coachId: 1, date: '2018-07-20', content: 'fix door', slot: '12H-13H' },
       { coachId: 1, date: '2018-07-20', content: 'masonary', slot: '12H-13H' },
     ],
-    currentDate: {
-      date: '2018-07-19',
-      dayItem: [
-        { date: '2018-07-19', content: 'add stone wall', slot: '12H-13H' },
-        { date: '2018-07-19', content: 'add stone wall', slot: '12H-13H' },
-        { date: '2018-07-19', content: 'add stone wall', slot: '12H-13H' },
-      ],
-    },
+    currentDate:'',
+ 
     currentAvailabilities: [],
     markedDate: {
       '2021-07-15': { marked: true, dotColor: '#50cebb' },
@@ -151,18 +208,30 @@ export default class Dashboard extends React.Component {
       },
       '2021-05-24': { color: '#70d7c7', textColor: 'white' },
       '2021-05-25': { endingDay: true, color: '#50cebb', textColor: 'white' },
-
     },
     // ajouter le coach id pour pouvoir associe des dispo a un coacg
     availabilities: [],
-    page:[
-      <View key={1}><Text>toto</Text><Text>hello</Text></View>,
-      <View key={2}><Text>tot</Text></View>,
-      <View key={3}><Text>hoo</Text></View>,  
-      <View key={4}><Text>gg</Text></View>,  
-      <View key={5}><Text>hh</Text></View>,  
-      <View key={6}><Text>zz</Text></View>,
-  ],
+    page: [
+      <View key={1}>
+        <Text>toto</Text>
+        <Text>hello</Text>
+      </View>,
+      <View key={2}>
+        <Text>tot</Text>
+      </View>,
+      <View key={3}>
+        <Text>hoo</Text>
+      </View>,
+      <View key={4}>
+        <Text>gg</Text>
+      </View>,
+      <View key={5}>
+        <Text>hh</Text>
+      </View>,
+      <View key={6}>
+        <Text>zz</Text>
+      </View>,
+    ],
   };
 
   onSlotAvailabilityChange(id, params) {
@@ -185,6 +254,7 @@ export default class Dashboard extends React.Component {
     return `${day} ${date.getDate()} ${month}`;
   }
   getDate(date = new Date()) {
+    moment.locale('en')
     const d = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
     const m =
       date.getMonth() + 1 < 10
@@ -232,79 +302,162 @@ export default class Dashboard extends React.Component {
     return arrDays.reverse();
   }
   getAvailabilities(date) {
+   get_availabilities().then((res)=>{
+    this.setState({currentAvailabilities:res.data})
+    this.setState({ refresh: !this.state.refresh });
+   })
+  }
+  onMonthChange(date) {
+    console.log(this.getDate(date))
     console.log('aaaaa');
-    // todo requete en base pour trouver des availabilities existante
-    const coachId = 1;
-    const params = { date: date, coachId: coachId };
-    get_availabilities(params).then((res) => {
-      const test = res;
-      this.setState({ currentAvailabilities: test });
-      this.setState({ onRefresh: false });
-    });
     var item = [];
+    console.log(this.getDate(date))
     console.log('iciii');
-    var ArrayOfday = this.getDaysArrayByMonth(date);
+    var ArrayOfday = this.getDaysArrayByMonth(this.getDate(date));
     // si les availabilities n'existes pas les initialiser
     ArrayOfday.forEach((element) => {
-      element = moment(element).format('L');
+     const  elementdaynum = moment(element).format('dd');
+     const elementday = moment(element).format('D');
+      element=  moment(element).format('L')
       var Object = {
-        availability_id: uuidv4(),
-        coachId: '1',
-        availability_date: element,
-        availability_slot_1: false,
-        availability_slot_2: false,
-        availability_slot_3: false,
-        availability_slot_4: false,
-        availability_slot_5: false,
-        availability_slot_6: false,
-        availability_slot_7: false,
-        availability_slot_8: false,
-        availability_slot_9: false,
-        availability_slot_10: false,
-        availability_slot_11: false,
-        availability_slot_12: false,
-        availability_slot_13: false,
-        availability_slot_14: false,
-        availability_slot_15: false,
-        availability_slot_16: false,
-        availability_slot_17: false,
-        availability_slot_18: false,
-        availability_slot_19: false,
-        availability_slot_20: false,
-        availability_slot_21: false,
-        availability_slot_22: false,
-        availability_slot_23: false,
-        availability_slot_24: false,
+        availability_day: elementdaynum,
+        availability_day_num : elementday,
+        availability:element
+
       };
       item.push(Object);
     });
     this.setState({ availabilities: item });
-    const response = updateorcreate_availability(item);
-    // console.log(response)
-
-    //  ({date}, this.props.navigation)<Ionicons name="md-notifications-circle" size={24} color="black" />
-    //   .then(res => res.data.data)
-    //   .then(availabilities => this.setState({availabilities, updating: false}))
-    //   .catch(err => console.warn(err));
   }
-  onMonthChange(date) {
-    this.getAvailabilities(this.getDate(date));
-  }
+  
   async changeTaskList(date) {
+
+    
     const formatdata = {
       date: date.dateString,
     };
- 
-get_appointement(formatdata).then(res =>{
- const arrayOfAppointment =res.data
- const arrayOfPage = [];
-  arrayOfAppointment.forEach(rdv => {
-    arrayOfPage.push(<View key={rdv.id}><Text>{rdv.athlete.first_name}</Text><Text>{rdv.athlete.last_name}</Text></View>,)
-  });
-  this.setState({page:arrayOfPage})
-  console.log(this.state.page);
-});
-    
+    const curDate = moment(date.dateString).format('L')
+    console.log('curr',curDate)
+    this.setState({currentDate:curDate})
+    get_appointement(formatdata).then((res) => {
+     
+      const arrayOfAppointment = res.data;
+      const arrayOfPage = [];
+      arrayOfAppointment.forEach((rdv) => {
+        arrayOfPage.push(
+          <TouchableOpacity onPress={()=>{console.log(rdv)}}>
+          <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center'}}key={rdv.id}>
+            <View style={{justifyContent:'center',alignItems:'center'}}><Avatar
+                size="medium"
+                rounded
+                source={{
+                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                }}
+              /></View>
+            <View style={{flexDirection:'column',marginRight:40}}>
+              <View style={{flexDirection:'row'}}>
+                <Text style={{
+                  fontWeight: 'bold',
+                  fontSize: 20,
+                }}>{rdv.athlete.first_name}</Text>
+                <Text style={{
+                  fontWeight: 'bold',
+                  fontSize: 20,
+                }}>{rdv.athlete.last_name}</Text>
+            </View>
+            <Text>seance{rdv.session_number}/{rdv.athleteCourse.total_sessions}</Text>
+            </View>
+            <View style={{justifyContent:'center'}}>
+              <Text style={{
+                  fontWeight: 'bold',
+                  fontSize: 20,}} >{this.convertSlotToDate(rdv.slot)}</Text>
+            </View>
+          </View>
+          </TouchableOpacity>
+          ,
+        );
+      });
+      this.setState({ page: arrayOfPage });
+      // console.log(this.state.page);
+    });
+  }
+  convertSlotToDate(slot) {
+    switch (slot) {
+      case 0:
+        return '00:00 - 01:00';
+        break;
+      case 1:
+        return '01:00 - 02:00';
+        break;
+      case 2:
+        return '02:00 - 03:00';
+        break;
+      case 3:
+        return '03:00 - 04:00';
+        break;
+      case 4:
+        return '04:00 - 05:00';
+        break;
+      case 5:
+        return '05:00 - 06:00';
+        break;
+      case 6:
+        return '06:00 - 07:00';
+        break;
+      case 7:
+        return '07:00 - 08:00';
+        break;
+      case 8:
+        return '08:00 - 09:00';
+        break;
+      case 9:
+        return '09:00 - 10:00';
+        break;
+      case 10:
+        return '10:00 - 11:00';
+        break;
+      case 11:
+        return '11:00 - 12:00';
+        break;
+      case 12:
+        return '12:00 - 13:00';
+        break;
+      case 13:
+        return '13:00 - 14:00';
+        break;
+      case 14:
+        return '14:00 - 15:00';
+        break;
+      case 15:
+        return '15:00 - 16:00';
+        break;
+      case 16:
+        return '16:00 - 17:00';
+        break;
+      case 17:
+        return '17:00 - 18:00';
+        break;
+      case 18:
+        return '18:00 - 19:00';
+        break;
+      case 19:
+        return '19:00 - 20:00';
+        break;
+      case 20:
+        return '20:00 - 21:00';
+        break;
+      case 21:
+        return '21:00 - 22:00';
+        break;
+      case 22:
+        return '22:00 - 23:00';
+        break;
+      case 23:
+        return '23:00 - 00:00';
+        break;
+      default:
+        break;
+    }
   }
 
   render() {
@@ -329,32 +482,61 @@ get_appointement(formatdata).then(res =>{
     };
 
     return (
-        <View style={{ flex: 1, backgroundColor: 'black' }}>
+      <View style={{ flex: 1, backgroundColor: 'black' }}>
         <SafeAreaView>
-          <Image
-            resizeMode="cover"
-            rounded
-            source={{ uri: this.state.user.avatar }}
-          />
-          <Text>{this.state.user.name}</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-            <TouchableOpacity onPress={()=>{navigate('AwaitingDemand')}} style={{ marginLeft: 35, marginRight: 10 }}>
-              <Ionicons name="person-add" size={35} color="white" />
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={()=>{navigate('Activite')}} style={{ marginLeft: 35, marginRight: 10 }}>
-              <Ionicons
-                name="md-notifications-circle"
-                size={35}
-                color="white"
+          
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Avatar
+                size="medium"
+                rounded
+                source={{
+                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                }}
               />
-            </TouchableOpacity>
+              <Text
+                style={{
+                  marginLeft: 20,
+                  fontWeight: 'bold',
+                  fontSize: 20,
+                  color: '#FFFFFF',
+                  lineHeight: 24,
+                }}>
+                {this.state.user.name}
+              </Text>
+            </View>
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigate('AwaitingDemand');
+                }}
+                style={{}}>
+                <Ionicons name="person-add" size={35} color="white" />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => {
+                  navigate('Activite');
+                }}
+                style={{ marginLeft: 20, marginRight: 10 }}>
+                <Ionicons
+                  name="md-notifications-circle"
+                  size={35}
+                  color="white"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
           <View
             style={{
               height: 20,
               borderBottomColor: '#2CDEE4',
-              borderBottomWidth: 2,
+              borderBottomWidth: 0.5,
               marginBottom: 35,
             }}></View>
           <View>
@@ -366,35 +548,74 @@ get_appointement(formatdata).then(res =>{
                 onPress={(value) => this.setState({ screen: value })}
                 backgroundColor="#1E2026"
                 buttonColor="#2CDEE4"
+                selectedColor="#1E2026"
+                textColor="white"
                 borderRadius={10}
+                height={50}
+                hasPadding
+                bold={true}
+                fontSize={20}
+                textStyle={"italic"}
+                valuePadding={3}
+                borderColor="#1E2026"
               />
             </View>
             <View>{/*TO DO: passe les jours en francais  */}</View>
             {this.state.screen == 'Planning' ? (
               <View>
-                <View>
-                  <Text>
-                    {moment(this.state.currentDate.date).format('LLLL')}
-                    {''}
-                    {/*this.state.currentDate.date*/}
+                <View style={{ alignItems: 'center' }}>
+                  <Text
+                    style={{
+                      fontStyle: 'italic',
+                      fontWeight: 'bold',
+                      fontSize: 25,
+                      color: '#FFFFFF',
+                      margin: 10,
+                    }}>
+                    {
+                    ((this.state.currentDate))}
                   </Text>
                 </View>
-                {console.log(this.state.page == [])}
-                {this.state.page == []?(<Text> pas de rendez-vous Aujourd'hui</Text> ):(<Pager pager={this.state.page}/>)}
+                {this.state.page == [] ? (
+                  <Text> pas de rendez-vous Aujourd'hui</Text>
+                ) : (
+                  <Pager pager={this.state.page} />
+                )}
                 <View>
                   <Calendar
-                    theme={{ calendarBackground: '#2D333C' }}
+                    theme={{
+                      calendarBackground: '#2D333C',
+                      textSectionTitleColor: 'white',
+                      textSectionTitleWeight: 'bold',
+                      textSectionTitleDisabledColor: '#d9e1e8',
+                      selectedDayBackgroundColor: '#00adf5',
+                      todayTextColor: '#00adf5',
+                      dayTextColor: 'white',
+                      textDisabledColor: 'grey',
+                      dotColor: '#00adf5',
+                      selectedDotColor: '#ffffff',
+                      arrowColor: 'white',
+                      monthTextColor: 'white',
+                      indicatorColor: 'blue',
+                      textMonthFontWeight: 'bold',
+                      textDayHeaderFontWeight: '300',
+                      textDayFontSize: 16,
+                      textMonthFontSize: 25,
+                      textDayHeaderFontSize: 16,
+                    }}
                     markingType={'period'}
                     onDayPress={(day) => this.changeTaskList(day)}
                     markedDates={this.state.markedDate}
                     style={styles.calendar}
-                  />
+                  >
+                    
+                  </Calendar>
                   <TouchableOpacity
-                    style={{ position: 'absolute' }}
+                    style={{ position: 'absolute', marginLeft:370 ,marginTop:250}}
                     onPress={() => {
                       navigate('CreateBook');
                     }}>
-                    <Entypo name="circle-with-plus" size={40} color="blue" />
+                    <Entypo name="circle-with-plus" size={40} color="#2CDEE4" />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -402,15 +623,10 @@ get_appointement(formatdata).then(res =>{
               <View>
                 {/* Dispo screen */}
                 <View style={{ height: 800 }}>
-                  <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                  <View style={{ flex: 1 }}>
                     <MonthsSlider onChange={this.onMonthChange.bind(this)} />
                     <View>
                       <FlatList
-                        style={{
-                          borderWidth: 3,
-                          borderColor: 'green',
-                          backgroundColor: 'black',
-                        }}
                         horizontal={true}
                         data={this.state.availabilities}
                         extraData={this.state}
@@ -418,19 +634,28 @@ get_appointement(formatdata).then(res =>{
                         refreshing={this.state.refresh}
                         keyExtractor={(item) => item.date}
                         renderItem={({ item }) => (
-                          <View style={styles.day}>
                             <TouchableOpacity
                               onPress={() => {
-                                this.show(item);
+                                this.getAvailabilities(item)
                               }}>
+                          <View style={styles.day}>
+                              <View style={{flexDirection:'column'}}>
                               <Text style={{ color: 'white' }}>
-                                {' '}
-                                {this.getSlotTime(item.availability_date)}{' '}
+                                {item.availability_day}
                               </Text>
-                            </TouchableOpacity>
+                              <Text style={{ color: 'white', marginTop:10 }}>
+                                {item.availability_day_num}
+                              </Text>
+                              </View>
                           </View>
+                            </TouchableOpacity>
                         )}
                       />
+
+        <View>
+          <Button title='filtre par heures'></Button>
+
+          </View>
                       <FlatList
                         style={{ maxHeight: 550 }}
                         data={[this.state.currentAvailabilities]}
@@ -456,7 +681,7 @@ get_appointement(formatdata).then(res =>{
             )}
           </View>
         </SafeAreaView>
-          </View>
+      </View>
     );
   }
 }
@@ -484,15 +709,13 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     padding: 10,
     marginRight: 10,
-    marginTop: 20, 
+    marginTop: 20,
   },
   background: {
     backgroundColor: 'black',
-    flex: 1,
+   
   },
   day: {
-    borderWidth: 3,
-    borderColor: 'blue',
     height: 80,
     width: 50,
     backgroundColor: '#2D333C',
