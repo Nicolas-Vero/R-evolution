@@ -11,7 +11,7 @@ export const sign_in = params=> {
   const data = params;
   return axios({
     method: 'POST',
-    url:`http://localhost:4001/api/v1/auth/athlete-login`,
+    url:`${API_URL}/auth/athlete-login`,
     data:data
   })
 }
@@ -43,7 +43,7 @@ export const athlete_appointement_upcoming = params=> {
   })
 }
 
-export const athlete_active_appointement = params=> {
+export const athlete_active_appointement = async(params)=> {
     const headers = await getHeaders();
   return axios({
     method: 'POST',
@@ -52,7 +52,7 @@ export const athlete_active_appointement = params=> {
   })
 }
 
-export const get_athlete_appointement = params=> {
+export const get_athlete_appointement = async(params)=> {
     const headers = await getHeaders();
   return axios({
     method: 'GET',
@@ -135,16 +135,17 @@ export const get_athlete_by_id = async (params, navigation) => (
     }, navigation));
 
 
-export const get_athlete = async (navigation) => (
-  MiddleWare.validateRequest(
-    async () => {
+export const get_athlete = async () => {
+  //MiddleWare.validateRequest(
       const headers = await getHeaders();
       return axios({
         method: 'GET',
         url: `${API_URL}/athlete/me`,
         headers: headers
       })
-    }, navigation));
+    
+  }
+    //));
 
     export const verify_athlete = async (params, navigation) => (
   MiddleWare.validateRequest(
@@ -219,7 +220,7 @@ export const update_current_athlete = async (params, navigation) => (
       });
     }, navigation));
 
-export const update_current_athlete = async (params, navigation) => (
+export const update_athlete_password = async (params, navigation) => (
   MiddleWare.validateRequest(
     async () => {
       const headers = await getHeaders();
@@ -289,29 +290,19 @@ export const update_current_athlete = async (params, navigation) => (
 * uid           | header | string | (req)
 * expiry        | header | string | (req)
 * */
-export const is_pro_signed_in = async () => {
+export const is_Athlete_signed_in = async () => {
   const headers = await getHeaders();
   return axios({
     method: 'GET',
-    url: `${API_URL}pros/signed_in`,
+    url: `${API_URL}/pros/signed_in`,
     headers: headers
-  });
-};
-export const is_pro_signed_in = async (params) => {
-  const headers = await getHeaders();
-  const data = params ;
-  return axios({
-    method: 'POST',
-    url: `${API_URL}/auth/change-password-athlete`,
-    headers: headers,
-    data:data
   });
 };
 
 export const CalendarAppointement = async (params) => {
-  const start_date = params.start_date
-  const end_date = params.end_date,
   const headers = await getHeaders();
+  const  start_date = params.start_date;
+  const  end_date = params.end_date;
   return axios({
     method: 'GET',
     url: `${API_URL}/coach/calendar/`,

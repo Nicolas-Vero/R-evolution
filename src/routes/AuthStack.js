@@ -11,22 +11,22 @@ import Login from '../screens/Auth/Login';
 // Auth bottom tabs menu
 const AuthStack = createStackNavigator(
   {
-    AuthEntry: {
-      screen: AuthEntry,
-      navigationOptions: {
-        header: null,
-      },
-    },
-    Login: {
-      screen: Login,
-      navigationOptions: {
-        tabBarLabel: 'Sign in',
-        tabBarIcon: ({tintColor}) => (
-          <Ionicons  size={20} color={tintColor} />
-        ),
-        header: null,
-      },
-    },
+    // AuthEntry: {
+    //   screen: AuthEntry,
+    //   navigationOptions: {
+    //     header: null,
+    //   },
+    // },
+    // Login: {
+    //   screen: Login,
+    //   navigationOptions: {
+    //     tabBarLabel: 'Sign in',
+    //     tabBarIcon: ({tintColor}) => (
+    //       <Ionicons  size={20} color={tintColor} />
+    //     ),
+    //     header: null,
+    //   },
+    // },
     RegisterInfo: {
       screen: RegisterInfo,
       navigationOptions: {
@@ -70,7 +70,7 @@ const AuthStack = createStackNavigator(
   },
   {
     lazy: true,
-    initialRouteName: 'AuthEntry',
+    initialRouteName: 'RegisterInfo',
     animationEnabled: true,
     tabBarPosition: 'bottom',
     navigationOptions: {
