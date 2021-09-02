@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   Text,
@@ -16,13 +16,19 @@ import { BasicTextInput } from '.';
 import { ScrollView } from 'react-native';
 import { Icon, Row } from 'native-base';
 import { FontAwesome } from '@expo/vector-icons';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { loadFonts } from '../../configs/design/font';
 
 export const dynamicInput = React.forwardRef(
   (
     { name, placeholder, values, secureTextEntry, keyboardType, validate },
     ref,
   ) => {
+    useEffect(() => {
+      loadFonts()
+    }, []);
     return (
+
         <ScrollView>
       <Field name={name} id={name} validate={validate}>
         {({
@@ -38,16 +44,18 @@ export const dynamicInput = React.forwardRef(
           const shouldDisplayError = formatedFieldError && touched[name];
           return (
             <View>
-              <View>
+              <View style={{alignItems:'center'}}>
                 <Image
                   source={require('../../../assets/images/Group_1.png')}
-                  style={{ width: 350 }}
+                  style={{ width: widthPercentageToDP(80) }}
                 />
+                
+              </View>
+              <View style={{ alignItems:'center' ,marginTop:135}}> 
+              <Text style={{ fontFamily: 'RobotoBold', fontSize: 20, color: '#FFFF' }}>DIPLÔME(S)</Text>
               </View>
               <View style={styles.container}>
-              <View style={{borderWidth:4,}}> 
-              <Text>DIPLOME(S)</Text>
-              </View>
+              
                 <FieldArray
                   name={name}
                   render={(arrayhelper) => (
@@ -67,7 +75,7 @@ export const dynamicInput = React.forwardRef(
                                 }
                                 style={{
                                   backgroundColor:'#FFFFFF',
-                                  width: 300,
+                                  width: widthPercentageToDP(90),
                                   paddingTop: 10,
                                   paddingBottom: 10,
                                   paddingLeft: 15,
@@ -76,7 +84,7 @@ export const dynamicInput = React.forwardRef(
                                 name={`degrees.${index}`}
                               />
                             </View>
-                            <View style={{marginLeft:235,marginTop:5,marginBottom:5,color:'#2CDEE4'}}>
+                            <View style={{alignItems:'flex-end', marginTop:15,marginBottom:5,color:'#2CDEE4'}}>
                               <TouchableOpacity 
                                onPress={() => arrayhelper.remove(index)}
                               >
@@ -88,12 +96,12 @@ export const dynamicInput = React.forwardRef(
                           ),
                           )}
                          <TouchableOpacity 
-                                style={{borderColor:'blue',borderWidth:3}}
+                             
                                  onPress={() => arrayhelper.push('')}
                               >
-                          <View style={{flexDirection:'row' ,alignItems:'baseline',marginRight:135,}}>
+                          <View style={{flexDirection:'row' ,alignItems:'baseline',marginRight:widthPercentageToDP(49)}}>
                               <FontAwesome name="plus-square" size={24} color="#2CDEE4" />
-                              <Text style={{marginLeft:10,padding:5,color:'#FFFFFF',fontWeight:'bold'}}>ajouter un diplôme</Text>
+                              <Text style={{fontFamily: 'RobotoBold',marginLeft:10,padding:5,color:'#FFFFFF'}}>Ajouter un diplôme</Text>
                               </View>
                               </TouchableOpacity>
                     </View>
@@ -116,7 +124,7 @@ export const dynamicInput = React.forwardRef(
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 300,
+    marginTop: 100,
     alignItems: 'center',
     justifyContent: 'center',
   },

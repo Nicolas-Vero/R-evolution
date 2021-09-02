@@ -33,6 +33,7 @@ import {} from '../api/Availabilities';
 import { FrenchConfig } from '../components/FrenchCalendar';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 LocaleConfig.locales['fr'] = {
   monthNames: [
     'Janvier',
@@ -71,7 +72,7 @@ LocaleConfig.locales['fr'] = {
     'Vendredi',
     'Samedi',
   ],
-  dayNamesShort: ['D', 'L', 'M', 'MM', 'J', 'V', 'S'],
+  dayNamesShort: ['D', 'L', 'M', 'ME', 'J', 'V', 'S'],
   today: "Aujourd'hui",
 };
 LocaleConfig.defaultLocale = 'fr';
@@ -170,7 +171,7 @@ const options = [
 export default class Dashboard extends React.Component {
   state = {
     refresh: false,
-    user: { name: 'toto', avatar: 'string avatar' },
+    user: { name: 'Florian GALOPIN', avatar: 'string avatar' },
     screen: 'Planning',
     user: {
       name: 'toto',
@@ -233,6 +234,41 @@ export default class Dashboard extends React.Component {
       </View>,
     ],
   };
+  getSlotTime(time) {
+    let date = new Date(time);
+    const day = FrenchConfig.dayNames[date.getDay()];
+    const month = FrenchConfig.monthNames[date.getMonth()];
+    return `${day} ${date.getDate()} ${month}`;
+  }
+
+  getSlot(time, status, item, slots, ) {
+    const {disabled} = this.props;
+    return (
+      <View style={styles.container}>
+        <ResponsiveText style={{ fontSize: '4%',color:'white'}}>{time}</ResponsiveText>
+        {status==false?<ResponsiveText style={{ fontSize: '4%',color:'white'}}>indisponible</ResponsiveText>:<ResponsiveText style={{ fontSize: '4%',color:'#2CDEE4'}}>Disponible</ResponsiveText>}
+        <CheckBox
+
+                    size={40}
+                    containerStyle={{
+                      paddingLeft: 0,
+                      marginLeft: 0,
+                      backgroundColor: 'transparent',
+                      borderWidth: 0,
+                    }}
+                    checkedColor="#2CDEE4"
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="dot-circle-o"
+                    checked={status === true}
+                    value={status}
+                    onPress={() => {
+                      update_availabilities({slots,date:item.date}).then(()=>{get_availabilities(item.date)})
+                      // update_availabilities(onChangeParams).then(get_availabilities())
+                    }}
+                  />
+      </View>
+    );
+  }
 
   onSlotAvailabilityChange(id, params) {
     this.setState({ updating: true });
@@ -301,18 +337,16 @@ export default class Dashboard extends React.Component {
     }
     return arrDays.reverse();
   }
-  getAvailabilities(date) {
-   get_availabilities().then((res)=>{
+  getAvailabilities(item) {
+   const  date  = moment(item.availability).format('YYYY-MM-DD')
+   get_availabilities(date).then((res)=>{
+     console.log(res.data);
     this.setState({currentAvailabilities:res.data})
     this.setState({ refresh: !this.state.refresh });
    })
   }
   onMonthChange(date) {
-    console.log(this.getDate(date))
-    console.log('aaaaa');
     var item = [];
-    console.log(this.getDate(date))
-    console.log('iciii');
     var ArrayOfday = this.getDaysArrayByMonth(this.getDate(date));
     // si les availabilities n'existes pas les initialiser
     ArrayOfday.forEach((element) => {
@@ -491,23 +525,24 @@ export default class Dashboard extends React.Component {
               alignItems: 'center',
               justifyContent: 'space-between',
             }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center',marginLeft:16 }}>
               <Avatar
-                size="medium"
+                size={45}
                 rounded
                 source={{
-                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
                 }}
               />
               <Text
                 style={{
-                  marginLeft: 20,
+                  marginLeft: 6,
                   fontWeight: 'bold',
-                  fontSize: 20,
+                  fontFamily:'Roboto',
+                  fontSize: 16,
                   color: '#FFFFFF',
                   lineHeight: 24,
                 }}>
-                {this.state.user.name}
+                {'Florian GALOPIN'}
               </Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
@@ -534,10 +569,10 @@ export default class Dashboard extends React.Component {
           </View>
           <View
             style={{
-              height: 20,
+              height: 15,
               borderBottomColor: '#2CDEE4',
               borderBottomWidth: 0.5,
-              marginBottom: 35,
+              marginBottom: 25,
             }}></View>
           <View>
             <View></View>
@@ -551,10 +586,13 @@ export default class Dashboard extends React.Component {
                 selectedColor="#1E2026"
                 textColor="white"
                 borderRadius={10}
+                
                 height={50}
+                style={{width:widthPercentageToDP(93),marginLeft:14}}
                 hasPadding
                 bold={true}
                 fontSize={20}
+      
                 textStyle={"italic"}
                 valuePadding={3}
                 borderColor="#1E2026"
@@ -611,11 +649,11 @@ export default class Dashboard extends React.Component {
                     
                   </Calendar>
                   <TouchableOpacity
-                    style={{ position: 'absolute', marginLeft:370 ,marginTop:250}}
+                    style={{ position: 'absolute',  marginLeft:370 ,marginTop:350}}
                     onPress={() => {
                       navigate('CreateBook');
                     }}>
-                    <Entypo name="circle-with-plus" size={40} color="#2CDEE4" />
+                    <Image source={require('../../assets/images/Group_8766.png')}/>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -667,10 +705,6 @@ export default class Dashboard extends React.Component {
                         renderItem={({ item }) => (
                           <SwitchButton
                             item={item}
-                            disabled={this.state.updating}
-                            onSlotAvailabilityChange={this.onSlotAvailabilityChange.bind(
-                              this,
-                            )}
                           />
                         )}
                       />
@@ -706,10 +740,12 @@ const styles = StyleSheet.create({
     marginTop: 17,
   },
   calendar: {
-    borderRadius: 30,
+    borderRadius: 13,
     padding: 10,
-    marginRight: 10,
+    paddingLeft:30,
+    paddingRight:30,
     marginTop: 20,
+
   },
   background: {
     backgroundColor: 'black',

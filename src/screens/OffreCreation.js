@@ -156,7 +156,7 @@ export default class OffreCreation extends React.Component {
                 {this.state.type == 'Coaching' ? (
                   <View style={{ flexDirection: 'row' }}>
                     <View style={{ marginBottom: 15 }}>
-                      <Text style={styles.text}>Nombre de séance</Text>
+                      <Text style={styles.text}>Nombre de séances</Text>
                       <TextInput
                         placeholder="Nombre de séances"
                         style={{

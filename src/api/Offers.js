@@ -29,6 +29,7 @@ export const AddOffer = async(params) => {
 
 export const UpdateOffer = async(params) => {
   const data = params;
+  console.log(data)
   const headers = await getHeaders();
   return axios({
     method: 'POST',
@@ -45,6 +46,31 @@ export const get_coach_offers = async() => {
     method: 'GET',
     url: `${API_URL}/coach-offers`,
     headers:header
+  });
+};
+
+export const delete_coach_offers = async(params) => {
+  const data = params
+  const header = await getHeaders()
+  console.log(data);
+  return axios({
+    method: 'DELETE',
+    url: `${API_URL}/coach-offer`,
+    headers:header,
+    data:data 
+  });
+};
+
+
+
+export const get_coach_offer_by_id = async(params) => {
+  const data = params;
+  console.log(data)
+ const headers = await getHeaders();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/coach-offers/coach/${data}`,
+    headers:headers
   });
 };
 

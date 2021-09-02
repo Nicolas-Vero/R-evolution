@@ -2,6 +2,7 @@ import React from 'react'
 import {View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Dimensions } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 const {width} = Dimensions.get('window');
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 export const Button = (props) => {
     return (
     <TouchableOpacity onPress={props.onPress} disabled={props.loading}>
@@ -26,8 +27,8 @@ export const AddButton = (props) => {
                 <ActivityIndicator  size="large" color="#2CDEE4"/>
             ) : (
                 <View style={{...defaultStyle.Offercontainer, ...props.customContainerStyles}}>
-                     <Entypo name="squared-plus" size={24} color="black" />
-                <Text style={{...defaultStyle.textStyle, ...props.customTextStyle}}>{props.title}</Text>
+                     <Entypo name="squared-plus" size={27} color="black" style={{marginRight:18}} />
+                <Text style={{...defaultStyle.textStyleAddButton, ...props.customTextStyle}}>{props.title}</Text>
               </View>
             )
 
@@ -71,21 +72,22 @@ export const DeleteButton = (props) => {
 
 const defaultStyle = StyleSheet.create({
     container: { 
-        height: 48, 
+        height: 60, 
         backgroundColor: '#2CDEE4', 
         borderRadius: 3, 
+        width:wp(92),
         alignItems: 'center', 
         justifyContent: 'center',
         flexDirection:'row',
-        marginLeft:10,
-        marginRight:10
     },
     Offercontainer: { 
-        height: 48, 
+        height: 52, 
         backgroundColor: '#2CDEE4', 
-        borderRadius: 3, 
+        borderRadius: 5, 
+        width:400,
         alignItems: 'center', 
         justifyContent: 'center',
+        justifyContent:'space-evenly',
         flexDirection:'row',
     },
     Modifycontainer: { 
@@ -114,8 +116,12 @@ const defaultStyle = StyleSheet.create({
         marginLeft:10,
         marginRight:10
     },
-    textStyle: {
-        color: "#000000"
+    textStyleAddButton: {
+        color: "#000000",
+        fontWeight:'800',
+        fontStyle:'italic',
+        marginLeft:10,
+        marginRight:80
     },
     deletetextStyle: {
         color: "white"

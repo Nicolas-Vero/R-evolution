@@ -25,30 +25,46 @@ export const athlete_appointement = params=> {
   })
 }
 
-export const athlete_appointement_today = params=> {
-  const data = params;
+export const get_availabilities = async(params) => {
+  const paramsData = params
+  console.log(paramsData);
+  const headers = await getHeaders();
   return axios({
-    method: 'POST',
-    url:`${API_URL}/athlete/appointments`,
-    params:{today:data.today}
+    method:'GET',
+    url:`${API_URL}/athlete/coach-availability?`,
+    headers:headers,
+    params:paramsData
+  })
+};
+
+export const athlete_active_appointement = async(params)=> {
+  const data = params;
+  console.log(params);
+  const headers = await getHeaders();
+  return axios({
+    method: 'GET',
+    url:`${API_URL}/athlete/active-appointments`,
+    headers:headers,
+    params:data
+  })
+}
+
+export const get_athlete_active_courses = async()=> {
+  const headers = await getHeaders();
+  return axios({
+    method: 'GET',
+    url:`${API_URL}/athlete/active-courses`,
+    headers:headers,
+
   })
 }
 
 export const athlete_appointement_upcoming = params=> {
   const data = params;
   return axios({
-    method: 'POST',
+    method: 'GET',
     url:`${API_URL}/athlete/appointments`,
     params:{upcoming:data.upcoming}
-  })
-}
-
-export const athlete_active_appointement = async(params)=> {
-    const headers = await getHeaders();
-  return axios({
-    method: 'POST',
-    url:`${API_URL}/athlete/active-appointments`,
-    headers:headers
   })
 }
 

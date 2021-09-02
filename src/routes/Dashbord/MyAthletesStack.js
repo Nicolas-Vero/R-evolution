@@ -1,6 +1,6 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import Activite from '../../screens/Activite';
-import CreateBook from '../../screens/CreateBook';
+import MyAthleteDetails from '../../screens/MyAthleteDetails';
 import MyAthletes from '../../screens/MyAthletes';
 
 const MyAthletesStack = createStackNavigator(
@@ -12,8 +12,8 @@ const MyAthletesStack = createStackNavigator(
         header: null,
       },
     },
-    ManualPayments: {
-      screen: CreateBook,
+    MyAthleteDetails: {
+      screen: MyAthleteDetails,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         header: null,

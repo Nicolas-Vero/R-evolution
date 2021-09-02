@@ -11,6 +11,7 @@ import { STORAGE } from '../../configs/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Button} from '../../components/Button';
 import { get_coach } from '../../api/Coach';
+import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 export default class Login extends React.Component {
 
   async onLoginPress(values) {
@@ -143,8 +144,7 @@ export default class Login extends React.Component {
 
   const styles = StyleSheet.create({
     image:{
-
-      width: width,
+      marginTop: 181,height:80,width:wp(75),  resizeMode: 'contain'
     },
     backgroundContainer: {    
         flex: 1,

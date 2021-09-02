@@ -2,76 +2,111 @@ import React from 'react';
 import {
   Text,
   View,
-  TextInput,
   SafeAreaView,
   StyleSheet,
-  Button,
   Platform,
   StatusBar,
   Dimensions,
 } from 'react-native';
 //import { auth } from '../../api/Register';
-import { Formik } from 'formik';
-import { CheckBox } from 'react-native-elements';
 //import { Button } from '../components/Button';
-import Header from '../components/Header';
 //import { Slider } from 'react-native-elements';
-import { ElementSlider } from '../components/ElementSlider';
 const { width } = Dimensions.get('window');
-import { dynamicInput } from '../components/inputs/dynamicInput';
-import { dynamicList } from '../components/dynamicList';
-import { selectList } from '../components/selectList';
-import { LinearGradient } from 'expo-linear-gradient';
-import { avatar } from '../components/avatar';
 import { TouchableOpacity } from 'react-native';
-import { Icon } from 'native-base';
-import { Entypo } from '@expo/vector-icons';
-import { AddButton, DeleteButton, ModifyButton } from '../components/Button';
+import SwitchSelector from 'react-native-switch-selector';
 import { FlatList } from 'react-native-gesture-handler';
-import { NavigationEvents } from 'react-navigation';
-import { API_URL } from '../configs/Constants';
-import axios from 'axios';
-import { get_coach_offers } from '../api/Offers';
+import { get_coach_offer_by_id } from '../api/Offers';
+import Header from '../components/Header';
+import { LinearGradient } from 'expo-linear-gradient';
+import { DeleteButton, ModifyButton } from '../components/Button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE } from '../configs/Constants';
+const options = [
+  { label: 'EN COURS', value: 'EN COURS' },
+  { label: 'CATALOGUE', value: 'CATALOGUE' },
+];
+
 export default class Offres extends React.Component {
+  
   state = {
     offers: [],
+    screen: 'EN COURS',
   };
   //to do actualiser la liste apres chaque création
 
-  componentDidMount() {
-    get_coach_offers()
-      .then((res) => res.data.offers)
+  async componentDidMount() {
+   var user = await AsyncStorage.getItem(STORAGE.USER);
+    user  = JSON.parse(user);
+    console.log('uuser',user);
+    get_coach_offer_by_id(4)
       .then((res) => {
-        this.setState({ offers: res });
+        this.setState({ offers: res.data.offers });
       });
   }
 
   render() {
-    return (
-      <View style={{ flex: 1, backgroundColor: '#060606' }}>
-        <SafeAreaView style={styles.safeArea} />
+    list = () => {
+      return this.state.items.map((element) => {
+        return console.log(element);
+      });
+    };
+    const Item = ({ item, onPress, backgroundColor, textColor }) => (
+      <TouchableOpacity onPress={onPress}>
+        <Text style={styles.item}>
+          {item.content} -- {item.slot}
+        </Text>
+      </TouchableOpacity>
+    );
+    const onRefresh = () => {
+      this.setState({ refresh: true });
+      console.log(this.state.refresh);
+    };
+    const renderItem = ({ item }) => {
+      return <Item stlyes item={item} onPress={(data) => console.log(data)} />;
+    };
 
-        <Header title="Mes offres" />
-        <View style={{ paddingLeft: 15, paddingRight: 15, marginBottom: 20 }}>
-          <AddButton
-            title="créer une nouvelle offre"
-            onPress={() => {
-              navigate('OffreCreation');
-            }}
-          />
-        </View>
-        <View>
-          <FlatList
+    return (
+      <View style={{ flex: 1, backgroundColor: 'black' }}>
+        <SafeAreaView>
+        <Header title="LES OFFRES" />
+          <View
             style={{
-            height:600
-            }}
-            data={this.state.offers}
-            extraData={this.state}
-            // onRefresh={onRefresh}
-            //  refreshing={this.state.refresh}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <LinearGradient
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+           
+              <SwitchSelector
+                options={options}
+                initial={0}
+                onPress={(value) => this.setState({ screen: value })}
+                backgroundColor="#1E2026"
+                buttonColor="#2CDEE4"
+                selectedColor="#1E2026"
+                textColor="white"
+                borderRadius={10}
+                height={50}
+                hasPadding
+                bold={true}
+                fontSize={20}
+                textStyle={"italic"}
+                valuePadding={3}
+                borderColor="#1E2026"
+              />
+            </View>
+            <View>{/*TO DO: passe les jours en francais  */}</View>
+            {this.state.screen == 'EN COURS' ? (<FlatList></FlatList>) : (
+             <FlatList
+             style={{
+             height:600
+             }}
+             data={this.state.offers}
+             extraData={this.state}
+             // onRefresh={onRefresh}
+             //  refreshing={this.state.refresh}
+             keyExtractor={(item) => item.id.toString()}
+             renderItem={({ item }) => (
+            <LinearGradient
                 colors={['#101010', '#2D333C']}
                 start={{
                   x: 1,
@@ -130,11 +165,8 @@ export default class Offres extends React.Component {
 
                     }}>
                     <ModifyButton
-                      title="modifier"
-                      onPress={() => {
-                        navigate('OffreUpdate', {item});
-                      }}></ModifyButton>
-                    <DeleteButton title="Supprimer"></DeleteButton>
+                      title="Choisir cette offre"
+                     onPress={()=>{ navigate('OffrePaiementMode', {item})}}></ModifyButton>
                   </View>
                   <Text
                     style={{
@@ -147,11 +179,10 @@ export default class Offres extends React.Component {
                     {item.price}€
                   </Text>
                 </View>
-              </LinearGradient>
-            )}
-          />
+              </LinearGradient>)}/>)}
+
+        </SafeAreaView>
         </View>
-      </View>
     );
   }
 }

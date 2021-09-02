@@ -10,7 +10,7 @@ import {Formik} from 'formik';
 import { STORAGE } from '../../configs/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Button} from '../../components/Button';
-import { get_coach } from '../../api/Coach';
+import { widthPercentageToDP as wp  } from 'react-native-responsive-screen';
 export default class LoginAthlete extends React.Component {
 
   async onLoginPress(values) {
@@ -87,8 +87,7 @@ export default class LoginAthlete extends React.Component {
       
       <Header title="inscription" />
       <View style={styles.logoContainer}>
-      <Image source={require('../../../assets/images/logo.png')}  
-                style={styles.image}
+      <Image source={require('../../../assets/images/logo.png')} style={{ marginTop: 181,height:60,width:wp(75),  resizeMode: 'contain'}}
             ></Image>
       </View>
       

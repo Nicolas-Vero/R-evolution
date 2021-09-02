@@ -37,7 +37,7 @@ export default class OffresFormations extends React.Component {
         style={styles.background}>
         <View >
           <SafeAreaView >
-            <Header title="Offre & Formation" />
+            <Header title="OFFRES & FORMATIONS" />
             <View style={{ alignContent: 'center', justifyContent: 'center' }}>
               <View style={{ borderWidth: 3,marginTop:30, borderColor: 'red' }}>
                 <TouchableOpacity onPress={() => navigate('Offres')}>

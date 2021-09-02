@@ -1,39 +1,39 @@
-import React, { useState } from 'react';
+import React from 'react';
 import moment from 'moment';
-import { Button } from 'react-native-elements';
-import axios from 'axios';
 import { LinearGradient } from 'expo-linear-gradient';
 import Pager from '../common/Carrousel';
 import {
   TouchableOpacity,
   View,
+  Pressable,
   SafeAreaView,
   StyleSheet,
   Dimensions,
-  Image,
   Text,
   FlatList,
-  TouchableOpacityBase,
+  ActivityIndicator,
+  Modal
 } from 'react-native';
-import { v4 as uuidv4 } from 'uuid';
 import {
+  get_athlete_active_courses,
   get_availabilities,
-  updateorcreate_availability,
-  update_availability,
-} from '../api/Availabilities';
+} from '../api/Athlete';
 import SwitchSelector from 'react-native-switch-selector';
-import { Card, Icon, Avatar } from 'react-native-elements';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { Avatar } from 'react-native-elements';
+import {loadFonts} from '../configs/design/font';
 const { width } = Dimensions.get('window');
 import { LocaleConfig } from 'react-native-calendars';
 import MonthsSlider from '../components/MonthsSlider';
-import { get_appointement } from '../api/Coach';
-import SwitchButton from '../components/SwitchButton';
+import { get_appointement, get_coach_by_id } from '../api/Coach';
 import {} from '../api/Availabilities';
 import { FrenchConfig } from '../components/FrenchCalendar';
-import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { ScrollView } from 'react-native';
+import { DeleteButton } from '../components/Button';
+import { athlete_active_appointement} from '../api/Athlete';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE } from '../configs/Constants';
+import { ModifyButton } from '../components/Button';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 LocaleConfig.locales['fr'] = {
   monthNames: [
     'Janvier',
@@ -171,217 +171,127 @@ const options = [
 export default class DashboardAthlete extends React.Component {
   state = {
     refresh: false,
-    user: { name: 'toto', avatar: 'string avatar' },
-    screen: 'RESERVER',
+    screen: 'MES RENDEZ-VOUS',
     user: {
       name: 'toto',
       avatar: '../../assets/icon.png',
     },
-    items: [
-      {
-        coachId: 1,
-        date: '2018-07-19',
-        content: 'add stone wall',
-        slot: '12H-13H',
-      },
-      {
-        coachId: 1,
-        date: '2018-07-20',
-        content: 'landscaping',
-        slot: '16H-17H',
-      },
-      { coachId: 1, date: '2018-07-20', content: 'fix door', slot: '12H-13H' },
-      { coachId: 1, date: '2018-07-20', content: 'masonary', slot: '12H-13H' },
-    ],
+    coach_id:'',
+    coach:{},
     currentDate:'',
- 
+    modalVisible:false,
     currentAvailabilities: [],
-    markedDate: {
-      '2021-07-15': { marked: true, dotColor: '#50cebb' },
-      '2021-05-16': { marked: true, dotColor: '#50cebb' },
-      '2021-05-21': { startingDay: true, color: '#50cebb', textColor: 'white' },
-      '2021-05-22': { color: '#70d7c7', textColor: 'white' },
-      '2021-05-23': {
-        color: '#70d7c7',
-        textColor: 'white',
-        marked: true,
-        dotColor: 'white',
-      },
-      '2021-05-24': { color: '#70d7c7', textColor: 'white' },
-      '2021-05-25': { endingDay: true, color: '#50cebb', textColor: 'white' },
-    },
     // ajouter le coach id pour pouvoir associe des dispo a un coacg
     availabilities: [],
-    page: [
-      <View key={1}>
-        <Text>toto</Text>
-        <Text>hello</Text>
-      </View>,
-      <View key={2}>
-        <Text>tot</Text>
-      </View>,
-      <View key={3}>
-        <Text>hoo</Text>
-      </View>,
-      <View key={4}>
-        <Text>gg</Text>
-      </View>,
-      <View key={5}>
-        <Text>hh</Text>
-      </View>,
-      <View key={6}>
-        <Text>zz</Text>
-      </View>,
-    ],
-  };
+    currentSlot:'',
+    dayApointement:[],
+    upcomingApointement:[],
+};
+ async componentDidMount(){
+     await loadFonts();
+    var user = await AsyncStorage.getItem(STORAGE.USER);
+    user  = JSON.parse(user);
+    this.setState({coach_id:user.coach.coach_id})
+    console.log(user.coach.coach_id);
 
-  onSlotAvailabilityChange(id, params) {
-    this.setState({ updating: true });
-    update_availability({ id, params }, this.props.navigation)
-      .then((res) => {
-        get_availabilities(res.availability_date).then(() => {
-          this.setState({ updating: false });
-          const test = res;
-          this.setState({ currentAvailabilities: test });
-          this.setState({ onRefresh: false });
-        });
-      })
-      .catch((err) => console.warn(err));
-  }
-  getSlotTime(time) {
-    let date = new Date(time);
-    const day = FrenchConfig.dayNames[date.getDay()];
-    const month = FrenchConfig.monthNames[date.getMonth()];
-    return `${day} ${date.getDate()} ${month}`;
-  }
-  getDate(date = new Date()) {
-    moment.locale('en')
-    const d = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-    const m =
-      date.getMonth() + 1 < 10
-        ? `0${date.getMonth() + 1}`
-        : date.getMonth() + 1;
-    const y = date.getFullYear();
-    return `${y}-${m}-${d}`;
-  }
+    get_athlete_active_courses().then((res)=>{})
 
-  handleRefresh = () => {
-    this.setState({ refreshing: true });
-  };
-
-  fetchData = () => {
-    dispatch(getAllDataAction(userParamData));
-    setIsFetching(false);
-  };
-
-  show(item) {
-    const params = {
-      availability_date: item.availability_date,
-      coachId: item.coachId,
-    };
-    get_availabilities(params)
-      .then((res) => {
-        this.setState({ currentAvailabilities: res });
-        this.setState({ currentAvailabilities: res[0] });
-      })
-      .catch((error) => {
-        console.log('Api call error');
-        alert(error.message);
-      });
-
-    this.setState({ currentAvailabilities: item });
-    this.setState({ refresh: !this.state.refresh });
-  }
-  getDaysArrayByMonth(date) {
-    var daysInMonth = moment(date, 'DD-MM').daysInMonth();
-    var arrDays = [];
-    while (daysInMonth && daysInMonth >= 1) {
-      var current = moment(date, 'DD-MM').date(daysInMonth);
-      arrDays.push(current);
-      daysInMonth--;
-    }
-    return arrDays.reverse();
-  }
-  getAvailabilities(date) {
-   get_availabilities().then((res)=>{
-    this.setState({currentAvailabilities:res.data})
-    this.setState({ refresh: !this.state.refresh });
-   })
-  }
-  onMonthChange(date) {
-    console.log(this.getDate(date))
-    console.log('aaaaa');
-    var item = [];
-    console.log(this.getDate(date))
-    console.log('iciii');
-    var ArrayOfday = this.getDaysArrayByMonth(this.getDate(date));
-    // si les availabilities n'existes pas les initialiser
-    ArrayOfday.forEach((element) => {
-     const  elementdaynum = moment(element).format('dd');
-     const elementday = moment(element).format('D');
-      element=  moment(element).format('L')
-      var Object = {
-        availability_day: elementdaynum,
-        availability_day_num : elementday,
-        availability:element
-
-      };
-      item.push(Object);
-    });
-    this.setState({ availabilities: item });
-  }
-  
-  async changeTaskList(date) {
-
+    get_coach_by_id(this.state.coach_id).then((res)=>{
+    this.setState({coach:{id:res.data.id,first_name:res.data.first_name,last_name:res.data.last_name}})
+    })
     
-    const formatdata = {
-      date: date.dateString,
-    };
-    const curDate = moment(date.dateString).format('L')
-    console.log('curr',curDate)
-    this.setState({currentDate:curDate})
-    get_appointement(formatdata).then((res) => {
-     
-      const arrayOfAppointment = res.data;
-      const arrayOfPage = [];
-      arrayOfAppointment.forEach((rdv) => {
-        arrayOfPage.push(
-          <TouchableOpacity onPress={()=>{console.log(rdv)}}>
-          <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center'}}key={rdv.id}>
-            <View style={{justifyContent:'center',alignItems:'center'}}><Avatar
-                size="medium"
-                rounded
-                source={{
-                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                }}
-              /></View>
-            <View style={{flexDirection:'column',marginRight:40}}>
-              <View style={{flexDirection:'row'}}>
-                <Text style={{
-                  fontWeight: 'bold',
-                  fontSize: 20,
-                }}>{rdv.athlete.first_name}</Text>
-                <Text style={{
-                  fontWeight: 'bold',
-                  fontSize: 20,
-                }}>{rdv.athlete.last_name}</Text>
-            </View>
-            <Text>seance{rdv.session_number}/{rdv.athleteCourse.total_sessions}</Text>
-            </View>
-            <View style={{justifyContent:'center'}}>
-              <Text style={{
-                  fontWeight: 'bold',
-                  fontSize: 20,}} >{this.convertSlotToDate(rdv.slot)}</Text>
-            </View>
-          </View>
-          </TouchableOpacity>
-          ,
-        );
-      });
-      this.setState({ page: arrayOfPage });
-      // console.log(this.state.page);
-    });
+    athlete_active_appointement({today:true}).then((res)=>{
+       this.setState({dayApointement:res.data})
+      })
+        console.log('dayApointement',this.state.dayApointement && this.state.dayApointement.length?console.log('iiii'):console.log('ooo'))
+      
+    
+
+      athlete_active_appointement({upcoming:true}).then((res)=>{
+       this.setState({upcomingApointement:res.data})
+      })
+      console.log('upcoming',this.state.upcomingApointement && this.state.upcomingApointement.length?console.log('toto'):console.log('bobo'))
+
   }
+  convertSlotToDateV2(slot) {
+    switch (slot) {
+      case 0:
+        return {slot_start:'00:00',slot_end:'01:00'} ;
+        break;
+      case 1:
+        return {slot_start:'01:00',slot_end:'02:00'} ;
+        break;
+      case 2:
+        return {slot_start:'02:00',slot_end:'03:00'} ;
+        break;
+      case 3:
+        return {slot_start:'03:00',slot_end:'04:00'} ;
+        break;
+      case 4:
+        return {slot_start:'04:00',slot_end:'05:00'} ;
+        break;
+      case 5:
+        return {slot_start:'05:00',slot_end:'06:00'} ;
+        break;
+      case 6:
+        return {slot_start:'06:00',slot_end:'07:00'} ;
+        break;
+      case 7:
+        return {slot_start:'07:00',slot_end:'08:00'} ;
+        break;
+      case 8:
+        return {slot_start:'08:00',slot_end:'09:00'} ;
+        break;
+      case 9:
+        return {slot_start:'09:00',slot_end:'10:00'} ;
+        break;
+      case 10:
+        return {slot_start:'10:00',slot_end:'11:00'} ;
+        break;
+      case 11:
+        return {slot_start:'11:00',slot_end:'12:00'} ;
+        break;
+      case 12:
+        return {slot_start:'12:00',slot_end:'13:00'} ;
+        break;
+      case 13:
+        return {slot_start:'13:00',slot_end:'14:00'} ;
+        break;
+      case 14:
+        return {slot_start:'14:00',slot_end:'15:00'} ;
+        break;
+      case 15:
+        return {slot_start:'15:00',slot_end:'16:00'} ;
+        break;
+      case 16:
+        return {slot_start:'16:00',slot_end:'17:00'} ;
+        break;
+      case 17:
+        return {slot_start:'17:00',slot_end:'18:00'} ;
+        break;
+      case 18:
+        return {slot_start:'18:00',slot_end:'19:00'} ;
+        break;
+      case 19:
+        return {slot_start:'19:00',slot_end:'10:00'} ;
+        break;
+      case 20:
+        return {slot_start:'20:00',slot_end:'11:00'} ;
+        break;
+      case 21:
+        return {slot_start:'21:00',slot_end:'12:00'} ;
+        break;
+      case 22:
+        return {slot_start:'22:00',slot_end:'13:00'} ;
+        break;
+      case 23:
+        return {slot_start:'23:00',slot_end:'00:00'} ;
+        break;
+      default:
+        break;
+    }
+  }
+
   convertSlotToDate(slot) {
     switch (slot) {
       case 0:
@@ -461,27 +371,182 @@ export default class DashboardAthlete extends React.Component {
     }
   }
 
-  render() {
-    list = () => {
-      return this.state.items.map((element) => {
-        return console.log(element);
-      });
-    };
-    const Item = ({ item, onPress, backgroundColor, textColor }) => (
-      <TouchableOpacity onPress={onPress}>
-        <Text style={styles.item}>
-          {item.content} -- {item.slot}
-        </Text>
-      </TouchableOpacity>
-    );
-    const onRefresh = () => {
-      this.setState({ refresh: true });
-      console.log(this.state.refresh);
-    };
-    const renderItem = ({ item }) => {
-      return <Item stlyes item={item} onPress={(data) => console.log(data)} />;
-    };
 
+
+  getSlotTime(time) {
+    let date = new Date(time);
+    const day = FrenchConfig.dayNames[date.getDay()];
+    const month = FrenchConfig.monthNames[date.getMonth()];
+    return `${day} ${date.getDate()} ${month}`;
+  }
+  getDate(date = new Date()) {
+    moment.locale('en')
+    const d = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+    const m =
+      date.getMonth() + 1 < 10
+        ? `0${date.getMonth() + 1}`
+        : date.getMonth() + 1;
+    const y = date.getFullYear();
+    return `${y}-${m}-${d}`;
+  }
+
+  handleRefresh = () => {
+    this.setState({ refreshing: true });
+  };
+
+  fetchData = () => {
+    dispatch(getAllDataAction(userParamData));
+    setIsFetching(false);
+  };
+
+  show(item) {
+    const params = {
+      availability_date: item.availability_date,
+      coachId: item.coachId,
+    };
+    get_availabilities(params)
+      .then((res) => {
+        this.setState({ currentAvailabilities: res });
+        this.setState({ currentAvailabilities: res[0] });
+      })
+      .catch((error) => {
+        console.log('Api call error');
+        alert(error.message);
+      });
+
+    this.setState({ currentAvailabilities: item });
+    this.setState({ refresh: !this.state.refresh });
+  }
+  getDaysArrayByMonth(date) {
+    var daysInMonth = moment(date, 'DD-MM').daysInMonth();
+    var arrDays = [];
+    while (daysInMonth && daysInMonth >= 1) {
+      var current = moment(date, 'DD-MM').date(daysInMonth);
+      arrDays.push(current);
+      daysInMonth--;
+    }
+    return arrDays.reverse();
+  }
+  getAvailabilities(item) {
+    const  date  = moment(item.availability).format('YYYY-MM-DD')
+    console.log(date);
+   const  params = {date:date,coach_id:this.state.coach_id}
+   get_availabilities(params).then((res)=>{
+    
+     const availabilitiesArray =[];
+    const data =[
+     {slot:0,value:res.data.slot_0},
+     {slot:1,value:res.data.slot_1},
+     {slot:2,value:res.data.slot_2},
+     {slot:3,value:res.data.slot_3},
+     {slot:4,value:res.data.slot_4},
+     {slot:5,value:res.data.slot_5},
+     {slot:6,value:res.data.slot_6},
+     {slot:7,value:res.data.slot_7},
+     {slot:8,value:res.data.slot_8},
+     {slot:9,value:res.data.slot_9},
+     {slot:10,value:res.data.slot_10},
+     {slot:11,value:res.data.slot_11},
+     {slot:12,value:res.data.slot_12},
+     {slot:13,value:res.data.slot_13},
+     {slot:14,value:res.data.slot_14},
+     {slot:15,value:res.data.slot_15},
+     {slot:16,value:res.data.slot_16},
+     {slot:17,value:res.data.slot_17},
+     {slot:18,value:res.data.slot_18},
+     {slot:19,value:res.data.slot_19},
+     {slot:20,value:res.data.slot_20},
+     {slot:21,value:res.data.slot_21},
+     {slot:22,value:res.data.slot_22},
+     {slot:23,value:res.data.slot_23},
+   ]
+   data.forEach(element => {
+     if(element.value==true){
+      availabilitiesArray.push(element)
+     }
+    });
+     this.setState({currentAvailabilities:availabilitiesArray})
+     this.setState({ refresh: !this.state.refresh });
+     console.log(this.state.currentAvailabilities)
+   })
+  }
+  onMonthChange(date) {
+    console.log(this.getDate(date))
+    console.log('aaaaa');
+    var item = [];
+    console.log(this.getDate(date))
+    console.log('iciii');
+    var ArrayOfday = this.getDaysArrayByMonth(this.getDate(date));
+    // si les availabilities n'existes pas les initialiser
+    ArrayOfday.forEach((element) => {
+     const  elementdaynum = moment(element).format('dd');
+     const elementday = moment(element).format('D');
+      element=  moment(element).format('L')
+      var Object = {
+        availability_day: elementdaynum,
+        availability_day_num : elementday,
+        availability:element
+
+      };
+      item.push(Object);
+    });
+    this.setState({ availabilities: item });
+  }
+  
+  async changeTaskList(date) {
+
+    
+    const formatdata = {
+      date: date.dateString,
+    };
+    const curDate = moment(date.dateString).format('L')
+    console.log('curr',curDate)
+    this.setState({currentDate:curDate})
+    get_appointement(formatdata).then((res) => {
+     
+      const arrayOfAppointment = res.data;
+      const arrayOfPage = [];
+      arrayOfAppointment.forEach((rdv) => {
+        arrayOfPage.push(
+          <TouchableOpacity onPress={()=>{console.log(rdv)}}>
+          <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center'}}key={rdv.id}>
+            <View style={{justifyContent:'center',alignItems:'center'}}><Avatar
+                size="medium"
+                rounded
+                source={{
+                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                }}
+              /></View>
+            <View style={{flexDirection:'column',marginRight:40}}>
+              <View style={{flexDirection:'row'}}>
+                <Text style={{
+                  fontWeight: 'bold',
+                  fontSize: 20,
+                }}>{rdv.athlete.first_name}</Text>
+                <Text style={{
+                  fontWeight: 'bold',
+                  fontSize: 20,
+                }}>{rdv.athlete.last_name}</Text>
+            </View>
+            <Text>seance{rdv.session_number}/{rdv.athleteCourse.total_sessions}</Text>
+            </View>
+            <View style={{justifyContent:'center'}}>
+              <Text style={{
+                  fontWeight: 'bold',
+                  fontSize: 20,}} >{this.convertSlotToDate(rdv.slot)}</Text>
+            </View>
+          </View>
+          </TouchableOpacity>
+          ,
+        );
+      });
+      this.setState({ page: arrayOfPage });
+      // console.log(this.state.page);
+    });
+  }
+ 
+  render() {
+    
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <SafeAreaView>
@@ -514,14 +579,6 @@ export default class DashboardAthlete extends React.Component {
             <View style={{ flexDirection: 'row' }}>
               <TouchableOpacity
                 onPress={() => {
-                  navigate('AwaitingDemand');
-                }}
-                style={{}}>
-                <Ionicons name="person-add" size={35} color="white" />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => {
                   navigate('Activite');
                 }}
                 style={{ marginLeft: 20, marginRight: 10 }}>
@@ -541,8 +598,7 @@ export default class DashboardAthlete extends React.Component {
               marginBottom: 35,
             }}></View>
           <View>
-            <View></View>
-            <View>
+            <View style={{justifyContent:'center',alignItems:'center'}}>
               <SwitchSelector
                 options={options}
                 initial={0}
@@ -552,11 +608,12 @@ export default class DashboardAthlete extends React.Component {
                 selectedColor="#1E2026"
                 textColor="white"
                 borderRadius={10}
-                height={50}
+                height={60}
+                style={{width:widthPercentageToDP(95)}}
                 hasPadding
-                bold={true}
-                fontSize={20}
-                textStyle={"italic"}
+                fontSize={15}
+                selectedTextStyle={{fontFamily:'MontserratBoldItalic'}}
+                textStyle={{fontFamily:'MontserratBoldItalic'}}
                 valuePadding={3}
                 borderColor="#1E2026"
               />
@@ -567,33 +624,184 @@ export default class DashboardAthlete extends React.Component {
                 <View style={{ alignItems: 'center' }}>
                   <Text
                     style={{
-                      fontStyle: 'italic',
-                      fontWeight: 'bold',
+                      fontFamily:'MontserratBoldItalic',
                       fontSize: 25,
                       color: '#FFFFFF',
                       margin: 10,
                     }}>
-                    Aujourd’hui
+                   AUJOURD'HUI
                   </Text>
                 </View>
-                {this.state.page == [] ? (
-                  <Text> pas de rendez-vous Aujourd'hui</Text>
+                {this.state.dayApointement && this.state.dayApointement.length? (
+                    <FlatList
+                    data={this.state.dayApointement}
+                    extraData={this.state}
+                    // onRefresh={onRefresh}
+                    refreshing={this.state.refresh}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                      <TouchableOpacity onPress={()=>{console.log(item)}}>
+                      <View style={{backgroundColor:'#2CDEE4', flexDirection:'row',height:70,justifyContent:'space-around',alignContent:'center',margin:10,borderRadius:5}}>
+                        <View style={{justifyContent:'center',alignItems:'center'}}><Avatar
+                            size={65}
+                            rounded
+                            source={{
+                              uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                            }}
+                          /></View>
+                        <View style={{justifyContent:'center',flexDirection:'column',marginRight:40}}>
+                          <View style={{flexDirection:'row'}}> 
+                            <Text style={{
+                           fontFamily:'RobotoBold',
+                              fontSize: 25,
+                              marginBottom:5
+                            }}>{item.athlete.first_name} {item.athlete.last_name}</Text>
+                        </View>
+                        <Text style={{ 
+                           fontFamily:'Roboto',
+                              fontSize: 10,
+                              marginBottom:15
+                            }}>Séance: {item.session_number}/{item.athleteCourse.total_sessions}</Text>
+                        </View>
+                        <View style={{justifyContent:'center'}}>
+                          <Text style={{
+                              fontWeight: 'bold',
+                              fontSize: 20,}} >{this.convertSlotToDate(item.slot)}</Text>
+                        </View>
+                      </View>
+                      </TouchableOpacity>
+                    )}
+                  /> 
                 ) : (
-                  <Pager pager={this.state.page} />
+                  <Text  style={{
+                   fontFamily:'MontserratBoldItalic',
+                    fontSize: 25,
+                    color: '#FFFFFF',
+                    margin: 10,
+                  }}> pas de rendez-vous Aujourd'hui</Text>
                 )}
-                <View>
-                  <Text>A VENIR</Text>
-                  <ScrollView>
-
-                  </ScrollView>
+                  <View style={{ alignItems: 'center' }}>
+                  <Text
+                    style={{
+                      fontFamily:'MontserratBoldItalic',
+                      fontSize: 25,
+                      color: '#FFFFFF',
+                      margin: 20,
+                    }}>
+                   A VENIR
+                  </Text>
                 </View>
+                {this.state.upcomingApointement && this.state.upcomingApointement.length? (
+                <FlatList
+                data={this.state.upcomingApointement}
+              extraData={this.state}
+              // onRefresh={onRefresh}
+              refreshing={this.state.refresh}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <TouchableOpacity onPress={()=>{console.log(item)}}>
+                <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center',backgroundColor:'white',margin:10}}>
+                  <View style={{justifyContent:'center',alignItems:'center'}}><Avatar
+                      size="medium"
+                      rounded
+                      source={{
+                        uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                      }}
+                    /></View>
+                  <View style={{flexDirection:'column',marginRight:40}}>
+                    <View style={{flexDirection:'row'}}> 
+                      <Text style={{
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                      }}>{item.athlete.first_name}</Text>
+                      <Text style={{
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                      }}>{item.athlete.last_name}</Text>
+                  </View>
+                  <Text>Séance : {item.session_number}/{item.athleteCourse.total_sessions}</Text>
+                  </View>
+                  <View style={{justifyContent:'center'}}>
+                    <Text style={{
+                        fontWeight: 'bold',
+                        fontSize: 20,}} >{this.convertSlotToDate(item.slot)}</Text>
+                  </View>
+                </View>
+                </TouchableOpacity>
+              )}
+            />
+              
+                  ) : (
+                    <Text style={{
+                      fontFamily:'MontserratBoldItalic',
+                      fontSize: 20,
+                      color: '#FFFFFF',
+                      margin: 10,
+                    }}> pas de rendez-vous Aujourd'hui</Text>
+                )}
               </View>
             ) : (
               <View>
-                {/* Dispo screen */}
+
                 <View style={{ height: 800 }}>
-                  <View style={{ flex: 1 }}>
+                <LinearGradient
+                colors={['black', '#2D333C']}
+                start={{
+                  x: 0,
+                  y: 0,
+                }}
+                end={{
+                  x: 1,
+                  y: 1,
+                }}
+                style={{
+                  backgroundColor: 'black',
+                  flex:1,
+                 // justifyContent:"space-evenly"
+                }}>
+                  <Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!this.state.modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View>        
+               <Text style={{fontFamily:'Roboto'}}>Es-tu sûr(e) de vouloir annuler la séance avec </Text> 
+               <View style={{flexDirection:'row'}}>
+               <Text>{this.state.coach.first_name} {this.state.coach.last_name}</Text> 
+               <Text>de</Text>
+               <Text>{this.state.currentSlot.substring(0,5)}</Text>
+               <Text>a</Text>
+               <Text>{this.state.currentSlot.substring(8)}</Text>
+               </View>
+            </View>
+            <View style={{flexDirection:'row'}}>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => console.log('oo')  }
+            >
+              <Text style={styles.textStyle}>Oui</Text>
+            </Pressable>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => this.setState({modalVisible:false})}
+            >
+              <Text style={styles.textStyle}>Non</Text>
+            </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
                     <MonthsSlider onChange={this.onMonthChange.bind(this)} />
+                    <View style={{margin:30, flexDirection:'row'}}>
+                      <Text style={{color: '#FFFFFF'}}>Les diponibilités de </Text>
+                      <Text style={{color: '#2CDEE4'}}>{this.state.coach.first_name}</Text>
+                      <Text style={{color: '#2CDEE4'}}>{this.state.coach.last_name}</Text>
+                    </View>
                     <View>
                       <FlatList
                         horizontal={true}
@@ -620,38 +828,80 @@ export default class DashboardAthlete extends React.Component {
                             </TouchableOpacity>
                         )}
                       />
-
-        <View>
-          <Button title='filtre par heures'></Button>
-
-          </View>
-                      {/* <FlatList
+                      <View style={{margin:30}}><Text style={{color: '#FFFFFF'}}>Tu peux annuler une séance jusqu'à 24h avant le début de celle-ci.</Text></View>
+                      <FlatList
                         style={{ maxHeight: 550 }}
-                        data={[this.state.currentAvailabilities]}
+                        data={this.state.currentAvailabilities}
                         extraData={this.state}
-                        //      onRefresh={onRefresh}
+                        //onRefresh={onRefresh}
                         refreshing={this.state.refresh}
-                        // keyExtractor={(item) => {item.date;}}
-                        keyExtractor={(item, index) => `${index}`}
+                        keyExtractor={(item) => {item.slot}}
                         renderItem={({ item }) => (
-                        
+                          <View style={{flexDirection:'row',justifyContent:'space-around',margin:10}}>
+                          <Text style={{color: '#FFFFFF'}}>{ this.convertSlotToDate(item.slot)}</Text>
+                          <DeleteButton  onPress={()=>{
+                            this.setState({currentSlot:this.convertSlotToDate(item.slot)})
+                            this.setState({modalVisible:true})
+                            }} title="Réserver ce crénaux"></DeleteButton>
+                          </View>
                         )}
-                      /> */}
+                      />
                     </View>
-                  </View>
+               
+            </LinearGradient>
                 </View>
               </View>
             )}
           </View>
         </SafeAreaView>
-      </View>
+        </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   listonebyone: {},
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "#1E2026",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  button: {
+    padding: 10,
+    elevation: 2,
 
+  },
+  buttonOpen: {
+    backgroundColor: "#F194FF",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  },
   ccontainer: {},
   item: {
     backgroundColor: '#2CDEE4',

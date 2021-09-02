@@ -5,6 +5,7 @@ import Stats from '../../screens/Stats';
 import OffresStack from './OffresStack';
 import HomeStack from './HomeStack';
 import MyAthletesStack from './MyAthletesStack';
+import { LinearGradient } from 'expo-linear-gradient';
 // Auth import
 
 
@@ -72,7 +73,7 @@ const AppTabsNavigator = createBottomTabNavigator(
         showIcon: true,
         showLabel: false,
         allowFontScaling: false,
-        style:{backgroundColor:'#2D333C'}
+        style:{borderTopColor:'#2CDEE4', backgroundColor:'black'}
       },
     },
   );

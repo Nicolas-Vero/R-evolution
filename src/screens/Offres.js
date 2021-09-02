@@ -10,6 +10,7 @@ import {
   StatusBar,
   Dimensions,
 } from 'react-native';
+import * as Font from 'expo-font';
 //import { auth } from '../../api/Register';
 import { Formik } from 'formik';
 import { CheckBox } from 'react-native-elements';
@@ -31,14 +32,21 @@ import { FlatList } from 'react-native-gesture-handler';
 import { NavigationEvents } from 'react-navigation';
 import { API_URL } from '../configs/Constants';
 import axios from 'axios';
+import { delete_coach_offers } from '../api/Offers';
 import { get_coach_offers } from '../api/Offers';
 export default class Offres extends React.Component {
   state = {
     offers: [],
+    fontsLoaded: false,
   };
-  //to do actualiser la liste apres chaque création
-
+  async loadFonts() {
+    await Font.loadAsync({
+      Montserrat: require('../../assets/fonts/Montserrat-ExtraBold.ttf'),
+    });
+    this.setState({ fontsLoaded: true });
+  }
   componentDidMount() {
+    this.loadFonts();
     get_coach_offers()
       .then((res) => res.data.offers)
       .then((res) => {
@@ -51,10 +59,10 @@ export default class Offres extends React.Component {
       <View style={{ flex: 1, backgroundColor: '#060606' }}>
         <SafeAreaView style={styles.safeArea} />
 
-        <Header title="Mes offres" />
-        <View style={{ paddingLeft: 15, paddingRight: 15, marginBottom: 20 }}>
+        <Header title="MES OFFRES" />
+        <View style={{ margin:20,marginLeft:6 }}>
           <AddButton
-            title="créer une nouvelle offre"
+            title="CRÉER UNE NOUVELLE OFFRE"
             onPress={() => {
               navigate('OffreCreation');
             }}
@@ -83,20 +91,21 @@ export default class Offres extends React.Component {
                 }}
                 style={{
                   flexDirection: 'column',
-                  backgroundColor: 'grey',
-                  marginBottom: 5,
+                  marginBottom: 10,
                   borderRadius:10,
+                  width:400,
                   paddingLeft: 20,
-                  height: 200,
+                  marginLeft:6,
+                  height: 170,
                  // justifyContent:"space-evenly"
                 }}>
-                <View style={{}}>
+                <View>
                   <Text
                     style={{
-                      marginTop: 30,
-                      fontWeight: 'bold',
+                     marginTop:20,
                       fontSize: 20,
                       color: '#FFFFFF',
+                      fontFamily:'Montserrat',
                       lineHeight: 24,
                     }}>
                     {item.title}
@@ -104,14 +113,13 @@ export default class Offres extends React.Component {
                 </View>
                 <View>
                   <Text
-                    style={{ marginTop: 10, color: '#FFFFFF', fontSize: 10 }}>
-                    {item.title}
+                    style={{ marginTop: 10, color: '#FFFFFF', fontSize: 12 }}>
                     {item.content}
                   </Text>
                 </View>
                 <View>
-                  <Text style={{ marginTop: 10, color: '#2CDEE4' }}>
-                    {item.nb_credits} coaching
+                  <Text style={{ marginTop: 15, color: '#2CDEE4' }}>
+                    {item.nb_credits} coaching(s)
                   </Text>
                 </View>
                 <View
@@ -120,7 +128,7 @@ export default class Offres extends React.Component {
                     alignItems:"center",
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    marginTop:20
+                    marginTop:15
                   }}>
                   <View
                     style={{
@@ -130,17 +138,17 @@ export default class Offres extends React.Component {
 
                     }}>
                     <ModifyButton
-                      title="modifier"
+                      title="Modifier"
                       onPress={() => {
                         navigate('OffreUpdate', {item});
                       }}></ModifyButton>
-                    <DeleteButton title="Supprimer"></DeleteButton>
+                    <DeleteButton onPress={()=>{delete_coach_offers({offer_id:item.id}).then(()=>{get_coach_offers(4).then(()=>{get_coach_offers().then((res) => res.data.offers).then((res) => {this.setState({ offers: res });});})})}} title="Supprimer"></DeleteButton>
                   </View>
                   <Text
                     style={{
                       fontStyle: 'italic',
-                      fontWeight: 'bold',
-                      fontSize: 20,
+                     fontWeight: '800',
+                      fontSize: 22,
                       color: '#2CDEE4',
                       marginRight:15
                     }}>

@@ -16,7 +16,7 @@ export default class SwitchButton extends Component {
     return `${day} ${date.getDate()} ${month}`;
   }
 
-  getSlot(time, status, item, onChangeParams, ) {
+  getSlot(time, status, item, slots, ) {
     const {disabled} = this.props;
     return (
       <View style={styles.container}>
@@ -37,8 +37,8 @@ export default class SwitchButton extends Component {
                     checked={status === true}
                     value={status}
                     onPress={() => {
-                      console.log(status)
-                      update_availabilities(onChangeParams).then(get_availabilities())
+                      update_availabilities({slots,date:item.date}).then(()=>{get_availabilities(item.date)})
+                      // update_availabilities(onChangeParams).then(get_availabilities())
                     }}
                   />
       </View>

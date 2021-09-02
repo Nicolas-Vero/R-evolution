@@ -1,11 +1,11 @@
 import React from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
 import { Ionicons } from '@expo/vector-icons';
-import OffreCreation from '../../screens/OffreCreation';
-import OffreUpdate from '../../screens/OffreUpdate';
 // Auth import
-import OffresFormations from '../../screens/OffresFormations';
-import Offres from '../../screens/Offres';
+import Offres from '../../AtlheteScreens/Offres';
+import OffrePaiementMode from '../../AtlheteScreens/OffrePaiementMode';
+import MyWeb  from '../../AtlheteScreens/WebView';
+
 
 
 const OffresStack = createStackNavigator(
@@ -20,6 +20,26 @@ const OffresStack = createStackNavigator(
           ),
           header: null,
         },},
+        
+        OffrePaiementMode: {
+          screen: OffrePaiementMode,
+          navigationOptions: {
+            tabBarIcon: ({tintColor}) => (
+              <Ionicons  size={20} color={tintColor} />
+            ),
+            header: null,
+          },
+        },
+   
+        WebPaiement: {
+          screen: MyWeb,
+          navigationOptions: {
+            tabBarIcon: ({tintColor}) => (
+              <Ionicons  size={20} color={tintColor} />
+            ),
+            header: null,
+          },
+        },
     },
     {
       lazy: true,

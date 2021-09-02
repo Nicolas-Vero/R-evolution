@@ -17,7 +17,7 @@ export const auth = params => {
   const data = params;
   return axios({
     method: 'POST',
-    url: `http://localhost:4001/api/v1/auth/coach/sign-up`,
+    url: `${API_URL}/api/v1/auth/coach/sign-up`,
     data: data
   });
 };

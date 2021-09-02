@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Dimensions,Image, SafeAreaView, Button } from 'react-native';
 const {width} = Dimensions.get('window');
 import {Field} from 'formik';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import ResponsiveText from '../common/ResponsiveText';
-import { _pickImage, askPermissionsAsync, onContinuePress } from './AddAvatar';
+import * as ImagePicker from 'expo-image-picker';
 export const avatar = React.forwardRef(
 (
    
@@ -18,6 +18,34 @@ export const avatar = React.forwardRef(
   },
   ref,
 )  =>{
+
+  const [image, setImage] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
     return (
       <Field name={name} id={name} validate={validate}>
       {({
@@ -32,58 +60,16 @@ export const avatar = React.forwardRef(
             : fieldError;
         const shouldDisplayError = formatedFieldError && touched[name];
         return (
-     
-    <View>
-       <View>
-                <Image
-                  source={require('../../assets/images/Group_4.png')}
-                  style={{ width: 350 }}
-                />
-              </View>
-      <View style={{ alignItems:'center', borderColor:'green',borderWidth:3,marginTop:75}}>
-        <Text style={{fontWeight:'bold',fontSize:20, color:'#FFFF'}}>Avatar</Text>
-      </View>
-    <View style={{borderColor:'green',borderWidth:3,marginTop:150}}>
-    <SafeAreaView style={{flex: 1}}>
-        <View style={styles.content}>
-          <View>
-          
-            <ResponsiveText style={styles.message}>toto</ResponsiveText>
-          </View>
-
-          <View style={styles.pickerContainer}>
-            <TouchableOpacity
-              onPress={()=>{_pickImage}}
-              style={styles.imageContainer}>
-              {/* {
-                image &&
-                <Image source={{uri: image.uri}}
-                       style={styles.selectedImage}/>
-              } */}
-              <Image
-                style={styles.addImageIcon}
-                source={require('../../assets/images/pen.png')}
-              />
+          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{backgroundColor:'white', height:150,width:190}}>
+            <TouchableOpacity style={{height:150,width:190}} onPress={pickImage} >
+            <Image style={{height:150,width:190}} source={'../../assets/images/AddPhoto'}/>
             </TouchableOpacity>
-            <Button
-              title="Continuer"
-              gradientStyle={styles.btnGradientStyle}
-              onPress={(element)=>{console.log(element)}}
-            //   loading={loading}
-            />
-          </View>
+            </View>
+          <Button title="Pick an image from camera roll" onPress={pickImage} />
+          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
         </View>
-      </SafeAreaView>
-    </View>
-    <View>
-      {shouldDisplayError && (
-        <DefaultText>
-          {formatedFieldError}
-        </DefaultText>
-      )}
-    </View>
-  </View>
-);
+        );
 }}
 </Field>
 );}

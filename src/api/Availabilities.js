@@ -30,7 +30,6 @@ export const get_availabilities = async() => {
 };
 export const update_availabilities = async(params) => {
   const data =params
-  console.log('data',data)
   const headers = await getHeaders();
   return axios({
     method:'POST',

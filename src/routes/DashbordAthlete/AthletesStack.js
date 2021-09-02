@@ -12,7 +12,7 @@ const AthletesStack = createStackNavigator(
         header: null,
       },
     },
-    ManualPayments: {
+    MyAthletesDetails: {
       screen: CreateBook,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
@@ -26,15 +26,6 @@ const AthletesStack = createStackNavigator(
         header: null,
       },
     },
-    // AwaitingDemand: {
-    //   screen: AwaitingDemand,
-    //   navigationOptions: {
-    //     tabBarIcon: ({tintColor}) => (
-    //       <Ionicons  size={20} color={tintColor} />
-    //     ),
-    //     header: null,
-    //   },
-    // },
   },
   {
     lazy: true,

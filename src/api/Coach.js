@@ -11,7 +11,7 @@ export const sign_in = params=> {
   const data = params;
   return axios({
     method: 'POST',
-    url:`http://localhost:4001/api/v1/auth/coach-login`,
+    url:`${API_URL}/api/v1/auth/coach-login`,
     data:data
   })
 }
@@ -20,7 +20,7 @@ export const invite_prospect = params=> {
   const data = params;
   return axios({
     method: 'POST',
-    url:`http://localhost:4001/api/v1/coach/invite-athlete`,
+    url:`${API_URL}/api/v1/coach/invite-athlete`,
     data:data
   })
 }
@@ -67,6 +67,15 @@ export const get_coach_by_gym_place = async (params, navigation) => (
       })
     }, navigation));
 
+export const get_coach_athlete = async () => {
+      const headers = await getHeaders();
+      return axios({
+        method: 'GET',
+        url: `${API_URL}/coach/athletes-under-me`,
+        headers: headers,
+      })
+    };
+
 export const cancel_booking = async (params, navigation) => (
   MiddleWare.validateRequest(
     async () => {
@@ -89,16 +98,15 @@ export const cancel_booking = async (params, navigation) => (
 * expiry        | header | string | (req)
 * */
 
-export const get_coach_by_id = async (params, navigation) => (
-  MiddleWare.validateRequest(
-    async () => {
+export const get_coach_by_id = async (params) => {
+   
       const headers = await getHeaders();
       return axios({
         method: 'GET',
-        url: `${API_URL}/coach/${params.id}`,
+        url: `${API_URL}/coach/${params}`,
         headers: headers
       })
-    }, navigation));
+}
 
 
 export const get_coach = async (navigation) => {

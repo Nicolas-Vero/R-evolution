@@ -75,6 +75,7 @@ export default class OffreUpdate extends React.Component {
         <View style={{ paddingLeft: 15, paddingRight: 15 }}>
           <Formik
             initialValues={{
+              offer_id:initialValues.id,
               type: initialValues.type,
               title: initialValues.title,
               content: initialValues.content,

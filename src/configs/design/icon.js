@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image} from 'react-native';
-//import Svg from "react-native-svg";
+import Svg from "react-native-svg";
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import pen from '../../../assets/images/pen.png'
 

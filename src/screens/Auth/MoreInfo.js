@@ -3,11 +3,13 @@ import {
   Text,
   View,
   TextInput,
+  Image,
   SafeAreaView,
   StyleSheet,
   Platform,
   StatusBar,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { auth } from '../../api/Register';
@@ -27,6 +29,8 @@ import { dynamicList } from '../../components/dynamicList';
 import { selectList } from '../../components/selectList';
 import { LinearGradient } from 'expo-linear-gradient';
 import { avatar } from '../../components/avatar';
+import { values } from 'lodash';
+import { loadFonts } from '../../configs/design/font';
 const inputs = [
   { name: 'degrees', type: 'default', component: dynamicInput },
   { name: 'xP', type: 'default', component: ElementSlider },
@@ -45,11 +49,10 @@ export default class MoreInfo extends React.Component {
       values:{} 
     };
   }
- 
-  Pvalues = ({navigation})=>{
-      console.log(navigation)
-  
-  }
+ async componentDidMount(){
+   console.log(this.props.navigation.state)
+  await loadFonts();
+ }
   changeStep = (newStep) => {
     const inputLenght = inputs.length;
     const percent = ((newStep + 1) / inputLenght) * 1.0;
@@ -58,7 +61,7 @@ export default class MoreInfo extends React.Component {
       progress: percent,
       step: 'complementary',
     });
-
+    console.log()
   };
 
   async onContinuePress() {
@@ -119,8 +122,7 @@ export default class MoreInfo extends React.Component {
   }
 
   render() {
-    
-    this.Pvalues()
+
     const { navigation } = this.props;
     const { stepperStep, step } = this.state;
     console.log(stepperStep);
@@ -142,12 +144,19 @@ export default class MoreInfo extends React.Component {
         <SafeAreaView style={styles.safeArea} />
         {/*todo relier correctement les pages precedentes*/}
         {stepperStep < 1 ? (
-          <Header title="inscription" />
+          <Header title="LET'S GO" />
         ) : (
-          <Header
-            title="let's go"
-            onPress={() => this.changeStep(stepperStep - 1)}
-          />
+          <View style={ styles.container }>
+          <View style={{flex: 1}}>
+              <TouchableOpacity  style={{paddingLeft:7}}  onPress={() => this.changeStep(stepperStep - 1)}>
+                  <Image source={require('../../../assets/icons/header-back.png')} style={styles.image}/>
+              </TouchableOpacity>
+          </View>
+          <View style={styles.textContainer}>
+              <Text style={styles.text}>LET'S GO</Text>
+          </View>
+          <View style={{flex: 1}} />
+      </View>
         )}
         <View style={{ paddingLeft: 16, paddingRight: 16 }}>
             <Formik
@@ -155,17 +164,13 @@ export default class MoreInfo extends React.Component {
               initialValues={{
                 degrees: [],
                 xP: '',
-                spécialities: [
-                  { name: 'muscu', selected: 0 },
-                  { name: 'endurance', selected: 0 },
-                  { name: 'force', selected: 0 },
-                ],
-                gymPlace: '',
+                spécialities: [],
+                gymPlace:{},
                 avatar: '',
               }}
-              onSubmit={(values, actions) =>
+              onSubmit={(values, actions) =>{
                 this.handleFormSubmit(values, actions)
-              }>
+               } }>
               {({
                 values,
                 errors,
@@ -179,16 +184,14 @@ export default class MoreInfo extends React.Component {
                 <View
                   style={{
                     height: hp('80%'),
-                    borderColor: 'blue',
-                    borderWidth: 3,
                     justifyContent: 'space-between',
                   }}>
                   <View
                     style={{
                       alignContent: 'center',
+                      height:hp(70),
+                      justifyContent:'space-between',
                       maxHeight: hp('70'),
-                      borderColor: 'red',
-                      borderWidth: 3,
                     }}>
                     <Layout
                       component={inputs[stepperStep].component}
@@ -210,12 +213,13 @@ export default class MoreInfo extends React.Component {
                       errors={errors}
                     />
                   </View>
-                  <View style={{ borderColor: 'green', borderWidth: 3 }}>
+                  <View >
                     {isSubmitting ? (
                       <Loader />
                     ) : (
                       <View style={{}}>
                         <Button
+                         customTextStyle={{fontFamily:'RobotoBold',fontSize:17}}
                           title="Suivant"
                           onPress={
                             inputs[inputs.length - 1] &&
@@ -245,6 +249,8 @@ const styles = StyleSheet.create({
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
+
+
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -263,4 +269,16 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
   },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: width,
+    height: 49,
+    marginBottom: 29
+   
+},
+image: {marginLeft:10,height: 20.54, width: 12.33, resizeMode: 'contain'},
+textContainer: {alignItems: 'center', flex: 6},
+text: {  fontStyle: 'italic', fontWeight: '800', fontSize: 22, color: '#FFFFFF', lineHeight: 24}
 });

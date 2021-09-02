@@ -12,6 +12,11 @@ const { width } = Dimensions.get('window');
 import { LocaleConfig } from 'react-native-calendars';
 import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../components/Header';
+import { FlatList } from 'react-native-gesture-handler';
+import { get_coach_athlete } from '../api/Coach';
+import { tail } from 'lodash';
+import { Avatar,SearchBar } from 'react-native-elements';
+
 
 const options = [
   { label: 'ACTIFS', value: 'ACTIFS' },
@@ -22,39 +27,46 @@ export default class MyAthletes extends React.Component {
   state = {
     refresh: false,
     user: { name: 'toto', avatar: 'string avatar' },
-    screen: 'NOTIFICATIONS',
-    user: {
-      name: 'toto',
-      avatar: '../../assets/icon.png',
-    },
-    items: [
-      {
-        coachId: 1,
-        date: '2018-07-19',
-        content: 'add stone wall',
-        slot: '12H-13H',
-      },
-      {
-        coachId: 1,
-        date: '2018-07-20',
-        content: 'landscaping',
-        slot: '16H-17H',
-      },
-      { coachId: 1, date: '2018-07-20', content: 'fix door', slot: '12H-13H' },
-      { coachId: 1, date: '2018-07-20', content: 'masonary', slot: '12H-13H' },
-    ],
-    currentDate: {
-      date: '2018-07-19',
-      dayItem: [
-        { date: '2018-07-19', content: 'add stone wall', slot: '12H-13H' },
-        { date: '2018-07-19', content: 'add stone wall', slot: '12H-13H' },
-        { date: '2018-07-19', content: 'add stone wall', slot: '12H-13H' },
-      ],
-    },
+    screen: 'ACTIFS',
+    atlhetesActifs:[],
+    atlhetesInactifs:[],
+    atlhetesProspects:[],
+   };
 
-    '2021-05-24': { color: '#70d7c7', textColor: 'white' },
-    '2021-05-25': { endingDay: true, color: '#50cebb', textColor: 'white' },
-  };
+   componentDidMount(){
+    get_coach_athlete().then((res) => {
+      this.filterDAta(res.data.athletes);
+      console.log('mmmmmmmmmm',this.state.atlhetesActifs);
+     
+    });
+   }
+
+
+   filterDAta(data){
+     console.log(data);
+    const actifs =[];
+   const  inactifs = [];
+  const  prospects =[];
+   data.forEach(element => {
+     console.log(element.status);
+     switch (element.status) {
+       case "ACTIVE":
+         actifs.push(element)
+         break;
+       case "INACTIVE":
+         inactifs.push(element)
+         break;
+       case "PROSPECT":
+         prospects.push(element)
+         break;
+     
+       default:
+         break;
+     }
+   },
+   this.setState({atlhetesActifs:actifs , atlhetesInactifs:inactifs , atlhetesProspects:prospects})
+   );
+  }
 
   render() {
     list = () => {
@@ -62,34 +74,16 @@ export default class MyAthletes extends React.Component {
         return console.log(element);
       });
     };
-    const Item = ({ item, onPress, backgroundColor, textColor }) => (
-      <TouchableOpacity onPress={onPress}>
-        <Text style={styles.item}>
-          {item.content} -- {item.slot}
-        </Text>
-      </TouchableOpacity>
-    );
+
+  
     const onRefresh = () => {
       this.setState({ refresh: true });
       console.log(this.state.refresh);
     };
-    const renderItem = ({ item }) => {
-      return <Item stlyes item={item} onPress={(data) => console.log(data)} />;
-    };
 
     return (
-      //  <View style={{ flex: 1, backgroundColor: 'black' }}>
-      <LinearGradient
-        colors={['#060606', '#2D333C']}
-        start={{
-          x: 0,
-          y: 0,
-        }}
-        end={{
-          x: 1,
-          y: 1,
-        }}
-        style={styles.background}>
+       <View style={{ flex: 1, backgroundColor: 'black' }}>
+
           
         <SafeAreaView>
         <Header title="ACTIVITE" />
@@ -104,18 +98,65 @@ export default class MyAthletes extends React.Component {
                 borderRadius="5"
               />
             </View>
-            {this.state.screen == 'Planning' ? (
+            {this.state.screen == 'ACTIFS' ? (
               <View>
+                <SearchBar></SearchBar>
+               <FlatList
+                      
+                        data={this.state.atlhetesActifs}
+                        extraData={this.state}
+                        // onRefresh={onRefresh}
+                       // refreshing={this.state.refresh}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => (
+                          <TouchableOpacity onPress={()=>{ navigate('MyAthleteDetails', {item})}}>
+                          <View style={{flexDirection:'row',justifyContent:'space-between',alignContent:'center',backgroundColor:'grey'}}>
+                            <View style={{justifyContent:'center',alignItems:'center',flexDirection:'row'}}><Avatar
+                                size="medium"
+                                rounded
+                                source={{
+                                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                                }}
+                              />
+                              <Text style={{
+                                fontWeight: 'bold',
+                                fontSize: 20,
+                                color:'white'
+                              }}>{item.first_name}</Text>
+                              <Text style={{
+                                fontWeight: 'bold',
+                                fontSize: 20,
+                                color:'white'
+                              }}>{item.last_name}</Text>
+                         
+                              </View>
+                          
+                            <View style={{justifyContent:'center'}}>
+                              <Text style={{
+                                  fontWeight: 'bold',
+                                  color:'white',
+                                  fontSize: 20,}} >depuis</Text>
+                            </View>
+                          </View>
+                          </TouchableOpacity>
+                        )}
+                      />
               </View>
-            ) : (
+            ) : (null)}
+            {this.state.screen == 'INACTIFS' ? (
               <View>
-               
+                <Text>toto2</Text>
               </View>
-            )}
+            ) : (null)}
+            {this.state.screen == 'PROSPECTS' ? (
+              <View>
+                <Text>toto3</Text>
+              </View>
+            ) : (null)}
           </View>
         </SafeAreaView>
-      </LinearGradient>
-      //    </View>
+     
+          </View>
     );
   }
 }

@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Dimensions,Image } from 'react-native';
 const {width} = Dimensions.get('window');
 import {Field} from 'formik';
 import Slider from "react-native-slider";
 import { Icon } from 'react-native-elements';
+import { heightPercentageToDP as hp, widthPercentageToDP, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { loadFonts } from '../configs/design/font';
 export const ElementSlider = React.forwardRef(
 (
   {
@@ -16,6 +18,9 @@ export const ElementSlider = React.forwardRef(
   },
   ref,
 )  =>{
+  useEffect(() => {
+    loadFonts()
+  }, []);
     return (
       <Field name={name} id={name} validate={validate}>
       {({
@@ -32,21 +37,24 @@ export const ElementSlider = React.forwardRef(
         return (
      
     <View>
-       <View>
+       <View style={{alignItems:'center'}}>
                 <Image
                   source={require('../../assets/images/Group_2.png')}
-                  style={{ width: 350 }}
+                  style={{ width: widthPercentageToDP(80) }}
                 />
+                
               </View>
-      <View style={{ alignItems:'center', borderColor:'green',borderWidth:3,marginTop:75}}>
-        <Text style={{fontWeight:'bold',fontSize:20, color:'#FFFF'}}>ANNEE(S) D'EXPERIENCE</Text>
+      <View style={{alignContent:'center', alignItems:'center', marginTop:75}}>
+        <Text style={{marginTop:60, fontFamily:'RobotoBold',fontSize:20, color:'#FFFF'}}>ANNÉE(S) D'EXPÉRIENCE</Text>
       </View>
-    <View style={{borderColor:'green',borderWidth:3,marginTop:150}}>
+    <View style={{ alignItems:'center',marginTop:110}}>
     <Slider
-          trackStyle={{ height: 10, backgroundColor: 'blue' }}
-          thumbStyle={{ height: 20, width: 20, backgroundColor: 'white' }}
+    style={{width:wp(90)}}
+    
+          trackStyle={{ height: 10, backgroundColor: '#282C3A' }}
+          thumbStyle={{ height: 20, width: 20, backgroundColor: '#2CDEE4' }}
+          minimumTrackTintColor='#2CDEE4'
           track
-          containerStyle={{ bottom: 20, right: 20 }}
            ref={ref}
            name={name}
           onSlidingComplete={num => {field.onChange(name)(''+num)}}
@@ -55,15 +63,12 @@ export const ElementSlider = React.forwardRef(
           step={1}
       
         />
+        <View style={{ marginTop:wp(10), alignItems:'center', justifyContent:'center', height:hp(5),width:wp(40), backgroundColor:'#282C3A',borderRadius:5}}>
+        {field.value<1?<Text style={{fontFamily:'RobotoBold',fontSize:17, color:'#FFFF'}}>MOINS D'UN ANS</Text>:(field.value>9?<Text style={{fontWeight:'bold',fontSize:20, color:'#FFFF'}}>PLUS DE {field.value} ANS</Text>:<Text style={{fontWeight:'bold',fontSize:20, color:'#FFFF'}}>{field.value} ANS</Text>)}
     </View>
-    <View>
-      {shouldDisplayError && (
-        <DefaultText>
-          {formatedFieldError}
-        </DefaultText>
-      )}
     </View>
-   <Text>Value: {field.value}</Text>
+    
+   
   </View>
 );
 }}

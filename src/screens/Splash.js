@@ -5,80 +5,120 @@ import {
   StyleSheet,
   Dimensions,
   Image,
+  Text,
+  TouchableOpacity,
 } from 'react-native';
+import * as Font from 'expo-font';
 //import Button from '../../common/Button';
 import Color from '../configs/design/color';
 import Header from '../components/Header';
 const { width } = Dimensions.get('window');
 import { Button } from '../components/Button';
+import { LinearGradient } from 'expo-linear-gradient';
+import { widthPercentageToDP  as wp} from 'react-native-responsive-screen';
 export default class Splash extends React.Component {
+  state = {
+    offers: [],
+    fontsLoaded: false,
+  };
+  async loadFonts() {
+    await Font.loadAsync({
+      RobotoBold: require('../../assets/fonts/Roboto-Bold.ttf'),
+    });
+    this.setState({ fontsLoaded: true });
+  }
+  componentDidMount() {
+    this.loadFonts();
+  }
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#060606' }}>
-        <SafeAreaView style={styles.safeArea} />
-        <Header  />
-        <View style={styles.logoContainer}>
-          <Image
-            source={require('../../assets/images/logo.png')}
-            style={styles.image}></Image>
-        </View>
+      <LinearGradient
+        colors={['black', '#2D333C']}
+        start={{
+          x: 0,
+          y: 0,
+        }}
+        end={{
+          x: 1,
+          y: 1,
+        }}
+        style={{
+          backgroundColor: 'black',
 
-        <View style={{ paddingLeft: 15, paddingRight: 15 }}>
+          flex: 1,
+
+          // justifyContent:"space-evenly"
+        }}>
+        <View>
+          <SafeAreaView style={styles.safeArea} />
           <View>
-            <View
-              style={{
-                alignItems: 'center',
-                paddingTop: 10,
-                paddingBottom: 10,
-                paddingLeft: 15,
-                paddingRight: 15,
-              }}>
-              <Button
+          <TouchableOpacity
+          onPress={() => console.log('toto')}
+           style={{height:50,flexDirection:'row',marginLeft:19.5,}}>         
+             <Image source={require('../../assets/icons/header-back.png')} style={ {height: 20.54, width: 12.33, resizeMode: 'contain'}}/>
+            <Text style={{color:'white',marginLeft:10,marginTop:1}}>RETOUR</Text>
+          </TouchableOpacity>
+          </View>
+          <View style={styles.logoContainer}>
+          </View>
+
+          <View style={{ marginTop:170}}>
+            <View >
+              <View
                 style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  paddingLeft: 15,
-                  paddingRight: 15,
-                }}
-                loading={false}
-                title="Coach"
-                onPress={() => {
-                  this.props.navigation.navigate('Login');
-                }}
-              />
-            </View>
-            <View
-              style={{
-                alignItems: 'center',
-                paddingTop: 10,
-                paddingBottom: 10,
-                paddingLeft: 15,
-                paddingRight: 15,
-              }}>
-              <Button
+                  alignItems: 'center',
+                  margin: 10,
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate('LoginAthlete');
+                  }}>
+                  <View style={styles.bcontainer}>
+                    <Text style={{ color: '#393637',fontFamily:'RobotoBold',fontSize:17 }}>Espace sportif</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View
                 style={{
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  paddingLeft: 15,
-                  paddingRight: 15,
-                }}
-                loading={false}
-                title="Athlete"
-                onPress={() => {
-                  this.props.navigation.navigate('LoginAthlete');
-                }}
-              />
+                  alignItems: 'center',
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate('Login');
+                  }}>
+                  <View>
+                    <Text
+                      style={{
+                        marginTop:50,
+                        color: 'white',
+                        fontFamily:'RobotoBold',
+                        fontSize:17,
+                        textDecorationLine: 'underline',
+                      }}>
+                      Espace coach
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </LinearGradient>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  image: {
-    width: width,
+  bcontainer: {
+     height:60,
+    width:wp(92),
+    backgroundColor: '#2CDEE4',
+    borderRadius: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    marginLeft: 10,
+    marginRight: 10,
   },
   backgroundContainer: {
     flex: 1,

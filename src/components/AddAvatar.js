@@ -16,8 +16,23 @@ export default class AddAvatar extends React.Component {
   state = {
     message: 'Votre photo de profil',
     image: null,
-    loading: false
+    loading: false,
+    image: null,
+    filter: false,
+
+    showSearch: false,
+    modalVisible: false,
+    showTag: true,
+    showModal: false,
+    rendered: false,
+    validate: false,
+    showValidated: false,
+    loading: null
   };
+
+  componentDidMount() {
+    this.setState({rendered: true})
+  }
 
   async onContinuePress() {
     const {image} = this.state;

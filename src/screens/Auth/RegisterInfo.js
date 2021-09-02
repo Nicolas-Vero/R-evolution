@@ -26,6 +26,7 @@ import { dynamicList } from '../../components/dynamicList';
 import { selectList } from '../../components/selectList';
 import { LinearGradient } from 'expo-linear-gradient';
 import { avatar } from '../../components/avatar';
+import { loadFonts } from '../../configs/design/font';
 const inputs = [
   { name: 'degrees', type: 'default', component: dynamicInput },
   { name: 'xP', type: 'default', component: ElementSlider },
@@ -45,34 +46,10 @@ export default class RegisterInfo extends React.Component {
     };
   }
 
-  // handleErrorsTab(errors) {
-  //   const indexes = [];
-  //   Object.keys(errors).some(v => {
-  //     const idx = inputs.map(e => e.name).indexOf(v);
-  //     indexes.push(idx);
-  //   });
+  async componentDidMount(){
+   await loadFonts()
+  }
 
-  //   var min = Math.min(...indexes);
-  //   this.changeStep(min);
-  // }
-  changeStep = (newStep) => {
-    const inputLenght = inputs.length;
-    const percent = ((newStep + 1) / inputLenght) * 1.0;
-    this.setState({
-      stepperStep: newStep,
-      progress: percent,
-      step: 'initial',
-    });
-    // switch (this.step) {
-    //   case 'initial':
-    //     this.setState({step:'complementary'})
-    //     break;
-    //   case 'complementary':
-    //     this.setState({step:'payment'})
-    //   default:
-    //     break;
-    // }
-  };
 
    onContinuePress(values) {
     
@@ -125,9 +102,6 @@ export default class RegisterInfo extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const { stepperStep, step } = this.state;
-    console.log(stepperStep);
-    const Layout = inputs[stepperStep].component;
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <LinearGradient
@@ -143,16 +117,12 @@ export default class RegisterInfo extends React.Component {
           style={styles.background}
         />
         <SafeAreaView style={styles.safeArea} />
-        {stepperStep < 1 ? (
-          <Header title="inscription" />
-        ) : (
+        
           <Header
-            title="let's go"
-            onPress={() => this.changeStep(stepperStep - 1)}
+            title="INSCRIPTION"
           />
-        )}
+        
         <View style={{ paddingLeft: 16, paddingRight: 16 }}>
-          {step === 'initial' && (
             <View>
               <Formik
                 initialValues={{
@@ -175,7 +145,7 @@ export default class RegisterInfo extends React.Component {
                 }) => (
                   <View>
                     {/* {console.log(values)} */}
-                    <View style={{ flexDirection: 'row', marginBottom: 15 }}>
+                    <View style={{ flexDirection: 'row', marginBottom: 5 }}>
                       <CheckBox
                         containerStyle={{
                           paddingLeft: 0,
@@ -183,14 +153,17 @@ export default class RegisterInfo extends React.Component {
                           backgroundColor: 'transparent',
                           borderWidth: 0,
                         }}
+                        checkedColor="#2CDEE4"
                         title="M"
+                        textStyle={{color:'white'}}
                         checkedIcon="dot-circle-o"
-                        uncheckedIcon="circle-o"
+                        uncheckedIcon="dot-circle-o"
                         checked={values.gender.toString() === 'male'}
                         value={values.gender}
                         onPress={() => setFieldValue('gender', 'male')}
                       />
                       <CheckBox
+                        checkedColor="#2CDEE4"
                         containerStyle={{
                           paddingLeft: 0,
                           marginLeft: 0,
@@ -198,8 +171,9 @@ export default class RegisterInfo extends React.Component {
                           borderWidth: 0,
                         }}
                         title="Mme"
+                        textStyle={{color:'white'}} 
                         checkedIcon="dot-circle-o"
-                        uncheckedIcon="circle-o"
+                        uncheckedIcon="dot-circle-o"
                         checked={values.gender === 'female'}
                         value={values.gender}
                         onPress={() => setFieldValue('gender', 'female')}
@@ -212,6 +186,8 @@ export default class RegisterInfo extends React.Component {
                           backgroundColor: '#FFFFFF',
                           paddingTop: 10,
                           paddingBottom: 10,
+                          borderRadius:5,
+                          height:45,
                           paddingLeft: 15,
                           paddingRight: 15,
                         }}
@@ -228,6 +204,8 @@ export default class RegisterInfo extends React.Component {
                           paddingTop: 10,
                           paddingBottom: 10,
                           paddingLeft: 15,
+                          height:45,
+                          borderRadius:5,
                           paddingRight: 15,
                         }}
                         onChangeText={handleChange('last_name')}
@@ -243,6 +221,8 @@ export default class RegisterInfo extends React.Component {
                           paddingTop: 10,
                           paddingBottom: 10,
                           paddingLeft: 15,
+                          height:45,
+                          borderRadius:5,
                           paddingRight: 15,
                         }}
                         onChangeText={handleChange('email')}
@@ -259,6 +239,8 @@ export default class RegisterInfo extends React.Component {
                           paddingBottom: 10,
                           paddingLeft: 15,
                           paddingRight: 15,
+                          height:45,
+                          borderRadius:5,
                         }}
                         onChangeText={handleChange('phone')}
                         onBlur={handleBlur('phone')}
@@ -274,6 +256,8 @@ export default class RegisterInfo extends React.Component {
                           paddingBottom: 10,
                           paddingLeft: 15,
                           paddingRight: 15,
+                          height:45,
+                          borderRadius:5,
                         }}
                         onChangeText={handleChange('password')}
                         onBlur={handleBlur('password')}
@@ -288,6 +272,8 @@ export default class RegisterInfo extends React.Component {
                           paddingTop: 10,
                           paddingBottom: 10,
                           paddingLeft: 15,
+                          height:45,
+                          borderRadius:5,
                           paddingRight: 15,
                         }}
                         onChangeText={handleChange('confirmPassword')}
@@ -304,6 +290,7 @@ export default class RegisterInfo extends React.Component {
                         marginBottom: 24,
                       }}>
                       <CheckBox
+                      size={25}
                         containerStyle={{
                           paddingLeft: 0,
                           marginLeft: 0,
@@ -324,7 +311,8 @@ export default class RegisterInfo extends React.Component {
                           flex: 1,
                           flexWrap: 'wrap',
                           color: '#FFFFFF',
-                          textAlign: 'justify',
+                          fontFamily:'Roboto',
+                          fontSize:13
                         }}>
                         En créant un compte, vous acceptez de vous conformer à
                         la Politique de confidentialité et aux Conditions
@@ -336,6 +324,7 @@ export default class RegisterInfo extends React.Component {
                       <Button
                         loading={false}
                         title="Rejoins-nous"
+                        customTextStyle={{fontFamily:'RobotoBold',fontSize:17}}
                         onPress={()=>{navigation.navigate('MoreInfo',{item:values})}
                         }
                       />
@@ -345,24 +334,20 @@ export default class RegisterInfo extends React.Component {
                         flexDirection: 'row',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        marginTop: 15,
+                        marginTop: 25,
                         marginBottom: 24,
                       }}>
-                      <Text>déja membre ? </Text>
+                      <Text style={{ color: '#FFFFFF', fontFamily:'Montserrat'}}>Déjà membre ? </Text>
                       <Text
-                        style={{ color: '#38aae3' }}
+                        style={{ color: '#2CDEE4', textDecorationLine:'underline',fontFamily:'Montserrat'}}
                         onPress={() => navigate('Login')}>
-                        Connecter-vous
+                        Se connecter.
                       </Text>
                     </View>
                   </View>
                 )}
               </Formik>
             </View>
-          )}
-
-
-          {step === 'payment' && <View />}
         </View>
       </View>
     );
