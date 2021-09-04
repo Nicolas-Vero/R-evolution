@@ -33,7 +33,8 @@ import {} from '../api/Availabilities';
 import { FrenchConfig } from '../components/FrenchCalendar';
 import { Entypo } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import { loadFonts } from '../configs/design/font';
 LocaleConfig.locales['fr'] = {
   monthNames: [
     'Janvier',
@@ -100,75 +101,81 @@ const dayNames = [
   'Vendredi',
   'Samedi',
 ];
-//  moment.locale('fr', {
-//   months:
-//     'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split(
-//       '_',
-//     ),
-//   monthsShort:
-//     'janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.'.split('_'),
-//   monthsParseExact: true,
-//   weekdays: 'dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi'.split('_'),
-//   weekdaysShort: 'dim._lun._mar._mer._jeu._ven._sam.'.split('_'),
-//   weekdaysMin: 'D_L_M_M_J_V_S'.split('_'),
-//   weekdaysParseExact: true,
-//   longDateFormat: {
-//     LT: 'HH:mm',
-//     LTS: 'HH:mm:ss',
-//     L: 'DD/MM/YYYY',
-//     LL: 'D MMMM YYYY',
-//     LLL: 'D MMMM YYYY HH:mm',
-//     LLLL: 'dddd D MMMM YYYY HH:mm',
-//   },
-//   calendar: {
-//     sameDay: '[Aujourd’hui à] LT',
-//     nextDay: '[Demain à] LT',
-//     nextWeek: 'dddd [à] LT',
-//     lastDay: '[Hier à] LT',
-//     lastWeek: 'dddd [dernier à] LT',
-//     sameElse: 'L',
-//   },
-//   relativeTime: {
-//     future: 'dans %s',
-//     past: 'il y a %s',
-//     s: 'quelques secondes',
-//     m: 'une minute',
-//     mm: '%d minutes',
-//     h: 'une heure',
-//     hh: '%d heures',
-//     d: 'un jour',
-//     dd: '%d jours',
-//     M: 'un mois',
-//     MM: '%d mois',
-//     y: 'un an',
-//     yy: '%d ans',
-//   },
-//   dayOfMonthOrdinalParse: /\d{1,2}(er|e)/,
-//   ordinal: function (number) {
-//     return number + (number === 1 ? 'er' : 'e');
-//   },
-//   meridiemParse: /PD|MD/,
-//   isPM: function (input) {
-//     return input.charAt(0) === 'M';
-//   },
-//   // In case the meridiem units are not separated around 12, then implement
-//   // this function (look at locale/id.js for an example).
-//   // meridiemHour : function (hour, meridiem) {
-//   //     return /* 0-23 hour, given meridiem token and hour 1-12 */ ;
-//   // },
-//   meridiem: function (hours, minutes, isLower) {
-//     return hours < 12 ? 'PD' : 'MD';
-//   },
-//   week: {
-//     dow: 1, // Monday is the first day of the week.
-//     doy: 4, // Used to determine first week of the year.
-//   },
-//  });
+ moment.locale('fr', {
+  months:
+    'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split(
+      '_',
+    ),
+  monthsShort:
+    'janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.'.split('_'),
+  monthsParseExact: true,
+  weekdays: 'dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi'.split('_'),
+  weekdaysShort: 'dim._lun._mar._mer._jeu._ven._sam.'.split('_'),
+  weekdaysMin: 'D_L_M_M_J_V_S'.split('_'),
+  weekdaysParseExact: true,
+  longDateFormat: {
+    LT: 'HH:mm',
+    LTS: 'HH:mm:ss',
+    L: 'DD/MM/YYYY',
+    LL: 'D MMMM YYYY',
+    LLL: 'D MMMM YYYY HH:mm',
+    LLLL: 'dddd D MMMM YYYY HH:mm',
+  },
+  calendar: {
+    sameDay: '[Aujourd’hui à] LT',
+    nextDay: '[Demain à] LT',
+    nextWeek: 'dddd [à] LT',
+    lastDay: '[Hier à] LT',
+    lastWeek: 'dddd [dernier à] LT',
+    sameElse: 'L',
+  },
+  relativeTime: {
+    future: 'dans %s',
+    past: 'il y a %s',
+    s: 'quelques secondes',
+    m: 'une minute',
+    mm: '%d minutes',
+    h: 'une heure',
+    hh: '%d heures',
+    d: 'un jour',
+    dd: '%d jours',
+    M: 'un mois',
+    MM: '%d mois',
+    y: 'un an',
+    yy: '%d ans',
+  },
+  dayOfMonthOrdinalParse: /\d{1,2}(er|e)/,
+  ordinal: function (number) {
+    return number + (number === 1 ? 'er' : 'e');
+  },
+  meridiemParse: /PD|MD/,
+  isPM: function (input) {
+    return input.charAt(0) === 'M';
+  },
+  // In case the meridiem units are not separated around 12, then implement
+  // this function (look at locale/id.js for an example).
+  // meridiemHour : function (hour, meridiem) {
+  //     return /* 0-23 hour, given meridiem token and hour 1-12 */ ;
+  // },
+  meridiem: function (hours, minutes, isLower) {
+    return hours < 12 ? 'PD' : 'MD';
+  },
+  week: {
+    dow: 1, // Monday is the first day of the week.
+    doy: 4, // Used to determine first week of the year.
+  },
+ });
 const options = [
-  { label: 'Planning', value: 'Planning' },
-  { label: 'Disponibilité', value: 'Disponibilite' },
+  { label: 'PLANNING', value: 'Planning' },
+  { label: 'DISPONIBILITÉS', value: 'Disponibilite' },
 ];
 export default class Dashboard extends React.Component {
+  constructor(props){
+    super(props)
+
+    this.handler = this.handler.bind(this)
+    
+  }
   state = {
     refresh: false,
     user: { name: 'Florian GALOPIN', avatar: 'string avatar' },
@@ -177,6 +184,7 @@ export default class Dashboard extends React.Component {
       name: 'toto',
       avatar: '../../assets/icon.png',
     },
+    selectedDate:'',
     items: [
       {
         coachId: 1,
@@ -194,7 +202,7 @@ export default class Dashboard extends React.Component {
       { coachId: 1, date: '2018-07-20', content: 'masonary', slot: '12H-13H' },
     ],
     currentDate:'',
- 
+    today:'',
     currentAvailabilities: [],
     markedDate: {
       '2021-07-15': { marked: true, dotColor: '#50cebb' },
@@ -234,6 +242,18 @@ export default class Dashboard extends React.Component {
       </View>,
     ],
   };
+
+
+  async componentDidMount(){
+   await  loadFonts();
+   const curDate = moment().format('YYYY-MM-DD')
+   console.log('curr',curDate) 
+   this.setState({today:curDate})
+  }
+
+  handler(param) {
+  this.getAvailabilities(param)
+  }
   getSlotTime(time) {
     let date = new Date(time);
     const day = FrenchConfig.dayNames[date.getDay()];
@@ -290,7 +310,6 @@ export default class Dashboard extends React.Component {
     return `${day} ${date.getDate()} ${month}`;
   }
   getDate(date = new Date()) {
-    moment.locale('en')
     const d = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
     const m =
       date.getMonth() + 1 < 10
@@ -338,9 +357,8 @@ export default class Dashboard extends React.Component {
     return arrDays.reverse();
   }
   getAvailabilities(item) {
-   const  date  = moment(item.availability).format('YYYY-MM-DD')
+   const  date  = moment(item).format('YYYY-MM-DD')
    get_availabilities(date).then((res)=>{
-     console.log(res.data);
     this.setState({currentAvailabilities:res.data})
     this.setState({ refresh: !this.state.refresh });
    })
@@ -352,7 +370,7 @@ export default class Dashboard extends React.Component {
     ArrayOfday.forEach((element) => {
      const  elementdaynum = moment(element).format('dd');
      const elementday = moment(element).format('D');
-      element=  moment(element).format('L')
+      element=  moment(element).format('YYYY-MM-DD')
       var Object = {
         availability_day: elementdaynum,
         availability_day_num : elementday,
@@ -370,14 +388,15 @@ export default class Dashboard extends React.Component {
     const formatdata = {
       date: date.dateString,
     };
-    const curDate = moment(date.dateString).format('L')
+    const curDate = moment(date.dateString).format('dddd d MMMM')
     console.log('curr',curDate)
     this.setState({currentDate:curDate})
     get_appointement(formatdata).then((res) => {
      
-      const arrayOfAppointment = res.data;
-      const arrayOfPage = [];
-      arrayOfAppointment.forEach((rdv) => {
+       const arrayOfAppointment = res.data;
+
+       const arrayOfPage = [];
+       arrayOfAppointment.forEach((rdv) => {
         arrayOfPage.push(
           <TouchableOpacity onPress={()=>{console.log(rdv)}}>
           <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center'}}key={rdv.id}>
@@ -495,26 +514,7 @@ export default class Dashboard extends React.Component {
   }
 
   render() {
-    list = () => {
-      return this.state.items.map((element) => {
-        return console.log(element);
-      });
-    };
-    const Item = ({ item, onPress, backgroundColor, textColor }) => (
-      <TouchableOpacity onPress={onPress}>
-        <Text style={styles.item}>
-          {item.content} -- {item.slot}
-        </Text>
-      </TouchableOpacity>
-    );
-    const onRefresh = () => {
-      this.setState({ refresh: true });
-      console.log(this.state.refresh);
-    };
-    const renderItem = ({ item }) => {
-      return <Item stlyes item={item} onPress={(data) => console.log(data)} />;
-    };
-
+ 
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <SafeAreaView>
@@ -527,7 +527,7 @@ export default class Dashboard extends React.Component {
             }}>
             <View style={{ flexDirection: 'row', alignItems: 'center',marginLeft:16 }}>
               <Avatar
-                size={45}
+                size={40}
                 rounded
                 source={{
                   uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
@@ -550,8 +550,8 @@ export default class Dashboard extends React.Component {
                 onPress={() => {
                   navigate('AwaitingDemand');
                 }}
-                style={{}}>
-                <Ionicons name="person-add" size={35} color="white" />
+             >
+              <Image style={ {height: 38, width: 48, resizeMode: 'contain'}}  source={require('../../assets/images/Demande.png')}/>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -559,11 +559,7 @@ export default class Dashboard extends React.Component {
                   navigate('Activite');
                 }}
                 style={{ marginLeft: 20, marginRight: 10 }}>
-                <Ionicons
-                  name="md-notifications-circle"
-                  size={35}
-                  color="white"
-                />
+                <Image style={ {height: 38, width: 48, resizeMode: 'contain'}} source={require('../../assets/images/Notif.png')}/>
               </TouchableOpacity>
             </View>
           </View>
@@ -576,8 +572,8 @@ export default class Dashboard extends React.Component {
             }}></View>
           <View>
             <View></View>
-            <View>
-              <SwitchSelector
+            <View style={{alignItems:'center'}}>
+            <SwitchSelector
                 options={options}
                 initial={0}
                 onPress={(value) => this.setState({ screen: value })}
@@ -586,14 +582,12 @@ export default class Dashboard extends React.Component {
                 selectedColor="#1E2026"
                 textColor="white"
                 borderRadius={10}
-                
                 height={50}
-                style={{width:widthPercentageToDP(93),marginLeft:14}}
+                style={{width:widthPercentageToDP(92)}}
                 hasPadding
-                bold={true}
-                fontSize={20}
-      
-                textStyle={"italic"}
+                fontSize={15}
+                selectedTextStyle={{fontFamily:'MontserratBoldItalic'}}
+                textStyle={{fontFamily:'MontserratBoldItalic'}}
                 valuePadding={3}
                 borderColor="#1E2026"
               />
@@ -611,17 +605,19 @@ export default class Dashboard extends React.Component {
                       margin: 10,
                     }}>
                     {
-                    ((this.state.currentDate))}
+                    ((this.state.currentDate.toUpperCase()))}
                   </Text>
                 </View>
                 {this.state.page == [] ? (
                   <Text> pas de rendez-vous Aujourd'hui</Text>
                 ) : (
                   <Pager pager={this.state.page} />
+                
                 )}
-                <View>
+                <View style={{alignItems:'center'}}>
                   <Calendar
                     theme={{
+                      width:100,
                       calendarBackground: '#2D333C',
                       textSectionTitleColor: 'white',
                       textSectionTitleWeight: 'bold',
@@ -671,23 +667,31 @@ export default class Dashboard extends React.Component {
                         // onRefresh={onRefresh}
                         refreshing={this.state.refresh}
                         keyExtractor={(item) => item.date}
-                        renderItem={({ item }) => (
+                        renderItem={({ item }) => {
+                         
+                         // const backgroundColor = item.availability === this.state.selectedDate ? "#2CDEE4" : "#101010";
+                          const backgroundColor = item.availability === this.state.currentDate ? "#2CDEE4" : "#101010";
+                          const textColor = item.availability === this.state.selectedDate ? "black" : "white";
+                          return (
                             <TouchableOpacity
                               onPress={() => {
-                                this.getAvailabilities(item)
+                                this.setState({selectedDate:item.availability})
+                                this.getAvailabilities(item.availability)
+                              
                               }}>
-                          <View style={styles.day}>
+                          <View style={[styles.day, {backgroundColor:backgroundColor}]}>
                               <View style={{flexDirection:'column'}}>
-                              <Text style={{ color: 'white' }}>
+                              <Text style={{ color:textColor }}>
                                 {item.availability_day}
                               </Text>
-                              <Text style={{ color: 'white', marginTop:10 }}>
+                              <Text style={{ color:textColor, marginTop:10 }}>
                                 {item.availability_day_num}
                               </Text>
                               </View>
                           </View>
                             </TouchableOpacity>
-                        )}
+                          )
+                        }}
                       />
 
         <View>
@@ -705,6 +709,7 @@ export default class Dashboard extends React.Component {
                         renderItem={({ item }) => (
                           <SwitchButton
                             item={item}
+                            handler = {this.handler}
                           />
                         )}
                       />
@@ -745,6 +750,8 @@ const styles = StyleSheet.create({
     paddingLeft:30,
     paddingRight:30,
     marginTop: 20,
+    width:widthPercentageToDP(92),
+
 
   },
   background: {
@@ -754,7 +761,6 @@ const styles = StyleSheet.create({
   day: {
     height: 80,
     width: 50,
-    backgroundColor: '#2D333C',
     margin: 5,
     justifyContent: 'center',
     alignItems: 'center',

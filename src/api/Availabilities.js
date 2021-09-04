@@ -20,12 +20,14 @@ import { getHeaders } from './Global';
 
 //   //}
 // };
-export const get_availabilities = async() => {
+export const get_availabilities = async(param) => {
+  const date = param
   const headers = await getHeaders();
   return axios({
     method:'GET',
     url:`${API_URL}/coach/availability`,
-    headers:headers
+    headers:headers,
+    params:{date:date}
   })
 };
 export const update_availabilities = async(params) => {
