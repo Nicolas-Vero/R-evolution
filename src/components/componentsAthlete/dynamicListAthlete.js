@@ -15,11 +15,11 @@ import {
 import { FontAwesome } from '@expo/vector-icons';
 const { width } = Dimensions.get('window');
 import { Formik, Form, Field, FieldArray } from 'formik';
-import { get_specialities } from '../api/ReferenceData';
+import { get_specialities } from '../../api/ReferenceData';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
-import { loadFonts } from '../configs/design/font';
+import { loadFonts } from '../../configs/design/font';
 
-export const dynamicList = React.forwardRef(
+export const dynamicListAthlete = React.forwardRef(
   (
     { name, placeholder, values, secureTextEntry, keyboardType, validate },
     ref,
@@ -64,25 +64,25 @@ export const dynamicList = React.forwardRef(
           return (
             <View style={{alignItems:'center'}}>
             <Image
-              source={require('../../assets/images/Group_3.png')}
+              source={require('../../../assets/images/GroupA_3.png')}
               style={{ width: widthPercentageToDP(80) }}
             />
             
             
                 <View style={styles.container2}>
-                  <Text style={styles.title}>SPECIALITÉ(S)</Text>
+                  <Text style={styles.title}>QUEL EST TON OBJECTIF</Text>
                 </View>
-             
+             <View style={{width:widthPercentageToDP(90)}}>
                 <Text style={styles.text}>
-                  Sélectionne une ou plusieurs spécialité(s)
+                Sélectionne ton ou tes objectifs(s)
                 </Text>
-              
+                </View>
               <View>
                 <FieldArray
                   name={name}
                   render={(arrayhelper) => (
                     
-                    <View>
+                    <View style={{alignItems:'center'}}>
                       <View style={styles.container3}>
                 <FlatList
                   data={specData}
@@ -99,7 +99,7 @@ export const dynamicList = React.forwardRef(
 
                    <TouchableOpacity
                       onPress={() =>{item.selected != 1 ? item.selected =1 :item.selected = 0
-                        arrayhelper.form.values.spécialities.includes(item.value)?arrayhelper.remove(item.value):arrayhelper.push(item.value)
+                        arrayhelper.form.values.objectifs.includes(item.value)?arrayhelper.remove(item.value):arrayhelper.push(item.value)
                         }}>
                       <View style={{backgroundColor:backgroundColor, borderRadius: 25,  padding: 10, justifyContent:'center', margin:5, borderColor:borderColor, borderWidth:borderWidth}}>
                           <Text style={{fontFamily:'RobotoBold',fontSize: 15,color:color}}>{item.value}</Text>
@@ -111,6 +111,7 @@ export const dynamicList = React.forwardRef(
                   numColumns={numColumns}
                 />
               </View>
+              <View style={{width:widthPercentageToDP(90)}}>
                       <TextInput
                         name={name}
                         onChangeText={setTerm}
@@ -120,14 +121,9 @@ export const dynamicList = React.forwardRef(
                         paddingBottom: 10,
                         paddingLeft: 15,
                         paddingRight: 15,
-                        marginLeft:5,
-                        justifyContent:'center',
-                        alignItems:'center',
-                        alignContent:'center',
                         width:widthPercentageToDP(90)
                         }}
                       />
-
                           <View style={{alignItems:'flex-end', marginTop:15,marginBottom:5, marginRight:5, color:'#2CDEE4'}}>
                               <TouchableOpacity 
                                onPress={() => {
@@ -148,10 +144,11 @@ export const dynamicList = React.forwardRef(
                           >
                       <View style={{flexDirection:'row' ,alignItems:'baseline',marginLeft:5,marginRight:widthPercentageToDP(48)}}>
                           <FontAwesome name="plus-square" size={24} color="#2CDEE4" />
-                          <Text style={{fontFamily: 'RobotoBold',marginLeft:10,padding:5,color:'#FFFFFF'}}>Ajouter une specialité</Text>
+                          <Text style={{fontFamily: 'RobotoBold',marginLeft:10,padding:5,color:'#FFFFFF'}}>Ajouter un objectif</Text>
                           </View>
                           </TouchableOpacity>
-                   
+                          </View>
+              
                     </View>
                   )}
                 />
@@ -180,7 +177,8 @@ const styles = StyleSheet.create({
     height: 150,
     justifyContent: 'center',
     alignItems:'center',
-    marginTop:65
+    marginTop:65,
+    
   },
   container3: {
     height: 150,
@@ -210,6 +208,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#FFFFFF',
     marginBottom:30,
-    marginRight:widthPercentageToDP(50)
+ 
   },
 });

@@ -18,33 +18,59 @@ import { Button } from '../components/Button';
 import Header from '../components/Header';
 import { Right } from 'native-base';
 import { ScrollView } from 'react-native';
-//import { Slider } from 'react-native-elements';
+import { loadFonts } from '../configs/design/font';
+import { get_coach_athlete } from '../api/Coach';
+import { AntDesign } from '@expo/vector-icons'; 
+import { isLoaded } from 'expo-font';
+import { get_availabilities } from '../api/Availabilities';
+import { LinearGradient } from 'expo-linear-gradient';
 const { width } = Dimensions.get('window');
 export default class CreateBook extends React.Component {
   state = {
     type: 'Coaching',
-    countries: ['Egypt', 'Canada', 'Australia', 'Ireland'],
+    isLoaded:false,
+    atlhetesActifs:[],
+    atlhetesProspects:[],
+    atlhetesInactifs:[],
+    slots:[]
   };
-  // componentDidMount() {
-  //   return axios({
-  //     method: 'GET',
-  //     url: `${API_URL}text_contents/home_app_info`,
-  //   })
-  //       .then((res) => res.data.data)
-  //       .then((res) => {
-  //         if (res.attributes.content.length > 0){
-  //           Alert.alert("À propos", res.attributes.content)
-  //         }
-  //       })
-  // }
+  componentDidMount() {
+   loadFonts
+   get_availabilities().then((res)=>{
+    //  this.setState({slots:res.data})
+    console.log(res.data);
+   })
+   get_coach_athlete().then((res) => {
+    this.filterDAta(res.data.athletes);
+    
+  }).then(()=>{ this.setState({isLoaded:true})});
+  }
+  
 
-  // onEmailChange(email) {
-  //   this.setState({email})
-  // }
-
-  // onPasswordChange(password) {
-  //   this.setState({password})
-  // }
+  filterDAta(data){
+   const actifs = [];
+  const  inactifs = [];
+  const  prospects = [];
+   data.forEach(element => {
+     console.log(element.status);
+     switch (element.status) {
+       case "ACTIVE":
+         actifs.push(`${element.first_name} ${element.last_name}`)
+         break;
+       case "INACTIVE":
+         inactifs.push(`${element.first_name} ${element.last_name}`)
+         break;
+       case "PROSPECT":
+         prospects.push(`${element.first_name} ${element.last_name}`)
+         break;
+     
+       default:
+         break;
+    }
+  },
+  this.setState({atlhetesActifs:actifs , atlhetesInactifs:inactifs, atlhetesProspects:prospects})
+  );
+ }
 
   async onLoginPress(values) {
     console.log(values);
@@ -70,8 +96,29 @@ export default class CreateBook extends React.Component {
   }
 
   render() {
+    if (!isLoaded) {
+      return (
+  
+        <View style={[styles.Activitycontainer, styles.horizontal]}>
+          <ActivityIndicator size="large" color="#696969" />
+        </View>
+  
+      )
+    }
+    else {
     return (
-      <View style={{ flex: 1, backgroundColor: '#060606' }}>
+      <LinearGradient
+        colors={['black', '#2D333C']}
+        start={{
+          x: 0,
+          y: 0,
+        }}
+        end={{
+          x: 1,
+          y: 1,
+        }}
+        style={styles.background}>
+      <View style={{alignItems:'center'}}>
         <SafeAreaView style={styles.safeArea} />
 
         <Header title="AJOUTER UN RDV" />
@@ -111,7 +158,9 @@ export default class CreateBook extends React.Component {
                     }}
                     title="Mes athlètes actif"
                     checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
+                    uncheckedIcon="dot-circle-o"
+                    checkedColor="#2CDEE4"
+                    textStyle={{color:'white',fontFamily:'RobotoBold',fontSize:17}}
                     checked={values.type === 'Actifs'}
                     value={values.type}
                     onPress={() => {
@@ -121,12 +170,31 @@ export default class CreateBook extends React.Component {
                   />
                   {this.state.type == 'Actifs' ? (
                     <View>
-                      <SelectDropdown
-                        data={this.state.countries}
-                        onSelect={(selectedItem, index) => {
-                          console.log(selectedItem, index);
-                        }}
-                      />
+                            <SelectDropdown
+                  buttonStyle={{ width: wp(92), borderRadius:5  }}
+                  data={this.state.atlhetesActifs}
+                  defaultButtonText={"choisir"}
+                  onSelect={(selectedItem, index) => {
+                    console.log(selectedItem, index);
+                  }}
+                  renderDropdownIcon={() => {
+                    return <AntDesign name="down" size={24} color="black" />;
+                  }}
+                  dropdownIconPosition={'right'}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    // text represented after item is selected
+                    // if data array is an array of objects then return selectedItem.property to render after item is selected
+                    return selectedItem;
+                  }}
+                  
+                  rowTextStyle={{color:'white',fontSize:15, marginRight:90}}
+                  dropdownStyle={{backgroundColor:'#282C3A',borderRadius:5 }}
+                  rowTextForSelection={(item, index) => {
+                    // text represented for each item in dropdown
+                    // if data array is an array of objects then return item.property to represent item in dropdown
+                    return item;
+                  }}
+                />
                     </View>
                   ) : null}
                   <CheckBox
@@ -138,7 +206,9 @@ export default class CreateBook extends React.Component {
                     }}
                     title="Mes athlètes inactifs"
                     checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
+                    uncheckedIcon="dot-circle-o"
+                    checkedColor="#2CDEE4"
+                    textStyle={{color:'white',fontFamily:'RobotoBold',fontSize:17}}
                     checked={values.type.toString() === 'Inactifs'}
                     value={values.type}
                     onPress={() => {
@@ -147,14 +217,33 @@ export default class CreateBook extends React.Component {
                     }}
                   />
                   {this.state.type == 'Inactifs' ? (
-                    <View>
-                      <SelectDropdown
-                        data={this.state.countries}
-                        onSelect={(selectedItem, index) => {
-                          console.log(selectedItem, index);
-                        }}
-                      />
-                    </View>
+                   <View>
+                   <SelectDropdown
+         buttonStyle={{ width: wp(92), borderRadius:5  }}
+         data={this.state.atlhetesInactifs}
+         defaultButtonText={"choisir"}
+         onSelect={(selectedItem, index) => {
+           console.log(selectedItem, index);
+         }}
+         renderDropdownIcon={() => {
+           return <AntDesign name="down" size={24} color="black" />;
+         }}
+         dropdownIconPosition={'right'}
+         buttonTextAfterSelection={(selectedItem, index) => {
+           // text represented after item is selected
+           // if data array is an array of objects then return selectedItem.property to render after item is selected
+           return selectedItem;
+         }}
+         
+         rowTextStyle={{color:'white',fontSize:15, marginRight:90}}
+         dropdownStyle={{backgroundColor:'#282C3A',borderRadius:5 }}
+         rowTextForSelection={(item, index) => {
+           // text represented for each item in dropdown
+           // if data array is an array of objects then return item.property to represent item in dropdown
+           return item;
+         }}
+       />
+           </View>
                   ) : null}
 
                   <CheckBox
@@ -165,8 +254,10 @@ export default class CreateBook extends React.Component {
                       borderWidth: 0,
                     }}
                     title="Prospect"
+                    checkedColor="#2CDEE4"
                     checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
+                    textStyle={{color:'white',fontFamily:'RobotoBold',fontSize:17}}
+                    uncheckedIcon="dot-circle-o"
                     checked={values.type.toString() === 'Prospect'}
                     value={values.type}
                     onPress={() => {
@@ -177,16 +268,35 @@ export default class CreateBook extends React.Component {
                   {this.state.type == 'Prospect' ? (
                       <ScrollView style={{maxHeight:450}} >
                     <View>
-                      <View style={{ marginBottom: 15 }}>
-                        <SelectDropdown
-                          data={this.state.countries}
-                          onSelect={(selectedItem, index) => {
-                            console.log(selectedItem, index);
-                          }}
-                        />
-                      </View>
-                      <View style={{ marginBottom: 10 }}>
-                        <Text>Ou ajouter un Prospect</Text>
+                    <View>
+                            <SelectDropdown
+                  buttonStyle={{ width: wp(92), borderRadius:5  }}
+                  data={this.state.atlhetesProspects}
+                  defaultButtonText={"choisir un prospect"}
+                  onSelect={(selectedItem, index) => {
+                    console.log(selectedItem, index);
+                  }}
+                  renderDropdownIcon={() => {
+                    return <AntDesign name="down" size={24} color="black" />;
+                  }}
+                  dropdownIconPosition={'right'}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    // text represented after item is selected
+                    // if data array is an array of objects then return selectedItem.property to render after item is selected
+                    return selectedItem;
+                  }}
+                  
+                  rowTextStyle={{color:'white',fontSize:15, marginRight:90}}
+                  dropdownStyle={{backgroundColor:'#282C3A',borderRadius:5 }}
+                  rowTextForSelection={(item, index) => {
+                    // text represented for each item in dropdown
+                    // if data array is an array of objects then return item.property to represent item in dropdown
+                    return item;
+                  }}
+                />
+                    </View>
+                      <View style={{ marginVertical: 10, color:'white',fontFamily:'RobotoBold',fontSize:17 }}>
+                        <Text style={{ color:'white',fontFamily:'RobotoBold',fontSize:15}}>Ou ajouter un Prospect</Text>
                       </View>
 
                       <View>
@@ -199,8 +309,10 @@ export default class CreateBook extends React.Component {
                           borderWidth: 0,
                         }}
                         title="M"
+                        checkedColor="#2CDEE4"
                         checkedIcon="dot-circle-o"
-                        uncheckedIcon="circle-o"
+                        textStyle={{color:'white',fontFamily:'RobotoBold',fontSize:17}}
+                        uncheckedIcon="dot-circle-o"
                         checked={values.gender.toString() === 'male'}
                         value={values.gender}
                         onPress={() => setFieldValue('gender', 'male')}
@@ -213,8 +325,10 @@ export default class CreateBook extends React.Component {
                           borderWidth: 0,
                         }}
                         title="Mme"
+                        checkedColor="#2CDEE4"
                         checkedIcon="dot-circle-o"
-                        uncheckedIcon="circle-o"
+                        textStyle={{color:'white',fontFamily:'RobotoBold',fontSize:17}}
+                        uncheckedIcon="dot-circle-o"
                         checked={values.gender === 'female'}
                         value={values.gender}
                         onPress={() => setFieldValue('gender', 'female')}
@@ -223,13 +337,7 @@ export default class CreateBook extends React.Component {
                     <View style={{ marginBottom: 15 }}>
                       <TextInput
                         placeholder="Nom"
-                        style={{
-                          backgroundColor: '#FFFFFF',
-                          paddingTop: 10,
-                          paddingBottom: 10,
-                          paddingLeft: 15,
-                          paddingRight: 15,
-                        }}
+                        style={styles.form}
                         onChangeText={handleChange('first_name')}
                         onBlur={handleBlur('first_name')}
                         value={values.first_name}
@@ -238,13 +346,7 @@ export default class CreateBook extends React.Component {
                     <View style={{ marginBottom: 15 }}>
                       <TextInput
                         placeholder="Prénom"
-                        style={{
-                          backgroundColor: '#FFFFFF',
-                          paddingTop: 10,
-                          paddingBottom: 10,
-                          paddingLeft: 15,
-                          paddingRight: 15,
-                        }}
+                        style={styles.form}
                         onChangeText={handleChange('last_name')}
                         onBlur={handleBlur('last_name')}
                         value={values.last_name}
@@ -253,13 +355,7 @@ export default class CreateBook extends React.Component {
                     <View style={{ marginBottom: 15 }}>
                       <TextInput
                         placeholder="Email"
-                        style={{
-                          backgroundColor: '#FFFFFF',
-                          paddingTop: 10,
-                          paddingBottom: 10,
-                          paddingLeft: 15,
-                          paddingRight: 15,
-                        }}
+                        style={styles.form}
                         onChangeText={handleChange('email')}
                         onBlur={handleBlur('email')}
                         value={values.email}
@@ -268,13 +364,7 @@ export default class CreateBook extends React.Component {
                     <View style={{ marginBottom: 15 }}>
                       <TextInput
                         placeholder="Téléphone"
-                        style={{
-                          backgroundColor: '#FFFFFF',
-                          paddingTop: 10,
-                          paddingBottom: 10,
-                          paddingLeft: 15,
-                          paddingRight: 15,
-                        }}
+                        style={styles.form}
                         onChangeText={handleChange('phone')}
                         onBlur={handleBlur('phone')}
                         value={values.phone}
@@ -282,12 +372,33 @@ export default class CreateBook extends React.Component {
                       
                     </View>
                     <View style={{ marginBottom: 15, }}>
-                    <SelectDropdown
-                        data={this.state.countries}
-                        onSelect={(selectedItem, index) => {
-                          console.log(selectedItem, index);
-                        }}
-                      />
+                    <View>
+                   <SelectDropdown
+         buttonStyle={{ width: wp(92), borderRadius:5  }}
+         data={this.state.atlhetesInactifs}
+         defaultButtonText={"choisir un crénaux"}
+         onSelect={(selectedItem, index) => {
+           console.log(selectedItem, index);
+         }}
+         renderDropdownIcon={() => {
+           return <AntDesign name="down" size={24} color="black" />;
+         }}
+         dropdownIconPosition={'right'}
+         buttonTextAfterSelection={(selectedItem, index) => {
+           // text represented after item is selected
+           // if data array is an array of objects then return selectedItem.property to render after item is selected
+           return selectedItem;
+         }}
+         
+         rowTextStyle={{color:'white',fontSize:15, marginRight:90}}
+         dropdownStyle={{backgroundColor:'#282C3A',borderRadius:5 }}
+         rowTextForSelection={(item, index) => {
+           // text represented for each item in dropdown
+           // if data array is an array of objects then return item.property to represent item in dropdown
+           return item;
+         }}
+       />
+           </View>
                       
                     </View>
                         <View style={{ marginBottom: 15 }}>
@@ -300,7 +411,7 @@ export default class CreateBook extends React.Component {
                               paddingBottom: 10,
                               paddingLeft: 15,
                               paddingRight: 15,
-                              height: 180,
+                              height: 100,
                             }}
                             onChangeText={handleChange('Description')}
                             onBlur={handleBlur('Description')}
@@ -309,15 +420,49 @@ export default class CreateBook extends React.Component {
                         </View>
                       </View>
                     </View>
+                    <Button
+                    style={{
+                      paddingTop: 10,
+                      paddingBottom: 10,
+                      paddingLeft: 15,
+                      paddingRight: 15,
+                    }}
+                    loading={false}
+                    customTextStyle={{color: "black", fontFamily:'RobotoBold',fontWeight:'bold',fontSize:15}}
+                    title="Valider"
+                    onPress={console.log(values)}
+                    />
                     </ScrollView>
                   ) : <View>
-                    <View><Text>choisir un crénaux</Text></View>
-                    <SelectDropdown
-                  data={this.state.countries}
+                    <View>
+                            <SelectDropdown
+                  buttonStyle={{ width: wp(92), borderRadius:5  }}
+                  data={this.state.atlhetesActifs}
+                  defaultButtonText={"choisir un crénaux"}
                   onSelect={(selectedItem, index) => {
                     console.log(selectedItem, index);
                   }}
-                /></View>}
+                  renderDropdownIcon={() => {
+                    return <AntDesign name="down" size={24} color="black" />;
+                  }}
+                  dropdownIconPosition={'right'}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    // text represented after item is selected
+                    // if data array is an array of objects then return selectedItem.property to render after item is selected
+                    return selectedItem;
+                  }}
+                  
+                  rowTextStyle={{color:'white',fontSize:15, marginRight:90}}
+                  dropdownStyle={{backgroundColor:'#282C3A',borderRadius:5 }}
+                  rowTextForSelection={(item, index) => {
+                    // text represented for each item in dropdown
+                    // if data array is an array of objects then return item.property to represent item in dropdown
+                    return item;
+                  }}
+                />
+                    </View>
+                
+                </View>}
                 </View>
 
                 <View
@@ -330,94 +475,45 @@ export default class CreateBook extends React.Component {
                       paddingBottom: 10,
                       paddingLeft: 15,
                       paddingRight: 15,
+                      
                     }}
+                    customTextStyle={{color: "black", fontFamily:'RobotoBold',fontWeight:'bold',fontSize:15}}
                     loading={false}
-                    title="Créer loffre"
+                    title="Valider"
                     onPress={console.log(values)}
-                  />
+                    />
                 </View>
               </View>
             )}
           </Formik>
         </View>
       </View>
-
-      // <KeyboardAvoidingView behavior="padding" style={{flex: 1}}>
-      //   <ScrollView style={styles.container}>
-      //   <View style={styles.logoContainer}>
-      //     {/* <Logo/> */}
-      //     <ResponsiveText style={styles.logoText}>{this.state.message}</ResponsiveText>
-      //   </View>
-      //   {this.getErrorMessage()}
-      //   <View style={{paddingVertical: 20}} />
-      //   <View style={styles.form}>
-      //     <InputField
-      //     //={Icons.PersonAuth({width: wp('5%'), resizeMode: 'contain', tintColor: '#BCBCBC'})}
-      //       keyboardType={'default'}
-      //       placeholder='Identifiant'
-      //       value={this.state.email}
-      //       onChangeText={this.onEmailChange.bind(this)}
-      //     />
-      //     <InputField
-      //      // leftIcon={Icons.Lock({width: wp('5%'), resizeMode: 'contain'})}
-      //       keyboardType={'default'}
-      //       placeholder='Mot de passe'
-      //       value={this.state.password}
-      //       secureTextEntry={true}
-      //       onChangeText={this.onPasswordChange.bind(this)}
-      //     />
-      //     <Button
-      //       style={{width: '100%'}}
-      //       loading={this.state.loading}
-      //       title={'Connexion'}
-      //       gradientStyle={{
-      //         marginHorizontal: 30
-      //       }}
-      //       onPress={this.onLoginPress.bind(this)}
-      //     />
-      //     <Button
-      //       style={{width: '100%'}}
-      //       title={'Je m’inscris'}
-      //       gradientStyle={{
-      //         marginHorizontal: 30,
-      //         borderColor: Color.Secondary,
-      //         borderWidth: 1
-      //       }}
-      //       colors={['#fff', '#fff', '#fff']}
-      //       textStyle={{
-      //         color: Color.Secondary,
-      //       }}
-      //       onPress={() => this.props.navigation.navigate('RegisterInfo')}
-      //     />
-      //     <View style={{marginVertical: 5}}/>
-      //     {/* <TouchableOpacity onPress={() => this.props.navigation.navigate('ResetPassword')}>
-      //       <Text style={{color:Color.Primary}}>Mot de passe oublié ?</Text>
-      //     </TouchableOpacity>
-      //     <View style={{marginVertical: 5}}/>
-      //     <TouchableOpacity onPress={() => this.props.navigation.navigate('Support')}>
-      //       <Text style={{color: Color.Primary}}>Besoin d'aide ?</Text>
-      //     </TouchableOpacity> */}
-      //   </View>
-
-      // </ScrollView>
-      // </KeyboardAvoidingView>
+            </LinearGradient>
     );
-  }
+  }}
 }
 
 const styles = StyleSheet.create({
   image: {
     width: width,
   },
+  background: {
+    flex: 1,
+  },
   backgroundContainer: {
     flex: 1,
     resizeMode: 'cover',
     justifyContent: 'center',
   },
-  container: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.88)',
-    alignItems: 'center',
+  form: {
+    backgroundColor: '#FFFFFF',
+    paddingTop: 10,
+    borderRadius:5,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    width:wp(92),
+    height:50
   },
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
@@ -486,10 +582,6 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
     marginTop: 45,
     marginBottom: 50,
-  },
-  form: {
-    marginLeft: 70,
-    marginRight: 30,
   },
   textInputContainer: {
     flexDirection: 'row',

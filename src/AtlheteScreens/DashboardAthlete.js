@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { LinearGradient } from 'expo-linear-gradient';
 import Pager from '../common/Carrousel';
+import { Button } from '../components/Button';
 import {
   TouchableOpacity,
   View,
@@ -12,9 +13,11 @@ import {
   Text,
   FlatList,
   ActivityIndicator,
-  Modal
+  Modal,
+  ColorPropType
 } from 'react-native';
 import {
+  athlete_booking,
   get_athlete_active_courses,
   get_availabilities,
 } from '../api/Athlete';
@@ -100,70 +103,70 @@ const dayNames = [
   'Vendredi',
   'Samedi',
 ];
-//  moment.locale('fr', {
-//   months:
-//     'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split(
-//       '_',
-//     ),
-//   monthsShort:
-//     'janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.'.split('_'),
-//   monthsParseExact: true,
-//   weekdays: 'dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi'.split('_'),
-//   weekdaysShort: 'dim._lun._mar._mer._jeu._ven._sam.'.split('_'),
-//   weekdaysMin: 'D_L_M_M_J_V_S'.split('_'),
-//   weekdaysParseExact: true,
-//   longDateFormat: {
-//     LT: 'HH:mm',
-//     LTS: 'HH:mm:ss',
-//     L: 'DD/MM/YYYY',
-//     LL: 'D MMMM YYYY',
-//     LLL: 'D MMMM YYYY HH:mm',
-//     LLLL: 'dddd D MMMM YYYY HH:mm',
-//   },
-//   calendar: {
-//     sameDay: '[Aujourd’hui à] LT',
-//     nextDay: '[Demain à] LT',
-//     nextWeek: 'dddd [à] LT',
-//     lastDay: '[Hier à] LT',
-//     lastWeek: 'dddd [dernier à] LT',
-//     sameElse: 'L',
-//   },
-//   relativeTime: {
-//     future: 'dans %s',
-//     past: 'il y a %s',
-//     s: 'quelques secondes',
-//     m: 'une minute',
-//     mm: '%d minutes',
-//     h: 'une heure',
-//     hh: '%d heures',
-//     d: 'un jour',
-//     dd: '%d jours',
-//     M: 'un mois',
-//     MM: '%d mois',
-//     y: 'un an',
-//     yy: '%d ans',
-//   },
-//   dayOfMonthOrdinalParse: /\d{1,2}(er|e)/,
-//   ordinal: function (number) {
-//     return number + (number === 1 ? 'er' : 'e');
-//   },
-//   meridiemParse: /PD|MD/,
-//   isPM: function (input) {
-//     return input.charAt(0) === 'M';
-//   },
-//   // In case the meridiem units are not separated around 12, then implement
-//   // this function (look at locale/id.js for an example).
-//   // meridiemHour : function (hour, meridiem) {
-//   //     return /* 0-23 hour, given meridiem token and hour 1-12 */ ;
-//   // },
-//   meridiem: function (hours, minutes, isLower) {
-//     return hours < 12 ? 'PD' : 'MD';
-//   },
-//   week: {
-//     dow: 1, // Monday is the first day of the week.
-//     doy: 4, // Used to determine first week of the year.
-//   },
-//  });
+ moment.locale('fr', {
+  months:
+    'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split(
+      '_',
+    ),
+  monthsShort:
+    'janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.'.split('_'),
+  monthsParseExact: true,
+  weekdays: 'dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi'.split('_'),
+  weekdaysShort: 'dim._lun._mar._mer._jeu._ven._sam.'.split('_'),
+  weekdaysMin: 'D_L_M_M_J_V_S'.split('_'),
+  weekdaysParseExact: true,
+  longDateFormat: {
+    LT: 'HH:mm',
+    LTS: 'HH:mm:ss',
+    L: 'DD/MM/YYYY',
+    LL: 'D MMMM YYYY',
+    LLL: 'D MMMM YYYY HH:mm',
+    LLLL: 'dddd D MMMM YYYY HH:mm',
+  },
+  calendar: {
+    sameDay: '[Aujourd’hui à] LT',
+    nextDay: '[Demain à] LT',
+    nextWeek: 'dddd [à] LT',
+    lastDay: '[Hier à] LT',
+    lastWeek: 'dddd [dernier à] LT',
+    sameElse: 'L',
+  },
+  relativeTime: {
+    future: 'dans %s',
+    past: 'il y a %s',
+    s: 'quelques secondes',
+    m: 'une minute',
+    mm: '%d minutes',
+    h: 'une heure',
+    hh: '%d heures',
+    d: 'un jour',
+    dd: '%d jours',
+    M: 'un mois',
+    MM: '%d mois',
+    y: 'un an',
+    yy: '%d ans',
+  },
+  dayOfMonthOrdinalParse: /\d{1,2}(er|e)/,
+  ordinal: function (number) {
+    return number + (number === 1 ? 'er' : 'e');
+  },
+  meridiemParse: /PD|MD/,
+  isPM: function (input) {
+    return input.charAt(0) === 'M';
+  },
+  // In case the meridiem units are not separated around 12, then implement
+  // this function (look at locale/id.js for an example).
+  // meridiemHour : function (hour, meridiem) {
+  //     return /* 0-23 hour, given meridiem token and hour 1-12 */ ;
+  // },
+  meridiem: function (hours, minutes, isLower) {
+    return hours < 12 ? 'PD' : 'MD';
+  },
+  week: {
+    dow: 1, // Monday is the first day of the week.
+    doy: 4, // Used to determine first week of the year.
+  },
+ });
 const options = [
   { label: 'MES RENDEZ-VOUS', value: 'MES RENDEZ-VOUS' },
   { label: 'RESERVER', value: 'RESERVER' },
@@ -181,8 +184,10 @@ export default class DashboardAthlete extends React.Component {
     currentDate:'',
     modalVisible:false,
     currentAvailabilities: [],
+    book:[],
     // ajouter le coach id pour pouvoir associe des dispo a un coacg
     availabilities: [],
+    athleteCourse:{},
     currentSlot:'',
     dayApointement:[],
     upcomingApointement:[],
@@ -194,7 +199,9 @@ export default class DashboardAthlete extends React.Component {
     this.setState({coach_id:user.coach.coach_id})
     console.log(user.coach.coach_id);
 
-    get_athlete_active_courses().then((res)=>{})
+    get_athlete_active_courses().then((res)=>{
+      this.setState({athleteCourse:res.data})
+    })
 
     get_coach_by_id(this.state.coach_id).then((res)=>{
     this.setState({coach:{id:res.data.id,first_name:res.data.first_name,last_name:res.data.last_name}})
@@ -380,14 +387,8 @@ export default class DashboardAthlete extends React.Component {
     return `${day} ${date.getDate()} ${month}`;
   }
   getDate(date = new Date()) {
-    moment.locale('en')
-    const d = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-    const m =
-      date.getMonth() + 1 < 10
-        ? `0${date.getMonth() + 1}`
-        : date.getMonth() + 1;
-    const y = date.getFullYear();
-    return `${y}-${m}-${d}`;
+
+   return  moment(date).format('YYYY-MM-DD');
   }
 
   handleRefresh = () => {
@@ -429,7 +430,6 @@ export default class DashboardAthlete extends React.Component {
   }
   getAvailabilities(item) {
     const  date  = moment(item.availability).format('YYYY-MM-DD')
-    console.log(date);
    const  params = {date:date,coach_id:this.state.coach_id}
    get_availabilities(params).then((res)=>{
     
@@ -471,17 +471,13 @@ export default class DashboardAthlete extends React.Component {
    })
   }
   onMonthChange(date) {
-    console.log(this.getDate(date))
-    console.log('aaaaa');
     var item = [];
-    console.log(this.getDate(date))
-    console.log('iciii');
     var ArrayOfday = this.getDaysArrayByMonth(this.getDate(date));
-    // si les availabilities n'existes pas les initialiser
+
     ArrayOfday.forEach((element) => {
      const  elementdaynum = moment(element).format('dd');
      const elementday = moment(element).format('D');
-      element=  moment(element).format('L')
+      element=  moment(element).format('YYYY-MM-DD')
       var Object = {
         availability_day: elementdaynum,
         availability_day_num : elementday,
@@ -640,7 +636,9 @@ export default class DashboardAthlete extends React.Component {
                     refreshing={this.state.refresh}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
-                      <TouchableOpacity onPress={()=>{console.log(item)}}>
+                      <TouchableOpacity onPress={()=>{console.log(item)}}
+                      
+                      >
                       <View style={{backgroundColor:'#2CDEE4', flexDirection:'row',height:70,justifyContent:'space-around',alignContent:'center',margin:10,borderRadius:5}}>
                         <View style={{justifyContent:'center',alignItems:'center'}}><Avatar
                             size={65}
@@ -698,10 +696,11 @@ export default class DashboardAthlete extends React.Component {
               // onRefresh={onRefresh}
               refreshing={this.state.refresh}
               keyExtractor={(item) => item.id}
-              renderItem={({ item }) => (
-                <TouchableOpacity onPress={()=>{console.log(item)}}>
-                <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center',backgroundColor:'white',margin:10}}>
-                  <View style={{justifyContent:'center',alignItems:'center'}}><Avatar
+              renderItem={({ item,index,separators }) => (
+                <TouchableOpacity 
+                onPress={()=>{console.log(item)}}>
+                <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center',backgroundColor:'#1E2026',margin:10}}>
+                  <View style={{height:50, justifyContent:'center',alignItems:'center'}}><Avatar
                       size="medium"
                       rounded
                       source={{
@@ -769,34 +768,35 @@ export default class DashboardAthlete extends React.Component {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <View>        
-               <Text style={{fontFamily:'Roboto'}}>Es-tu sûr(e) de vouloir annuler la séance avec </Text> 
-               <View style={{flexDirection:'row'}}>
-               <Text>{this.state.coach.first_name} {this.state.coach.last_name}</Text> 
-               <Text>de</Text>
-               <Text>{this.state.currentSlot.substring(0,5)}</Text>
-               <Text>a</Text>
-               <Text>{this.state.currentSlot.substring(8)}</Text>
-               </View>
+            <View style={{marginTop:30}}>        
+               <Text style={{fontFamily:'Roboto',color:'white'}}>Es-tu sûr(e) de vouloir annuler la séance avec </Text> 
+               <View style={{flexDirection:'row',justifyContent:'space-evenly'}}>
+               <Text style={{fontFamily:'Roboto',color:'#2CDEE4'}}>{this.state.coach.first_name} {this.state.coach.last_name}</Text> 
+               <Text style={{fontFamily:'Roboto',color:'white'}}>de</Text>
+               <Text style={{fontFamily:'Roboto',color:'#2CDEE4'}}>{this.state.currentSlot.substring(0,5)}</Text>
+               <Text style={{fontFamily:'Roboto',color:'white'}}>a</Text>
+               <Text style={{fontFamily:'Roboto',color:'#2CDEE4'}}>{this.state.currentSlot.substring(8)}</Text>
+               <Text style={{fontFamily:'Roboto',color:'white'}}>?</Text>
             </View>
-            <View style={{flexDirection:'row'}}>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => console.log('oo')  }
-            >
-              <Text style={styles.textStyle}>Oui</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => this.setState({modalVisible:false})}
-            >
-              <Text style={styles.textStyle}>Non</Text>
-            </Pressable>
+            </View>
+            <View style={{flexDirection:'row',marginTop:40}}>
+            <Button
+                          title="Oui"
+                          customContainerStyles={{backgroundColor:'white',height:30, width:100,margin:5}}
+                          customTextStyle={{color: "black", fontFamily:'RobotoBold',fontWeight:'bold',fontSize:10}}
+                          onPress={() => {athlete_booking(this.state.book)}}
+                        />
+              <Button
+                          title="Non"
+                          customContainerStyles={{backgroundColor:'white',height:30, width:100,margin:5}}
+                          customTextStyle={{color: "black", fontFamily:'RobotoBold',fontWeight:'bold',fontSize:10}}
+                          onPress={() => this.setState({modalVisible:false})}
+                        />
             </View>
           </View>
         </View>
       </Modal>
-                    <MonthsSlider onChange={this.onMonthChange.bind(this)} />
+      <MonthsSlider onChange={this.onMonthChange.bind(this)} />
                     <View style={{margin:30, flexDirection:'row'}}>
                       <Text style={{color: '#FFFFFF'}}>Les diponibilités de </Text>
                       <Text style={{color: '#2CDEE4'}}>{this.state.coach.first_name}</Text>
@@ -810,23 +810,31 @@ export default class DashboardAthlete extends React.Component {
                         // onRefresh={onRefresh}
                         refreshing={this.state.refresh}
                         keyExtractor={(item) => item.date}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                              onPress={() => {
-                                this.getAvailabilities(item)
-                              }}>
-                          <View style={styles.day}>
-                              <View style={{flexDirection:'column'}}>
-                              <Text style={{ color: 'white' }}>
-                                {item.availability_day}
-                              </Text>
-                              <Text style={{ color: 'white', marginTop:10 }}>
-                                {item.availability_day_num}
-                              </Text>
-                              </View>
-                          </View>
-                            </TouchableOpacity>
-                        )}
+                        renderItem={({ item }) => {
+                         
+                          // const backgroundColor = item.availability === this.state.selectedDate ? "#2CDEE4" : "#101010";
+                           const backgroundColor = item.availability === this.state.selectedDate ? "#2CDEE4" : "#1E2026";
+                           const textColor = item.availability === this.state.selectedDate ? "black" : "white";
+                           return (
+                             <TouchableOpacity
+                               onPress={() => {
+                                 this.setState({selectedDate:item.availability})
+                                 this.getAvailabilities(item)
+                               
+                               }}>
+                           <View style={[styles.day, {backgroundColor:backgroundColor}]}>
+                               <View style={{flexDirection:'column',justifyContent:'center',alignItems:'center',alignContent:'center'}}>
+                               <Text style={{ color:textColor,justifyContent:'center',alignItems:'center',alignContent:'center' }}>
+                                 {item.availability_day}
+                               </Text>
+                               <Text style={{ color:textColor, marginTop:10,justifyContent:'center',alignItems:'center',alignContent:'center' }}>
+                                 {item.availability_day_num}
+                               </Text>
+                               </View>
+                           </View>
+                             </TouchableOpacity>
+                           )
+                         }}
                       />
                       <View style={{margin:30}}><Text style={{color: '#FFFFFF'}}>Tu peux annuler une séance jusqu'à 24h avant le début de celle-ci.</Text></View>
                       <FlatList
@@ -840,7 +848,11 @@ export default class DashboardAthlete extends React.Component {
                           <View style={{flexDirection:'row',justifyContent:'space-around',margin:10}}>
                           <Text style={{color: '#FFFFFF'}}>{ this.convertSlotToDate(item.slot)}</Text>
                           <DeleteButton  onPress={()=>{
+                            console.log('itemm',this.state.selectedDate)
                             this.setState({currentSlot:this.convertSlotToDate(item.slot)})
+                            const bookInformation = {date:this.state.selectedDate, coach_id:this.state.coach_id,currentSlot:item.slot,athlete_course_id:this.state.athleteCourse.id}
+                            console.log('itemm',bookInformation)
+                            this.setState({book:bookInformation})
                             this.setState({modalVisible:true})
                             }} title="Réserver ce crénaux"></DeleteButton>
                           </View>
@@ -872,6 +884,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1E2026",
     borderRadius: 20,
     padding: 35,
+    height:200,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -885,6 +898,7 @@ const styles = StyleSheet.create({
   button: {
     padding: 10,
     elevation: 2,
+    color:'white'
 
   },
   buttonOpen: {

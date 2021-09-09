@@ -6,12 +6,14 @@ import {
   StyleSheet,
   Dimensions,
   Text,
+  Image,
 } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 const { width } = Dimensions.get('window');
 import { LocaleConfig } from 'react-native-calendars';
 import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../components/Header';
+import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 
 const options = [
   { label: 'NOTIFICATIONS', value: 'NOTIFICATIONS' },
@@ -56,25 +58,6 @@ export default class Activite extends React.Component {
   };
 
   render() {
-    list = () => {
-      return this.state.items.map((element) => {
-        return console.log(element);
-      });
-    };
-    const Item = ({ item, onPress, backgroundColor, textColor }) => (
-      <TouchableOpacity onPress={onPress}>
-        <Text style={styles.item}>
-          {item.content} -- {item.slot}
-        </Text>
-      </TouchableOpacity>
-    );
-    const onRefresh = () => {
-      this.setState({ refresh: true });
-      console.log(this.state.refresh);
-    };
-    const renderItem = ({ item }) => {
-      return <Item stlyes item={item} onPress={(data) => console.log(data)} />;
-    };
 
     return (
       //  <View style={{ flex: 1, backgroundColor: 'black' }}>
@@ -93,22 +76,41 @@ export default class Activite extends React.Component {
         <SafeAreaView>
         <Header title="ACTIVITE" />
           <View>
-            <View>
-              <SwitchSelector
+            <View style={{alignItems:'center'}}>
+            <SwitchSelector
                 options={options}
                 initial={0}
                 onPress={(value) => this.setState({ screen: value })}
                 backgroundColor="#1E2026"
                 buttonColor="#2CDEE4"
-                borderRadius="5"
+                selectedColor="#1E2026"
+                textColor="white"
+                borderRadius={10}
+                height={50}
+                style={{width:widthPercentageToDP(92)}}
+                hasPadding
+                fontSize={15}
+                selectedTextStyle={{fontFamily:'MontserratBoldItalic'}}
+                textStyle={{fontFamily:'MontserratBoldItalic'}}
+                valuePadding={3}
+                borderColor="#1E2026"
               />
             </View>
-            {this.state.screen == 'Planning' ? (
+            {this.state.screen == 'NOTIFICATIONS' ? (
               <View>
               </View>
             ) : (
               <View>
-               
+              
+                  <TouchableOpacity
+                    style={{ position:'absolute', alignItems:'flex-end' ,left:widthPercentageToDP(90),top:heightPercentageToDP(50)}}
+                    onPress={() => {
+                      navigate('CreateRappel');
+                    }}>
+                    <Image source={require('../../assets/images/Group_8766.png')}/>
+                    
+                  </TouchableOpacity>
+             
               </View>
             )}
           </View>

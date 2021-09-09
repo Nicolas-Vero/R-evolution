@@ -1,13 +1,13 @@
 import {View,Text} from 'react-native';
 import React, {Component} from 'react';
 import Carousel from '../components/CarouselPager';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 export default class Pager extends Component {
   constructor(props){
     super(props);
   }
   state={ 
     backgroundColor: '#2CDEE4'
-
   }
  
   onClickSomething() {
@@ -17,13 +17,13 @@ export default class Pager extends Component {
   render() {
     return (
       // console.log('cafrousel',this.props.pager),
-      <View style={{ height:175}}>
+      <View style={{ height:180, width:widthPercentageToDP(94), alignItems:'center'}}>
         <Carousel
          ref={ref => this.carousel = ref}
-         blurredZoom={0.9} initialPage={0} 
-         blurredbackgroundColor={0}
-         vertical={true}containerPadding={60}
-          pageStyle={{backgroundColor:this.state.backgroundColor, borderRadius:10,justifyContent:'center'}} onPageChange={(page)=>{}} >
+         blurredZoom={0.94} initialPage={0} 
+         blurredOpacity={0.2}
+         vertical={true}containerPadding={63}
+          pageStyle={{ borderRadius:10,alignItems:'center',width:widthPercentageToDP(94)}} onPageChange={(page)=>{}} >
          {this.props.pager}
         </Carousel>
       </View>

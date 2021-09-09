@@ -69,11 +69,11 @@ const AppTabsNavigator = createBottomTabNavigator(
      // tabBarComponent: props => <CustomMainTabBar {...props} main={true} />,
       tabBarOptions: {
         activeTintColor: '#2CDEE4',
-        inactiveTintColor: 'grey',
+        inactiveTintColor: 'white',
         showIcon: true,
         showLabel: false,
         allowFontScaling: false,
-        style:{borderTopColor:'#2CDEE4', backgroundColor:'black'}
+        style:{borderTopColor:'#2CDEE4', backgroundColor:'#1E2026'}
       },
     },
   );

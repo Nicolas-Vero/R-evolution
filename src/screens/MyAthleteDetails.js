@@ -9,6 +9,9 @@ import { get_paiement_for_coach } from '../api/Paiement';
 import HeaderLight from '../components/HeaderLight';
 import { Image } from 'react-native';
 import { ScrollView } from 'react-native';
+import { loadFonts } from '../configs/design/font';
+import { Entypo } from '@expo/vector-icons';
+import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 const { width } = Dimensions.get('window');
 
 export default class MyAthleteDetails extends React.Component {
@@ -18,6 +21,7 @@ export default class MyAthleteDetails extends React.Component {
   
   };
   componentDidMount() {
+    loadFonts;
     get_athlete_active_courses().then((res) => {
       this.setState({ ActiveCourses: res.data });
     });
@@ -51,26 +55,25 @@ export default class MyAthleteDetails extends React.Component {
     }
     console.log('toto', Athlete.goals);
     return (
-      <View style={{ backgroundColor: 'black', flex: 1 }}>
+      <View style={{ backgroundColor:'black', flex: 1 }}>
         <SafeAreaView>
-          
-          <View>
-            <View
+        <View
               style={{
                 flexDirection: 'row',
-                justifyContent:'space-between'
+                justifyContent:'space-between',
+                alignContent:'center'
               }}>
               <HeaderLight />
-              <View style={{ flexDirection: 'column' }}>
+              <View style={{ marginLeft:60, marginTop:15, flexDirection: 'column',alignItems:'center'}}>
                 <Avatar
-                  size="xlarge"
+                  size={100}
                   rounded
                   source={{
                     uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                   }}
                 />
                 
-                <Text style={styles.text}>helllo uhuhuhu</Text>
+                <Text style={{fontFamily:'MontserratSemiBold',fontSize:20,marginTop:20,color:'white'}}>Florian GALOPIN</Text>
               </View>
               <Image 
                  style={styles.tinyLogo}
@@ -79,9 +82,21 @@ export default class MyAthleteDetails extends React.Component {
                  }}
                 />
             </View>
-            <ScrollView style={{height:550}}>
-            <View style={{ backgroundColor: '#2CDEE4', margin: 5,height:50,borderRadius:5,justifyContent:'center' }}>
-              <Text style={styles.text}>Son numéro: {Athlete.phone}</Text>
+          <View style={{alignItems:'center'}}>
+           
+            <ScrollView style={{height:heightPercentageToDP(65) }}>
+              <View>
+            <View style={{alignItems:'center',flexDirection:'row', backgroundColor: '#2CDEE4',marginTop:15, margin: 5,height:50,width:widthPercentageToDP(94),borderRadius:5,justifyContent:'center',justifyContent:'space-between' }}> 
+              <Text style={{        fontSize:15,
+        color:'black',fontFamily:'Roboto',
+        marginLeft:15,}}>Son numéro : </Text>
+        <Text style={{justifyContent:'center',fontFamily:'RobotoBold',fontSize:18, marginRight:50}}>{Athlete.phone}</Text>
+              <Image 
+                 style={styles.Logo}
+                 source={{
+                   uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/Téléphone.png',
+                 }}
+                />
             </View>
             <View
               style={styles.container}>
@@ -90,11 +105,12 @@ export default class MyAthleteDetails extends React.Component {
             </View>
             <View
               style={styles.container}>
-              <Text style={styles.text}>offre en cours</Text>
-              <Text></Text>
+              <Text style={styles.text}>Offre en cours</Text>
+              <Text style={styles.textBlue}>Pack transformation - 8 séances restantes sur 10</Text>
             </View>
-            <View style={{ backgroundColor: '#1E2026', margin: 5 , height:150 }}>
-              <Text style={styles.text}>paiement</Text>
+            <View style={{alignContent:'center', backgroundColor: '#1E2026', margin: 5 , height:250 }}>
+              <Text style={styles.text}>Paiement(s) effectué(s):</Text>
+              
               <FlatList
                 data={this.state.Paiement}
                 extraData={this.state}
@@ -142,7 +158,10 @@ export default class MyAthleteDetails extends React.Component {
                   </View>
                 )}
               />
-              <Text>ajouter un paiement </Text>
+              <View style={{flexDirection:'row',alignItems:'center', justifyContent:'flex-end',  margin:10}}>
+              <Entypo name="squared-plus" size={27} color="#2CDEE4" />
+              <Text style={styles.text}>Ajouter un paiement </Text>
+              </View>
             </View>
             <View
               style={{
@@ -192,11 +211,15 @@ export default class MyAthleteDetails extends React.Component {
                 flexDirection: 'row',
                 height:50
               }}>
-              <View style={{  margin: 5, borderRadius: 5, flex: 2,   backgroundColor: '#1E2026', flexDirection:'row' }}>
-                <Text style={styles.text}>Taille:</Text><Text style={styles.text}>{Athlete.size / 100}</Text>
+              <View style={{ flex: 2,justifyContent:'center',height:50,marginHorizontal: 5, borderRadius: 5,    backgroundColor: '#1E2026',  backgroundColor: '#1E2026', }}>  
+              <View style={{ margin: 5, borderRadius: 5,    flexDirection:'row' }}>
+                <Text style={styles.text2}>Taille:</Text><Text style={styles.textBlue2}>{`${Athlete.size / 100}`.substring(0,1)}m{`${Athlete.size / 100}`.substring(2)} </Text>
               </View>
-              <View style={{  margin: 5, borderRadius: 5, flex: 2 ,   backgroundColor: '#1E2026',}}>
-                <Text style={styles.text}>poids:{Athlete.weight} kg </Text>
+              </View>
+              <View style={{flex: 2,justifyContent:'center',height:50,marginHorizontal: 5, borderRadius: 5,    backgroundColor: '#1E2026',  backgroundColor: '#1E2026', }}>  
+              <View style={{  flexDirection:'row' }}>
+              <Text style={styles.text2}>poids:</Text><Text style={styles.textBlue2}>{Athlete.weight}Kg</Text>
+              </View>
               </View>
             </View>
             <View
@@ -204,22 +227,33 @@ export default class MyAthleteDetails extends React.Component {
                 margin: 5,
                 borderRadius: 5,
                 backgroundColor: '#1E2026',
-                height:50
+                height:50,
+                justifyContent:'center',
               }}>
-              <Text style={styles.text}>Age:{Athlete.age} ans</Text>
+                <View style={{flexDirection:'row'}}>
+              <Text style={styles.text}>Age:</Text><Text style={styles.textBlue2}>{Athlete.age} ans</Text>
+              </View>
             </View>
             <View
               style={{
                 margin: 5,
                 borderRadius: 5,
                 backgroundColor: '#1E2026',
-                height:90,
+                height:130,
+                justifyContent:'center'
+             
               }}>
-              <Text style={styles.text}>crénaux de sport souhaités:</Text>
-              <Text>
-                Entre {Athlete.preferred_time_start} et{' '}
-                {Athlete.preferred_time_end}
-              </Text>
+                <View style={{flexDirection:'column'}}>
+              <Text style={styles.text}>Crénaux de sport souhaités:</Text>
+            
+              <View style={{flexDirection:'row' ,marginTop:15}}>
+               <Text style={styles.textTiny}> Entre</Text> 
+               <Text style={styles.textBlue2Tiny}>{Athlete.preferred_time_start}H</Text> 
+                 <Text style={styles.textTiny}>et</Text>
+               <Text style={styles.textBlue2Tiny}>{Athlete.preferred_time_end}H</Text>
+              </View>
+              </View>
+              <View style={{marginTop:5}}>
               <FlatList
                 horizontal={true}
                 data={dayPreference}
@@ -255,29 +289,31 @@ export default class MyAthleteDetails extends React.Component {
                   </View>
                 )}
               />
+          </View>
             </View>
             <View
               style={styles.container}>
               <Text style={styles.text}>experience(s) sportive(s):</Text>
-              <Text>plus de {Athlete.experience_years} ans</Text>
+              <Text style={styles.textBlue}>plus de {Athlete.experience_years} ans</Text>
             </View>
             <View
               style={styles.container}>
-              <Text style={styles.text}>santé:</Text>
-              {Athlete.health_issues == true ? (
-                <Text>oui</Text>
+              <Text style={styles.text}>Santé:</Text>
+              {Athlete.health_issues ? (
+                <Text style={styles.textBlue}>{Athlete.health_issues}</Text>
               ) : (
-                <Text>Non</Text>
+                <Text style={styles.textBlue}>Pas d'information</Text>
               )}
             </View>
             <View
                style={styles.container}>
-              <Text style={styles.text}>info complémentaires: </Text>
+              <Text style={styles.text}>Unfo complémentaires: </Text>
               {Athlete.health_problem_description == null ? (
-                <Text>Pas d'information</Text>
+                <Text style={styles.textBlue}>Pas d'information</Text>
               ) : (
                 <Text>{Athlete.health_problem_description}</Text>
               )}
+            </View>
             </View>
           </ScrollView>
           </View>
@@ -289,22 +325,63 @@ export default class MyAthleteDetails extends React.Component {
 
 const styles = StyleSheet.create({
     tinyLogo: {
-        width: 40,
-        height: 20,
+      resizeMode:'contain',
+        width: 80,
+        height: 50,
+        marginRight:12,
+        marginTop:10
+      },
+    Logo: {
+      resizeMode:'contain',
+        width: 25,
+        height:30,
+        marginRight:25,
       },
       container:{
         backgroundColor: '#1E2026',
         flexDirection: 'column',
         margin: 5,
+        alignContent: 'center',
+        justifyContent: 'center',
         height:70,
 
       },
       text:{
+        
         fontSize:15,
+        color:'black',
+        marginLeft:15,
+        color:'white'
+      },
+      textTiny:{
+        
+        fontSize:13,
+        color:'black',
+        marginLeft:15,
+        color:'white'
+      },
+      text2:{
+        fontSize:15,
+        color:'black',
+        marginLeft:15,
         color:'white'
       },
       textBlue:{
-        fontSize:20,
+        fontSize:15,
+        marginLeft:15,
+        marginTop:9,
+        color:'#2CDEE4'
+      },
+      textBlue2:{
+        fontSize:15,
+        marginLeft:15,
+
+        color:'#2CDEE4'
+      },
+      textBlue2Tiny:{
+        fontSize:13,
+        marginLeft:10,
+
         color:'#2CDEE4'
       }
 

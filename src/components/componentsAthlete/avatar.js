@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import {View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Dimensions,Image, SafeAreaView } from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Dimensions,Image } from 'react-native';
 const {width} = Dimensions.get('window');
 import {Field, FieldArray} from 'formik';
 import {widthPercentageToDP, widthPercentageToDP as wp} from 'react-native-responsive-screen';
-import ResponsiveText from '../common/ResponsiveText';
 import * as ImagePicker from 'expo-image-picker';
-import { Button } from './Button';
 import { Avatar } from 'react-native-elements';
 export const avatar = React.forwardRef(
 (
@@ -65,7 +63,7 @@ export const avatar = React.forwardRef(
           <View >
                  <View style={{alignItems:'center'  }}>
             <Image
-              source={require('../../assets/images/Group_5.png')}
+              source={require('../../../assets/images/GroupA_7.png')}
               style={{ width: widthPercentageToDP(80) }}
             />
              <View
@@ -97,7 +95,7 @@ export const avatar = React.forwardRef(
                 rounded source={{ uri: image }} />
                {/* <Image style={{height:20,width:50,resizeMode:'contain', }} source={require('../../assets/images/AddPhoto.png')}/> */}
             </View>    
-                ):(<Image style={{height:150,width:190,resizeMode:'contain', }} source={require('../../assets/images/AddPhoto.png')}/>)}
+                ):(<Image style={{height:150,width:190,resizeMode:'contain', }} source={require('../../../assets/images/AddPhoto.png')}/>)}
             </TouchableOpacity>
          )}   />
             </View>

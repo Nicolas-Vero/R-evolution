@@ -24,7 +24,7 @@ import Header from '../../components/Header';
 //import { Slider } from 'react-native-elements';
 import { ElementSlider } from '../../components/ElementSlider';
 const { width } = Dimensions.get('window');
-import { dynamicInput } from '../../components/inputs/dynamicInput';
+import { dynamicInput } from '../../components/dynamicInput';
 import { dynamicList } from '../../components/dynamicList';
 import { selectList } from '../../components/selectList';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -142,7 +142,6 @@ export default class MoreInfo extends React.Component {
           style={styles.background}
         />
         <SafeAreaView style={styles.safeArea} />
-        {/*todo relier correctement les pages precedentes*/}
         {stepperStep < 1 ? (
           <Header title="LET'S GO" />
         ) : (
@@ -165,11 +164,12 @@ export default class MoreInfo extends React.Component {
                 degrees: [],
                 xP: '',
                 spécialities: [],
-                gymPlace:{},
+                gymPlace:[],
                 avatar: '',
               }}
               onSubmit={(values, actions) =>{
-                this.handleFormSubmit(values, actions)
+                console.log('fffffff',values);
+                //this.handleFormSubmit(values, actions)
                } }>
               {({
                 values,
@@ -217,7 +217,7 @@ export default class MoreInfo extends React.Component {
                     {isSubmitting ? (
                       <Loader />
                     ) : (
-                      <View style={{}}>
+                      <View>
                         <Button
                          customTextStyle={{fontFamily:'RobotoBold',fontSize:17}}
                           title="Suivant"
@@ -237,9 +237,6 @@ export default class MoreInfo extends React.Component {
                 //   </ScrollView>
               )}
             </Formik>
-          
-
-          {step === 'payment' && <View />}
         </View>
       </View>
     );

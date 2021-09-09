@@ -6,6 +6,8 @@ import {
   SafeAreaView,
   StyleSheet,
   Platform,
+  TouchableOpacity,
+  Image,
   StatusBar,
   Dimensions,
 } from 'react-native';
@@ -20,21 +22,27 @@ import { Button } from '../../components/Button';
 import Header from '../../components/Header';
 
 //import { Slider } from 'react-native-elements';
-import { ElementSlider } from '../../components/ElementSlider';
+import { ElementSlider } from '../../components/componentsAthlete/ElementSlider';
 const { width } = Dimensions.get('window');
-import { dynamicInput } from '../../components/inputs/dynamicInput';
-import { dynamicList } from '../../components/dynamicList';
-import { selectList } from '../../components/selectList';
+import { destinataire } from '../../components/componentsAthlete/destinataire';
+import { dynamicListAthlete } from '../../components/componentsAthlete/dynamicListAthlete';
+import { selectList } from '../../components/componentsAthlete/selectList';
+import { avatar } from '../../components/componentsAthlete/avatar';
 import { LinearGradient } from 'expo-linear-gradient';
-import { avatar } from '../../components/avatar';
+import { mensuration } from '../../components/componentsAthlete/mensuration';
+import { health } from '../../components/componentsAthlete/health';
+import { ElementSlider2 } from '../../components/componentsAthlete/ElementSlider2';
 const inputs = [
-  { name: 'degrees', type: 'default', component: dynamicInput },
+  { name: 'mensuration', type: 'default', component: mensuration },
   { name: 'xP', type: 'default', component: ElementSlider },
-  { name: 'spécialities', type: 'default', component: dynamicList },
+  { name: 'objectifs', type: 'default', component: dynamicListAthlete },
+  { name: 'health', type: 'default', component: health },
   { name: 'gymPlace', type: 'default', component: selectList },
+  { name: 'availabilities', type: 'default', component: ElementSlider2 },
+  { name: 'destinataire', type: 'default', component: destinataire },
   { name: 'avatar', type: 'default', component: avatar },
 ];
-export default class MoreInfo extends React.Component {
+export default class MoreInfoAthlete extends React.Component {
   constructor(props) {
     super(props);
 
@@ -45,11 +53,10 @@ export default class MoreInfo extends React.Component {
       values:{} 
     };
   }
- 
-  Pvalues = ({navigation})=>{
-      console.log(navigation)
-  
-  }
+ async componentDidMount(){
+   console.log(this.props.navigation.state)
+  await loadFonts();
+ }
   changeStep = (newStep) => {
     const inputLenght = inputs.length;
     const percent = ((newStep + 1) / inputLenght) * 1.0;
@@ -58,7 +65,7 @@ export default class MoreInfo extends React.Component {
       progress: percent,
       step: 'complementary',
     });
-
+    console.log()
   };
 
   async onContinuePress() {
@@ -119,8 +126,7 @@ export default class MoreInfo extends React.Component {
   }
 
   render() {
-    
-    this.Pvalues()
+  
     const { navigation } = this.props;
     const { stepperStep, step } = this.state;
     console.log(stepperStep);
@@ -140,14 +146,20 @@ export default class MoreInfo extends React.Component {
           style={styles.background}
         />
         <SafeAreaView style={styles.safeArea} />
-        {/*todo relier correctement les pages precedentes*/}
         {stepperStep < 1 ? (
-          <Header title="inscription" />
+          <Header title="LET'S GO" />
         ) : (
-          <Header
-            title="let's go"
-            onPress={() => this.changeStep(stepperStep - 1)}
-          />
+          <View style={ styles.container }>
+          <View style={{flex: 1}}>
+              <TouchableOpacity  style={{paddingLeft:7}}  onPress={() => this.changeStep(stepperStep - 1)}>
+                  <Image source={require('../../../assets/icons/header-back.png')} style={styles.image}/>
+              </TouchableOpacity>
+          </View>
+          <View style={styles.textContainer}>
+              <Text style={styles.text}>LET'S GO</Text>
+          </View>
+          <View style={{flex: 1}} />
+      </View>
         )}
         <View style={{ paddingLeft: 16, paddingRight: 16 }}>
             <Formik
@@ -157,24 +169,11 @@ export default class MoreInfo extends React.Component {
                 weight:'',
                 size:'',
                 xP: '',
-                Objectifs: [
-                  { name: 'Perte de poids', selected: 0 },
-                  { name: 'Raffermissment', selected: 0 },
-                  { name: 'Santé', selected: 0 },
-                  { name: 'Prise de masse', selected: 0 },
-                  { name: 'Prépa physique', selected: 0 },
-                ],
+                objectifs: [],
                 healthInfo: '',
                 information: '',
                 gymPlace:[],
-                trainnigPréference:{
-                  time:'',
-                  day:[],
-                },
-                recipient:{
-                  private:'',
-                  who:'',
-                },
+                trainnigPréference:[],
                 avatar: '',
               }}
               onSubmit={(values, actions) =>
@@ -191,60 +190,59 @@ export default class MoreInfo extends React.Component {
               }) => (
                 // <ScrollView>
                 <View
+                style={{
+                  height: hp('80%'),
+                  justifyContent: 'space-between',
+                }}>
+                <View
                   style={{
-                    height: hp('80%'),
-                    borderColor: 'blue',
-                    borderWidth: 3,
-                    justifyContent: 'space-between',
+                    alignContent: 'center',
+                    height:hp(70),
+                    justifyContent:'space-between',
+                    maxHeight: hp('70'),
                   }}>
-                  <View
-                    style={{
-                      alignContent: 'center',
-                      maxHeight: hp('70'),
-                      borderColor: 'red',
-                      borderWidth: 3,
-                    }}>
-                    <Layout
-                      component={inputs[stepperStep].component}
-                      placeholder={inputs[stepperStep].name}
-                      name={inputs[stepperStep].name}
-                      onChangeText={this.onChangeText}
-                      keyboardType={inputs[stepperStep].type}
-                      secureTextEntry={
-                        inputs[stepperStep] && inputs[stepperStep].secureEntry
-                      }
-                      errorContainer={{
-                        alignItems: 'center',
-                        paddingLeft: 50,
-                      }}
-                      values={values}
-                      setFieldValue={setFieldValue}
-                      setFieldTouched={setFieldTouched}
-                      setValues={setValues}
-                      errors={errors}
-                    />
-                  </View>
-                  <View style={{ borderColor: 'green', borderWidth: 3 }}>
-                    {isSubmitting ? (
-                      <Loader />
-                    ) : (
-                      <View style={{}}>
-                        <Button
-                          title="Suivant"
-                          onPress={
-                            inputs[inputs.length - 1] &&
-                            stepperStep === inputs.length - 1
-                              ? handleSubmit
-                              : () => this.changeStep(stepperStep + 1)
-                          }
-                          disabled={Object.keys(errors).some((v) =>
-                            inputs[stepperStep].name.includes(v),
-                          )}></Button>
-                      </View>
-                    )}
-                  </View>
+                  <Layout
+                    component={inputs[stepperStep].component}
+                    placeholder={inputs[stepperStep].name}
+                    name={inputs[stepperStep].name}
+                    onChangeText={this.onChangeText}
+                    keyboardType={inputs[stepperStep].type}
+                    secureTextEntry={
+                      inputs[stepperStep] && inputs[stepperStep].secureEntry
+                    }
+                    errorContainer={{
+                      alignItems: 'center',
+                      paddingLeft: 50,
+                    }}
+                    values={values}
+                    setFieldValue={setFieldValue}
+                    setFieldTouched={setFieldTouched}
+                    setValues={setValues}
+                    errors={errors}
+                  />
                 </View>
-                //   </ScrollView>
+                <View >
+                  {isSubmitting ? (
+                    <Loader />
+                  ) : (
+                    <View>
+                      <Button
+                       customTextStyle={{fontFamily:'RobotoBold',fontSize:17}}
+                        title="Suivant"
+                        onPress={
+                          inputs[inputs.length - 1] &&
+                          stepperStep === inputs.length - 1
+                            ? handleSubmit
+                            : () => this.changeStep(stepperStep + 1)
+                        }
+                        disabled={Object.keys(errors).some((v) =>
+                          inputs[stepperStep].name.includes(v),
+                        )}></Button>
+                    </View>
+                  )}
+                </View>
+              </View>
+        //   </ScrollView>
               )}
             </Formik>
           
@@ -259,6 +257,8 @@ const styles = StyleSheet.create({
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
+
+
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -277,4 +277,16 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
   },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: width,
+    height: 49,
+    marginBottom: 29
+   
+},
+image: {marginLeft:10,height: 20.54, width: 12.33, resizeMode: 'contain'},
+textContainer: {alignItems: 'center', flex: 6},
+text: {  fontStyle: 'italic', fontWeight: '800', fontSize: 22, color: '#FFFFFF', lineHeight: 24}
 });

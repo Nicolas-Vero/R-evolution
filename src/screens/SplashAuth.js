@@ -1,0 +1,201 @@
+import React from 'react';
+import {
+  View,
+  SafeAreaView,
+  StyleSheet,
+  Dimensions,
+  Image,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+import * as Font from 'expo-font';
+//import Button from '../../common/Button';
+import Color from '../configs/design/color';
+import Header from '../components/Header';
+const { width } = Dimensions.get('window');
+import { Button } from '../components/Button';
+import { LinearGradient } from 'expo-linear-gradient';
+import { widthPercentageToDP  as wp} from 'react-native-responsive-screen';
+export default class SplashAuth extends React.Component {
+  state = {
+    offers: [],
+    fontsLoaded: false,
+  };
+  async loadFonts() {
+    await Font.loadAsync({
+      RobotoBold: require('../../assets/fonts/Roboto-Bold.ttf'),
+    });
+    this.setState({ fontsLoaded: true });
+  }
+  componentDidMount() {
+    this.loadFonts();
+  }
+  render() {
+    return (
+      <LinearGradient
+        colors={['black', '#2D333C']}
+        start={{
+          x: 0,
+          y: 0,
+        }}
+        end={{
+          x: 1,
+          y: 1,
+        }}
+        style={{
+          backgroundColor: 'black',
+
+          flex: 1,
+
+          // justifyContent:"space-evenly"
+        }}>
+        <View>
+          <SafeAreaView style={styles.safeArea} />
+          <View>
+          <TouchableOpacity
+          onPress={() => console.log('toto')}
+           style={{height:50,flexDirection:'row',marginLeft:19.5,}}>         
+             <Image source={require('../../assets/icons/header-back.png')} style={ {height: 20.54, width: 12.33, resizeMode: 'contain'}}/>
+            <Text style={{color:'white',marginLeft:10,marginTop:1}}>RETOUR</Text>
+          </TouchableOpacity>
+          </View>
+          <View style={styles.logoContainer}>
+          </View>
+
+          <View style={{ marginTop:170}}>
+            <View >
+              <View
+                style={{
+                  alignItems: 'center',
+                  margin: 10,
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate('AuthAthlete');
+                  }}>
+                  <View style={styles.bcontainer}>
+                    <Text style={{ color: '#393637',fontFamily:'RobotoBold',fontSize:17 }}>Espace sportif</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View
+                style={{
+                  alignItems: 'center',
+                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.navigate('AuthCoach');
+                  }}>
+                  <View>
+                    <Text
+                      style={{
+                        marginTop:50,
+                        color: 'white',
+                        fontFamily:'RobotoBold',
+                        fontSize:17,
+                        textDecorationLine: 'underline',
+                      }}>
+                      Espace coach
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+      </LinearGradient>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  bcontainer: {
+     height:60,
+    width:wp(92),
+    backgroundColor: '#2CDEE4',
+    borderRadius: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  backgroundContainer: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.88)',
+    alignItems: 'center',
+  },
+  // safeArea: {
+  //   paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+  // },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: width,
+    height: 49,
+    marginTop: 29,
+    marginBottom: 49,
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
+  title: {
+    color: '#FFFFFF',
+    fontWeight: '500',
+    fontSize: 15,
+    fontStyle: 'italic',
+    textAlign: 'center',
+    marginTop: 112,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    width: width,
+    justifyContent: 'space-between',
+    marginBottom: 35,
+  },
+  loginButton: {
+    width: 158.4,
+    height: 48,
+    borderRadius: 10,
+    borderWidth: 1,
+    marginRight: 22,
+    borderColor: '#2CDEE4',
+    backgroundColor: 'transparent',
+  },
+  registerButton: {
+    width: 158.4,
+    height: 48,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    marginLeft: 22,
+  },
+  container: {
+    flex: 1,
+  },
+  logoContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft: 30,
+    marginTop: 45,
+    marginBottom: 50,
+  },
+  form: {
+    marginLeft: 70,
+    marginRight: 30,
+  },
+  textInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logoText: {
+    color: Color.Primary,
+    fontSize: 5,
+    alignSelf: 'center',
+    marginTop: 20,
+  },
+});

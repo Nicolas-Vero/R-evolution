@@ -3,40 +3,32 @@ import {createStackNavigator} from 'react-navigation-stack';
 import { Ionicons } from '@expo/vector-icons';
 // Auth import
 import LoginAthlete from '../AtlheteScreens/Auth/LoginAthlete';
+import RegisterInfoAthlete from '../AtlheteScreens/Auth/RegisterInfoAthlete';
+import MoreInfoAthlete from '../AtlheteScreens/Auth/MoreInfoAthlete';
 
 // Auth bottom tabs menu
 const AuthStackAthlete = createStackNavigator(
   {
-    Login: {
-      screen: LoginAthlete,
+    RegisterInfoAthlete: {
+      screen: RegisterInfoAthlete,
       navigationOptions: {
-        tabBarLabel: 'Sign in',
+        tabBarLabel: 'Sign up',
         tabBarIcon: ({tintColor}) => (
           <Ionicons  size={20} color={tintColor} />
         ),
         header: null,
       },
     },
-    // RegisterInfo: {
-    //   screen: RegisterInfo,
-    //   navigationOptions: {
-    //     tabBarLabel: 'Sign up',
-    //     tabBarIcon: ({tintColor}) => (
-    //       <Ionicons  size={20} color={tintColor} />
-    //     ),
-    //     header: null,
-    //   },
-    // },
-    // MoreInfo: {
-    //   screen: MoreInfo,
-    //   navigationOptions: {
-    //     tabBarLabel: 'Sign up',
-    //     tabBarIcon: ({tintColor}) => (
-    //       <Ionicons  size={20} color={tintColor} />
-    //     ),
-    //     header: null,
-    //   },
-    // },
+    MoreInfoAthlete: {
+      screen: MoreInfoAthlete,
+      navigationOptions: {
+        tabBarLabel: 'Sign up',
+        tabBarIcon: ({tintColor}) => (
+          <Ionicons  size={20} color={tintColor} />
+        ),
+        header: null,
+      },
+    },
     // AddAvatar: {
     //   screen: AddAvatar,
     //   navigationOptions: {
@@ -60,7 +52,7 @@ const AuthStackAthlete = createStackNavigator(
   },
   {
     lazy: true,
-    initialRouteName: 'Login',
+    initialRouteName: 'RegisterInfoAthlete',
     animationEnabled: true,
     tabBarPosition: 'bottom',
     navigationOptions: {

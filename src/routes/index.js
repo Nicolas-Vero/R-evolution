@@ -3,7 +3,7 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import AppTabsNavigator from './Dashbord/AppTabsNavigator';
 import AuthStack from './AuthStack';
 import DashboardStack from './DashboardStack';
-import AuthStackAthlete from './AuthStackAthlete';
+//import AuthStackAthlete from './AuthStackAthlete';
 import SplashStack from './SplashStack';
 import DashboardStackAtlhete from './DashboardStackAthlete';
 const App = createSwitchNavigator(

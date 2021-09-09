@@ -45,7 +45,7 @@ export default class Index extends React.Component {
                           title="Rejoindre"
                           customContainerStyles={styles.registerButton}
                           customTextStyle={{color: "#393637", fontFamily:'RobotoBold',fontWeight:'bold',fontSize:17}}
-                          onPress={() => navigate('RegisterInfo')}
+                          onPress={() => navigate('SwitchAppAuth')}
                         />
                         <Button 
                           title="Se connecter"

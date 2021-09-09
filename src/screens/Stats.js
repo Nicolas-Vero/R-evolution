@@ -17,7 +17,7 @@ import Header from '../components/Header';
 //import { Slider } from 'react-native-elements';
 import { ElementSlider } from '../components/ElementSlider';
 const { width } = Dimensions.get('window');
-import { dynamicInput } from '../components/inputs/dynamicInput';
+import { dynamicInput } from '../components/dynamicInput';
 import { dynamicList } from '../components/dynamicList';
 import { selectList } from '../components/selectList';
 import { LinearGradient } from 'expo-linear-gradient';

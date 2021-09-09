@@ -7,6 +7,9 @@ import AuthEntry from '../screens/Auth/index';
 import LoginAthlete from '../AtlheteScreens/Auth/LoginAthlete';
 import Splash from '../screens/Splash';
 import Login from '../screens/Auth/Login';
+import SplashAuth from '../screens/SplashAuth';
+import AuthStack from './AuthStack';
+import AuthStackAthlete from './AuthStackAthlete';
 
 // Auth bottom tabs menu
 const SplashStack = createStackNavigator(
@@ -20,6 +23,16 @@ const SplashStack = createStackNavigator(
 
     SwitchApp:{
         screen:Splash,
+        navigationOptions: {
+            tabBarLabel: 'Sign in',
+            tabBarIcon: ({tintColor}) => (
+              <Ionicons  size={20} color={tintColor} />
+            ),
+            header: null,
+          },
+    },
+    SwitchAppAuth:{
+        screen:SplashAuth,
         navigationOptions: {
             tabBarLabel: 'Sign in',
             tabBarIcon: ({tintColor}) => (
@@ -50,9 +63,30 @@ const SplashStack = createStackNavigator(
         ),
         header: null,
       },
-
     },
 
+    AuthCoach: {
+      screen: AuthStack,
+      navigationOptions: {
+        tabBarLabel: 'Sign in',
+        tabBarIcon: ({tintColor}) => (
+          <Ionicons  size={20} color={tintColor} />
+        ),
+        header: null,
+      },
+
+    },
+    AuthAthlete: {
+      screen: AuthStackAthlete,
+      navigationOptions: {
+        tabBarLabel: 'Sign in',
+        tabBarIcon: ({tintColor}) => (
+          <Ionicons  size={20} color={tintColor} />
+        ),
+        header: null,
+      },
+
+    },
   },
   {
     lazy: true,

@@ -16,6 +16,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { get_coach_athlete } from '../api/Coach';
 import { tail } from 'lodash';
 import { Avatar,SearchBar } from 'react-native-elements';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 
 const options = [
@@ -25,19 +26,19 @@ const options = [
 ];
 export default class MyAthletes extends React.Component {
   state = {
+    
     refresh: false,
     user: { name: 'toto', avatar: 'string avatar' },
     screen: 'ACTIFS',
     atlhetesActifs:[],
     atlhetesInactifs:[],
     atlhetesProspects:[],
+    search:'',
    };
 
    componentDidMount(){
     get_coach_athlete().then((res) => {
-      this.filterDAta(res.data.athletes);
-      console.log('mmmmmmmmmm',this.state.atlhetesActifs);
-     
+      this.filterDAta(res.data.athletes);     
     });
    }
 
@@ -68,39 +69,49 @@ export default class MyAthletes extends React.Component {
    );
   }
 
+  updateSearch = (search) => {
+    this.setState({ search });
+  };
+
   render() {
-    list = () => {
-      return this.state.items.map((element) => {
-        return console.log(element);
-      });
-    };
-
   
-    const onRefresh = () => {
-      this.setState({ refresh: true });
-      console.log(this.state.refresh);
-    };
-
     return (
        <View style={{ flex: 1, backgroundColor: 'black' }}>
 
           
         <SafeAreaView>
-        <Header title="ACTIVITE" />
+        <Header title="MES ATHLÈTES" />
           <View>
-            <View>
-              <SwitchSelector
+            <View style={{ alignItems:'center'}}>
+            <SwitchSelector
                 options={options}
                 initial={0}
                 onPress={(value) => this.setState({ screen: value })}
                 backgroundColor="#1E2026"
                 buttonColor="#2CDEE4"
-                borderRadius="5"
+                selectedColor="#1E2026"
+                textColor="white"
+                borderRadius={10}
+                height={50}
+                style={{width:widthPercentageToDP(92)}}
+                hasPadding
+                fontSize={15}
+                selectedTextStyle={{fontFamily:'MontserratBoldItalic'}}
+                textStyle={{fontFamily:'MontserratBoldItalic'}}
+                valuePadding={3}
+                borderColor="#1E2026"
               />
             </View>
             {this.state.screen == 'ACTIFS' ? (
               <View>
-                <SearchBar></SearchBar>
+                <SearchBar
+        //        size={50}
+        //         clearIcon={false}
+        //         placeholder="Type Here..."
+        // onChangeText={this.updateSearch}
+        // value={this.state.search}
+                />
+                <View style={{marginTop:50}}>
                <FlatList
                       
                         data={this.state.atlhetesActifs}
@@ -109,26 +120,26 @@ export default class MyAthletes extends React.Component {
                        // refreshing={this.state.refresh}
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => (
-                          <TouchableOpacity onPress={()=>{ navigate('MyAthleteDetails', {item})}}>
-                          <View style={{flexDirection:'row',justifyContent:'space-between',alignContent:'center',backgroundColor:'grey'}}>
-                            <View style={{justifyContent:'center',alignItems:'center',flexDirection:'row'}}><Avatar
+                          <TouchableOpacity style={{alignItems:'center'}} onPress={()=>{ navigate('MyAthleteDetails', {item})}}>
+                          <View style={{ borderRadius:5, flexDirection:'row',justifyContent:'space-between', alignContent:'center', backgroundColor:'#1E2026',width:widthPercentageToDP(92), height:70}}>
+                            <View style={{justifyContent:'center',flexDirection:'row', }}>
+                              <View style={{justifyContent:'center' ,marginLeft:15}}>
+                              <Avatar
                                 size="medium"
                                 rounded
                                 source={{
                                   uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                                 }}
                               />
+                              </View>
+                              <View style={{justifyContent:'center' ,marginHorizontal:20}}>
                               <Text style={{
                                 fontWeight: 'bold',
                                 fontSize: 20,
                                 color:'white'
-                              }}>{item.first_name}</Text>
-                              <Text style={{
-                                fontWeight: 'bold',
-                                fontSize: 20,
-                                color:'white'
-                              }}>{item.last_name}</Text>
-                         
+                              }}>{item.first_name} {item.last_name}</Text>
+                            
+                         </View>
                               </View>
                           
                             <View style={{justifyContent:'center'}}>
@@ -141,6 +152,7 @@ export default class MyAthletes extends React.Component {
                           </TouchableOpacity>
                         )}
                       />
+                      </View>
               </View>
             ) : (null)}
             {this.state.screen == 'INACTIFS' ? (

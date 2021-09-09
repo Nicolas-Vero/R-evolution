@@ -4,17 +4,13 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator,
   Dimensions,
-  Button,
   TextInput,
   Image,
 } from 'react-native';
 const { width } = Dimensions.get('window');
-import { Formik, Form, Field, FieldArray } from 'formik';
-import { BasicTextInput } from '.';
+import { Field, FieldArray } from 'formik';
 import { ScrollView } from 'react-native';
-import { Icon, Row } from 'native-base';
 import { FontAwesome } from '@expo/vector-icons';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { loadFonts } from '../../configs/design/font';
@@ -69,7 +65,7 @@ export const dynamicInput = React.forwardRef(
                               style={{ alignContent: 'center' }}
                               key={index}>
                               <TextInput
-                                placeholder="Entre le nom de ton diplôme"
+                                placeholder="Ajoute ton objectif"
                                 onChangeText={(text) =>
                                   (field.value[index] = text)
                                 }

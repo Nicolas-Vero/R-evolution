@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, SafeAreaView,StyleSheet,Dimensions, Image,TextInput,Text} from 'react-native'
+import {View, SafeAreaView,StyleSheet,Dimensions, Image,TextInput,Text, TouchableOpacity} from 'react-native'
 //import Button from '../../common/Button';
 import Color from '../../configs/design/color';
 import ResponsiveText from '../../common/ResponsiveText';
@@ -10,6 +10,7 @@ import {Formik} from 'formik';
 import { STORAGE } from '../../configs/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Button} from '../../components/Button';
+import { LinearGradient } from 'expo-linear-gradient';
 import { widthPercentageToDP as wp  } from 'react-native-responsive-screen';
 export default class LoginAthlete extends React.Component {
 
@@ -79,144 +80,161 @@ export default class LoginAthlete extends React.Component {
 
   render() {
     return (
-     
-      <View style={{flex: 1, backgroundColor: '#060606'}}>
-           
-         
-      <SafeAreaView style={styles.safeArea} />
-      
-      <Header title="inscription" />
-      <View style={styles.logoContainer}>
-      <Image source={require('../../../assets/images/logo.png')} style={{ marginTop: 181,height:60,width:wp(75),  resizeMode: 'contain'}}
-            ></Image>
-      </View>
-      
-        <View style={{paddingLeft: 15, paddingRight: 15}}>
+      <LinearGradient
+        colors={['black', '#2D333C']}
+        start={{
+          x: 0,
+          y: 0,
+        }}
+        end={{
+          x: 1,
+          y: 1,
+        }}
+        style={{
+          backgroundColor: 'black',
 
-     
-      <Formik
-                initialValues={{
-                  email: '',
-                  password: '',         
-                }}
-                onSubmit={(values,{onLoginPress}) => onLoginPress(values)}>
-                {({handleChange, handleBlur, handleSubmit, setFieldValue, values}) => (
-                  <View>
-                    {/* {console.log(values)} */}
+          flex: 1,
 
-                    <View style={{marginBottom: 15}}>
-                      <TextInput
-                        placeholder="Email"
-                        style={{backgroundColor: '#FFFFFF', paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}}
-                        onChangeText={handleChange('email')}
-                        autoCapitalize='none'
-                        onBlur={handleBlur('email')}
-                        value={values.mail}
-                      />
-                    </View>
-                    <View style={{marginBottom: 15}}>
-                      <TextInput
-                        placeholder="Mot de passe"
-                        style={{backgroundColor: '#FFFFFF', paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}}
-                        onChangeText={handleChange('password')}
-                        autoCapitalize='none'
-                        onBlur={handleBlur('password')}
-                        value={values.password}
-                      />
-                    </View>
-                    
-                    <View style={{alignItems: 'center',paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}}>
-                      <Button  style={{paddingTop: 10, paddingBottom: 10, paddingLeft: 15, paddingRight: 15}} loading={false} title ='Se connecter' onPress={()=>{this.onLoginPress(values)}}/>
-                    </View>
-                    <View>
-                    <Text style={{color:'#FFFFFF'}}>Pas encore membre? athlete  </Text>
-                    </View>
-                  </View>
-                )}
-              </Formik>
+          // justifyContent:"space-evenly"
+        }}>
+        <SafeAreaView />
+
+        <Header />
+        <View style={styles.logoContainer}>
+          <Image
+            source={require('../../../assets/images/logo.png')}
+            style={styles.image}></Image>
+        </View>
+
+        <View style={{ alignItems: 'center' }}>
+          <Formik
+            initialValues={{
+              email: '',
+              password: '',
+            }}
+            onSubmit={(values, { onLoginPress }) => onLoginPress(values)}>
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              setFieldValue,
+              values,
+            }) => (
+              <View>
+                {/* {console.log(values)} */}
+
+                <View style={{ marginBottom: 15 }}>
+                  <TextInput
+                    placeholder="Email"
+                    style={{
+                      backgroundColor: '#FFFFFF',
+                      height: 40,
+                      width: wp(92),
+                      borderRadius: 5,
+                    }}
+                    onChangeText={handleChange('email')}
+                    autoCapitalize="none"
+                    onBlur={handleBlur('email')}
+                    value={values.mail}
+                  />
+                </View>
+                <View style={{ marginBottom: 15 }}>
+                  <TextInput
+                    placeholder="Mot de passe"
+                    style={{
+                      backgroundColor: '#FFFFFF',
+                      height: 40,
+                      width: wp(92),
+                      borderRadius: 5,
+                    }}
+                    onChangeText={handleChange('password')}
+                    autoCapitalize="none"
+                    onBlur={handleBlur('password')}
+                    value={values.password}
+                  />
+                </View>
+                <View >
+                  <TouchableOpacity>
+                    <Text style={{fontFamily:'Roboto', color:'#B9B9BC'}}>Mot de passe oublié ?</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View style={{ alignItems: 'center',marginTop:25 }}>
+                  <Button
+                    style={{ width: wp(94), borderRadius: 5, }}
+                    loading={false}
+                    title="Se connecter"
+                    customTextStyle={{color: "black", fontFamily:'RobotoBold',fontWeight:'bold',fontSize:15}}
+                    onPress={() => {
+                      this.onLoginPress(values);
+                    }}
+                  />
+                </View>
+                <View  style={{flexDirection:'row',justifyContent:'center', marginTop:20}}>
+                  <Text style={{fontFamily:'Roboto', color:'#B9B9BC'}}>Pas encore membre? </Text>
+                  <TouchableOpacity>
+                    <Text style={{fontFamily:'Roboto', color:'#2CDEE4'}}>Créer ton compte</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
+            )}
+          </Formik>
+        </View>
+      </LinearGradient>
     );
   }
 }
 
-  const styles = StyleSheet.create({
-    image:{
+const styles = StyleSheet.create({
+  image: {
+    height: 80,
+    width: wp(90),
+    resizeMode: 'contain',
+    marginBottom:90
+  },
+  backgroundContainer: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.88)',
+    alignItems: 'center',
+  },
+  // safeArea: {
+  //   paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+  // },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: width,
 
-      width: width,
-    },
-    backgroundContainer: {    
-        flex: 1,
-        resizeMode: "cover",
-        justifyContent: "center",
-    },
-    container: {flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.88)', alignItems: 'center'},
-    // safeArea: {
-    //   paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-    // },
-    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      width: width,
-      height: 49,
-      marginTop: 29,
-      marginBottom: 49,
-      paddingLeft: 16, 
-      paddingRight: 16
-    },
-    title: {
-        color: "#FFFFFF", 
-        fontWeight: '500', 
-        fontSize: 15, 
-        fontStyle: 'italic',
-        textAlign: 'center', 
-        marginTop: 112
-    },
-    buttonContainer: {
-        flexDirection: 'row', 
-        width: width, 
-        justifyContent: 'space-between',
-        marginBottom: 35
-    },
-    loginButton: {
-        width: 158.4, 
-        height: 48, 
-        borderRadius: 10,
-        borderWidth: 1, 
-        marginRight: 22,
-        borderColor: '#2CDEE4',
-        backgroundColor: 'transparent'
-    },
-    registerButton: {
-        width: 158.4, 
-        height: 48, 
-        backgroundColor: '#FFFFFF', 
-        borderRadius: 10,
-         marginLeft: 22
-    },
-    container: {
-        flex: 1,
-    },
-    logoContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingLeft:30,
-        marginTop: 45,
-        marginBottom: 50,
-    },
-    form: {
-        marginLeft: 70,
-        marginRight: 30,
-    },
-    textInputContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    logoText: {
-        color: Color.Primary,
-        fontSize: 5,
-        alignSelf: 'center',
-        marginTop: 20
-    },
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
+  title: {
+    color: '#FFFFFF',
+    fontWeight: '500',
+    fontSize: 15,
+    fontStyle: 'italic',
+    textAlign: 'center',
+    marginTop: 112,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    width: width,
+    justifyContent: 'space-between',
+    marginBottom: 35,
+  },
+  container: {
+    flex: 1,
+  },
+  logoContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop:80,
+    marginBottom: 20,
+  }
 });

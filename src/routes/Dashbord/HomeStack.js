@@ -3,7 +3,7 @@ import Activite from '../../screens/Activite';
 import AwaitingDemand from '../../screens/AwaitingDemand';
 import CreateBook from '../../screens/CreateBook';
 import Dashboard from '../../screens/Dashboard';
-
+import CreateRappel from '../../screens/CreateRappel';
 const HomeStack = createStackNavigator(
   {
     Dashboard: {
@@ -14,6 +14,13 @@ const HomeStack = createStackNavigator(
     },
     CreateBook: {
       screen: CreateBook,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
+        header: null,
+      },
+    },
+    CreateRappel: {
+      screen: CreateRappel,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         header: null,

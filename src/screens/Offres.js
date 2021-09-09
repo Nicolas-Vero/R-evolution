@@ -2,36 +2,21 @@ import React from 'react';
 import {
   Text,
   View,
-  TextInput,
   SafeAreaView,
   StyleSheet,
-  Button,
   Platform,
   StatusBar,
   Dimensions,
 } from 'react-native';
 import * as Font from 'expo-font';
 //import { auth } from '../../api/Register';
-import { Formik } from 'formik';
-import { CheckBox } from 'react-native-elements';
 //import { Button } from '../components/Button';
 import Header from '../components/Header';
 //import { Slider } from 'react-native-elements';
-import { ElementSlider } from '../components/ElementSlider';
 const { width } = Dimensions.get('window');
-import { dynamicInput } from '../components/inputs/dynamicInput';
-import { dynamicList } from '../components/dynamicList';
-import { selectList } from '../components/selectList';
 import { LinearGradient } from 'expo-linear-gradient';
-import { avatar } from '../components/avatar';
-import { TouchableOpacity } from 'react-native';
-import { Icon } from 'native-base';
-import { Entypo } from '@expo/vector-icons';
 import { AddButton, DeleteButton, ModifyButton } from '../components/Button';
 import { FlatList } from 'react-native-gesture-handler';
-import { NavigationEvents } from 'react-navigation';
-import { API_URL } from '../configs/Constants';
-import axios from 'axios';
 import { delete_coach_offers } from '../api/Offers';
 import { get_coach_offers } from '../api/Offers';
 export default class Offres extends React.Component {

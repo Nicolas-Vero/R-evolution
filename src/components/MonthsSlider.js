@@ -22,7 +22,7 @@ export default class MonthsSlider extends React.Component {
     let {date} = this.state;
     date.subtract(1, 'months');
     this.setState({date});
-    this.props.onChange(new Date(date.format("LLLL")));
+    this.props.onChange(new Date(date.format('YYYY-MM-DD')));
     this.getDaysArrayByMonth();
   }
 
@@ -31,13 +31,13 @@ export default class MonthsSlider extends React.Component {
     let {date} = this.state;
     date.add(1, 'months');
     this.setState({date});
-    this.props.onChange(new Date(date.format("LLLL")));
+    this.props.onChange(new Date(date.format('YYYY-MM-DD')));
     this.getDaysArrayByMonth();
   }
 
   getMonth() {
     const date = new Date(this.state.date);
-    return `${FrenchConfig.monthNames[date.getMonth()]} ${date.getFullYear()}`;
+    return moment(date).format('MMMM');
   }
   getDaysArrayByMonth() {
     var daysInMonth = moment().daysInMonth();
@@ -61,7 +61,7 @@ export default class MonthsSlider extends React.Component {
         <AntDesign name="left" size={24} color="white" />
         </TouchableOpacity>
 
-        <ResponsiveText style={styles.text}>{this.getMonth()}</ResponsiveText>
+        <Text style={styles.text}>{this.getMonth().toUpperCase()}</Text>
 
         <TouchableOpacity onPress={this.onRightPress.bind(this)}>
         <AntDesign name="right" size={24} color="white" />
@@ -75,17 +75,18 @@ export default class MonthsSlider extends React.Component {
 const styles = {
   container: {
     width: width,
-    backgroundColor:'black',
-    paddingVertical: 20,
-    justifyContent: 'center',
+    justifyContent:'space-evenly',
     alignItems: 'center',
     flexDirection: 'row',
+    
   },
   icon: {height: wp('4%'), resizeMode: 'contain'},
   text: {
-    fontSize: "4%",
-    color:'white',
-    fontWeight:'bold',
-    paddingHorizontal: wp('6%')
+    fontFamily:'MontserratBoldItalic',
+    fontSize: 18,
+    color: '#FFFFFF',
+    
+    marginVertical:25,
+    //paddingHorizontal: wp('6%')
   }
 }

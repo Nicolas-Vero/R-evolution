@@ -76,6 +76,12 @@ export default class AddPhoto extends React.Component {
   render() {
     return (
       <SafeAreaView style={{flex: 1}}>
+             <View style={{alignItems:'center'}}>
+            <Image
+              source={require('../../assets/images/Group_4.png')}
+              style={{ width: widthPercentageToDP(80) }}
+            />
+            </View>
         <View style={styles.content}>
           <View>
             <Logo/>

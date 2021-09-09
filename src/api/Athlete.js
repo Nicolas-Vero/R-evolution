@@ -3,7 +3,7 @@ import {AsyncStorage} from 'react-native';
 import {API_URL, STORAGE} from '../configs/Constants';
 import {getHeaders} from './Global';
 import MiddleWare from "./MiddleWare";
-
+import moment from 'moment';
 
 
 
@@ -21,6 +21,20 @@ export const athlete_appointement = params=> {
   return axios({
     method: 'POST',
     url:`${API_URL}/athlete/appointments`,
+    data:data
+  })
+}
+
+export const athlete_booking = async(params)=> {
+  const {date,athlete_course_id,currentSlot} = params;
+  const data = {date:date,athlete_course_id:athlete_course_id,slot:currentSlot}
+  const  {coach_id} = params
+  const headers = await getHeaders();
+  console.log('coachID',coach_id, '');
+  return axios({
+    method: 'POST',
+    url:`${API_URL}/athlete/book-slot/4`,
+    headers:headers,
     data:data
   })
 }

@@ -10,7 +10,7 @@ const { width } = Dimensions.get('window');
 import { Field, FieldArray } from 'formik';
 import { AntDesign } from '@expo/vector-icons';
 import SelectDropdown from 'react-native-select-dropdown';
-import { get_gym } from '../api/ReferenceData';
+import { get_gym } from '../../api/ReferenceData';
 import { ActivityIndicator } from 'react-native';
 import { widthPercentageToDP, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 export const selectList = React.forwardRef(
@@ -62,7 +62,7 @@ export const selectList = React.forwardRef(
             <View>
               <View style={{alignItems:'center'}}>
             <Image
-              source={require('../../assets/images/Group_4.png')}
+              source={require('../../../assets/images/GroupA_5.png')}
               style={{ width: widthPercentageToDP(80) }}
             />
             </View>
@@ -90,12 +90,7 @@ export const selectList = React.forwardRef(
                   data={Gymdata}
                   defaultButtonText={"Recherche le nom de ta salle"}
                   onSelect={(selectedItem, index) => {
-                    if (arrayhelper.form.values.gymPlace.length>1) {
-                      console.log(arrayhelper.form.values.gymPlace.length);
-                       arrayhelper.pop()
-                    }else{}
-                    arrayhelper.push(selectedItem)
-                    console.log(arrayhelper.form.values.gymPlace);
+                   
                   }}
                   renderDropdownIcon={() => {
                     return <AntDesign name="down" size={24} color="black" />;

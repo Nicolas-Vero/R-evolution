@@ -10,10 +10,11 @@ const { width } = Dimensions.get('window');
 import { Field, FieldArray } from 'formik';
 import { AntDesign } from '@expo/vector-icons';
 import SelectDropdown from 'react-native-select-dropdown';
-import { get_gym } from '../api/ReferenceData';
+import { get_gym } from '../../api/ReferenceData';
 import { ActivityIndicator } from 'react-native';
 import { widthPercentageToDP, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-export const selectList = React.forwardRef(
+import { CheckBox } from 'react-native-elements';
+export const destinataire = React.forwardRef(
   (
     { name, placeholder, values, secureTextEntry, keyboardType, validate },
     ref,
@@ -62,7 +63,7 @@ export const selectList = React.forwardRef(
             <View>
               <View style={{alignItems:'center'}}>
             <Image
-              source={require('../../assets/images/Group_4.png')}
+              source={require('../../../assets/images/GroupA_5.png')}
               style={{ width: widthPercentageToDP(80) }}
             />
             </View>
@@ -74,12 +75,12 @@ export const selectList = React.forwardRef(
                 }}>
                 <Text
                   style={{ fontWeight: 'bold', fontSize: 20, color: '#FFFF' }}>
-                  LIEU D'EXPERIENCE
+                À QUI VEUX-TU ADRESSER TA DEMANDE ?
                 </Text>
                
               </View>
               <View style={{marginTop:30}}>
-              <Text  style={{ fontWeight: 'bold', fontSize: 20, color: '#FFFF' }}>Dans quelle salle pratiques-tu?</Text>
+              <Text  style={{ fontWeight: 'bold', fontSize: 17, color: '#FFFF' }}>Un coach en particulier ?</Text>
               </View>
               <View style={styles.container}>
                 <FieldArray 
@@ -90,12 +91,7 @@ export const selectList = React.forwardRef(
                   data={Gymdata}
                   defaultButtonText={"Recherche le nom de ta salle"}
                   onSelect={(selectedItem, index) => {
-                    if (arrayhelper.form.values.gymPlace.length>1) {
-                      console.log(arrayhelper.form.values.gymPlace.length);
-                       arrayhelper.pop()
-                    }else{}
-                    arrayhelper.push(selectedItem)
-                    console.log(arrayhelper.form.values.gymPlace);
+                   
                   }}
                   renderDropdownIcon={() => {
                     return <AntDesign name="down" size={24} color="black" />;
@@ -116,7 +112,44 @@ export const selectList = React.forwardRef(
                     return item.name;
                   }}
                 />
-                 )}/>
+
+                )}/>
+              <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginTop: 15,
+                        marginBottom: 24,
+                      }}>
+                      <CheckBox
+                      size={25}
+                        containerStyle={{
+                          paddingLeft: 0,
+                          marginLeft: 0,
+                          borderWidth: 0,
+                        }}
+                        uncheckedColor="#2CDEE4"
+                        checked={values.termsCondition}
+                        value={values.termsCondition}
+                        onPress={() =>
+                          setFieldValue(
+                            'termsCondition',
+                            !values.termsCondition,
+                          )
+                        }
+                      />
+                      <Text
+                        style={{
+                          flex: 1,
+                          flexWrap: 'wrap',
+                          color: '#FFFFFF',
+                          fontFamily:'Roboto',
+                          fontSize:13
+                        }}>
+                        Peu importe 
+                      </Text>
+                    </View>
+
               </View>
               <View>
                 {shouldDisplayError && (
