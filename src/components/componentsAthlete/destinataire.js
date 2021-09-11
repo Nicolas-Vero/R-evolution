@@ -63,7 +63,7 @@ export const destinataire = React.forwardRef(
             <View>
               <View style={{alignItems:'center'}}>
             <Image
-              source={require('../../../assets/images/GroupA_5.png')}
+              source={require('../../../assets/images/GroupA_7.png')}
               style={{ width: widthPercentageToDP(80) }}
             />
             </View>
@@ -89,7 +89,7 @@ export const destinataire = React.forwardRef(
                 <SelectDropdown
                   buttonStyle={{ width: wp(90), borderRadius:5  }}
                   data={Gymdata}
-                  defaultButtonText={"Recherche le nom de ta salle"}
+                  defaultButtonText={"Recherche ton coach"}
                   onSelect={(selectedItem, index) => {
                    
                   }}

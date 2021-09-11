@@ -113,7 +113,7 @@ export const health = React.forwardRef(
                                   fontSize: 17,
                                   color: '#FFFF',
                                 }}>
-                                DES PROBLÈMES DE SANTÉ A SIGNALER
+                              INFORMATIONS COMPLÉMENTAIRES
                               </Text>
                             </View>
                             <View style={styles.container2}>

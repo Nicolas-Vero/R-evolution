@@ -63,7 +63,7 @@ export const avatar = React.forwardRef(
           <View >
                  <View style={{alignItems:'center'  }}>
             <Image
-              source={require('../../../assets/images/GroupA_7.png')}
+              source={require('../../../assets/images/GroupA_8.png')}
               style={{ width: widthPercentageToDP(80) }}
             />
              <View

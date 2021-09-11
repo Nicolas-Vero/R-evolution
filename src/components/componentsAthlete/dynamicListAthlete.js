@@ -70,7 +70,7 @@ export const dynamicListAthlete = React.forwardRef(
             
             
                 <View style={styles.container2}>
-                  <Text style={styles.title}>QUEL EST TON OBJECTIF</Text>
+                  <Text style={styles.title}>QUEL EST TON OBJECTIF ?</Text>
                 </View>
              <View style={{width:widthPercentageToDP(90)}}>
                 <Text style={styles.text}>

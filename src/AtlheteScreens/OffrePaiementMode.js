@@ -56,8 +56,7 @@ export default class OffrePaiementMode extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <SafeAreaView>
-        <Header title="LES OFFRES" />
-       
+        <Header title="LES OFFRES" />  
         <LinearGradient
                 colors={['#101010', '#2D333C']}
                 start={{
@@ -77,7 +76,7 @@ export default class OffrePaiementMode extends React.Component {
                   height: 200,
                  // justifyContent:"space-evenly"
                 }}>
-                <View style={{}}>
+                <View>
                   <Text
                     style={{
                       marginTop: 30,
@@ -98,7 +97,7 @@ export default class OffrePaiementMode extends React.Component {
                 </View>
                 <View>
                   <Text style={{ marginTop: 10, color: '#2CDEE4' }}>
-                    {offerPurchase.nb_credits} coaching
+                    {offerPurchase.nb_credits} coachings
                   </Text>
                 </View>
                 <View
@@ -116,11 +115,7 @@ export default class OffrePaiementMode extends React.Component {
                       flexDirection: 'row',
 
                     }}>
-                    {/* <ModifyButton
-                      title="Choisir cette offre"
-                      onPress={() => {
-                        navigate('OffreUpdate', {item});
-                      }}></ModifyButton> */}
+                   
                   </View>
                   <Text
                     style={{

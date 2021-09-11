@@ -74,12 +74,11 @@ export const selectList = React.forwardRef(
                 }}>
                 <Text
                   style={{ fontWeight: 'bold', fontSize: 20, color: '#FFFF' }}>
-                  LIEU D'EXPERIENCE
+                 OÙ SOUHAITES-TU T'ENTRAÎNER ?
                 </Text>
                
               </View>
               <View style={{marginTop:30}}>
-              <Text  style={{ fontWeight: 'bold', fontSize: 20, color: '#FFFF' }}>Dans quelle salle pratiques-tu?</Text>
               </View>
               <View style={styles.container}>
                 <FieldArray 

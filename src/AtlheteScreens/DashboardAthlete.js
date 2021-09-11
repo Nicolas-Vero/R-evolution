@@ -673,10 +673,10 @@ export default class DashboardAthlete extends React.Component {
                 ) : (
                   <Text  style={{
                    fontFamily:'MontserratBoldItalic',
-                    fontSize: 25,
+                    fontSize: 20,
                     color: '#FFFFFF',
                     margin: 10,
-                  }}> pas de rendez-vous Aujourd'hui</Text>
+                  }}>pas de rendez-vous Aujourd'hui</Text>
                 )}
                   <View style={{ alignItems: 'center' }}>
                   <Text
@@ -686,7 +686,7 @@ export default class DashboardAthlete extends React.Component {
                       color: '#FFFFFF',
                       margin: 20,
                     }}>
-                   A VENIR
+                   À VENIR
                   </Text>
                 </View>
                 {this.state.upcomingApointement && this.state.upcomingApointement.length? (
@@ -699,31 +699,38 @@ export default class DashboardAthlete extends React.Component {
               renderItem={({ item,index,separators }) => (
                 <TouchableOpacity 
                 onPress={()=>{console.log(item)}}>
-                <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center',backgroundColor:'#1E2026',margin:10}}>
-                  <View style={{height:50, justifyContent:'center',alignItems:'center'}}><Avatar
+                <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center',backgroundColor:'#1E2026',margin:10,  borderRadius:5,}}>
+                  <View style={{height:70, justifyContent:'center',alignItems:'center',}}><Avatar
                       size="medium"
                       rounded
                       source={{
                         uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                       }}
                     /></View>
-                  <View style={{flexDirection:'column',marginRight:40}}>
-                    <View style={{flexDirection:'row'}}> 
+                  <View style={{
+                    justifyContent:'center',
+                    flexDirection:'column',marginRight:40}}>
+                    <View style={{ flexDirection:'row'}}> 
                       <Text style={{
+                        
                         fontWeight: 'bold',
-                        fontSize: 20,
+                        fontSize: 17,
+                        color:'white'
                       }}>{item.athlete.first_name}</Text>
                       <Text style={{
                         fontWeight: 'bold',
-                        fontSize: 20,
+                        fontSize: 17,
+                        color:'white'
                       }}>{item.athlete.last_name}</Text>
                   </View>
-                  <Text>Séance : {item.session_number}/{item.athleteCourse.total_sessions}</Text>
+                  <Text style={{  fontSize: 12,  color:'white'}}>Séance : {item.session_number}/{item.athleteCourse.total_sessions}</Text>
                   </View>
                   <View style={{justifyContent:'center'}}>
                     <Text style={{
                         fontWeight: 'bold',
-                        fontSize: 20,}} >{this.convertSlotToDate(item.slot)}</Text>
+                        fontSize: 15,
+                        color:'white'
+                        }} >{this.convertSlotToDate(item.slot)}</Text>
                   </View>
                 </View>
                 </TouchableOpacity>

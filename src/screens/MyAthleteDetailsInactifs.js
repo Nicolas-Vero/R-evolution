@@ -14,7 +14,7 @@ import { Entypo } from '@expo/vector-icons';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 const { width } = Dimensions.get('window');
 
-export default class MyAthleteDetails extends React.Component {
+export default class MyAthleteDetailsInactifs extends React.Component {
   state = {
     ActiveCourses: [],
     Paiement: [],
@@ -78,7 +78,7 @@ export default class MyAthleteDetails extends React.Component {
               <Image 
                  style={styles.tinyLogo}
                  source={{
-                   uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/Actif.png',
+                   uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/Inactif.png',
                  }}
                 />
             </View>

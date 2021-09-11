@@ -33,7 +33,6 @@ const defaultStyle = StyleSheet.create({
         height: 49,
         marginBottom: 29,
         paddingLeft: 16, 
-        paddingRight: 16
     },
     image: {height: 20.54, width: 12.33, resizeMode: 'contain'},
     textContainer: {alignItems: 'center', flex: 6},

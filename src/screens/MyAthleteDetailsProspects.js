@@ -14,7 +14,7 @@ import { Entypo } from '@expo/vector-icons';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 const { width } = Dimensions.get('window');
 
-export default class MyAthleteDetails extends React.Component {
+export default class MyAthleteDetailsProspects extends React.Component {
   state = {
     ActiveCourses: [],
     Paiement: [],
@@ -78,7 +78,7 @@ export default class MyAthleteDetails extends React.Component {
               <Image 
                  style={styles.tinyLogo}
                  source={{
-                   uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/Actif.png',
+                   uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/Prospect.png',
                  }}
                 />
             </View>
@@ -104,10 +104,49 @@ export default class MyAthleteDetails extends React.Component {
               <Text style={styles.textBlue}>{Athlete.email}</Text>
             </View>
             <View
-              style={styles.container}>
-              <Text style={styles.text}>Offre en cours</Text>
-              <Text style={styles.textBlue}>Pack transformation - 8 séances restantes sur 10</Text>
+              style={{
+                margin: 5,
+                backgroundColor: '#1E2026',
+                borderRadius: 5,
+              }}>
+              <Text style={styles.text}> Ses objectifs:</Text>
+              <FlatList
+                horizontal={true}
+                data={Athlete.goals}
+                extraData={this.state}
+                // onRefresh={onRefresh}
+                // refreshing={this.state.refresh}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <View
+                    style={{
+                      alignContent: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: '#2CDEE4',
+                      height: 30,
+                      margin: 10,
+                      padding:5,
+                      borderRadius: 20,
+                    }}>
+                    <View
+                      style={{
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        marginHorizontal: 5,
+                      }}>
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                        }}>
+                        {item.name}
+                      </Text>
+                    </View>
+                  </View>
+                )}
+              />
             </View>
+           
             <View style={{alignContent:'center', backgroundColor: '#1E2026', margin: 5 , height:250 }}>
               <Text style={styles.text}>Paiement(s) effectué(s):</Text>
               
@@ -167,49 +206,6 @@ export default class MyAthleteDetails extends React.Component {
             </View>
             <View
               style={{
-                margin: 5,
-                backgroundColor: '#1E2026',
-                borderRadius: 5,
-              }}>
-              <Text style={styles.text}> Ses objectifs:</Text>
-              <FlatList
-                horizontal={true}
-                data={Athlete.goals}
-                extraData={this.state}
-                // onRefresh={onRefresh}
-                // refreshing={this.state.refresh}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                  <View
-                    style={{
-                      alignContent: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: '#2CDEE4',
-                      height: 30,
-                      margin: 10,
-                      padding:5,
-                      borderRadius: 20,
-                    }}>
-                    <View
-                      style={{
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                        marginHorizontal: 5,
-                      }}>
-                      <Text
-                        style={{
-                          fontWeight: 'bold',
-                        }}>
-                        {item.name}
-                      </Text>
-                    </View>
-                  </View>
-                )}
-              />
-            </View>
-            <View
-              style={{
                 flexDirection: 'row',
                 height:50
               }}>
@@ -235,63 +231,6 @@ export default class MyAthleteDetails extends React.Component {
                 <View style={{flexDirection:'row'}}>
               <Text style={styles.text}>Age:</Text><Text style={styles.textBlue2}>{Athlete.age} ans</Text>
               </View>
-            </View>
-            <View
-              style={{
-                margin: 5,
-                borderRadius: 5,
-                backgroundColor: '#1E2026',
-                height:130,
-                justifyContent:'center'
-             
-              }}>
-                <View style={{flexDirection:'column'}}>
-              <Text style={styles.text}>Crénaux de sport souhaités:</Text>
-            
-              <View style={{flexDirection:'row' ,marginTop:15}}>
-               <Text style={styles.textTiny}> Entre</Text> 
-               <Text style={styles.textBlue2Tiny}>{Athlete.preferred_time_start}H</Text> 
-                 <Text style={styles.textTiny}>et</Text>
-               <Text style={styles.textBlue2Tiny}>{Athlete.preferred_time_end}H</Text>
-              </View>
-              </View>
-              <View style={{marginTop:5}}>
-              <FlatList
-                horizontal={true}
-                data={dayPreference}
-                extraData={this.state}
-                // onRefresh={onRefresh}
-                // refreshing={this.state.refresh}
-                keyExtractor={(item) => item.day}
-                renderItem={({ item }) => (
-                  <View
-                    style={{
-                      alignContent: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: '#2CDEE4',
-                      height: 30,
-                      margin: 10,
-                      borderRadius: 20,
-                    }}>
-                    <View
-                      style={{
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                        padding:5,
-                        marginHorizontal: 5,
-                      }}>
-                      <Text
-                        style={{
-                          fontWeight: 'bold',
-                        }}>
-                        {item.day}
-                      </Text>
-                    </View>
-                  </View>
-                )}
-              />
-          </View>
             </View>
             <View
               style={styles.container}>

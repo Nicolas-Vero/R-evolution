@@ -94,10 +94,12 @@ export default class Offres extends React.Component {
                 borderColor="#1E2026"
               />
             </View>
-            <View>{/*TO DO: passe les jours en francais  */}</View>
+            
             {this.state.screen == 'EN COURS' ? (<FlatList></FlatList>) : (
-             <FlatList
+            
+            <FlatList
              style={{
+               marginTop:10,
              height:600
              }}
              data={this.state.offers}
@@ -123,9 +125,8 @@ export default class Offres extends React.Component {
                   borderRadius:10,
                   paddingLeft: 20,
                   height: 200,
-                 // justifyContent:"space-evenly"
                 }}>
-                <View style={{}}>
+                <View>
                   <Text
                     style={{
                       marginTop: 30,
@@ -146,23 +147,20 @@ export default class Offres extends React.Component {
                 </View>
                 <View>
                   <Text style={{ marginTop: 10, color: '#2CDEE4' }}>
-                    {item.nb_credits} coaching
+                    {item.nb_credits} coachings
                   </Text>
                 </View>
                 <View
                   style={{
-                   
                     alignItems:"center",
                     flexDirection: 'row',
                     justifyContent: 'space-between',
                     marginTop:20
                   }}>
                   <View
-                    style={{
-                    
+                    style={{ 
                       alignItems:'center',
                       flexDirection: 'row',
-
                     }}>
                     <ModifyButton
                       title="Choisir cette offre"
@@ -180,7 +178,6 @@ export default class Offres extends React.Component {
                   </Text>
                 </View>
               </LinearGradient>)}/>)}
-
         </SafeAreaView>
         </View>
     );

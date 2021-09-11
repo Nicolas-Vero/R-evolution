@@ -17,6 +17,7 @@ import { get_coach_athlete } from '../api/Coach';
 import { tail } from 'lodash';
 import { Avatar,SearchBar } from 'react-native-elements';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
+import moment from 'moment';
 
 
 const options = [
@@ -57,7 +58,7 @@ export default class MyAthletes extends React.Component {
        case "INACTIVE":
          inactifs.push(element)
          break;
-       case "PROSPECT":
+       case "prospect":
          prospects.push(element)
          break;
      
@@ -120,6 +121,7 @@ export default class MyAthletes extends React.Component {
                        // refreshing={this.state.refresh}
                         keyExtractor={(item) => item.id}
                         renderItem={({ item }) => (
+                          console.log('ddd',item),
                           <TouchableOpacity style={{alignItems:'center'}} onPress={()=>{ navigate('MyAthleteDetails', {item})}}>
                           <View style={{ borderRadius:5, flexDirection:'row',justifyContent:'space-between', alignContent:'center', backgroundColor:'#1E2026',width:widthPercentageToDP(92), height:70}}>
                             <View style={{justifyContent:'center',flexDirection:'row', }}>
@@ -135,18 +137,19 @@ export default class MyAthletes extends React.Component {
                               <View style={{justifyContent:'center' ,marginHorizontal:20}}>
                               <Text style={{
                                 fontWeight: 'bold',
-                                fontSize: 20,
+                                fontSize: 15,
                                 color:'white'
                               }}>{item.first_name} {item.last_name}</Text>
                             
                          </View>
                               </View>
-                          
                             <View style={{justifyContent:'center'}}>
                               <Text style={{
                                   fontWeight: 'bold',
-                                  color:'white',
-                                  fontSize: 20,}} >depuis</Text>
+                                  color:'#979797',
+                                  fontSize: 15,
+                                  marginRight:10
+                                  }} >Depuis le {moment(item.created_at).format('DD/MM/YYYY')}</Text>
                             </View>
                           </View>
                           </TouchableOpacity>
@@ -155,14 +158,112 @@ export default class MyAthletes extends React.Component {
                       </View>
               </View>
             ) : (null)}
-            {this.state.screen == 'INACTIFS' ? (
-              <View>
-                <Text>toto2</Text>
+            {this.state.screen == 'INACTIFS' ? ( <View>
+                <SearchBar
+        //        size={50}
+        //         clearIcon={false}
+        //         placeholder="Type Here..."
+        // onChangeText={this.updateSearch}
+        // value={this.state.search}
+                />
+                <View style={{marginTop:50}}>
+               <FlatList
+                      
+                        data={this.state.atlhetesInactifs}
+                        extraData={this.state}
+                        // onRefresh={onRefresh}
+                       // refreshing={this.state.refresh}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => (
+                          console.log('ddd',item),
+                          <TouchableOpacity style={{alignItems:'center'}} onPress={()=>{ navigate('MyAthleteDetailsInactifs', {item})}}>
+                          <View style={{ borderRadius:5, flexDirection:'row',justifyContent:'space-between', alignContent:'center', backgroundColor:'#1E2026',width:widthPercentageToDP(92), height:70}}>
+                            <View style={{justifyContent:'center',flexDirection:'row', }}>
+                              <View style={{justifyContent:'center' ,marginLeft:15}}>
+                              <Avatar
+                                size="medium"
+                                rounded
+                                source={{
+                                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                                }}
+                              />
+                              </View>
+                              <View style={{justifyContent:'center' ,marginHorizontal:20}}>
+                              <Text style={{
+                                fontWeight: 'bold',
+                                fontSize: 15,
+                                color:'white'
+                              }}>{item.first_name} {item.last_name}</Text>
+                            
+                         </View>
+                              </View>
+                            <View style={{justifyContent:'center'}}>
+                              <Text style={{
+                                  fontWeight: 'bold',
+                                  color:'#979797',
+                                  fontSize: 15,
+                                  marginRight:10
+                                  }} >Depuis le {moment(item.created_at).format('DD/MM/YYYY')}</Text>
+                            </View>
+                          </View>
+                          </TouchableOpacity>
+                        )}
+                      />
+                      </View>
               </View>
             ) : (null)}
-            {this.state.screen == 'PROSPECTS' ? (
-              <View>
-                <Text>toto3</Text>
+            {this.state.screen == 'PROSPECTS' ? ( <View>
+                <SearchBar
+        //        size={50}
+        //         clearIcon={false}
+        //         placeholder="Type Here..."
+        // onChangeText={this.updateSearch}
+        // value={this.state.search}
+                />
+                <View style={{marginTop:50}}>
+               <FlatList
+                      
+                        data={this.state.atlhetesProspects}
+                        extraData={this.state}
+                        // onRefresh={onRefresh}
+                       // refreshing={this.state.refresh}
+                        keyExtractor={(item) => item.id}
+                        renderItem={({ item }) => (
+                          console.log('ddd',item),
+                          <TouchableOpacity style={{alignItems:'center'}} onPress={()=>{ navigate('MyAthleteDetailsProspects', {item})}}>
+                          <View style={{ borderRadius:5, flexDirection:'row',justifyContent:'space-between', alignContent:'center', backgroundColor:'#1E2026',width:widthPercentageToDP(92), height:70}}>
+                            <View style={{justifyContent:'center',flexDirection:'row', }}>
+                              <View style={{justifyContent:'center' ,marginLeft:15}}>
+                              <Avatar
+                                size="medium"
+                                rounded
+                                source={{
+                                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                                }}
+                              />
+                              </View>
+                              <View style={{justifyContent:'center' ,marginHorizontal:20}}>
+                              <Text style={{
+                                fontWeight: 'bold',
+                                fontSize: 15,
+                                color:'white'
+                              }}>{item.first_name} {item.last_name}</Text>
+                            
+                         </View>
+                              </View>
+                            <View style={{justifyContent:'center'}}>
+                              <Text style={{
+                                  fontWeight: 'bold',
+                                  color:'#979797',
+                                  fontSize: 15,
+                                  marginRight:10
+                                  }} >Depuis le {moment(item.created_at).format('DD/MM/YYYY')}</Text>
+                            </View>
+                          </View>
+                          </TouchableOpacity>
+                        )}
+                      />
+                      </View>
               </View>
             ) : (null)}
           </View>

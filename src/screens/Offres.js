@@ -127,7 +127,7 @@ export default class Offres extends React.Component {
                       onPress={() => {
                         navigate('OffreUpdate', {item});
                       }}></ModifyButton>
-                    <DeleteButton onPress={()=>{delete_coach_offers({offer_id:item.id}).then(()=>{get_coach_offers(4).then(()=>{get_coach_offers().then((res) => res.data.offers).then((res) => {this.setState({ offers: res });});})})}} title="Supprimer"></DeleteButton>
+                    <DeleteButton onPress={()=>{delete_coach_offers({offer_id:item.id}).then(()=>{get_coach_offers().then(()=>{get_coach_offers().then((res) => res.data.offers).then((res) => {this.setState({ offers: res });});})})}} title="Supprimer"></DeleteButton>
                   </View>
                   <Text
                     style={{

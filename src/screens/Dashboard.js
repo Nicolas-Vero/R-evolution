@@ -515,6 +515,7 @@ export default class Dashboard extends React.Component {
               alignItems: 'center',
               justifyContent: 'space-between',
             }}>
+              <TouchableOpacity onPress={()=>{navigate('Account')}}>
             <View style={{ flexDirection: 'row', alignItems: 'center',marginLeft:16 }}>
               <Avatar
                 size={40}
@@ -534,6 +535,7 @@ export default class Dashboard extends React.Component {
                 {'Florian GALOPIN'}
               </Text>
             </View>
+            </TouchableOpacity>
             <View style={{ flexDirection: 'row' }}>
               <TouchableOpacity
                 onPress={() => {
