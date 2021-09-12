@@ -175,10 +175,7 @@ export default class DashboardAthlete extends React.Component {
   state = {
     refresh: false,
     screen: 'MES RENDEZ-VOUS',
-    user: {
-      name: 'toto',
-      avatar: '../../assets/icon.png',
-    },
+    user:{},
     coach_id:'',
     coach:{},
     currentDate:'',
@@ -197,8 +194,6 @@ export default class DashboardAthlete extends React.Component {
     var user = await AsyncStorage.getItem(STORAGE.USER);
     user  = JSON.parse(user);
     this.setState({coach_id:user.coach.coach_id})
-    console.log(user.coach.coach_id);
-
     get_athlete_active_courses().then((res)=>{
       this.setState({athleteCourse:res.data})
     })
@@ -213,13 +208,22 @@ export default class DashboardAthlete extends React.Component {
         console.log('dayApointement',this.state.dayApointement && this.state.dayApointement.length?console.log('iiii'):console.log('ooo'))
       
     
-
-      athlete_active_appointement({upcoming:true}).then((res)=>{
-       this.setState({upcomingApointement:res.data})
-      })
-      console.log('upcoming',this.state.upcomingApointement && this.state.upcomingApointement.length?console.log('toto'):console.log('bobo'))
-
-  }
+        athlete_active_appointement({upcoming:true}).then((res)=>{
+        
+          const data = res.data.map((item,index)=>{
+            console.log(item);
+            if (index==0){
+             return {...item, show:true};
+            }
+             else {
+              return (item.date === res.data[index-1].date) ? {...item, show:false} : {...item, show:true};
+            }
+          })
+          this.setState({upcomingApointement:data})
+        })
+      this.setState({user:user})
+    console.log(this.state.user);
+    }
   convertSlotToDateV2(slot) {
     switch (slot) {
       case 0:
@@ -569,7 +573,7 @@ export default class DashboardAthlete extends React.Component {
                   color: '#FFFFFF',
                   lineHeight: 24,
                 }}>
-                {this.state.user.name}
+                {this.state.user.first_name} {this.state.user.last_name}
               </Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
@@ -632,13 +636,12 @@ export default class DashboardAthlete extends React.Component {
                     <FlatList
                     data={this.state.dayApointement}
                     extraData={this.state}
-                    // onRefresh={onRefresh}
                     refreshing={this.state.refresh}
                     keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                      <TouchableOpacity onPress={()=>{console.log(item)}}
-                      
-                      >
+                    renderItem={({ item }) => {
+
+                      return(
+                      <TouchableOpacity onPress={()=>{console.log(item)}}>
                       <View style={{backgroundColor:'#2CDEE4', flexDirection:'row',height:70,justifyContent:'space-around',alignContent:'center',margin:10,borderRadius:5}}>
                         <View style={{justifyContent:'center',alignItems:'center'}}><Avatar
                             size={65}
@@ -668,15 +671,17 @@ export default class DashboardAthlete extends React.Component {
                         </View>
                       </View>
                       </TouchableOpacity>
-                    )}
+                    )}}
                   /> 
                 ) : (
-                  <Text  style={{
-                   fontFamily:'MontserratBoldItalic',
-                    fontSize: 20,
-                    color: '#FFFFFF',
+                  <View style={{alignItems:'center'}}>
+                  <Text style={{
+                    fontFamily:'Montserrat',
+                    fontSize: 17,
+                    color: '#DFDFDF',
                     margin: 10,
-                  }}>pas de rendez-vous Aujourd'hui</Text>
+                  }}>Aucune séance</Text>
+                  </View>
                 )}
                   <View style={{ alignItems: 'center' }}>
                   <Text
@@ -696,10 +701,16 @@ export default class DashboardAthlete extends React.Component {
               // onRefresh={onRefresh}
               refreshing={this.state.refresh}
               keyExtractor={(item) => item.id}
-              renderItem={({ item,index,separators }) => (
+              renderItem={({ item }) => {
+                console.log(item.show);
+                
+                return(
+          <View style={{alignItems:'center'}}>
+  { item.show==1?<View style={{flexDirection:'row' ,width:widthPercentageToDP(94),alignItems:'center'}}><Text style={{color:'white',flex:2,fontSize:10, fontFamily:'MontserratBoldItalic'}}>{moment(item.date).format('dddd D MMMM')}</Text><View style={{borderColor:'white',flex:5, borderBottomWidth:1}}></View></View>:<View></View>}
                 <TouchableOpacity 
                 onPress={()=>{console.log(item)}}>
-                <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center',backgroundColor:'#1E2026',margin:10,  borderRadius:5,}}>
+                
+                <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center',backgroundColor:'#1E2026',margin:10, width:widthPercentageToDP(94), borderRadius:5,}}>
                   <View style={{height:70, justifyContent:'center',alignItems:'center',}}><Avatar
                       size="medium"
                       rounded
@@ -707,6 +718,7 @@ export default class DashboardAthlete extends React.Component {
                         uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                       }}
                     /></View>
+                    
                   <View style={{
                     justifyContent:'center',
                     flexDirection:'column',marginRight:40}}>
@@ -716,12 +728,7 @@ export default class DashboardAthlete extends React.Component {
                         fontWeight: 'bold',
                         fontSize: 17,
                         color:'white'
-                      }}>{item.athlete.first_name}</Text>
-                      <Text style={{
-                        fontWeight: 'bold',
-                        fontSize: 17,
-                        color:'white'
-                      }}>{item.athlete.last_name}</Text>
+                      }}>{item.athlete.first_name} {item.athlete.last_name}</Text>
                   </View>
                   <Text style={{  fontSize: 12,  color:'white'}}>Séance : {item.session_number}/{item.athleteCourse.total_sessions}</Text>
                   </View>
@@ -734,16 +741,18 @@ export default class DashboardAthlete extends React.Component {
                   </View>
                 </View>
                 </TouchableOpacity>
-              )}
+              </View>
+              )}}
             />
-              
                   ) : (
+                    <View style={{alignItems:'center'}}>
                     <Text style={{
-                      fontFamily:'MontserratBoldItalic',
-                      fontSize: 20,
-                      color: '#FFFFFF',
+                      fontFamily:'Montserrat',
+                      fontSize: 17,
+                      color: '#DFDFDF',
                       margin: 10,
-                    }}> pas de rendez-vous Aujourd'hui</Text>
+                    }}>Aucune séance</Text>
+                    </View>
                 )}
               </View>
             ) : (

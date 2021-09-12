@@ -87,16 +87,6 @@ export const cancel_booking = async (params, navigation) => (
       })
     }, navigation));
 
-/*
-* Desc: Returns a single Pro item
-* Params:
-* id            | path | string | (req)
-* access-token  | header | string | (req)
-* token-name    | header | string | (req)
-* client        | header | string | (req)
-* uid           | header | string | (req)
-* expiry        | header | string | (req)
-* */
 
 export const get_coach_by_id = async (params) => {
    
@@ -131,38 +121,6 @@ export const get_coach = async (navigation) => {
         url: `${API_URL}/auth/verify-coach`,
         headers: headers
       })
-    }, navigation));
-
-
-/*
-* Desc: Update the current pro
-* Params:
-* id            | path | integer | (req)
-* ...pro[attr]  | form | string | (opt)
-* access-token  | header | string | (req)
-* token-name    | header | string | (req)
-* client        | header | string | (req)
-* uid           | header | string | (req)
-* expiry        | header | string | (req)
-* */
-export const update_current_pro = async (params, navigation) => (
-  MiddleWare.validateRequest(
-    async () => {
-      const headers = await getHeaders();
-      let user = await AsyncStorage.getItem(STORAGE.USER);
-      user = JSON.parse(user);
-
-      const data = new FormData();
-      const attributes = Object.keys(params);
-      attributes.forEach(attr =>
-        data.append(`pro[${attr}]`, params[attr])
-      );
-      return axios({
-        method: 'POST',
-        url: `${API_URL}/coach/me/`,
-        data: data,
-        headers: headers
-      });
     }, navigation));
 
 
@@ -206,15 +164,6 @@ export const update_current_pro = async (params, navigation) => (
               });
             }, navigation));   
 
-/*
-* Desc: Return true if the pro is signed in, otherwise, it returns a status 401
-* Params:
-* access-token  | header | string | (req)
-* token-name    | header | string | (req)
-* client        | header | string | (req)
-* uid           | header | string | (req)
-* expiry        | header | string | (req)
-* */
 export const is_pro_signed_in = async () => {
   const headers = await getHeaders();
   return axios({

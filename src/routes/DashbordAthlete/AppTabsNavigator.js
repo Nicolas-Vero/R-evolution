@@ -4,6 +4,7 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import OffresStack from './OffresStack';
 import HomeStack from './HomeStack';
 import AthletesStack from './AthletesStack';
+import MyCoach from '../../AtlheteScreens/MyCoach';
 // Auth import
 
 
@@ -32,7 +33,7 @@ const AppTabsNavigator = createBottomTabNavigator(
         },
       },
       AthletesStack: {
-        screen: AthletesStack,
+        screen: MyCoach,
         navigationOptions: {
           tabBarLabel: 'Dashboard',
           tabBarIcon: ({tintColor}) => (
