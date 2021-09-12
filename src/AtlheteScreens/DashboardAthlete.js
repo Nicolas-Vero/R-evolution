@@ -549,14 +549,14 @@ export default class DashboardAthlete extends React.Component {
     
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
-        <SafeAreaView>
-          
+        <SafeAreaView>  
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
             }}>
+              <TouchableOpacity onPress={()=>{navigate('AccountAthlete')}}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Avatar
                 size="medium"
@@ -576,6 +576,7 @@ export default class DashboardAthlete extends React.Component {
                 {this.state.user.first_name} {this.state.user.last_name}
               </Text>
             </View>
+            </TouchableOpacity>
             <View style={{ flexDirection: 'row' }}>
               <TouchableOpacity
                 onPress={() => {

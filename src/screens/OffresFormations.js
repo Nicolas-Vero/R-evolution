@@ -24,36 +24,34 @@ export default class OffresFormations extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <LinearGradient
-        colors={['#060606', '#2D333C']}
-        start={{
-          x: 0,
-          y: 0,
-        }}
-        end={{
-          x: 1,
-          y: 1,
-        }}
-        style={styles.background}>
-        <View >
+      // <LinearGradient
+      //   colors={['#060606', '#2D333C']}
+      //   start={{
+      //     x: 0,
+      //     y: 0,
+      //   }}
+      //   end={{
+      //     x: 1,
+      //     y: 1,
+      //   }}
+      //   style={styles.background}>
+        <View style={{backgroundColor:'black', flex:1}} >
           <SafeAreaView >
             <Header title="OFFRES & FORMATIONS" />
             <View style={{ alignContent: 'center', justifyContent: 'center' }}>
-              <View style={{ borderWidth: 3,marginTop:30, borderColor: 'red' }}>
+              <View style={{ marginTop:30 }}>
                 <TouchableOpacity onPress={() => navigate('Offres')}>
                   <ImageBackground
-                    source={require('../../assets/images/entryBackground.png')}
+                    source={require('../../assets/images/offres.jpg')}
                     style={styles.backgroundContainer}>
                     <View style={styles.container}>
                       <SafeAreaView style={styles.safeArea} />
-                      <View style={{ flex: 1 }}>
-                        {/* <Image
-                    source={require('../../assets/images/entryBackground.png')}
-                    style={{ marginTop: 181, marginLeft: 44 , height:100}}
-                  /> */}
+                      <View style={{ flex: 1 ,justifyContent:'flex-end', margin:10, marginRight:90 }}>
                         <Text style={styles.title}>
-                          “Une évolution est une révolution sans en avoir l’R”
-                          {'\n'} -P.-H. Cami
+                          MES OFFRES
+                        </Text>
+                        <Text style={styles.title2}>
+                        Créer et modifie tes offres sur-mesure 
                         </Text>
                       </View>
                       <View style={styles.buttonContainer}></View>
@@ -62,17 +60,19 @@ export default class OffresFormations extends React.Component {
                 </TouchableOpacity>
               </View>
               <View
-                style={{ height:300,marginTop:40, borderWidth: 3, borderColor: 'green' }}>
+                style={{  marginTop:25, }}>
                 <TouchableOpacity onPress={() => navigate('Offres')}>
                   <ImageBackground
-                    source={require('../../assets/images/entryBackground.png')}
-                    style={styles.backgroundContainer}>
+                    source={require('../../assets/images/Formation.jpg')}
+                    style={styles.backgroundContainer2}>
                     <View style={styles.container}>
                       <SafeAreaView style={styles.safeArea} />
-                      <View style={{ flex: 1 }}>
+                      <View style={{ flex: 1 ,justifyContent:'flex-end',margin:10, marginRight:90}}>
                         <Text style={styles.title}>
-                          “Une évolution est une révolution sans en avoir l’R”
-                          {'\n'} -P.-H. Cami
+                         LES FORMATION
+                        </Text>
+                        <Text style={styles.title2}>
+                        Accède à la plateforme de formation
                         </Text>
                       </View>
                     </View>
@@ -82,16 +82,23 @@ export default class OffresFormations extends React.Component {
             </View>
           </SafeAreaView>
         </View>
-      </LinearGradient>
+      // </LinearGradient>
     );
   }
 }
 
 const styles = StyleSheet.create({
   backgroundContainer: {
-    height: 300,
+    height: 400,
     resizeMode: 'cover',
     justifyContent: 'center',
+    marginHorizontal:5
+  },
+  backgroundContainer2: {
+    height: 200,
+    resizeMode: 'cover',
+    justifyContent: 'center',
+    marginHorizontal:5
   },
   background: {
     backgroundColor: 'black',
@@ -99,7 +106,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.88)',
     alignItems: 'center',
   },
   safeArea: {
@@ -118,11 +124,16 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#FFFFFF',
-    fontWeight: '500',
-    fontSize: 15,
-    fontStyle: 'italic',
-    textAlign: 'center',
-    marginTop: 112,
+    fontWeight: '800',
+    fontSize: 20,
+    fontFamily:'MontserratBoldItalic',
+    
+  },
+  title2: {
+    color: '#FFFFFF',
+    fontFamily:'Montserrat',
+    fontSize: 13,
+    fontFamily:'MontserratBoldItalic',
   },
   buttonContainer: {
     flexDirection: 'row',

@@ -37,17 +37,17 @@ const DashboardTab = createBottomTabNavigator(
           ),
         },
       },
-      stat: {
-        screen: Stats,
-        navigationOptions: {
+      // stat: {
+      //   screen: Stats,
+      //   navigationOptions: {
   
-          tabBarIcon: ({tintColor}) => (
-            <Image source={require('../../assets/images/Chart.png')}
-                  style={{height: 24, resizeMode: 'contain', tintColor}}
-           />
-          ),
-        },
-      },
+      //     tabBarIcon: ({tintColor}) => (
+      //       <Image source={require('../../assets/images/Chart.png')}
+      //             style={{height: 24, resizeMode: 'contain', tintColor}}
+      //      />
+      //     ),
+      //   },
+      // },
     },
     {
       lazy: true,

@@ -1,6 +1,7 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import Activite from '../../screens/Activite';
 import DashboardAthlete from '../../AtlheteScreens/DashboardAthlete';
+import AccountAthlete from '../../AtlheteScreens/AccountAthlete';
 
 const HomeStack = createStackNavigator(
   {
@@ -13,6 +14,15 @@ const HomeStack = createStackNavigator(
     
     Activite: {
       screen: Activite,
+      navigationOptions: {
+        header: null,
+        tabBarVisible: false,
+        headerVisible: false,
+        animationEnabled: true,
+      },
+    },
+    AccountAthlete: {
+      screen: AccountAthlete,
       navigationOptions: {
         header: null,
         tabBarVisible: false,

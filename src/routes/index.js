@@ -8,11 +8,8 @@ import SplashStack from './SplashStack';
 import DashboardStackAtlhete from './DashboardStackAthlete';
 const App = createSwitchNavigator(
   {
-    // Loading: EntryScreen,
-   //App: AppTabsNavigator,
     Entry:SplashStack,
     Auth: AuthStack,
-    //AuthAtlhete:AuthStackAthlete,
     DashboardStack:DashboardStack,
     DashboardStackAtlhete:DashboardStackAtlhete,
     

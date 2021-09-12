@@ -16,6 +16,8 @@ const { width } = Dimensions.get('window');
 import { Button } from '../components/Button';
 import { LinearGradient } from 'expo-linear-gradient';
 import { widthPercentageToDP  as wp} from 'react-native-responsive-screen';
+import { withNavigation } from 'react-navigation';
+
 export default class SplashAuth extends React.Component {
   state = {
     offers: [],
@@ -31,6 +33,7 @@ export default class SplashAuth extends React.Component {
     this.loadFonts();
   }
   render() {
+    const { navigation} = this.props;
     return (
       <LinearGradient
         colors={['black', '#2D333C']}
@@ -53,7 +56,7 @@ export default class SplashAuth extends React.Component {
           <SafeAreaView style={styles.safeArea} />
           <View>
           <TouchableOpacity
-          onPress={() => console.log('toto')}
+          onPress={() =>  navigation.goBack()}
            style={{height:50,flexDirection:'row',marginLeft:19.5,}}>         
              <Image source={require('../../assets/icons/header-back.png')} style={ {height: 20.54, width: 12.33, resizeMode: 'contain'}}/>
             <Text style={{color:'white',marginLeft:10,marginTop:1}}>RETOUR</Text>

@@ -126,7 +126,7 @@ export default class RegisterInfoAthlete extends React.Component {
             <View>
               <Formik
                 initialValues={{
-                  gender: 'female',
+                  gender: 'male',
                   first_name: '',
                   last_name: '',
                   email: '',

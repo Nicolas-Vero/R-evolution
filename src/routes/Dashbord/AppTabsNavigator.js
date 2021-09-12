@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image} from 'react-native'
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import Stats from '../../screens/Stats';
+//import Stats from '../../screens/Stats';
 import OffresStack from './OffresStack';
 import HomeStack from './HomeStack';
 import MyAthletesStack from './MyAthletesStack';
@@ -44,17 +44,17 @@ const AppTabsNavigator = createBottomTabNavigator(
           ),
         },
       },
-      stat: {
-        screen: Stats,
-        navigationOptions: {
+      // stat: {
+      //   screen: Stats,
+      //   navigationOptions: {
   
-          tabBarIcon: ({tintColor}) => (
-            <Image source={require('../../../assets/images/Chart.png')}
-                  style={{height: 24, resizeMode: 'contain', tintColor}}
-           />
-          ),
-        },
-      },
+      //     tabBarIcon: ({tintColor}) => (
+      //       <Image source={require('../../../assets/images/Chart.png')}
+      //             style={{height: 24, resizeMode: 'contain', tintColor}}
+      //      />
+      //     ),
+      //   },
+      // },
     },
     {
       lazy: true,

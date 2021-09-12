@@ -673,7 +673,6 @@ export default class Dashboard extends React.Component {
               </View>
             ) : (
               <View>
-                {/* Dispo screen */}
                 <View style={{ height: 800 }}>
                   <View >
                     <MonthsSlider onChange={this.onMonthChange.bind(this)} />
