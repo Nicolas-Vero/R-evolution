@@ -7,7 +7,7 @@ import MiddleWare from "./MiddleWare";
 
 export const create_paiement = async (params) => {
     const {coach_id, installments, offer_id} = params 
-   const data = {coach_id:coach_id,installments:installments}
+   const data = {coach_id:4 ,installments:installments}
     const headers = await getHeaders();
     return axios({
       method: 'POST',
