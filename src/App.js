@@ -1,11 +1,13 @@
 import React, {Component, Fragment} from 'react';
-import {View} from 'react-native';
+import {View,Alert} from 'react-native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import configureStore from './store/configureStore';
 import Router from './routes/index';
 import AppNavigation from './routes/navigationService';
 import './config/logger';
+import  messaging  from '@react-native-firebase/messaging';
+
 
 const {persistor, store} = configureStore();
 
@@ -20,6 +22,32 @@ export class App extends Component {
     this.state = {
       store,
     };
+  }
+
+
+
+
+
+  componentDidMount() {
+      messaging().onMessage(remoteMessage=> { 
+        let data = remoteMessage.notification.body;
+            Alert.alert(
+              'Notification',
+              JSON.stringify(data),
+              [
+                {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+                {text: 'OK', onPress: () => {()=>console.log('ok Pressed!')}},
+              ],
+          )
+          })
+             messaging().getToken().then((currentToken)=> {
+            if(currentToken){
+              console.log(JSON.stringify(currentToken))
+              alert(JSON.stringify(currentToken))
+            }
+            else
+              return false;
+          })
   }
 
   render() {
