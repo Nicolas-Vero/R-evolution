@@ -16,7 +16,7 @@ export default class LoginAthlete extends React.Component {
 
   async onLoginPress(values) {
    // const {email, password}=values;
-    const {email, password}={email:"blakos972@yahoo.fr", password:"a"};
+    const {email, password}=values;
     const body = {email, password};
     console.log(body);
     this.setState({loading: true});

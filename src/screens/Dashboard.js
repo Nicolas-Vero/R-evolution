@@ -377,7 +377,7 @@ export default class Dashboard extends React.Component {
       date: date.dateString,
     };
     this.setState({selectedDate: moment(date.dateString).format('YYYY-MM-DD')})
-    const curDate = moment(date.dateString).format('L')
+    const curDate = moment(date.dateString).format('dddd D MMMM ')
     this.setState({currentDate:curDate})
 
     get_appointement(formatdata).then((res) => {
@@ -532,7 +532,7 @@ export default class Dashboard extends React.Component {
                   color: '#FFFFFF',
                   lineHeight: 24,
                 }}>
-                {'Florian GALOPIN'}
+                {this.state.user.name}
               </Text>
             </View>
             </TouchableOpacity>

@@ -28,10 +28,7 @@ export default class Login extends React.Component {
   }
   async onLoginPress(values) {
     // const {email, password}=values;
-    const { email, password } = {
-      email: 'blakonino@gmail.com',
-      password: 'abcd',
-    };
+    const { email, password } = values
     const body = { email, password };
     console.log(body);
     this.setState({ loading: true });
