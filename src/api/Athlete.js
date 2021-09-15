@@ -9,6 +9,7 @@ import moment from 'moment';
 
 export const sign_in = params=> {
   const data = params;
+  console.log('[URL]', data, `${API_URL}/auth/athlete-login`);
   return axios({
     method: 'POST',
     url:`${API_URL}/auth/athlete-login`,

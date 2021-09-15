@@ -11,6 +11,11 @@ import {
 import { WebView } from 'react-native-webview';
 
 export default class MyWeb extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {};
+  }
+
   webview = null;
 
   render() {
@@ -20,9 +25,15 @@ export default class MyWeb extends React.Component {
         ref={(ref) => (this.webview = ref)}
         source={{ uri: this.props.navigation.state.params.item.payment_url }}
         onNavigationStateChange={this.handleWebViewNavigationStateChange}
+        onMessage={this.handleEvent}
       />
     );
   }
+
+  handleEvent = event => {
+    let {message, data} = JSON.parse(event.nativeEvent.data);
+    console.log('[onMessage-callback]', message, data);
+  };
 
   handleWebViewNavigationStateChange = (newNavState) => {
     // newNavState looks something like this:
@@ -34,8 +45,11 @@ export default class MyWeb extends React.Component {
     //   canGoForward?: boolean;
     // }
     const { url } = newNavState;
+    console.log('[nav-state]', newNavState);
     if (!url) return;
-    
+    if (url.includes('https://pay.sandbox.getalma.eu')) { //https://pay.sandbox.getalma.eu/11mQmqDGko2gQ7WOeIUqQ08i4UCX1l58fi
+      // this.props.navigation.goBack();
+    }
     // handle certain doctypes
     if (url.includes('.pdf')) {
       this.webview.stopLoading();
