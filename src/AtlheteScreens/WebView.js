@@ -47,8 +47,8 @@ export default class MyWeb extends React.Component {
     const { url } = newNavState;
     console.log('[nav-state]', newNavState);
     if (!url) return;
-    if (url.includes('https://pay.sandbox.getalma.eu')) { //https://pay.sandbox.getalma.eu/11mQmqDGko2gQ7WOeIUqQ08i4UCX1l58fi
-      // this.props.navigation.goBack();
+    if (url.includes('/api/v1/payment/return-url')) { 
+        this.props.navigation.goBack();
     }
     // handle certain doctypes
     if (url.includes('.pdf')) {
