@@ -1,13 +1,15 @@
-import React, {Component, Fragment} from 'react';
-import {View} from 'react-native';
-import {Provider} from 'react-redux';
-import {PersistGate} from 'redux-persist/integration/react';
+import React, { Component, Fragment } from 'react';
+import { View } from 'react-native';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import configureStore from './store/configureStore';
 import Router from './routes/index';
 import AppNavigation from './routes/navigationService';
 import './config/logger';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
 
-const {persistor, store} = configureStore();
+const { persistor, store } = configureStore();
 
 export class App extends Component {
   constructor(props) {
@@ -22,15 +24,45 @@ export class App extends Component {
     };
   }
 
+  async registerForPushNotification() {
+    let token;
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+    if (Platform.OS === 'android') {
+      Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+    return token;
+  }
+
+  componentDidMount() {
+    this.registerForPushNotification();
+  }
+
   render() {
-    const {store} = this.state;
+    const { store } = this.state;
 
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <View style={{flex: 1}}>
+          <View style={{ flex: 1 }}>
             <Router
-              ref={navigatorRef => {
+              ref={(navigatorRef) => {
                 AppNavigation.setTopLevelNavigator(navigatorRef);
               }}
             />
