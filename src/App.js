@@ -52,6 +52,19 @@ export class App extends Component {
 
   componentDidMount() {
     this.registerForPushNotification();
+
+    this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
+      console.log('[Notification]', notification);
+    });
+
+    this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log('[Notification-Response]', response);
+    });
+  }
+
+  componentWillUnmount () {
+    Notifications.removeNotificationSubscription(this.notificationListener);
+    Notifications.removeNotificationSubscription(this.responseListener);
   }
 
   render() {
