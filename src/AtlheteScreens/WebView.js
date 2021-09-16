@@ -48,7 +48,7 @@ export default class MyWeb extends React.Component {
     console.log('[nav-state]', newNavState);
     if (!url) return;
     if (url.includes('/api/v1/payment/return-url')) { 
-        this.props.navigation.goBack();
+        this.props.navigation.navigate('Offres');
     }
     // handle certain doctypes
     if (url.includes('.pdf')) {
