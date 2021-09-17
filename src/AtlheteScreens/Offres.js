@@ -38,7 +38,7 @@ export default class Offres extends React.Component {
    var user = await AsyncStorage.getItem(STORAGE.USER);
     user  = JSON.parse(user);
     console.log('uuser',user);
-    get_coach_offer_by_id(4)
+    get_coach_offer_by_id(user.coach.coach_id)
       .then((res) => {
         this.setState({ offers: res.data.offers });
       });
