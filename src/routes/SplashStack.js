@@ -3,7 +3,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import { Ionicons } from '@expo/vector-icons';
 // Auth import
 import AuthEntry from '../screens/Auth/index';
-
+import Activite from '../screens/Activite';
 import LoginAthlete from '../AtlheteScreens/Auth/LoginAthlete';
 import Splash from '../screens/Splash';
 import Login from '../screens/Auth/Login';
@@ -16,6 +16,12 @@ const SplashStack = createStackNavigator(
   {
     AuthEntry: {
       screen: AuthEntry,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Activite: {
+      screen: Activite,
       navigationOptions: {
         header: null,
       },

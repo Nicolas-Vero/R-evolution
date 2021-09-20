@@ -36,6 +36,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 import { loadFonts } from '../configs/design/font';
 import { Right } from 'native-base';
+import * as Notifications from 'expo-notifications';
+
 LocaleConfig.locales['fr'] = {
   monthNames: [
     'JANVIER',
@@ -251,6 +253,24 @@ export default class Dashboard extends React.Component {
    const curDate = moment().format('YYYY-MM-DD')
    console.log('curr',curDate) 
    this.setState({today:curDate})
+
+   if(Notifications.useLastNotificationResponse.actionIdentifier === Notifications.DEFAULT_ACTION_IDENTIFIER
+    ){
+      console.log('[notification]');
+    }
+
+    this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
+      console.log('[Notification]', notification);
+    });
+
+    this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
+        this.props.navigation.push('Activite')
+    });
+  }
+
+  componentWillUnmount () {
+    Notifications.removeNotificationSubscription(this.notificationListener);
+    Notifications.removeNotificationSubscription(this.responseListener);
   }
 
   handler(param) {
@@ -278,8 +298,8 @@ export default class Dashboard extends React.Component {
                     checked={status === true}
                     value={status}
                     onPress={() => {
-                      update_availabilities({slots,date:item.date}).then(()=>{get_availabilities(item.date)})
-                      // update_availabilities(onChangeParams).then(get_availabilities())
+                      update_availabilities({slots,date:item?.date}).then(()=>{get_availabilities(item?.date)})
+                      update_availabilities(onChangeParams).then(get_availabilities())
                     }}
                   />
       </View>
@@ -320,8 +340,8 @@ export default class Dashboard extends React.Component {
 
   show(item) {
     const params = {
-      availability_date: item.availability_date,
-      coachId: item.coachId,
+      availability_date: item?.availability_date,
+      coachId: item?.coachId,
     };
     get_availabilities(params)
       .then((res) => {
@@ -365,7 +385,7 @@ export default class Dashboard extends React.Component {
         availability_day_num : elementday,
         availability:element
       };
-      item.push(Object);
+      item?.push(Object);
     });
     this.setState({ availabilities: item });
   }
@@ -408,7 +428,7 @@ export default class Dashboard extends React.Component {
                   fontSize: 20,
                 }}>{rdv.athlete.last_name}</Text> */}
             </View>
-            <Text style={{fontFamily:'MontserratMedium', fontSize: 12,  color:'white'}}>Séance {rdv.session_number}/{rdv.athleteCourse.total_sessions}</Text>
+            <Text style={{fontFamily:'MontserratMedium', fontSize: 12,  color:'white'}}>Séance {rdv?.session_number}/{rdv?.athleteCourse?.total_sessions}</Text>
             </View>
             <View style={{justifyContent:'center'}}>
               <Text style={{
@@ -684,25 +704,25 @@ export default class Dashboard extends React.Component {
                         extraData={this.state}
                         // onRefresh={onRefresh}
                         refreshing={this.state.refresh}
-                        keyExtractor={(item) => item.date}
+                        keyExtractor={(item) => item?.date}
                         renderItem={({ item }) => {
     
-                          const backgroundColor = item.availability === this.state.selectedDate ? "#2CDEE4" : "#1E2026";
-                          const textColor = item.availability === this.state.selectedDate ? "black" : "white";
+                          const backgroundColor = item?.availability === this.state.selectedDate ? "#2CDEE4" : "#1E2026";
+                          const textColor = item?.availability === this.state.selectedDate ? "black" : "white";
                           return (
                             <TouchableOpacity
                               onPress={() => {
-                                this.setState({selectedDate:item.availability})
-                                this.getAvailabilities(item.availability)
+                                this.setState({selectedDate:item?.availability})
+                                this.getAvailabilities(item?.availability)
                               
                               }}>
                           <View style={[styles.day, {backgroundColor:backgroundColor}]}>
                               <View style={{flexDirection:'column',justifyContent:'center',alignItems:'center',alignContent:'center'}}>
                               <Text style={{ color:textColor,justifyContent:'center',alignItems:'center',alignContent:'center' }}>
-                                {item.availability_day}
+                                {item?.availability_day}
                               </Text>
                               <Text style={{ color:textColor, marginTop:10,justifyContent:'center',alignItems:'center',alignContent:'center' }}>
-                                {item.availability_day_num}
+                                {item?.availability_day_num}
                               </Text>
                               </View>
                           </View>
@@ -722,7 +742,7 @@ export default class Dashboard extends React.Component {
                         extraData={this.state}
                         //      onRefresh={onRefresh}
                         refreshing={this.state.refresh}
-                        // keyExtractor={(item) => {item.date;}}
+                        // keyExtractor={(item) => {item?.date;}}
                         keyExtractor={(item, index) => `${index}`}
                         renderItem={({ item }) => (
                           <SwitchButton

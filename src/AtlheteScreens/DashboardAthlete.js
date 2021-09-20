@@ -216,7 +216,7 @@ export default class DashboardAthlete extends React.Component {
              return {...item, show:true};
             }
              else {
-              return (item.date === res.data[index-1].date) ? {...item, show:false} : {...item, show:true};
+              return (item?.date === res.data[index-1].date) ? {...item, show:false} : {...item, show:true};
             }
           })
           this.setState({upcomingApointement:data})
@@ -406,8 +406,8 @@ export default class DashboardAthlete extends React.Component {
 
   show(item) {
     const params = {
-      availability_date: item.availability_date,
-      coachId: item.coachId,
+      availability_date: item?.availability_date,
+      coachId: item?.coachId,
     };
     get_availabilities(params)
       .then((res) => {
@@ -433,7 +433,7 @@ export default class DashboardAthlete extends React.Component {
     return arrDays.reverse();
   }
   getAvailabilities(item) {
-    const  date  = moment(item.availability).format('YYYY-MM-DD')
+    const  date  = moment(item?.availability).format('YYYY-MM-DD')
    const  params = {date:date,coach_id:this.state.coach_id}
    get_availabilities(params).then((res)=>{
     
@@ -488,7 +488,7 @@ export default class DashboardAthlete extends React.Component {
         availability:element
 
       };
-      item.push(Object);
+      item?.push(Object);
     });
     this.setState({ availabilities: item });
   }
@@ -528,7 +528,7 @@ export default class DashboardAthlete extends React.Component {
                   fontSize: 20,
                 }}>{rdv.athlete.last_name}</Text>
             </View>
-            <Text>seance{rdv.session_number}/{rdv.athleteCourse.total_sessions}</Text>
+            <Text>seance{rdv?.session_number}/{rdv?.athleteCourse?.total_sessions}</Text>
             </View>
             <View style={{justifyContent:'center'}}>
               <Text style={{
@@ -638,7 +638,7 @@ export default class DashboardAthlete extends React.Component {
                     data={this.state.dayApointement}
                     extraData={this.state}
                     refreshing={this.state.refresh}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item?.id}
                     renderItem={({ item }) => {
 
                       return(
@@ -657,18 +657,18 @@ export default class DashboardAthlete extends React.Component {
                            fontFamily:'RobotoBold',
                               fontSize: 25,
                               marginBottom:5
-                            }}>{item.athlete.first_name} {item.athlete.last_name}</Text>
+                            }}>{item?.athlete.first_name} {item?.athlete?.last_name}</Text>
                         </View>
                         <Text style={{ 
                            fontFamily:'Roboto',
                               fontSize: 10,
                               marginBottom:15
-                            }}>Séance: {item.session_number}/{item.athleteCourse.total_sessions}</Text>
+                            }}>Séance: {item?.session_number}/{item?.athleteCourse?.total_sessions}</Text>
                         </View>
                         <View style={{justifyContent:'center'}}>
                           <Text style={{
                               fontWeight: 'bold',
-                              fontSize: 20,}} >{this.convertSlotToDate(item.slot)}</Text>
+                              fontSize: 20,}} >{this.convertSlotToDate(item?.slot)}</Text>
                         </View>
                       </View>
                       </TouchableOpacity>
@@ -701,13 +701,13 @@ export default class DashboardAthlete extends React.Component {
               extraData={this.state}
               // onRefresh={onRefresh}
               refreshing={this.state.refresh}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item?.id}
               renderItem={({ item }) => {
-                console.log(item.show);
+                console.log(item?.show);
                 
                 return(
           <View style={{alignItems:'center'}}>
-  { item.show==1?<View style={{flexDirection:'row' ,width:widthPercentageToDP(94),alignItems:'center'}}><Text style={{color:'white',flex:2,fontSize:10, fontFamily:'MontserratBoldItalic'}}>{moment(item.date).format('dddd D MMMM')}</Text><View style={{borderColor:'white',flex:5, borderBottomWidth:1}}></View></View>:<View></View>}
+  { item?.show==1?<View style={{flexDirection:'row' ,width:widthPercentageToDP(94),alignItems:'center'}}><Text style={{color:'white',flex:2,fontSize:10, fontFamily:'MontserratBoldItalic'}}>{moment(item?.date).format('dddd D MMMM')}</Text><View style={{borderColor:'white',flex:5, borderBottomWidth:1}}></View></View>:<View></View>}
                 <TouchableOpacity 
                 onPress={()=>{console.log(item)}}>
                 
@@ -729,16 +729,16 @@ export default class DashboardAthlete extends React.Component {
                         fontWeight: 'bold',
                         fontSize: 17,
                         color:'white'
-                      }}>{item.athlete.first_name} {item.athlete.last_name}</Text>
+                      }}>{item?.athlete.first_name} {item?.athlete.last_name}</Text>
                   </View>
-                  <Text style={{  fontSize: 12,  color:'white'}}>Séance : {item.session_number}/{item.athleteCourse.total_sessions}</Text>
+                  <Text style={{  fontSize: 12,  color:'white'}}>Séance : {item?.session_number}/{item?.athleteCourse?.total_sessions}</Text>
                   </View>
                   <View style={{justifyContent:'center'}}>
                     <Text style={{
                         fontWeight: 'bold',
                         fontSize: 15,
                         color:'white'
-                        }} >{this.convertSlotToDate(item.slot)}</Text>
+                        }} >{this.convertSlotToDate(item?.slot)}</Text>
                   </View>
                 </View>
                 </TouchableOpacity>
@@ -826,26 +826,26 @@ export default class DashboardAthlete extends React.Component {
                         extraData={this.state}
                         // onRefresh={onRefresh}
                         refreshing={this.state.refresh}
-                        keyExtractor={(item) => item.date}
+                        keyExtractor={(item) => item?.date}
                         renderItem={({ item }) => {
                          
-                          // const backgroundColor = item.availability === this.state.selectedDate ? "#2CDEE4" : "#101010";
-                           const backgroundColor = item.availability === this.state.selectedDate ? "#2CDEE4" : "#1E2026";
-                           const textColor = item.availability === this.state.selectedDate ? "black" : "white";
+                          // const backgroundColor = item?.availability === this.state.selectedDate ? "#2CDEE4" : "#101010";
+                           const backgroundColor = item?.availability === this.state.selectedDate ? "#2CDEE4" : "#1E2026";
+                           const textColor = item?.availability === this.state.selectedDate ? "black" : "white";
                            return (
                              <TouchableOpacity
                                onPress={() => {
-                                 this.setState({selectedDate:item.availability})
+                                 this.setState({selectedDate:item?.availability})
                                  this.getAvailabilities(item)
                                
                                }}>
                            <View style={[styles.day, {backgroundColor:backgroundColor}]}>
                                <View style={{flexDirection:'column',justifyContent:'center',alignItems:'center',alignContent:'center'}}>
                                <Text style={{ color:textColor,justifyContent:'center',alignItems:'center',alignContent:'center' }}>
-                                 {item.availability_day}
+                                 {item?.availability_day}
                                </Text>
                                <Text style={{ color:textColor, marginTop:10,justifyContent:'center',alignItems:'center',alignContent:'center' }}>
-                                 {item.availability_day_num}
+                                 {item?.availability_day_num}
                                </Text>
                                </View>
                            </View>
@@ -860,14 +860,14 @@ export default class DashboardAthlete extends React.Component {
                         extraData={this.state}
                         //onRefresh={onRefresh}
                         refreshing={this.state.refresh}
-                        keyExtractor={(item) => {item.slot}}
+                        keyExtractor={(item) => {item?.slot}}
                         renderItem={({ item }) => (
                           <View style={{flexDirection:'row',justifyContent:'space-around',margin:10}}>
-                          <Text style={{color: '#FFFFFF'}}>{ this.convertSlotToDate(item.slot)}</Text>
+                          <Text style={{color: '#FFFFFF'}}>{ this.convertSlotToDate(item?.slot)}</Text>
                           <DeleteButton  onPress={()=>{
                             console.log('itemm',this.state.selectedDate)
-                            this.setState({currentSlot:this.convertSlotToDate(item.slot)})
-                            const bookInformation = {date:this.state.selectedDate, coach_id:this.state.coach_id,currentSlot:item.slot,athlete_course_id:this.state.athleteCourse.id}
+                            this.setState({currentSlot:this.convertSlotToDate(item?.slot)})
+                            const bookInformation = {date:this.state.selectedDate, coach_id:this.state.coach_id,currentSlot:item?.slot,athlete_course_id:this.state.athleteCourse.id}
                             console.log('itemm',bookInformation)
                             this.setState({book:bookInformation})
                             this.setState({modalVisible:true})

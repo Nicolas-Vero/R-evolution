@@ -1,5 +1,5 @@
 import { createStackNavigator } from 'react-navigation-stack';
-import Activite from '../../screens/Activite';
+import Activite from '../../screens/Activite'; //athlet activite screen
 import AwaitingDemand from '../../screens/AwaitingDemand';
 import CreateBook from '../../screens/CreateBook';
 import Dashboard from '../../screens/Dashboard';
