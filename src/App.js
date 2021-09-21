@@ -103,5 +103,3 @@ export default App;
 //     );
 //   }
 // }
-
-console.disableYellowBox = true;

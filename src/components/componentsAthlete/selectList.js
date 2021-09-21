@@ -88,14 +88,14 @@ export const selectList = React.forwardRef(
                   buttonStyle={{ width: wp(90), borderRadius:5  }}
                   data={Gymdata}
                   defaultButtonText={"Recherche le nom de ta salle"}
-                  onSelect={(selectedItem, index) => {
-                   
+                  onSelect={(selectedItem) => {
+                   arrayhelper.form.values.gymPlace = selectedItem
                   }}
                   renderDropdownIcon={() => {
                     return <AntDesign name="down" size={24} color="black" />;
                   }}
                   dropdownIconPosition={'right'}
-                  buttonTextAfterSelection={(selectedItem, index) => {
+                  buttonTextAfterSelection={(selectedItem) => {
                     // text represented after item is selected
                     // if data array is an array of objects then return selectedItem.property to render after item is selected
                     

@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Text,
   View,
-  TextInput,
   SafeAreaView,
   StyleSheet,
   Platform,
@@ -10,18 +9,12 @@ import {
   Image,
   StatusBar,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { auth } from '../../api/Register';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { STORAGE } from '../../configs/Constants';
 import { Formik } from 'formik';
-import { CheckBox } from 'react-native-elements';
-import Loader from 'react-loader-spinner';
 import { Button } from '../../components/Button';
 import Header from '../../components/Header';
-
-//import { Slider } from 'react-native-elements';
 import { ElementSlider } from '../../components/componentsAthlete/ElementSlider';
 const { width } = Dimensions.get('window');
 import { destinataire } from '../../components/componentsAthlete/destinataire';
@@ -32,13 +25,15 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { mensuration } from '../../components/componentsAthlete/mensuration';
 import { health } from '../../components/componentsAthlete/health';
 import { ElementSlider2 } from '../../components/componentsAthlete/ElementSlider2';
+import { loadFonts } from '../../configs/design/font';
+import { sign_up } from '../../api/Athlete';
 const inputs = [
   { name: 'mensuration', type: 'default', component: mensuration },
   { name: 'xP', type: 'default', component: ElementSlider },
   { name: 'objectifs', type: 'default', component: dynamicListAthlete },
-  { name: 'health', type: 'default', component: health },
+  { name: 'healthIssues', type: 'default', component: health },
   { name: 'gymPlace', type: 'default', component: selectList },
-  { name: 'availabilities', type: 'default', component: ElementSlider2 },
+  { name: 'days_preference', type: 'default', component: ElementSlider2 },
   { name: 'destinataire', type: 'default', component: destinataire },
   { name: 'avatar', type: 'default', component: avatar },
 ];
@@ -50,13 +45,12 @@ export default class MoreInfoAthlete extends React.Component {
       step: 'initial',
       stepperStep: 0,
       progress: 0,
-      values:{} 
+      values: {},
     };
   }
- async componentDidMount(){
-   console.log(this.props.navigation.state)
-  await loadFonts();
- }
+  componentDidMount() {
+    loadFonts();
+  }
   changeStep = (newStep) => {
     const inputLenght = inputs.length;
     const percent = ((newStep + 1) / inputLenght) * 1.0;
@@ -65,71 +59,11 @@ export default class MoreInfoAthlete extends React.Component {
       progress: percent,
       step: 'complementary',
     });
-    console.log()
   };
 
-  async onContinuePress() {
-    if (1) {
-      const { degrees, xP,spécialities, gymPlace} = this;
-      const body = {
-        degrees:degrees ,
-        xP: xP,
-        spécialities:spécialities,
-        gymPlace: gymPlace,
-      };
-      // this.setState({loading: true});
-      Addinfo(body)
-        .then(
-          (res) => (
-            {
-              data: res.data.data,
-              headers: {
-                access_token: res.data.headers['access-token'],
-                token_type: res.data.headers['token-name'],
-                uid: res.data.headers['uid'],
-                // client: res.headers['client'],
-                //    expiry: res.headers['expiry'],
-              },
-            },
-            this.changeStep,
-            console.log(header)
-          ),
-        )
-        .then(async (res) => {
-          await AsyncStorage.setItem(STORAGE.USER, JSON.stringify(res.data));
-          await AsyncStorage.setItem(
-            STORAGE.HEADERS,
-            JSON.stringify(res.headers),
-          );
-        })
-        .then(() => {
-          console.log;
-          this.changeStep;
-
-          //this.props.navigation.navigate('AddSpecialities');
-        })
-        .catch((err) => {
-          //  this.setState({loading: false});
-          if (err.request && err.request.status === 422) {
-            // this.setState({
-            //   message: 'Email déjà utilisé, veuillez vous connecter.',
-            // });
-          } else {
-            console.log(err);
-            //alert('Please try again. ');
-          }
-        });
-    } else {
-      console.log('invalid confirmation');
-      //alert('Passwords don\'t match');
-    }
-  }
-
   render() {
-  
     const { navigation } = this.props;
     const { stepperStep, step } = this.state;
-    console.log(stepperStep);
     const Layout = inputs[stepperStep].component;
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
@@ -149,47 +83,77 @@ export default class MoreInfoAthlete extends React.Component {
         {stepperStep < 1 ? (
           <Header title="LET'S GO" />
         ) : (
-          <View style={ styles.container }>
-          <View style={{flex: 1}}>
-              <TouchableOpacity  style={{paddingLeft:7}}  onPress={() => this.changeStep(stepperStep - 1)}>
-                  <Image source={require('../../../assets/icons/header-back.png')} style={styles.image}/>
+          <View style={styles.container}>
+            <View style={{ flex: 1 }}>
+              <TouchableOpacity
+                style={{ paddingLeft: 7 }}
+                onPress={() => this.changeStep(stepperStep - 1)}>
+                <Image
+                  source={require('../../../assets/icons/header-back.png')}
+                  style={styles.image}
+                />
               </TouchableOpacity>
-          </View>
-          <View style={styles.textContainer}>
+            </View>
+            <View style={styles.textContainer}>
               <Text style={styles.text}>LET'S GO</Text>
+            </View>
+            <View style={{ flex: 1 }} />
           </View>
-          <View style={{flex: 1}} />
-      </View>
         )}
         <View style={{ paddingLeft: 16, paddingRight: 16 }}>
-            <Formik
-              innerRef={this.formikRef}
-              initialValues={{
-                age:'',
-                weight:'',
-                size:'',
-                xP: '',
-                objectifs: [],
-                healthInfo: '',
-                information: '',
-                gymPlace:[],
-                trainnigPréference:[],
-                avatar: '',
-              }}
-              onSubmit={(values, actions) =>
-                this.handleFormSubmit(values, actions)
-              }>
-              {({
-                values,
-                errors,
-                isSubmitting,
-                handleSubmit,
-                setValues,
-                setFieldTouched,
-                setFieldValue,
-              }) => (
-                // <ScrollView>
-                <View
+          <Formik
+            innerRef={this.formikRef}
+            initialValues={{
+              age: '',
+              weight: '',
+              size: '',
+              experience_years: '',
+              objectifs: [],
+              health_issues: '',
+              health_problem_description: '',
+              coach_preference: {},
+              gymPlace: '',
+              days_preference: { 
+                is_monday_preferred: false,
+                is_tuesday_preferred: false,
+                is_wednesday_preferred: false,
+                is_thursday_preferred: false,
+                is_friday_preferred: false,
+                is_saturday_preferred: false,
+                is_sunday_preferred: false,
+              },
+              time_preference: {
+                start_time: 6,
+                end_time: 17,
+              },
+              profile_picture_url: '',
+            }}
+            onSubmit={(values, actions) => {
+              const data = {
+                ...values,
+                ...this.props.navigation.state.params.item,
+
+              };
+              console.log('dataaaa',data);
+              try {
+                sign_up(data).then(() => {
+                  navigate('LoginAthlete');
+                });
+              } catch (error) {
+                console.log('error:', error, ' ', 'data:', data);
+              }
+            }}>
+            {({
+              values,
+              errors,
+              isSubmitting,
+              handleSubmit,
+              setValues,
+              setFieldTouched,
+              setFieldValue,
+            }) => (
+              // <ScrollView>
+              <View
                 style={{
                   height: hp('80%'),
                   justifyContent: 'space-between',
@@ -197,8 +161,8 @@ export default class MoreInfoAthlete extends React.Component {
                 <View
                   style={{
                     alignContent: 'center',
-                    height:hp(70),
-                    justifyContent:'space-between',
+                    height: hp(70),
+                    justifyContent: 'space-between',
                     maxHeight: hp('70'),
                   }}>
                   <Layout
@@ -221,19 +185,25 @@ export default class MoreInfoAthlete extends React.Component {
                     errors={errors}
                   />
                 </View>
-                <View >
+                <View>
                   {isSubmitting ? (
-                    <Loader />
+                    <ActivityIndicator />
                   ) : (
                     <View>
                       <Button
-                       customTextStyle={{fontFamily:'RobotoBold',fontSize:17}}
+                        customTextStyle={{
+                          fontFamily: 'RobotoBold',
+                          fontSize: 17,
+                        }}
                         title="Suivant"
-                        onPress={
+                        onPress={ console.log('valuesssxsssss',values),
                           inputs[inputs.length - 1] &&
                           stepperStep === inputs.length - 1
                             ? handleSubmit
-                            : () => this.changeStep(stepperStep + 1)
+                            : () => {
+                                this.changeStep(stepperStep + 1)
+                        
+                              }
                         }
                         disabled={Object.keys(errors).some((v) =>
                           inputs[stepperStep].name.includes(v),
@@ -242,12 +212,9 @@ export default class MoreInfoAthlete extends React.Component {
                   )}
                 </View>
               </View>
-        //   </ScrollView>
-              )}
-            </Formik>
-          
-
-          {step === 'payment' && <View />}
+              //   </ScrollView>
+            )}
+          </Formik>
         </View>
       </View>
     );
@@ -257,7 +224,6 @@ const styles = StyleSheet.create({
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
-
 
   header: {
     flexDirection: 'row',
@@ -283,10 +249,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: width,
     height: 49,
-    marginBottom: 29
-   
-},
-image: {marginLeft:10,height: 20.54, width: 12.33, resizeMode: 'contain'},
-textContainer: {alignItems: 'center', flex: 6},
-text: {  fontStyle: 'italic', fontWeight: '800', fontSize: 22, color: '#FFFFFF', lineHeight: 24}
+    marginBottom: 29,
+  },
+  image: { marginLeft: 10, height: 20.54, width: 12.33, resizeMode: 'contain' },
+  textContainer: { alignItems: 'center', flex: 6 },
+  text: {
+    fontStyle: 'italic',
+    fontWeight: '800',
+    fontSize: 22,
+    color: '#FFFFFF',
+    lineHeight: 24,
+  },
 });

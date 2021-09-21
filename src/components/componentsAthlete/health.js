@@ -68,7 +68,7 @@ export const health = React.forwardRef(
                               data={data}
                               defaultButtonText={'choisir'}
                               onSelect={(selectedItem, index) => {
-                                console.log(selectedItem, index);
+                                arrayhelper.form.values.healthIssues = selectedItem
                               }}
                               renderDropdownIcon={() => {
                                 return (
@@ -120,7 +120,7 @@ export const health = React.forwardRef(
                             <TextInput
                               style={styles.field}
                               placeholder="Description"
-                              onChangeText={(text) => (field.value = text)}
+                              onChangeText={(text) => (arrayhelper.form.values.information = text)}
                             />
                             </View>
                           </View>

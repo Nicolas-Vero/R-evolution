@@ -7,6 +7,11 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { forEach, indexOf } from 'lodash';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Text } from 'react-native';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { Avatar } from 'react-native-elements';
+import { loadFonts } from '../configs/design/font';
 
 export default class CarouselPager extends Component {
   static propTypes = {
@@ -22,6 +27,10 @@ export default class CarouselPager extends Component {
     onPageChange: PropTypes.func,
     deltaDelay: PropTypes.number,
     children: PropTypes.array.isRequired
+  }
+  componentDidMount(){
+    loadFonts;
+    
   }
 
   static defaultProps = {
@@ -40,6 +49,84 @@ export default class CarouselPager extends Component {
   state = {
     width: 0,
     height: 0
+  }
+  convertSlotToDate(slot) {
+    switch (slot) {
+      case 0:
+        return '00:00 - 01:00';
+        break;
+      case 1:
+        return '01:00 - 02:00';
+        break;
+      case 2:
+        return '02:00 - 03:00';
+        break;
+      case 3:
+        return '03:00 - 04:00';
+        break;
+      case 4:
+        return '04:00 - 05:00';
+        break;
+      case 5:
+        return '05:00 - 06:00';
+        break;
+      case 6:
+        return '06:00 - 07:00';
+        break;
+      case 7:
+        return '07:00 - 08:00';
+        break;
+      case 8:
+        return '08:00 - 09:00';
+        break;
+      case 9:
+        return '09:00 - 10:00';
+        break;
+      case 10:
+        return '10:00 - 11:00';
+        break;
+      case 11:
+        return '11:00 - 12:00';
+        break;
+      case 12:
+        return '12:00 - 13:00';
+        break;
+      case 13:
+        return '13:00 - 14:00';
+        break;
+      case 14:
+        return '14:00 - 15:00';
+        break;
+      case 15:
+        return '15:00 - 16:00';
+        break;
+      case 16:
+        return '16:00 - 17:00';
+        break;
+      case 17:
+        return '17:00 - 18:00';
+        break;
+      case 18:
+        return '18:00 - 19:00';
+        break;
+      case 19:
+        return '19:00 - 20:00';
+        break;
+      case 20:
+        return '20:00 - 21:00';
+        break;
+      case 21:
+        return '21:00 - 22:00';
+        break;
+      case 22:
+        return '22:00 - 23:00';
+        break;
+      case 23:
+        return '23:00 - 00:00';
+        break;
+      default:
+        break;
+    }
   }
 
   _getPosForPage(pageNb) {
@@ -87,6 +174,7 @@ export default class CarouselPager extends Component {
     let viewsScale = [];
     let viewsOpacity = [];
     let backgroundColor=[];
+    let textColor=[];
     for (let i = 0; i < this.props.children.length; ++i) {
       viewsScale.push(new Animated.Value(i === this._currentPage ? 1 : this.props.blurredZoom));
       viewsOpacity.push(new Animated.Value(i === this._currentPage ? 1 : this.props.blurredOpacity));
@@ -94,8 +182,10 @@ export default class CarouselPager extends Component {
     for (let i = 0; i < this.props.children.length; ++i) {
       if (i == 0 ) {
         backgroundColor.push('#2CDEE4')
+        textColor.push('black')
       } else {
         backgroundColor.push('transparent')
+        textColor.push('white')
       }
     }
     this.setState({
@@ -105,12 +195,14 @@ export default class CarouselPager extends Component {
       viewsScale,
       viewsOpacity,
       backgroundColor,
+      textColor,
     });
   }
 
   animateToPage(page) {
     let animations = [];
     let arrayofcolor =[];
+    let arrayofTextColor = [];
     var i = 0
     if (this._currentPage !== page) {
       // New page needs to be shown (adjust opacity and scale)
@@ -146,12 +238,15 @@ export default class CarouselPager extends Component {
     for (let i = 0; i < this.props.children.length; ++i) {
       if (page == i ) {
         arrayofcolor.push('#2CDEE4')
+        arrayofTextColor.push('black')
+
       } else {
         arrayofcolor.push('transparent')
+        arrayofTextColor.push('white')
       }
     }
-  this.setState({backgroundColor:arrayofcolor})
-
+  this.setState({backgroundColor:arrayofcolor});
+  this.setState({textColor:arrayofTextColor});
     // Move to proper position for selected page
     let toValue = this._getPosForPage(page);
 
@@ -280,7 +375,34 @@ export default class CarouselPager extends Component {
                       }
                   ]
                 }, boxStyle, this.props.pageStyle]}>
-                {page}
+                  <TouchableOpacity onPress={()=>{console.log(page)}} style={{justifyContent:'center'}}>
+          <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center',width:widthPercentageToDP(94),alignItems:'center'}}key={page.id}>
+            <View style={{marginTop:2}}>
+              <Avatar
+                size="medium"
+                rounded
+                source={{
+                  uri: page.Avatar,
+                }}
+              />
+              </View>
+            <View style={{flexDirection:'column',marginRight:40}}>
+              <View style={{flexDirection:'row'}}>
+                <Text style={{
+                  fontFamily:'RobotoMedium',
+                  fontSize: 20,
+                  color:this.state.textColor[index],
+                }}>{page.firstname} {page.lastname}</Text>
+            </View>
+            <Text style={{fontFamily:'MontserratMedium', fontSize: 12,  color:this.state.textColor[index]}}>Séance: {page.session_number}/{page.total_sessions}</Text>
+            </View>
+            <View style={{justifyContent:'center'}}>
+              <Text style={{
+                   fontFamily:'RobotoMedium',
+                  fontSize: 20,marginTop:1.2,   color:this.state.textColor[index]}} >{this.convertSlotToDate(page.slot)}</Text>
+            </View>
+          </View>
+          </TouchableOpacity>
               </Animated.View>
             );
           })}

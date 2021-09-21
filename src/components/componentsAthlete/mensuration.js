@@ -62,7 +62,8 @@ export const mensuration = React.forwardRef(
                                 style={styles.field}
                                 placeholder="Taille"
                                 onChangeText={(text) =>
-                                  (field.value = text)
+                                ( arrayhelper.form.values.size = text )
+                                  
                                 }
                             
                               />
@@ -73,7 +74,7 @@ export const mensuration = React.forwardRef(
                               <TextInput
                                 placeholder="Poids"
                                 onChangeText={(text) =>
-                                  (field.value = text)
+                                  (arrayhelper.form.values.weight = text)
                                 }
                                 style={styles.field}
                             
@@ -85,7 +86,7 @@ export const mensuration = React.forwardRef(
                                style={styles.field}
                                 placeholder="Âge"
                                 onChangeText={(text) =>
-                                  (field.value = text)
+                                  (arrayhelper.form.values.age = text)
                                 }
                                
                             
