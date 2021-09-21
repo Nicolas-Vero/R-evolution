@@ -8,7 +8,7 @@ import AppNavigation from './routes/navigationService';
 import './config/logger';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
-
+import * as ScreenOrientation from 'expo-screen-orientation';
 const { persistor, store } = configureStore();
 
 export class App extends Component {
@@ -49,10 +49,13 @@ export class App extends Component {
     }
     return token;
   }
+  async  lockScreenOrientation() {
+    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+  }
 
   componentDidMount() {
     this.registerForPushNotification();
-
+    this.lockScreenOrientation();
     this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
       console.log('[Notification]', notification);
     });
