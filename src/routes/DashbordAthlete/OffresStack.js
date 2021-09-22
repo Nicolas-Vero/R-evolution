@@ -18,7 +18,7 @@ const OffresStack = createStackNavigator(
           tabBarIcon: ({tintColor}) => (
             <Ionicons  size={20} color={tintColor} />
           ),
-          header: null,
+          headerShown: false,
         },},
         
         OffrePaiementMode: {
@@ -27,7 +27,7 @@ const OffresStack = createStackNavigator(
             tabBarIcon: ({tintColor}) => (
               <Ionicons  size={20} color={tintColor} />
             ),
-            header: null,
+            headerShown: false,
           },
         },
    
@@ -37,7 +37,7 @@ const OffresStack = createStackNavigator(
             tabBarIcon: ({tintColor}) => (
               <Ionicons  size={20} color={tintColor} />
             ),
-            header: null,
+            headerShown: false,
           },
         },
     },

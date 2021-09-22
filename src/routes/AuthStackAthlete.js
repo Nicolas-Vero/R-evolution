@@ -9,6 +9,16 @@ import MoreInfoAthlete from '../AtlheteScreens/Auth/MoreInfoAthlete';
 // Auth bottom tabs menu
 const AuthStackAthlete = createStackNavigator(
   {
+    LoginAthlete: {
+      screen: LoginAthlete,
+      navigationOptions: {
+        tabBarLabel: 'Sign in',
+        tabBarIcon: ({tintColor}) => (
+          <Ionicons  size={20} color={tintColor} />
+        ),
+        headerShown: false,
+      },
+    },
     RegisterInfoAthlete: {
       screen: RegisterInfoAthlete,
       navigationOptions: {
@@ -16,7 +26,7 @@ const AuthStackAthlete = createStackNavigator(
         tabBarIcon: ({tintColor}) => (
           <Ionicons  size={20} color={tintColor} />
         ),
-        header: null,
+        headerShown: false,
       },
     },
     MoreInfoAthlete: {
@@ -26,29 +36,9 @@ const AuthStackAthlete = createStackNavigator(
         tabBarIcon: ({tintColor}) => (
           <Ionicons  size={20} color={tintColor} />
         ),
-        header: null,
+        headerShown: false,
       },
     },
-    // AddAvatar: {
-    //   screen: AddAvatar,
-    //   navigationOptions: {
-    //     tabBarLabel: 'Sign up',
-    //     tabBarIcon: ({tintColor}) => (
-    //       <Ionicons  size={20} color={tintColor} />
-    //     ),
-    //   },
-    // },
-    // RegisterInfo: {
-    //   screen: RegisterInfo,
-    //   navigationOptions: {
-    //     tabBarLabel: 'Sign up',
-    //     tabBarIcon: ({tintColor}) => (
-    //       <Ionicons  size={20} color={tintColor} />
-    //     ),
-    //     header: null,
-    //   },
-    // },
-
   },
   {
     lazy: true,

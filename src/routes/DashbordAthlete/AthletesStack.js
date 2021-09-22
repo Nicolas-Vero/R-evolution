@@ -1,29 +1,13 @@
 import { createStackNavigator } from 'react-navigation-stack';
-import Activite from '../../screens/Activite';
-import CreateBook from '../../screens/CreateBook';
-import MyAthletes from '../../screens/MyAthletes';
+import MyCoach from '../../AtlheteScreens/MyCoach';
 
 const AthletesStack = createStackNavigator(
   {
-    MyAthletes: {
-      screen: MyAthletes,
+    MyCoach: {
+      screen: MyCoach,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
-        header: null,
-      },
-    },
-    MyAthletesDetails: {
-      screen: CreateBook,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
-        header: null,
-      },
-    },
-    AthletesProfils: {
-      screen: Activite,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
-        header: null,
+        headerShown: false,
       },
     },
   },

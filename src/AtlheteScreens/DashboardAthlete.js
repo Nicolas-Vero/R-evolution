@@ -1,23 +1,19 @@
 import React from 'react';
 import moment from 'moment';
 import { LinearGradient } from 'expo-linear-gradient';
-import Pager from '../common/Carrousel';
 import { Button } from '../components/Button';
 import {
   TouchableOpacity,
   View,
-  Pressable,
   SafeAreaView,
   StyleSheet,
   Dimensions,
   Text,
   FlatList,
-  ActivityIndicator,
   Modal,
-  ColorPropType
+  Image
 } from 'react-native';
 import {
-  athlete_booking,
   get_athlete_active_courses,
   get_availabilities,
 } from '../api/Athlete';
@@ -27,15 +23,13 @@ import {loadFonts} from '../configs/design/font';
 const { width } = Dimensions.get('window');
 import { LocaleConfig } from 'react-native-calendars';
 import MonthsSlider from '../components/MonthsSlider';
-import { get_appointement, get_coach_by_id } from '../api/Coach';
+import { get_coach_by_id } from '../api/Coach';
 import {} from '../api/Availabilities';
 import { FrenchConfig } from '../components/FrenchCalendar';
-import { Ionicons } from '@expo/vector-icons';
 import { DeleteButton } from '../components/Button';
 import { athlete_active_appointement} from '../api/Athlete';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../configs/Constants';
-import { ModifyButton } from '../components/Button';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 LocaleConfig.locales['fr'] = {
   monthNames: [
@@ -190,7 +184,7 @@ export default class DashboardAthlete extends React.Component {
     upcomingApointement:[],
 };
  async componentDidMount(){
-     await loadFonts();
+   loadFonts();
     var user = await AsyncStorage.getItem(STORAGE.USER);
     user  = JSON.parse(user);
     this.setState({coach_id:user.coach.coach_id})
@@ -205,11 +199,8 @@ export default class DashboardAthlete extends React.Component {
     athlete_active_appointement({today:true}).then((res)=>{
        this.setState({dayApointement:res.data})
       })
-        console.log('dayApointement',this.state.dayApointement && this.state.dayApointement.length?console.log('iiii'):console.log('ooo'))
-      
-    
         athlete_active_appointement({upcoming:true}).then((res)=>{
-        
+          const sortdata = res.data ; 
           const data = res.data.map((item,index)=>{
             console.log(item);
             if (index==0){
@@ -222,7 +213,6 @@ export default class DashboardAthlete extends React.Component {
           this.setState({upcomingApointement:data})
         })
       this.setState({user:user})
-    console.log(this.state.user);
     }
   convertSlotToDateV2(slot) {
     switch (slot) {
@@ -493,60 +483,59 @@ export default class DashboardAthlete extends React.Component {
     this.setState({ availabilities: item });
   }
   
-  async changeTaskList(date) {
+  // async changeTaskList(date) {
 
     
-    const formatdata = {
-      date: date.dateString,
-    };
-    const curDate = moment(date.dateString).format('L')
-    console.log('curr',curDate)
-    this.setState({currentDate:curDate})
-    get_appointement(formatdata).then((res) => {
+  //   const formatdata = {
+  //     date: date.dateString,
+  //   };
+  //   const curDate = moment(date.dateString).format('L')
+  //   console.log('curr',curDate)
+  //   this.setState({currentDate:curDate})
+  //   get_appointement(formatdata).then((res) => {
      
-      const arrayOfAppointment = res.data;
-      const arrayOfPage = [];
-      arrayOfAppointment.forEach((rdv) => {
-        arrayOfPage.push(
-          <TouchableOpacity onPress={()=>{console.log(rdv)}}>
-          <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center'}}key={rdv.id}>
-            <View style={{justifyContent:'center',alignItems:'center'}}><Avatar
-                size="medium"
-                rounded
-                source={{
-                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                }}
-              /></View>
-            <View style={{flexDirection:'column',marginRight:40}}>
-              <View style={{flexDirection:'row'}}>
-                <Text style={{
-                  fontWeight: 'bold',
-                  fontSize: 20,
-                }}>{rdv.athlete.first_name}</Text>
-                <Text style={{
-                  fontWeight: 'bold',
-                  fontSize: 20,
-                }}>{rdv.athlete.last_name}</Text>
-            </View>
-            <Text>seance{rdv?.session_number}/{rdv?.athleteCourse?.total_sessions}</Text>
-            </View>
-            <View style={{justifyContent:'center'}}>
-              <Text style={{
-                  fontWeight: 'bold',
-                  fontSize: 20,}} >{this.convertSlotToDate(rdv.slot)}</Text>
-            </View>
-          </View>
-          </TouchableOpacity>
-          ,
-        );
-      });
-      this.setState({ page: arrayOfPage });
-      // console.log(this.state.page);
-    });
-  }
+  //     const arrayOfAppointment = res.data;
+  //     const arrayOfPage = [];
+  //     arrayOfAppointment.forEach((rdv) => {
+  //       arrayOfPage.push(
+  //         <TouchableOpacity onPress={()=>{console.log(rdv)}}>
+  //         <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center'}}key={rdv.id}>
+  //           <View style={{justifyContent:'center',alignItems:'center'}}><Avatar
+  //               size="medium"
+  //               rounded
+  //               source={{
+  //                 uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+  //               }}
+  //             /></View>
+  //           <View style={{flexDirection:'column',marginRight:40}}>
+  //             <View style={{flexDirection:'row'}}>
+  //               <Text style={{
+  //                 fontWeight: 'bold',
+  //                 fontSize: 20,
+  //               }}>{rdv.athlete.first_name}</Text>
+  //               <Text style={{
+  //                 fontWeight: 'bold',
+  //                 fontSize: 20,
+  //               }}>{rdv.athlete.last_name}</Text>
+  //           </View>
+  //           <Text>seance{rdv.session_number}/{rdv.athleteCourse.total_sessions}</Text>
+  //           </View>
+  //           <View style={{justifyContent:'center'}}>
+  //             <Text style={{
+  //                 fontWeight: 'bold',
+  //                 fontSize: 20,}} >{this.convertSlotToDate(rdv.slot)}</Text>
+  //           </View>
+  //         </View>
+  //         </TouchableOpacity>
+  //         ,
+  //       );
+  //     });
+  //     this.setState({ page: arrayOfPage });
+  //     // console.log(this.state.page);
+  //   });
+  // }
  
   render() {
-    
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <SafeAreaView>  
@@ -580,13 +569,12 @@ export default class DashboardAthlete extends React.Component {
             <View style={{ flexDirection: 'row' }}>
               <TouchableOpacity
                 onPress={() => {
-                  navigate('Activite');
+                  navigate('Notifications');
                 }}
                 style={{ marginLeft: 20, marginRight: 10 }}>
-                <Ionicons
-                  name="md-notifications-circle"
-                  size={35}
-                  color="white"
+                <Image
+                  style={{ height: 38, width: 48, resizeMode: 'contain' }}
+                  source={require('../../assets/images/Notif.png')}
                 />
               </TouchableOpacity>
             </View>
@@ -703,9 +691,8 @@ export default class DashboardAthlete extends React.Component {
               refreshing={this.state.refresh}
               keyExtractor={(item) => item?.id}
               renderItem={({ item }) => {
-                console.log(item?.show);
-                
                 return(
+                  console.log('iiiiiiiii',item.athleteCourse),
           <View style={{alignItems:'center'}}>
   { item?.show==1?<View style={{flexDirection:'row' ,width:widthPercentageToDP(94),alignItems:'center'}}><Text style={{color:'white',flex:2,fontSize:10, fontFamily:'MontserratBoldItalic'}}>{moment(item?.date).format('dddd D MMMM')}</Text><View style={{borderColor:'white',flex:5, borderBottomWidth:1}}></View></View>:<View></View>}
                 <TouchableOpacity 
@@ -801,7 +788,9 @@ export default class DashboardAthlete extends React.Component {
                           title="Oui"
                           customContainerStyles={{backgroundColor:'white',height:30, width:100,margin:5}}
                           customTextStyle={{color: "black", fontFamily:'RobotoBold',fontWeight:'bold',fontSize:10}}
-                          onPress={() => {athlete_booking(this.state.book)}}
+                          onPress={() => {console.log(this.state.book);
+                            // athlete_booking(this.state.book)
+                          }}
                         />
               <Button
                           title="Non"
@@ -814,7 +803,7 @@ export default class DashboardAthlete extends React.Component {
         </View>
       </Modal>
       <MonthsSlider onChange={this.onMonthChange.bind(this)} />
-                    <View style={{margin:30, flexDirection:'row'}}>
+                    <View style={{justifyContent:'center', flexDirection:'row',marginBottom:10}}>
                       <Text style={{color: '#FFFFFF'}}>Les diponibilités de </Text>
                       <Text style={{color: '#2CDEE4'}}>{this.state.coach.first_name}</Text>
                       <Text style={{color: '#2CDEE4'}}>{this.state.coach.last_name}</Text>

@@ -93,19 +93,14 @@ export const get_athlete_appointement = async(params)=> {
 }
 
 
-export const sign_up = async (params, navigation) => (
-
-  MiddleWare.validateRequest(
-    async () => {
-        const data = params ;
-      const headers = await getHeaders();
+export const sign_up = async (params) =>{
+      const data = params ;
       return axios({
         method: 'POST',
         url: `${API_URL}/auth/athlete/sign-up/`,
-        headers: headers,
         data:data
       })
-    }, navigation));
+    };
 
 export const add_manual_payment = async (params, navigation) => (
   MiddleWare.validateRequest(

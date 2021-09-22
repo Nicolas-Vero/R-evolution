@@ -7,11 +7,20 @@ import MiddleWare from "./MiddleWare";
 
 
 
+export const auth = params => {
+  const data = params;
+  return axios({
+    method: 'POST',
+    url: `${API_URL}/auth/coach/sign-up`,
+    data: data
+  });
+};
+
 export const sign_in = params=> {
   const data = params;
   return axios({
     method: 'POST',
-    url:`${API_URL}/api/v1/auth/coach-login`,
+    url:`${API_URL}/auth/coach-login`,
     data:data
   })
 }
@@ -20,7 +29,7 @@ export const invite_prospect = params=> {
   const data = params;
   return axios({
     method: 'POST',
-    url:`${API_URL}/api/v1/coach/invite-athlete`,
+    url:`${API_URL}/coach/invite-athlete`,
     data:data
   })
 }
@@ -99,7 +108,7 @@ export const get_coach_by_id = async (params) => {
 }
 
 
-export const get_coach = async (navigation) => {
+export const get_coach_me = async (navigation) => {
   //MiddleWare.validateRequest(
  //   async () => {
       const headers = await getHeaders();
@@ -109,6 +118,15 @@ export const get_coach = async (navigation) => {
         headers: headers
       })
    //}, navigation));
+    }
+
+export const get_coach = async (navigation) => {
+      const headers = await getHeaders();
+      return axios({
+        method: 'GET',
+        url: `${API_URL}/coach`,
+        headers: headers
+      })
     }
 
 

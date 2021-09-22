@@ -10,9 +10,9 @@ import {
   StatusBar,
   Dimensions,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { auth } from '../../api/Register';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../../configs/Constants';
 import { Formik } from 'formik';
@@ -20,7 +20,7 @@ import { CheckBox } from 'react-native-elements';
 import Loader from 'react-loader-spinner';
 import { Button } from '../../components/Button';
 import Header from '../../components/Header';
-
+import { auth } from '../../api/Coach';
 //import { Slider } from 'react-native-elements';
 import { ElementSlider } from '../../components/ElementSlider';
 const { width } = Dimensions.get('window');
@@ -49,9 +49,8 @@ export default class MoreInfo extends React.Component {
       values:{} 
     };
   }
- async componentDidMount(){
-   console.log(this.props.navigation.state)
-  await loadFonts();
+  componentDidMount(){
+   loadFonts();
  }
   changeStep = (newStep) => {
     const inputLenght = inputs.length;
@@ -63,63 +62,6 @@ export default class MoreInfo extends React.Component {
     });
     console.log()
   };
-
-  async onContinuePress() {
-    if (1) {
-      const { degrees, xP,spécialities, gymPlace} = this;
-      const body = {
-        degrees:degrees ,
-        xP: xP,
-        spécialities:spécialities,
-        gymPlace: gymPlace,
-      };
-      // this.setState({loading: true});
-      Addinfo(body)
-        .then(
-          (res) => (
-            {
-              data: res.data.data,
-              headers: {
-                access_token: res.data.headers['access-token'],
-                token_type: res.data.headers['token-name'],
-                uid: res.data.headers['uid'],
-                // client: res.headers['client'],
-                //    expiry: res.headers['expiry'],
-              },
-            },
-            this.changeStep,
-            console.log(header)
-          ),
-        )
-        .then(async (res) => {
-          await AsyncStorage.setItem(STORAGE.USER, JSON.stringify(res.data));
-          await AsyncStorage.setItem(
-            STORAGE.HEADERS,
-            JSON.stringify(res.headers),
-          );
-        })
-        .then(() => {
-          console.log;
-          this.changeStep;
-
-          //this.props.navigation.navigate('AddSpecialities');
-        })
-        .catch((err) => {
-          //  this.setState({loading: false});
-          if (err.request && err.request.status === 422) {
-            // this.setState({
-            //   message: 'Email déjà utilisé, veuillez vous connecter.',
-            // });
-          } else {
-            console.log(err);
-            //alert('Please try again. ');
-          }
-        });
-    } else {
-      console.log('invalid confirmation');
-      //alert('Passwords don\'t match');
-    }
-  }
 
   render() {
 
@@ -168,8 +110,13 @@ export default class MoreInfo extends React.Component {
                 avatar: '',
               }}
               onSubmit={(values, actions) =>{
-                console.log('fffffff',values);
-                //this.handleFormSubmit(values, actions)
+              const  data = {...values ,...this.props.navigation.state.params.item }
+              try {
+                auth(data).then(()=>{navigate('Login')})
+              } catch (error) {
+                console.log(error,'data',data);
+              }
+             
                } }>
               {({
                 values,
@@ -215,7 +162,7 @@ export default class MoreInfo extends React.Component {
                   </View>
                   <View >
                     {isSubmitting ? (
-                      <Loader />
+                      <ActivityIndicator />
                     ) : (
                       <View>
                         <Button
@@ -229,7 +176,7 @@ export default class MoreInfo extends React.Component {
                           }
                           disabled={Object.keys(errors).some((v) =>
                             inputs[stepperStep].name.includes(v),
-                          )}></Button>
+                          )}/>
                       </View>
                     )}
                   </View>

@@ -30,7 +30,6 @@ export default class CarouselPager extends Component {
   }
   componentDidMount(){
     loadFonts;
-    
   }
 
   static defaultProps = {
@@ -375,7 +374,7 @@ export default class CarouselPager extends Component {
                       }
                   ]
                 }, boxStyle, this.props.pageStyle]}>
-                  <TouchableOpacity onPress={()=>{console.log(page)}} style={{justifyContent:'center'}}>
+                  <TouchableOpacity onPress={()=>{navigate('')}} style={{justifyContent:'center'}}>
           <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center',width:widthPercentageToDP(94),alignItems:'center'}}key={page.id}>
             <View style={{marginTop:2}}>
               <Avatar

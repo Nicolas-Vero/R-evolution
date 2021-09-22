@@ -9,13 +9,11 @@ import {
   StatusBar,
   Dimensions,
 } from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { auth } from '../../api/Register';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../../configs/Constants';
 import { Formik } from 'formik';
 import { CheckBox } from 'react-native-elements';
-import Loader from 'react-loader-spinner';
 import { Button } from '../../components/Button';
 import Header from '../../components/Header';
 //import { Slider } from 'react-native-elements';
@@ -43,62 +41,63 @@ export default class RegisterInfoAthlete extends React.Component {
       step: 'initial',
       stepperStep: 0,
       progress: 0,
+      termsCondition:false
     };
   }
 
-  async componentDidMount(){
-   await loadFonts()
+   componentDidMount(){
+    loadFonts()
   }
 
 
-   onContinuePress(values) {
+  //  onContinuePress(values) {
     
-    if (values.password === values.confirmPassword) {
-    console.log('toto',values)
-      auth(values)
-        .then(
-          (res) => (
-            {
-              data: res.data.data,
-              headers: {
-                access_token: res.data.headers['access-token'],
-                token_type: res.data.headers['token-name'],
-                uid: res.data.headers['uid'],
-              },
-            },
-            this.changeStep,
-            console.log(header)
-          ),
-        )
-        .then(async (res) => {
-          await AsyncStorage.setItem(STORAGE.USER, JSON.stringify(res.data));
-          await AsyncStorage.setItem(
-            STORAGE.HEADERS,
-            JSON.stringify(res.headers),
-          );
-        })
-        .then(() => {
-          console.log;
-          this.changeStep;
+  //   if (values.password === values.confirmPassword) {
+  //   console.log('toto',values)
+  //     auth(values)
+  //       .then(
+  //         (res) => (
+  //           {
+  //             data: res.data.data,
+  //             headers: {
+  //               access_token: res.data.headers['access-token'],
+  //               token_type: res.data.headers['token-name'],
+  //               uid: res.data.headers['uid'],
+  //             },
+  //           },
+  //           this.changeStep,
+  //           console.log(header)
+  //         ),
+  //       )
+  //       .then(async (res) => {
+  //         await AsyncStorage.setItem(STORAGE.USER, JSON.stringify(res.data));
+  //         await AsyncStorage.setItem(
+  //           STORAGE.HEADERS,
+  //           JSON.stringify(res.headers),
+  //         );
+  //       })
+  //       .then(() => {
+  //         console.log;
+  //         this.changeStep;
 
-          //this.props.navigation.navigate('AddSpecialities');
-        })
-        .catch((err) => {
-          //  this.setState({loading: false});
-          if (err.request && err.request.status === 422) {
-            // this.setState({
-            //   message: 'Email déjà utilisé, veuillez vous connecter.',
-            // });
-          } else {
-            console.log(err);
-            //alert('Please try again. ');
-          }
-        });
-    } else {
-      console.log('invalid confirmation');
-      //alert('Passwords don\'t match');
-    }
-  }
+  //         //this.props.navigation.navigate('AddSpecialities');
+  //       })
+  //       .catch((err) => {
+  //         //  this.setState({loading: false});
+  //         if (err.request && err.request.status === 422) {
+  //           // this.setState({
+  //           //   message: 'Email déjà utilisé, veuillez vous connecter.',
+  //           // });
+  //         } else {
+  //           console.log(err);
+  //           //alert('Please try again. ');
+  //         }
+  //       });
+  //   } else {
+  //     console.log('invalid confirmation');
+  //     //alert('Passwords don\'t match');
+  //   }
+  // }
 
   render() {
     const { navigation } = this.props;
@@ -133,7 +132,6 @@ export default class RegisterInfoAthlete extends React.Component {
                   phone: '',
                   password: '',
                   confirmPassword: '',
-                  termsCondition: false,
                 }}
                 onSubmit={(values) => onContinuePress(values)}>
                 {({
@@ -297,13 +295,10 @@ export default class RegisterInfoAthlete extends React.Component {
                           backgroundColor: 'transparent',
                           borderWidth: 0,
                         }}
-                        checked={values.termsCondition}
-                        value={values.termsCondition}
+                        checked={this.state.termsCondition}
+                        value={this.state.termsCondition}
                         onPress={() =>
-                          setFieldValue(
-                            'termsCondition',
-                            !values.termsCondition,
-                          )
+                          this.setState({termsCondition:!this.state.termsCondition})
                         }
                       />
                       <Text
@@ -325,8 +320,11 @@ export default class RegisterInfoAthlete extends React.Component {
                         loading={false}
                         title="Rejoins-nous"
                         customTextStyle={{fontFamily:'RobotoBold',fontSize:17}}
-                        onPress={()=>{navigation.navigate('MoreInfoAthlete',{item:values})}
-                        }
+                      onPress={() => {
+                        this.state.termsCondition
+                          ? navigation.navigate('MoreInfoAthlete', { item: values })
+                          : alert('accepter les terms des conditons');
+                      }}
                       />
                     </View>
                     <View

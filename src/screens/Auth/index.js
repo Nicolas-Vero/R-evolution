@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
         marginBottom: 35
     },
     loginButton: {
-        width: 178.4, 
+      width: wp(43), 
         height: 52, 
         borderRadius: 10,
         borderWidth: 2, 
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent'
     },
     registerButton: {
-        width: 178.4, 
+        width: wp(43), 
         height: 52, 
         backgroundColor: '#FFFFFF', 
         borderRadius: 10,

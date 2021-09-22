@@ -2,20 +2,21 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Activite from '../../screens/Activite';
 import DashboardAthlete from '../../AtlheteScreens/DashboardAthlete';
 import AccountAthlete from '../../AtlheteScreens/AccountAthlete';
+import Notifications from '../../AtlheteScreens/Notifications';
 
 const HomeStack = createStackNavigator(
   {
     DashboardAthlete: {
       screen: DashboardAthlete,
       navigationOptions: {
-        header: null,
+        headerShown: false,
       },
     },
     
-    Activite: {
-      screen: Activite,
+    Notifications: {
+      screen: Notifications,
       navigationOptions: {
-        header: null,
+        headerShown: false,
         tabBarVisible: false,
         headerVisible: false,
         animationEnabled: true,
@@ -24,7 +25,7 @@ const HomeStack = createStackNavigator(
     AccountAthlete: {
       screen: AccountAthlete,
       navigationOptions: {
-        header: null,
+        headerShown: false,
         tabBarVisible: false,
         headerVisible: false,
         animationEnabled: true,

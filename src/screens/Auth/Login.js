@@ -17,14 +17,14 @@ import { Formik } from 'formik';
 import { STORAGE } from '../../configs/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button } from '../../components/Button';
-import { get_coach } from '../../api/Coach';
+import { get_coach_me } from '../../api/Coach';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { loadFonts } from '../../configs/design/font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 export default class Login extends React.Component {
-  async componentDidMount() {
-    await loadFonts;
+   componentDidMount() {
+     loadFonts;
   }
   async onLoginPress(values) {
     // const {email, password}=values;
@@ -54,7 +54,7 @@ export default class Login extends React.Component {
         }
       })
       .then(() => {
-        get_coach()
+        get_coach_me()
           .then(async (res) => {
             await AsyncStorage.setItem(STORAGE.USER, JSON.stringify(res.data));
             this.props.navigation.navigate('Dashboard');

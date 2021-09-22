@@ -13,11 +13,7 @@ import { LocaleConfig } from 'react-native-calendars';
 import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../components/Header';
 
-const options = [
-  { label: 'NOTIFICATIONS', value: 'NOTIFICATIONS' },
-  { label: 'RAPPELS', value: 'RAPPELS' },
-];
-export default class Activite extends React.Component {
+export default class Notifications extends React.Component {
   state = {
     refresh: false,
     user: { name: 'toto', avatar: 'string avatar' },
@@ -56,26 +52,6 @@ export default class Activite extends React.Component {
   };
 
   render() {
-    list = () => {
-      return this.state.items.map((element) => {
-        return console.log(element);
-      });
-    };
-    const Item = ({ item, onPress, backgroundColor, textColor }) => (
-      <TouchableOpacity onPress={onPress}>
-        <Text style={styles.item}>
-          {item.content} -- {item.slot}
-        </Text>
-      </TouchableOpacity>
-    );
-    const onRefresh = () => {
-      this.setState({ refresh: true });
-      console.log(this.state.refresh);
-    };
-    const renderItem = ({ item }) => {
-      return <Item stlyes item={item} onPress={(data) => console.log(data)} />;
-    };
-
     return (
       //  <View style={{ flex: 1, backgroundColor: 'black' }}>
       <LinearGradient
@@ -91,26 +67,8 @@ export default class Activite extends React.Component {
         style={styles.background}>
           
         <SafeAreaView>
-        <Header title="ACTIVITE" />
+        <Header title="NOTIFICATION" />
           <View>
-            <View>
-              <SwitchSelector
-                options={options}
-                initial={0}
-                onPress={(value) => this.setState({ screen: value })}
-                backgroundColor="#1E2026"
-                buttonColor="#2CDEE4"
-                borderRadius="5"
-              />
-            </View>
-            {this.state.screen == 'Planning' ? (
-              <View>
-              </View>
-            ) : (
-              <View>
-               
-              </View>
-            )}
           </View>
         </SafeAreaView>
       </LinearGradient>

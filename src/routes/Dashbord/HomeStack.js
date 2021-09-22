@@ -11,27 +11,27 @@ const HomeStack = createStackNavigator(
     Dashboard: {
       screen: Dashboard,
       navigationOptions: {
-        header: null,
+        headerShown: false,
       },
     },
     CreateBook: {
       screen: CreateBook,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
-        header: null,
+        headerShown: false,
       },
     },
     CreateRappel: {
       screen: CreateRappel,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
-        header: null,
+        headerShown: false,
       },
     },
     Activite: {
       screen: Activite,
       navigationOptions: {
-        header: null
+        headerShown: false
       },
     },
     Account:{
@@ -40,7 +40,7 @@ const HomeStack = createStackNavigator(
         tabBarIcon: ({tintColor}) => (
           <Ionicons  size={20} color={tintColor} />
         ),
-        header: null,
+        headerShown: false,
       },
     },
     MyInformations:{
@@ -49,7 +49,7 @@ const HomeStack = createStackNavigator(
         tabBarIcon: ({tintColor}) => (
           <Ionicons  size={20} color={tintColor} />
         ),
-        header: null,
+        headerShown: false,
       },
     },
     AwaitingDemand: {
@@ -58,7 +58,7 @@ const HomeStack = createStackNavigator(
         tabBarIcon: ({tintColor}) => (
           <Ionicons  size={20} color={tintColor} />
         ),
-        header: null,
+        headerShown: false,
       },
     },
   },

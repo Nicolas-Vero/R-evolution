@@ -7,10 +7,8 @@ import {
   Platform,
   StatusBar,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
-//import { auth } from '../../api/Register';
-//import { Button } from '../components/Button';
-//import { Slider } from 'react-native-elements';
 const { width } = Dimensions.get('window');
 import { TouchableOpacity } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
@@ -21,6 +19,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { DeleteButton, ModifyButton } from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../configs/Constants';
+import { get_athlete, get_athlete_active_courses } from '../api/Athlete';
+import { loadFonts } from '../configs/design/font';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { Avatar } from 'react-native-elements';
 const options = [
   { label: 'EN COURS', value: 'EN COURS' },
   { label: 'CATALOGUE', value: 'CATALOGUE' },
@@ -31,156 +33,240 @@ export default class Offres extends React.Component {
   state = {
     offers: [],
     screen: 'EN COURS',
+    ActiveCourses:[],
+    loading:false 
   };
   //to do actualiser la liste apres chaque création
 
   async componentDidMount() {
+    loadFonts();
    var user = await AsyncStorage.getItem(STORAGE.USER);
     user  = JSON.parse(user);
-    console.log('uuser',user);
+    get_athlete_active_courses().then((res)=>{
+      // this.state.ActiveCourses.push(res.data)
+      this.setState({ActiveCourses:res.data})
+    }).then(()=>{console.log(this.state.ActiveCourses),
+      this.setState({loading:true})})
     get_coach_offer_by_id(user.coach.coach_id)
       .then((res) => {
         this.setState({ offers: res.data.offers });
       });
+      
   }
 
   render() {
-    list = () => {
-      return this.state.items.map((element) => {
-        return console.log(element);
-      });
-    };
-    const Item = ({ item, onPress, backgroundColor, textColor }) => (
-      <TouchableOpacity onPress={onPress}>
-        <Text style={styles.item}>
-          {item.content} -- {item.slot}
-        </Text>
-      </TouchableOpacity>
-    );
-    const onRefresh = () => {
-      this.setState({ refresh: true });
-      console.log(this.state.refresh);
-    };
-    const renderItem = ({ item }) => {
-      return <Item stlyes item={item} onPress={(data) => console.log(data)} />;
-    };
-
-    return (
-      <View style={{ flex: 1, backgroundColor: 'black' }}>
-        <SafeAreaView>
-        <Header title="LES OFFRES" />
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-           
-              <SwitchSelector
-                options={options}
-                initial={0}
-                onPress={(value) => this.setState({ screen: value })}
-                backgroundColor="#1E2026"
-                buttonColor="#2CDEE4"
-                selectedColor="#1E2026"
-                textColor="white"
-                borderRadius={10}
-                height={50}
-                hasPadding
-                bold={true}
-                fontSize={20}
-                textStyle={"italic"}
-                valuePadding={3}
-                borderColor="#1E2026"
-              />
-            </View>
-            
-            {this.state.screen == 'EN COURS' ? (<FlatList></FlatList>) : (
-            
-            <FlatList
-             style={{
-               marginTop:10,
-             height:600
-             }}
-             data={this.state.offers}
-             extraData={this.state}
-             // onRefresh={onRefresh}
-             //  refreshing={this.state.refresh}
-             keyExtractor={(item) => item.id.toString()}
-             renderItem={({ item }) => (
-            <LinearGradient
-                colors={['#101010', '#2D333C']}
-                start={{
-                  x: 1,
-                  y: 1,
-                }}
-                end={{
-                  x: 0,
-                  y: 0,
-                }}
-                style={{
-                  flexDirection: 'column',
-                  backgroundColor: 'grey',
-                  marginBottom: 5,
-                  borderRadius:10,
-                  paddingLeft: 20,
-                  height: 200,
-                }}>
-                <View>
-                  <Text
-                    style={{
-                      marginTop: 30,
-                      fontWeight: 'bold',
-                      fontSize: 20,
-                      color: '#FFFFFF',
-                      lineHeight: 24,
-                    }}>
-                    {item.title}
-                  </Text>
-                </View>
-                <View>
-                  <Text
-                    style={{ marginTop: 10, color: '#FFFFFF', fontSize: 10 }}>
-                    {item.title}
-                    {item.content}
-                  </Text>
-                </View>
-                <View>
-                  <Text style={{ marginTop: 10, color: '#2CDEE4' }}>
-                    {item.nb_credits} coachings
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    alignItems:"center",
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginTop:20
-                  }}>
-                  <View
-                    style={{ 
-                      alignItems:'center',
-                      flexDirection: 'row',
-                    }}>
-                    <ModifyButton
-                      title="Choisir cette offre"
-                     onPress={()=>{ navigate('OffrePaiementMode', {item})}}></ModifyButton>
-                  </View>
-                  <Text
-                    style={{
-                      fontStyle: 'italic',
-                      fontWeight: 'bold',
-                      fontSize: 20,
-                      color: '#2CDEE4',
-                      marginRight:15
-                    }}>
-                    {item.price}€
-                  </Text>
-                </View>
-              </LinearGradient>)}/>)}
-        </SafeAreaView>
+    if (!this.state.loading) {
+      return(
+        <View>
+        <ActivityIndicator/>
         </View>
-    );
+      )
+    } else {
+      return (
+        <View style={{ flex: 1, backgroundColor: 'black' }}>
+          <SafeAreaView>
+          <Header title="LES OFFRES" />
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom:15
+              }}>
+             
+                <SwitchSelector
+                  options={options}
+                  initial={0}
+                  onPress={(value) => this.setState({ screen: value })}
+                  backgroundColor="#1E2026"
+                  buttonColor="#2CDEE4"
+                  selectedColor="#1E2026"
+                  textColor="white"
+                  borderRadius={10}
+                  height={50}
+                  hasPadding
+                  bold={true}
+                  fontSize={20}
+                  selectedTextStyle={{fontFamily:'MontserratBoldItalic'}}
+                  valuePadding={3}
+                  borderColor="#1E2026"
+                />
+              </View>
+              
+              {this.state.screen == 'EN COURS' ? (
+                
+              <LinearGradient
+                  colors={['#101010', '#2D333C']}
+                  start={{
+                    x: 1,
+                    y: 1,
+                  }}
+                  end={{
+                    x: 0,
+                    y: 0,
+                  }}
+                  style={{
+                    flexDirection: 'column',
+                    backgroundColor: 'grey',
+                    marginVertical: 10,
+                    borderRadius:10,
+                    padding: 20,
+                   
+                  }}>
+                    <View style={{flexDirection:'row',alignItems:'center'}}>
+                      <Avatar 
+                      size='medium'
+                rounded
+                source={{
+                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
+                }}
+              />
+                      <Text style={{
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                        marginLeft:10,
+                        fontFamily:'RobotoBold',
+                        color: '#FFFFFF',
+                        lineHeight: 24,
+                      }}>{this.state.ActiveCourses.coach.first_name} {this.state.ActiveCourses.coach.last_name}</Text>
+                    </View>
+                  <View>
+                    <Text
+                      style={{
+                        marginTop: 30,
+                        fontFamily:'MontserratBold',
+                        fontSize: 20,
+                        color: '#FFFFFF',
+                        lineHeight: 24,
+                      }}>
+                      {this.state.ActiveCourses.offer.title}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text
+                      style={{ marginTop: 10, color: '#FFFFFF', fontSize: 10 }}>
+                      {this.state.ActiveCourses.offer.content}
+                    </Text>
+                  </View>
+                  <View style={{width:widthPercentageToDP(90), flexDirection:'row', justifyContent:'space-between'}}>
+                    <Text style={{ marginTop: 10, color: '#2CDEE4' }}>
+                      {this.state.ActiveCourses.total_sessions} coachings
+                    </Text>
+                    <Text
+                      style={{
+                        fontStyle: 'italic',
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                        color: '#2CDEE4',
+                      }}>
+                      {this.state.ActiveCourses.offer.price}€
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      alignItems:"center",
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginTop:20
+                    }}>
+                    <View
+                      style={{ 
+                        alignItems:'center',
+                        flexDirection: 'row',
+                      }}>
+                      <View style={{backgroundColor:'#2CDEE4',alignItems:'center' ,padding:10,paddingHorizontal:30,borderRadius:10 ,width:widthPercentageToDP(90)}}>
+                       <Text style={{fontFamily:'Roboto' }}>Nombre de séances restantes: {this.state.ActiveCourses.offer.nb_credits}</Text>
+                       </View>
+                    </View>
+                    
+                  </View>
+                </LinearGradient>
+                   
+              ) : (
+              
+              <FlatList
+               style={{     
+               height:600
+               }}
+               data={this.state.offers}
+               extraData={this.state}
+               keyExtractor={(item) => item.id.toString()}
+               renderItem={({ item }) => (
+              <LinearGradient
+                  colors={['#101010', '#2D333C']}
+                  start={{
+                    x: 1,
+                    y: 1,
+                  }}
+                  end={{
+                    x: 0,
+                    y: 0,
+                  }}
+                  style={{
+                    flexDirection: 'column',
+                    backgroundColor: 'grey',
+                    marginVertical: 10,
+                    borderRadius:10,
+                    paddingLeft: 20,
+                    height: 200,
+                  }}>
+                  <View>
+                    <Text
+                      style={{
+                        marginTop: 30,
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                        color: '#FFFFFF',
+                        lineHeight: 24,
+                      }}>
+                      {item.title}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text
+                      style={{ marginTop: 10, color: '#FFFFFF', fontSize: 10 }}>
+                      {item.title}
+                      {item.content}
+                    </Text>
+                  </View>
+                  <View style={{flexDirection:'row'}}>
+                    <Text style={{ marginTop: 10, color: '#2CDEE4' }}>
+                      {item.nb_credits} coachings
+                    </Text>            
+                  </View>
+                  <View
+                    style={{
+                      alignItems:"center",
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginTop:20
+                    }}>
+                    <View
+                      style={{ 
+                        alignItems:'center',
+                        flexDirection: 'row',
+                      }}>
+                      <ModifyButton
+                        title="Choisir cette offre"
+                       onPress={()=>{ navigate('OffrePaiementMode', {item})}}></ModifyButton>
+                    </View>
+                    <Text
+                      style={{
+                        fontStyle: 'italic',
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                        color: '#2CDEE4',
+                        marginRight:15
+                      }}>
+                      {item.price}€
+                    </Text>
+                  </View>
+                </LinearGradient>)}/>)}
+          </SafeAreaView>
+          </View>
+      );
+    }
+   
   }
 }
 

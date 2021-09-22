@@ -13,7 +13,7 @@ const DashbordBoardStack = createStackNavigator(
       Dashbord: {
         screen: Dashdatas,
         navigationOptions: {
-          header: null,
+          headerShown: false,
         },
       },
       

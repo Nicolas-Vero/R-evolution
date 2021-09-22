@@ -60,7 +60,7 @@ export default class MyInformations extends React.Component {
     };
   }
 
-  async componentDidMount() {
+   componentDidMount() {
      loadFonts();
     get_coach_me().then((res) => {
       this.setState({ Coach: res.data });
@@ -68,6 +68,7 @@ export default class MyInformations extends React.Component {
     get_gym().then((res)=>{
       this.setState({Gymdata: res.data})
     })
+    console.log('gggg', this.state.Coach);
     const user = await AsyncStorage.getItem(USER);
     this.setState({ User: user });
   }

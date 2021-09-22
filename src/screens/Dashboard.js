@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import moment from 'moment';
-import { Button } from 'react-native-elements';
-import axios from 'axios';
-import { LinearGradient } from 'expo-linear-gradient';
 import Pager from '../common/Carrousel';
 import {
   TouchableOpacity,
@@ -13,17 +10,15 @@ import {
   Image,
   Text,
   FlatList,
-  TouchableOpacityBase,
+  ActivityIndicator
 } from 'react-native';
-import { v4 as uuidv4 } from 'uuid';
 import {
   get_availabilities,
-  updateorcreate_availability,
   update_availability,
 } from '../api/Availabilities';
 import SwitchSelector from 'react-native-switch-selector';
-import { Card, Icon, Avatar } from 'react-native-elements';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { Avatar } from 'react-native-elements';
+import { Calendar } from 'react-native-calendars';
 const { width } = Dimensions.get('window');
 import { LocaleConfig } from 'react-native-calendars';
 import MonthsSlider from '../components/MonthsSlider';
@@ -31,9 +26,10 @@ import { get_appointement } from '../api/Coach';
 import SwitchButton from '../components/SwitchButton';
 import {} from '../api/Availabilities';
 import { FrenchConfig } from '../components/FrenchCalendar';
-import { Entypo } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
-import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP,
+widthPercentageToDP,
+} from 'react-native-responsive-screen';
 import { loadFonts } from '../configs/design/font';
 import { Right } from 'native-base';
 import * as Notifications from 'expo-notifications';
@@ -173,14 +169,15 @@ const options = [
   { label: 'DISPONIBILITÉS', value: 'Disponibilite' },
 ];
 export default class Dashboard extends React.Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
 
     this.handler = this.handler.bind(this)
     
   }
   state = {
     refresh: false,
+    carousselLoad:false,
     user: { name: 'Florian GALOPIN', avatar: 'string avatar' },
     screen: 'Planning',
     user: {
@@ -208,48 +205,34 @@ export default class Dashboard extends React.Component {
     selectedDate:'',
     today:'',
     currentAvailabilities: [],
+  //   markedDate: [
+  //     '2021-07-15',
+  //     '2021-05-16',
+  //     '2021-05-21',
+  //     '2021-05-22',
+  //     '2021-05-23',
+  //     '2021-05-24' ,
+  //     '2021-05-25',
+  // ],
     markedDate: {
-      '2021-07-15': { marked: true, dotColor: '#50cebb' },
+      '2021-07-15': { marked: true, dotColor: 'blue' },
       '2021-05-16': { marked: true, dotColor: '#50cebb' },
-      '2021-05-21': { startingDay: true, color: '#50cebb', textColor: 'white' },
-      '2021-05-22': { color: '#70d7c7', textColor: 'white' },
       '2021-05-23': {
         color: '#70d7c7',
         textColor: 'white',
         marked: true,
         dotColor: 'white',
       },
-      '2021-05-24': { color: '#70d7c7', textColor: 'white' },
-      '2021-05-25': { endingDay: true, color: '#50cebb', textColor: 'white' },
     },
+
     // ajouter le coach id pour pouvoir associe des dispo a un coacg
     availabilities: [],
-    page: [
-      <View key={1}>
-        <Text>toto</Text>
-        <Text>hello</Text>
-      </View>,
-      <View key={2}>
-        <Text>tot</Text>
-      </View>,
-      <View key={3}>
-        <Text>hoo</Text>
-      </View>,
-      <View key={4}>
-        <Text>gg</Text>
-      </View>,
-      <View key={5}>
-        <Text>hh</Text>
-      </View>,
-      <View key={6}>
-        <Text>zz</Text>
-      </View>,
-    ],
+    page: [],
   };
 
 
   async componentDidMount(){
-   await  loadFonts();
+    loadFonts();
    const curDate = moment().format('YYYY-MM-DD')
    console.log('curr',curDate) 
    this.setState({today:curDate})
@@ -274,34 +257,45 @@ export default class Dashboard extends React.Component {
   }
 
   handler(param) {
-  this.getAvailabilities(param)
+    this.getAvailabilities(param);
   }
 
-  getSlot(time, status, item, slots, ) {
-    const {disabled} = this.props;
+  getSlot(time, status, item, slots) {
+    const { disabled } = this.props;
     return (
       <View style={styles.container}>
-        <ResponsiveText style={{ fontSize: '4%',color:'white'}}>{time}</ResponsiveText>
-        {status==false?<ResponsiveText style={{ fontSize: '4%',color:'white'}}>indisponible</ResponsiveText>:<ResponsiveText style={{ fontSize: '4%',color:'#2CDEE4'}}>Disponible</ResponsiveText>}
+        <ResponsiveText style={{ fontSize: '4%', color: 'white' }}>
+          {time}
+        </ResponsiveText>
+        {status == false ? (
+          <ResponsiveText style={{ fontSize: '4%', color: 'white' }}>
+            indisponible
+          </ResponsiveText>
+        ) : (
+          <ResponsiveText style={{ fontSize: '4%', color: '#2CDEE4' }}>
+            Disponible
+          </ResponsiveText>
+        )}
         <CheckBox
-
-                    size={40}
-                    containerStyle={{
-                      paddingLeft: 0,
-                      marginLeft: 0,
-                      backgroundColor: 'transparent',
-                      borderWidth: 0,
-                    }}
-                    checkedColor="#2CDEE4"
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="dot-circle-o"
-                    checked={status === true}
-                    value={status}
-                    onPress={() => {
-                      update_availabilities({slots,date:item?.date}).then(()=>{get_availabilities(item?.date)})
-                      update_availabilities(onChangeParams).then(get_availabilities())
-                    }}
-                  />
+          size={40}
+          containerStyle={{
+            paddingLeft: 0,
+            marginLeft: 0,
+            backgroundColor: 'transparent',
+            borderWidth: 0,
+          }}
+          checkedColor="#2CDEE4"
+          checkedIcon="dot-circle-o"
+          uncheckedIcon="dot-circle-o"
+          checked={status === true}
+          value={status}
+          onPress={() => {
+            update_availabilities({ slots, date: item.date }).then(() => {
+              get_availabilities(item.date);
+            });
+            update_availabilities(onChangeParams).then(get_availabilities())
+          }}
+        />
       </View>
     );
   }
@@ -367,80 +361,56 @@ export default class Dashboard extends React.Component {
     return arrDays.reverse();
   }
   getAvailabilities(item) {
-   const  date  = moment(item).format('YYYY-MM-DD')
-   get_availabilities(date).then((res)=>{
-    this.setState({currentAvailabilities:res.data})
-    this.setState({ refresh: !this.state.refresh });
-   })
+    const date = moment(item).format('YYYY-MM-DD');
+    get_availabilities(date).then((res) => {
+      this.setState({ currentAvailabilities: res.data });
+      this.setState({ refresh: !this.state.refresh });
+    });
   }
   onMonthChange(date) {
     var item = [];
     var ArrayOfday = this.getDaysArrayByMonth(this.getDate(date));
     ArrayOfday.forEach((element) => {
-     const  elementdaynum = moment(element).format('dd');
-     const elementday = moment(element).format('D');
-      element=  moment(element).format('YYYY-MM-DD')
+      const elementdaynum = moment(element).format('dd');
+      const elementday = moment(element).format('D');
+      element = moment(element).format('YYYY-MM-DD');
       var Object = {
         availability_day: elementdaynum,
-        availability_day_num : elementday,
-        availability:element
+        availability_day_num: elementday,
+        availability: element,
       };
       item?.push(Object);
     });
     this.setState({ availabilities: item });
   }
-  
-  async changeTaskList(date) {
 
-    
+  async changeTaskList(date) {
     const formatdata = {
       date: date.dateString,
     };
-    this.setState({selectedDate: moment(date.dateString).format('YYYY-MM-DD')})
-    const curDate = moment(date.dateString).format('dddd D MMMM ')
-    this.setState({currentDate:curDate})
+    this.setState({
+      selectedDate: moment(date.dateString).format('YYYY-MM-DD'),
+    });
+    const curDate = moment(date.dateString).format('dddd D MMMM ');
+    this.setState({ currentDate: curDate });
 
     get_appointement(formatdata).then((res) => {
-     
-       const arrayOfAppointment = res.data;
-
-       const arrayOfPage = [];
-       arrayOfAppointment.forEach((rdv) => {
-        arrayOfPage.push(
-          <TouchableOpacity onPress={()=>{console.log(rdv)}} style={{justifyContent:'center'}}>
-          <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center',width:widthPercentageToDP(94),alignItems:'center'}}key={rdv.id}>
-            <View style={{marginTop:2}}><Avatar
-                size="medium"
-                rounded
-                source={{
-                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                }}
-              /></View>
-            <View style={{flexDirection:'column',marginRight:40}}>
-              <View style={{flexDirection:'row'}}>
-                <Text style={{
-                  fontFamily:'RobotoMedium',
-                  fontSize: 20,
-                  color:'white'
-                }}>{rdv.athlete.first_name} {rdv.athlete.last_name}</Text>
-                {/* <Text style={{
-                  fontWeight: 'bold',
-                  fontSize: 20,
-                }}>{rdv.athlete.last_name}</Text> */}
-            </View>
-            <Text style={{fontFamily:'MontserratMedium', fontSize: 12,  color:'white'}}>Séance {rdv?.session_number}/{rdv?.athleteCourse?.total_sessions}</Text>
-            </View>
-            <View style={{justifyContent:'center'}}>
-              <Text style={{
-                   fontFamily:'RobotoMedium',
-                  fontSize: 20,marginTop:1.2,  color:'white'}} >{this.convertSlotToDate(rdv.slot)}</Text>
-            </View>
-          </View>
-          </TouchableOpacity>
-          ,
-        );
+      this.setState({carousselLoad:false})
+      const arrayOfAppointment = res.data;
+      const arrayOfPage = [];
+      arrayOfAppointment.forEach((rdv) => {
+        arrayOfPage.push({
+          firstname: rdv.athlete.first_name,
+          Avatar:
+            '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+          lastname: rdv.athlete.last_name,
+          session_number: rdv.session_number,
+          total_sessions: rdv.athleteCourse.total_sessions,
+          slot: rdv.slot
+        });
       });
-      this.setState({ page: arrayOfPage });
+      this.setState({ page: arrayOfPage })
+      this.setState({carousselLoad:true})
       // console.log(this.state.page);
     });
   }
@@ -524,45 +494,55 @@ export default class Dashboard extends React.Component {
   }
 
   render() {
- const selected = this.state.selectedDate
+    const selected = this.state.selectedDate;
+    const dates  =  this.state.markedDate;
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <SafeAreaView>
-          
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
             }}>
-              <TouchableOpacity onPress={()=>{navigate('Account')}}>
-            <View style={{ flexDirection: 'row', alignItems: 'center',marginLeft:16 }}>
-              <Avatar
-                size={40}
-                rounded
-                source={{
-                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
-                }}
-              />
-              <Text
+            <TouchableOpacity
+              onPress={() => {
+                navigate('Account');
+              }}>
+              <View
                 style={{
-                  marginLeft: 6,
-                  fontFamily:'RobotoMedium',
-                  fontSize: 16,
-                  color: '#FFFFFF',
-                  lineHeight: 24,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginLeft: 16,
                 }}>
-                {this.state.user.name}
-              </Text>
-            </View>
+                <Avatar
+                  size={40}
+                  rounded
+                  source={{
+                    uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
+                  }}
+                />
+                <Text
+                  style={{
+                    marginLeft: 6,
+                    fontFamily: 'RobotoMedium',
+                    fontSize: 16,
+                    color: '#FFFFFF',
+                    lineHeight: 24,
+                  }}>
+                  {this.state.user.name}
+                </Text>
+              </View>
             </TouchableOpacity>
             <View style={{ flexDirection: 'row' }}>
               <TouchableOpacity
                 onPress={() => {
                   navigate('AwaitingDemand');
-                }}
-             >
-              <Image style={ {height: 38, width: 48, resizeMode: 'contain'}}  source={require('../../assets/images/Demande.png')}/>
+                }}>
+                <Image
+                  style={{ height: 38, width: 48, resizeMode: 'contain' }}
+                  source={require('../../assets/images/Demande.png')}
+                />
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -570,7 +550,10 @@ export default class Dashboard extends React.Component {
                   navigate('Activite');
                 }}
                 style={{ marginLeft: 20, marginRight: 10 }}>
-                <Image style={ {height: 38, width: 48, resizeMode: 'contain'}} source={require('../../assets/images/Notif.png')}/>
+                <Image
+                  style={{ height: 38, width: 48, resizeMode: 'contain' }}
+                  source={require('../../assets/images/Notif.png')}
+                />
               </TouchableOpacity>
             </View>
           </View>
@@ -583,8 +566,8 @@ export default class Dashboard extends React.Component {
             }}></View>
           <View>
             <View></View>
-            <View style={{alignItems:'center'}}>
-            <SwitchSelector
+            <View style={{ alignItems: 'center' }}>
+              <SwitchSelector
                 options={options}
                 initial={0}
                 onPress={(value) => this.setState({ screen: value })}
@@ -594,11 +577,11 @@ export default class Dashboard extends React.Component {
                 textColor="white"
                 borderRadius={10}
                 height={50}
-                style={{width:widthPercentageToDP(92)}}
+                style={{ width: widthPercentageToDP(92) }}
                 hasPadding
                 fontSize={15}
-                selectedTextStyle={{fontFamily:'MontserratBoldItalic'}}
-                textStyle={{fontFamily:'MontserratBoldItalic'}}
+                selectedTextStyle={{ fontFamily: 'MontserratBoldItalic' }}
+                textStyle={{ fontFamily: 'MontserratBoldItalic' }}
                 valuePadding={3}
                 borderColor="#1E2026"
               />
@@ -606,31 +589,34 @@ export default class Dashboard extends React.Component {
             <View>{/*TO DO: passe les jours en francais  */}</View>
             {this.state.screen == 'Planning' ? (
               <View>
-                <View style={{ alignItems: 'center',marginTop:16 }}>
+                <View style={{ alignItems: 'center', marginTop: 16 }}>
                   <Text
                     style={{
-                     fontFamily:'MontserratBoldItalic',
+                      fontFamily: 'MontserratBoldItalic',
                       fontSize: 18,
                       color: '#FFFFFF',
-                      marginVertical:10,
-                      paddingBottom:10   
+                      marginVertical: 10,
+                      paddingBottom: 10,
                     }}>
-                    {
-                    ((this.state.currentDate.toUpperCase()))}
+                    {this.state.currentDate.toUpperCase()}
                   </Text>
                 </View>
-                <View style={{alignItems:'center'}}>
-                {this.state.page == [] ? (
-                  <Text> pas de rendez-vous Aujourd'hui</Text>
-                ) : (
-                  <Pager pager={this.state.page} />
-                
-                )}
+                <View style={{ alignItems: 'center' }}>
+                  {this.state.page == [] ? (
+                    <Text> pas de rendez-vous Aujourd'hui</Text>
+                  ) : (
+                    this.state.carousselLoad?(    <Pager pager={this.state.page} />):(
+                      <View style={{ height:180, width:widthPercentageToDP(94), alignItems:'center'}}>
+                        <ActivityIndicator/>
+                      </View>
+                    )
+                   
+                  )}
                 </View>
-                <View style={{alignItems:'center',marginTop:10}}>
+                <View style={{ alignItems: 'center', marginTop: 10 }}>
                   <Calendar
                     theme={{
-                      width:100,
+                      
                       calendarBackground: '#1E2026',
                       textSectionTitleColor: 'white',
                       textSectionTitleWeight: 'bold',
@@ -639,34 +625,26 @@ export default class Dashboard extends React.Component {
                       todayTextColor: '#2CDEE4',
                       dayTextColor: 'white',
                       textDisabledColor: 'grey',
-                      dotColor: '#00adf5',
-                      selectedDotColor: '#ffffff',
                       arrowColor: 'white',
                       monthTextColor: 'white',
-                      indicatorColor: '#2CDEE4',  
+                      indicatorColor: '#2CDEE4',
                       textDayFontFamily: 'Montserrat',
                       textMonthFontFamily: 'MontserratBoldItalic',
-                      textDayHeaderFontFamily: 'MontserratMedium',                  
+                      textDayHeaderFontFamily: 'MontserratMedium',
                       textDayFontSize: 16,
                       textMonthFontSize: 22,
                       textDayHeaderFontSize: 16,
                     }}
+                    enableSwipeMonths={true}
                     firstDay={1}
                     markingType={'custom'}
                     markedDates={{
+    
                       [selected]: {
-                        selected: true,
-  
-                        selectedColor: '#2CDEE4',
-                        selectedTextColor: 'black'
-                      },
-                      '2021-09-01': {
-                        selected: true, selectedColor:'#393637',
-                        marked: true, dotColor: '#50cebb'
-
-                      }
-                      
-                    }}
+                      selected: true,
+                      selectedColor: '#2CDEE4',
+                      selectedTextColor: 'black',
+                    },}}
                     // dayComponent={({date, state}) => {
                     //   return (
                     //     <View>
@@ -677,28 +655,30 @@ export default class Dashboard extends React.Component {
                     //   );
                     // }}
                     onDayPress={(day) => this.changeTaskList(day)}
-                    style={styles.calendar}
-                  >
-                    
-                  </Calendar>
+                    style={styles.calendar}/>
                 </View>
-                  <TouchableOpacity
-                    style={{ position:'absolute', alignItems:'flex-end' ,left:widthPercentageToDP(90),top:heightPercentageToDP(50)}}
-                    onPress={() => {
-                      navigate('CreateBook');
-                    }}>
-                    <Image source={require('../../assets/images/Group_8766.png')}>
-                      </Image>
-                  </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    position: 'absolute',
+                    alignItems: 'flex-end',
+                    left: widthPercentageToDP(90),
+                    top: heightPercentageToDP(50),
+                  }}
+                  onPress={() => {
+                    navigate('CreateBook');
+                  }}>
+                  <Image
+                    source={require('../../assets/images/Group_8766.png')}></Image>
+                </TouchableOpacity>
               </View>
             ) : (
               <View>
                 <View style={{ height: 800 }}>
-                  <View >
+                  <View>
                     <MonthsSlider onChange={this.onMonthChange.bind(this)} />
-                    <View style={{marginBottom:20}}>
+                    <View style={{ marginBottom: 20 }}>
                       <FlatList
-                      style
+                        style
                         horizontal={true}
                         data={this.state.availabilities}
                         extraData={this.state}
@@ -706,36 +686,74 @@ export default class Dashboard extends React.Component {
                         refreshing={this.state.refresh}
                         keyExtractor={(item) => item?.date}
                         renderItem={({ item }) => {
-    
-                          const backgroundColor = item?.availability === this.state.selectedDate ? "#2CDEE4" : "#1E2026";
-                          const textColor = item?.availability === this.state.selectedDate ? "black" : "white";
+                          const backgroundColor =
+                            item.availability === this.state.selectedDate
+                              ? '#2CDEE4'
+                              : '#1E2026';
+                          const textColor =
+                            item.availability === this.state.selectedDate
+                              ? 'black'
+                              : 'white';
                           return (
                             <TouchableOpacity
                               onPress={() => {
-                                this.setState({selectedDate:item?.availability})
-                                this.getAvailabilities(item?.availability)
-                              
+                                this.setState({
+                                  selectedDate: item?.availability,
+                                });
+                                this.getAvailabilities(item?.availability);
                               }}>
-                          <View style={[styles.day, {backgroundColor:backgroundColor}]}>
-                              <View style={{flexDirection:'column',justifyContent:'center',alignItems:'center',alignContent:'center'}}>
-                              <Text style={{ color:textColor,justifyContent:'center',alignItems:'center',alignContent:'center' }}>
-                                {item?.availability_day}
-                              </Text>
-                              <Text style={{ color:textColor, marginTop:10,justifyContent:'center',alignItems:'center',alignContent:'center' }}>
-                                {item?.availability_day_num}
-                              </Text>
+                              <View
+                                style={[
+                                  styles.day,
+                                  { backgroundColor: backgroundColor },
+                                ]}>
+                                <View
+                                  style={{
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    alignContent: 'center',
+                                  }}>
+                                  <Text
+                                    style={{
+                                      color: textColor,
+                                      justifyContent: 'center',
+                                      alignItems: 'center',
+                                      alignContent: 'center',
+                                    }}>
+                                    {item.availability_day}
+                                  </Text>
+                                  <Text
+                                    style={{
+                                      color: textColor,
+                                      marginTop: 10,
+                                      justifyContent: 'center',
+                                      alignItems: 'center',
+                                      alignContent: 'center',
+                                    }}>
+                                    {item?.availability_day_num}
+                                  </Text>
+                                </View>
                               </View>
-                          </View>
                             </TouchableOpacity>
-                          )
+                          );
                         }}
                       />
 
-        <View>
-        <TouchableOpacity>
-        <Image style={ { resizeMode: 'contain',width:widthPercentageToDP(40) ,height:50, marginLeft:18,marginTop:8}}  source={require('../../assets/images/filtre.png')}/>
-        </TouchableOpacity>
-          </View>
+                      <View>
+                        <TouchableOpacity>
+                          <Image
+                            style={{
+                              resizeMode: 'contain',
+                              width: widthPercentageToDP(40),
+                              height: 50,
+                              marginLeft: 18,
+                              marginTop: 8,
+                            }}
+                            source={require('../../assets/images/filtre.png')}
+                          />
+                        </TouchableOpacity>
+                      </View>
                       <FlatList
                         style={{ maxHeight: 550 }}
                         data={[this.state.currentAvailabilities]}
@@ -745,10 +763,7 @@ export default class Dashboard extends React.Component {
                         // keyExtractor={(item) => {item?.date;}}
                         keyExtractor={(item, index) => `${index}`}
                         renderItem={({ item }) => (
-                          <SwitchButton
-                            item={item}
-                            handler = {this.handler}
-                          />
+                          <SwitchButton item={item} handler={this.handler} />
                         )}
                       />
                     </View>
@@ -785,22 +800,18 @@ const styles = StyleSheet.create({
   },
   calendar: {
     borderRadius: 13,
-    padding: 5,
     paddingLeft:30,
     paddingRight:30,
     marginTop: 18,
-    width:widthPercentageToDP(92),
-
-
+    width: widthPercentageToDP(94),
   },
   background: {
     backgroundColor: 'black',
-   
   },
   day: {
     height: 70,
     width: 50,
-    marginHorizontal:5,
+    marginHorizontal: 5,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,

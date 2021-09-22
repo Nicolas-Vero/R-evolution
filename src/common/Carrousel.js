@@ -1,6 +1,6 @@
 import {View,Text} from 'react-native';
 import React, {Component} from 'react';
-import Carousel from '../components/CarouselPager';
+import CarouselPager from '../components/CarouselPager';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 export default class Pager extends Component {
   constructor(props){
@@ -18,14 +18,15 @@ export default class Pager extends Component {
     return (
       // console.log('cafrousel',this.props.pager),
       <View style={{ height:180, width:widthPercentageToDP(94), alignItems:'center'}}>
-        <Carousel
+        <CarouselPager
          ref={ref => this.carousel = ref}
          blurredZoom={0.94} initialPage={0} 
          blurredOpacity={0.2}
-         vertical={true}containerPadding={63}
-          pageStyle={{ borderRadius:10,alignItems:'center',width:widthPercentageToDP(94)}} onPageChange={(page)=>{}} >
+         vertical={true}
+         containerPadding={63}
+         pageStyle={{ borderRadius:10,alignItems:'center',width:widthPercentageToDP(94)}}>
          {this.props.pager}
-        </Carousel>
+        </CarouselPager>
       </View>
     ); 
   }

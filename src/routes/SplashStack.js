@@ -17,13 +17,13 @@ const SplashStack = createStackNavigator(
     AuthEntry: {
       screen: AuthEntry,
       navigationOptions: {
-        header: null,
+        headerShown: false,
       },
     },
     Activite: {
       screen: Activite,
       navigationOptions: {
-        header: null,
+        headerShown: false,
       },
     },
 
@@ -34,7 +34,7 @@ const SplashStack = createStackNavigator(
             tabBarIcon: ({tintColor}) => (
               <Ionicons  size={20} color={tintColor} />
             ),
-            header: null,
+            headerShown: false,
           },
     },
     SwitchAppAuth:{
@@ -44,7 +44,7 @@ const SplashStack = createStackNavigator(
             tabBarIcon: ({tintColor}) => (
               <Ionicons  size={20} color={tintColor} />
             ),
-            header: null,
+            headerShown: false,
           },
     },
 
@@ -55,7 +55,7 @@ const SplashStack = createStackNavigator(
         tabBarIcon: ({tintColor}) => (
           <Ionicons  size={20} color={tintColor} />
         ),
-        header: null,
+        headerShown: false,
       },
 
     },
@@ -67,7 +67,7 @@ const SplashStack = createStackNavigator(
         tabBarIcon: ({tintColor}) => (
           <Ionicons  size={20} color={tintColor} />
         ),
-        header: null,
+        headerShown: false,
       },
     },
 
@@ -78,7 +78,7 @@ const SplashStack = createStackNavigator(
         tabBarIcon: ({tintColor}) => (
           <Ionicons  size={20} color={tintColor} />
         ),
-        header: null,
+        headerShown: false,
       },
 
     },
@@ -89,7 +89,7 @@ const SplashStack = createStackNavigator(
         tabBarIcon: ({tintColor}) => (
           <Ionicons  size={20} color={tintColor} />
         ),
-        header: null,
+        headerShown: false,
       },
 
     },

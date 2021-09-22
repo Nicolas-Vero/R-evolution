@@ -10,8 +10,8 @@ import { get_availabilities, update_availabilities } from '../api/Availabilities
 import { loadFonts } from '../configs/design/font';
 export default class SwitchButton extends Component {
 
- async componentDidMount(){
-   await loadFonts
+  componentDidMount(){
+    loadFonts
   }
 
   getSlotTime(time) {

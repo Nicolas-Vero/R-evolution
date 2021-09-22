@@ -12,42 +12,42 @@ const MyAthletesStack = createStackNavigator(
       screen: MyAthletes,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
-        header: null,
+        headerShown: false,
       },
     },
     MyAthleteDetails: {
       screen: MyAthleteDetails,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
-        header: null,
+        headerShown: false,
       },
     },
     MyAthleteDetailsProspects: {
       screen: MyAthleteDetailsProspects,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
-        header: null,
+        headerShown: false,
       },
     },
     MyAthleteDetailsInactifs: {
       screen: MyAthleteDetailsInactifs,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
-        header: null,
+        headerShown: false,
       },
     },
     AthletesProfils: {
       screen: Activite,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
-        header: null,
+        headerShown: false,
       },
     },
     AddPaiement: {
       screen: Paiements,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
-        header: null,
+        headerShown: false,
       },
     },
   },

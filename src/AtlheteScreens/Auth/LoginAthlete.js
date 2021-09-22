@@ -13,7 +13,10 @@ import {Button} from '../../components/Button';
 import { LinearGradient } from 'expo-linear-gradient';
 import { widthPercentageToDP as wp  } from 'react-native-responsive-screen';
 export default class LoginAthlete extends React.Component {
-
+ 
+   componentDidMount() {
+    loadFonts;
+ }
   async onLoginPress(values) {
    // const {email, password}=values;
     const {email, password}=values; //blakos972@yahoo.fr, a

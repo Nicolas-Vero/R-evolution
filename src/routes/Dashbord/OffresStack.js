@@ -13,7 +13,7 @@ const OffresStack = createStackNavigator(
       OffresFormations: {
         screen: OffresFormations,
         navigationOptions: {
-          header: null,
+          headerShown: false,
         },
       },
       Offres: {
@@ -23,7 +23,7 @@ const OffresStack = createStackNavigator(
           tabBarIcon: ({tintColor}) => (
             <Ionicons  size={20} color={tintColor} />
           ),
-          header: null,
+          headerShown: false,
         },},
       OffreCreation: {
         screen: OffreCreation,
@@ -31,7 +31,7 @@ const OffresStack = createStackNavigator(
           tabBarIcon: ({tintColor}) => (
             <Ionicons  size={20} color={tintColor} />
           ),
-          header: null,
+          headerShown: false,
         },
       },
 
@@ -41,7 +41,7 @@ const OffresStack = createStackNavigator(
           tabBarIcon: ({tintColor}) => (
             <Ionicons  size={20} color={tintColor} />
           ),
-          header: null,
+          headerShown: false,
         },
       },
       
