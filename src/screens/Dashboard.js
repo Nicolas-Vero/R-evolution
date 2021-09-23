@@ -236,18 +236,13 @@ export default class Dashboard extends React.Component {
    const curDate = moment().format('YYYY-MM-DD')
    console.log('curr',curDate) 
    this.setState({today:curDate})
-
-   if(Notifications.useLastNotificationResponse.actionIdentifier === Notifications.DEFAULT_ACTION_IDENTIFIER
-    ){
-      console.log('[notification]');
-    }
-
+    
     this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
-      console.log('[Notification]', notification);
+      console.log('[Notification-C-Dashboard]', notification);
     });
-
     this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
-        this.props.navigation.push('Activite')
+        console.log('[Response-C-Dashboard]', response);
+        this.props.navigation.push('Activite');
     });
   }
 

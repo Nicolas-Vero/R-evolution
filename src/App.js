@@ -25,7 +25,7 @@ export class App extends Component {
   }
 
   async registerForPushNotification() {
-    let token;
+    let token = null;
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
@@ -37,8 +37,8 @@ export class App extends Component {
       alert('Failed to get push token for push notification!');
       return;
     }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
+    token = await Notifications.getExpoPushTokenAsync();
+    console.log('[push-token]', token);
     if (Platform.OS === 'android') {
       Notifications.setNotificationChannelAsync('default', {
         name: 'default',
@@ -47,7 +47,7 @@ export class App extends Component {
         lightColor: '#FF231F7C',
       });
     }
-    return token;
+    // return token;
   }
   async  lockScreenOrientation() {
     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
@@ -56,19 +56,19 @@ export class App extends Component {
   componentDidMount() {
     this.registerForPushNotification();
     this.lockScreenOrientation();
-    this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
-      console.log('[Notification]', notification);
-    });
+    // this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
+    //   console.log('[Notification]', notification);
+    // });
 
-    this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log('[Notification-Response]', response);
-    });
+    // this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
+    //   console.log('[Notification-Response]', response);
+    // });
   }
 
-  componentWillUnmount () {
-    Notifications.removeNotificationSubscription(this.notificationListener);
-    Notifications.removeNotificationSubscription(this.responseListener);
-  }
+  // componentWillUnmount () {
+  //   Notifications.removeNotificationSubscription(this.notificationListener);
+  //   Notifications.removeNotificationSubscription(this.responseListener);
+  // }
 
   render() {
     const { store } = this.state;

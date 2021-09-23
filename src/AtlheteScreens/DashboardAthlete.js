@@ -31,6 +31,8 @@ import { athlete_active_appointement} from '../api/Athlete';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../configs/Constants';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
+import * as Notifications from 'expo-notifications';
+
 LocaleConfig.locales['fr'] = {
   monthNames: [
     'Janvier',
@@ -184,7 +186,19 @@ export default class DashboardAthlete extends React.Component {
     upcomingApointement:[],
 };
  async componentDidMount(){
-   loadFonts();
+    try {
+      this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
+        console.log('[Notification-A-Dashboard]', notification);
+      });
+      this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
+          console.log('[Response-A-Dashboard]', response);
+          this.props.navigation.push('Activite');
+      });
+    } catch (error) {
+      console.log('[Error]', error);
+    }
+
+    await loadFonts();
     var user = await AsyncStorage.getItem(STORAGE.USER);
     user  = JSON.parse(user);
     this.setState({coach_id:user.coach.coach_id})
@@ -214,6 +228,12 @@ export default class DashboardAthlete extends React.Component {
         })
       this.setState({user:user})
     }
+
+    componentWillUnmount () {
+      Notifications.removeNotificationSubscription(this.notificationListener);
+      Notifications.removeNotificationSubscription(this.responseListener);
+    }
+
   convertSlotToDateV2(slot) {
     switch (slot) {
       case 0:
