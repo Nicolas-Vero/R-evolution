@@ -52,7 +52,7 @@ export default class RegisterInfoAthlete extends React.Component {
 
   //  onContinuePress(values) {
     
-  //   if (values.password === values.confirmPassword) {
+  //   if (values.password === values.confirm_password) {
   //   console.log('toto',values)
   //     auth(values)
   //       .then(
@@ -124,15 +124,15 @@ export default class RegisterInfoAthlete extends React.Component {
         <View style={{ paddingLeft: 16, paddingRight: 16 }}>
             <View>
               <Formik
-                initialValues={{
-                  gender: 'male',
-                  first_name: '',
-                  last_name: '',
-                  email: '',
-                  phone: '',
-                  password: '',
-                  confirmPassword: '',
-                }}
+               initialValues={{
+                gender: 'male',
+                first_name: '',
+                last_name: '',
+                email: '',
+                phone: '',
+                password: '',
+                confirm_password: '',
+              }}
                 onSubmit={(values) => onContinuePress(values)}>
                 {({
                   handleChange,
@@ -274,9 +274,9 @@ export default class RegisterInfoAthlete extends React.Component {
                           borderRadius:5,
                           paddingRight: 15,
                         }}
-                        onChangeText={handleChange('confirmPassword')}
-                        onBlur={handleBlur('confirmPassword')}
-                        value={values.confirmPassword}
+                        onChangeText={handleChange('confirm_password')}
+                        onBlur={handleBlur('confirm_password')}
+                        value={values.confirm_password}
                       />
                     </View>
 

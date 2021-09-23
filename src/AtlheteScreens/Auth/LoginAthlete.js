@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Button} from '../../components/Button';
 import { LinearGradient } from 'expo-linear-gradient';
 import { widthPercentageToDP as wp  } from 'react-native-responsive-screen';
+import { loadFonts } from '../../configs/design/font';
 export default class LoginAthlete extends React.Component {
  
    componentDidMount() {

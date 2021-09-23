@@ -9,31 +9,16 @@ import {
   StatusBar,
   Dimensions,
 } from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { auth } from '../../api/Coach';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../../configs/Constants';
 import { Formik } from 'formik';
 import { CheckBox } from 'react-native-elements';
-import Loader from 'react-loader-spinner';
 import { Button } from '../../components/Button';
 import Header from '../../components/Header';
-//import { Slider } from 'react-native-elements';
-import { ElementSlider } from '../../components/ElementSlider';
 const { width } = Dimensions.get('window');
-import { dynamicInput } from '../../components/dynamicInput';
-import { dynamicList } from '../../components/dynamicList';
-import { selectList } from '../../components/selectList';
 import { LinearGradient } from 'expo-linear-gradient';
-import { avatar } from '../../components/avatar';
 import { loadFonts } from '../../configs/design/font';
-const inputs = [
-  { name: 'degrees', type: 'default', component: dynamicInput },
-  { name: 'xP', type: 'default', component: ElementSlider },
-  { name: 'spécialities', type: 'default', component: dynamicList },
-  { name: 'gymPlace', type: 'default', component: selectList },
-  { name: 'avatar', type: 'default', component: avatar },
-];
 
 export default class RegisterInfo extends React.Component {
   constructor(props) {

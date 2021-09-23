@@ -74,7 +74,7 @@ export default class MyInformations extends React.Component {
   }
 
   onContinuePress(values) {
-    if (values.password === values.confirmPassword) {
+    if (values.password === values.confirm_password) {
       auth(values)
         .then(
           (res) => (
@@ -166,7 +166,7 @@ export default class MyInformations extends React.Component {
                 email: '',
                 phone: '',
                 password: '',
-                confirmPassword: '',
+                confirm_password: '',
                 termsCondition: false,
                 degrees: [],
                 xP: '',

@@ -36,7 +36,7 @@ export default class Stats extends React.Component {
   }
 
   async onContinuePress() {
-    if (this.password === this.confirmPassword) {
+    if (this.password === this.confirm_password) {
       const { gender, first_name, last_name, telephone, email, password } =
         this;
       const body = {
@@ -90,7 +90,7 @@ export default class Stats extends React.Component {
                   email: '',
                   phone: '',
                   password: '',
-                  confirmPassword: '',
+                  confirm_password: '',
                   termsCondition: false,
                 }}
                 onSubmit={(values) => onContinuePress(values)}>
@@ -218,9 +218,9 @@ export default class Stats extends React.Component {
                           paddingLeft: 15,
                           paddingRight: 15,
                         }}
-                        onChangeText={handleChange('confirmPassword')}
-                        onBlur={handleBlur('confirmPassword')}
-                        value={values.confirmPassword}
+                        onChangeText={handleChange('confirm_password')}
+                        onBlur={handleBlur('confirm_password')}
+                        value={values.confirm_password}
                       />
                     </View>
 

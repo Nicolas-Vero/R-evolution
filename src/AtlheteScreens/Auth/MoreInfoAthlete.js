@@ -29,12 +29,12 @@ import { loadFonts } from '../../configs/design/font';
 import { sign_up } from '../../api/Athlete';
 const inputs = [
   { name: 'mensuration', type: 'default', component: mensuration },
-  { name: 'xP', type: 'default', component: ElementSlider },
-  { name: 'objectifs', type: 'default', component: dynamicListAthlete },
-  { name: 'healthIssues', type: 'default', component: health },
-  { name: 'gymPlace', type: 'default', component: selectList },
+  { name: 'experience_years', type: 'default', component: ElementSlider },
+  { name: 'goals', type: 'default', component: dynamicListAthlete },
+  { name: 'health_issues', type: 'default', component: health },
+  { name: 'gym_place', type: 'default', component: selectList },
   { name: 'days_preference', type: 'default', component: ElementSlider2 },
-  { name: 'destinataire', type: 'default', component: destinataire },
+  { name: 'coach_preference', type: 'default', component: destinataire },
   { name: 'avatar', type: 'default', component: avatar },
 ];
 export default class MoreInfoAthlete extends React.Component {
@@ -62,7 +62,6 @@ export default class MoreInfoAthlete extends React.Component {
   };
 
   render() {
-    const { navigation } = this.props;
     const { stepperStep, step } = this.state;
     const Layout = inputs[stepperStep].component;
     return (
@@ -108,11 +107,11 @@ export default class MoreInfoAthlete extends React.Component {
               weight: '',
               size: '',
               experience_years: '',
-              objectifs: [],
+              goals: [],
               health_issues: '',
               health_problem_description: '',
               coach_preference: {},
-              gymPlace: '',
+              gym_place: '',
               days_preference: { 
                 is_monday_preferred: false,
                 is_tuesday_preferred: false,
@@ -132,10 +131,10 @@ export default class MoreInfoAthlete extends React.Component {
               const data = {
                 ...values,
                 ...this.props.navigation.state.params.item,
-
+                ...{preferred_exercise_place_id:1}
               };
-              console.log('dataaaa',data);
               try {
+                console.log('ddddd',data);
                 sign_up(data).then(() => {
                   navigate('LoginAthlete');
                 });

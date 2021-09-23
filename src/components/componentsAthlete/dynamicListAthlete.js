@@ -99,7 +99,7 @@ export const dynamicListAthlete = React.forwardRef(
 
                    <TouchableOpacity
                       onPress={() =>{item.selected != 1 ? item.selected =1 :item.selected = 0
-                        arrayhelper.form.values.objectifs.includes(item.value)?arrayhelper.remove(item.value):arrayhelper.push(item.value)
+                        arrayhelper.form.values.goals.includes(item.value)?arrayhelper.remove(item.value):arrayhelper.push(item.value)
                         }}>
                       <View style={{backgroundColor:backgroundColor, borderRadius: 25,  padding: 10, justifyContent:'center', margin:5, borderColor:borderColor, borderWidth:borderWidth}}>
                           <Text style={{fontFamily:'RobotoBold',fontSize: 15,color:color}}>{item.value}</Text>

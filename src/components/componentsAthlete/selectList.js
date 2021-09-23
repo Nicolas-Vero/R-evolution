@@ -89,7 +89,7 @@ export const selectList = React.forwardRef(
                   data={Gymdata}
                   defaultButtonText={"Recherche le nom de ta salle"}
                   onSelect={(selectedItem) => {
-                   arrayhelper.form.values.gymPlace = selectedItem
+                   arrayhelper.form.values.gym_place = selectedItem.id
                   }}
                   renderDropdownIcon={() => {
                     return <AntDesign name="down" size={24} color="black" />;

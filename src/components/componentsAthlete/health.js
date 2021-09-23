@@ -68,7 +68,13 @@ export const health = React.forwardRef(
                               data={data}
                               defaultButtonText={'choisir'}
                               onSelect={(selectedItem, index) => {
-                                arrayhelper.form.values.healthIssues = selectedItem
+                                let boolValue = ''
+                                if (selectedItem == 'OUI') {
+                                  boolValue = true
+                                } else {
+                                  boolValue = false
+                                }
+                                arrayhelper.form.values.health_issues = boolValue
                               }}
                               renderDropdownIcon={() => {
                                 return (

@@ -8,16 +8,12 @@ import {
   StatusBar,
   Dimensions,
 } from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import SelectDropdown from 'react-native-select-dropdown';
-//import { auth } from '../../api/Register';
 import { Formik } from 'formik';
-import { CheckBox, Text } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import { Button } from '../components/Button';
 import Header from '../components/Header';
-import { Right } from 'native-base';
-import { ScrollView } from 'react-native';
 import { loadFonts } from '../configs/design/font';
 import { get_coach_athlete } from '../api/Coach';
 import { AntDesign } from '@expo/vector-icons';
@@ -25,54 +21,17 @@ import { isLoaded } from 'expo-font';
 import { get_availabilities } from '../api/Availabilities';
 import { LinearGradient } from 'expo-linear-gradient';
 import { coach_reminder } from '../api/CoachReminder';
-import navigationService from '../routes/navigationService';
  const { width } = Dimensions.get('window');
 export default class CreateReminder extends React.Component {
   state = {
-    type: 'Coaching',
+    
     isLoaded: false,
-    atlhetesActifs: [],
-    atlhetesProspects: [],
-    atlhetesInactifs: [],
-    slots: [],
+   
   };
   componentDidMount() {
     loadFonts;
-    get_availabilities().then((res) => {
-      //  this.setState({slots:res.data})
-      console.log(res.data);
-    });
-    get_coach_athlete()
-      .then((res) => {
-        this.filterDAta(res.data.athletes);
-      })
-      .then(() => {
-        this.setState({ isLoaded: true });
-      });
   }
 
-  filterDAta(data) {
-    const actifs = [];
-    const inactifs = [];
-    const prospects = [];
-    data.forEach((element) => {
-      console.log(element.status);
-      switch (element.status) {
-        case 'ACTIVE':
-          actifs.push(`${element.first_name} ${element.last_name}`);
-          break;
-        case 'INACTIVE':
-          inactifs.push(`${element.first_name} ${element.last_name}`);
-          break;
-        case 'PROSPECT':
-          prospects.push(`${element.first_name} ${element.last_name}`);
-          break;
-
-        default:
-          break;
-      }
-    }, this.setState({ atlhetesActifs: actifs, atlhetesInactifs: inactifs, atlhetesProspects: prospects }));
-  }
 
    
 
@@ -252,8 +211,8 @@ export default class CreateReminder extends React.Component {
                       }}
                       loading={false}
                       title="Ajouter le Rappel"
-                      onPress={()=>{try {
-                        console.log('jjj',values);
+                      onPress={()=>{
+                        try {
                         coach_reminder(values).then(()=> {
                           navigate('Activitie');
                         })

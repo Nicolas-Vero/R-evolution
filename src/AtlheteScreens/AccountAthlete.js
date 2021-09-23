@@ -17,6 +17,7 @@ const { width } = Dimensions.get('window');
 import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../components/Header';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import { STORAGE } from '../configs/Constants';
 
 export default class AccountAthlete extends React.Component {
   constructor(props) {
