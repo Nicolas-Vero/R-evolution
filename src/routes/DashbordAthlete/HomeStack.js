@@ -1,5 +1,4 @@
 import { createStackNavigator } from 'react-navigation-stack';
-import Activite from '../../screens/Activite';
 import DashboardAthlete from '../../AtlheteScreens/DashboardAthlete';
 import AccountAthlete from '../../AtlheteScreens/AccountAthlete';
 import Notifications from '../../AtlheteScreens/Notifications';

@@ -242,7 +242,7 @@ export default class Dashboard extends React.Component {
     });
     this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
         console.log('[Response-C-Dashboard]', response);
-        this.props.navigation.push('Activite');
+        this.props.navigation.push('Activitie');
     });
   }
 
@@ -542,7 +542,7 @@ export default class Dashboard extends React.Component {
 
               <TouchableOpacity
                 onPress={() => {
-                  navigate('Activite');
+                  navigate('Activitie');
                 }}
                 style={{ marginLeft: 20, marginRight: 10 }}>
                 <Image

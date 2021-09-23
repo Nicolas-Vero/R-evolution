@@ -24,7 +24,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { isLoaded } from 'expo-font';
 import { get_availabilities } from '../api/Availabilities';
 import { LinearGradient } from 'expo-linear-gradient';
-const { width } = Dimensions.get('window');
+import { coach_reminder } from '../api/CoachReminder';
+import navigationService from '../routes/navigationService';
+ const { width } = Dimensions.get('window');
 export default class CreateReminder extends React.Component {
   state = {
     type: 'Coaching',
@@ -72,9 +74,7 @@ export default class CreateReminder extends React.Component {
     }, this.setState({ atlhetesActifs: actifs, atlhetesInactifs: inactifs, atlhetesProspects: prospects }));
   }
 
-  async onLoginPress(values) {
-    console.log(values);
-  }
+   
 
   getErrorMessage() {
     if (this.state.errorMessage !== '')
@@ -124,14 +124,18 @@ export default class CreateReminder extends React.Component {
             <View style={{ paddingLeft: 15, paddingRight: 15 }}>
               <Formik
                 initialValues={{
-                  date: 'Coaching',
-                  heure: '',
+                  date: '',
+                  hour: '',
                   title: '',
                   content: '',
-                  status: '',
-                  color: 'blue',
+                  status: 'ACTIVE',
+                  color: '',
                 }}
-                onSubmit={(values, { onLoginPress }) => onLoginPress(values)}>
+                onSubmit={(values) =>{try {
+                  coach_reminder(values).then(navigate('Activitie'))
+                } catch (error) {
+                  console.log(error);
+                }} }>
                 {({
                   handleChange,
                   handleBlur,
@@ -151,11 +155,11 @@ export default class CreateReminder extends React.Component {
                       <View style={{ flex: 2 }}>
                           <Text style={{ color:'white',fontFamily:'RobotoBold',fontSize:15}}>Date</Text>
                         <TextInput
-                          placeholder="date"
+                          placeholder="25/05/2021"
                           style={styles.form1}
-                          onChangeText={handleChange('first_name')}
-                          onBlur={handleBlur('first_name')}
-                          value={values.first_name}
+                          onChangeText={handleChange('date')}
+                          onBlur={handleBlur('date')}
+                          value={values.date}
                         />
                       </View>
                       <View style={{ flex: 1 }}>
@@ -163,9 +167,9 @@ export default class CreateReminder extends React.Component {
                         <TextInput
                           placeholder="Heure"
                           style={styles.form1}
-                          onChangeText={handleChange('first_name')}
-                          onBlur={handleBlur('first_name')}
-                          value={values.first_name}
+                          onChangeText={handleChange('hour')}
+                          onBlur={handleBlur('hour')}
+                          value={values.hour}
                         />
                       </View>
                       <View style={{ flex: 1 }}>
@@ -175,7 +179,7 @@ export default class CreateReminder extends React.Component {
                         data={color}
                         defaultButtonText={'choisir un crénaux'}
                         onSelect={(selectedItem, index) => {
-                          console.log(selectedItem, index);
+                         values.color = selectedItem
                         }}
                         renderDropdownIcon={() => {
                           return (
@@ -188,15 +192,12 @@ export default class CreateReminder extends React.Component {
                           // if data array is an array of objects then return selectedItem.property to render after item is selected
                           return selectedItem;
                         }}
-                        rowTextStyle={{
-                          color: 'white',
-                          fontSize: 15,
-                          marginRight: 90,
-                        }}
                         dropdownStyle={{
                           backgroundColor: '#282C3A',
                           borderRadius: 5,
                         }}
+                        rowTextStyle={{color:'white',fontSize:15}}
+                        dropdownStyle={{backgroundColor:'#282C3A',borderRadius:5 }}
                         rowTextForSelection={(item, index) => {
                           // text represented for each item in dropdown
                           // if data array is an array of objects then return item.property to represent item in dropdown
@@ -210,9 +211,9 @@ export default class CreateReminder extends React.Component {
                         <TextInput
                           placeholder="Objet du rappel"
                           style={styles.form2}
-                          onChangeText={handleChange('first_name')}
-                          onBlur={handleBlur('first_name')}
-                          value={values.first_name}
+                          onChangeText={handleChange('title')}
+                          onBlur={handleBlur('title')}
+                          value={values.title}
                         />
                       </View>
                       <View style={{ marginBottom: 20 }}>
@@ -228,9 +229,9 @@ export default class CreateReminder extends React.Component {
                             width: wp(92),
                             height: 200,
                           }}
-                          onChangeText={handleChange('first_name')}
-                          onBlur={handleBlur('first_name')}
-                          value={values.first_name}
+                          onChangeText={handleChange('content')}
+                          onBlur={handleBlur('content')}
+                          value={values.content}
                         />
                       </View>
                     </View>
@@ -251,7 +252,14 @@ export default class CreateReminder extends React.Component {
                       }}
                       loading={false}
                       title="Ajouter le Rappel"
-                      onPress={console.log(values)}
+                      onPress={()=>{try {
+                        console.log('jjj',values);
+                        coach_reminder(values).then(()=> {
+                          navigate('Activitie');
+                        })
+                      } catch (error) {
+                        console.log(error);
+                      }}}
                     />
                     </View>
                   </View>

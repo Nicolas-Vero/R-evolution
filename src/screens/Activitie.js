@@ -14,13 +14,17 @@ import { LocaleConfig } from 'react-native-calendars';
 import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../components/Header';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import { FlatList } from 'react-native-gesture-handler';
+import { Avatar } from 'react-native-elements';
+import { get_coach_reminder } from '../api/CoachReminder';
 
 const options = [
   { label: 'NOTIFICATIONS', value: 'NOTIFICATIONS' },
   { label: 'RAPPELS', value: 'RAPPELS' },
 ];
-export default class Activite extends React.Component {
+export default class Activitie extends React.Component {
   state = {
+    reminders:[],
     refresh: false,
     user: { name: 'toto', avatar: 'string avatar' },
     screen: 'NOTIFICATIONS',
@@ -56,6 +60,12 @@ export default class Activite extends React.Component {
     '2021-05-24': { color: '#70d7c7', textColor: 'white' },
     '2021-05-25': { endingDay: true, color: '#50cebb', textColor: 'white' },
   };
+  componentDidMount(){
+    get_coach_reminder().then((res)=>{
+      this.setState({reminders:res.data.reminders})
+      console.log(this.state.reminders);
+    })
+  }
 
   render() {
 
@@ -74,7 +84,7 @@ export default class Activite extends React.Component {
         style={styles.background}>
           
         <SafeAreaView>
-        <Header title="ACTIVITE" />
+        <Header title="ACTIVITIE" />
           <View>
             <View style={{alignItems:'center'}}>
             <SwitchSelector
@@ -101,6 +111,36 @@ export default class Activite extends React.Component {
               </View>
             ) : (
               <View>
+                    <Text>toto</Text>
+                <FlatList
+                      data={this.state.reminders}
+                      extraData={this.state}
+                      // onRefresh={onRefresh}
+                     // refreshing={this.state.refresh}
+                      keyExtractor={(item) => item.id}
+                      renderItem={({ item }) => (
+                        <TouchableOpacity style={{alignItems:'center'}} onPress={()=>{ console.log(item);}}>
+                        <View style={{ borderRadius:5, margin:5, flexDirection:'row',justifyContent:'space-between', alignContent:'center', backgroundColor:'#1E2026',width:widthPercentageToDP(92), height:70}}>
+                          <View style={{justifyContent:'center',flexDirection:'row', }}>
+                            <View style={{justifyContent:'center' ,margin:20}}>
+                            <Text style={{
+                              fontWeight: 'bold',
+                              fontSize: 15,
+                              color:'white'
+                            }}>{item.title} </Text>
+                            <Text style={{
+                              fontWeight: 'bold',
+                              fontSize: 15,
+                              color:'white'
+                            }}>{item.content}</Text>
+                          
+                       </View>
+                            </View>
+                   
+                        </View>
+                        </TouchableOpacity>
+                      )}
+                    />
               
                   <TouchableOpacity
                     style={{ position:'absolute', alignItems:'flex-end' ,left:widthPercentageToDP(90),top:heightPercentageToDP(50)}}

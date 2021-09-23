@@ -7,46 +7,50 @@ import MiddleWare from "./MiddleWare";
 
 
 
-export const coach_reminder = params=> {
+export const coach_reminder = async(params)=> {
   const data = params;
+  const {title, content,status, color} = params
+  const headers = await getHeaders();
   return axios({
-    method: 'PUT',
-    url:`${API_URL}/api/v1/coach-reminder`,
-    data:data
+    method:'PUT',
+    url:`${API_URL}/coach-reminder`,
+    data:{title:title,content:content,status:status,color:color},
+    headers:headers
   })
 }
 
-export const get_coach_reminder = params=> {
-  const data = params;
+export const get_coach_reminder = async()=> {
+  const headers = await getHeaders();
   return axios({
     method: 'GET',
-    url:`${API_URL}/api/v1/coach-reminder`,
+    url:`${API_URL}/coach-reminder`,
+    headers:headers
   })
 }
 
-export const get_coach_reminder = params=> {
+export const reminder_status_update = params=> {
   const data = params;
   return axios({
     method: 'POST',
-    url:`${API_URL}/api/v1/coach-reminder`,
+    url:`${API_URL}/coach-reminder`,
     data:data
   })
 }
 
-export const get_coach_reminder = params=> {
+export const reminder_update = params=> {
   const data = params;
   return axios({
     method: 'POST',
-    url:`${API_URL}/api/v1/coach-reminder/status`,
+    url:`${API_URL}/coach-reminder/status`,
     data:data
   })
 }
 
-export const get_coach_reminder = params=> {
+export const delete_reminder = params=> {
   const data = params;
   return axios({
     method: 'DELETE',
-    url:`${API_URL}/api/v1/coach-reminder`,
+    url:`${API_URL}/coach-reminder`,
     data:data
   })
 }

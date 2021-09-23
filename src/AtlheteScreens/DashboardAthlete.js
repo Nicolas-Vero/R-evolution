@@ -192,7 +192,7 @@ export default class DashboardAthlete extends React.Component {
       });
       this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
           console.log('[Response-A-Dashboard]', response);
-          this.props.navigation.push('Activite');
+          this.props.navigation.push('Activitie');
       });
     } catch (error) {
       console.log('[Error]', error);
