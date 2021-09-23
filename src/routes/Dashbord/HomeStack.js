@@ -3,7 +3,7 @@ import Activite from '../../screens/Activite'; //athlet activite screen
 import AwaitingDemand from '../../screens/AwaitingDemand';
 import CreateBook from '../../screens/CreateBook';
 import Dashboard from '../../screens/Dashboard';
-import CreateRappel from '../../screens/CreateRappel';
+import CreateReminder from '../../screens/CreateReminder';
 import Account from '../../screens/Account';
 import MyInformations from '../../screens/MyInformations';
 const HomeStack = createStackNavigator(
@@ -21,8 +21,8 @@ const HomeStack = createStackNavigator(
         headerShown: false,
       },
     },
-    CreateRappel: {
-      screen: CreateRappel,
+    CreateReminder: {
+      screen: CreateReminder,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,

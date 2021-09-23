@@ -105,7 +105,7 @@ export default class Activite extends React.Component {
                   <TouchableOpacity
                     style={{ position:'absolute', alignItems:'flex-end' ,left:widthPercentageToDP(90),top:heightPercentageToDP(50)}}
                     onPress={() => {
-                      navigate('CreateRappel');
+                      navigate('CreateReminder');
                     }}>
                     <Image source={require('../../assets/images/Group_8766.png')}/>
                     

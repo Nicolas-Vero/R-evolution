@@ -25,7 +25,7 @@ import { isLoaded } from 'expo-font';
 import { get_availabilities } from '../api/Availabilities';
 import { LinearGradient } from 'expo-linear-gradient';
 const { width } = Dimensions.get('window');
-export default class CreateRappel extends React.Component {
+export default class CreateReminder extends React.Component {
   state = {
     type: 'Coaching',
     isLoaded: false,
