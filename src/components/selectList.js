@@ -90,13 +90,14 @@ export const selectList = React.forwardRef(
                   data={Gymdata}
                   defaultButtonText={"Recherche le nom de ta salle"}
                   onSelect={(selectedItem, index) => {
-                    if (arrayhelper.form.values.gymPlace.length>1) {
-                      console.log(arrayhelper.form.values.gymPlace.length);
-                       arrayhelper.pop()
-                    }else{}
-                    arrayhelper.push(selectedItem)
-                    console.log(arrayhelper.form.values.gymPlace);
-                  }}
+                  //   if (arrayhelper.form.values.gym_id.length!='') {
+                  //     console.log(arrayhelper.form.values.gym_id.length);
+                  //      arrayhelper.pop()
+                  //   }
+                  //   arrayhelper.push(selectedItem.id)
+                  // }
+                  arrayhelper.form.values.gym_id = selectedItem.id
+                }}
                   renderDropdownIcon={() => {
                     return <AntDesign name="down" size={24} color="black" />;
                   }}

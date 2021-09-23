@@ -52,7 +52,7 @@ export default class RegisterInfo extends React.Component {
   }
 
   onContinuePress(values) {
-    if (values.password === values.confirmPassword) {
+    if (values.password === values.confirm_password) {
       auth(values)
         .then(
           (res) => (
@@ -128,7 +128,7 @@ export default class RegisterInfo extends React.Component {
                 email: '',
                 phone: '',
                 password: '',
-                confirmPassword: '',
+                confirm_password: '',
               }}
               onSubmit={(values) => onContinuePress(values)}>
               {({
@@ -271,9 +271,9 @@ export default class RegisterInfo extends React.Component {
                         borderRadius: 5,
                         paddingRight: 15,
                       }}
-                      onChangeText={handleChange('confirmPassword')}
-                      onBlur={handleBlur('confirmPassword')}
-                      value={values.confirmPassword}
+                      onChangeText={handleChange('confirm_password')}
+                      onBlur={handleBlur('confirm_password')}
+                      value={values.confirm_password}
                     />
                   </View>
 

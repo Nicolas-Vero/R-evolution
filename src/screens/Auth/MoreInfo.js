@@ -32,11 +32,11 @@ import { avatar } from '../../components/avatar';
 import { values } from 'lodash';
 import { loadFonts } from '../../configs/design/font';
 const inputs = [
-  { name: 'degrees', type: 'default', component: dynamicInput },
-  { name: 'xP', type: 'default', component: ElementSlider },
+  { name: 'diplomas', type: 'default', component: dynamicInput },
+  { name: 'experience_years', type: 'default', component: ElementSlider },
   { name: 'spécialities', type: 'default', component: dynamicList },
-  { name: 'gymPlace', type: 'default', component: selectList },
-  { name: 'avatar', type: 'default', component: avatar },
+  { name: 'gym_id', type: 'default', component: selectList },
+  { name: 'profile_picture_url', type: 'default', component: avatar },
 ];
 export default class MoreInfo extends React.Component {
   constructor(props) {
@@ -103,14 +103,14 @@ export default class MoreInfo extends React.Component {
             <Formik
               innerRef={this.formikRef}
               initialValues={{
-                degrees: [],
-                xP: '',
-                spécialities: [],
-                gymPlace:[],
-                avatar: '',
+                diplomas:[],
+                experience_years:'',
+                specialties:[],
+                gym_id:'',
+                profile_picture_url: '',
               }}
               onSubmit={(values, actions) =>{
-              const  data = {...values ,...this.props.navigation.state.params.item }
+              const  data = {...values ,...this.props.navigation.state.params.item, ...{exercise_place_id:1} }
               try {
                 auth(data).then(()=>{navigate('Login')})
               } catch (error) {

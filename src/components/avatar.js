@@ -44,7 +44,7 @@ export const avatar = React.forwardRef(
 
     if (!result.cancelled) {
       setImage(result.uri);
-      arrayhelper.form.values.avatar = result.uri;
+      arrayhelper.form.values.profile_picture_url = result.uri;
     }
   };
     return (
