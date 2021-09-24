@@ -22,6 +22,7 @@ import { get_availabilities } from '../api/Availabilities';
 import { LinearGradient } from 'expo-linear-gradient';
 import { coach_reminder } from '../api/CoachReminder';
  const { width } = Dimensions.get('window');
+ import * as Notifications from 'expo-notifications';
 export default class CreateReminder extends React.Component {
   state = {
     
@@ -33,7 +34,20 @@ export default class CreateReminder extends React.Component {
   }
 
 
-   
+  scheduleNotification = async (value) => {
+    console.log('[value]', value);
+    let notificationId = Notifications.scheduleLocalNotificationAsync(
+      {
+        title: value?.title,
+        body: value?.content,
+      },
+      {
+        repeat: 'minute',
+        time: value?.date,
+      },
+    );
+    console.log(notificationId);
+  };
 
   getErrorMessage() {
     if (this.state.errorMessage !== '')
@@ -214,6 +228,7 @@ export default class CreateReminder extends React.Component {
                       onPress={()=>{
                         try {
                         coach_reminder(values).then(()=> {
+                          this.scheduleNotification(values);
                           navigate('Activitie');
                         })
                       } catch (error) {
