@@ -2,7 +2,7 @@ import React from 'react';
 import * as Font from 'expo-font';
 import {View, Text, SafeAreaView, ImageBackground, Image, StyleSheet, Platform, StatusBar, Dimensions } from 'react-native'
 import {Button} from '../../components/Button'
-import { widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import { heightPercentageToDP, widthPercentageToDP as wp} from 'react-native-responsive-screen';
 const {width} = Dimensions.get('window');
 
 export default class Index extends React.Component {
@@ -34,7 +34,7 @@ export default class Index extends React.Component {
                 <View style={styles.container}>
                     <SafeAreaView style={styles.safeArea} />
                     <View style={{flex: 1, marginTop:50}}>
-                        <Image source={require('../../../assets/images/logo.png')} style={{ marginTop: 181,height:60,width:wp(75),  resizeMode: 'contain'}}/>
+                        <Image source={require('../../../assets/images/logo.png')} style={{ marginTop:heightPercentageToDP(20),height:60,width:wp(75),  resizeMode: 'contain'}}/>
                         <Text style={styles.title}>
                             “Une évolution est une révolution{'\n'} sans en avoir l’R”
                         </Text>

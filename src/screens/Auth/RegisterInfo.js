@@ -230,6 +230,7 @@ export default class RegisterInfo extends React.Component {
                   <View style={{ marginBottom: 15 }}>
                     <TextInput
                       placeholder="Mot de passe"
+                      secureTextEntry={true}
                       style={{
                         backgroundColor: '#FFFFFF',
                         paddingTop: 10,
@@ -247,6 +248,7 @@ export default class RegisterInfo extends React.Component {
                   <View style={{ marginBottom: 15 }}>
                     <TextInput
                       placeholder="Confirmer votre mot de passe"
+                      secureTextEntry={true}
                       style={{
                         backgroundColor: '#FFFFFF',
                         paddingTop: 10,

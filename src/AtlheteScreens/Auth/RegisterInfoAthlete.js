@@ -25,6 +25,7 @@ import { selectList } from '../../components/selectList';
 import { LinearGradient } from 'expo-linear-gradient';
 import { avatar } from '../../components/avatar';
 import { loadFonts } from '../../configs/design/font';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
 const inputs = [
   { name: 'degrees', type: 'default', component: dynamicInput },
   { name: 'xP', type: 'default', component: ElementSlider },
@@ -48,57 +49,6 @@ export default class RegisterInfoAthlete extends React.Component {
    componentDidMount(){
     loadFonts()
   }
-
-
-  //  onContinuePress(values) {
-    
-  //   if (values.password === values.confirm_password) {
-  //   console.log('toto',values)
-  //     auth(values)
-  //       .then(
-  //         (res) => (
-  //           {
-  //             data: res.data.data,
-  //             headers: {
-  //               access_token: res.data.headers['access-token'],
-  //               token_type: res.data.headers['token-name'],
-  //               uid: res.data.headers['uid'],
-  //             },
-  //           },
-  //           this.changeStep,
-  //           console.log(header)
-  //         ),
-  //       )
-  //       .then(async (res) => {
-  //         await AsyncStorage.setItem(STORAGE.USER, JSON.stringify(res.data));
-  //         await AsyncStorage.setItem(
-  //           STORAGE.HEADERS,
-  //           JSON.stringify(res.headers),
-  //         );
-  //       })
-  //       .then(() => {
-  //         console.log;
-  //         this.changeStep;
-
-  //         //this.props.navigation.navigate('AddSpecialities');
-  //       })
-  //       .catch((err) => {
-  //         //  this.setState({loading: false});
-  //         if (err.request && err.request.status === 422) {
-  //           // this.setState({
-  //           //   message: 'Email déjà utilisé, veuillez vous connecter.',
-  //           // });
-  //         } else {
-  //           console.log(err);
-  //           //alert('Please try again. ');
-  //         }
-  //       });
-  //   } else {
-  //     console.log('invalid confirmation');
-  //     //alert('Passwords don\'t match');
-  //   }
-  // }
-
   render() {
     const { navigation } = this.props;
     return (
@@ -177,58 +127,34 @@ export default class RegisterInfoAthlete extends React.Component {
                         onPress={() => setFieldValue('gender', 'female')}
                       />
                     </View>
-                    <View style={{ marginBottom: 15 }}>
+                    <View style={styles.space}>
                       <TextInput
                         placeholder="Nom"
-                        style={{
-                          backgroundColor: '#FFFFFF',
-                          paddingTop: 10,
-                          paddingBottom: 10,
-                          borderRadius:5,
-                          height:45,
-                          paddingLeft: 15,
-                          paddingRight: 15,
-                        }}
+                        style={styles.inputs}
                         onChangeText={handleChange('first_name')}
                         onBlur={handleBlur('first_name')}
                         value={values.first_name}
                       />
                     </View>
-                    <View style={{ marginBottom: 15 }}>
+                    <View style={styles.space}>
                       <TextInput
                         placeholder="Prénom"
-                        style={{
-                          backgroundColor: '#FFFFFF',
-                          paddingTop: 10,
-                          paddingBottom: 10,
-                          paddingLeft: 15,
-                          height:45,
-                          borderRadius:5,
-                          paddingRight: 15,
-                        }}
+                        style={styles.inputs}
                         onChangeText={handleChange('last_name')}
                         onBlur={handleBlur('last_name')}
                         value={values.last_name}
                       />
                     </View>
-                    <View style={{ marginBottom: 15 }}>
+                    <View style={styles.space}>
                       <TextInput
                         placeholder="Email"
-                        style={{
-                          backgroundColor: '#FFFFFF',
-                          paddingTop: 10,
-                          paddingBottom: 10,
-                          paddingLeft: 15,
-                          height:45,
-                          borderRadius:5,
-                          paddingRight: 15,
-                        }}
+                        style={styles.inputs}
                         onChangeText={handleChange('email')}
                         onBlur={handleBlur('email')}
                         value={values.email}
                       />
                     </View>
-                    <View style={{ marginBottom: 15 }}>
+                    <View style={styles.space}>
                       <TextInput
                         placeholder="Téléphone"
                         style={{
@@ -237,7 +163,7 @@ export default class RegisterInfoAthlete extends React.Component {
                           paddingBottom: 10,
                           paddingLeft: 15,
                           paddingRight: 15,
-                          height:45,
+                          height:heightPercentageToDP(5),
                           borderRadius:5,
                         }}
                         onChangeText={handleChange('phone')}
@@ -245,16 +171,17 @@ export default class RegisterInfoAthlete extends React.Component {
                         value={values.phone}
                       />
                     </View>
-                    <View style={{ marginBottom: 15 }}>
+                    <View style={styles.space}>
                       <TextInput
                         placeholder="Mot de passe"
+                        secureTextEntry={true}
                         style={{
                           backgroundColor: '#FFFFFF',
                           paddingTop: 10,
                           paddingBottom: 10,
                           paddingLeft: 15,
                           paddingRight: 15,
-                          height:45,
+                          height:heightPercentageToDP(5),
                           borderRadius:5,
                         }}
                         onChangeText={handleChange('password')}
@@ -262,18 +189,11 @@ export default class RegisterInfoAthlete extends React.Component {
                         value={values.password}
                       />
                     </View>
-                    <View style={{ marginBottom: 15 }}>
+                    <View style={styles.space}>
                       <TextInput
                         placeholder="Confirmer votre mot de passe"
-                        style={{
-                          backgroundColor: '#FFFFFF',
-                          paddingTop: 10,
-                          paddingBottom: 10,
-                          paddingLeft: 15,
-                          height:45,
-                          borderRadius:5,
-                          paddingRight: 15,
-                        }}
+                        secureTextEntry={true}
+                        style={styles.inputs}
                         onChangeText={handleChange('confirm_password')}
                         onBlur={handleBlur('confirm_password')}
                         value={values.confirm_password}
@@ -355,16 +275,17 @@ const styles = StyleSheet.create({
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: width,
-    height: 49,
-    marginTop: 29,
-    marginBottom: 49,
-    paddingLeft: 16,
-    paddingRight: 16,
+  space:{
+    marginBottom:heightPercentageToDP(2.5)
+  },
+  inputs:{
+    backgroundColor: '#FFFFFF',
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderRadius:5,
+    height:heightPercentageToDP(5),
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   background: {
     position: 'absolute',
