@@ -31,20 +31,13 @@ const AuthStack = createStackNavigator(
     RegisterInfo: {
       screen: RegisterInfo,
       navigationOptions: {
-        tabBarLabel: 'Sign up',
-        tabBarIcon: ({tintColor}) => (
-          <Ionicons  size={20} color={tintColor} />
-        ),
+        gestureEnabled:false,
         headerShown: false,
       },
     },
     MoreInfo: {
       screen: MoreInfo,
       navigationOptions: {
-        tabBarLabel: 'Sign up',
-        tabBarIcon: ({tintColor}) => (
-          <Ionicons  size={20} color={tintColor} />
-        ),
         headerShown: false,
       },
     },
@@ -58,11 +51,10 @@ const AuthStack = createStackNavigator(
     tabBarPosition: 'bottom',
     navigationOptions: {
       tabBarVisible: false,
+      gestureEnabled:false,
       headerVisible: false,
-      swipeEnabled: false,
       animationEnabled: true,
     },
- //   tabBarComponent: props => <CustomMainTabBar {...props} main={false} />,
     tabBarOptions: {
       activeTintColor: 'white',
       inactiveTintColor: 'grey',

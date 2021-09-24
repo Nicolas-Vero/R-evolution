@@ -111,7 +111,6 @@ export default class Activitie extends React.Component {
               </View>
             ) : (
               <View>
-                    <Text>toto</Text>
                 <FlatList
                       data={this.state.reminders}
                       extraData={this.state}

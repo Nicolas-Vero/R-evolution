@@ -33,9 +33,6 @@ const AuthStackAthlete = createStackNavigator(
       screen: MoreInfoAthlete,
       navigationOptions: {
         tabBarLabel: 'Sign up',
-        tabBarIcon: ({tintColor}) => (
-          <Ionicons  size={20} color={tintColor} />
-        ),
         headerShown: false,
       },
     },
@@ -48,6 +45,7 @@ const AuthStackAthlete = createStackNavigator(
     navigationOptions: {
       tabBarVisible: false,
       headerVisible: false,
+      gestureEnabled:false,
       swipeEnabled: false,
       animationEnabled: true,
     },

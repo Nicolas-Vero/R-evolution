@@ -34,7 +34,7 @@ import { loadFonts } from '../../configs/design/font';
 const inputs = [
   { name: 'diplomas', type: 'default', component: dynamicInput },
   { name: 'experience_years', type: 'default', component: ElementSlider },
-  { name: 'spécialities', type: 'default', component: dynamicList },
+  { name: 'specialties', type: 'default', component: dynamicList },
   { name: 'gym_id', type: 'default', component: selectList },
   { name: 'profile_picture_url', type: 'default', component: avatar },
 ];
