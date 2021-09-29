@@ -10,30 +10,16 @@ import {
   Dimensions,
 } from 'react-native';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { STORAGE } from '../../configs/Constants';
 import { Formik } from 'formik';
 import { CheckBox } from 'react-native-elements';
 import { Button } from '../../components/Button';
 import Header from '../../components/Header';
 //import { Slider } from 'react-native-elements';
-import { ElementSlider } from '../../components/ElementSlider';
 const { width } = Dimensions.get('window');
-import { dynamicInput } from '../../components/dynamicInput';
-import { dynamicList } from '../../components/dynamicList';
-import { selectList } from '../../components/selectList';
 import { LinearGradient } from 'expo-linear-gradient';
-import { avatar } from '../../components/avatar';
 import { loadFonts } from '../../configs/design/font';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
-const inputs = [
-  { name: 'degrees', type: 'default', component: dynamicInput },
-  { name: 'xP', type: 'default', component: ElementSlider },
-  { name: 'spécialities', type: 'default', component: dynamicList },
-  { name: 'gymPlace', type: 'default', component: selectList },
-  { name: 'avatar', type: 'default', component: avatar },
-];
-
+import * as Yup from 'yup';
 export default class RegisterInfoAthlete extends React.Component {
   constructor(props) {
     super(props);
@@ -51,6 +37,7 @@ export default class RegisterInfoAthlete extends React.Component {
   }
   render() {
     const { navigation } = this.props;
+    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <LinearGradient
@@ -73,8 +60,8 @@ export default class RegisterInfoAthlete extends React.Component {
         
         <View style={{ paddingLeft: 16, paddingRight: 16 }}>
             <View>
-              <Formik
-               initialValues={{
+            <Formik
+              initialValues={{
                 gender: 'male',
                 first_name: '',
                 last_name: '',
@@ -83,189 +70,284 @@ export default class RegisterInfoAthlete extends React.Component {
                 password: '',
                 confirm_password: '',
               }}
-                onSubmit={(values) => onContinuePress(values)}>
-                {({
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  setFieldValue,
-                  values,
-                }) => (
-                  <View>
-                    {/* {console.log(values)} */}
-                    <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                      <CheckBox
-                        containerStyle={{
-                          paddingLeft: 0,
-                          marginLeft: 0,
-                          backgroundColor: 'transparent',
-                          borderWidth: 0,
-                        }}
-                        checkedColor="#2CDEE4"
-                        title="M"
-                        textStyle={{color:'white'}}
-                        checkedIcon="dot-circle-o"
-                        uncheckedIcon="dot-circle-o"
-                        checked={values.gender.toString() === 'male'}
-                        value={values.gender}
-                        onPress={() => setFieldValue('gender', 'male')}
-                      />
-                      <CheckBox
-                        checkedColor="#2CDEE4"
-                        containerStyle={{
-                          paddingLeft: 0,
-                          marginLeft: 0,
-                          backgroundColor: 'transparent',
-                          borderWidth: 0,
-                        }}
-                        title="Mme"
-                        textStyle={{color:'white'}} 
-                        checkedIcon="dot-circle-o"
-                        uncheckedIcon="dot-circle-o"
-                        checked={values.gender === 'female'}
-                        value={values.gender}
-                        onPress={() => setFieldValue('gender', 'female')}
-                      />
-                    </View>
-                    <View style={styles.space}>
-                      <TextInput
-                        placeholder="Nom"
-                        style={styles.inputs}
-                        onChangeText={handleChange('first_name')}
-                        onBlur={handleBlur('first_name')}
-                        value={values.first_name}
-                      />
-                    </View>
-                    <View style={styles.space}>
-                      <TextInput
-                        placeholder="Prénom"
-                        style={styles.inputs}
-                        onChangeText={handleChange('last_name')}
-                        onBlur={handleBlur('last_name')}
-                        value={values.last_name}
-                      />
-                    </View>
-                    <View style={styles.space}>
-                      <TextInput
-                        placeholder="Email"
-                        style={styles.inputs}
-                        onChangeText={handleChange('email')}
-                        onBlur={handleBlur('email')}
-                        value={values.email}
-                      />
-                    </View>
-                    <View style={styles.space}>
-                      <TextInput
-                        placeholder="Téléphone"
-                        style={{
-                          backgroundColor: '#FFFFFF',
-                          paddingTop: 10,
-                          paddingBottom: 10,
-                          paddingLeft: 15,
-                          paddingRight: 15,
-                          height:heightPercentageToDP(5),
-                          borderRadius:5,
-                        }}
-                        onChangeText={handleChange('phone')}
-                        onBlur={handleBlur('phone')}
-                        value={values.phone}
-                      />
-                    </View>
-                    <View style={styles.space}>
-                      <TextInput
-                        placeholder="Mot de passe"
-                        secureTextEntry={true}
-                        style={{
-                          backgroundColor: '#FFFFFF',
-                          paddingTop: 10,
-                          paddingBottom: 10,
-                          paddingLeft: 15,
-                          paddingRight: 15,
-                          height:heightPercentageToDP(5),
-                          borderRadius:5,
-                        }}
-                        onChangeText={handleChange('password')}
-                        onBlur={handleBlur('password')}
-                        value={values.password}
-                      />
-                    </View>
-                    <View style={styles.space}>
-                      <TextInput
-                        placeholder="Confirmer votre mot de passe"
-                        secureTextEntry={true}
-                        style={styles.inputs}
-                        onChangeText={handleChange('confirm_password')}
-                        onBlur={handleBlur('confirm_password')}
-                        value={values.confirm_password}
-                      />
-                    </View>
+               onSubmit={(values) => {
+                this.state.termsCondition
+                  ? navigation.navigate('MoreInfoAthlete', { item: values })
+                  : alert('accepter les terms des conditons');
+              }}
+               validationSchema = {Yup.object().shape({
+                first_name: Yup.string()
+                  .required('Requis'),
+                last_name: Yup.string()
+                  .required('Requis'),
+                email: Yup.string().email('L’adresse e-mail n’est pas valide').required('Requis'),
+                phone: Yup.string().matches(phoneRegExp, 'Tu dois entrer un numéro de téléphone valide.').min(10,'Tu dois entrer un numéro de téléphone valide.').max(10,'Tu dois entrer un numéro de téléphone valide.').required('Requis'),
+                password:Yup.string().required(),
+                confirm_password:Yup.string().oneOf([Yup.ref('password'), null], 'Les mots de passe saisis ne sont pas identiques.')
 
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        marginTop: 15,
-                        marginBottom: 24,
-                      }}>
-                      <CheckBox
-                      size={25}
-                        containerStyle={{
-                          paddingLeft: 0,
-                          marginLeft: 0,
-                          backgroundColor: 'transparent',
-                          borderWidth: 0,
-                        }}
-                        checked={this.state.termsCondition}
-                        value={this.state.termsCondition}
-                        onPress={() =>
-                          this.setState({termsCondition:!this.state.termsCondition})
-                        }
-                      />
-                      <Text
-                        style={{
-                          flex: 1,
-                          flexWrap: 'wrap',
-                          color: '#FFFFFF',
-                          fontFamily:'Roboto',
-                          fontSize:13
-                        }}>
-                        En créant un compte, vous acceptez de vous conformer à
-                        la Politique de confidentialité et aux Conditions
-                        générales de [R]evolution.
-                      </Text>
-                    </View>
-
-                    <View style={{ alignItems: 'center' }}>
-                      <Button
-                        loading={false}
-                        title="Rejoins-nous"
-                        customTextStyle={{fontFamily:'RobotoBold',fontSize:17}}
-                      onPress={() => {
-                        this.state.termsCondition
-                          ? navigation.navigate('MoreInfoAthlete', { item: values })
-                          : alert('accepter les terms des conditons');
+              })}
+              >
+              {({
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                setFieldValue,
+                values,
+                setFieldTouched,
+                touched,
+                errors,
+                isValid
+              }) => (
+                <View>
+                  {/* {console.log(values)} */}
+                  <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                    <CheckBox
+                      containerStyle={{
+                        paddingLeft: 0,
+                        marginLeft: 0,
+                        backgroundColor: 'transparent',
+                        borderWidth: 0,
                       }}
-                      />
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginTop: 25,
-                        marginBottom: 24,
-                      }}>
-                      <Text style={{ color: '#FFFFFF', fontFamily:'Montserrat'}}>Déjà membre ? </Text>
-                      <Text
-                        style={{ color: '#2CDEE4', textDecorationLine:'underline',fontFamily:'Montserrat'}}
-                        onPress={() => navigate('LoginAthlete')}>
-                        Se connecter.
-                      </Text>
-                    </View>
+                      checkedColor="#2CDEE4"
+                      title="M"
+                      textStyle={{ color: 'white' }}
+                      checkedIcon="dot-circle-o"
+                      uncheckedIcon="dot-circle-o"
+                      checked={values.gender.toString() === 'male'}
+                      value={values.gender}
+                      onPress={() => setFieldValue('gender', 'male')}
+                    />
+                    <CheckBox
+                      checkedColor="#2CDEE4"
+                      containerStyle={{
+                        paddingLeft: 0,
+                        marginLeft: 0,
+                        backgroundColor: 'transparent',
+                        borderWidth: 0,
+                      }}
+                      title="Mme"
+                      textStyle={{ color: 'white' }}
+                      checkedIcon="dot-circle-o"
+                      uncheckedIcon="dot-circle-o"
+                      checked={values.gender === 'female'}
+                      value={values.gender}
+                      onPress={() => setFieldValue('gender', 'female')}
+                    />
                   </View>
-                )}
-              </Formik>
-            </View>
+                  <View style={{ marginBottom: 15 }}>
+                
+                    <TextInput
+                      name="first_Name"
+                      placeholder="Prénom"
+                      style={{
+                        backgroundColor: '#FFFFFF',
+                        paddingTop: 10,
+                        paddingBottom: 10,
+                        borderRadius: 5,
+                        height: 45,
+                        paddingLeft: 15,
+                        paddingRight: 15,
+                        borderWidth:errors.first_name && touched.first_name?2:0,
+                        borderColor:errors.first_name && touched.first_name?"red":null
+                      }}
+                      onChangeText={handleChange('first_name')}
+                      onBlur={handleBlur('first_name')}
+                      value={values.first_name}
+                    />
+                      {errors.first_name && touched.first_name &&
+                    <View style={{alignItems:'flex-end'}}>
+                    <Text style={{ fontSize: 15, color: 'red' }}>{errors.first_name}</Text></View> }
+                  </View>
+                  <View style={{ marginBottom: 15 }}>
+                    <TextInput 
+                      name="last_name"                    
+                      placeholder="Nom"
+                      style={{
+                        backgroundColor: '#FFFFFF',
+                        paddingTop: 10,
+                        paddingBottom: 10,
+                        borderRadius: 5,
+                        height: 45,
+                        paddingLeft: 15,
+                        paddingRight: 15,
+                        borderWidth:errors.last_name && touched.last_name?2:0,
+                        borderColor:errors.last_name && touched.last_name?"red":null
+                      }}
+                      onChangeText={handleChange('last_name')}
+                      onBlur={handleBlur('last_name')}
+                      value={values.last_name}
+                    />
+                      {errors.last_name && touched.last_name &&
+                    <View style={{alignItems:'flex-end'}}>
+                    <Text style={{ fontSize: 15, color: 'red' }}>{errors.last_name}</Text></View> }
+                  </View>
+                  <View style={{ marginBottom: 15 }}>
+                    <TextInput
+                      name="email"
+                      placeholder="Email"
+                      style={{
+                        backgroundColor: '#FFFFFF',
+                        paddingTop: 10,
+                        paddingBottom: 10,
+                        borderRadius: 5,
+                        height: 45,
+                        paddingLeft: 15,
+                        paddingRight: 15,
+                        borderWidth:errors.email && touched.email?2:0,
+                        borderColor:errors.email && touched.email?"red":null
+                      }}
+                      onChangeText={handleChange('email')}
+                      onBlur={handleBlur('email')}
+                      value={values.email}
+                    />
+                      {errors.email && touched.email &&
+                    <View style={{alignItems:'flex-end'}}>
+                    <Text style={{ fontSize: 15, color: 'red' }}>{errors.email}</Text></View> }
+                  </View>
+                  <View style={{ marginBottom: 15 }}>
+                    <TextInput
+                      name="phone"
+                      placeholder="Téléphone"
+                      style={{
+                        backgroundColor: '#FFFFFF',
+                        paddingTop: 10,
+                        paddingBottom: 10,
+                        paddingLeft: 15,
+                        paddingRight: 15,
+                        height: 45,
+                        borderRadius: 5,
+                        borderWidth:errors.phone && touched.phone?2:0,
+                        borderColor:errors.phone && touched.phone?"red":null
+                      }}
+                      onChangeText={handleChange('phone')}
+                      onBlur={handleBlur('phone')}
+                      value={values.phone}
+                    />
+                      {errors.phone && touched.phone &&
+                    <View style={{alignItems:'flex-end'}}>
+                    <Text style={{ fontSize: 15, color: 'red' }}>{errors.phone}</Text></View> }
+                  </View>
+                  <View style={{ marginBottom: 15 }}>
+                    <TextInput
+                      name="password"
+                      placeholder="Mot de passe"
+                      secureTextEntry={true}
+                      style={{
+                        backgroundColor: '#FFFFFF',
+                        paddingTop: 10,
+                        paddingBottom: 10,
+                        paddingLeft: 15,
+                        paddingRight: 15,
+                        height: 45,
+                        borderRadius: 5,
+                        borderWidth:errors.confirm_password && touched.confirm_password?2:0,
+                        borderColor:errors.confirm_password && touched.confirm_password?"red":null
+                      }}
+                      onChangeText={handleChange('password')}
+                      onBlur={handleBlur('password')}
+                      value={values.password}
+                    />
+                  </View>
+                  <View style={{ marginBottom: 15 }}>
+                    <TextInput
+                      name="confirm_password"
+                      placeholder="Confirmer votre mot de passe"
+                      secureTextEntry={true}
+                      style={{
+                        backgroundColor: '#FFFFFF',
+                        paddingTop: 10,
+                        paddingBottom: 10,
+                        borderRadius: 5,
+                        height: 45,
+                        paddingLeft: 15,
+                        paddingRight: 15,
+                        borderWidth:errors.confirm_password && touched.confirm_password?2:0,
+                        borderColor:errors.confirm_password && touched.confirm_password?"red":null
+                      }}
+                      onChangeText={handleChange('confirm_password')}
+                      onBlur={handleBlur('confirm_password')}
+                      value={values.confirm_password}
+                    />
+                        {errors.confirm_password && touched.confirm_password &&
+                    <View style={{alignItems:'flex-end'}}>
+                    <Text style={{ fontSize: 15, color: 'red' }}>{errors.confirm_password}</Text></View> }
+                  </View>
+
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginTop: 15,
+                      marginBottom: 24,
+                    }}>
+                    <CheckBox
+                      size={25}
+                      containerStyle={{
+                        paddingLeft: 0,
+                        marginLeft: 0,
+                        backgroundColor: 'transparent',
+                        borderWidth: 0,
+                      }}
+                      checked={this.state.termsCondition}
+                      value={this.state.termsCondition}
+                      onPress={() =>
+                        this.setState({
+                          termsCondition: !this.state.termsCondition,
+                        })
+                      }
+                    />
+                    <Text
+                      style={{
+                        flex: 1,
+                        flexWrap: 'wrap',
+                        color: '#FFFFFF',
+                        fontFamily: 'Roboto',
+                        fontSize: 13,
+                      }}>
+                      En créant un compte, vous acceptez de vous conformer à la
+                      Politique de confidentialité et aux Conditions générales
+                      de [R]evolution.
+                    </Text>
+                  </View>
+
+                  <View style={{ alignItems: 'center' }}>
+                    <Button
+                      loading={false}
+                      disabled={!isValid}
+                      title="Rejoins-nous"
+                      customTextStyle={{
+                        fontFamily: 'RobotoBold',
+                        fontSize: 17,
+                      }}
+                      onPress={handleSubmit}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginTop: 25,
+                      marginBottom: 24,
+                    }}>
+                    <Text
+                      style={{ color: '#FFFFFF', fontFamily: 'Montserrat' }}>
+                      Déjà membre ?
+                    </Text>
+                    <Text
+                      style={{
+                        color: '#2CDEE4',
+                        textDecorationLine: 'underline',
+                        fontFamily: 'Montserrat',
+                      }}
+                      onPress={() => navigate('Login')}>
+                      Se connecter.
+                    </Text>
+                  </View>
+                </View>
+              )}
+            </Formik>
+          </View>
         </View>
       </View>
     );

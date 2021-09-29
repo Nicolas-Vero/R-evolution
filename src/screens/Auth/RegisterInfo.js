@@ -19,7 +19,7 @@ import Header from '../../components/Header';
 const { width } = Dimensions.get('window');
 import { LinearGradient } from 'expo-linear-gradient';
 import { loadFonts } from '../../configs/design/font';
-
+import * as Yup from 'yup';
 export default class RegisterInfo extends React.Component {
   constructor(props) {
     super(props);
@@ -63,8 +63,6 @@ export default class RegisterInfo extends React.Component {
         .then(() => {
           console.log;
           this.changeStep;
-
-          //this.props.navigation.navigate('AddSpecialities');
         })
         .catch((err) => {
           //  this.setState({loading: false});
@@ -84,6 +82,7 @@ export default class RegisterInfo extends React.Component {
   }
 
   render() {
+    
     const { navigation } = this.props;
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
@@ -115,13 +114,33 @@ export default class RegisterInfo extends React.Component {
                 password: '',
                 confirm_password: '',
               }}
-              onSubmit={(values) => onContinuePress(values)}>
+               onSubmit={(values) => {
+                this.state.termsCondition
+                  ? navigation.navigate('MoreInfo', { item: values })
+                  : alert('accepter les terms des conditons');
+              }}
+               validationSchema = {Yup.object().shape({
+                first_name: Yup.string()
+                  .required('Requis'),
+                last_name: Yup.string()
+                  .required('Requis'),
+                email: Yup.string().email('email invalide').required('Requis'),
+                phone: Yup.number().min(10,'entrer un numero valide').max(10,'entrer un numero valide').required('Requis'),
+                password:Yup.string().required(),
+                confirm_password:Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match')
+
+              })}
+              >
               {({
                 handleChange,
                 handleBlur,
                 handleSubmit,
                 setFieldValue,
                 values,
+                setFieldTouched,
+                touched,
+                errors,
+                isValid
               }) => (
                 <View>
                   {/* {console.log(values)} */}
@@ -160,7 +179,32 @@ export default class RegisterInfo extends React.Component {
                     />
                   </View>
                   <View style={{ marginBottom: 15 }}>
+                
                     <TextInput
+                      name="first_Name"
+                      placeholder="Prénom"
+                      style={{
+                        backgroundColor: '#FFFFFF',
+                        paddingTop: 10,
+                        paddingBottom: 10,
+                        borderRadius: 5,
+                        height: 45,
+                        paddingLeft: 15,
+                        paddingRight: 15,
+                        borderWidth:errors.first_name && touched.first_name?2:0,
+                        borderColor:errors.first_name && touched.first_name?"red":null
+                      }}
+                      onChangeText={handleChange('first_name')}
+                      onBlur={handleBlur('first_name')}
+                      value={values.first_name}
+                    />
+                      {errors.first_name && touched.first_name &&
+                    <View style={{alignItems:'flex-end'}}>
+                    <Text style={{ fontSize: 15, color: 'red' }}>{errors.first_name}</Text></View> }
+                  </View>
+                  <View style={{ marginBottom: 15 }}>
+                    <TextInput 
+                      name="last_name"                    
                       placeholder="Nom"
                       style={{
                         backgroundColor: '#FFFFFF',
@@ -170,48 +214,43 @@ export default class RegisterInfo extends React.Component {
                         height: 45,
                         paddingLeft: 15,
                         paddingRight: 15,
-                      }}
-                      onChangeText={handleChange('first_name')}
-                      onBlur={handleBlur('first_name')}
-                      value={values.first_name}
-                    />
-                  </View>
-                  <View style={{ marginBottom: 15 }}>
-                    <TextInput
-                      placeholder="Prénom"
-                      style={{
-                        backgroundColor: '#FFFFFF',
-                        paddingTop: 10,
-                        paddingBottom: 10,
-                        paddingLeft: 15,
-                        height: 45,
-                        borderRadius: 5,
-                        paddingRight: 15,
+                        borderWidth:errors.last_name && touched.last_name?2:0,
+                        borderColor:errors.last_name && touched.last_name?"red":null
                       }}
                       onChangeText={handleChange('last_name')}
                       onBlur={handleBlur('last_name')}
                       value={values.last_name}
                     />
+                      {errors.last_name && touched.last_name &&
+                    <View style={{alignItems:'flex-end'}}>
+                    <Text style={{ fontSize: 15, color: 'red' }}>{errors.last_name}</Text></View> }
                   </View>
                   <View style={{ marginBottom: 15 }}>
                     <TextInput
+                      name="email"
                       placeholder="Email"
                       style={{
                         backgroundColor: '#FFFFFF',
                         paddingTop: 10,
                         paddingBottom: 10,
-                        paddingLeft: 15,
-                        height: 45,
                         borderRadius: 5,
+                        height: 45,
+                        paddingLeft: 15,
                         paddingRight: 15,
+                        borderWidth:errors.email && touched.email?2:0,
+                        borderColor:errors.email && touched.email?"red":null
                       }}
                       onChangeText={handleChange('email')}
                       onBlur={handleBlur('email')}
                       value={values.email}
                     />
+                      {errors.email && touched.email &&
+                    <View style={{alignItems:'flex-end'}}>
+                    <Text style={{ fontSize: 15, color: 'red' }}>{errors.email}</Text></View> }
                   </View>
                   <View style={{ marginBottom: 15 }}>
                     <TextInput
+                      name="phone"
                       placeholder="Téléphone"
                       style={{
                         backgroundColor: '#FFFFFF',
@@ -221,14 +260,20 @@ export default class RegisterInfo extends React.Component {
                         paddingRight: 15,
                         height: 45,
                         borderRadius: 5,
+                        borderWidth:errors.phone && touched.phone?2:0,
+                        borderColor:errors.phone && touched.phone?"red":null
                       }}
                       onChangeText={handleChange('phone')}
                       onBlur={handleBlur('phone')}
                       value={values.phone}
                     />
+                      {errors.phone && touched.phone &&
+                    <View style={{alignItems:'flex-end'}}>
+                    <Text style={{ fontSize: 15, color: 'red' }}>{errors.phone}</Text></View> }
                   </View>
                   <View style={{ marginBottom: 15 }}>
                     <TextInput
+                      name="password"
                       placeholder="Mot de passe"
                       secureTextEntry={true}
                       style={{
@@ -239,6 +284,8 @@ export default class RegisterInfo extends React.Component {
                         paddingRight: 15,
                         height: 45,
                         borderRadius: 5,
+                        borderWidth:errors.confirm_password && touched.confirm_password?2:0,
+                        borderColor:errors.confirm_password && touched.confirm_password?"red":null
                       }}
                       onChangeText={handleChange('password')}
                       onBlur={handleBlur('password')}
@@ -247,21 +294,27 @@ export default class RegisterInfo extends React.Component {
                   </View>
                   <View style={{ marginBottom: 15 }}>
                     <TextInput
+                      name="confirm_password"
                       placeholder="Confirmer votre mot de passe"
                       secureTextEntry={true}
                       style={{
                         backgroundColor: '#FFFFFF',
                         paddingTop: 10,
                         paddingBottom: 10,
-                        paddingLeft: 15,
-                        height: 45,
                         borderRadius: 5,
+                        height: 45,
+                        paddingLeft: 15,
                         paddingRight: 15,
+                        borderWidth:errors.confirm_password && touched.confirm_password?2:0,
+                        borderColor:errors.confirm_password && touched.confirm_password?"red":null
                       }}
                       onChangeText={handleChange('confirm_password')}
                       onBlur={handleBlur('confirm_password')}
                       value={values.confirm_password}
                     />
+                        {errors.confirm_password && touched.confirm_password &&
+                    <View style={{alignItems:'flex-end'}}>
+                    <Text style={{ fontSize: 15, color: 'red' }}>{errors.confirm_password}</Text></View> }
                   </View>
 
                   <View
@@ -304,16 +357,13 @@ export default class RegisterInfo extends React.Component {
                   <View style={{ alignItems: 'center' }}>
                     <Button
                       loading={false}
+                      disabled={!isValid}
                       title="Rejoins-nous"
                       customTextStyle={{
                         fontFamily: 'RobotoBold',
                         fontSize: 17,
                       }}
-                      onPress={() => {
-                        this.state.termsCondition
-                          ? navigation.navigate('MoreInfo', { item: values })
-                          : alert('accepter les terms des conditons');
-                      }}
+                      onPress={handleSubmit}
                     />
                   </View>
                   <View
