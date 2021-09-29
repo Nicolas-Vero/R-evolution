@@ -212,9 +212,10 @@ sendNotificationImmediately = async () => {
     }
 
     await loadFonts();
-    var user = await AsyncStorage.getItem(STORAGE.USER);
-    user = JSON.parse(user);
-    this.setState({ coach_id: user.coach.coach_id });
+     let user = await AsyncStorage.getItem(STORAGE.USER)
+      user = JSON.parse(user);
+      this.setState({ coach_id: user.coach_id });
+      this.setState({ user: user });   
     get_athlete_active_courses().then((res) => {
       this.setState({ athleteCourse: res.data });
     });
@@ -517,57 +518,6 @@ sendNotificationImmediately = async () => {
     });
     this.setState({ availabilities: item });
   }
-
-  // async changeTaskList(date) {
-
-  //   const formatdata = {
-  //     date: date.dateString,
-  //   };
-  //   const curDate = moment(date.dateString).format('L')
-  //   console.log('curr',curDate)
-  //   this.setState({currentDate:curDate})
-  //   get_appointement(formatdata).then((res) => {
-
-  //     const arrayOfAppointment = res.data;
-  //     const arrayOfPage = [];
-  //     arrayOfAppointment.forEach((rdv) => {
-  //       arrayOfPage.push(
-  //         <TouchableOpacity onPress={()=>{console.log(rdv)}}>
-  //         <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center'}}key={rdv.id}>
-  //           <View style={{justifyContent:'center',alignItems:'center'}}><Avatar
-  //               size="medium"
-  //               rounded
-  //               source={{
-  //                 uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-  //               }}
-  //             /></View>
-  //           <View style={{flexDirection:'column',marginRight:40}}>
-  //             <View style={{flexDirection:'row'}}>
-  //               <Text style={{
-  //                 fontWeight: 'bold',
-  //                 fontSize: 20,
-  //               }}>{rdv.athlete.first_name}</Text>
-  //               <Text style={{
-  //                 fontWeight: 'bold',
-  //                 fontSize: 20,
-  //               }}>{rdv.athlete.last_name}</Text>
-  //           </View>
-  //           <Text>seance{rdv.session_number}/{rdv.athleteCourse.total_sessions}</Text>
-  //           </View>
-  //           <View style={{justifyContent:'center'}}>
-  //             <Text style={{
-  //                 fontWeight: 'bold',
-  //                 fontSize: 20,}} >{this.convertSlotToDate(rdv.slot)}</Text>
-  //           </View>
-  //         </View>
-  //         </TouchableOpacity>
-  //         ,
-  //       );
-  //     });
-  //     this.setState({ page: arrayOfPage });
-  //     // console.log(this.state.page);
-  //   });
-  // }
 
   render() {
     return (
