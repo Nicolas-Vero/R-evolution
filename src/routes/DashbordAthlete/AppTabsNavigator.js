@@ -5,6 +5,7 @@ import OffresStack from './OffresStack';
 import HomeStack from './HomeStack';
 import AthletesStack from './AthletesStack';
 import MyCoach from '../../AtlheteScreens/MyCoach';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
 // Auth import
 
 
@@ -61,7 +62,7 @@ const AppTabsNavigator = createBottomTabNavigator(
         showIcon: true,
         showLabel: false,
         allowFontScaling: false,
-        style:{borderTopColor:'#2CDEE4', backgroundColor:'#1E2026'}
+        style:{borderTopColor:'#2CDEE4', backgroundColor:'#1E2026',height:heightPercentageToDP(4.5)}
       },
     },
   );
