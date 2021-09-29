@@ -15,6 +15,8 @@ import { Button } from '../components/Button';
 const { width } = Dimensions.get('window');
 import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../components/Header';
+import HeaderSimple from '../components/HeaderSimple';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
 
 export default class OffresFormations extends React.Component {
   constructor(props) {
@@ -36,8 +38,8 @@ export default class OffresFormations extends React.Component {
       //   }}
       //   style={styles.background}>
         <View style={{backgroundColor:'black', flex:1}} >
-          <SafeAreaView >
-            <Header title="OFFRES & FORMATIONS" />
+          <SafeAreaView style={{height:heightPercentageToDP(70)}} >
+            <HeaderSimple title="OFFRES & FORMATIONS" />
             <View style={{ alignContent: 'center', justifyContent: 'center' }}>
               <View style={{ marginTop:30 }}>
                 <TouchableOpacity onPress={() => navigate('Offres')}>
