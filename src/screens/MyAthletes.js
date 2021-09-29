@@ -18,6 +18,7 @@ import { tail } from 'lodash';
 import { Avatar,SearchBar } from 'react-native-elements';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import moment from 'moment';
+import HeaderSimple from '../components/HeaderSimple';
 
 
 const options = [
@@ -81,7 +82,7 @@ export default class MyAthletes extends React.Component {
 
           
         <SafeAreaView>
-        <Header title="MES ATHLÈTES" />
+        <HeaderSimple title="MES ATHLÈTES" />
           <View>
             <View style={{ alignItems:'center'}}>
             <SwitchSelector
