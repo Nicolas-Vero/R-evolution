@@ -10,6 +10,8 @@ import Login from '../screens/Auth/Login';
 import SplashAuth from '../screens/SplashAuth';
 import AuthStack from './AuthStack';
 import AuthStackAthlete from './AuthStackAthlete';
+import RegisterInfo from '../screens/Auth/RegisterInfo';
+import RegisterInfoAthlete from '../AtlheteScreens/Auth/RegisterInfoAthlete';
 
 // Auth bottom tabs menu
 const SplashStack = createStackNavigator(
@@ -20,8 +22,14 @@ const SplashStack = createStackNavigator(
         headerShown: false,
       },
     },
-    Activitie: {
-      screen: Activitie,
+    RegisterInfo: {
+      screen: RegisterInfo,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    RegisterInfoAthlete: {
+      screen: RegisterInfoAthlete,
       navigationOptions: {
         headerShown: false,
       },
@@ -30,10 +38,6 @@ const SplashStack = createStackNavigator(
     SwitchApp:{
         screen:Splash,
         navigationOptions: {
-            tabBarLabel: 'Sign in',
-            tabBarIcon: ({tintColor}) => (
-              <Ionicons  size={20} color={tintColor} />
-            ),
             headerShown: false,
           },
     },

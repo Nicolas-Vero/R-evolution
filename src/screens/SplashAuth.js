@@ -74,7 +74,7 @@ export default class SplashAuth extends React.Component {
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.props.navigation.navigate('AuthAthlete');
+                    this.props.navigation.navigate('RegisterInfoAthlete');
                   }}>
                   <View style={styles.bcontainer}>
                     <Text style={{ color: '#393637',fontFamily:'RobotoBold',fontSize:17 }}>Espace sportif</Text>
@@ -87,7 +87,7 @@ export default class SplashAuth extends React.Component {
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.props.navigation.navigate('AuthCoach');
+                    this.props.navigation.navigate('RegisterInfo');
                   }}>
                   <View>
                     <Text

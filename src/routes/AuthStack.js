@@ -11,20 +11,12 @@ const AuthStack = createStackNavigator(
     Login: {
       screen: Login,
       navigationOptions: {
-        tabBarLabel: 'Sign up',
-        tabBarIcon: ({tintColor}) => (
-          <Ionicons  size={20} color={tintColor} />
-        ),
         headerShown: false,
       },
     },
-    SwitchAppAuth:{
+    SplashAuth:{
       screen:SplashAuth,
       navigationOptions: {
-          tabBarLabel: 'Sign up',
-          tabBarIcon: ({tintColor}) => (
-            <Ionicons  size={20} color={tintColor} />
-          ),
           headerShown: false,
         },},
 

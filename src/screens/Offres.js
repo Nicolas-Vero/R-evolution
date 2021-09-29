@@ -9,16 +9,13 @@ import {
   Dimensions,
 } from 'react-native';
 import * as Font from 'expo-font';
-//import { auth } from '../../api/Register';
-//import { Button } from '../components/Button';
-import Header from '../components/Header';
-//import { Slider } from 'react-native-elements';
 const { width } = Dimensions.get('window');
 import { LinearGradient } from 'expo-linear-gradient';
 import { AddButton, DeleteButton, ModifyButton } from '../components/Button';
 import { FlatList } from 'react-native-gesture-handler';
 import { delete_coach_offers } from '../api/Offers';
 import { get_coach_offers } from '../api/Offers';
+import Header from '../components/Header';
 export default class Offres extends React.Component {
   state = {
     offers: [],

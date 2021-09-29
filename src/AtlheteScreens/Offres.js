@@ -43,9 +43,8 @@ export default class Offres extends React.Component {
    var user = await AsyncStorage.getItem(STORAGE.USER);
     user  = JSON.parse(user);
     get_athlete_active_courses().then((res)=>{
-      // this.state.ActiveCourses.push(res.data)
       this.setState({ActiveCourses:res.data})
-    }).then(()=>{console.log(this.state.ActiveCourses),
+    }).then(()=>{
       this.setState({loading:true})})
     get_coach_offer_by_id(user.coach.coach_id)
       .then((res) => {
