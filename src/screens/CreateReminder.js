@@ -60,37 +60,6 @@ Notifications.scheduleNotificationAsync({
   
   };
 
-
-  // scheduleNotification = async (value) => {
-  //   console.log('[value]', value);
-  //   Notifications.setNotificationHandler({
-  //     handleNotification: async () => ({
-  //         shouldShowAlert: true,
-  //         shouldPlaySound: true,
-  //         shouldSetBadge: false,
-  //     }),
-  // });
-  // Notifications.scheduleNotificationAsync({
-  //   content: {
-  //       title: value?.title,
-  //       body: value?.content,
-  //   },
-  //   trigger: new Date().getTime() + 1000,
-  // });
-  //   // let notificationId = Notifications.scheduleLocalNotificationAsync(
-  //   //   {
-  //   //     title: value?.title,
-  //   //     body: value?.content,
-  //   //   },
-  //   //   {
-  //   //     repeat: 'minute',
-  //   //     time: new Date().getTime() + 10000
-  //   //   },
-  //   //   alert(new Date().getTime() + 10000)
-  //   // );
-  //   // console.log(notificationId);
-  // };
-
   getErrorMessage() {
     if (this.state.errorMessage !== '')
       return (
