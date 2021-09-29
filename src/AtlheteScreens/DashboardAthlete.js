@@ -185,13 +185,25 @@ export default class DashboardAthlete extends React.Component {
     dayApointement:[],
     upcomingApointement:[],
 };
+
+sendNotificationImmediately = async () => {
+  let notificationId = await Notifications.presentLocalNotificationAsync({
+    title: 'This is crazy',
+    body: 'Your mind will blow after reading this',
+  });
+  console.log(notificationId); // can be saved in AsyncStorage or send to server
+};
+
+
  async componentDidMount(){
     try {
       this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
         console.log('[Notification-A-Dashboard]', notification);
+        this.sendNotificationImmediately();
       });
       this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
           console.log('[Response-A-Dashboard]', response);
+          this.sendNotificationImmediately();
           this.props.navigation.push('Activitie');
       });
     } catch (error) {

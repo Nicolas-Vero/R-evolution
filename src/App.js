@@ -24,6 +24,8 @@ export class App extends Component {
     };
   }
 
+ 
+
   async registerForPushNotification() {
     let token = null;
     const { status: existingStatus } =
@@ -58,10 +60,12 @@ export class App extends Component {
     this.lockScreenOrientation();
     // this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
     //   console.log('[Notification]', notification);
+    //   this.sendNotificationImmediately();
     // });
 
     // this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
     //   console.log('[Notification-Response]', response);
+    //   this.sendNotificationImmediately();
     // });
   }
 

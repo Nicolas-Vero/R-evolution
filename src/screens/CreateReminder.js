@@ -23,6 +23,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { coach_reminder } from '../api/CoachReminder';
  const { width } = Dimensions.get('window');
  import * as Notifications from 'expo-notifications';
+import moment from 'moment';
 export default class CreateReminder extends React.Component {
   state = {
     
@@ -30,24 +31,65 @@ export default class CreateReminder extends React.Component {
    
   };
   componentDidMount() {
+    this.scheduleNotification()
     loadFonts;
   }
 
-
   scheduleNotification = async (value) => {
-    console.log('[value]', value);
-    let notificationId = Notifications.scheduleLocalNotificationAsync(
-      {
-        title: value?.title,
-        body: value?.content,
-      },
-      {
-        repeat: 'minute',
-        time: value?.date,
-      },
-    );
-    console.log(notificationId);
+    const newDate = new Date(value.date).getTime() - ((60000*60)*5) + ((60000*60)*value.hour)
+      // alert(moment(newDate).format("YYYY-MM-DD hh:mm:ss"))
+    
+
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+          shouldShowAlert: true,
+          shouldPlaySound: true,
+          shouldSetBadge: false,
+      }),
+  });
+
+Notifications.scheduleNotificationAsync({
+          content: {
+            title: value?.title,
+            body: value?.content,
+          },
+          trigger: new Date(value.date).getTime() - ((60000*60)*5) + ((60000*60)*value.hour),
+      });
+    // console.log(notificationId);
+  //  alert(JSON.stringify(notificationId))
+  
   };
+
+
+  // scheduleNotification = async (value) => {
+  //   console.log('[value]', value);
+  //   Notifications.setNotificationHandler({
+  //     handleNotification: async () => ({
+  //         shouldShowAlert: true,
+  //         shouldPlaySound: true,
+  //         shouldSetBadge: false,
+  //     }),
+  // });
+  // Notifications.scheduleNotificationAsync({
+  //   content: {
+  //       title: value?.title,
+  //       body: value?.content,
+  //   },
+  //   trigger: new Date().getTime() + 1000,
+  // });
+  //   // let notificationId = Notifications.scheduleLocalNotificationAsync(
+  //   //   {
+  //   //     title: value?.title,
+  //   //     body: value?.content,
+  //   //   },
+  //   //   {
+  //   //     repeat: 'minute',
+  //   //     time: new Date().getTime() + 10000
+  //   //   },
+  //   //   alert(new Date().getTime() + 10000)
+  //   // );
+  //   // console.log(notificationId);
+  // };
 
   getErrorMessage() {
     if (this.state.errorMessage !== '')
@@ -128,7 +170,7 @@ export default class CreateReminder extends React.Component {
                       <View style={{ flex: 2 }}>
                           <Text style={{ color:'white',fontFamily:'RobotoBold',fontSize:15}}>Date</Text>
                         <TextInput
-                          placeholder="25/05/2021"
+                          placeholder="2021-09-29"
                           style={styles.form1}
                           onChangeText={handleChange('date')}
                           onBlur={handleBlur('date')}
@@ -209,7 +251,7 @@ export default class CreateReminder extends React.Component {
                       </View>
                     </View>
                     </View>
-                   <View style={{marginTop:150}}>
+                   <View style={{marginTop:10}}>
                     <Button
                       style={{
                         paddingTop: 10,

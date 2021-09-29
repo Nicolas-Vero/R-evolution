@@ -3,6 +3,10 @@ import * as Font from 'expo-font';
 import {View, Text, SafeAreaView, ImageBackground, Image, StyleSheet, Platform, StatusBar, Dimensions } from 'react-native'
 import {Button} from '../../components/Button'
 import { heightPercentageToDP, widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
+import moment from 'moment';
+
 const {width} = Dimensions.get('window');
 
 export default class Index extends React.Component {
@@ -12,6 +16,33 @@ export default class Index extends React.Component {
     state = {
         fontsLoaded: false,
       };
+
+      scheduleNotification = async (value) => {
+        console.warn(value);
+        const newDate = new Date().getTime() + 10000
+        // alert(moment(newDate).format("YYYY-MM-DD hh:mm:ss"))
+        
+
+        Notifications.setNotificationHandler({
+          handleNotification: async () => ({
+              shouldShowAlert: true,
+              shouldPlaySound: true,
+              shouldSetBadge: false,
+          }),
+      });
+
+Notifications.scheduleNotificationAsync({
+              content: {
+                  title: "Time's up!",
+                  body: "Change sides!",
+              },
+              trigger: new Date().getTime() + 10000,
+          });
+        // console.log(notificationId);
+      //  alert(JSON.stringify(notificationId))
+      
+      };
+
 
     async loadFonts() {
         await Font.loadAsync({
@@ -23,6 +54,7 @@ export default class Index extends React.Component {
       }
 
       componentDidMount() {
+        this.scheduleNotification();
         this.loadFonts();
       }
     render() {
@@ -45,7 +77,7 @@ export default class Index extends React.Component {
                           title="Rejoindre"
                           customContainerStyles={styles.registerButton}
                           customTextStyle={{color: "#393637", fontFamily:'RobotoBold',fontWeight:'bold',fontSize:17}}
-                          onPress={() => navigate('SwitchAppAuth')}
+                          onPress={() => this.scheduleNotification()}
                         />
                         <Button 
                           title="Se connecter"
