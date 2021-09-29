@@ -181,7 +181,6 @@ export default class DashboardAthlete extends React.Component {
     book: [],
     currentItem: [],
     availabilities: [],
-<<<<<<< HEAD
     athleteCourse:{},
     currentSlot:'',
     dayApointement:[],
@@ -204,22 +203,6 @@ sendNotificationImmediately = async () => {
         this.sendNotificationImmediately();
       });
       this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
-=======
-    athleteCourse: {},
-    currentSlot: '',
-    dayApointement: [],
-    upcomingApointement: [],
-  };
-  async componentDidMount() {
-    try {
-      this.notificationListener = Notifications.addNotificationReceivedListener(
-        (notification) => {
-          console.log('[Notification-A-Dashboard]', notification);
-        },
-      );
-      this.responseListener =
-        Notifications.addNotificationResponseReceivedListener((response) => {
->>>>>>> 7cea5b7dd9bedf787cc94a9be294a195a2f04b65
           console.log('[Response-A-Dashboard]', response);
           this.sendNotificationImmediately();
           this.props.navigation.push('Activitie');
