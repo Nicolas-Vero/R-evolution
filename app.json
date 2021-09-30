@@ -11,7 +11,10 @@
     "icon": "./assets/icons/luncher.png",
     "android": {
       "package": "com.org.revolution",
-      "versionCode": 3
+      "versionCode": 4
+    },
+    "ios": {
+      "bundleIdentifier": "com.org.revolution"
     }
   }
 }
