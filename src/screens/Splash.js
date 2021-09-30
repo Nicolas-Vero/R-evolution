@@ -161,22 +161,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 35,
   },
-  loginButton: {
-    width: 158.4,
-    height: 48,
-    borderRadius: 10,
-    borderWidth: 1,
-    marginRight: 22,
-    borderColor: '#2CDEE4',
-    backgroundColor: 'transparent',
-  },
-  registerButton: {
-    width: 158.4,
-    height: 48,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    marginLeft: 22,
-  },
   container: {
     flex: 1,
   },

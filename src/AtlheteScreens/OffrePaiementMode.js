@@ -22,6 +22,7 @@ import { DeleteButton, ModifyButton } from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../configs/Constants';
 import { create_paiement } from '../api/Paiement';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 const options = [
   { label: 'EN COURS', value: 'EN COURS' },
   { label: 'CATALOGUE', value: 'CATALOGUE' },
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
   },
   bcontainer: {
     height: 55,
-    width: 400,
+    width: widthPercentageToDP(94),
     backgroundColor: '#2CDEE4',
     borderRadius: 3,
     alignItems: 'center',
@@ -218,22 +219,6 @@ const styles = StyleSheet.create({
     width: width,
     justifyContent: 'space-between',
     marginBottom: 35,
-  },
-  loginButton: {
-    width: 158.4,
-    height: 48,
-    borderRadius: 10,
-    borderWidth: 1,
-    marginRight: 22,
-    borderColor: '#2CDEE4',
-    backgroundColor: 'transparent',
-  },
-  registerButton: {
-    width: 158.4,
-    height: 48,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    marginLeft: 22,
   },
   container: {
     flex: 1,

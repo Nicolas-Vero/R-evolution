@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import * as Font from 'expo-font';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -9,7 +9,7 @@ import AppNavigation from './routes/navigationService';
 import './config/logger';
 import * as Notifications from 'expo-notifications';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import moment from 'moment';
+import * as Updates from 'expo-updates';
 const { persistor, store } = configureStore();
 
 export class App extends Component {
@@ -25,19 +25,11 @@ export class App extends Component {
     };
   }
 
- 
+ state={
+  loaded:false,
+ }
 
   async registerForPushNotification() {
-    await Font.loadAsync({
-      MontserratBold: require('../assets/fonts/Montserrat-ExtraBold.ttf'),
-      MontserratBoldItalic: require('../assets/fonts/Montserrat-ExtraBoldItalic.ttf'),
-      MontserratMedium: require('../assets/fonts/Montserrat-Medium.ttf'),
-      MontserratSemiBold: require('../assets/fonts/Montserrat-SemiBold.ttf'),
-      Montserrat: require('../assets/fonts/Montserrat-Regular.ttf'),
-      Roboto: require('../assets/fonts/Roboto-Regular.ttf'),
-      RobotoBold: require('../assets/fonts/Roboto-Bold.ttf'),
-      RobotoMedium: require('../assets/fonts/Roboto-Medium.ttf'),
-    });
     let token = null;
     token = await Notifications.getExpoPushTokenAsync();
     console.log('[push-token]', token);
@@ -55,42 +47,64 @@ export class App extends Component {
     await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
   }
 
-  componentDidMount() {
-    alert('22-05-2021'.split('-').reverse().join('-'))
-    this.registerForPushNotification();
+async  componentDidMount() {
+    try {
+      const update = await Updates.checkForUpdateAsync();
+      if (update.isAvailable) {
+        await Updates.fetchUpdateAsync();
+        // ... notify user of update ...
+        Updates.reloadAsync();
+      }
+    } catch (e) {
+      // handle or log error
+    }
+    await Font.loadAsync({
+      MontserratBold: require('../assets/fonts/Montserrat-ExtraBold.ttf'),
+      MontserratBoldItalic: require('../assets/fonts/Montserrat-ExtraBoldItalic.ttf'),
+      MontserratItalic: require('../assets/fonts/Montserrat-Italic.ttf'),
+      MontserratMedium: require('../assets/fonts/Montserrat-Medium.ttf'),
+      MontserratSemiBold: require('../assets/fonts/Montserrat-SemiBold.ttf'),
+      Montserrat: require('../assets/fonts/Montserrat-Regular.ttf'),
+      Roboto: require('../assets/fonts/Roboto-Regular.ttf'),
+      RobotoBold: require('../assets/fonts/Roboto-Bold.ttf'),
+      RobotoMedium: require('../assets/fonts/Roboto-Medium.ttf'),
+    }).then(()=>{
+      this.setState({loaded:true})
+    });
+  //  this.registerForPushNotification();
     this.lockScreenOrientation();
-    // this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
-    //   console.log('[Notification]', notification);
-    //   this.sendNotificationImmediately();
-    // });
+    this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
+      console.log('[Notification]', notification);
+      this.sendNotificationImmediately();
+    });
 
-    // this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
-    //   console.log('[Notification-Response]', response);
-    //   this.sendNotificationImmediately();
-    // });
+    this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log('[Notification-Response]', response);
+      this.sendNotificationImmediately();
+    });
   }
 
-  // componentWillUnmount () {
-  //   Notifications.removeNotificationSubscription(this.notificationListener);
-  //   Notifications.removeNotificationSubscription(this.responseListener);
-  // }
+  componentWillUnmount () {
+    Notifications.removeNotificationSubscription(this.notificationListener);
+    Notifications.removeNotificationSubscription(this.responseListener);
+  }
 
   render() {
     const { store } = this.state;
-
-    return (
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <View style={{ flex: 1 }}>
-            <Router
-              ref={(navigatorRef) => {
-                AppNavigation.setTopLevelNavigator(navigatorRef);
-              }}
-            />
-          </View>
-        </PersistGate>
-      </Provider>
-    );
+      return (
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <View style={{ flex: 1 }}>
+            {!this.state.loaded?<ActivityIndicator/>:<Router
+                ref={(navigatorRef) => {
+                  AppNavigation.setTopLevelNavigator(navigatorRef);
+                }}
+              />}
+              
+            </View>
+          </PersistGate>
+        </Provider>
+      ); 
   }
 }
 
