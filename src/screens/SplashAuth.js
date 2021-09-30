@@ -47,14 +47,11 @@ export default class SplashAuth extends React.Component {
         }}
         style={{
           backgroundColor: 'black',
-
           flex: 1,
-
-          // justifyContent:"space-evenly"
         }}>
         <View>
-          <SafeAreaView style={styles.safeArea} />
-          <View>
+          <SafeAreaView >
+          <View style={{width:wp(100)}}>
           <TouchableOpacity
           onPress={() =>  navigation.goBack()}
            style={{height:50,flexDirection:'row',marginLeft:19.5,}}>         
@@ -105,6 +102,7 @@ export default class SplashAuth extends React.Component {
               </View>
             </View>
           </View>
+          </SafeAreaView>
         </View>
       </LinearGradient>
     );
@@ -160,22 +158,6 @@ const styles = StyleSheet.create({
     width: width,
     justifyContent: 'space-between',
     marginBottom: 35,
-  },
-  loginButton: {
-    width: 158.4,
-    height: 48,
-    borderRadius: 10,
-    borderWidth: 1,
-    marginRight: 22,
-    borderColor: '#2CDEE4',
-    backgroundColor: 'transparent',
-  },
-  registerButton: {
-    width: 158.4,
-    height: 48,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    marginLeft: 22,
   },
   container: {
     flex: 1,
