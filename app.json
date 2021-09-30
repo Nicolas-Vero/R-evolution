@@ -14,6 +14,7 @@
       "versionCode": 4
     },
     "ios": {
+      "buildNumber": "1.1.2",
       "bundleIdentifier": "com.org.revolution"
     }
   }
