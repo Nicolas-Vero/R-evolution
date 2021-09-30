@@ -9,6 +9,7 @@ import './config/logger';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import moment from 'moment';
 const { persistor, store } = configureStore();
 
 export class App extends Component {
@@ -28,17 +29,6 @@ export class App extends Component {
 
   async registerForPushNotification() {
     let token = null;
-    const { status: existingStatus } =
-      await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return;
-    }
     token = await Notifications.getExpoPushTokenAsync();
     console.log('[push-token]', token);
     if (Platform.OS === 'android') {
@@ -56,6 +46,7 @@ export class App extends Component {
   }
 
   componentDidMount() {
+    alert('22-05-2021'.split('-').reverse().join('-'))
     this.registerForPushNotification();
     this.lockScreenOrientation();
     // this.notificationListener = Notifications.addNotificationReceivedListener(notification => {

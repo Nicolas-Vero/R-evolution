@@ -230,10 +230,12 @@ export default class Dashboard extends React.Component {
     page: [],
   };
 
-  sendNotificationImmediately = async () => {
+  sendNotificationImmediately = async (notification) => {
+    // alert(JSON.parse(notification))
+    console.log('=====>>>>>',notification)
     let notificationId = await Notifications.presentLocalNotificationAsync({
-      title: 'This is crazy',
-      body: 'Your mind will blow after reading this',
+      title: notification?.request?.content?.title,
+      body: notification?.request?.content?.body,
     });
     console.log(notificationId); // can be saved in AsyncStorage or send to server
   };
@@ -247,11 +249,11 @@ export default class Dashboard extends React.Component {
     
     this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
       console.log('[Notification-C-Dashboard]', notification);
-      this.sendNotificationImmediately();
+      this.sendNotificationImmediately(notification);
     });
     this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
         console.log('[Response-C-Dashboard]', response);
-        this.sendNotificationImmediately();
+        this.sendNotificationImmediately(response);
         this.props.navigation.push('Activitie');
     });
   }

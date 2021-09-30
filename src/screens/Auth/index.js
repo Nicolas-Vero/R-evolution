@@ -17,31 +17,7 @@ export default class Index extends React.Component {
         fontsLoaded: false,
       };
 
-      scheduleNotification = async (value) => {
-        console.warn(value);
-        const newDate = new Date().getTime() + 10000
-        // alert(moment(newDate).format("YYYY-MM-DD hh:mm:ss"))
-        
-
-        Notifications.setNotificationHandler({
-          handleNotification: async () => ({
-              shouldShowAlert: true,
-              shouldPlaySound: true,
-              shouldSetBadge: false,
-          }),
-      });
-
-Notifications.scheduleNotificationAsync({
-              content: {
-                  title: "Time's up!",
-                  body: "Change sides!",
-              },
-              trigger: new Date().getTime() + 10000,
-          });
-        // console.log(notificationId);
-      //  alert(JSON.stringify(notificationId))
       
-      };
 
 
     async loadFonts() {
@@ -54,7 +30,6 @@ Notifications.scheduleNotificationAsync({
       }
 
       componentDidMount() {
-        this.scheduleNotification();
         this.loadFonts();
       }
     render() {
@@ -77,7 +52,7 @@ Notifications.scheduleNotificationAsync({
                           title="Rejoindre"
                           customContainerStyles={styles.registerButton}
                           customTextStyle={{color: "#393637", fontFamily:'RobotoBold',fontWeight:'bold',fontSize:17}}
-                          onPress={() => this.scheduleNotification()}
+                          onPress={() => navigate('SwitchAppAuth')}
                         />
                         <Button 
                           title="Se connecter"
