@@ -1,5 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { View } from 'react-native';
+import * as Font from 'expo-font';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import configureStore from './store/configureStore';
@@ -7,7 +8,6 @@ import Router from './routes/index';
 import AppNavigation from './routes/navigationService';
 import './config/logger';
 import * as Notifications from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import moment from 'moment';
 const { persistor, store } = configureStore();
@@ -28,6 +28,16 @@ export class App extends Component {
  
 
   async registerForPushNotification() {
+    await Font.loadAsync({
+      MontserratBold: require('../assets/fonts/Montserrat-ExtraBold.ttf'),
+      MontserratBoldItalic: require('../assets/fonts/Montserrat-ExtraBoldItalic.ttf'),
+      MontserratMedium: require('../assets/fonts/Montserrat-Medium.ttf'),
+      MontserratSemiBold: require('../assets/fonts/Montserrat-SemiBold.ttf'),
+      Montserrat: require('../assets/fonts/Montserrat-Regular.ttf'),
+      Roboto: require('../assets/fonts/Roboto-Regular.ttf'),
+      RobotoBold: require('../assets/fonts/Roboto-Bold.ttf'),
+      RobotoMedium: require('../assets/fonts/Roboto-Medium.ttf'),
+    });
     let token = null;
     token = await Notifications.getExpoPushTokenAsync();
     console.log('[push-token]', token);
