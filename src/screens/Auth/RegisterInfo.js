@@ -84,6 +84,7 @@ export default class RegisterInfo extends React.Component {
   render() {
     
     const { navigation } = this.props;
+    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <LinearGradient
@@ -125,7 +126,7 @@ export default class RegisterInfo extends React.Component {
                 last_name: Yup.string()
                   .required('Requis'),
                 email: Yup.string().email('email invalide').required('Requis'),
-                phone: Yup.number().min(10,'entrer un numero valide').max(10,'entrer un numero valide').required('Requis'),
+                phone: Yup.string().matches(phoneRegExp, 'Tu dois entrer un numéro de téléphone valide.').min(10,'Tu dois entrer un numéro de téléphone valide.').max(10,'Tu dois entrer un numéro de téléphone valide.').required('Requis'),
                 password:Yup.string().required(),
                 confirm_password:Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match')
 
