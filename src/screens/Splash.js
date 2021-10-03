@@ -15,9 +15,10 @@ import Header from '../components/Header';
 const { width } = Dimensions.get('window');
 import { Button } from '../components/Button';
 import { LinearGradient } from 'expo-linear-gradient';
-import { widthPercentageToDP  as wp} from 'react-native-responsive-screen';
+import { heightPercentageToDP, widthPercentageToDP  as wp} from 'react-native-responsive-screen';
 import { withNavigation } from 'react-navigation';
-
+import Constants from 'expo-constants'; 
+const statusBarHeight = Constants.statusBarHeight
 export default class Splash extends React.Component {
   state = {
     offers: [],
@@ -47,13 +48,10 @@ export default class Splash extends React.Component {
         }}
         style={{
           backgroundColor: 'black',
-
           flex: 1,
-
-          // justifyContent:"space-evenly"
         }}>
         <View>
-          <SafeAreaView style={styles.safeArea} />
+          <SafeAreaView style={styles.droidSafeArea} />
           <View>
           <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -62,10 +60,7 @@ export default class Splash extends React.Component {
             <Text style={{color:'white',marginLeft:10,marginTop:1}}>RETOUR</Text>
           </TouchableOpacity>
           </View>
-          <View style={styles.logoContainer}>
-          </View>
-
-          <View style={{ marginTop:170}}>
+          <View style={{ marginVertical:heightPercentageToDP(25)}}>
             <View >
               <View
                 style={{
@@ -113,7 +108,7 @@ export default class Splash extends React.Component {
 
 const styles = StyleSheet.create({
   bcontainer: {
-     height:60,
+    height:60,
     width:wp(92),
     backgroundColor: '#2CDEE4',
     borderRadius: 3,
@@ -123,6 +118,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+  droidSafeArea: {
+    flex:1,
+    backgroundColor:'transparent',
+    marginTop: 2*statusBarHeight,
+     
+   },
   backgroundContainer: {
     flex: 1,
     resizeMode: 'cover',
@@ -133,9 +134,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.88)',
     alignItems: 'center',
   },
-  // safeArea: {
-  //   paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
-  // },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -155,21 +153,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 112,
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    width: width,
-    justifyContent: 'space-between',
-    marginBottom: 35,
-  },
   container: {
     flex: 1,
-  },
-  logoContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 30,
-    marginTop: 45,
-    marginBottom: 50,
   },
   form: {
     marginLeft: 70,
@@ -178,11 +163,5 @@ const styles = StyleSheet.create({
   textInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  logoText: {
-    color: Color.Primary,
-    fontSize: 5,
-    alignSelf: 'center',
-    marginTop: 20,
   },
 });

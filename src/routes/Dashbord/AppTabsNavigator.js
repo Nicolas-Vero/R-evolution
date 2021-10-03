@@ -74,7 +74,7 @@ const AppTabsNavigator = createBottomTabNavigator(
         showIcon: true,
         showLabel: false,
         allowFontScaling: false,
-        style:{borderTopColor:'#2CDEE4', backgroundColor:'#1E2026',height:heightPercentageToDP(4.5)}
+        style:{borderTopColor:'#2CDEE4', backgroundColor:'#1E2026',height:heightPercentageToDP(7)}
       },
     },
   );

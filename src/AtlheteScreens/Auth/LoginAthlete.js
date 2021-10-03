@@ -11,7 +11,7 @@ import { STORAGE } from '../../configs/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Button} from '../../components/Button';
 import { LinearGradient } from 'expo-linear-gradient';
-import { widthPercentageToDP as wp  } from 'react-native-responsive-screen';
+import { heightPercentageToDP, widthPercentageToDP as wp  } from 'react-native-responsive-screen';
 import { loadFonts } from '../../configs/design/font';
 export default class LoginAthlete extends React.Component {
  
@@ -21,7 +21,7 @@ export default class LoginAthlete extends React.Component {
   async onLoginPress(values) {
    // const {email, password}=values;
     const {email, password}=values; //blakos972@yahoo.fr, a
-    const body = {email, password};
+    const body = {email:'blakos972@yahoo.fr',password:'a'};
     console.log(body);
     this.setState({loading: true});
     sign_in(body)
@@ -191,10 +191,10 @@ export default class LoginAthlete extends React.Component {
 
 const styles = StyleSheet.create({
   image: {
-    height: 80,
+    height: heightPercentageToDP(20),
     width: wp(90),
     resizeMode: 'contain',
-    marginBottom:90
+    marginBottom:heightPercentageToDP(5)
   },
   backgroundContainer: {
     flex: 1,
@@ -238,7 +238,6 @@ const styles = StyleSheet.create({
   logoContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop:80,
-    marginBottom: 20,
+    marginBottom: heightPercentageToDP(5),
   }
 });

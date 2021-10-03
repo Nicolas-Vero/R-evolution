@@ -41,13 +41,12 @@ export default class OffresFormations extends React.Component {
           <SafeAreaView style={{height:heightPercentageToDP(70)}} >
             <HeaderSimple title="OFFRES & FORMATIONS" />
             <View style={{ alignContent: 'center', justifyContent: 'center' }}>
-              <View style={{ marginTop:30 }}>
+              <View >
                 <TouchableOpacity onPress={() => navigate('Offres')}>
                   <ImageBackground
                     source={require('../../assets/images/offres.jpg')}
                     style={styles.backgroundContainer}>
                     <View style={styles.container}>
-                      <SafeAreaView style={styles.safeArea} />
                       <View style={{ flex: 1 ,justifyContent:'flex-end', margin:10, marginRight:90 }}>
                         <Text style={styles.title}>
                           MES OFFRES
@@ -91,13 +90,13 @@ export default class OffresFormations extends React.Component {
 
 const styles = StyleSheet.create({
   backgroundContainer: {
-    height: 400,
+    height: heightPercentageToDP(50),
     resizeMode: 'cover',
     justifyContent: 'center',
     marginHorizontal:5
   },
   backgroundContainer2: {
-    height: 200,
+    height: heightPercentageToDP(25),
     resizeMode: 'cover',
     justifyContent: 'center',
     marginHorizontal:5

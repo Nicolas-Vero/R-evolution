@@ -21,7 +21,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../configs/Constants';
 import { get_athlete, get_athlete_active_courses } from '../api/Athlete';
 import { loadFonts } from '../configs/design/font';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 import { Avatar } from 'react-native-elements';
 const options = [
   { label: 'EN COURS', value: 'EN COURS' },
@@ -42,7 +42,7 @@ export default class Offres extends React.Component {
     loadFonts();
    var user = await AsyncStorage.getItem(STORAGE.USER);
     user  = JSON.parse(user);
-    get_athlete_active_courses().then((res)=>{
+    get_athlete_active_courses().then((res)=>{   
       this.setState({ActiveCourses:res.data})
     }).then(()=>{
       this.setState({loading:true})})
@@ -67,33 +67,36 @@ export default class Offres extends React.Component {
           <Header title="LES OFFRES" />
             <View
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
+                alignSelf: 'center',
                 marginBottom:15
               }}>
              
-                <SwitchSelector
-                  options={options}
-                  initial={0}
-                  onPress={(value) => this.setState({ screen: value })}
-                  backgroundColor="#1E2026"
-                  buttonColor="#2CDEE4"
-                  selectedColor="#1E2026"
-                  textColor="white"
-                  borderRadius={10}
-                  height={50}
-                  hasPadding
-                  bold={true}
-                  fontSize={20}
-                  selectedTextStyle={{fontFamily:'MontserratBoldItalic'}}
-                  valuePadding={3}
-                  borderColor="#1E2026"
-                />
+             <SwitchSelector
+                options={options}
+                initial={0}
+                onPress={(value) => this.setState({ screen: value })}
+                backgroundColor="#1E2026"
+                buttonColor="#2CDEE4"
+                selectedColor="#1E2026"
+                textColor="white"
+                borderRadius={10}
+                height={60}
+                style={{ width: widthPercentageToDP(95) }}
+                hasPadding
+                fontSize={15}
+                selectedTextStyle={{ fontFamily: 'MontserratBoldItalic' }}
+                textStyle={{ fontFamily: 'MontserratBoldItalic' }}
+                valuePadding={3}
+                borderColor="#1E2026"
+              />
               </View>
-              
+
               {this.state.screen == 'EN COURS' ? (
-                
+                this.state.ActiveCourses.offer == null?(
+                  <View style={{ alignItems:'center' ,marginTop:heightPercentageToDP(25)}}> 
+                  <Text style={{ fontFamily: 'RobotoBold', fontSize: 20, color: '#FFFF' }}>Pas de cours actif</Text>
+                  </View>
+                ):(
               <LinearGradient
                   colors={['#101010', '#2D333C']}
                   start={{
@@ -180,12 +183,12 @@ export default class Offres extends React.Component {
                     
                   </View>
                 </LinearGradient>
-                   
+                )
               ) : (
               
               <FlatList
                style={{     
-               height:600
+               height:heightPercentageToDP(70)
                }}
                data={this.state.offers}
                extraData={this.state}
@@ -209,6 +212,7 @@ export default class Offres extends React.Component {
                     paddingLeft: 20,
                     height: 200,
                   }}>
+                    
                   <View>
                     <Text
                       style={{
@@ -260,7 +264,9 @@ export default class Offres extends React.Component {
                       {item.price}€
                     </Text>
                   </View>
-                </LinearGradient>)}/>)}
+                </LinearGradient>
+               
+               )}/>)}
           </SafeAreaView>
           </View>
       );

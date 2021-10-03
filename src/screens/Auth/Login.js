@@ -18,7 +18,7 @@ import { STORAGE } from '../../configs/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button } from '../../components/Button';
 import { get_coach_me } from '../../api/Coach';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { heightPercentageToDP, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { loadFonts } from '../../configs/design/font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -41,7 +41,6 @@ export default class Login extends React.Component {
       }))
       .then(async (res) => {
         try {
-          console.log('toto', res);
           await AsyncStorage.setItem(
             STORAGE.HEADERS,
             JSON.stringify(res.headers),
@@ -117,9 +116,8 @@ export default class Login extends React.Component {
           flex: 1,
 
           // justifyContent:"space-evenly"
-        }}>
-        <SafeAreaView />
-
+      }}>
+        <SafeAreaView>
         <Header />
         <View style={styles.logoContainer}>
           <Image
@@ -201,6 +199,7 @@ export default class Login extends React.Component {
             )}
           </Formik>
         </View>
+        </SafeAreaView>
       </LinearGradient>
     );
   }
@@ -208,10 +207,10 @@ export default class Login extends React.Component {
 
 const styles = StyleSheet.create({
   image: {
-    height: 80,
+    height: heightPercentageToDP(20),
     width: wp(90),
     resizeMode: 'contain',
-    marginBottom:90
+    marginBottom:heightPercentageToDP(5)
   },
   backgroundContainer: {
     flex: 1,
@@ -255,7 +254,6 @@ const styles = StyleSheet.create({
   logoContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop:80,
-    marginBottom: 20,
+    marginBottom: heightPercentageToDP(5),
   }
 });

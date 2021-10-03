@@ -43,7 +43,7 @@ export default class AccountAthlete extends React.Component {
             <Header title="MON COMPTE" />
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
               <View>
-                <TouchableOpacity onPress={() => navigate('MyInformations')}>
+                <TouchableOpacity onPress={() => navigate('MyInformationsAthlete')}>
                   <Image
                     source={require('../../assets/images/Bouton_modifier_mes_informations.png')}
                     style={styles.backgroundContainer}>

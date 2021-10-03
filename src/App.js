@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, View, Platform,StyleSheet,SafeAreaView, StatusBar } from 'react-native';
 import * as Font from 'expo-font';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -10,6 +10,9 @@ import './config/logger';
 import * as Notifications from 'expo-notifications';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as Updates from 'expo-updates';
+import Constants from 'expo-constants';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
+const statusBarHeight = Constants.statusBarHeight
 const { persistor, store } = configureStore();
 
 export class App extends Component {
@@ -93,23 +96,30 @@ async  componentDidMount() {
     const { store } = this.state;
       return (
         <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <View style={{ flex: 1 }}>
+          <PersistGate loading={null} persistor={persistor}> 
+            <StatusBar barStyle={'light-content'} />
             {!this.state.loaded?<ActivityIndicator/>:<Router
                 ref={(navigatorRef) => {
                   AppNavigation.setTopLevelNavigator(navigatorRef);
                 }}
               />}
               
-            </View>
           </PersistGate>
-        </Provider>
+        </Provider>     
       ); 
   }
 }
 
 export default App;
-
+const styles = StyleSheet.create({
+  droidSafeArea: {
+   flex:1,
+   backgroundColor:'transparent',
+  marginTop: Platform.OS === 'android' ? statusBarHeight : -statusBarHeight,
+   marginBottom: Platform.OS === 'android' ? statusBarHeight : -statusBarHeight
+    
+  }
+});
 // import { Sentry } from 'react-native-sentry';
 
 // Sentry.config('https://98def6268ecd4527885aa1358d0ec0d0@sentry.io/1434821').install();

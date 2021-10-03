@@ -610,20 +610,19 @@ export default class Dashboard extends React.Component {
                 </View>
                 <View style={{ alignItems: 'center' }}>
                   {this.state.page == [] ? (
-                    <Text> pas de rendez-vous Aujourd'hui</Text>
+                    <Text style={{color:'white'}}> pas de rendez-vous Aujourd'hui</Text>
                   ) : (
                     this.state.carousselLoad?(    <Pager pager={this.state.page} />):(
-                      <View style={{ height:180, width:widthPercentageToDP(94), alignItems:'center'}}>
+                      <View style={{ height:heightPercentageToDP(10), width:widthPercentageToDP(94), alignItems:'center'}}>
                         <ActivityIndicator/>
                       </View>
                     )
                    
                   )}
                 </View>
-                <View style={{ alignItems: 'center', marginTop: 10 }}>
+                <View style={{ alignItems: 'center'}}>
                   <Calendar
-                    theme={{
-                      
+                    theme={{  
                       calendarBackground: '#1E2026',
                       textSectionTitleColor: 'white',
                       textSectionTitleWeight: 'bold',
@@ -680,12 +679,12 @@ export default class Dashboard extends React.Component {
               </View>
             ) : (
               <View>
-                <View style={{ height: 800 }}>
+                <View style={{ height: heightPercentageToDP(35) }}>
                   <View>
                     <MonthsSlider onChange={this.onMonthChange.bind(this)} />
                     <View style={{ marginBottom: 20 }}>
                       <FlatList
-                        style
+                        
                         horizontal={true}
                         data={this.state.availabilities}
                         extraData={this.state}
@@ -762,7 +761,7 @@ export default class Dashboard extends React.Component {
                         </TouchableOpacity>
                       </View>
                       <FlatList
-                        style={{ maxHeight: 550 }}
+                        style={{ maxHeight: heightPercentageToDP(42) }}
                         data={[this.state.currentAvailabilities]}
                         extraData={this.state}
                         //      onRefresh={onRefresh}
@@ -808,8 +807,9 @@ const styles = StyleSheet.create({
   calendar: {
     borderRadius: 13,
     paddingLeft:30,
+    justifyContent:'center',
+    alignSelf:'center',
     paddingRight:30,
-    marginTop: 18,
     width: widthPercentageToDP(94),
   },
   background: {

@@ -106,13 +106,13 @@ export default class MyAthletes extends React.Component {
             </View>
             {this.state.screen == 'ACTIFS' ? (
               <View>
-                <SearchBar
+                {/* <SearchBar
         //        size={50}
         //         clearIcon={false}
         //         placeholder="Type Here..."
         // onChangeText={this.updateSearch}
         // value={this.state.search}
-                />
+                /> */}
                 <View style={{marginTop:50}}>
                <FlatList
                       
@@ -148,7 +148,7 @@ export default class MyAthletes extends React.Component {
                               <Text style={{
                                   fontWeight: 'bold',
                                   color:'#979797',
-                                  fontSize: 15,
+                                  fontSize: 10,
                                   marginRight:10
                                   }} >Depuis le {moment(item.created_at).format('DD/MM/YYYY')}</Text>
                             </View>
@@ -160,13 +160,13 @@ export default class MyAthletes extends React.Component {
               </View>
             ) : (null)}
             {this.state.screen == 'INACTIFS' ? ( <View>
-                <SearchBar
+                {/* <SearchBar
         //        size={50}
         //         clearIcon={false}
         //         placeholder="Type Here..."
         // onChangeText={this.updateSearch}
         // value={this.state.search}
-                />
+                /> */}
                 <View style={{marginTop:50}}>
                <FlatList
                       
@@ -202,7 +202,7 @@ export default class MyAthletes extends React.Component {
                               <Text style={{
                                   fontWeight: 'bold',
                                   color:'#979797',
-                                  fontSize: 15,
+                                  fontSize: 10,
                                   marginRight:10
                                   }} >Depuis le {moment(item.created_at).format('DD/MM/YYYY')}</Text>
                             </View>
@@ -214,13 +214,13 @@ export default class MyAthletes extends React.Component {
               </View>
             ) : (null)}
             {this.state.screen == 'PROSPECTS' ? ( <View>
-                <SearchBar
+                {/* <SearchBar
         //        size={50}
         //         clearIcon={false}
         //         placeholder="Type Here..."
         // onChangeText={this.updateSearch}
         // value={this.state.search}
-                />
+                /> */}
                 <View style={{marginTop:50}}>
                <FlatList
                       
@@ -256,7 +256,7 @@ export default class MyAthletes extends React.Component {
                               <Text style={{
                                   fontWeight: 'bold',
                                   color:'#979797',
-                                  fontSize: 15,
+                                  fontSize: 10,
                                   marginRight:10
                                   }} >Depuis le {moment(item.created_at).format('DD/MM/YYYY')}</Text>
                             </View>

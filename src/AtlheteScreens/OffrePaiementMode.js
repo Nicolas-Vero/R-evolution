@@ -13,12 +13,8 @@ import {
 //import { Slider } from 'react-native-elements';
 const { width } = Dimensions.get('window');
 import { TouchableOpacity } from 'react-native';
-import SwitchSelector from 'react-native-switch-selector';
-import { FlatList } from 'react-native-gesture-handler';
-import { get_coach_offer_by_id } from '../api/Offers';
 import Header from '../components/Header';
 import { LinearGradient } from 'expo-linear-gradient';
-import { DeleteButton, ModifyButton } from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../configs/Constants';
 import { create_paiement } from '../api/Paiement';

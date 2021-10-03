@@ -39,15 +39,6 @@ export const ElementSlider2 = React.forwardRef(
       { day: 'S', selected: 0 },
       { day: 'D', selected: 0 },
     ]);
-    // let DayPreference = {
-    //   is_monday_preferred: false,
-    //   is_tuesday_preferred: false,
-    //   is_wednesday_preferred: false,
-    //   is_thursday_preferred: false,
-    //   is_friday_preferred: false,
-    //   is_saturday_preferred: false,
-    //   is_sunday_preferred: false,
-    // };
     return (
       <Field name={name} id={name} validate={validate}>
         {({
@@ -166,144 +157,153 @@ export const ElementSlider2 = React.forwardRef(
                 </View>
               </View>
               <FieldArray
-              name={name}
-              render={(arrayhelper) => (
-              <FlatList
-                style={{ width: wp(100) }}
-                horizontal={true}
-                data={SelectedDay}
-                extraData={SelectedDay}
-                renderItem={({ item }) => {
-                  const borderColor =
-                    item.selected == 1 ? 'transparent' : 'white';
-                  const borderWidth = item.selected == 1 ? 1 : 1;
-                  const color = item.selected == 1 ? 'black' : 'white';
-                  const backgroundColor =
-                    item.selected == 1 ? '#2CDEE4' : '#1E2026';
-                  const textColor = item.selected == 1 ? 'black' : 'white';
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        switch (item.day) {
-                          case 'L':
-                            arrayhelper.form.values.days_preference.is_monday_preferred = !arrayhelper.form.values.days_preference.is_monday_preferred   
-                            setSelectedDay(
-                              SelectedDay.map((item) =>
-                                item.day === 'L'
-                                  ? { ...item, selected: !item.selected }
-                                  : item,
-                              ),
-                            );
-                            break;
-                          case 'M':
-                            arrayhelper.form.values.days_preference.is_tuesday_preferred =
-                              !arrayhelper.form.values.days_preference.is_tuesday_preferred;
-                            setSelectedDay(
-                              SelectedDay.map((item) =>
-                                item.day === 'M'
-                                  ? { ...item, selected: !item.selected }
-                                  : item,
-                              ),
-                            );
-                            break;
-                          case 'ME':
-                            arrayhelper.form.values.days_preference.is_wednesday_preferred =
-                              !arrayhelper.form.values.days_preference.is_wednesday_preferred;
-                            setSelectedDay(
-                              SelectedDay.map((item) =>
-                                item.day === 'ME'
-                                  ? { ...item, selected: !item.selected }
-                                  : item,
-                              ),
-                            );
-                            break;
-                          case 'J':
-                            arrayhelper.form.values.days_preference.is_thursday_preferred =
-                              !arrayhelper.form.values.days_preference.is_thursday_preferred;
-                            setSelectedDay(
-                              SelectedDay.map((item) =>
-                                item.day === 'J'
-                                  ? { ...item, selected: !item.selected }
-                                  : item,
-                              ),
-                            );
-                            break;
-                          case 'V':
-                            arrayhelper.form.values.days_preference.is_friday_preferred =
-                              !arrayhelper.form.values.days_preference.is_friday_preferred;
-                            setSelectedDay(
-                              SelectedDay.map((item) =>
-                                item.day === 'V'
-                                  ? { ...item, selected: !item.selected }
-                                  : item,
-                              ),
-                            );
-                            break;
-                          case 'S':
-                            arrayhelper.form.values.days_preference.is_saturday_preferred =
-                              !arrayhelper.form.values.days_preference.is_saturday_preferred;
-                            setSelectedDay(
-                              SelectedDay.map((item) =>
-                                item.day === 'S'
-                                  ? { ...item, selected: !item.selected }
-                                  : item,
-                              ),
-                            );
-                            break;
-                          case 'D':
-                            arrayhelper.form.values.days_preference.is_sunday_preferred =
-                              !arrayhelper.form.values.days_preference.is_sunday_preferred;
-                            setSelectedDay(
-                              SelectedDay.map((item) =>
-                                item.day === 'D'
-                                  ? { ...item, selected: !item.selected }
-                                  : item,
-                              ),
-                            );
-                            break;
-                          default:
-                            break;
-                        }
-                      }}>
-                      <View
-                        style={[
-                          styles.day,
-                          { backgroundColor: backgroundColor },
-                        ]}>
-                        <View
-                          style={{
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            alignContent: 'center',
+                name={name}
+                render={(arrayhelper) => (
+                  <FlatList
+                    style={{ width: wp(100) }}
+                    horizontal={true}
+                    data={SelectedDay}
+                    extraData={SelectedDay}
+                    renderItem={({ item }) => {
+                      const borderColor =
+                        item.selected == 1 ? 'transparent' : 'white';
+                      const borderWidth = item.selected == 1 ? 1 : 1;
+                      const color = item.selected == 1 ? 'black' : 'white';
+                      const backgroundColor =
+                        item.selected == 1 ? '#2CDEE4' : '#1E2026';
+                      const textColor = item.selected == 1 ? 'black' : 'white';
+                      return (
+                        <TouchableOpacity
+                          onPress={() => {
+                            switch (item.day) {
+                              case 'L':
+                                arrayhelper.form.values.days_preference.is_monday_preferred =
+                                  !arrayhelper.form.values.days_preference
+                                    .is_monday_preferred;
+                                setSelectedDay(
+                                  SelectedDay.map((item) =>
+                                    item.day === 'L'
+                                      ? { ...item, selected: !item.selected }
+                                      : item,
+                                  ),
+                                );
+                                break;
+                              case 'M':
+                                arrayhelper.form.values.days_preference.is_tuesday_preferred =
+                                  !arrayhelper.form.values.days_preference
+                                    .is_tuesday_preferred;
+                                setSelectedDay(
+                                  SelectedDay.map((item) =>
+                                    item.day === 'M'
+                                      ? { ...item, selected: !item.selected }
+                                      : item,
+                                  ),
+                                );
+                                break;
+                              case 'ME':
+                                arrayhelper.form.values.days_preference.is_wednesday_preferred =
+                                  !arrayhelper.form.values.days_preference
+                                    .is_wednesday_preferred;
+                                setSelectedDay(
+                                  SelectedDay.map((item) =>
+                                    item.day === 'ME'
+                                      ? { ...item, selected: !item.selected }
+                                      : item,
+                                  ),
+                                );
+                                break;
+                              case 'J':
+                                arrayhelper.form.values.days_preference.is_thursday_preferred =
+                                  !arrayhelper.form.values.days_preference
+                                    .is_thursday_preferred;
+                                setSelectedDay(
+                                  SelectedDay.map((item) =>
+                                    item.day === 'J'
+                                      ? { ...item, selected: !item.selected }
+                                      : item,
+                                  ),
+                                );
+                                break;
+                              case 'V':
+                                arrayhelper.form.values.days_preference.is_friday_preferred =
+                                  !arrayhelper.form.values.days_preference
+                                    .is_friday_preferred;
+                                setSelectedDay(
+                                  SelectedDay.map((item) =>
+                                    item.day === 'V'
+                                      ? { ...item, selected: !item.selected }
+                                      : item,
+                                  ),
+                                );
+                                break;
+                              case 'S':
+                                arrayhelper.form.values.days_preference.is_saturday_preferred =
+                                  !arrayhelper.form.values.days_preference
+                                    .is_saturday_preferred;
+                                setSelectedDay(
+                                  SelectedDay.map((item) =>
+                                    item.day === 'S'
+                                      ? { ...item, selected: !item.selected }
+                                      : item,
+                                  ),
+                                );
+                                break;
+                              case 'D':
+                                arrayhelper.form.values.days_preference.is_sunday_preferred =
+                                  !arrayhelper.form.values.days_preference
+                                    .is_sunday_preferred;
+                                setSelectedDay(
+                                  SelectedDay.map((item) =>
+                                    item.day === 'D'
+                                      ? { ...item, selected: !item.selected }
+                                      : item,
+                                  ),
+                                );
+                                break;
+                              default:
+                                break;
+                            }
                           }}>
-                          <Text
-                            style={{
-                              color: textColor,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              alignContent: 'center',
-                            }}>
-                            {item.availability_day}
-                          </Text>
-                          <Text
-                            style={{
-                              color: textColor,
-                              marginTop: 10,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              alignContent: 'center',
-                            }}>
-                            {item.day}
-                          </Text>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  );
-                }}
-                keyExtractor={(item) => item.day}
+                          <View
+                            style={[
+                              styles.day,
+                              { backgroundColor: backgroundColor },
+                            ]}>
+                            <View
+                              style={{
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                alignContent: 'center',
+                              }}>
+                              <Text
+                                style={{
+                                  color: textColor,
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                  alignContent: 'center',
+                                }}>
+                                {item.availability_day}
+                              </Text>
+                              <Text
+                                style={{
+                                  color: textColor,
+                                  marginTop: 10,
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
+                                  alignContent: 'center',
+                                }}>
+                                {item.day}
+                              </Text>
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                      );
+                    }}
+                    keyExtractor={(item) => item.day}
+                  />
+                )}
               />
-              )}/>
             </View>
           );
         }}
