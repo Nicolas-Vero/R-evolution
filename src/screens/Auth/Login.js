@@ -18,17 +18,21 @@ import { STORAGE } from '../../configs/Constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Button } from '../../components/Button';
 import { get_coach_me } from '../../api/Coach';
-import { heightPercentageToDP, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 import { loadFonts } from '../../configs/design/font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 export default class Login extends React.Component {
-   componentDidMount() {
-     loadFonts;
+  componentDidMount() {
+    loadFonts;
   }
   async onLoginPress(values) {
+    this.props.navigation.navigate('Dashboard');
     // const {email, password}=values;
-    const { email, password } = values
+    const { email, password } = values;
     const body = { email, password };
     console.log(body);
     this.setState({ loading: true });
@@ -116,89 +120,110 @@ export default class Login extends React.Component {
           flex: 1,
 
           // justifyContent:"space-evenly"
-      }}>
+        }}>
         <SafeAreaView>
-        <Header />
-        <View style={styles.logoContainer}>
-          <Image
-            source={require('../../../assets/images/logo.png')}
-            style={styles.image}></Image>
-        </View>
+          <Header />
+          <View style={styles.logoContainer}>
+            <Image
+              source={require('../../../assets/images/logo.png')}
+              style={styles.image}></Image>
+          </View>
 
-        <View style={{ alignItems: 'center' }}>
-          <Formik
-            initialValues={{
-              email: '',
-              password: '',
-            }}
-            onSubmit={(values, { onLoginPress }) => onLoginPress(values)}>
-            {({
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              setFieldValue,
-              values,
-            }) => (
-              <View>
-                {/* {console.log(values)} */}
+          <View style={{ alignItems: 'center' }}>
+            <Formik
+              initialValues={{
+                email: '',
+                password: '',
+              }}
+              onSubmit={(values, { onLoginPress }) => onLoginPress(values)}>
+              {({
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                setFieldValue,
+                values,
+              }) => (
+                <View>
+                  {/* {console.log(values)} */}
 
-                <View style={{ marginBottom: 15 }}>
-                  <TextInput
-                    placeholder="Email"
+                  <View style={{ marginBottom: 15 }}>
+                    <TextInput
+                      placeholder="Email"
+                      style={{
+                        backgroundColor: '#FFFFFF',
+                        height: 40,
+                        width: wp(92),
+                        borderRadius: 5,
+                        paddingLeft: 15,
+                      }}
+                      onChangeText={handleChange('email')}
+                      autoCapitalize="none"
+                      onBlur={handleBlur('email')}
+                      value={values.mail}
+                    />
+                  </View>
+                  <View style={{ marginBottom: 15 }}>
+                    <TextInput
+                      placeholder="Mot de passe"
+                      style={{
+                        backgroundColor: '#FFFFFF',
+                        height: 40,
+                        width: wp(92),
+                        borderRadius: 5,
+                        paddingLeft: 15,
+                      }}
+                      onChangeText={handleChange('password')}
+                      autoCapitalize="none"
+                      onBlur={handleBlur('password')}
+                      value={values.password}
+                    />
+                  </View>
+                  <View>
+                    <TouchableOpacity>
+                      <Text style={{ fontFamily: 'Roboto', color: '#B9B9BC' }}>
+                        Mot de passe oublié ?
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+
+                  <View style={{ alignItems: 'center', marginTop: 25 }}>
+                    <Button
+                      style={{ width: wp(94), borderRadius: 5 }}
+                      loading={false}
+                      title="Se connecter"
+                      customTextStyle={{
+                        color: 'black',
+                        fontFamily: 'RobotoBold',
+                        fontWeight: 'bold',
+                        fontSize: 17,
+                      }}
+                      onPress={() => {
+                        this.onLoginPress(values);
+                      }}
+                    />
+                  </View>
+                  <View
                     style={{
-                      backgroundColor: '#FFFFFF',
-                      height: 40,
-                      width: wp(92),
-                      borderRadius: 5,
-                    }}
-                    onChangeText={handleChange('email')}
-                    autoCapitalize="none"
-                    onBlur={handleBlur('email')}
-                    value={values.mail}
-                  />
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      marginTop: 20,
+                    }}>
+                    <Text style={{ fontFamily: 'Roboto', color: '#B9B9BC' }}>
+                      Pas encore membre?{' '}
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        this.props.navigation.navigate('RegisterInfo');
+                      }}>
+                      <Text style={{ fontFamily: 'Roboto', color: '#2CDEE4' }}>
+                        Créer ton compte
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-                <View style={{ marginBottom: 15 }}>
-                  <TextInput
-                    placeholder="Mot de passe"
-                    style={{
-                      backgroundColor: '#FFFFFF',
-                      height: 40,
-                      width: wp(92),
-                      borderRadius: 5,
-                    }}
-                    onChangeText={handleChange('password')}
-                    autoCapitalize="none"
-                    onBlur={handleBlur('password')}
-                    value={values.password}
-                  />
-                </View>
-                <View >
-                  <TouchableOpacity>
-                    <Text style={{fontFamily:'Roboto', color:'#B9B9BC'}}>Mot de passe oublié ?</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <View style={{ alignItems: 'center',marginTop:25 }}>
-                  <Button
-                    style={{ width: wp(94), borderRadius: 5, }}
-                    loading={false}
-                    title="Se connecter"
-                    customTextStyle={{color: "black", fontFamily:'RobotoBold',fontWeight:'bold',fontSize:17}}
-                    onPress={() => {
-                      this.onLoginPress(values);
-                    }}
-                  />
-                </View>
-                <View  style={{flexDirection:'row',justifyContent:'center', marginTop:20}}>
-                  <Text style={{fontFamily:'Roboto', color:'#B9B9BC'}}>Pas encore membre? </Text>
-                  <TouchableOpacity onPress={()=>{  this.props.navigation.navigate('RegisterInfo')}}>
-                    <Text style={{fontFamily:'Roboto', color:'#2CDEE4'}}>Créer ton compte</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            )}
-          </Formik>
-        </View>
+              )}
+            </Formik>
+          </View>
         </SafeAreaView>
       </LinearGradient>
     );
@@ -210,7 +235,7 @@ const styles = StyleSheet.create({
     height: heightPercentageToDP(20),
     width: wp(90),
     resizeMode: 'contain',
-    marginBottom:heightPercentageToDP(5)
+    marginBottom: heightPercentageToDP(5),
   },
   backgroundContainer: {
     flex: 1,
@@ -255,5 +280,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: heightPercentageToDP(5),
-  }
+  },
 });

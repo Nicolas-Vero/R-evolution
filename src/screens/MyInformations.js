@@ -19,7 +19,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../configs/Constants';
 import { FieldArray, Field, Formik } from 'formik';
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
 import { Avatar, CheckBox } from 'react-native-elements';
 import { Button, DeleteButton, ModifyButton } from '../components/Button';
 import HeaderLight from '../components/HeaderLight';
@@ -56,18 +56,18 @@ export default class MyInformations extends React.Component {
       Coach: {},
       User: [],
       term: '',
-      Gymdata:[]
+      Gymdata: [],
     };
   }
 
   async componentDidMount() {
-     loadFonts();
+    loadFonts();
     get_coach_me().then((res) => {
       this.setState({ Coach: res.data });
     });
-    get_gym().then((res)=>{
-      this.setState({Gymdata: res.data})
-    })
+    get_gym().then((res) => {
+      this.setState({ Gymdata: res.data });
+    });
     const user = await AsyncStorage.getItem(USER);
     this.setState({ User: user });
   }
@@ -122,6 +122,7 @@ export default class MyInformations extends React.Component {
   render() {
     const { navigation } = this.props;
     var term = '';
+    const arrayhelper = [];
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <LinearGradient
@@ -138,16 +139,16 @@ export default class MyInformations extends React.Component {
         />
         <SafeAreaView>
           <ScrollView>
-          <View
+            <View
               style={{
                 flexDirection: 'row',
 
-                alignContent:'center'
+                alignContent: 'center',
               }}>
-                <View style={{flex:1 }}>
-              <HeaderLight />
+              <View style={{ flex: 1 }}>
+                <HeaderLight />
               </View>
-              <View style={{flex:2 }}>
+              <View style={{ flex: 2 }}>
                 <Avatar
                   size={100}
                   rounded
@@ -156,7 +157,7 @@ export default class MyInformations extends React.Component {
                   }}
                 />
               </View>
-              </View>
+            </View>
             <Formik
               initialValues={{
                 gender: 'female',
@@ -216,7 +217,7 @@ export default class MyInformations extends React.Component {
                       onPress={() => setFieldValue('gender', 'female')}
                     />
                   </View>
-                    <Text style={styles.text}>Prénom</Text>
+                  <Text style={styles.text}>Prénom</Text>
                   <View style={styles.inputs}>
                     <TextInput
                       placeholder="Nom"
@@ -226,7 +227,7 @@ export default class MyInformations extends React.Component {
                       value={values.first_name}
                     />
                   </View>
-                    <Text style={styles.text}>Nom</Text>
+                  <Text style={styles.text}>Nom</Text>
                   <View style={styles.inputs}>
                     <TextInput
                       placeholder="Prénom"
@@ -236,7 +237,7 @@ export default class MyInformations extends React.Component {
                       value={values.last_name}
                     />
                   </View>
-                    <Text style={styles.text}>Adresse e-mail</Text>
+                  <Text style={styles.text}>Adresse e-mail</Text>
                   <View style={styles.inputs}>
                     <TextInput
                       placeholder="Email"
@@ -246,7 +247,7 @@ export default class MyInformations extends React.Component {
                       value={values.email}
                     />
                   </View>
-                    <Text style={styles.text}>Téléphone</Text>
+                  <Text style={styles.text}>Téléphone</Text>
                   <View style={styles.inputs}>
                     <TextInput
                       placeholder="Téléphone"
@@ -256,35 +257,43 @@ export default class MyInformations extends React.Component {
                       value={values.phone}
                     />
                   </View>
-                  <View style={{alignItems:'center', marginVertical:15}}>
-                    <DeleteButton customContainerStyles={{borderColor:'black',backgroundColor:'#1E2026',height:50,width:widthPercentageToDP(92)}} title="modifier mot de passe" />
+                  <View style={{ alignItems: 'center', marginVertical: 15 }}>
+                    <DeleteButton
+                      customContainerStyles={{
+                        borderColor: 'black',
+                        backgroundColor: '#1E2026',
+                        height: 50,
+                        width: widthPercentageToDP(92),
+                      }}
+                      title="modifier mot de passe"
+                    />
                   </View>
-                    <Text style={styles.text}>Diplôme(s)</Text>
+                  <Text style={styles.text}>Diplôme(s)</Text>
                   <View style={styles.inputs}>
                     <View style={{ alignItems: 'center' }}>
-                      <View style={{width:widthPercentageToDP(92)}}>
+                      <View style={{ width: widthPercentageToDP(92) }}>
                         <FieldArray
                           render={(arrayhelper) => (
                             <View>
-                               <TextInput
+                              <TextInput
                                 style={styles.container}
                                 onChangeText={(text) => {
                                   term = text;
-                                  console.log('ff',term);
+                                  console.log('ff', term);
                                 }}
                               />
-                                    <TouchableOpacity
+                              <TouchableOpacity
                                 onPress={() => {
                                   this.setState({
-                                    User: [...this.state.User, term]
-                                  })
+                                    User: [...this.state.User, term],
+                                  });
                                   values.spécialities.push({ value: term });
                                 }}>
                                 <View
                                   style={{
                                     flexDirection: 'row',
                                     alignItems: 'baseline',
-                                    
+
                                     marginLeft: 5,
                                     marginRight: widthPercentageToDP(48),
                                   }}>
@@ -305,179 +314,170 @@ export default class MyInformations extends React.Component {
                                 </View>
                               </TouchableOpacity>
                             </View>
-                          )}   
+                          )}
                         />
-                              <View style={styles.container3}>
-                                <FlatList
-                                  data={this.state.User}
-                                  extraData={this.state.User}
-                                  renderItem={({ item }) => {
-                                    item.selected
-                                      ? console.log(item.selected)
-                                      : console.log('noclick');
-                                    const backgroundColor =
-                                      item.selected == 1
-                                        ? '#2CDEE4'
-                                        : 'transparent';
-                                    const borderColor =
-                                      item.selected == 1
-                                        ? 'transparent'
-                                        : 'white';
-                                    const borderWidth =
-                                      item.selected == 1 ? 1 : 1;
-                                    const color =
-                                      item.selected == 1 ? 'black' : 'white';
-                                    return (
-                                      <View style={{flexDirection:'row'}}>
-                                      <TouchableOpacity
-                                        onPress={() => {
-                                          item.selected != 1
-                                            ? (item.selected = 1)
-                                            : (item.selected = 0);
-                                          arrayhelper.form.values.spécialities.includes(
-                                            item.value,
-                                          )
-                                            ? arrayhelper.remove(item.value)
-                                            : arrayhelper.push(item.value);
+                        <View style={styles.container3}>
+                          <FlatList
+                            data={this.state.User}
+                            extraData={this.state.User}
+                            renderItem={({ item }) => {
+                              item.selected
+                                ? console.log(item.selected)
+                                : console.log('noclick');
+                              const backgroundColor =
+                                item.selected == 1 ? '#2CDEE4' : 'transparent';
+                              const borderColor =
+                                item.selected == 1 ? 'transparent' : 'white';
+                              const borderWidth = item.selected == 1 ? 1 : 1;
+                              const color =
+                                item.selected == 1 ? 'black' : 'white';
+                              return (
+                                <View style={{ flexDirection: 'row' }}>
+                                  <TouchableOpacity
+                                    onPress={() => {
+                                      item.selected != 1
+                                        ? (item.selected = 1)
+                                        : (item.selected = 0);
+                                      arrayhelper?.form?.values?.spécialities?.includes(
+                                        item?.value,
+                                      )
+                                        ? arrayhelper?.remove(item?.value)
+                                        : arrayhelper?.push(item?.value);
+                                    }}>
+                                    <View
+                                      style={{
+                                        backgroundColor: backgroundColor,
+                                        borderRadius: 25,
+                                        padding: 10,
+                                        justifyContent: 'center',
+                                        margin: 5,
+                                        borderColor: borderColor,
+                                        borderWidth: borderWidth,
+                                      }}>
+                                      <Text
+                                        style={{
+                                          fontFamily: 'RobotoBold',
+                                          fontSize: 15,
+                                          color: color,
                                         }}>
-                                        <View
-                                          style={{
-                                            backgroundColor: backgroundColor,
-                                            borderRadius: 25,
-                                            padding: 10,
-                                            justifyContent: 'center',
-                                            margin: 5,
-                                            borderColor: borderColor,
-                                            borderWidth: borderWidth,
-                                          }}>
-                                          <Text
-                                            style={{
-                                              fontFamily:'RobotoBold',
-                                              fontSize: 15,
-                                              color: color,
-                                            }}>
-                                            {item}
-                                          </Text>
-                                        </View>
-                                      </TouchableOpacity>
-                                      <View
-                                style={{
-                                  alignItems: 'flex-end',
-                                 
-                                  marginRight: 5,
-                                  color: '#2CDEE4',
-                                }}>
-                                <TouchableOpacity
-                                  onPress={() => {
-                                    this.state.User.pop()
-                                    values.spécialities.pop();
-                                  }}>
-                                  <Text style={{ color: '#2CDEE4' }}>
-                                    Supprimer
-                                  </Text>
-                                </TouchableOpacity>
-                              </View>
-                                     </View> 
-                                    );
-                                  }}
-                                  keyExtractor={(item) => item.id}
-                                  //   extraData={selectedId}
-                                />
-                              </View>
+                                        {item}
+                                      </Text>
+                                    </View>
+                                  </TouchableOpacity>
+                                  <View
+                                    style={{
+                                      alignItems: 'flex-end',
+
+                                      marginRight: 5,
+                                      color: '#2CDEE4',
+                                    }}>
+                                    <TouchableOpacity
+                                      onPress={() => {
+                                        this.state.User.pop();
+                                        values.spécialities.pop();
+                                      }}>
+                                      <Text style={{ color: '#2CDEE4' }}>
+                                        Supprimer
+                                      </Text>
+                                    </TouchableOpacity>
+                                  </View>
+                                </View>
+                              );
+                            }}
+                            keyExtractor={(item) => item.id}
+                            //   extraData={selectedId}
+                          />
+                        </View>
                       </View>
                     </View>
                   </View>
                   <Text style={styles.text}>Spécialities(s)</Text>
                   <FlatList
-                                  horizontal={true}
-                                  data={this.state.User}
-                                  extraData={this.state.User}
-                                  renderItem={({ item }) => {
-                                    item.selected
-                                      ? console.log(item.selected)
-                                      : console.log('noclick');
-                                    const backgroundColor =
-                                      item.selected == 1
-                                        ? '#2CDEE4'
-                                        : 'transparent';
-                                    const borderColor =
-                                      item.selected == 1
-                                        ? 'transparent'
-                                        : 'white';
-                                    const borderWidth =
-                                      item.selected == 1 ? 1 : 1;
-                                    const color =
-                                      item.selected == 1 ? 'black' : 'white';
-                                    return (
-                                      console.log(item),
-                                      <View style={{flexDirection:'row'}}>
-                                      <TouchableOpacity
-                                        onPress={() => {
-                                          item.selected != 1
-                                            ? (item.selected = 1)
-                                            : (item.selected = 0);
-                                          arrayhelper.form.values.spécialities.includes(
-                                            item.value,
-                                          )
-                                            ? arrayhelper.remove(item.value)
-                                            : arrayhelper.push(item.value);
-                                        }}>
-                                        <View
-                                          style={{
-                                            backgroundColor: backgroundColor,
-                                            borderRadius: 25,
-                                            padding: 10,
-                                            justifyContent: 'center',
-                                            margin: 5,
-                                            borderColor: borderColor,
-                                            borderWidth: borderWidth,
-                                          }}>
-                                          <Text
-                                            style={{
-                                              fontFamily:'RobotoBold',
-                                              fontSize: 15,
-                                              color: color,
-                                            }}>
-                                            {item}
-                                          </Text>
-                                        </View>
-                                      </TouchableOpacity>
-                                      <View
+                    horizontal={true}
+                    data={this.state.User}
+                    extraData={this.state.User}
+                    renderItem={({ item }) => {
+                      item.selected
+                        ? console.log(item.selected)
+                        : console.log('noclick');
+                      const backgroundColor =
+                        item.selected == 1 ? '#2CDEE4' : 'transparent';
+                      const borderColor =
+                        item.selected == 1 ? 'transparent' : 'white';
+                      const borderWidth = item.selected == 1 ? 1 : 1;
+                      const color = item.selected == 1 ? 'black' : 'white';
+                      return (
+                        console.log(item),
+                        (
+                          <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity
+                              onPress={() => {
+                                item.selected != 1
+                                  ? (item.selected = 1)
+                                  : (item.selected = 0);
+                                arrayhelper?.form?.values?.spécialities?.includes(
+                                  item.value,
+                                )
+                                  ? arrayhelper?.remove(item?.value)
+                                  : arrayhelper?.push(item?.value);
+                              }}>
+                              <View
                                 style={{
-                                  alignItems: 'flex-end',
-                                  marginRight: 5,
-                                  color: '#2CDEE4',
+                                  backgroundColor: backgroundColor,
+                                  borderRadius: 25,
+                                  padding: 10,
+                                  justifyContent: 'center',
+                                  margin: 5,
+                                  borderColor: borderColor,
+                                  borderWidth: borderWidth,
                                 }}>
-                                <TouchableOpacity
-                                  onPress={() => {
-                                    this.state.User.pop()
-                                    values.spécialities.pop();
+                                <Text
+                                  style={{
+                                    fontFamily: 'RobotoBold',
+                                    fontSize: 15,
+                                    color: color,
                                   }}>
-                                  <Text style={{ color: '#2CDEE4' }}>
-                                    Supprimer
-                                  </Text>
-                                </TouchableOpacity>
-                               </View>
-                                     </View> 
-                                    );
-                                  }}
-                                  keyExtractor={(item) => item.id}
-                                />
-               
+                                  {item}
+                                </Text>
+                              </View>
+                            </TouchableOpacity>
+                            <View
+                              style={{
+                                alignItems: 'flex-end',
+                                marginRight: 5,
+                                color: '#2CDEE4',
+                              }}>
+                              <TouchableOpacity
+                                onPress={() => {
+                                  this.state.User.pop();
+                                  values.spécialities.pop();
+                                }}>
+                                <Text style={{ color: '#2CDEE4' }}>
+                                  Supprimer
+                                </Text>
+                              </TouchableOpacity>
+                            </View>
+                          </View>
+                        )
+                      );
+                    }}
+                    keyExtractor={(item) => item.id}
+                  />
+
                   <View style={styles.inputs}>
                     <View style={{ alignItems: 'center' }}>
                       <View style={{ alignItems: 'center' }}>
                         <FieldArray
                           render={(arrayhelper) => (
                             <View>
-                               <TextInput
+                              <TextInput
                                 style={{
                                   backgroundColor: '#FFFFFF',
                                   paddingTop: 10,
                                   paddingBottom: 10,
                                   paddingLeft: 15,
-                                  height:50,
-                                  borderRadius:5,
+                                  height: 50,
+                                  borderRadius: 5,
                                   paddingRight: 15,
                                   marginLeft: 5,
                                   justifyContent: 'center',
@@ -487,14 +487,14 @@ export default class MyInformations extends React.Component {
                                 }}
                                 onChangeText={(text) => {
                                   term = text;
-                                  console.log('ff',term);
+                                  console.log('ff', term);
                                 }}
                               />
-                                    <TouchableOpacity
+                              <TouchableOpacity
                                 onPress={() => {
                                   this.setState({
-                                    User: [...this.state.User, term]
-                                  })
+                                    User: [...this.state.User, term],
+                                  });
                                   values.spécialities.push({ value: term });
                                 }}>
                                 <View
@@ -521,60 +521,82 @@ export default class MyInformations extends React.Component {
                                 </View>
                               </TouchableOpacity>
                             </View>
-                          )}  
+                          )}
                         />
-                              <View style={styles.container3}>
-                                
-                              </View>
+                        <View style={styles.container3}></View>
                       </View>
                     </View>
                     <View style={styles}>
-                    <Text style={styles.text}>Dans quelle salle pratiques-tu ?</Text>
-                    <View style={{ alignItems: 'center' }}>
-                    <SelectDropdown
-                  buttonStyle={{ width: widthPercentageToDP(92), borderRadius:5  }}
-                  data={this.state.Gymdata}
-                  defaultButtonText={"Recherche le nom de ta salle"}
-                  onSelect={(selectedItem, index) => {
-                    if (arrayhelper.form.values.gymPlace.length>1) {
-                      console.log(arrayhelper.form.values.gymPlace.length);
-                       arrayhelper.pop()
-                    }else{}
-                    arrayhelper.push(selectedItem)
-                    console.log(arrayhelper.form.values.gymPlace);
-                  }}
-                  renderDropdownIcon={() => {
-                    return <AntDesign name="down" size={24} color="black" />;
-                  }}
-                  dropdownIconPosition={'right'}
-                  buttonTextAfterSelection={(selectedItem, index) => {
-                    // text represented after item is selected
-                    // if data array is an array of objects then return selectedItem.property to render after item is selected
-                    
-                    return selectedItem.name;
-                  }}
-                  
-                  rowTextStyle={{color:'white',fontSize:15, marginRight:90}}
-                  dropdownStyle={{backgroundColor:'#282C3A',borderRadius:5 }}
-                  rowTextForSelection={(item, index) => {
-                    // text represented for each item in dropdown
-                    // if data array is an array of objects then return item.property to represent item in dropdown
-                    return item.name;
-                  }}
-                />
-                </View>
-                </View>
-                  </View>                
-                  <View style={{ alignItems: 'center', marginTop:30 }}>
-                      <Button
-                        loading={false}
-                        title="Valider les changements"
-                        customTextStyle={{fontFamily:'RobotoBold',fontSize:17}}
-                        onPress={()=>{navigation.navigate('MoreInfoAthlete',{item:values})}
-                        }/>
+                      <Text style={styles.text}>
+                        Dans quelle salle pratiques-tu ?
+                      </Text>
+                      <View style={{ alignItems: 'center' }}>
+                        <SelectDropdown
+                          buttonStyle={{
+                            width: widthPercentageToDP(92),
+                            borderRadius: 5,
+                          }}
+                          data={this.state.Gymdata}
+                          defaultButtonText={'Recherche le nom de ta salle'}
+                          onSelect={(selectedItem, index) => {
+                            if (
+                              arrayhelper?.form?.values?.gymPlace?.length > 1
+                            ) {
+                              console.log(
+                                arrayhelper?.form?.values?.gymPlace?.length,
+                              );
+                              arrayhelper?.pop();
+                            } else {
+                            }
+                            arrayhelper?.push(selectedItem);
+                            console.log(arrayhelper?.form?.values?.gymPlace);
+                          }}
+                          renderDropdownIcon={() => {
+                            return (
+                              <AntDesign name="down" size={24} color="black" />
+                            );
+                          }}
+                          dropdownIconPosition={'right'}
+                          buttonTextAfterSelection={(selectedItem, index) => {
+                            // text represented after item is selected
+                            // if data array is an array of objects then return selectedItem.property to render after item is selected
+
+                            return selectedItem.name;
+                          }}
+                          rowTextStyle={{
+                            color: 'white',
+                            fontSize: 15,
+                            marginRight: 90,
+                          }}
+                          dropdownStyle={{
+                            backgroundColor: '#282C3A',
+                            borderRadius: 5,
+                          }}
+                          rowTextForSelection={(item, index) => {
+                            // text represented for each item in dropdown
+                            // if data array is an array of objects then return item.property to represent item in dropdown
+                            return item.name;
+                          }}
+                        />
+                      </View>
                     </View>
                   </View>
-               
+                  <View style={{ alignItems: 'center', marginTop: 30 }}>
+                    <Button
+                      loading={false}
+                      title="Valider les changements"
+                      customTextStyle={{
+                        fontFamily: 'RobotoBold',
+                        fontSize: 17,
+                      }}
+                      onPress={() => {
+                        navigation.navigate('MoreInfoAthlete', {
+                          item: values,
+                        });
+                      }}
+                    />
+                  </View>
+                </View>
               )}
             </Formik>
           </ScrollView>
@@ -598,16 +620,16 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
   },
- inputs:{
-    marginBottom:15,
-    alignItems:'center'
+  inputs: {
+    marginBottom: 15,
+    alignItems: 'center',
   },
-  container:{
+  container: {
     backgroundColor: '#FFFFFF',
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 15,
-    width:widthPercentageToDP(92),
+    width: widthPercentageToDP(92),
     height: 45,
     borderRadius: 5,
     paddingRight: 15,
@@ -621,20 +643,19 @@ const styles = StyleSheet.create({
   },
   container1: {
     height: 300,
-    alignItems:'center',
+    alignItems: 'center',
     alignContent: 'center',
     justifyContent: 'center',
-
   },
   container2: {
     height: 150,
     justifyContent: 'center',
-    alignItems:'center',
-    marginTop:65
+    alignItems: 'center',
+    marginTop: 65,
   },
   container3: {
     maxHeight: 150,
-    width:widthPercentageToDP(95),
+    width: widthPercentageToDP(95),
     padding: 5,
     justifyContent: 'center',
   },
@@ -643,23 +664,23 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginVertical: 8,
     padding: 10,
-    justifyContent:'center',
+    justifyContent: 'center',
   },
   itemcontent: {
     fontSize: 15,
     fontWeight: 'bold',
   },
   title: {
-    fontFamily:'RobotoBold',
+    fontFamily: 'RobotoBold',
     fontSize: 20,
     color: '#FFFFFF',
     lineHeight: 24,
   },
   text: {
-    fontFamily:'RobotoBold',
+    fontFamily: 'RobotoBold',
     fontSize: 15,
     color: '#FFFFFF',
-    marginLeft:15,
-    marginBottom:10
+    marginLeft: 15,
+    marginBottom: 10,
   },
 });

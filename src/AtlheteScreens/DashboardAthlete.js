@@ -31,7 +31,10 @@ import { DeleteButton } from '../components/Button';
 import { athlete_active_appointement } from '../api/Athlete';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../configs/Constants';
-import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 import * as Notifications from 'expo-notifications';
 
 LocaleConfig.locales['fr'] = {
@@ -181,30 +184,32 @@ export default class DashboardAthlete extends React.Component {
     book: [],
     currentItem: [],
     availabilities: [],
-    athleteCourse:{},
-    currentSlot:'',
-    dayApointement:[],
-    upcomingApointement:[],
-};
+    athleteCourse: {},
+    currentSlot: '',
+    dayApointement: [],
+    upcomingApointement: [],
+  };
 
-sendNotificationImmediately = async (notification) => {
-  // alert(JSON.parse(notification))
-  console.log('=====>>>>>',notification)
-  let notificationId = await Notifications.presentLocalNotificationAsync({
+  sendNotificationImmediately = async (notification) => {
+    // alert(JSON.parse(notification))
+    console.log('=====>>>>>', notification);
+    let notificationId = await Notifications.presentLocalNotificationAsync({
       title: notification?.request?.content?.title,
       body: notification?.request?.content?.body,
-  });
-  console.log(notificationId); // can be saved in AsyncStorage or send to server
-};
+    });
+    console.log(notificationId); // can be saved in AsyncStorage or send to server
+  };
 
-
- async componentDidMount(){
+  async componentDidMount() {
     try {
-      this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
-        console.log('[Notification-A-Dashboard]', notification);
-        this.sendNotificationImmediately(notification);
-      });
-      this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
+      this.notificationListener = Notifications.addNotificationReceivedListener(
+        (notification) => {
+          console.log('[Notification-A-Dashboard]', notification);
+          this.sendNotificationImmediately(notification);
+        },
+      );
+      this.responseListener =
+        Notifications.addNotificationResponseReceivedListener((response) => {
           console.log('[Response-A-Dashboard]', response);
           this.sendNotificationImmediately(response);
           this.props.navigation.push('Activitie');
@@ -214,10 +219,10 @@ sendNotificationImmediately = async (notification) => {
     }
 
     await loadFonts();
-     let user = await AsyncStorage.getItem(STORAGE.USER)
-      user = JSON.parse(user);
-      this.setState({ coach_id: user.coach_id });
-      this.setState({ user: user });   
+    let user = await AsyncStorage.getItem(STORAGE.USER);
+    user = JSON.parse(user);
+    this.setState({ coach_id: user.coach_id });
+    this.setState({ user: user });
     get_athlete_active_courses().then((res) => {
       this.setState({ athleteCourse: res.data });
     });
@@ -561,10 +566,10 @@ sendNotificationImmediately = async (notification) => {
                   navigate('Notifications');
                 }}
                 style={{ marginLeft: 20, marginRight: 10 }}>
-                <Image
+                {/* <Image
                   style={{ height: 38, width: 48, resizeMode: 'contain' }}
                   source={require('../../assets/images/Notif.png')}
-                />
+                /> */}
               </TouchableOpacity>
             </View>
           </View>
@@ -714,7 +719,7 @@ sendNotificationImmediately = async (notification) => {
                 {this.state.upcomingApointement &&
                 this.state.upcomingApointement.length ? (
                   <FlatList
-                  style={{maxHeight:heightPercentageToDP(45)}}
+                    style={{ maxHeight: heightPercentageToDP(45) }}
                     data={this.state.upcomingApointement}
                     extraData={this.state}
                     // onRefresh={onRefresh}
@@ -722,100 +727,97 @@ sendNotificationImmediately = async (notification) => {
                     keyExtractor={(item) => item?.id}
                     renderItem={({ item }) => {
                       return (
-                        (
-                          <View style={{ alignItems: 'center' }}>
-                            {item?.show == 1 ? (
+                        <View style={{ alignItems: 'center' }}>
+                          {item?.show == 1 ? (
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                                width: widthPercentageToDP(94),
+                                alignItems: 'center',
+                              }}>
+                              <Text
+                                style={{
+                                  color: 'white',
+                                  flex: 2,
+                                  fontSize: 10,
+                                  fontFamily: 'MontserratBoldItalic',
+                                }}>
+                                {moment(item?.date).format('dddd D MMMM')}
+                              </Text>
                               <View
                                 style={{
-                                  flexDirection: 'row',
-                                  width: widthPercentageToDP(94),
-                                  alignItems: 'center',
-                                }}>
-                                <Text
-                                  style={{
-                                    color: 'white',
-                                    flex: 2,
-                                    fontSize: 10,
-                                    fontFamily: 'MontserratBoldItalic',
-                                  }}>
-                                  {moment(item?.date).format('dddd D MMMM')}
-                                </Text>
-                                <View
-                                  style={{
-                                    borderColor: 'white',
-                                    flex: 5,
-                                    borderBottomWidth: 1,
-                                  }}></View>
-                              </View>
-                            ) : (
-                              <View></View>
-                            )}
-                            <TouchableOpacity
-                              onPress={() => {
-                                console.log(item);
+                                  borderColor: 'white',
+                                  flex: 5,
+                                  borderBottomWidth: 1,
+                                }}></View>
+                            </View>
+                          ) : (
+                            <View></View>
+                          )}
+                          <TouchableOpacity
+                            onPress={() => {
+                              console.log(item);
+                            }}>
+                            <View
+                              style={{
+                                flexDirection: 'row',
+                                justifyContent: 'space-around',
+                                alignContent: 'center',
+                                backgroundColor: '#1E2026',
+                                margin: 10,
+                                width: widthPercentageToDP(94),
+                                borderRadius: 5,
                               }}>
                               <View
                                 style={{
-                                  flexDirection: 'row',
-                                  justifyContent: 'space-around',
-                                  alignContent: 'center',
-                                  backgroundColor: '#1E2026',
-                                  margin: 10,
-                                  width: widthPercentageToDP(94),
-                                  borderRadius: 5,
+                                  height: 70,
+                                  justifyContent: 'center',
+                                  alignItems: 'center',
                                 }}>
-                                <View
-                                  style={{
-                                    height: 70,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                  }}>
-                                  <Avatar
-                                    size="medium"
-                                    rounded
-                                    source={{
-                                      uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                                    }}
-                                  />
-                                </View>
+                                <Avatar
+                                  size="medium"
+                                  rounded
+                                  source={{
+                                    uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                                  }}
+                                />
+                              </View>
 
-                                <View
-                                  style={{
-                                    justifyContent: 'center',
-                                    flexDirection: 'column',
-                                    marginRight: 40,
-                                  }}>
-                                  <View style={{ flexDirection: 'row' }}>
-                                    <Text
-                                      style={{
-                                        fontWeight: 'bold',
-                                        fontSize: 17,
-                                        color: 'white',
-                                      }}>
-                                      {item?.athlete.first_name}{' '}
-                                      {item?.athlete.last_name}
-                                    </Text>
-                                  </View>
-                                  <Text
-                                    style={{ fontSize: 12, color: 'white' }}>
-                                    Séance : {item?.session_number}/
-                                    {item?.athleteCourse?.total_sessions}
-                                  </Text>
-                                </View>
-                                <View style={{ justifyContent: 'center' }}>
+                              <View
+                                style={{
+                                  justifyContent: 'center',
+                                  flexDirection: 'column',
+                                  marginRight: 40,
+                                }}>
+                                <View style={{ flexDirection: 'row' }}>
                                   <Text
                                     style={{
                                       fontWeight: 'bold',
-                                      fontSize: 15,
+                                      fontSize: 17,
                                       color: 'white',
                                     }}>
-                                    {this.convertSlotToDate(item?.slot)}
+                                    {item?.athlete.first_name}{' '}
+                                    {item?.athlete.last_name}
                                   </Text>
                                 </View>
+                                <Text style={{ fontSize: 12, color: 'white' }}>
+                                  Séance : {item?.session_number}/
+                                  {item?.athleteCourse?.total_sessions}
+                                </Text>
                               </View>
-                            </TouchableOpacity>
-                          </View>
-                        )
+                              <View style={{ justifyContent: 'center' }}>
+                                <Text
+                                  style={{
+                                    fontWeight: 'bold',
+                                    fontSize: 15,
+                                    color: 'white',
+                                  }}>
+                                  {this.convertSlotToDate(item?.slot)}
+                                </Text>
+                              </View>
+                            </View>
+                          </TouchableOpacity>
+                        </View>
                       );
                     }}
                   />
@@ -936,7 +938,7 @@ sendNotificationImmediately = async (notification) => {
                                     this.state.currentItem,
                                   );
                                 });
-                                this.setState({modalVisible:false})
+                                this.setState({ modalVisible: false });
                               }}
                             />
                             <Button

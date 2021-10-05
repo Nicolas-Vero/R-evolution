@@ -13,7 +13,10 @@ const { width } = Dimensions.get('window');
 import { LocaleConfig } from 'react-native-calendars';
 import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../components/Header';
-import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 import { FlatList } from 'react-native-gesture-handler';
 import { Avatar } from 'react-native-elements';
 import { get_coach_reminder } from '../api/CoachReminder';
@@ -24,7 +27,7 @@ const options = [
 ];
 export default class Activitie extends React.Component {
   state = {
-    reminders:[],
+    reminders: [],
     refresh: false,
     user: { name: 'toto', avatar: 'string avatar' },
     screen: 'NOTIFICATIONS',
@@ -60,15 +63,14 @@ export default class Activitie extends React.Component {
     '2021-05-24': { color: '#70d7c7', textColor: 'white' },
     '2021-05-25': { endingDay: true, color: '#50cebb', textColor: 'white' },
   };
-  componentDidMount(){
-    get_coach_reminder().then((res)=>{
-      this.setState({reminders:res.data.reminders})
+  componentDidMount() {
+    get_coach_reminder().then((res) => {
+      this.setState({ reminders: res.data.reminders });
       console.log(this.state.reminders);
-    })
+    });
   }
 
   render() {
-
     return (
       //  <View style={{ flex: 1, backgroundColor: 'black' }}>
       <LinearGradient
@@ -82,12 +84,11 @@ export default class Activitie extends React.Component {
           y: 1,
         }}
         style={styles.background}>
-          
         <SafeAreaView>
-        <Header title="ACTIVITIE" />
+          <Header title="ACTIVITIE" />
           <View>
-            <View style={{alignItems:'center'}}>
-            <SwitchSelector
+            <View style={{ alignItems: 'center' }}>
+              <SwitchSelector
                 options={options}
                 initial={0}
                 onPress={(value) => this.setState({ screen: value })}
@@ -97,59 +98,87 @@ export default class Activitie extends React.Component {
                 textColor="white"
                 borderRadius={10}
                 height={50}
-                style={{width:widthPercentageToDP(92)}}
+                style={{ width: widthPercentageToDP(92) }}
                 hasPadding
                 fontSize={15}
-                selectedTextStyle={{fontFamily:'MontserratBoldItalic'}}
-                textStyle={{fontFamily:'MontserratBoldItalic'}}
+                selectedTextStyle={{ fontFamily: 'MontserratBoldItalic' }}
+                textStyle={{ fontFamily: 'MontserratBoldItalic' }}
                 valuePadding={3}
                 borderColor="#1E2026"
               />
             </View>
             {this.state.screen == 'NOTIFICATIONS' ? (
-              <View>
-              </View>
+              <View></View>
             ) : (
-              <View>
-                <FlatList
-                      data={this.state.reminders}
-                      extraData={this.state}
-                      // onRefresh={onRefresh}
-                     // refreshing={this.state.refresh}
-                      keyExtractor={(item) => item.id}
-                      renderItem={({ item }) => (
-                        <TouchableOpacity style={{alignItems:'center'}} onPress={()=>{ console.log(item);}}>
-                        <View style={{ borderRadius:5, margin:5, flexDirection:'row',justifyContent:'space-between', alignContent:'center', backgroundColor:'#1E2026',width:widthPercentageToDP(92), height:70}}>
-                          <View style={{justifyContent:'center',flexDirection:'row', }}>
-                            <View style={{justifyContent:'center' ,margin:20}}>
-                            <Text style={{
-                              fontWeight: 'bold',
-                              fontSize: 15,
-                              color:'white'
-                            }}>{item.title} </Text>
-                            <Text style={{
-                              fontWeight: 'bold',
-                              fontSize: 15,
-                              color:'white'
-                            }}>{item.content}</Text>
-                          
-                       </View>
+              <View style={{ marginVertical: 20 }}>
+                <View style={{ paddingBottom: heightPercentageToDP(35) }}>
+                  <FlatList
+                    data={this.state.reminders}
+                    extraData={this.state}
+                    // onRefresh={onRefresh}
+                    // refreshing={this.state.refresh}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                      <TouchableOpacity
+                        style={{ alignItems: 'center' }}
+                        onPress={() => {
+                          console.log(item);
+                        }}>
+                        <View
+                          style={{
+                            borderRadius: 5,
+                            margin: 5,
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignContent: 'center',
+                            backgroundColor: '#1E2026',
+                            width: widthPercentageToDP(92),
+                            height: 70,
+                          }}>
+                          <View
+                            style={{
+                              justifyContent: 'center',
+                              flexDirection: 'row',
+                            }}>
+                            <View
+                              style={{ justifyContent: 'center', margin: 20 }}>
+                              <Text
+                                style={{
+                                  fontWeight: 'bold',
+                                  fontSize: 15,
+                                  color: 'white',
+                                }}>
+                                {item.title}{' '}
+                              </Text>
+                              <Text
+                                style={{
+                                  fontWeight: 'bold',
+                                  fontSize: 15,
+                                  color: 'white',
+                                }}>
+                                {item.content}
+                              </Text>
                             </View>
-                   
+                          </View>
                         </View>
-                        </TouchableOpacity>
-                      )}
-                    />
-              
-                  <TouchableOpacity
-                    style={{ position:'absolute', alignItems:'flex-end' ,left:widthPercentageToDP(90),top:heightPercentageToDP(50)}}
-                    onPress={() => {
-                      navigate('CreateReminder');
-                    }}>
-                    <Image source={require('../../assets/images/Group_8766.png')}/>
-                    
-                  </TouchableOpacity>
-             
+                      </TouchableOpacity>
+                    )}
+                  />
+                </View>
+                <TouchableOpacity
+                  style={{
+                    position: 'absolute',
+                    alignItems: 'flex-end',
+                    left: widthPercentageToDP(90),
+                    top: heightPercentageToDP(50),
+                  }}
+                  onPress={() => {
+                    navigate('CreateReminder');
+                  }}>
+                  <Image
+                    source={require('../../assets/images/Group_8766.png')}
+                  />
+                </TouchableOpacity>
               </View>
             )}
           </View>

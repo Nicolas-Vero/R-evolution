@@ -8,7 +8,10 @@ import {
   StatusBar,
   Dimensions,
 } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 import SelectDropdown from 'react-native-select-dropdown';
 import { Formik } from 'formik';
 import { Text } from 'react-native-elements';
@@ -175,9 +178,10 @@ export default class CreateReminder extends React.Component {
                             </Text>
                             <SelectDropdown
                               buttonStyle={{
-                                backgroundColor: 'transparent',
+                                // backgroundColor: 'transparent',
                                 borderRadius: 5,
                                 width: wp(23),
+                                height: hp(6),
                               }}
                               data={color}
                               defaultButtonText={'choisir un crénaux'}

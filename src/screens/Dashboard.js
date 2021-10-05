@@ -10,12 +10,9 @@ import {
   Image,
   Text,
   FlatList,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
-import {
-  get_availabilities,
-  update_availability,
-} from '../api/Availabilities';
+import { get_availabilities, update_availability } from '../api/Availabilities';
 import SwitchSelector from 'react-native-switch-selector';
 import { Avatar } from 'react-native-elements';
 import { Calendar } from 'react-native-calendars';
@@ -28,7 +25,7 @@ import {} from '../api/Availabilities';
 import { FrenchConfig } from '../components/FrenchCalendar';
 import {
   heightPercentageToDP,
-widthPercentageToDP,
+  widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import { loadFonts } from '../configs/design/font';
 import { Right } from 'native-base';
@@ -100,7 +97,7 @@ const dayNames = [
   'Vendredi',
   'Samedi',
 ];
- moment.locale('fr', {
+moment.locale('fr', {
   months:
     'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split(
       '_',
@@ -163,7 +160,7 @@ const dayNames = [
     dow: 1, // Monday is the first day of the week.
     doy: 4, // Used to determine first week of the year.
   },
- });
+});
 const options = [
   { label: 'PLANNING', value: 'Planning' },
   { label: 'DISPONIBILITÉS', value: 'Disponibilite' },
@@ -172,19 +169,18 @@ export default class Dashboard extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handler = this.handler.bind(this)
-    
+    this.handler = this.handler.bind(this);
   }
   state = {
     refresh: false,
-    carousselLoad:false,
+    carousselLoad: false,
     user: { name: 'Florian GALOPIN', avatar: 'string avatar' },
     screen: 'Planning',
     user: {
       name: 'toto',
       avatar: '../../assets/icon.png',
     },
-    selectedDate:'',
+    selectedDate: '',
     items: [
       {
         coachId: 1,
@@ -201,19 +197,19 @@ export default class Dashboard extends React.Component {
       { coachId: 1, date: '2018-07-20', content: 'fix door', slot: '12H-13H' },
       { coachId: 1, date: '2018-07-20', content: 'masonary', slot: '12H-13H' },
     ],
-    currentDate:'',
-    selectedDate:'',
-    today:'',
+    currentDate: '',
+    selectedDate: '',
+    today: '',
     currentAvailabilities: [],
-  //   markedDate: [
-  //     '2021-07-15',
-  //     '2021-05-16',
-  //     '2021-05-21',
-  //     '2021-05-22',
-  //     '2021-05-23',
-  //     '2021-05-24' ,
-  //     '2021-05-25',
-  // ],
+    //   markedDate: [
+    //     '2021-07-15',
+    //     '2021-05-16',
+    //     '2021-05-21',
+    //     '2021-05-22',
+    //     '2021-05-23',
+    //     '2021-05-24' ,
+    //     '2021-05-25',
+    // ],
     markedDate: {
       '2021-07-15': { marked: true, dotColor: 'blue' },
       '2021-05-16': { marked: true, dotColor: '#50cebb' },
@@ -232,7 +228,7 @@ export default class Dashboard extends React.Component {
 
   sendNotificationImmediately = async (notification) => {
     // alert(JSON.parse(notification))
-    console.log('=====>>>>>',notification)
+    console.log('=====>>>>>', notification);
     let notificationId = await Notifications.presentLocalNotificationAsync({
       title: notification?.request?.content?.title,
       body: notification?.request?.content?.body,
@@ -240,25 +236,27 @@ export default class Dashboard extends React.Component {
     console.log(notificationId); // can be saved in AsyncStorage or send to server
   };
 
-
-  async componentDidMount(){
+  async componentDidMount() {
     loadFonts();
-   const curDate = moment().format('YYYY-MM-DD')
-   console.log('curr',curDate) 
-   this.setState({today:curDate})
-    
-    this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
-      console.log('[Notification-C-Dashboard]', notification);
-      this.sendNotificationImmediately(notification);
-    });
-    this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
+    const curDate = moment().format('YYYY-MM-DD');
+    console.log('curr', curDate);
+    this.setState({ today: curDate });
+
+    this.notificationListener = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        console.log('[Notification-C-Dashboard]', notification);
+        this.sendNotificationImmediately(notification);
+      },
+    );
+    this.responseListener =
+      Notifications.addNotificationResponseReceivedListener((response) => {
         console.log('[Response-C-Dashboard]', response);
         this.sendNotificationImmediately(response);
         this.props.navigation.push('Activitie');
-    });
+      });
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     Notifications.removeNotificationSubscription(this.notificationListener);
     Notifications.removeNotificationSubscription(this.responseListener);
   }
@@ -300,7 +298,7 @@ export default class Dashboard extends React.Component {
             update_availabilities({ slots, date: item.date }).then(() => {
               get_availabilities(item.date);
             });
-            update_availabilities(onChangeParams).then(get_availabilities())
+            update_availabilities(onChangeParams).then(get_availabilities());
           }}
         />
       </View>
@@ -327,7 +325,7 @@ export default class Dashboard extends React.Component {
     return `${day} ${date.getDate()} ${month}`;
   }
   getDate(date = new Date()) {
-    return  moment(date).format('YYYY-MM-DD');
+    return moment(date).format('YYYY-MM-DD');
   }
 
   handleRefresh = () => {
@@ -402,7 +400,7 @@ export default class Dashboard extends React.Component {
     this.setState({ currentDate: curDate });
 
     get_appointement(formatdata).then((res) => {
-      this.setState({carousselLoad:false})
+      this.setState({ carousselLoad: false });
       const arrayOfAppointment = res.data;
       const arrayOfPage = [];
       arrayOfAppointment.forEach((rdv) => {
@@ -413,11 +411,11 @@ export default class Dashboard extends React.Component {
           lastname: rdv.athlete.last_name,
           session_number: rdv.session_number,
           total_sessions: rdv.athleteCourse.total_sessions,
-          slot: rdv.slot
+          slot: rdv.slot,
         });
       });
-      this.setState({ page: arrayOfPage })
-      this.setState({carousselLoad:true})
+      this.setState({ page: arrayOfPage });
+      this.setState({ carousselLoad: true });
       // console.log(this.state.page);
     });
   }
@@ -502,7 +500,7 @@ export default class Dashboard extends React.Component {
 
   render() {
     const selected = this.state.selectedDate;
-    const dates  =  this.state.markedDate;
+    const dates = this.state.markedDate;
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <SafeAreaView>
@@ -610,19 +608,26 @@ export default class Dashboard extends React.Component {
                 </View>
                 <View style={{ alignItems: 'center' }}>
                   {this.state.page == [] ? (
-                    <Text style={{color:'white'}}> pas de rendez-vous Aujourd'hui</Text>
+                    <Text style={{ color: 'white' }}>
+                      {' '}
+                      pas de rendez-vous Aujourd'hui
+                    </Text>
+                  ) : this.state.carousselLoad ? (
+                    <Pager pager={this.state.page} />
                   ) : (
-                    this.state.carousselLoad?(    <Pager pager={this.state.page} />):(
-                      <View style={{ height:heightPercentageToDP(10), width:widthPercentageToDP(94), alignItems:'center'}}>
-                        <ActivityIndicator/>
-                      </View>
-                    )
-                   
+                    <View
+                      style={{
+                        height: heightPercentageToDP(10),
+                        width: widthPercentageToDP(94),
+                        alignItems: 'center',
+                      }}>
+                      <ActivityIndicator />
+                    </View>
                   )}
                 </View>
-                <View style={{ alignItems: 'center'}}>
+                <View style={{ alignItems: 'center' }}>
                   <Calendar
-                    theme={{  
+                    theme={{
                       calendarBackground: '#1E2026',
                       textSectionTitleColor: 'white',
                       textSectionTitleWeight: 'bold',
@@ -645,12 +650,12 @@ export default class Dashboard extends React.Component {
                     firstDay={1}
                     markingType={'custom'}
                     markedDates={{
-    
                       [selected]: {
-                      selected: true,
-                      selectedColor: '#2CDEE4',
-                      selectedTextColor: 'black',
-                    },}}
+                        selected: true,
+                        selectedColor: '#2CDEE4',
+                        selectedTextColor: 'black',
+                      },
+                    }}
                     // dayComponent={({date, state}) => {
                     //   return (
                     //     <View>
@@ -661,7 +666,8 @@ export default class Dashboard extends React.Component {
                     //   );
                     // }}
                     onDayPress={(day) => this.changeTaskList(day)}
-                    style={styles.calendar}/>
+                    style={styles.calendar}
+                  />
                 </View>
                 <TouchableOpacity
                   style={{
@@ -684,7 +690,6 @@ export default class Dashboard extends React.Component {
                     <MonthsSlider onChange={this.onMonthChange.bind(this)} />
                     <View style={{ marginBottom: 20 }}>
                       <FlatList
-                        
                         horizontal={true}
                         data={this.state.availabilities}
                         extraData={this.state}
@@ -806,10 +811,10 @@ const styles = StyleSheet.create({
   },
   calendar: {
     borderRadius: 13,
-    paddingLeft:30,
-    justifyContent:'center',
-    alignSelf:'center',
-    paddingRight:30,
+    paddingLeft: 30,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    paddingRight: 30,
     width: widthPercentageToDP(94),
   },
   background: {
