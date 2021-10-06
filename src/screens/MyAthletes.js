@@ -15,11 +15,13 @@ import Header from '../components/Header';
 import { FlatList } from 'react-native-gesture-handler';
 import { get_coach_athlete } from '../api/Coach';
 import { tail } from 'lodash';
-import { Avatar,SearchBar } from 'react-native-elements';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { Avatar, SearchBar } from 'react-native-elements';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 import moment from 'moment';
 import HeaderSimple from '../components/HeaderSimple';
-
 
 const options = [
   { label: 'ACTIFS', value: 'ACTIFS' },
@@ -28,47 +30,43 @@ const options = [
 ];
 export default class MyAthletes extends React.Component {
   state = {
-    
     refresh: false,
     user: { name: 'toto', avatar: 'string avatar' },
     screen: 'ACTIFS',
-    atlhetesActifs:[],
-    atlhetesInactifs:[],
-    atlhetesProspects:[],
-    search:'',
-   };
+    atlhetesActifs: [],
+    atlhetesInactifs: [],
+    atlhetesProspects: [],
+    search: '',
+  };
 
-   componentDidMount(){
+  componentDidMount() {
     get_coach_athlete().then((res) => {
-      this.filterDAta(res.data.athletes);     
+      this.filterDAta(res.data.athletes);
     });
-   }
+  }
 
+  filterDAta(data) {
+    console.log(data);
+    const actifs = [];
+    const inactifs = [];
+    const prospects = [];
+    data.forEach((element) => {
+      console.log(element.status);
+      switch (element.status) {
+        case 'ACTIVE':
+          actifs.push(element);
+          break;
+        case 'INACTIVE':
+          inactifs.push(element);
+          break;
+        case 'prospect':
+          prospects.push(element);
+          break;
 
-   filterDAta(data){
-     console.log(data);
-    const actifs =[];
-   const  inactifs = [];
-  const  prospects =[];
-   data.forEach(element => {
-     console.log(element.status);
-     switch (element.status) {
-       case "ACTIVE":
-         actifs.push(element)
-         break;
-       case "INACTIVE":
-         inactifs.push(element)
-         break;
-       case "prospect":
-         prospects.push(element)
-         break;
-     
-       default:
-         break;
-     }
-   },
-   this.setState({atlhetesActifs:actifs , atlhetesInactifs:inactifs , atlhetesProspects:prospects})
-   );
+        default:
+          break;
+      }
+    }, this.setState({ atlhetesActifs: actifs, atlhetesInactifs: inactifs, atlhetesProspects: prospects }));
   }
 
   updateSearch = (search) => {
@@ -76,16 +74,13 @@ export default class MyAthletes extends React.Component {
   };
 
   render() {
-  
     return (
-       <View style={{ flex: 1, backgroundColor: 'black' }}>
-
-          
+      <View style={{ flex: 1, backgroundColor: 'black' }}>
         <SafeAreaView>
-        <HeaderSimple title="MES ATHLÈTES" />
+          <HeaderSimple title="MES ATHLÈTES" />
           <View>
-            <View style={{ alignItems:'center'}}>
-            <SwitchSelector
+            <View style={{ alignItems: 'center' }}>
+              <SwitchSelector
                 options={options}
                 initial={0}
                 onPress={(value) => this.setState({ screen: value })}
@@ -95,11 +90,11 @@ export default class MyAthletes extends React.Component {
                 textColor="white"
                 borderRadius={10}
                 height={50}
-                style={{width:widthPercentageToDP(92)}}
+                style={{ width: widthPercentageToDP(92) }}
                 hasPadding
                 fontSize={15}
-                selectedTextStyle={{fontFamily:'MontserratBoldItalic'}}
-                textStyle={{fontFamily:'MontserratBoldItalic'}}
+                selectedTextStyle={{ fontFamily: 'MontserratBoldItalic' }}
+                textStyle={{ fontFamily: 'MontserratBoldItalic' }}
                 valuePadding={3}
                 borderColor="#1E2026"
               />
@@ -113,53 +108,173 @@ export default class MyAthletes extends React.Component {
         // onChangeText={this.updateSearch}
         // value={this.state.search}
                 /> */}
-                <View style={{marginTop:50}}>
-               <FlatList
-                      
-                        data={this.state.atlhetesActifs}
-                        extraData={this.state}
-                        // onRefresh={onRefresh}
-                       // refreshing={this.state.refresh}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => (
-                          console.log('ddd',item),
-                          <TouchableOpacity style={{alignItems:'center'}} onPress={()=>{ navigate('MyAthleteDetails', {item})}}>
-                          <View style={{ borderRadius:5, flexDirection:'row',justifyContent:'space-between', alignContent:'center', backgroundColor:'#1E2026',width:widthPercentageToDP(92), height:70}}>
-                            <View style={{justifyContent:'center',flexDirection:'row', }}>
-                              <View style={{justifyContent:'center' ,marginLeft:15}}>
-                              <Avatar
-                                size="medium"
-                                rounded
-                                source={{
-                                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                                }}
-                              />
+                <View style={{ marginTop: 50 }}>
+                  <FlatList
+                    data={this.state.atlhetesActifs}
+                    extraData={this.state}
+                    // onRefresh={onRefresh}
+                    // refreshing={this.state.refresh}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                      console.log('ddd', item),
+                      (
+                        <TouchableOpacity
+                          style={{ alignItems: 'center' }}
+                          onPress={() => {
+                            navigate('MyAthleteDetails', { item });
+                          }}>
+                          <View
+                            style={{
+                              borderRadius: 5,
+                              flexDirection: 'row',
+                              justifyContent: 'space-between',
+                              alignContent: 'center',
+                              backgroundColor: '#1E2026',
+                              width: widthPercentageToDP(92),
+                              height: 70,
+                            }}>
+                            <View
+                              style={{
+                                justifyContent: 'center',
+                                flexDirection: 'row',
+                              }}>
+                              <View
+                                style={{
+                                  justifyContent: 'center',
+                                  marginLeft: 15,
+                                }}>
+                                <Avatar
+                                  size="medium"
+                                  rounded
+                                  source={{
+                                    uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                                  }}
+                                />
                               </View>
-                              <View style={{justifyContent:'center' ,marginHorizontal:20}}>
-                              <Text style={{
-                                fontWeight: 'bold',
-                                fontSize: 15,
-                                color:'white'
-                              }}>{item.first_name} {item.last_name}</Text>
-                            
-                         </View>
+                              <View
+                                style={{
+                                  justifyContent: 'center',
+                                  marginHorizontal: 20,
+                                }}>
+                                <Text
+                                  style={{
+                                    fontWeight: 'bold',
+                                    fontSize: 15,
+                                    color: 'white',
+                                  }}>
+                                  {item.first_name} {item.last_name}
+                                </Text>
                               </View>
-                            <View style={{justifyContent:'center'}}>
-                              <Text style={{
+                            </View>
+                            <View style={{ justifyContent: 'center' }}>
+                              <Text
+                                style={{
                                   fontWeight: 'bold',
-                                  color:'#979797',
+                                  color: '#979797',
                                   fontSize: 10,
-                                  marginRight:10
-                                  }} >Depuis le {moment(item.created_at).format('DD/MM/YYYY')}</Text>
+                                  marginRight: 10,
+                                }}>
+                                Depuis le{' '}
+                                {moment(item.created_at).format('DD/MM/YYYY')}
+                              </Text>
                             </View>
                           </View>
-                          </TouchableOpacity>
-                        )}
-                      />
-                      </View>
+                        </TouchableOpacity>
+                      )
+                    )}
+                  />
+                </View>
               </View>
-            ) : (null)}
-            {this.state.screen == 'INACTIFS' ? ( <View>
+            ) : null}
+            {this.state.screen == 'INACTIFS' ? (
+              <View style={{ marginTop: heightPercentageToDP(2) }}>
+                <SearchBar
+                  size={50}
+                  clearIcon={false}
+                  placeholder="Type Here..."
+                  onChangeText={this.updateSearch}
+                  value={this.state.search}
+                />
+                <View style={{ marginTop: 50 }}>
+                  <FlatList
+                    data={this.state.atlhetesInactifs}
+                    extraData={this.state}
+                    // onRefresh={onRefresh}
+                    // refreshing={this.state.refresh}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                      console.log('ddd', item),
+                      (
+                        <TouchableOpacity
+                          style={{ alignItems: 'center' }}
+                          onPress={() => {
+                            navigate('MyAthleteDetailsInactifs', { item });
+                          }}>
+                          <View
+                            style={{
+                              borderRadius: 5,
+                              flexDirection: 'row',
+                              justifyContent: 'space-between',
+                              alignContent: 'center',
+                              backgroundColor: '#1E2026',
+                              width: widthPercentageToDP(92),
+                              height: 70,
+                            }}>
+                            <View
+                              style={{
+                                justifyContent: 'center',
+                                flexDirection: 'row',
+                              }}>
+                              <View
+                                style={{
+                                  justifyContent: 'center',
+                                  marginLeft: 15,
+                                }}>
+                                <Avatar
+                                  size="medium"
+                                  rounded
+                                  source={{
+                                    uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                                  }}
+                                />
+                              </View>
+                              <View
+                                style={{
+                                  justifyContent: 'center',
+                                  marginHorizontal: 20,
+                                }}>
+                                <Text
+                                  style={{
+                                    fontWeight: 'bold',
+                                    fontSize: 15,
+                                    color: 'white',
+                                  }}>
+                                  {item.first_name} {item.last_name}
+                                </Text>
+                              </View>
+                            </View>
+                            <View style={{ justifyContent: 'center' }}>
+                              <Text
+                                style={{
+                                  fontWeight: 'bold',
+                                  color: '#979797',
+                                  fontSize: 10,
+                                  marginRight: 10,
+                                }}>
+                                Depuis le{' '}
+                                {moment(item.created_at).format('DD/MM/YYYY')}
+                              </Text>
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                      )
+                    )}
+                  />
+                </View>
+              </View>
+            ) : null}
+            {this.state.screen == 'PROSPECTS' ? (
+              <View>
                 {/* <SearchBar
         //        size={50}
         //         clearIcon={false}
@@ -167,110 +282,87 @@ export default class MyAthletes extends React.Component {
         // onChangeText={this.updateSearch}
         // value={this.state.search}
                 /> */}
-                <View style={{marginTop:50}}>
-               <FlatList
-                      
-                        data={this.state.atlhetesInactifs}
-                        extraData={this.state}
-                        // onRefresh={onRefresh}
-                       // refreshing={this.state.refresh}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => (
-                          console.log('ddd',item),
-                          <TouchableOpacity style={{alignItems:'center'}} onPress={()=>{ navigate('MyAthleteDetailsInactifs', {item})}}>
-                          <View style={{ borderRadius:5, flexDirection:'row',justifyContent:'space-between', alignContent:'center', backgroundColor:'#1E2026',width:widthPercentageToDP(92), height:70}}>
-                            <View style={{justifyContent:'center',flexDirection:'row', }}>
-                              <View style={{justifyContent:'center' ,marginLeft:15}}>
-                              <Avatar
-                                size="medium"
-                                rounded
-                                source={{
-                                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                                }}
-                              />
+                <View style={{ marginTop: 50 }}>
+                  <FlatList
+                    data={this.state.atlhetesProspects}
+                    extraData={this.state}
+                    // onRefresh={onRefresh}
+                    // refreshing={this.state.refresh}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                      console.log('ddd', item),
+                      (
+                        <TouchableOpacity
+                          style={{ alignItems: 'center' }}
+                          onPress={() => {
+                            navigate('MyAthleteDetailsProspects', { item });
+                          }}>
+                          <View
+                            style={{
+                              borderRadius: 5,
+                              flexDirection: 'row',
+                              justifyContent: 'space-between',
+                              alignContent: 'center',
+                              backgroundColor: '#1E2026',
+                              width: widthPercentageToDP(92),
+                              height: 70,
+                            }}>
+                            <View
+                              style={{
+                                justifyContent: 'center',
+                                flexDirection: 'row',
+                              }}>
+                              <View
+                                style={{
+                                  justifyContent: 'center',
+                                  marginLeft: 15,
+                                }}>
+                                <Avatar
+                                  size="medium"
+                                  rounded
+                                  source={{
+                                    uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                                  }}
+                                />
                               </View>
-                              <View style={{justifyContent:'center' ,marginHorizontal:20}}>
-                              <Text style={{
-                                fontWeight: 'bold',
-                                fontSize: 15,
-                                color:'white'
-                              }}>{item.first_name} {item.last_name}</Text>
-                            
-                         </View>
+                              <View
+                                style={{
+                                  justifyContent: 'center',
+                                  marginHorizontal: 20,
+                                }}>
+                                <Text
+                                  style={{
+                                    fontWeight: 'bold',
+                                    fontSize: 15,
+                                    color: 'white',
+                                  }}>
+                                  {item.first_name} {item.last_name}
+                                </Text>
                               </View>
-                            <View style={{justifyContent:'center'}}>
-                              <Text style={{
+                            </View>
+                            <View style={{ justifyContent: 'center' }}>
+                              <Text
+                                style={{
                                   fontWeight: 'bold',
-                                  color:'#979797',
+                                  color: '#979797',
                                   fontSize: 10,
-                                  marginRight:10
-                                  }} >Depuis le {moment(item.created_at).format('DD/MM/YYYY')}</Text>
+                                  marginRight: 10,
+                                }}>
+                                Depuis le{' '}
+                                {moment(item.created_at).format('DD/MM/YYYY')}
+                              </Text>
                             </View>
                           </View>
-                          </TouchableOpacity>
-                        )}
-                      />
-                      </View>
+                        </TouchableOpacity>
+                      )
+                    )}
+                  />
+                </View>
               </View>
-            ) : (null)}
-            {this.state.screen == 'PROSPECTS' ? ( <View>
-                {/* <SearchBar
-        //        size={50}
-        //         clearIcon={false}
-        //         placeholder="Type Here..."
-        // onChangeText={this.updateSearch}
-        // value={this.state.search}
-                /> */}
-                <View style={{marginTop:50}}>
-               <FlatList
-                      
-                        data={this.state.atlhetesProspects}
-                        extraData={this.state}
-                        // onRefresh={onRefresh}
-                       // refreshing={this.state.refresh}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => (
-                          console.log('ddd',item),
-                          <TouchableOpacity style={{alignItems:'center'}} onPress={()=>{ navigate('MyAthleteDetailsProspects', {item})}}>
-                          <View style={{ borderRadius:5, flexDirection:'row',justifyContent:'space-between', alignContent:'center', backgroundColor:'#1E2026',width:widthPercentageToDP(92), height:70}}>
-                            <View style={{justifyContent:'center',flexDirection:'row', }}>
-                              <View style={{justifyContent:'center' ,marginLeft:15}}>
-                              <Avatar
-                                size="medium"
-                                rounded
-                                source={{
-                                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                                }}
-                              />
-                              </View>
-                              <View style={{justifyContent:'center' ,marginHorizontal:20}}>
-                              <Text style={{
-                                fontWeight: 'bold',
-                                fontSize: 15,
-                                color:'white'
-                              }}>{item.first_name} {item.last_name}</Text>
-                            
-                         </View>
-                              </View>
-                            <View style={{justifyContent:'center'}}>
-                              <Text style={{
-                                  fontWeight: 'bold',
-                                  color:'#979797',
-                                  fontSize: 10,
-                                  marginRight:10
-                                  }} >Depuis le {moment(item.created_at).format('DD/MM/YYYY')}</Text>
-                            </View>
-                          </View>
-                          </TouchableOpacity>
-                        )}
-                      />
-                      </View>
-              </View>
-            ) : (null)}
+            ) : null}
           </View>
         </SafeAreaView>
-     
-          </View>
+      </View>
     );
   }
 }

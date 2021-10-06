@@ -15,10 +15,13 @@ import Header from '../components/Header';
 const { width } = Dimensions.get('window');
 import { Button } from '../components/Button';
 import { LinearGradient } from 'expo-linear-gradient';
-import { heightPercentageToDP, widthPercentageToDP  as wp} from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 import { withNavigation } from 'react-navigation';
-import Constants from 'expo-constants'; 
-const statusBarHeight = Constants.statusBarHeight
+import Constants from 'expo-constants';
+const statusBarHeight = Constants.statusBarHeight;
 export default class Splash extends React.Component {
   state = {
     offers: [],
@@ -34,7 +37,7 @@ export default class Splash extends React.Component {
     this.loadFonts();
   }
   render() {
-    const { navigation} = this.props;
+    const { navigation } = this.props;
     return (
       <LinearGradient
         colors={['black', '#2D333C']}
@@ -53,15 +56,20 @@ export default class Splash extends React.Component {
         <View>
           <SafeAreaView style={styles.droidSafeArea} />
           <View>
-          <TouchableOpacity
-          onPress={() => navigation.goBack()}
-           style={{height:50,flexDirection:'row',marginLeft:19.5,}}>         
-             <Image source={require('../../assets/icons/header-back.png')} style={ {height: 20.54, width: 12.33, resizeMode: 'contain'}}/>
-            <Text style={{color:'white',marginLeft:10,marginTop:1}}>RETOUR</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{ height: 50, flexDirection: 'row', marginLeft: 19.5 }}>
+              <Image
+                source={require('../../assets/icons/header-back.png')}
+                style={{ height: 20.54, width: 12.33, resizeMode: 'contain' }}
+              />
+              <Text style={{ color: 'white', marginLeft: 10, marginTop: 1 }}>
+                RETOUR
+              </Text>
+            </TouchableOpacity>
           </View>
-          <View style={{ marginVertical:heightPercentageToDP(25)}}>
-            <View >
+          <View style={{ marginVertical: heightPercentageToDP(25) }}>
+            <View>
               <View
                 style={{
                   alignItems: 'center',
@@ -72,7 +80,14 @@ export default class Splash extends React.Component {
                     this.props.navigation.navigate('RegisterInfoAthlete');
                   }}>
                   <View style={styles.bcontainer}>
-                    <Text style={{ color: '#393637',fontFamily:'RobotoBold',fontSize:17 }}>Espace sportif</Text>
+                    <Text
+                      style={{
+                        color: '#393637',
+                        fontFamily: 'RobotoBold',
+                        fontSize: 17,
+                      }}>
+                      Espace sportif
+                    </Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -87,10 +102,10 @@ export default class Splash extends React.Component {
                   <View>
                     <Text
                       style={{
-                        marginTop:50,
+                        marginTop: 50,
                         color: 'white',
-                        fontFamily:'RobotoBold',
-                        fontSize:17,
+                        fontFamily: 'RobotoBold',
+                        fontSize: 17,
                         textDecorationLine: 'underline',
                       }}>
                       Espace coach
@@ -108,8 +123,8 @@ export default class Splash extends React.Component {
 
 const styles = StyleSheet.create({
   bcontainer: {
-    height:60,
-    width:wp(92),
+    height: 60,
+    width: wp(92),
     backgroundColor: '#2CDEE4',
     borderRadius: 3,
     alignItems: 'center',
@@ -119,11 +134,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   droidSafeArea: {
-    flex:1,
-    backgroundColor:'transparent',
-    marginTop: 2*statusBarHeight,
-     
-   },
+    flex: 1,
+    backgroundColor: 'transparent',
+    marginTop: 1.2 * statusBarHeight,
+  },
   backgroundContainer: {
     flex: 1,
     resizeMode: 'cover',

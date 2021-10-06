@@ -581,7 +581,7 @@ export default class MyInformations extends React.Component {
                       </View>
                     </View>
                   </View>
-                  <View style={{ alignItems: 'center', marginTop: 30 }}>
+                  <View style={{ alignItems: 'center', marginVertical: 30 }}>
                     <Button
                       loading={false}
                       title="Valider les changements"
