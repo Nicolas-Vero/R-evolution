@@ -30,7 +30,6 @@ export default class Login extends React.Component {
     loadFonts;
   }
   async onLoginPress(values) {
-    this.props.navigation.navigate('Dashboard');
     // const {email, password}=values;
     const { email, password } = values;
     const body = { email, password };

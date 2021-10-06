@@ -239,9 +239,10 @@ export default class Dashboard extends React.Component {
   async componentDidMount() {
     loadFonts();
     const curDate = moment().format('YYYY-MM-DD');
-    console.log('curr', curDate);
     this.setState({ today: curDate });
-
+    this.changeTaskList(curDate)
+    this.getAvailabilities(curDate)
+    this.onMonthChange(curDate)
     this.notificationListener = Notifications.addNotificationReceivedListener(
       (notification) => {
         console.log('[Notification-C-Dashboard]', notification);
@@ -390,9 +391,16 @@ export default class Dashboard extends React.Component {
   }
 
   async changeTaskList(date) {
-    const formatdata = {
-      date: date.dateString,
-    };
+    let formatdata = {}
+    if (date.dateString == undefined) { 
+       formatdata = {
+        date: date,
+      }
+    } else {
+       formatdata = {
+        date: date.dateString,
+      }
+    }
     this.setState({
       selectedDate: moment(date.dateString).format('YYYY-MM-DD'),
     });
@@ -607,23 +615,37 @@ export default class Dashboard extends React.Component {
                   </Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
-                  {this.state.page == [] ? (
-                    <Text style={{ color: 'white' }}>
-                      {' '}
-                      pas de rendez-vous Aujourd'hui
+                  {this.state.page.length==0?(
+                     <View
+                     style={{
+                       height: heightPercentageToDP(22),
+                       width: widthPercentageToDP(94),
+                      
+                       alignItems:'center',
+                       alignSelf:'center'
+                     }}>
+                      <Text style={{
+                           fontFamily:'Roboto',
+                           fontSize:20,
+                           marginTop:20,
+                         color: 'white' }}>
+                      Aucun rendez-vous prévu ce jour-là
                     </Text>
-                  ) : this.state.carousselLoad ? (
+                   </View>
+                   
+                  ) : (this.state.carousselLoad ? (
                     <Pager pager={this.state.page} />
                   ) : (
                     <View
                       style={{
-                        height: heightPercentageToDP(10),
+                     
+                        height: heightPercentageToDP(22),
                         width: widthPercentageToDP(94),
                         alignItems: 'center',
                       }}>
                       <ActivityIndicator />
                     </View>
-                  )}
+                  ))}
                 </View>
                 <View style={{ alignItems: 'center' }}>
                   <Calendar

@@ -19,7 +19,7 @@ import {
   get_availabilities,
 } from '../api/Athlete';
 import SwitchSelector from 'react-native-switch-selector';
-import { Avatar } from 'react-native-elements';
+import { Avatar, Badge, Icon, withBadge } from 'react-native-elements';
 import { loadFonts } from '../configs/design/font';
 const { width } = Dimensions.get('window');
 import { LocaleConfig } from 'react-native-calendars';
@@ -527,6 +527,7 @@ export default class DashboardAthlete extends React.Component {
   }
 
   render() {
+    const BadgedIcon = withBadge(1)(Icon)
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <SafeAreaView>
@@ -535,6 +536,7 @@ export default class DashboardAthlete extends React.Component {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
+              width:widthPercentageToDP(95)
             }}>
             <TouchableOpacity
               onPress={() => {
@@ -566,10 +568,13 @@ export default class DashboardAthlete extends React.Component {
                   navigate('Notifications');
                 }}
                 style={{ marginLeft: 20, marginRight: 10 }}>
-                {/* <Image
+                <Image
                   style={{ height: 38, width: 48, resizeMode: 'contain' }}
                   source={require('../../assets/images/Notif.png')}
-                /> */}
+                />
+                  <View style={{position:'absolute'}}>
+                {/* <BadgedIcon type="ionicon"/> */}
+                </View>
               </TouchableOpacity>
             </View>
           </View>
