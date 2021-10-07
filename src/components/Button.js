@@ -2,7 +2,7 @@ import React from 'react'
 import {View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Dimensions } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 const {width} = Dimensions.get('window');
-import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import {widthPercentageToDP, widthPercentageToDP as wp} from 'react-native-responsive-screen';
 export const Button = (props) => {
     return (
     <TouchableOpacity onPress={props.onPress} disabled={props.loading}>
@@ -21,7 +21,7 @@ export const Button = (props) => {
 }
 export const AddButton = (props) => {
     return (
-    <TouchableOpacity onPress={props.onPress} disabled={props.loading}>
+    <TouchableOpacity  onPress={props.onPress} disabled={props.loading}>
         {
             props.loading ? (
                 <ActivityIndicator  size="large" color="#2CDEE4"/>
@@ -83,8 +83,8 @@ const defaultStyle = StyleSheet.create({
     Offercontainer: { 
         height: 52, 
         backgroundColor: '#2CDEE4', 
+        width:widthPercentageToDP(94),
         borderRadius: 5, 
-        width:400,
         alignItems: 'center', 
         justifyContent: 'center',
         justifyContent:'space-evenly',

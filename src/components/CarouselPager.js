@@ -23,7 +23,7 @@ export default class CarouselPager extends Component {
     containerPadding: PropTypes.number,
     pageSpacing: PropTypes.number,
     pageStyle: PropTypes.object,
-    blurredbackgroundColor: PropTypes.numbers,
+    blurredbackgroundColor: PropTypes.string,
     onPageChange: PropTypes.func,
     deltaDelay: PropTypes.number,
     children: PropTypes.array.isRequired
@@ -208,21 +208,24 @@ export default class CarouselPager extends Component {
       animations.push(
         Animated.timing(this.state.viewsScale[page], {
           toValue: 1,
-          duration: this.props.animationDuration
+          duration: this.props.animationDuration,
+          useNativeDriver: false
         })
       );
 
       animations.push(
         Animated.timing(this.state.viewsOpacity[page], {
           toValue: 1,
-          duration: this.props.animationDuration
+          duration: this.props.animationDuration,
+          useNativeDriver: false
         })
       );
   
       animations.push(
         Animated.timing(this.state.viewsScale[this._currentPage], {
           toValue: this.props.blurredZoom,
-          duration: this.props.animationDuration
+          duration: this.props.animationDuration,
+          useNativeDriver: false
         })
       );
 
@@ -230,7 +233,8 @@ export default class CarouselPager extends Component {
       animations.push(
         Animated.timing(this.state.viewsOpacity[this._currentPage], {
           toValue: this.props.blurredOpacity,
-          duration: this.props.animationDuration
+          duration: this.props.animationDuration,
+          useNativeDriver: false
         })
       );
     }
@@ -252,7 +256,8 @@ export default class CarouselPager extends Component {
     animations.push(
       Animated.timing(this.state.pos, {
         toValue: toValue,
-        duration: this.props.animationDuration
+        duration: this.props.animationDuration,
+        useNativeDriver: false
       })
     );
    
@@ -273,7 +278,7 @@ export default class CarouselPager extends Component {
     this.animateToPage(index);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: (evt, gestureState) => {
         const dx = Math.abs(gestureState.dx);

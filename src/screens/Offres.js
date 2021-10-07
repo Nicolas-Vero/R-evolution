@@ -8,7 +8,6 @@ import {
   StatusBar,
   Dimensions,
 } from 'react-native';
-import * as Font from 'expo-font';
 const { width } = Dimensions.get('window');
 import { LinearGradient } from 'expo-linear-gradient';
 import { AddButton, DeleteButton, ModifyButton } from '../components/Button';
@@ -16,33 +15,36 @@ import { FlatList } from 'react-native-gesture-handler';
 import { delete_coach_offers } from '../api/Offers';
 import { get_coach_offers } from '../api/Offers';
 import Header from '../components/Header';
-export default class Offres extends React.Component {
+import { withNavigationFocus } from 'react-navigation';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
+ class Offres extends React.Component {
   state = {
     offers: [],
     fontsLoaded: false,
   };
-  async loadFonts() {
-    await Font.loadAsync({
-      Montserrat: require('../../assets/fonts/Montserrat-ExtraBold.ttf'),
-    });
-    this.setState({ fontsLoaded: true });
-  }
   componentDidMount() {
-    this.loadFonts();
     get_coach_offers()
       .then((res) => res.data.offers)
       .then((res) => {
         this.setState({ offers: res });
       });
   }
-
+  componentDidUpdate(prevProps){
+      if (this.props.isFocused && prevProps.isFocused !== this.props.isFocused ) {
+        get_coach_offers()
+      .then((res) => res.data.offers)
+      .then((res) => {
+        this.setState({ offers: res });
+      });
+      }  
+  }
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#060606' }}>
         <SafeAreaView style={styles.safeArea} />
 
         <Header title="MES OFFRES" />
-        <View style={{ margin:20,marginLeft:6 }}>
+        <View style={{ marginVertical:20,alignItems:'center' ,}}>
           <AddButton
             title="CRÉER UNE NOUVELLE OFFRE"
             onPress={() => {
@@ -50,7 +52,7 @@ export default class Offres extends React.Component {
             }}
           />
         </View>
-        <View>
+        <View style={{alignItems:'center'}}>
           <FlatList
             style={{
             height:600
@@ -72,10 +74,9 @@ export default class Offres extends React.Component {
                   y: 0,
                 }}
                 style={{
-                  flexDirection: 'column',
                   marginBottom: 10,
                   borderRadius:10,
-                  width:400,
+                  width:widthPercentageToDP(94),
                   paddingLeft: 20,
                   marginLeft:6,
                   height: 170,
@@ -145,6 +146,7 @@ export default class Offres extends React.Component {
     );
   }
 }
+export default withNavigationFocus(Offres);
 
 const styles = StyleSheet.create({
   image: {

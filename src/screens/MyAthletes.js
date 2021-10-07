@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Dimensions,
   Text,
+  ActivityIndicator,
 } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 const { width } = Dimensions.get('window');
@@ -37,15 +38,20 @@ export default class MyAthletes extends React.Component {
     atlhetesInactifs: [],
     atlhetesProspects: [],
     search: '',
+    loaded: false,
   };
 
   componentDidMount() {
-    get_coach_athlete().then((res) => {
-      this.filterDAta(res.data.athletes);
-    });
+    get_coach_athlete()
+      .then((res) => {
+        this.filterData(res.data.athletes);
+      })
+      .then(() => {
+        this.setState({ loaded: true });
+      });
   }
 
-  filterDAta(data) {
+  filterData(data) {
     console.log(data);
     const actifs = [];
     const inactifs = [];
@@ -74,11 +80,11 @@ export default class MyAthletes extends React.Component {
   };
 
   render() {
-    return (
-      <View style={{ flex: 1, backgroundColor: 'black' }}>
+    if (!this.state.loaded) {
+      return (
+        <View style={{ flex: 1, backgroundColor: 'black' }}>
         <SafeAreaView>
           <HeaderSimple title="MES ATHLÈTES" />
-          <View>
             <View style={{ alignItems: 'center' }}>
               <SwitchSelector
                 options={options}
@@ -99,271 +105,303 @@ export default class MyAthletes extends React.Component {
                 borderColor="#1E2026"
               />
             </View>
-            {this.state.screen == 'ACTIFS' ? (
-              <View>
-                {/* <SearchBar
-        //        size={50}
-        //         clearIcon={false}
-        //         placeholder="Type Here..."
-        // onChangeText={this.updateSearch}
-        // value={this.state.search}
-                /> */}
-                <View style={{ marginTop: 50 }}>
-                  <FlatList
-                    data={this.state.atlhetesActifs}
-                    extraData={this.state}
-                    // onRefresh={onRefresh}
-                    // refreshing={this.state.refresh}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                      console.log('ddd', item),
-                      (
-                        <TouchableOpacity
-                          style={{ alignItems: 'center' }}
-                          onPress={() => {
-                            navigate('MyAthleteDetails', { item });
-                          }}>
-                          <View
-                            style={{
-                              borderRadius: 5,
-                              flexDirection: 'row',
-                              justifyContent: 'space-between',
-                              alignContent: 'center',
-                              backgroundColor: '#1E2026',
-                              width: widthPercentageToDP(92),
-                              height: 70,
-                            }}>
-                            <View
-                              style={{
-                                justifyContent: 'center',
-                                flexDirection: 'row',
-                              }}>
-                              <View
-                                style={{
-                                  justifyContent: 'center',
-                                  marginLeft: 15,
-                                }}>
-                                <Avatar
-                                  size="medium"
-                                  rounded
-                                  source={{
-                                    uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                                  }}
-                                />
-                              </View>
-                              <View
-                                style={{
-                                  justifyContent: 'center',
-                                  marginHorizontal: 20,
-                                }}>
-                                <Text
-                                  style={{
-                                    fontWeight: 'bold',
-                                    fontSize: 15,
-                                    color: 'white',
-                                  }}>
-                                  {item.first_name} {item.last_name}
-                                </Text>
-                              </View>
-                            </View>
-                            <View style={{ justifyContent: 'center' }}>
-                              <Text
-                                style={{
-                                  fontWeight: 'bold',
-                                  color: '#979797',
-                                  fontSize: 10,
-                                  marginRight: 10,
-                                }}>
-                                Depuis le{' '}
-                                {moment(item.created_at).format('DD/MM/YYYY')}
-                              </Text>
-                            </View>
-                          </View>
-                        </TouchableOpacity>
-                      )
-                    )}
-                  />
-                </View>
-              </View>
-            ) : null}
-            {this.state.screen == 'INACTIFS' ? (
-              <View style={{ marginTop: heightPercentageToDP(2) }}>
-                <SearchBar
-                  size={50}
-                  clearIcon={false}
-                  placeholder="Type Here..."
-                  onChangeText={this.updateSearch}
-                  value={this.state.search}
+            </SafeAreaView>
+            </View>
+      )  
+           
+       
+    } else {
+      return (
+        <View style={{ flex: 1, backgroundColor: 'black' }}>
+          <SafeAreaView>
+            <HeaderSimple title="MES ATHLÈTES" />
+            <View>
+              <View style={{ alignItems: 'center' }}>
+                <SwitchSelector
+                  options={options}
+                  initial={0}
+                  onPress={(value) => this.setState({ screen: value })}
+                  backgroundColor="#1E2026"
+                  buttonColor="#2CDEE4"
+                  selectedColor="#1E2026"
+                  textColor="white"
+                  borderRadius={10}
+                  height={50}
+                  style={{ width: widthPercentageToDP(92) }}
+                  hasPadding
+                  fontSize={15}
+                  selectedTextStyle={{ fontFamily: 'MontserratBoldItalic' }}
+                  textStyle={{ fontFamily: 'MontserratBoldItalic' }}
+                  valuePadding={3}
+                  borderColor="#1E2026"
                 />
-                <View style={{ marginTop: 50 }}>
-                  <FlatList
-                    data={this.state.atlhetesInactifs}
-                    extraData={this.state}
-                    // onRefresh={onRefresh}
-                    // refreshing={this.state.refresh}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                      console.log('ddd', item),
-                      (
-                        <TouchableOpacity
-                          style={{ alignItems: 'center' }}
-                          onPress={() => {
-                            navigate('MyAthleteDetailsInactifs', { item });
-                          }}>
-                          <View
-                            style={{
-                              borderRadius: 5,
-                              flexDirection: 'row',
-                              justifyContent: 'space-between',
-                              alignContent: 'center',
-                              backgroundColor: '#1E2026',
-                              width: widthPercentageToDP(92),
-                              height: 70,
+              </View>
+              {this.state.screen == 'ACTIFS' ? (
+                <View>
+                  {/* <SearchBar
+         //        size={50}
+         //         clearIcon={false}
+         //         placeholder="Type Here..."
+         // onChangeText={this.updateSearch}
+         // value={this.state.search}
+                 /> */}
+                  <View style={{ marginTop: 50 }}>
+                    <FlatList
+                      data={this.state.atlhetesActifs}
+                      extraData={this.state}
+                      // onRefresh={onRefresh}
+                      // refreshing={this.state.refresh}
+                      keyExtractor={(item) => item.id}
+                      renderItem={({ item }) => (
+                        console.log('ddd', item),
+                        (
+                          <TouchableOpacity
+                            style={{ alignItems: 'center' }}
+                            onPress={() => {
+                              navigate('MyAthleteDetails', { item });
                             }}>
                             <View
                               style={{
-                                justifyContent: 'center',
+                                borderRadius: 5,
                                 flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignContent: 'center',
+                                backgroundColor: '#1E2026',
+                                width: widthPercentageToDP(92),
+                                height: 70,
                               }}>
                               <View
                                 style={{
                                   justifyContent: 'center',
-                                  marginLeft: 15,
+                                  flexDirection: 'row',
                                 }}>
-                                <Avatar
-                                  size="medium"
-                                  rounded
-                                  source={{
-                                    uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                                  }}
-                                />
+                                <View
+                                  style={{
+                                    justifyContent: 'center',
+                                    marginLeft: 15,
+                                  }}>
+                                  <Avatar
+                                    size="medium"
+                                    rounded
+                                    source={{
+                                      uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                                    }}
+                                  />
+                                </View>
+                                <View
+                                  style={{
+                                    justifyContent: 'center',
+                                    marginHorizontal: 20,
+                                  }}>
+                                  <Text
+                                    style={{
+                                      fontWeight: 'bold',
+                                      fontSize: 15,
+                                      color: 'white',
+                                    }}>
+                                    {item.first_name} {item.last_name}
+                                  </Text>
+                                </View>
                               </View>
-                              <View
-                                style={{
-                                  justifyContent: 'center',
-                                  marginHorizontal: 20,
-                                }}>
+                              <View style={{ justifyContent: 'center' }}>
                                 <Text
                                   style={{
                                     fontWeight: 'bold',
-                                    fontSize: 15,
-                                    color: 'white',
+                                    color: '#979797',
+                                    fontSize: 10,
+                                    marginRight: 10,
                                   }}>
-                                  {item.first_name} {item.last_name}
+                                  Depuis le{' '}
+                                  {moment(item.created_at).format('DD/MM/YYYY')}
                                 </Text>
                               </View>
                             </View>
-                            <View style={{ justifyContent: 'center' }}>
-                              <Text
-                                style={{
-                                  fontWeight: 'bold',
-                                  color: '#979797',
-                                  fontSize: 10,
-                                  marginRight: 10,
-                                }}>
-                                Depuis le{' '}
-                                {moment(item.created_at).format('DD/MM/YYYY')}
-                              </Text>
-                            </View>
-                          </View>
-                        </TouchableOpacity>
-                      )
-                    )}
-                  />
+                          </TouchableOpacity>
+                        )
+                      )}
+                    />
+                  </View>
                 </View>
-              </View>
-            ) : null}
-            {this.state.screen == 'PROSPECTS' ? (
-              <View>
-                {/* <SearchBar
-        //        size={50}
-        //         clearIcon={false}
-        //         placeholder="Type Here..."
-        // onChangeText={this.updateSearch}
-        // value={this.state.search}
-                /> */}
-                <View style={{ marginTop: 50 }}>
-                  <FlatList
-                    data={this.state.atlhetesProspects}
-                    extraData={this.state}
-                    // onRefresh={onRefresh}
-                    // refreshing={this.state.refresh}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                      console.log('ddd', item),
-                      (
-                        <TouchableOpacity
-                          style={{ alignItems: 'center' }}
-                          onPress={() => {
-                            navigate('MyAthleteDetailsProspects', { item });
-                          }}>
-                          <View
-                            style={{
-                              borderRadius: 5,
-                              flexDirection: 'row',
-                              justifyContent: 'space-between',
-                              alignContent: 'center',
-                              backgroundColor: '#1E2026',
-                              width: widthPercentageToDP(92),
-                              height: 70,
+              ) : null}
+              {this.state.screen == 'INACTIFS' ? (
+                <View style={{ marginTop: heightPercentageToDP(2) }}>
+                  {/* <SearchBar
+                   size={50}
+                   clearIcon={false}
+                   placeholder="Type Here..."
+                   onChangeText={this.updateSearch}
+                   value={this.state.search}
+                 /> */}
+                  <View style={{ marginTop: 50 }}>
+                    <FlatList
+                      data={this.state.atlhetesInactifs}
+                      extraData={this.state}
+                      // onRefresh={onRefresh}
+                      // refreshing={this.state.refresh}
+                      keyExtractor={(item) => item.id}
+                      renderItem={({ item }) => (
+                        console.log('ddd', item),
+                        (
+                          <TouchableOpacity
+                            style={{ alignItems: 'center' }}
+                            onPress={() => {
+                              navigate('MyAthleteDetailsInactifs', { item });
                             }}>
                             <View
                               style={{
-                                justifyContent: 'center',
+                                borderRadius: 5,
                                 flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignContent: 'center',
+                                backgroundColor: '#1E2026',
+                                width: widthPercentageToDP(92),
+                                height: 70,
                               }}>
                               <View
                                 style={{
                                   justifyContent: 'center',
-                                  marginLeft: 15,
+                                  flexDirection: 'row',
                                 }}>
-                                <Avatar
-                                  size="medium"
-                                  rounded
-                                  source={{
-                                    uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                                  }}
-                                />
+                                <View
+                                  style={{
+                                    justifyContent: 'center',
+                                    marginLeft: 15,
+                                  }}>
+                                  <Avatar
+                                    size="medium"
+                                    rounded
+                                    source={{
+                                      uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                                    }}
+                                  />
+                                </View>
+                                <View
+                                  style={{
+                                    justifyContent: 'center',
+                                    marginHorizontal: 20,
+                                  }}>
+                                  <Text
+                                    style={{
+                                      fontWeight: 'bold',
+                                      fontSize: 15,
+                                      color: 'white',
+                                    }}>
+                                    {item.first_name} {item.last_name}
+                                  </Text>
+                                </View>
                               </View>
-                              <View
-                                style={{
-                                  justifyContent: 'center',
-                                  marginHorizontal: 20,
-                                }}>
+                              <View style={{ justifyContent: 'center' }}>
                                 <Text
                                   style={{
                                     fontWeight: 'bold',
-                                    fontSize: 15,
-                                    color: 'white',
+                                    color: '#979797',
+                                    fontSize: 10,
+                                    marginRight: 10,
                                   }}>
-                                  {item.first_name} {item.last_name}
+                                  Depuis le{' '}
+                                  {moment(item.created_at).format('DD/MM/YYYY')}
                                 </Text>
                               </View>
                             </View>
-                            <View style={{ justifyContent: 'center' }}>
-                              <Text
-                                style={{
-                                  fontWeight: 'bold',
-                                  color: '#979797',
-                                  fontSize: 10,
-                                  marginRight: 10,
-                                }}>
-                                Depuis le{' '}
-                                {moment(item.created_at).format('DD/MM/YYYY')}
-                              </Text>
-                            </View>
-                          </View>
-                        </TouchableOpacity>
-                      )
-                    )}
-                  />
+                          </TouchableOpacity>
+                        )
+                      )}
+                    />
+                  </View>
                 </View>
-              </View>
-            ) : null}
-          </View>
-        </SafeAreaView>
-      </View>
-    );
+              ) : null}
+              {this.state.screen == 'PROSPECTS' ? (
+                <View>
+                  {/* <SearchBar
+         //        size={50}
+         //         clearIcon={false}
+         //         placeholder="Type Here..."
+         // onChangeText={this.updateSearch}
+         // value={this.state.search}
+                 /> */}
+                  <View style={{ marginTop: 50 }}>
+                    <FlatList
+                      data={this.state.atlhetesProspects}
+                      extraData={this.state}
+                      // onRefresh={onRefresh}
+                      // refreshing={this.state.refresh}
+                      keyExtractor={(item) => item.id}
+                      renderItem={({ item }) => (
+                        console.log('ddd', item),
+                        (
+                          <TouchableOpacity
+                            style={{ alignItems: 'center' }}
+                            onPress={() => {
+                              navigate('MyAthleteDetailsProspects', { item });
+                            }}>
+                            <View
+                              style={{
+                                borderRadius: 5,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignContent: 'center',
+                                backgroundColor: '#1E2026',
+                                width: widthPercentageToDP(92),
+                                height: 70,
+                              }}>
+                              <View
+                                style={{
+                                  justifyContent: 'center',
+                                  flexDirection: 'row',
+                                }}>
+                                <View
+                                  style={{
+                                    justifyContent: 'center',
+                                    marginLeft: 15,
+                                  }}>
+                                  <Avatar
+                                    size="medium"
+                                    rounded
+                                    source={{
+                                      uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                                    }}
+                                  />
+                                </View>
+                                <View
+                                  style={{
+                                    justifyContent: 'center',
+                                    marginHorizontal: 20,
+                                  }}>
+                                  <Text
+                                    style={{
+                                      fontWeight: 'bold',
+                                      fontSize: 15,
+                                      color: 'white',
+                                    }}>
+                                    {item.first_name} {item.last_name}
+                                  </Text>
+                                </View>
+                              </View>
+                              <View style={{ justifyContent: 'center' }}>
+                                <Text
+                                  style={{
+                                    fontWeight: 'bold',
+                                    color: '#979797',
+                                    fontSize: 10,
+                                    marginRight: 10,
+                                  }}>
+                                  Depuis le{' '}
+                                  {moment(item.created_at).format('DD/MM/YYYY')}
+                                </Text>
+                              </View>
+                            </View>
+                          </TouchableOpacity>
+                        )
+                      )}
+                    />
+                  </View>
+                </View>
+              ) : null}
+            </View>
+          </SafeAreaView>
+        </View>
+      );
+    }
   }
 }
 
@@ -385,13 +423,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginRight: 10,
     marginTop: 17,
-  },
-  calendar: {
-    borderRadius: 15,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 20,
-    height: 400,
   },
   background: {
     backgroundColor: 'black',
