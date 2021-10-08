@@ -34,6 +34,18 @@ export const invite_prospect = params=> {
   })
 }
 
+export const coach_booking = async(params)=> {
+  const {coach_id, date,coach_course_id,currentSlot} = params;
+  const data = {date:date,coach_course_id:coach_course_id,slot:currentSlot}
+  const headers = await getHeaders();
+  console.log('coachID',coach_id, '',currentSlot);
+  return axios({
+    method: 'POST',
+    url:`${API_URL}/coach/book-slot/`,
+    headers:headers,
+    data:data
+  })
+}
 
 export const get_appointement = async (params, navigation) => {
  // MiddleWare.validateRequest(
