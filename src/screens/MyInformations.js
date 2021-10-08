@@ -11,6 +11,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -56,6 +57,7 @@ export default class MyInformations extends React.Component {
       Coach: {},
       User: [],
       term: '',
+      loaded:false,
       Gymdata: [],
     };
   }
@@ -68,8 +70,9 @@ export default class MyInformations extends React.Component {
     get_gym().then((res) => {
       this.setState({ Gymdata: res.data });
     });
-    const user = await AsyncStorage.getItem(USER);
-    this.setState({ User: user });
+    const user = await AsyncStorage.getItem(STORAGE.USER);
+    this.setState({ User: JSON.parse( user) });
+    this.setState({ loaded: true });
   }
 
   onContinuePress(values) {
@@ -123,6 +126,13 @@ export default class MyInformations extends React.Component {
     const { navigation } = this.props;
     var term = '';
     const arrayhelper = [];
+    if (!this.state.loaded) {
+      return (
+        <View>
+          <ActivityIndicator />
+        </View>
+      );
+    } else {
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <LinearGradient
@@ -160,19 +170,18 @@ export default class MyInformations extends React.Component {
             </View>
             <Formik
               initialValues={{
-                gender: 'female',
-                first_name: '',
-                last_name: '',
-                email: '',
-                phone: '',
-                password: '',
-                confirm_password: '',
-                termsCondition: false,
-                degrees: [],
-                xP: '',
-                spécialities: [],
-                gymPlace: [],
-                avatar: '',
+                gender: this.state.User.gender,
+                first_name: this.state.User.first_name,
+                last_name: this.state.User.last_name,
+                email: this.state.User.email,
+                phone: this.state.User.phone,
+                password: this.state.User.password,
+                confirm_password: this.state.User.confirm_password,
+                degrees:this.state.User.degrees,
+                xP:this.state.User.xP,
+                spécialities: this.state.User.spécialities,
+                gymPlace: this.state.User.gymPlace,
+                avatar: this.state.User.avatar,
               }}
               onSubmit={(values) => onContinuePress(values)}>
               {({
@@ -196,7 +205,7 @@ export default class MyInformations extends React.Component {
                       textStyle={{ color: 'white' }}
                       checkedIcon="dot-circle-o"
                       uncheckedIcon="dot-circle-o"
-                      checked={values.gender.toString() === 'male'}
+                      checked={values.gender === 'male'}
                       value={values.gender}
                       onPress={() => setFieldValue('gender', 'male')}
                     />
@@ -603,7 +612,7 @@ export default class MyInformations extends React.Component {
         </SafeAreaView>
       </View>
     );
-  }
+  }}
 }
 const styles = StyleSheet.create({
   safeArea: {
