@@ -646,6 +646,30 @@ export default class Dashboard extends React.Component {
                       textMonthFontSize: 22,
                       textDayHeaderFontSize: 16,
                     }}
+                    markedDates={{
+                      '2021-10-18': {
+                        customStyles: {
+                          container: {
+                            backgroundColor: 'green',
+                          },
+                          text: {
+                            color: 'black',
+                            fontWeight: 'bold',
+                          },
+                        },
+                      },
+                      '2021-10-20': {
+                        customStyles: {
+                          container: {
+                            backgroundColor: 'white',
+                            elevation: 2,
+                          },
+                          text: {
+                            color: 'blue',
+                          },
+                        },
+                      },
+                    }}
                     enableSwipeMonths={true}
                     firstDay={1}
                     markingType={'custom'}
