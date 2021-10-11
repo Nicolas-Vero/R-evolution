@@ -6,7 +6,9 @@ import {
   Dimensions,
   Image,
   TextInput,
+  Keyboard,
   Text,
+  KeyboardAvoidingView,
 } from 'react-native';
 import Color from '../../configs/design/color';
 import ResponsiveText from '../../common/ResponsiveText';
@@ -24,7 +26,7 @@ import {
 } from 'react-native-responsive-screen';
 import { loadFonts } from '../../configs/design/font';
 import { LinearGradient } from 'expo-linear-gradient';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 export default class Login extends React.Component {
   componentDidMount() {
     loadFonts;
@@ -120,7 +122,8 @@ export default class Login extends React.Component {
 
           // justifyContent:"space-evenly"
         }}>
-        <SafeAreaView>
+          <ScrollView>
+        <SafeAreaView  onPress={Keyboard.dismiss}>
           <Header />
           <View style={styles.logoContainer}>
             <Image
@@ -128,7 +131,7 @@ export default class Login extends React.Component {
               style={styles.image}></Image>
           </View>
 
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: 'center', }}>
             <Formik
               initialValues={{
                 email: '',
@@ -142,9 +145,7 @@ export default class Login extends React.Component {
                 setFieldValue,
                 values,
               }) => (
-                <View>
-                  {/* {console.log(values)} */}
-
+                <KeyboardAvoidingView>
                   <View style={{ marginBottom: 15 }}>
                     <TextInput
                       placeholder="Email"
@@ -164,6 +165,7 @@ export default class Login extends React.Component {
                   <View style={{ marginBottom: 15 }}>
                     <TextInput
                       placeholder="Mot de passe"
+                      secureTextEntry={true}
                       style={{
                         backgroundColor: '#FFFFFF',
                         height: 40,
@@ -208,7 +210,7 @@ export default class Login extends React.Component {
                       marginTop: 20,
                     }}>
                     <Text style={{ fontFamily: 'Roboto', color: '#B9B9BC' }}>
-                      Pas encore membre?{' '}
+                    Pas encore membre ?{' '}
                     </Text>
                     <TouchableOpacity
                       onPress={() => {
@@ -219,11 +221,13 @@ export default class Login extends React.Component {
                       </Text>
                     </TouchableOpacity>
                   </View>
-                </View>
+                </KeyboardAvoidingView>
               )}
             </Formik>
           </View>
+    
         </SafeAreaView>
+        </ScrollView>
       </LinearGradient>
     );
   }

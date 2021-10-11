@@ -211,7 +211,7 @@ export default class LoginAthlete extends React.Component {
                     marginTop: 20,
                   }}>
                   <Text style={{ fontFamily: 'Roboto', color: '#B9B9BC' }}>
-                    Pas encore membre?{' '}
+                    Pas encore membre ? {' '}
                   </Text>
                   <TouchableOpacity>
                     <Text style={{ fontFamily: 'Roboto', color: '#2CDEE4' }}>
