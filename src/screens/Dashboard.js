@@ -30,6 +30,7 @@ import {
 import { loadFonts } from '../configs/design/font';
 import { Right } from 'native-base';
 import * as Notifications from 'expo-notifications';
+import { ScrollView } from 'react-native';
 
 LocaleConfig.locales['fr'] = {
   monthNames: [
@@ -240,9 +241,9 @@ export default class Dashboard extends React.Component {
     loadFonts();
     const curDate = moment().format('YYYY-MM-DD');
     this.setState({ today: curDate });
-    this.changeTaskList(curDate)
-    this.getAvailabilities(curDate)
-    this.onMonthChange(curDate)
+    this.changeTaskList(curDate);
+    this.getAvailabilities(curDate);
+    this.onMonthChange(curDate);
     this.notificationListener = Notifications.addNotificationReceivedListener(
       (notification) => {
         console.log('[Notification-C-Dashboard]', notification);
@@ -391,15 +392,15 @@ export default class Dashboard extends React.Component {
   }
 
   async changeTaskList(date) {
-    let formatdata = {}
-    if (date.dateString == undefined) { 
-       formatdata = {
+    let formatdata = {};
+    if (date.dateString == undefined) {
+      formatdata = {
         date: date,
-      }
+      };
     } else {
-       formatdata = {
+      formatdata = {
         date: date.dateString,
-      }
+      };
     }
     this.setState({
       selectedDate: moment(date.dateString).format('YYYY-MM-DD'),
@@ -601,7 +602,7 @@ export default class Dashboard extends React.Component {
             </View>
             <View>{/*TO DO: passe les jours en francais  */}</View>
             {this.state.screen == 'Planning' ? (
-              <View>
+              <ScrollView styl={{ marginBottom: 100 }}>
                 <View style={{ alignItems: 'center', marginTop: 16 }}>
                   <Text
                     style={{
@@ -615,98 +616,110 @@ export default class Dashboard extends React.Component {
                   </Text>
                 </View>
                 <View style={{ alignItems: 'center' }}>
-                  {this.state.page.length==0?(
-                     <View
-                     style={{
-                       height: heightPercentageToDP(22),
-                       width: widthPercentageToDP(94),
-                      
-                       alignItems:'center',
-                       alignSelf:'center'
-                     }}>
-                      <Text style={{
-                           fontFamily:'Roboto',
-                           fontSize:20,
-                           marginTop:20,
-                         color: 'white' }}>
-                      Aucun rendez-vous prévu ce jour-là
-                    </Text>
-                   </View>
-                   
-                  ) : (this.state.carousselLoad ? (
+                  {this.state.page.length == 0 ? (
+                    <View
+                      style={{
+                        height: heightPercentageToDP(22),
+                        width: widthPercentageToDP(94),
+
+                        alignItems: 'center',
+                        alignSelf: 'center',
+                      }}>
+                      <Text
+                        style={{
+                          fontFamily: 'Roboto',
+                          fontSize: 20,
+                          marginTop: 20,
+                          color: 'white',
+                        }}>
+                        Aucun rendez-vous prévu ce jour-là
+                      </Text>
+                    </View>
+                  ) : this.state.carousselLoad ? (
                     <Pager pager={this.state.page} />
                   ) : (
                     <View
                       style={{
-                     
                         height: heightPercentageToDP(22),
                         width: widthPercentageToDP(94),
                         alignItems: 'center',
                       }}>
                       <ActivityIndicator />
                     </View>
-                  ))}
+                  )}
                 </View>
-                <View style={{ alignItems: 'center' }}>
-                  <Calendar
-                    theme={{
-                      calendarBackground: '#1E2026',
-                      textSectionTitleColor: 'white',
-                      textSectionTitleWeight: 'bold',
-                      textSectionTitleDisabledColor: '#d9e1e8',
-                      selectedDayBackgroundColor: '#2CDEE4',
-                      todayTextColor: '#2CDEE4',
-                      dayTextColor: 'white',
-                      textDisabledColor: 'grey',
-                      arrowColor: 'white',
-                      monthTextColor: 'white',
-                      indicatorColor: '#2CDEE4',
-                      textDayFontFamily: 'Montserrat',
-                      textMonthFontFamily: 'MontserratBoldItalic',
-                      textDayHeaderFontFamily: 'MontserratMedium',
-                      textDayFontSize: 16,
-                      textMonthFontSize: 22,
-                      textDayHeaderFontSize: 16,
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={{ alignItems: 'center', marginLeft: 10 }}>
+                    <Calendar
+                      theme={{
+                        calendarBackground: '#1E2026',
+                        textSectionTitleColor: 'white',
+                        textSectionTitleWeight: 'bold',
+                        textSectionTitleDisabledColor: '#d9e1e8',
+                        selectedDayBackgroundColor: '#2CDEE4',
+                        todayTextColor: '#2CDEE4',
+                        dayTextColor: 'white',
+                        textDisabledColor: 'grey',
+                        arrowColor: 'white',
+                        monthTextColor: 'white',
+                        indicatorColor: '#2CDEE4',
+                        textDayFontFamily: 'Montserrat',
+                        textMonthFontFamily: 'MontserratBoldItalic',
+                        textDayHeaderFontFamily: 'MontserratMedium',
+                        textDayFontSize: 16,
+                        textMonthFontSize: 22,
+                        textDayHeaderFontSize: 16,
+                      }}
+                      enableSwipeMonths={true}
+                      firstDay={1}
+                      markingType={'custom'}
+                      markedDates={{
+                        [selected]: {
+                          selected: true,
+                          selectedColor: '#2CDEE4',
+                          selectedTextColor: 'black',
+                        },
+                      }}
+                      // dayComponent={({date, state}) => {
+                      //   return (
+                      //     <View>
+                      //       <Text style={[styles.customDay, state === 'disabled' ? styles.disabledText : styles.defaultText]}>
+                      //         {date.day}
+                      //       </Text>
+                      //     </View>
+                      //   );
+                      // }}
+                      onDayPress={(day) => this.changeTaskList(day)}
+                      style={styles.calendar}
+                    />
+                  </View>
+                  <TouchableOpacity
+                    style={{
+                      position: 'absolute',
+                      // alignItems: 'flex-end',
+                      // justifyContent: 'flex-end',
+                      left: widthPercentageToDP(88),
+                      top: heightPercentageToDP(25),
+                      right: widthPercentageToDP(10),
+
+                      // height: heightPercentageToDP(18),
+                      // width: widthPercentageToDP(1),
                     }}
-                    enableSwipeMonths={true}
-                    firstDay={1}
-                    markingType={'custom'}
-                    markedDates={{
-                      [selected]: {
-                        selected: true,
-                        selectedColor: '#2CDEE4',
-                        selectedTextColor: 'black',
-                      },
-                    }}
-                    // dayComponent={({date, state}) => {
-                    //   return (
-                    //     <View>
-                    //       <Text style={[styles.customDay, state === 'disabled' ? styles.disabledText : styles.defaultText]}>
-                    //         {date.day}
-                    //       </Text>
-                    //     </View>
-                    //   );
-                    // }}
-                    onDayPress={(day) => this.changeTaskList(day)}
-                    style={styles.calendar}
-                  />
+                    onPress={() => {
+                      navigate('CreateBook');
+                    }}>
+                    <Image
+                      source={require('../../assets/images/Group_8766.png')}
+                      style={{
+                        height: 45,
+                        width: 45,
+                      }}
+                    />
+                  </TouchableOpacity>
                 </View>
-                <TouchableOpacity
-                  style={{
-                    position: 'absolute',
-                    alignItems: 'flex-end',
-                    left: widthPercentageToDP(90),
-                    top: heightPercentageToDP(50),
-                  }}
-                  onPress={() => {
-                    navigate('CreateBook');
-                  }}>
-                  <Image
-                    source={require('../../assets/images/Group_8766.png')}></Image>
-                </TouchableOpacity>
-              </View>
+              </ScrollView>
             ) : (
-              <View>
+              <ScrollView>
                 <View style={{ height: heightPercentageToDP(35) }}>
                   <View>
                     <MonthsSlider onChange={this.onMonthChange.bind(this)} />
@@ -802,7 +815,7 @@ export default class Dashboard extends React.Component {
                     </View>
                   </View>
                 </View>
-              </View>
+              </ScrollView>
             )}
           </View>
         </SafeAreaView>
@@ -837,7 +850,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     paddingRight: 30,
-    width: widthPercentageToDP(94),
+    width: widthPercentageToDP(90),
+    height: heightPercentageToDP(40),
+    marginBottom: 300,
   },
   background: {
     backgroundColor: 'black',

@@ -12,8 +12,9 @@
       "versionCode": 6
     },
     "ios": {
-      "buildNumber": "2",
-      "bundleIdentifier": "com.org.revolution"
+      "buildNumber": "5",
+      "bundleIdentifier": "com.org.revolution",
+      "supportsTablet": true
     }
   }
 }
