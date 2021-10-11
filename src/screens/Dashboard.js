@@ -720,7 +720,7 @@ export default class Dashboard extends React.Component {
               </ScrollView>
             ) : (
               <ScrollView>
-                <View style={{ height: heightPercentageToDP(35) }}>
+                <View style={{ height: heightPercentageToDP(95) }}>
                   <View>
                     <MonthsSlider onChange={this.onMonthChange.bind(this)} />
                     <View style={{ marginBottom: 20 }}>
@@ -801,7 +801,7 @@ export default class Dashboard extends React.Component {
                         </TouchableOpacity>
                       </View>
                       <FlatList
-                        style={{ maxHeight: heightPercentageToDP(42) }}
+                        style={{ maxHeight: heightPercentageToDP(50)}}
                         data={[this.state.currentAvailabilities]}
                         extraData={this.state}
                         //      onRefresh={onRefresh}
@@ -825,9 +825,6 @@ export default class Dashboard extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  listonebyone: {},
-
-  ccontainer: {},
   item: {
     backgroundColor: '#2CDEE4',
     flex: 1,

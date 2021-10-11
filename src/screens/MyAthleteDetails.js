@@ -140,12 +140,12 @@ export default class MyAthleteDetails extends React.Component {
                   />
                 </View>
                 <View style={styles.container}>
-                  <Text style={styles.text}>Adresse e-mail:</Text>
-                  <Text style={styles.textBlue}>{Athlete.email}</Text>
+                  <Text style={styles.text}>Adresse e-mail :</Text>
+                  <Text style={styles.textBlue2}>{Athlete.email}</Text>
                 </View>
                 <View style={styles.container}>
-                  <Text style={styles.text}>Offre en cours</Text>
-                  <Text style={styles.textBlue}>
+                  <Text style={styles.text}>Offre en cours :</Text>
+                  <Text style={styles.textBlue2}>
                     Pack transformation - 8 séances restantes sur 10
                   </Text>
                 </View>
@@ -156,7 +156,7 @@ export default class MyAthleteDetails extends React.Component {
                     margin: 5,
                     height: 200,
                   }}>
-                  <Text style={styles.text}>Paiement(s) effectué(s):</Text>
+                  <Text style={styles.text}>Paiement(s) effectué(s) :</Text>
 
                   <FlatList
                     data={this.state.Paiement}
@@ -217,7 +217,7 @@ export default class MyAthleteDetails extends React.Component {
                       onPress={() => {
                         navigate('AddPaiement');
                       }}>
-                      <Text style={styles.text}>Ajouter un paiement </Text>
+                      <Text style={styles.text}>Ajouter un paiement : </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -227,7 +227,7 @@ export default class MyAthleteDetails extends React.Component {
                     backgroundColor: '#1E2026',
                     borderRadius: 5,
                   }}>
-                  <Text style={styles.text}> Ses objectifs:</Text>
+                  <Text style={styles.text}>Ses objectifs :</Text>
                   <FlatList
                     horizontal={true}
                     data={Athlete.goals}
@@ -280,12 +280,11 @@ export default class MyAthleteDetails extends React.Component {
                       backgroundColor: '#1E2026',
                     }}>
                     <View
-                      style={{
-                        margin: 5,
+                      style={{                      
                         borderRadius: 5,
                         flexDirection: 'row',
                       }}>
-                      <Text style={styles.text2}>Taille:</Text>
+                      <Text style={styles.text2}>Taille :</Text>
                       <Text style={styles.textBlue2}>
                         {`${Athlete.size / 100}`.substring(0, 1)}m
                         {`${Athlete.size / 100}`.substring(2)}{' '}
@@ -330,7 +329,7 @@ export default class MyAthleteDetails extends React.Component {
                     justifyContent: 'center',
                   }}>
                   <View style={{ flexDirection: 'column' }}>
-                    <Text style={styles.text}>Créneaux de sport souhaités:</Text>
+                    <Text style={styles.text}>Créneaux de sport souhaités :</Text>
 
                     <View style={{ flexDirection: 'row', marginTop: 15 }}>
                       <Text style={styles.textTiny}> Entre</Text>
@@ -383,24 +382,24 @@ export default class MyAthleteDetails extends React.Component {
                 </View>
                 <View style={styles.container}>
                   <Text style={styles.text}>Experience(s) sportive(s) :</Text>
-                  <Text style={styles.textBlue}>
+                  <Text style={styles.textBlue2}>
                     plus de {Athlete.experience_years} ans
                   </Text>
                 </View>
                 <View style={styles.container}>
                   <Text style={styles.text}>Santé :</Text>
                   {Athlete.health_issues ? (
-                    <Text style={styles.textBlue}>{Athlete.health_issues}</Text>
+                    <Text style={styles.textBlue2}>{Athlete.health_issues}</Text>
                   ) : (
-                    <Text style={styles.textBlue}>Pas d'information</Text>
+                    <Text style={styles.textBlue2}>Pas d'information</Text>
                   )}
                 </View>
                 <View style={styles.container}>
                   <Text style={styles.text}>Info complémentaires : </Text>
                   {Athlete.health_problem_description == null ? (
-                    <Text style={styles.textBlue}>Pas d'information</Text>
+                    <Text style={styles.textBlue2}>Pas d'information</Text>
                   ) : (
-                    <Text style={styles.textBlue}>{Athlete.health_problem_description}</Text>
+                    <Text style={styles.textBlue2}>{Athlete.health_problem_description}</Text>
                   )}
                 </View>
               </View>
