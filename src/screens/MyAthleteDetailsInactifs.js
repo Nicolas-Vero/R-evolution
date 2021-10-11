@@ -94,14 +94,12 @@ export default class MyAthleteDetailsInactifs extends React.Component {
                   marginTop: 20,
                   color: 'white',
                 }}>
-                Florian GALOPIN
+                 {Athlete.first_name }   {Athlete.last_name }
               </Text>
             </View>
             <Image
               style={styles.tinyLogo}
-              source={{
-                uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/Inactif.png',
-              }}
+              source={require('../../assets/images/Inactif.png')}
             />
           </View>
           <View style={{ alignItems: 'center' }}>
@@ -140,19 +138,18 @@ export default class MyAthleteDetailsInactifs extends React.Component {
                   </Text>
                   <Image
                     style={styles.Logo}
-                    source={{
-                      uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/Téléphone.png',
-                    }}
+                    source={require('../../assets/images/Téléphone.png')}
                   />
                 </View>
                 <View style={styles.container}>
-                  <Text style={styles.text}>Adresse e-mail:</Text>
+                  <Text style={styles.text}>Adresse e-mail :</Text>
                   <Text style={styles.textBlue}>{Athlete.email}</Text>
                 </View>
                 <View style={styles.container}>
-                  <Text style={styles.text}>Offre en cours</Text>
+                  <Text style={styles.text}>Offre en cours :</Text>
                   <Text style={styles.textBlue}>
-                    Pack transformation - 8 séances restantes sur 10
+                    {/* todo a modifier */}
+                    Pas d'offre en cours
                   </Text>
                 </View>
                 <View
@@ -162,7 +159,7 @@ export default class MyAthleteDetailsInactifs extends React.Component {
                     margin: 5,
                     height: 250,
                   }}>
-                  <Text style={styles.text}>Paiement(s) effectué(s):</Text>
+                  <Text style={styles.text}>Paiement(s) effectué(s) :</Text>
 
                   <FlatList
                     data={this.state.Paiement}
@@ -233,7 +230,7 @@ export default class MyAthleteDetailsInactifs extends React.Component {
                     backgroundColor: '#1E2026',
                     borderRadius: 5,
                   }}>
-                  <Text style={styles.text}> Ses objectifs:</Text>
+                  <Text style={styles.text}> Ses objectifs :</Text>
                   <FlatList
                     horizontal={true}
                     data={Athlete.goals}
@@ -291,7 +288,7 @@ export default class MyAthleteDetailsInactifs extends React.Component {
                         borderRadius: 5,
                         flexDirection: 'row',
                       }}>
-                      <Text style={styles.text2}>Taille:</Text>
+                      <Text style={styles.text2}>Taille :</Text>
                       <Text style={styles.textBlue2}>
                         {`${Athlete.size / 100}`.substring(0, 1)}m
                         {`${Athlete.size / 100}`.substring(2)}{' '}
@@ -336,7 +333,7 @@ export default class MyAthleteDetailsInactifs extends React.Component {
                     justifyContent: 'center',
                   }}>
                   <View style={{ flexDirection: 'column' }}>
-                    <Text style={styles.text}>Crénaux de sport souhaités:</Text>
+                    <Text style={styles.text}>Créneaux de sport souhaités :</Text>
 
                     <View style={{ flexDirection: 'row', marginTop: 15 }}>
                       <Text style={styles.textTiny}> Entre</Text>

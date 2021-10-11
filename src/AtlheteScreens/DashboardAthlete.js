@@ -546,9 +546,7 @@ export default class DashboardAthlete extends React.Component {
                 <Avatar
                   size="medium"
                   rounded
-                  source={{
-                    uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                  }}
+                  source={require('../../assets/images/avatar.png')}
                 />
                 <Text
                   style={{
@@ -1093,7 +1091,7 @@ export default class DashboardAthlete extends React.Component {
                                 this.setState({ book: bookInformation });
                                 this.setState({ modalVisible: true });
                               }}
-                              title="Réserver ce crénaux"></DeleteButton>
+                              title="Réserver ce créneau"></DeleteButton>
                           </View>
                         )}
                       />

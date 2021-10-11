@@ -139,9 +139,7 @@ export default class MyCoach extends React.Component {
                   </Text>
                   <Image
                     style={styles.Logo}
-                    source={{
-                      uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/Téléphone.png',
-                    }}
+                    source={require('../../assets/images/Téléphone.png')}
                   />
                 </View>
                 <View style={styles.container}>

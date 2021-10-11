@@ -94,14 +94,12 @@ export default class MyAthleteDetailsProspects extends React.Component {
                   marginTop: 20,
                   color: 'white',
                 }}>
-                Florian GALOPIN
+                 {Athlete.first_name }   {Athlete.last_name }
               </Text>
             </View>
             <Image
               style={styles.tinyLogo}
-              source={{
-                uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/Prospect.png',
-              }}
+              source={require('../../assets/images/Prospect.png')}
             />
           </View>
           <View style={{ alignItems: 'center' }}>
@@ -140,59 +138,20 @@ export default class MyAthleteDetailsProspects extends React.Component {
                   </Text>
                   <Image
                     style={styles.Logo}
-                    source={{
-                      uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/Téléphone.png',
-                    }}
+                    source={require('../../assets/images/Téléphone.png')}
                   />
                 </View>
                 <View style={styles.container}>
-                  <Text style={styles.text}>Adresse e-mail:</Text>
+                  <Text style={styles.text}>Adresse e-mail :</Text>
                   <Text style={styles.textBlue}>{Athlete.email}</Text>
                 </View>
-                <View
-                  style={{
-                    margin: 5,
-                    backgroundColor: '#1E2026',
-                    borderRadius: 5,
-                  }}>
-                  <Text style={styles.text}> Ses objectifs:</Text>
-                  <FlatList
-                    horizontal={true}
-                    data={Athlete.goals}
-                    extraData={this.state}
-                    // onRefresh={onRefresh}
-                    // refreshing={this.state.refresh}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => (
-                      <View
-                        style={{
-                          alignContent: 'center',
-                          justifyContent: 'center',
-                          backgroundColor: '#2CDEE4',
-                          height: 30,
-                          margin: 10,
-                          padding: 5,
-                          borderRadius: 20,
-                        }}>
-                        <View
-                          style={{
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            flexDirection: 'row',
-                            marginHorizontal: 5,
-                          }}>
-                          <Text
-                            style={{
-                              fontWeight: 'bold',
-                            }}>
-                            {item.name}
-                          </Text>
-                        </View>
-                      </View>
-                    )}
-                  />
+                <View style={styles.container}>
+                  <Text style={styles.text}>Offre en cours :</Text>
+                  <Text style={styles.textBlue}>
+                    {/* todo a modifier */}
+                    Pas d'offre en cours
+                  </Text>
                 </View>
-
                 <View
                   style={{
                     alignContent: 'center',
@@ -200,7 +159,7 @@ export default class MyAthleteDetailsProspects extends React.Component {
                     margin: 5,
                     height: 250,
                   }}>
-                  <Text style={styles.text}>Paiement(s) effectué(s):</Text>
+                  <Text style={styles.text}>Paiement(s) effectué(s) :</Text>
 
                   <FlatList
                     data={this.state.Paiement}
@@ -267,6 +226,49 @@ export default class MyAthleteDetailsProspects extends React.Component {
                 </View>
                 <View
                   style={{
+                    margin: 5,
+                    backgroundColor: '#1E2026',
+                    borderRadius: 5,
+                  }}>
+                  <Text style={styles.text}> Ses objectifs :</Text>
+                  <FlatList
+                    horizontal={true}
+                    data={Athlete.goals}
+                    extraData={this.state}
+                    // onRefresh={onRefresh}
+                    // refreshing={this.state.refresh}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                      <View
+                        style={{
+                          alignContent: 'center',
+                          justifyContent: 'center',
+                          backgroundColor: '#2CDEE4',
+                          height: 30,
+                          margin: 10,
+                          padding: 5,
+                          borderRadius: 20,
+                        }}>
+                        <View
+                          style={{
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                            marginHorizontal: 5,
+                          }}>
+                          <Text
+                            style={{
+                              fontWeight: 'bold',
+                            }}>
+                            {item.name}
+                          </Text>
+                        </View>
+                      </View>
+                    )}
+                  />
+                </View>
+                <View
+                  style={{
                     flexDirection: 'row',
                     height: 50,
                   }}>
@@ -286,7 +288,7 @@ export default class MyAthleteDetailsProspects extends React.Component {
                         borderRadius: 5,
                         flexDirection: 'row',
                       }}>
-                      <Text style={styles.text2}>Taille:</Text>
+                      <Text style={styles.text2}>Taille :</Text>
                       <Text style={styles.textBlue2}>
                         {`${Athlete.size / 100}`.substring(0, 1)}m
                         {`${Athlete.size / 100}`.substring(2)}{' '}
@@ -320,6 +322,66 @@ export default class MyAthleteDetailsProspects extends React.Component {
                   <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.text}>Age:</Text>
                     <Text style={styles.textBlue2}>{Athlete.age} ans</Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    margin: 5,
+                    borderRadius: 5,
+                    backgroundColor: '#1E2026',
+                    height: 130,
+                    justifyContent: 'center',
+                  }}>
+                  <View style={{ flexDirection: 'column' }}>
+                    <Text style={styles.text}>Créneaux de sport souhaités :</Text>
+
+                    <View style={{ flexDirection: 'row', marginTop: 15 }}>
+                      <Text style={styles.textTiny}> Entre</Text>
+                      <Text style={styles.textBlue2Tiny}>
+                        {Athlete.preferred_time_start}H
+                      </Text>
+                      <Text style={styles.textTiny}>et</Text>
+                      <Text style={styles.textBlue2Tiny}>
+                        {Athlete.preferred_time_end}H
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={{ marginTop: 5 }}>
+                    <FlatList
+                      horizontal={true}
+                      data={dayPreference}
+                      extraData={this.state}
+                      // onRefresh={onRefresh}
+                      // refreshing={this.state.refresh}
+                      keyExtractor={(item) => item.day}
+                      renderItem={({ item }) => (
+                        <View
+                          style={{
+                            alignContent: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: '#2CDEE4',
+                            height: 30,
+                            margin: 10,
+                            borderRadius: 20,
+                          }}>
+                          <View
+                            style={{
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              flexDirection: 'row',
+                              padding: 5,
+                              marginHorizontal: 5,
+                            }}>
+                            <Text
+                              style={{
+                                fontWeight: 'bold',
+                              }}>
+                              {item.day}
+                            </Text>
+                          </View>
+                        </View>
+                      )}
+                    />
                   </View>
                 </View>
                 <View style={styles.container}>

@@ -184,7 +184,7 @@ export default class CreateReminder extends React.Component {
                                 height: hp(6),
                               }}
                               data={color}
-                              defaultButtonText={'choisir un crénaux'}
+                              defaultButtonText={'choisir un créneau'}
                               onSelect={(selectedItem, index) => {
                                 values.color = selectedItem;
                               }}

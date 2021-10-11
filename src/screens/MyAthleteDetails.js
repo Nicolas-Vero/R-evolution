@@ -82,9 +82,7 @@ export default class MyAthleteDetails extends React.Component {
               <Avatar
                 size={100}
                 rounded
-                source={{
-                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                }}
+                source={require('../../assets/images/avatar.png')}
               />
 
               <Text
@@ -94,14 +92,12 @@ export default class MyAthleteDetails extends React.Component {
                   marginTop: 20,
                   color: 'white',
                 }}>
-                Florian GALOPIN
+               {Athlete.first_name }   {Athlete.last_name }
               </Text>
             </View>
             <Image
               style={styles.tinyLogo}
-              source={{
-                uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/Actif.png',
-              }}
+              source={require('../../assets/images/Actif.png')}
             />
           </View>
           <View style={{ alignItems: 'center' }}>
@@ -140,9 +136,7 @@ export default class MyAthleteDetails extends React.Component {
                   </Text>
                   <Image
                     style={styles.Logo}
-                    source={{
-                      uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/Téléphone.png',
-                    }}
+                    source={require('../../assets/images/Téléphone.png')}
                   />
                 </View>
                 <View style={styles.container}>
@@ -160,7 +154,7 @@ export default class MyAthleteDetails extends React.Component {
                     alignContent: 'center',
                     backgroundColor: '#1E2026',
                     margin: 5,
-                    height: 250,
+                    height: 200,
                   }}>
                   <Text style={styles.text}>Paiement(s) effectué(s):</Text>
 
@@ -309,7 +303,7 @@ export default class MyAthleteDetails extends React.Component {
                       backgroundColor: '#1E2026',
                     }}>
                     <View style={{ flexDirection: 'row' }}>
-                      <Text style={styles.text2}>poids:</Text>
+                      <Text style={styles.text2}>Poids:</Text>
                       <Text style={styles.textBlue2}>{Athlete.weight}Kg</Text>
                     </View>
                   </View>
@@ -322,9 +316,9 @@ export default class MyAthleteDetails extends React.Component {
                     height: 50,
                     justifyContent: 'center',
                   }}>
-                  <View style={{ flexDirection: 'row' }}>
+                  <View style={{ flexDirection: 'row'}}>
                     <Text style={styles.text}>Age:</Text>
-                    <Text style={styles.textBlue2}>{Athlete.age} ans</Text>
+                    <Text style={styles.textBlue}>{Athlete.age}ans</Text>
                   </View>
                 </View>
                 <View
@@ -336,7 +330,7 @@ export default class MyAthleteDetails extends React.Component {
                     justifyContent: 'center',
                   }}>
                   <View style={{ flexDirection: 'column' }}>
-                    <Text style={styles.text}>Crénaux de sport souhaités:</Text>
+                    <Text style={styles.text}>Créneaux de sport souhaités:</Text>
 
                     <View style={{ flexDirection: 'row', marginTop: 15 }}>
                       <Text style={styles.textTiny}> Entre</Text>
@@ -388,13 +382,13 @@ export default class MyAthleteDetails extends React.Component {
                   </View>
                 </View>
                 <View style={styles.container}>
-                  <Text style={styles.text}>experience(s) sportive(s):</Text>
+                  <Text style={styles.text}>Experience(s) sportive(s) :</Text>
                   <Text style={styles.textBlue}>
                     plus de {Athlete.experience_years} ans
                   </Text>
                 </View>
                 <View style={styles.container}>
-                  <Text style={styles.text}>Santé:</Text>
+                  <Text style={styles.text}>Santé :</Text>
                   {Athlete.health_issues ? (
                     <Text style={styles.textBlue}>{Athlete.health_issues}</Text>
                   ) : (
@@ -402,11 +396,11 @@ export default class MyAthleteDetails extends React.Component {
                   )}
                 </View>
                 <View style={styles.container}>
-                  <Text style={styles.text}>Unfo complémentaires: </Text>
+                  <Text style={styles.text}>Info complémentaires : </Text>
                   {Athlete.health_problem_description == null ? (
                     <Text style={styles.textBlue}>Pas d'information</Text>
                   ) : (
-                    <Text>{Athlete.health_problem_description}</Text>
+                    <Text style={styles.textBlue}>{Athlete.health_problem_description}</Text>
                   )}
                 </View>
               </View>
@@ -445,6 +439,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'black',
     marginLeft: 15,
+    marginVertical:10,
     color: 'white',
   },
   textTiny: {

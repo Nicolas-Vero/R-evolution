@@ -376,7 +376,7 @@ export default class CreateBook extends React.Component {
                    <SelectDropdown
          buttonStyle={{ width: wp(92), borderRadius:5  }}
          data={this.state.atlhetesInactifs}
-         defaultButtonText={"choisir un crénaux"}
+         defaultButtonText={"choisir un créneau"}
          onSelect={(selectedItem, index) => {
            console.log(selectedItem, index);
          }}
@@ -438,7 +438,7 @@ export default class CreateBook extends React.Component {
                             <SelectDropdown
                   buttonStyle={{ width: wp(92), borderRadius:5  }}
                   data={this.state.atlhetesActifs}
-                  defaultButtonText={"choisir un crénaux"}
+                  defaultButtonText={"choisir un créneau"}
                   onSelect={(selectedItem, index) => {
                     console.log(selectedItem, index);
                   }}
