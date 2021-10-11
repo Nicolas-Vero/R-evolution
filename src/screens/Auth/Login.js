@@ -177,13 +177,13 @@ export default class Login extends React.Component {
                       value={values.password}
                     />
                   </View>
-                  <View>
+                  {/* <View>
                     <TouchableOpacity>
                       <Text style={{ fontFamily: 'Roboto', color: '#B9B9BC' }}>
                         Mot de passe oublié ?
                       </Text>
                     </TouchableOpacity>
-                  </View>
+                  </View> */}
 
                   <View style={{ alignItems: 'center', marginTop: 25 }}>
                     <Button
@@ -201,7 +201,7 @@ export default class Login extends React.Component {
                       }}
                     />
                   </View>
-                  <View
+                  {/* <View
                     style={{
                       flexDirection: 'row',
                       justifyContent: 'center',
@@ -218,7 +218,7 @@ export default class Login extends React.Component {
                         Créer ton compte
                       </Text>
                     </TouchableOpacity>
-                  </View>
+                  </View> */}
                 </View>
               )}
             </Formik>
