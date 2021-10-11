@@ -19,33 +19,131 @@ import Header from '../components/Header';
 import { Right } from 'native-base';
 import { ScrollView } from 'react-native';
 import { loadFonts } from '../configs/design/font';
-import { get_coach_athlete } from '../api/Coach';
+import { coach_booking, get_coach_athlete, invite_prospect } from '../api/Coach';
 import { AntDesign } from '@expo/vector-icons'; 
 import { isLoaded } from 'expo-font';
 import { get_availabilities } from '../api/Availabilities';
 import { LinearGradient } from 'expo-linear-gradient';
+import moment from 'moment';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE } from '../configs/Constants';
+import { NavigationContext, NavigationEvents } from 'react-navigation';
 const { width } = Dimensions.get('window');
 export default class CreateBook extends React.Component {
   state = {
     type: 'Coaching',
+    coach:{},
     isLoaded:false,
     atlhetesActifs:[],
     atlhetesProspects:[],
     atlhetesInactifs:[],
-    slots:[]
+    slots:[],
+    availabilities:[],
+    isProspect:false
   };
-  componentDidMount() {
+  async componentDidMount() {
+    const user = await AsyncStorage.getItem(STORAGE.USER)
+    
+    this.setState({coach:JSON.parse(user)})
    loadFonts
    get_availabilities().then((res)=>{
-    //  this.setState({slots:res.data})
-    console.log(res.data);
+     console.log(res);
+   let arrayOfAvailabilities = [];
+     res.data.map((item)=>{
+      for ( const property in item) {
+        if (item[property] == true && property.match(/slot/g)) {
+          arrayOfAvailabilities.push({[property]:item[property], date:item.date ,slot:parseInt(property.slice(5))})
+        }
+      }
+    })
+     this.setState({availabilities:arrayOfAvailabilities})
+   }).then(()=>{
+    console.log( this.state.availabilities);
    })
+   
    get_coach_athlete().then((res) => {
     this.filterDAta(res.data.athletes);
     
   }).then(()=>{ this.setState({isLoaded:true})});
   }
-  
+  convertSlotToDate(slot) {
+    switch (slot) {
+      case 0:
+        return '00:00 - 01:00';
+        break;
+      case 1:
+        return '01:00 - 02:00';
+        break;
+      case 2:
+        return '02:00 - 03:00';
+        break;
+      case 3:
+        return '03:00 - 04:00';
+        break;
+      case 4:
+        return '04:00 - 05:00';
+        break;
+      case 5:
+        return '05:00 - 06:00';
+        break;
+      case 6:
+        return '06:00 - 07:00';
+        break;
+      case 7:
+        return '07:00 - 08:00';
+        break;
+      case 8:
+        return '08:00 - 09:00';
+        break;
+      case 9:
+        return '09:00 - 10:00';
+        break;
+      case 10:
+        return '10:00 - 11:00';
+        break;
+      case 11:
+        return '11:00 - 12:00';
+        break;
+      case 12:
+        return '12:00 - 13:00';
+        break;
+      case 13:
+        return '13:00 - 14:00';
+        break;
+      case 14:
+        return '14:00 - 15:00';
+        break;
+      case 15:
+        return '15:00 - 16:00';
+        break;
+      case 16:
+        return '16:00 - 17:00';
+        break;
+      case 17:
+        return '17:00 - 18:00';
+        break;
+      case 18:
+        return '18:00 - 19:00';
+        break;
+      case 19:
+        return '19:00 - 20:00';
+        break;
+      case 20:
+        return '20:00 - 21:00';
+        break;
+      case 21:
+        return '21:00 - 22:00';
+        break;
+      case 22:
+        return '22:00 - 23:00';
+        break;
+      case 23:
+        return '23:00 - 00:00';
+        break;
+      default:
+        break;
+    }
+  }
 
   filterDAta(data){
    const actifs = [];
@@ -127,16 +225,17 @@ export default class CreateBook extends React.Component {
           <Formik
             initialValues={{
               type: 'Coaching',
-              title: '',
-              content: '',
-              nbSeance: '',
-              price: '',
+              athlete_id: '',
+              slot: '',
+              coach_notes: 'rendez-vous créer par le coach',
+              coach_course_id: '',   
               gender: 'male',
+              date:'',
               first_name: '',
               last_name: '',
               email: '',
               phone: '',
-
+              description:'',
             }}
             onSubmit={(values, { onLoginPress }) => onLoginPress(values)}>
             {({
@@ -166,6 +265,7 @@ export default class CreateBook extends React.Component {
                     onPress={() => {
                       setFieldValue('type', 'Actifs'),
                         this.setState({ type: 'Actifs' });
+                        this.setState({isProspect:false})
                     }}
                   />
                   {this.state.type == 'Actifs' ? (
@@ -214,6 +314,7 @@ export default class CreateBook extends React.Component {
                     onPress={() => {
                       setFieldValue('type', 'Inactifs'),
                         this.setState({ type: 'Inactifs' });
+                        this.setState({isProspect:false})
                     }}
                   />
                   {this.state.type == 'Inactifs' ? (
@@ -263,38 +364,12 @@ export default class CreateBook extends React.Component {
                     onPress={() => {
                       setFieldValue('type', 'Prospect'),
                         this.setState({ type: 'Prospect' });
+                        this.setState({isProspect:true});
                     }}
                   />
                   {this.state.type == 'Prospect' ? (
                       <ScrollView style={{maxHeight:450}} >
                     <View>
-                    <View>
-                            <SelectDropdown
-                  buttonStyle={{ width: wp(92), borderRadius:5  }}
-                  data={this.state.atlhetesProspects}
-                  defaultButtonText={"choisir un prospect"}
-                  onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index);
-                  }}
-                  renderDropdownIcon={() => {
-                    return <AntDesign name="down" size={24} color="black" />;
-                  }}
-                  dropdownIconPosition={'right'}
-                  buttonTextAfterSelection={(selectedItem, index) => {
-                    // text represented after item is selected
-                    // if data array is an array of objects then return selectedItem.property to render after item is selected
-                    return selectedItem;
-                  }}
-                  
-                  rowTextStyle={{color:'white',fontSize:15, marginRight:90}}
-                  dropdownStyle={{backgroundColor:'#282C3A',borderRadius:5 }}
-                  rowTextForSelection={(item, index) => {
-                    // text represented for each item in dropdown
-                    // if data array is an array of objects then return item.property to represent item in dropdown
-                    return item;
-                  }}
-                />
-                    </View>
                       <View style={{ marginVertical: 10, color:'white',fontFamily:'RobotoBold',fontSize:17 }}>
                         <Text style={{ color:'white',fontFamily:'RobotoBold',fontSize:15}}>Ou ajouter un Prospect</Text>
                       </View>
@@ -387,15 +462,16 @@ export default class CreateBook extends React.Component {
          buttonTextAfterSelection={(selectedItem, index) => {
            // text represented after item is selected
            // if data array is an array of objects then return selectedItem.property to render after item is selected
-           return selectedItem;
+           return moment(selectedItem.date).format('dddd D MMMM ') +'   '+this.convertSlotToDate(selectedItem.slot);
          }}
          
          rowTextStyle={{color:'white',fontSize:15, marginRight:90}}
          dropdownStyle={{backgroundColor:'#282C3A',borderRadius:5 }}
          rowTextForSelection={(item, index) => {
-           // text represented for each item in dropdown
-           // if data array is an array of objects then return item.property to represent item in dropdown
-           return item;
+           values.slot = item.slot;
+           values.date = item.date
+
+           return moment(item.date).format('dddd D MMMM ') +'   '+  this.convertSlotToDate(item.slot);
          }}
        />
            </View>
@@ -415,7 +491,7 @@ export default class CreateBook extends React.Component {
                             }}
                             onChangeText={handleChange('Description')}
                             onBlur={handleBlur('Description')}
-                            value={values.password}
+                            value={values.description}
                           />
                         </View>
                       </View>
@@ -430,7 +506,16 @@ export default class CreateBook extends React.Component {
                     loading={false}
                     customTextStyle={{color: "black", fontFamily:'RobotoBold',fontWeight:'bold',fontSize:15}}
                     title="Valider"
-                    onPress={console.log(values)}
+                    onPress={()=>{
+                      console.log(values)
+                      invite_prospect({  email:values.email,
+                      first_name: values.first_name,
+                      last_name: values.last_name,
+                      gender: values.gender,
+                      phone:values.phone,
+                      slot:values.slot
+                    })
+                    }}
                     />
                     </ScrollView>
                   ) : <View>
@@ -449,15 +534,15 @@ export default class CreateBook extends React.Component {
                   buttonTextAfterSelection={(selectedItem, index) => {
                     // text represented after item is selected
                     // if data array is an array of objects then return selectedItem.property to render after item is selected
-                    return selectedItem;
+                    return moment(selectedItem.date).format('dddd D MMMM ') +'   '+ this.convertSlotToDate(selectedItem.slot);
                   }}
                   
                   rowTextStyle={{color:'white',fontSize:15, marginRight:90}}
                   dropdownStyle={{backgroundColor:'#282C3A',borderRadius:5 }}
                   rowTextForSelection={(item, index) => {
-                    // text represented for each item in dropdown
-                    // if data array is an array of objects then return item.property to represent item in dropdown
-                    return item;
+                    values.date= item.date 
+                    values.slot= item.slot
+                    return moment(item.date).format('dddd D MMMM ') +'   '+ this.convertSlotToDate(item.slot);
                   }}
                 />
                     </View>
@@ -480,7 +565,12 @@ export default class CreateBook extends React.Component {
                     customTextStyle={{color: "black", fontFamily:'RobotoBold',fontWeight:'bold',fontSize:15}}
                     loading={false}
                     title="Valider"
-                    onPress={console.log(values)}
+                    onPress={
+
+                       coach_booking({slot:values.slot,coach_id:this.state.coach.id, date:values.date,coach_course_id:0,currentSlot:values.slot}).then(()=>{
+                        navigate.goBack()
+                       })
+                    }
                     />
                 </View>
               </View>
