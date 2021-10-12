@@ -627,12 +627,12 @@ export default class Dashboard extends React.Component {
                       }}>
                       <Text
                         style={{
-                          fontFamily: 'Roboto',
+                          fontFamily: 'RobotoItalic',
                           fontSize: 20,
                           marginTop: 20,
                           color: 'white',
                         }}>
-                        Aucun rendez-vous prévu ce jour-là
+                        Aucun rendez-vous prévu ce jour-là 
                       </Text>
                     </View>
                   ) : this.state.carousselLoad ? (
@@ -648,8 +648,8 @@ export default class Dashboard extends React.Component {
                     </View>
                   )}
                 </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <View style={{ alignItems: 'center', marginLeft: 10 }}>
+                <View style={{ flexDirection: 'row' ,justifyContent:'center'}}>
+                  <View style={{ alignItems: 'center' }}>
                     <Calendar
                       theme={{
                         calendarBackground: '#1E2026',
@@ -696,10 +696,9 @@ export default class Dashboard extends React.Component {
                   <TouchableOpacity
                     style={{
                       position: 'absolute',
-                      // alignItems: 'flex-end',
-                      // justifyContent: 'flex-end',
+                  
                       left: widthPercentageToDP(88),
-                      top: heightPercentageToDP(25),
+                      top: heightPercentageToDP(30),
                       right: widthPercentageToDP(10),
 
                       // height: heightPercentageToDP(18),
@@ -713,6 +712,7 @@ export default class Dashboard extends React.Component {
                       style={{
                         height: 45,
                         width: 45,
+                        
                       }}
                     />
                   </TouchableOpacity>
