@@ -68,7 +68,7 @@ export default class MyAthleteDetails extends React.Component {
     console.log('toto', Athlete.goals);
     return (
       <View style={{ backgroundColor: 'black', flex: 1 }}>
-        <SafeAreaView style={styles.droidSafeArea}>
+        <SafeAreaView>
           <View
             style={{
               flexDirection: 'row',
