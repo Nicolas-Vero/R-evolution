@@ -21,7 +21,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../configs/Constants';
 import { get_athlete, get_athlete_active_courses } from '../api/Athlete';
 import { loadFonts } from '../configs/design/font';
-import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 import { Avatar } from 'react-native-elements';
 const options = [
   { label: 'EN COURS', value: 'EN COURS' },
@@ -29,49 +32,48 @@ const options = [
 ];
 
 export default class Offres extends React.Component {
-  
   state = {
     offers: [],
     screen: 'EN COURS',
-    ActiveCourses:[],
-    loading:false 
+    ActiveCourses: [],
+    loading: false,
   };
   //to do actualiser la liste apres chaque création
 
   async componentDidMount() {
     loadFonts();
-   var user = await AsyncStorage.getItem(STORAGE.USER);
-    user  = JSON.parse(user);
-    get_athlete_active_courses().then((res)=>{   
-      this.setState({ActiveCourses:res.data})
-    }).then(()=>{
-      this.setState({loading:true})})
-    get_coach_offer_by_id(user.coach.coach_id)
+    var user = await AsyncStorage.getItem(STORAGE.USER);
+    user = JSON.parse(user);
+    get_athlete_active_courses()
       .then((res) => {
-        this.setState({ offers: res.data.offers });
+        this.setState({ ActiveCourses: res.data });
+      })
+      .then(() => {
+        this.setState({ loading: true });
       });
-      
+    get_coach_offer_by_id(user.coach.coach_id).then((res) => {
+      this.setState({ offers: res.data.offers });
+    });
   }
 
   render() {
     if (!this.state.loading) {
-      return(
+      return (
         <View>
-        <ActivityIndicator/>
+          <ActivityIndicator />
         </View>
-      )
+      );
     } else {
       return (
         <View style={{ flex: 1, backgroundColor: 'black' }}>
           <SafeAreaView>
-          <Header title="LES OFFRES" />
+            <Header title="LES OFFRES" />
             <View
               style={{
                 alignSelf: 'center',
-                marginBottom:15
+                marginBottom: 15,
               }}>
-             
-             <SwitchSelector
+              <SwitchSelector
                 options={options}
                 initial={0}
                 onPress={(value) => this.setState({ screen: value })}
@@ -89,15 +91,26 @@ export default class Offres extends React.Component {
                 valuePadding={3}
                 borderColor="#1E2026"
               />
-              </View>
+            </View>
 
-              {this.state.screen == 'EN COURS' ? (
-                this.state.ActiveCourses.offer == null?(
-                  <View style={{ alignItems:'center' ,marginTop:heightPercentageToDP(25)}}> 
-                  <Text style={{ fontFamily: 'RobotoBold', fontSize: 20, color: '#FFFF' }}>Pas de cours actif</Text>
-                  </View>
-                ):(
-              <LinearGradient
+            {this.state.screen == 'EN COURS' ? (
+              this.state.ActiveCourses.offer == null ? (
+                <View
+                  style={{
+                    alignItems: 'center',
+                    marginTop: heightPercentageToDP(25),
+                  }}>
+                  <Text
+                    style={{
+                      fontFamily: 'RobotoBold',
+                      fontSize: 20,
+                      color: '#FFFF',
+                    }}>
+                    Pas de cours actif
+                  </Text>
+                </View>
+              ) : (
+                <LinearGradient
                   colors={['#101010', '#2D333C']}
                   start={{
                     x: 1,
@@ -111,32 +124,35 @@ export default class Offres extends React.Component {
                     flexDirection: 'column',
                     backgroundColor: 'grey',
                     marginVertical: 10,
-                    borderRadius:10,
+                    borderRadius: 10,
                     padding: 20,
-                   
                   }}>
-                    <View style={{flexDirection:'row',alignItems:'center'}}>
-                      <Avatar 
-                      size='medium'
-                rounded
-                source={{
-                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
-                }}
-              />
-                      <Text style={{
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Avatar
+                      size="medium"
+                      rounded
+                      source={{
+                        uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
+                      }}
+                    />
+                    <Text
+                      style={{
                         fontWeight: 'bold',
                         fontSize: 20,
-                        marginLeft:10,
-                        fontFamily:'RobotoBold',
+                        marginLeft: 10,
+                        fontFamily: 'RobotoBold',
                         color: '#FFFFFF',
                         lineHeight: 24,
-                      }}>{this.state.ActiveCourses.coach.first_name} {this.state.ActiveCourses.coach.last_name}</Text>
-                    </View>
+                      }}>
+                      {this.state.ActiveCourses.coach.first_name}{' '}
+                      {this.state.ActiveCourses.coach.last_name}
+                    </Text>
+                  </View>
                   <View>
                     <Text
                       style={{
                         marginTop: 30,
-                        fontFamily:'MontserratBold',
+                        fontFamily: 'MontserratBold',
                         fontSize: 20,
                         color: '#FFFFFF',
                         lineHeight: 24,
@@ -150,7 +166,12 @@ export default class Offres extends React.Component {
                       {this.state.ActiveCourses.offer.content}
                     </Text>
                   </View>
-                  <View style={{width:widthPercentageToDP(90), flexDirection:'row', justifyContent:'space-between'}}>
+                  <View
+                    style={{
+                      width: widthPercentageToDP(90),
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
                     <Text style={{ marginTop: 10, color: '#2CDEE4' }}>
                       {this.state.ActiveCourses.total_sessions} coachings
                     </Text>
@@ -166,112 +187,143 @@ export default class Offres extends React.Component {
                   </View>
                   <View
                     style={{
-                      alignItems:"center",
+                      alignItems: 'center',
                       flexDirection: 'row',
                       justifyContent: 'space-between',
-                      marginTop:20
+                      marginTop: 20,
                     }}>
                     <View
-                      style={{ 
-                        alignItems:'center',
+                      style={{
+                        alignItems: 'center',
                         flexDirection: 'row',
                       }}>
-                      <View style={{backgroundColor:'#2CDEE4',alignItems:'center' ,padding:10,paddingHorizontal:30,borderRadius:10 ,width:widthPercentageToDP(90)}}>
-                       <Text style={{fontFamily:'Roboto' }}>Nombre de séances restantes: {this.state.ActiveCourses.offer.nb_credits}</Text>
-                       </View>
+                      <View
+                        style={{
+                          backgroundColor: '#2CDEE4',
+                          alignItems: 'center',
+                          padding: 10,
+                          paddingHorizontal: 30,
+                          borderRadius: 10,
+                          width: widthPercentageToDP(90),
+                        }}>
+                        <Text style={{ fontFamily: 'Roboto' }}>
+                          Nombre de séances restantes:{' '}
+                          {this.state.ActiveCourses.offer.nb_credits}
+                        </Text>
+                      </View>
                     </View>
-                    
                   </View>
                 </LinearGradient>
-                )
-              ) : (
+              )
+            ) : (
               
-              <FlatList
-               style={{     
-               height:heightPercentageToDP(70)
-               }}
-               data={this.state.offers}
-               extraData={this.state}
-               keyExtractor={(item) => item.id.toString()}
-               renderItem={({ item }) => (
-              <LinearGradient
-                  colors={['#101010', '#2D333C']}
-                  start={{
-                    x: 1,
-                    y: 1,
-                  }}
-                  end={{
-                    x: 0,
-                    y: 0,
-                  }}
-                  style={{
-                    flexDirection: 'column',
-                    backgroundColor: 'grey',
-                    marginVertical: 10,
-                    borderRadius:10,
-                    paddingLeft: 20,
-                    height: 200,
-                  }}>
-                    
-                  <View>
-                    <Text
-                      style={{
-                        marginTop: 30,
-                        fontWeight: 'bold',
-                        fontSize: 20,
-                        color: '#FFFFFF',
-                        lineHeight: 24,
-                      }}>
-                      {item.title}
-                    </Text>
-                  </View>
-                  <View>
-                    <Text
-                      style={{ marginTop: 10, color: '#FFFFFF', fontSize: 10 }}>
-                      {item.title}
-                      {item.content}
-                    </Text>
-                  </View>
-                  <View style={{flexDirection:'row'}}>
-                    <Text style={{ marginTop: 10, color: '#2CDEE4' }}>
-                      {item.nb_credits} coachings
-                    </Text>            
-                  </View>
+                this.state.ActiveCourses.offer == null ? (
                   <View
                     style={{
-                      alignItems:"center",
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      marginTop:20
+                      alignItems: 'center',
+                      marginTop: heightPercentageToDP(25),
                     }}>
-                    <View
-                      style={{ 
-                        alignItems:'center',
-                        flexDirection: 'row',
-                      }}>
-                      <ModifyButton
-                        title="Choisir cette offre"
-                       onPress={()=>{ navigate('OffrePaiementMode', {item})}}></ModifyButton>
-                    </View>
                     <Text
                       style={{
-                        fontStyle: 'italic',
-                        fontWeight: 'bold',
+                        fontFamily: 'RobotoBold',
                         fontSize: 20,
-                        color: '#2CDEE4',
-                        marginRight:15
+                        color: '#FFFF',
                       }}>
-                      {item.price}€
+                     pas de coach associé
                     </Text>
                   </View>
-                </LinearGradient>
-               
-               )}/>)}
+                ) :(
+              <FlatList
+                style={{
+                  height: heightPercentageToDP(70),
+                }}
+                data={this.state.offers}
+                extraData={this.state}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => (
+                  <LinearGradient
+                    colors={['#101010', '#2D333C']}
+                    start={{
+                      x: 1,
+                      y: 1,
+                    }}
+                    end={{
+                      x: 0,
+                      y: 0,
+                    }}
+                    style={{
+                      flexDirection: 'column',
+                      backgroundColor: 'grey',
+                      marginVertical: 10,
+                      borderRadius: 10,
+                      paddingLeft: 20,
+                      height: 200,
+                    }}>
+                    <View>
+                      <Text
+                        style={{
+                          marginTop: 30,
+                          fontWeight: 'bold',
+                          fontSize: 20,
+                          color: '#FFFFFF',
+                          lineHeight: 24,
+                        }}>
+                        {item.title}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text
+                        style={{
+                          marginTop: 10,
+                          color: '#FFFFFF',
+                          fontSize: 10,
+                        }}>
+                        {item.title}
+                        {item.content}
+                      </Text>
+                    </View>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Text style={{ marginTop: 10, color: '#2CDEE4' }}>
+                        {item.nb_credits} coachings
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        marginTop: 20,
+                      }}>
+                      <View
+                        style={{
+                          alignItems: 'center',
+                          flexDirection: 'row',
+                        }}>
+                        <ModifyButton
+                          title="Choisir cette offre"
+                          onPress={() => {
+                            navigate('OffrePaiementMode', { item });
+                          }}></ModifyButton>
+                      </View>
+                      <Text
+                        style={{
+                          fontStyle: 'italic',
+                          fontWeight: 'bold',
+                          fontSize: 20,
+                          color: '#2CDEE4',
+                          marginRight: 15,
+                        }}>
+                        {item.price}€
+                      </Text>
+                    </View>
+                  </LinearGradient>
+                )}
+              />)
+              )}
           </SafeAreaView>
-          </View>
+        </View>
       );
     }
-   
   }
 }
 

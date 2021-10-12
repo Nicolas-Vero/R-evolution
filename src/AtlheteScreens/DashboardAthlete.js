@@ -226,6 +226,9 @@ export default class DashboardAthlete extends React.Component {
     get_athlete_active_courses().then((res) => {
       this.setState({ athleteCourse: res.data });
     });
+    const curDate = moment().format('YYYY-MM-DD');
+    this.onMonthChange(curDate)
+
 
     get_coach_by_id(this.state.coach_id).then((res) => {
       this.setState({
@@ -974,7 +977,7 @@ export default class DashboardAthlete extends React.Component {
                         marginBottom: 10,
                       }}>
                       <Text style={{ color: '#FFFFFF' }}>
-                        Les diponibilités de{' '}
+                      {this.state.coach.first_name? ('Les diponibilités de '):('Pas de coach associé')}
                       </Text>
                       <Text style={{ color: '#2CDEE4' }}>
                         {this.state.coach.first_name}
@@ -1049,8 +1052,7 @@ export default class DashboardAthlete extends React.Component {
                       />
                       <View style={{ margin: 30 }}>
                         <Text style={{ color: '#FFFFFF' }}>
-                          Tu peux annuler une séance jusqu'à 24h avant le début
-                          de celle-ci.
+                        {this.state.coach.first_name? ('Tu peux annuler une séance jusqu\'à 24h avant le début de celle-ci.'):('tu dois être pris en charge par un coach associé pour voir ces diponibilitées')}
                         </Text>
                       </View>
                       <FlatList

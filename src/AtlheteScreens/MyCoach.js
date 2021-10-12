@@ -28,31 +28,46 @@ export default class MyCoach extends React.Component {
   state = {
     coach: {},
     loading: false,
+    coach_id: '',
   };
   async componentDidMount() {
-    var user = await AsyncStorage.getItem(STORAGE.USER);
-    user = JSON.parse(user);
-    this.setState({ coach_id: user.coach.coach_id });
     loadFonts;
+    let user = await AsyncStorage.getItem(STORAGE.USER);
+    user = JSON.parse(user);
+    if (user.coach) {
+      this.setState({ coach_id: user.coach?.coach_id });
 
-    get_coach_by_id(user.coach.coach_id)
-      .then((res) => {
-        this.setState({ coach: res.data });
-      })
-      .then(() => {
-        console.log('lllll', this.state.coach.gym.name);
-        this.setState({ loading: true });
-      });
+      get_coach_by_id(user.coach?.coach_id)
+        .then((res) => {
+          this.setState({ coach: res.data });
+        })
+        .then(() => {
+          this.setState({ loading: true });
+        });
+    } else {
+      this.setState({ loading: true });
+    }
   }
   render() {
     const dayPreference = [];
     return this.state.loading == false ? (
       <ActivityIndicator size="large" color="#2CDEE4" />
-    ) : this.state.coach == null ? (
+    ) : this.state.coach ? (
       <View style={{ backgroundColor: 'black', flex: 1 }}>
         <SafeAreaView>
-          <HeaderSimple title="TON COACH" />
+        <Header title="TON COACH" />
         </SafeAreaView>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{ fontFamily: 'RobotoBold', fontSize: 20, color: '#FFFF' }}>
+            pas de coach associé
+          </Text>
+        </View>
       </View>
     ) : (
       <View
@@ -90,7 +105,7 @@ export default class MyCoach extends React.Component {
                   marginTop: 20,
                   color: 'white',
                 }}>
-                {this.state.coach.first_name} {this.state.coach.last_name}
+                {this.state.coach?.first_name} {this.state.coach?.last_name}
               </Text>
               <Text
                 style={{
@@ -98,9 +113,7 @@ export default class MyCoach extends React.Component {
                   fontSize: 13,
                   marginTop: 10,
                   color: '#2CDEE4',
-                }}>
-                {this.state.coach.gym.name} {this.state.coach.gym.city}
-              </Text>
+                }}></Text>
             </View>
           </View>
           <View style={{ alignItems: 'center' }}>
@@ -135,7 +148,7 @@ export default class MyCoach extends React.Component {
                       fontSize: 18,
                       marginRight: 50,
                     }}>
-                    {this.state.coach.phone}
+                    {this.state.coach?.phone}
                   </Text>
                   <Image
                     style={styles.Logo}
@@ -144,7 +157,7 @@ export default class MyCoach extends React.Component {
                 </View>
                 <View style={styles.container}>
                   <Text style={styles.text}>Adresse e-mail :</Text>
-                  <Text style={styles.textBlue}>{this.state.coach.email}</Text>
+                  <Text style={styles.textBlue}>{this.state.coach?.email}</Text>
                 </View>
                 <View
                   style={{
@@ -158,7 +171,7 @@ export default class MyCoach extends React.Component {
                     <Text style={styles.text}>Diplôme(s) :</Text>
                   </View>
                   <FlatList
-                    data={this.state.coach.diplomas}
+                    data={this.state.coach?.diplomas}
                     extraData={this.state}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
@@ -171,7 +184,7 @@ export default class MyCoach extends React.Component {
                 <View style={styles.container}>
                   <Text style={styles.text}>Année(s) d'expérience : </Text>
                   <Text style={styles.textBlue}>
-                    {this.state.coach.experience_years} ans
+                    {this.state.coach?.experience_years} ans
                   </Text>
                 </View>
                 <View
@@ -183,7 +196,7 @@ export default class MyCoach extends React.Component {
                   <Text style={styles.text}> Spécialitée(s) :</Text>
                   <FlatList
                     horizontal={true}
-                    data={this.state.coach.specialties}
+                    data={this.state.coach?.specialties}
                     extraData={this.state}
                     // onRefresh={onRefresh}
                     // refreshing={this.state.refresh}
