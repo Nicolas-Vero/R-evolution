@@ -9,7 +9,7 @@
     "icon": "./assets/icons/luncher.png",
     "android": {
       "package": "com.org.revolution",
-      "versionCode": 9
+      "versionCode": 10
     },
     "ios": {
       "buildNumber": "6",
