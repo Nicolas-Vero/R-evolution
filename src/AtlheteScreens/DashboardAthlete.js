@@ -75,7 +75,7 @@ LocaleConfig.locales['fr'] = {
     'Vendredi',
     'Samedi',
   ],
-  dayNamesShort: ['D', 'L', 'M', 'MM', 'J', 'V', 'S'],
+  dayNamesShort: ['D', 'L', 'M', 'ME', 'J', 'V', 'S'],
   today: "Aujourd'hui",
 };
 LocaleConfig.defaultLocale = 'fr';
