@@ -27,7 +27,7 @@ export default class SwitchButton extends Component {
     return (
       <View style={styles.container}>
         <ResponsiveText style={{ fontFamily:'Roboto', fontSize: '4%',color:'white'}}>{time}</ResponsiveText>
-        {status==false?<ResponsiveText style={{fontFamily:'Roboto', fontSize: '4%',color:'white'}}>indisponible</ResponsiveText>:<ResponsiveText style={{ fontSize: '4%',color:'#2CDEE4'}}>Disponible</ResponsiveText>}
+        {status==false?<ResponsiveText style={{fontFamily:'Roboto', fontSize: '4%',color:'white'}}>Indisponible</ResponsiveText>:<ResponsiveText style={{ fontSize: '4%',color:'#2CDEE4'}}>Disponible</ResponsiveText>}
         <CheckBox
 
                     size={30}
