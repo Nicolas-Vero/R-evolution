@@ -174,6 +174,7 @@ export default class LoginAthlete extends React.Component {
                       borderRadius: 5,
                       paddingLeft: 15,
                     }}
+                    secureTextEntry={true}
                     onChangeText={handleChange('password')}
                     autoCapitalize="none"
                     onBlur={handleBlur('password')}

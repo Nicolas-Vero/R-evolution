@@ -62,7 +62,7 @@ export const avatar = React.forwardRef(
         const shouldDisplayError = formatedFieldError && touched[name];
         return (
          
-          <View >
+          <SafeAreaView >
                  <View style={{alignItems:'center'  }}>
             <Image
               source={require('../../assets/images/Group_5.png')}
@@ -101,7 +101,7 @@ export const avatar = React.forwardRef(
             </TouchableOpacity>
          )}   />
             </View>
-        </View>
+        </SafeAreaView>
         );
 }}
 </Field>

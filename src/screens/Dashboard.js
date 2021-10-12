@@ -848,7 +848,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingRight: 30,
     width: widthPercentageToDP(90),
-    height: heightPercentageToDP(40),
+   // height: heightPercentageToDP(40),
     marginBottom: 300,
   },
   background: {
