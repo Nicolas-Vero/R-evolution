@@ -6,6 +6,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  Platform,
+  StatusBar
 } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
@@ -21,6 +23,8 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
+import Constants from 'expo-constants';
+const statusBarHeight = Constants.statusBarHeight
 const { width } = Dimensions.get('window');
 
 export default class MyAthleteDetails extends React.Component {
@@ -64,7 +68,7 @@ export default class MyAthleteDetails extends React.Component {
     console.log('toto', Athlete.goals);
     return (
       <View style={{ backgroundColor: 'black', flex: 1 }}>
-        <SafeAreaView>
+        <SafeAreaView style={styles.droidSafeArea}>
           <View
             style={{
               flexDirection: 'row',
@@ -154,6 +158,7 @@ export default class MyAthleteDetails extends React.Component {
                     alignContent: 'center',
                     backgroundColor: '#1E2026',
                     margin: 5,
+                    borderRadius: 5,
                     height: 200,
                   }}>
                   <Text style={styles.text}>Paiement(s) effectué(s) :</Text>
@@ -268,12 +273,14 @@ export default class MyAthleteDetails extends React.Component {
                   style={{
                     flexDirection: 'row',
                     height: 50,
+                    marginVertical:5,
                   }}>
                   <View
                     style={{
                       flex: 2,
                       justifyContent: 'center',
                       height: 50,
+
                       marginHorizontal: 5,
                       borderRadius: 5,
                       backgroundColor: '#1E2026',
@@ -296,6 +303,7 @@ export default class MyAthleteDetails extends React.Component {
                       flex: 2,
                       justifyContent: 'center',
                       height: 50,
+                     
                       marginHorizontal: 5,
                       borderRadius: 5,
                       backgroundColor: '#1E2026',
@@ -429,10 +437,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#1E2026',
     flexDirection: 'column',
     margin: 5,
+    borderRadius: 5,
     alignContent: 'center',
     justifyContent: 'center',
     height: 70,
-  },
+   },
   text: {
     fontFamily: 'RobotoBold',
     fontSize: 15,
