@@ -6,17 +6,12 @@ import {
   StyleSheet,
   Dimensions,
   Text,
-  ActivityIndicator,
 } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 const { width } = Dimensions.get('window');
-import { LocaleConfig } from 'react-native-calendars';
-import { LinearGradient } from 'expo-linear-gradient';
-import Header from '../components/Header';
 import { FlatList } from 'react-native-gesture-handler';
 import { get_coach_athlete } from '../api/Coach';
-import { tail } from 'lodash';
-import { Avatar, SearchBar } from 'react-native-elements';
+import { Avatar } from 'react-native-elements';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
@@ -83,8 +78,8 @@ export default class MyAthletes extends React.Component {
     if (!this.state.loaded) {
       return (
         <View style={{ flex: 1, backgroundColor: 'black' }}>
-        <SafeAreaView>
-          <HeaderSimple title="MES ATHLÈTES" />
+          <SafeAreaView>
+            <HeaderSimple title="MES ATHLÈTES" />
             <View style={{ alignItems: 'center' }}>
               <SwitchSelector
                 options={options}
@@ -105,11 +100,9 @@ export default class MyAthletes extends React.Component {
                 borderColor="#1E2026"
               />
             </View>
-            </SafeAreaView>
-            </View>
-      )  
-           
-       
+          </SafeAreaView>
+        </View>
+      );
     } else {
       return (
         <View style={{ flex: 1, backgroundColor: 'black' }}>
@@ -151,7 +144,7 @@ export default class MyAthletes extends React.Component {
                       extraData={this.state}
                       // onRefresh={onRefresh}
                       // refreshing={this.state.refresh}
-                      keyExtractor={(item) => item.id}
+                      keyExtractor={(item) => toString(item.id)}
                       renderItem={({ item }) => (
                         console.log('ddd', item),
                         (
@@ -238,7 +231,7 @@ export default class MyAthletes extends React.Component {
                       extraData={this.state}
                       // onRefresh={onRefresh}
                       // refreshing={this.state.refresh}
-                      keyExtractor={(item) => item.id}
+                      keyExtractor={(item) => toString(item.id)}
                       renderItem={({ item }) => (
                         console.log('ddd', item),
                         (
@@ -323,11 +316,8 @@ export default class MyAthletes extends React.Component {
                     <FlatList
                       data={this.state.atlhetesProspects}
                       extraData={this.state}
-                      // onRefresh={onRefresh}
-                      // refreshing={this.state.refresh}
-                      keyExtractor={(item) => item.id}
+                      keyExtractor={(item) => toString(item.id)}
                       renderItem={({ item }) => (
-                        console.log('ddd', item),
                         (
                           <TouchableOpacity
                             style={{ alignItems: 'center' }}
