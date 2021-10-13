@@ -69,6 +69,7 @@ async  componentDidMount() {
       MontserratSemiBold: require('../assets/fonts/Montserrat-SemiBold.ttf'),
       Montserrat: require('../assets/fonts/Montserrat-Regular.ttf'),
       Roboto: require('../assets/fonts/Roboto-Regular.ttf'),
+      RobotoItalic: require('../assets/fonts/Roboto-Italic.ttf'),
       RobotoBold: require('../assets/fonts/Roboto-Bold.ttf'),
       RobotoMedium: require('../assets/fonts/Roboto-Medium.ttf'),
     }).then(()=>{
@@ -111,15 +112,6 @@ async  componentDidMount() {
 }
 
 export default App;
-const styles = StyleSheet.create({
-  droidSafeArea: {
-   flex:1,
-   backgroundColor:'transparent',
-  marginTop: Platform.OS === 'android' ? statusBarHeight : -statusBarHeight,
-   marginBottom: Platform.OS === 'android' ? statusBarHeight : -statusBarHeight
-    
-  }
-});
 // import { Sentry } from 'react-native-sentry';
 
 // Sentry.config('https://98def6268ecd4527885aa1358d0ec0d0@sentry.io/1434821').install();
