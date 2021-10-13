@@ -629,7 +629,7 @@ export default class Dashboard extends React.Component {
                       }}>
                       <Text
                         style={{
-                          fontFamily: 'RobotoItalic',
+                          fontStyle:'italic',
                           fontSize: 15,
                           marginTop: 20,
                           color: 'white',

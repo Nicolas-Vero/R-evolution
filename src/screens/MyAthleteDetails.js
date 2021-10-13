@@ -5,13 +5,10 @@ import {
   Dimensions,
   Text,
   StyleSheet,
-  TouchableOpacity,
-  Platform,
-  StatusBar
-} from 'react-native';
+  TouchableOpacity} from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
-import { NavigationEvents, SafeAreaView } from 'react-navigation';
+import { SafeAreaView } from 'react-navigation';
 import { get_athlete_active_courses } from '../api/Athlete';
 import { get_paiement_for_coach } from '../api/Paiement';
 import HeaderLight from '../components/HeaderLight';
@@ -23,8 +20,6 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import Constants from 'expo-constants';
-const statusBarHeight = Constants.statusBarHeight
 const { width } = Dimensions.get('window');
 
 export default class MyAthleteDetails extends React.Component {
