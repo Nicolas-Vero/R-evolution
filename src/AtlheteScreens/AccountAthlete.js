@@ -50,14 +50,6 @@ export default class AccountAthlete extends React.Component {
                   </Image>
                 </TouchableOpacity>
               </View>
-              <View style={{alignItems:'center',marginTop:10 }}>
-                <TouchableOpacity onPress={() => navigate('MyInformations')}>
-                  <Image
-                    source={require('../../assets/images/Bouton_mon_abonnement.png')}
-                    style={styles.backgroundContainer}>
-                  </Image>
-                </TouchableOpacity>
-              </View>
               <View
                 style={{alignItems:'center',marginTop:10 }}>
                 <TouchableOpacity onPress={() =>  AsyncStorage.removeItem(STORAGE.HEADERS).then(()=>{navigate('Entry')})}>
