@@ -389,7 +389,7 @@ export default class RegisterInfoAthlete extends React.Component {
                               color: '#FFFFFF',
                               fontFamily: 'Montserrat',
                             }}>
-                            Déjà membre ?
+                            Déjà membre ?{' '}
                           </Text>
                           <Text
                             style={{

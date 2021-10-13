@@ -513,6 +513,7 @@ export default class Dashboard extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <SafeAreaView>
+          <View style={{marginTop:20}}>
           <View
             style={{
               flexDirection: 'row',
@@ -569,6 +570,7 @@ export default class Dashboard extends React.Component {
                   source={require('../../assets/images/Notif.png')}
                 />
               </TouchableOpacity>
+            </View>
             </View>
           </View>
           <View
@@ -628,11 +630,11 @@ export default class Dashboard extends React.Component {
                       <Text
                         style={{
                           fontFamily: 'RobotoItalic',
-                          fontSize: 20,
+                          fontSize: 15,
                           marginTop: 20,
                           color: 'white',
                         }}>
-                        Aucun rendez-vous prévu ce jour-là 
+                        Aucun rendez-vous prévu ce jour-là.
                       </Text>
                     </View>
                   ) : this.state.carousselLoad ? (
@@ -693,17 +695,15 @@ export default class Dashboard extends React.Component {
                       style={styles.calendar}
                     />
                   </View>
-                  <TouchableOpacity
-                    style={{
+                  <View style={{
                       position: 'absolute',
-                  
                       left: widthPercentageToDP(88),
                       top: heightPercentageToDP(30),
                       right: widthPercentageToDP(10),
-
-                      // height: heightPercentageToDP(18),
-                      // width: widthPercentageToDP(1),
-                    }}
+                      height: heightPercentageToDP(5),
+                      width: widthPercentageToDP(20),
+                    }}>
+                  <TouchableOpacity
                     onPress={() => {
                       navigate('CreateBook');
                     }}>
@@ -712,10 +712,10 @@ export default class Dashboard extends React.Component {
                       style={{
                         height: 45,
                         width: 45,
-                        
                       }}
                     />
                   </TouchableOpacity>
+                  </View>
                 </View>
               </ScrollView>
             ) : (

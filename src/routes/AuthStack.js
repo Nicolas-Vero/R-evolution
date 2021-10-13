@@ -25,11 +25,13 @@ const AuthStack = createStackNavigator(
       navigationOptions: {
         gestureEnabled:false,
         headerShown: false,
+        swipeEnabled: false,
       },
     },
     MoreInfo: {
       screen: MoreInfo,
       navigationOptions: {
+        gestureEnabled:false,
         headerShown: false,
       },
     },
@@ -46,6 +48,7 @@ const AuthStack = createStackNavigator(
       gestureEnabled:false,
       headerVisible: false,
       animationEnabled: true,
+      swipeEnabled: false,
     },
     tabBarOptions: {
       activeTintColor: 'white',

@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Text,
   View,
-  TextInput,
   Image,
   SafeAreaView,
   StyleSheet,
@@ -11,13 +10,10 @@ import {
   Dimensions,
   TouchableOpacity,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { STORAGE } from '../../configs/Constants';
 import { Formik } from 'formik';
-import { CheckBox } from 'react-native-elements';
-import Loader from 'react-loader-spinner';
 import { Button } from '../../components/Button';
 import Header from '../../components/Header';
 import { auth } from '../../api/Coach';
@@ -29,7 +25,6 @@ import { dynamicList } from '../../components/dynamicList';
 import { selectList } from '../../components/selectList';
 import { LinearGradient } from 'expo-linear-gradient';
 import { avatar } from '../../components/avatar';
-import { values } from 'lodash';
 import { loadFonts } from '../../configs/design/font';
 const inputs = [
   { name: 'diplomas', type: 'default', component: dynamicInput },
@@ -127,7 +122,7 @@ export default class MoreInfo extends React.Component {
                 setFieldTouched,
                 setFieldValue,
               }) => (
-                // <ScrollView>
+              <ScrollView>
                 <View
                   style={{
                     height: hp('80%'),
@@ -167,7 +162,7 @@ export default class MoreInfo extends React.Component {
                       <View>
                         <Button
                          customTextStyle={{fontFamily:'RobotoBold',fontSize:17}}
-                          title="Suivant"
+                          title={stepperStep === inputs.length-1?"Valider":"Suivant"}
                           onPress={
                             inputs[inputs.length - 1] &&
                             stepperStep === inputs.length - 1
@@ -181,7 +176,7 @@ export default class MoreInfo extends React.Component {
                     )}
                   </View>
                 </View>
-                //   </ScrollView>
+              </ScrollView>
               )}
             </Formik>
         </View>

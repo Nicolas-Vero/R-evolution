@@ -22,6 +22,7 @@ const AuthStackAthlete = createStackNavigator(
     RegisterInfoAthlete: {
       screen: RegisterInfoAthlete,
       navigationOptions: {
+        gestureEnabled:false,
         tabBarLabel: 'Sign up',
         tabBarIcon: ({tintColor}) => (
           <Ionicons  size={20} color={tintColor} />
@@ -32,6 +33,7 @@ const AuthStackAthlete = createStackNavigator(
     MoreInfoAthlete: {
       screen: MoreInfoAthlete,
       navigationOptions: {
+        gestureEnabled:false,
         tabBarLabel: 'Sign up',
         headerShown: false,
       },

@@ -85,7 +85,7 @@ export default class Activitie extends React.Component {
         }}
         style={styles.background}>
         <SafeAreaView>
-          <Header title="ACTIVITIE" />
+          <Header title="ACTIVITÉ"/>
           <View>
             <View style={{ alignItems: 'center' }}>
               <SwitchSelector

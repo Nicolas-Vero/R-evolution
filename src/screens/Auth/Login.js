@@ -203,7 +203,7 @@ export default class Login extends React.Component {
                       }}
                     />
                   </View>
-                  {/* <View
+                  <View
                     style={{
                       flexDirection: 'row',
                       justifyContent: 'center',
@@ -220,7 +220,7 @@ export default class Login extends React.Component {
                         Créer ton compte
                       </Text>
                     </TouchableOpacity>
-                  </View> */}
+                  </View>
                 </KeyboardAvoidingView>
                 
               )}

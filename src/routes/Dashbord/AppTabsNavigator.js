@@ -15,6 +15,7 @@ const AppTabsNavigator = createBottomTabNavigator(
       HomeStack: {
         screen: HomeStack,
         navigationOptions: {
+          gestureEnabled:false,
           tabBarLabel: 'Home',
           tabBarIcon: ({tintColor}) => (
            <Image source={require('../../../assets/images/Calendar.png')}
@@ -37,6 +38,7 @@ const AppTabsNavigator = createBottomTabNavigator(
       MyAthletesStack: {
         screen: MyAthletesStack,
         navigationOptions: {
+          gestureEnabled:false,
           tabBarLabel: 'Athlètes',
           tabBarIcon: ({tintColor}) => (
             <Image source={require('../../../assets/images/User.png')}
@@ -66,6 +68,7 @@ const AppTabsNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarVisible: true,
         animationEnabled: true,
+        gestureEnabled:false,
       },
      // tabBarComponent: props => <CustomMainTabBar {...props} main={true} />,
       tabBarOptions: {

@@ -64,7 +64,7 @@ export const ElementSlider = React.forwardRef(
       
         />
         <View style={{ marginTop:wp(10), alignItems:'center', justifyContent:'center', height:hp(5),width:wp(40), backgroundColor:'#282C3A',borderRadius:5}}>
-        {field.value<1?<Text style={{fontFamily:'RobotoBold',fontSize:17, color:'#FFFF'}}>MOINS D'UN ANS</Text>:(field.value>9?<Text style={{fontWeight:'bold',fontSize:20, color:'#FFFF'}}>PLUS DE {field.value} ANS</Text>:<Text style={{fontWeight:'bold',fontSize:20, color:'#FFFF'}}>{field.value} ANS</Text>)}
+        {field.value<1?<Text style={{fontFamily:'RobotoBold',fontSize:17, color:'#FFFF'}}>MOINS D'UN ANS</Text>:field.value== 1?(<Text style={{fontWeight:'bold',fontSize:20, color:'#FFFF'}}>{field.value} AN</Text>):(field.value>9?<Text style={{fontWeight:'bold',fontSize:20, color:'#FFFF'}}>PLUS DE {field.value} ANS</Text>:<Text style={{fontWeight:'bold',fontSize:20, color:'#FFFF'}}>{field.value} ANS</Text>)}
     </View>
     </View>
     

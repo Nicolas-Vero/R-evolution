@@ -26,12 +26,14 @@ const SplashStack = createStackNavigator(
       screen: RegisterInfo,
       navigationOptions: {
         headerShown: false,
+        gestureEnabled:false,
       },
     },
     RegisterInfoAthlete: {
       screen: RegisterInfoAthlete,
       navigationOptions: {
         headerShown: false,
+        gestureEnabled:false,
       },
     },
 
@@ -106,6 +108,7 @@ const SplashStack = createStackNavigator(
     navigationOptions: {
       tabBarVisible: false,
       headerVisible: false,
+      gestureEnabled:false,
       swipeEnabled: false,
       animationEnabled: true,
     },
