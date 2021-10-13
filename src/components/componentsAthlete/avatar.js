@@ -42,7 +42,7 @@ export const avatar = React.forwardRef(
 
     if (!result.cancelled) {
       setImage(result.uri);
-      arrayhelper.form.values.avatar = result.uri;
+      arrayhelper.form.values.profile_picture_url = result.uri;
     }
   };
     return (
@@ -79,7 +79,7 @@ export const avatar = React.forwardRef(
                
               </View>
               <View style={{marginTop:30}}>
-            { image? (<Text  style={{ fontWeight: 'bold', fontSize: 17, color: '#FFFF' }}>Superbe photo!</Text>):(<Text  style={{ fontWeight: 'bold', fontSize: 20, color: '#FFFF',textAlign:'center' }}>C'est toujours plus professionnel avec une photo de profil</Text>)}
+            { image? (<Text  style={{ fontWeight: 'bold', fontSize: 17, color: '#FFFF' }}>Superbe photo !</Text>):(<Text  style={{ fontWeight: 'bold', fontSize: 20, color: '#FFFF',textAlign:'center' }}>C'est toujours plus sympa avec une photo de profil</Text>)}
               </View>
             </View>
             <View style={{alignItems:'center' , justifyContent:'center',marginTop:50}} >

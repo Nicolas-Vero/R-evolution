@@ -35,7 +35,7 @@ const inputs = [
   { name: 'gym_place', type: 'default', component: selectList },
   { name: 'days_preference', type: 'default', component: ElementSlider2 },
   { name: 'coach_preference', type: 'default', component: destinataire },
-  { name: 'avatar', type: 'default', component: avatar },
+  { name: 'profile_picture_url', type: 'default', component: avatar },
 ];
 export default class MoreInfoAthlete extends React.Component {
   constructor(props) {
