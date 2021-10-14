@@ -9,12 +9,12 @@
     "icon": "./assets/icons/luncher.png",
     "android": {
       "package": "com.org.revolution",
-      "versionCode": 12
+      "versionCode": 13
     },
     "ios": {
-      "buildNumber": "9",
+      "buildNumber": "11",
       "bundleIdentifier": "com.org.revolution",
-      "supportsTablet": true
+      "supportsTablet": false
     }
   }
 }

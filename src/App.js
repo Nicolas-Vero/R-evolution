@@ -69,7 +69,7 @@ async  componentDidMount() {
       MontserratSemiBold: require('../assets/fonts/Montserrat-SemiBold.ttf'),
       Montserrat: require('../assets/fonts/Montserrat-Regular.ttf'),
       Roboto: require('../assets/fonts/Roboto-Regular.ttf'),
-      //RobotoItalic: require('../assets/fonts/Roboto-LightItalic.ttf'),
+      RobotoItalic: require('../assets/fonts/Roboto-LightItalic.ttf'),
       RobotoBold: require('../assets/fonts/Roboto-Bold.ttf'),
       RobotoMedium: require('../assets/fonts/Roboto-Medium.ttf'),
     }).then(()=>{
