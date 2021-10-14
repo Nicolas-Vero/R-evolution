@@ -20,6 +20,7 @@ import {
 import { FlatList } from 'react-native-gesture-handler';
 import { Avatar } from 'react-native-elements';
 import { get_coach_reminder } from '../api/CoachReminder';
+import { Swipeable } from 'react-native-gesture-handler';
 
 const options = [
   { label: 'NOTIFICATIONS', value: 'NOTIFICATIONS' },
@@ -68,6 +69,29 @@ export default class Activitie extends React.Component {
       this.setState({ reminders: res.data.reminders });
       console.log(this.state.reminders);
     });
+  }
+  RightSwipe(removeTicker) {
+    return (
+      <TouchableOpacity
+        // onPress={removeTicker}
+        style={styles.actionRightContainer}>
+        <Text style={{ color: '#fff' }}>Delete</Text>
+      </TouchableOpacity>
+    );
+  }
+
+  rightSwipe(item) {
+    return (
+      <TouchableOpacity
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#e74c3c',
+          width: 75,
+        }}>
+        <Text style={{ color: '#fff' }}>Delete</Text>
+      </TouchableOpacity>
+    );
   }
 
   render() {
@@ -119,49 +143,56 @@ export default class Activitie extends React.Component {
                     // refreshing={this.state.refresh}
                     keyExtractor={(item) => item.id}
                     renderItem={({ item }) => (
-                      <TouchableOpacity
-                        style={{ alignItems: 'center' }}
-                        onPress={() => {
-                          console.log(item);
-                        }}>
-                        <View
-                          style={{
-                            borderRadius: 5,
-                            margin: 5,
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignContent: 'center',
-                            backgroundColor: '#1E2026',
-                            width: widthPercentageToDP(92),
-                            height: 70,
+                      <Swipeable
+                        key={Math.random()}
+                        renderRightActions={() => this.rightSwipe(item)}>
+                        <TouchableOpacity
+                          style={{ alignItems: 'center' }}
+                          onPress={() => {
+                            console.log(item);
                           }}>
                           <View
                             style={{
-                              justifyContent: 'center',
+                              borderRadius: 5,
+                              margin: 5,
                               flexDirection: 'row',
+                              justifyContent: 'space-between',
+                              alignContent: 'center',
+                              backgroundColor: '#1E2026',
+                              width: widthPercentageToDP(92),
+                              height: 70,
                             }}>
                             <View
-                              style={{ justifyContent: 'center', margin: 20 }}>
-                              <Text
+                              style={{
+                                justifyContent: 'center',
+                                flexDirection: 'row',
+                              }}>
+                              <View
                                 style={{
-                                  fontWeight: 'bold',
-                                  fontSize: 15,
-                                  color: 'white',
+                                  justifyContent: 'center',
+                                  margin: 20,
                                 }}>
-                                {item.title}{' '}
-                              </Text>
-                              <Text
-                                style={{
-                                  fontWeight: 'bold',
-                                  fontSize: 15,
-                                  color: 'white',
-                                }}>
-                                {item.content}
-                              </Text>
+                                <Text
+                                  style={{
+                                    fontWeight: 'bold',
+                                    fontSize: 15,
+                                    color: 'white',
+                                  }}>
+                                  {item.title}{' '}
+                                </Text>
+                                <Text
+                                  style={{
+                                    fontWeight: 'bold',
+                                    fontSize: 15,
+                                    color: 'white',
+                                  }}>
+                                  {item.content}
+                                </Text>
+                              </View>
                             </View>
                           </View>
-                        </View>
-                      </TouchableOpacity>
+                        </TouchableOpacity>
+                      </Swipeable>
                     )}
                   />
                 </View>

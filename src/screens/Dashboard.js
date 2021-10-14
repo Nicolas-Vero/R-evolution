@@ -513,64 +513,64 @@ export default class Dashboard extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <SafeAreaView>
-          <View style={{marginTop:20}}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}>
-            <TouchableOpacity
-              onPress={() => {
-                navigate('Account');
+          <View style={{ marginTop: 20 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginLeft: 16,
+              <TouchableOpacity
+                onPress={() => {
+                  navigate('Account');
                 }}>
-                <Avatar
-                  size={40}
-                  rounded
-                  source={{
-                    uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
-                  }}
-                />
-                <Text
+                <View
                   style={{
-                    marginLeft: 6,
-                    fontFamily: 'RobotoMedium',
-                    fontSize: 16,
-                    color: '#FFFFFF',
-                    lineHeight: 24,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginLeft: 16,
                   }}>
-                  {this.state.user.name}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigate('AwaitingDemand');
-                }}>
-                <Image
-                  style={{ height: 38, width: 48, resizeMode: 'contain' }}
-                  source={require('../../assets/images/Demande.png')}
-                />
+                  <Avatar
+                    size={40}
+                    rounded
+                    source={{
+                      uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
+                    }}
+                  />
+                  <Text
+                    style={{
+                      marginLeft: 6,
+                      fontFamily: 'RobotoMedium',
+                      fontSize: 16,
+                      color: '#FFFFFF',
+                      lineHeight: 24,
+                    }}>
+                    {this.state.user.name}
+                  </Text>
+                </View>
               </TouchableOpacity>
+              <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigate('AwaitingDemand');
+                  }}>
+                  <Image
+                    style={{ height: 38, width: 48, resizeMode: 'contain' }}
+                    source={require('../../assets/images/Demande.png')}
+                  />
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                onPress={() => {
-                  navigate('Activitie');
-                }}
-                style={{ marginLeft: 20, marginRight: 10 }}>
-                <Image
-                  style={{ height: 38, width: 48, resizeMode: 'contain' }}
-                  source={require('../../assets/images/Notif.png')}
-                />
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigate('Activitie');
+                  }}
+                  style={{ marginLeft: 20, marginRight: 10 }}>
+                  <Image
+                    style={{ height: 38, width: 48, resizeMode: 'contain' }}
+                    source={require('../../assets/images/Notif.png')}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
           <View
@@ -629,7 +629,7 @@ export default class Dashboard extends React.Component {
                       }}>
                       <Text
                         style={{
-                          fontStyle:'italic',
+                          fontStyle: 'italic',
                           fontSize: 15,
                           marginTop: 20,
                           color: 'white',
@@ -650,7 +650,8 @@ export default class Dashboard extends React.Component {
                     </View>
                   )}
                 </View>
-                <View style={{ flexDirection: 'row' ,justifyContent:'center'}}>
+                <View
+                  style={{ flexDirection: 'row', justifyContent: 'center' }}>
                   <View style={{ alignItems: 'center' }}>
                     <Calendar
                       theme={{
@@ -695,15 +696,15 @@ export default class Dashboard extends React.Component {
                       style={styles.calendar}
                     />
                   </View>
-                  <View style={{
+                  <TouchableOpacity
+                    style={{
                       position: 'absolute',
                       left: widthPercentageToDP(88),
-                      top: heightPercentageToDP(30),
+                      top: heightPercentageToDP(20),
                       right: widthPercentageToDP(10),
-                      height: heightPercentageToDP(5),
-                      width: widthPercentageToDP(20),
-                    }}>
-                  <TouchableOpacity
+                      // height: heightPercentageToDP(18),
+                      // width: widthPercentageToDP(1),
+                    }}
                     onPress={() => {
                       navigate('CreateBook');
                     }}>
@@ -715,7 +716,6 @@ export default class Dashboard extends React.Component {
                       }}
                     />
                   </TouchableOpacity>
-                  </View>
                 </View>
               </ScrollView>
             ) : (
@@ -801,7 +801,7 @@ export default class Dashboard extends React.Component {
                         </TouchableOpacity>
                       </View>
                       <FlatList
-                        style={{ maxHeight: heightPercentageToDP(50)}}
+                        style={{ maxHeight: heightPercentageToDP(50) }}
                         data={[this.state.currentAvailabilities]}
                         extraData={this.state}
                         //      onRefresh={onRefresh}
@@ -848,7 +848,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingRight: 30,
     width: widthPercentageToDP(90),
-   // height: heightPercentageToDP(40),
+    // height: heightPercentageToDP(40),
     marginBottom: 300,
   },
   background: {
