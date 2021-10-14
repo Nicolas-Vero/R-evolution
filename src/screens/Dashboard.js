@@ -632,7 +632,7 @@ export default class Dashboard extends React.Component {
                           marginTop: 20,
                           color: 'white',
                         }}>
-                        Aucun rendez-vous prévu ce jour-là 
+                        Aucun rendez-vous prévu ce jour-là
                       </Text>
                     </View>
                   ) : this.state.carousselLoad ? (
@@ -648,7 +648,8 @@ export default class Dashboard extends React.Component {
                     </View>
                   )}
                 </View>
-                <View style={{ flexDirection: 'row' ,justifyContent:'center'}}>
+                <View
+                  style={{ flexDirection: 'row', justifyContent: 'center' }}>
                   <View style={{ alignItems: 'center' }}>
                     <Calendar
                       theme={{
@@ -696,11 +697,9 @@ export default class Dashboard extends React.Component {
                   <TouchableOpacity
                     style={{
                       position: 'absolute',
-                  
                       left: widthPercentageToDP(88),
-                      top: heightPercentageToDP(30),
+                      top: heightPercentageToDP(20),
                       right: widthPercentageToDP(10),
-
                       // height: heightPercentageToDP(18),
                       // width: widthPercentageToDP(1),
                     }}
@@ -712,7 +711,6 @@ export default class Dashboard extends React.Component {
                       style={{
                         height: 45,
                         width: 45,
-                        
                       }}
                     />
                   </TouchableOpacity>
@@ -801,7 +799,7 @@ export default class Dashboard extends React.Component {
                         </TouchableOpacity>
                       </View>
                       <FlatList
-                        style={{ maxHeight: heightPercentageToDP(50)}}
+                        style={{ maxHeight: heightPercentageToDP(50) }}
                         data={[this.state.currentAvailabilities]}
                         extraData={this.state}
                         //      onRefresh={onRefresh}
@@ -848,7 +846,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingRight: 30,
     width: widthPercentageToDP(90),
-   // height: heightPercentageToDP(40),
+    // height: heightPercentageToDP(40),
     marginBottom: 300,
   },
   background: {
