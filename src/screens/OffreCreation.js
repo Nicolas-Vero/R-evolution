@@ -7,6 +7,7 @@ import {
   Platform,
   StatusBar,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -28,18 +29,14 @@ export default class OffreCreation extends React.Component {
     console.log(values);
   }
 
-  createOffer(values){
+  createOffer(values) {
     try {
-      AddOffer(values).then(
-        this.props.navigation.navigate('Offres')
-      )
+      AddOffer(values).then(this.props.navigation.navigate('Offres'));
     } catch (error) {
-      this.setState({loading: false});
-          //alert('Please try again. ');
-          console.warn(err)
+      this.setState({ loading: false });
+      //alert('Please try again. ');
+      console.warn(err);
     }
-
-
   }
   getErrorMessage() {
     if (this.state.errorMessage !== '')
@@ -67,7 +64,7 @@ export default class OffreCreation extends React.Component {
 
         <Header title="Créer une offre" />
 
-        <View style={{ paddingLeft: 15, paddingRight: 15 }}>
+        <ScrollView style={{ paddingLeft: 15, paddingRight: 15 }}>
           <Formik
             initialValues={{
               type: 'Coaching',
@@ -196,7 +193,8 @@ export default class OffreCreation extends React.Component {
                       </View>
                     </View>
                   </View>
-                ) : (<View style={{ marginBottom: 15, }}>
+                ) : (
+                  <View style={{ marginBottom: 15 }}>
                     <Text style={styles.text}>Prix</Text>
                     <View style={{ flexDirection: 'row' }}>
                       <TextInput
@@ -216,28 +214,33 @@ export default class OffreCreation extends React.Component {
                       />
                       <Text style={styles.euro}>€</Text>
                     </View>
-                  </View>)}
+                  </View>
+                )}
 
                 <View
                   style={{
                     marginTop: 100,
+                    marginBottom: 50,
                   }}>
                   <Button
                     style={{
                       paddingTop: 10,
                       paddingBottom: 10,
+                      // marginBottom: 300,
                       paddingLeft: 15,
                       paddingRight: 15,
                     }}
                     loading={false}
                     title="Créer loffre"
-                    onPress={()=>{this.createOffer(values)}}
+                    onPress={() => {
+                      this.createOffer(values);
+                    }}
                   />
                 </View>
               </View>
             )}
           </Formik>
-        </View>
+        </ScrollView>
       </View>
     );
   }
