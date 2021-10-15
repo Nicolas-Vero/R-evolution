@@ -173,7 +173,7 @@ export default class MyCoach extends React.Component {
                   <FlatList
                     data={this.state.coach?.diplomas}
                     extraData={this.state}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item?.id.toString()}
                     renderItem={({ item }) => (
                       <View>
                         <Text style={styles.textBlue}>{item.diploma_name}</Text>
@@ -200,7 +200,7 @@ export default class MyCoach extends React.Component {
                     extraData={this.state}
                     // onRefresh={onRefresh}
                     // refreshing={this.state.refresh}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item?.id.toString()}
                     renderItem={({ item }) => (
                       <View
                         style={{

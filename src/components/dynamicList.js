@@ -105,7 +105,7 @@ export const dynamicList = React.forwardRef(
                       </View>
                     </TouchableOpacity>
                     )}}
-                  keyExtractor={(item) => item.id}
+                  keyExtractor={(item) => item.id.toString()}
                   extraData={selectedId}
                   numColumns={numColumns}
                 />

@@ -247,7 +247,7 @@ if (!this.state.loaded) {
               extraData={this.state}
               // onRefresh={onRefresh}
               // refreshing={this.state.refresh}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (
                 <View
                 style={{
@@ -292,7 +292,7 @@ if (!this.state.loaded) {
               extraData={this.state}
               // onRefresh={onRefresh}
               // refreshing={this.state.refresh}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (
                 <View
                 style={{

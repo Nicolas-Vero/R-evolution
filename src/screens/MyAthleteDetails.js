@@ -163,7 +163,7 @@ export default class MyAthleteDetails extends React.Component {
                     extraData={this.state}
                     // onRefresh={onRefresh}
                     // refreshing={this.state.refresh}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
                       <View
                         style={{
@@ -234,7 +234,7 @@ export default class MyAthleteDetails extends React.Component {
                     extraData={this.state}
                     // onRefresh={onRefresh}
                     // refreshing={this.state.refresh}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => (
                       <View
                         style={{

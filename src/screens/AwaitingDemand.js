@@ -67,7 +67,7 @@ export default class AwaitingDemand extends React.Component {
                 data={this.state.personalRequest}
                 extraData={this.state}
                 refreshing={this.state.refresh}
-                keyExtractor={(item) => item?.id}
+                keyExtractor={(item) => item?.id.toString()}
                 renderItem={({ item }) => {
                   return (
                     <TouchableOpacity
@@ -141,7 +141,7 @@ export default class AwaitingDemand extends React.Component {
               <FlatList
                 data={this.state.publicRequest}
                 extraData={this.state}
-                keyExtractor={(item) => item?.id}
+                keyExtractor={(item) => item?.id.toString()}
                 renderItem={({ item }) => {
                   return (
                     <TouchableOpacity

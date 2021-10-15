@@ -12,7 +12,7 @@
       "versionCode": 13
     },
     "ios": {
-      "buildNumber": "11",
+      "buildNumber": "12",
       "bundleIdentifier": "com.org.revolution",
       "supportsTablet": false
     }

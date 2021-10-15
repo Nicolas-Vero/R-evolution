@@ -393,7 +393,7 @@ export default class MyInformations extends React.Component {
                                 </View>
                               );
                             }}
-                            keyExtractor={(item) => item.id}
+                            keyExtractor={(item) => item.id.toString()}
                             //   extraData={selectedId}
                           />
                         </View>
@@ -470,7 +470,7 @@ export default class MyInformations extends React.Component {
                         )
                       );
                     }}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.id.toString()}
                   />
 
                   <View style={styles.inputs}>
