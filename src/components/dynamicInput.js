@@ -52,6 +52,7 @@ export default class dynamicInput extends React.Component {
             y: 1,
           }}
           style={styles.background}>
+            <ScrollView>
           <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
             <Header title="Let' go" />
             <View style={{ alignItems: 'center' }}>
@@ -233,6 +234,7 @@ export default class dynamicInput extends React.Component {
               </Formik>
             </View>
           </SafeAreaView>
+          </ScrollView>
         </LinearGradient>
       </View>
     );
