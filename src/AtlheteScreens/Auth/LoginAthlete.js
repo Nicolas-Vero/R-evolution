@@ -205,7 +205,7 @@ export default class LoginAthlete extends React.Component {
                     }}
                   />
                 </View>
-                {/* <View
+                <View
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'center',
@@ -214,12 +214,14 @@ export default class LoginAthlete extends React.Component {
                   <Text style={{ fontFamily: 'Roboto', color: '#B9B9BC' }}>
                     Pas encore membre ? {' '}
                   </Text>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={()=>{
+                    navigate('RegisterInfoAthlete')}
+                  }>
                     <Text style={{ fontFamily: 'Roboto', color: '#2CDEE4' }}>
                       Créer ton compte
                     </Text>
                   </TouchableOpacity>
-                </View> */}
+                </View>
               </View>
             )}
           </Formik>

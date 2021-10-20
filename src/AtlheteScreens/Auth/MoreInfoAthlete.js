@@ -20,7 +20,7 @@ const { width } = Dimensions.get('window');
 import { destinataire } from '../../components/componentsAthlete/destinataire';
 import { dynamicListAthlete } from '../../components/componentsAthlete/dynamicListAthlete';
 import { selectList } from '../../components/componentsAthlete/selectList';
-import { avatar } from '../../components/componentsAthlete/avatar';
+import { avatarAthlete } from '../../components/componentsAthlete/avatarAthlete';
 import { LinearGradient } from 'expo-linear-gradient';
 import { mensuration } from '../../components/componentsAthlete/mensuration';
 import { health } from '../../components/componentsAthlete/health';
@@ -35,7 +35,7 @@ const inputs = [
   { name: 'gym_place', type: 'default', component: selectList },
   { name: 'days_preference', type: 'default', component: ElementSlider2 },
   { name: 'coach_preference', type: 'default', component: destinataire },
-  { name: 'profile_picture_url', type: 'default', component: avatar },
+  { name: 'profile_picture_url', type: 'default', component: avatarAthlete },
 ];
 export default class MoreInfoAthlete extends React.Component {
   constructor(props) {

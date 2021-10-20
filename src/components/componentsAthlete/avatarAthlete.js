@@ -15,21 +15,19 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import * as ImagePicker from 'expo-image-picker';
-import { Button } from './Button';
+import { Button } from '../Button';
 import { Avatar } from 'react-native-elements';
-import Header from '../components/Header';
+import Header from '../Header';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Yup from 'yup';
 import { Formik, FieldArray, Field } from 'formik';
-import { auth } from '../api/Coach';
+import { sign_up } from '../../api/Athlete';
 import { ScrollView } from 'react-native-gesture-handler';
 
-export default class selectList extends React.Component {
+export default class avatarAthlete extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      step: 'initial',
-      // passItem: this.props.navigation.state.params.item,
       isLoaded: false,
       image: '',
     };
@@ -79,7 +77,7 @@ export default class selectList extends React.Component {
             <Header title="Let' go" />
             <View style={{ alignItems: 'center' }}>
               <Image
-                source={require('../../assets/images/Group_5.png')}
+                source={require('../../../assets/images/GroupA_8.png')}
                 style={{ width: widthPercentageToDP(75) }}
               />
             </View>
@@ -91,15 +89,14 @@ export default class selectList extends React.Component {
                 }}
                 onSubmit={(values) => {
                   const item = { ...passItem, ...values };
-                  // navigation.navigate('avatar', { item: item });
                   try {
-                    auth(item).then(() => {
-                      navigate('Login');
+                    sign_up(item).then(() => {
+                      navigate('LoginAthlete');
                     });
                   } catch (error) {
-                    console.log(error, 'data', item);
+                    console.log('error:', error, ' ', 'data:', item);
+                  
                   }
-                  console.log(item);
                 }}>
                 {({
                   handleChange,
@@ -170,8 +167,7 @@ export default class selectList extends React.Component {
                                       color: '#FFFF',
                                       textAlign: 'center',
                                     }}>
-                                    C'est toujours plus professionnel avec une
-                                    photo de profil
+                                    C'est toujours plus sympa avec une photo de profil
                                   </Text>
                                 )}
                               </View>
@@ -199,7 +195,7 @@ export default class selectList extends React.Component {
                                         width: 190,
                                         resizeMode: 'contain',
                                       }}
-                                      source={require('../../assets/images/AddPhoto.png')}
+                                      source={require('../../../assets/images/AddPhoto.png')}
                                     />
                                   )}
                                 </TouchableOpacity>
@@ -224,7 +220,7 @@ export default class selectList extends React.Component {
               </Formik>
             </View>
           </SafeAreaView>
-          </ScrollView>
+           </ScrollView>
         </LinearGradient>
       </View>
     );

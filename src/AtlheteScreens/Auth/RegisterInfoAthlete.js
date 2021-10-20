@@ -69,7 +69,7 @@ export default class RegisterInfoAthlete extends React.Component {
                     }}
                     onSubmit={(values) => {
                       this.state.termsCondition
-                        ? navigation.navigate('MoreInfoAthlete', { item: values })
+                        ? navigation.navigate('mensuration', { item: values })
                         : alert('accepter les terms des conditons');
                     }}
                     validationSchema={Yup.object().shape({
