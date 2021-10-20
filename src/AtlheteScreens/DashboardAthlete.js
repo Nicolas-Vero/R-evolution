@@ -530,6 +530,7 @@ export default class DashboardAthlete extends React.Component {
   }
 
   render() {
+    const curDate = moment().format('YYYY-MM-DD');
     const BadgedIcon = withBadge(1)(Icon)
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
@@ -995,6 +996,14 @@ export default class DashboardAthlete extends React.Component {
                         refreshing={this.state.refresh}
                         keyExtractor={(item) => item?.date}
                         renderItem={({ item }) => {
+                          const borderWidth = 
+                          item?.availability === curDate 
+                          ? 2
+                          : 0;
+                          const borderColor = 
+                          item?.availability === curDate 
+                          ? '#2CDEE4'
+                          : '#1E2026';
                           // const backgroundColor = item?.availability === this.state.selectedDate ? "#2CDEE4" : "#101010";
                           const backgroundColor =
                             item?.availability === this.state.selectedDate
@@ -1017,6 +1026,8 @@ export default class DashboardAthlete extends React.Component {
                                 style={[
                                   styles.day,
                                   { backgroundColor: backgroundColor },
+                                  {borderWidth:borderWidth},
+                                  {borderColor:borderColor}
                                 ]}>
                                 <View
                                   style={{
