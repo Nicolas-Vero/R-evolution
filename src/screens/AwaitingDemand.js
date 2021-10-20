@@ -10,7 +10,6 @@ import {
   ActivityIndicator,
 } from 'react-native';
 const { width } = Dimensions.get('window');
-import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../components/Header';
 import { get_personnal_request, get_public_request } from '../api/Request';
 import { Avatar } from 'react-native-elements';
@@ -19,7 +18,6 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { loadFonts } from '../configs/design/font';
 export default class AwaitingDemand extends React.Component {
   state = {
     personalRequest: [],
@@ -28,9 +26,6 @@ export default class AwaitingDemand extends React.Component {
   };
 
   componentDidMount() {
-    loadFonts().then(() => {
-      this.setState({ loaded: true });
-    });
     get_personnal_request().then((res) => {
       this.setState({ personalRequest: res.data.requests });
     });
@@ -43,7 +38,23 @@ export default class AwaitingDemand extends React.Component {
       });
   }
 
+  componentDidUpdate(prevProps){
+    if (this.props.isFocused && prevProps.isFocused !== this.props.isFocused ) {
+      get_personnal_request().then((res) => {
+        this.setState({ personalRequest: res.data.requests });
+      });
+      get_public_request()
+        .then((res) => {
+          this.setState({ publicRequest: res.data.requests });
+        })
+        .then(() => {
+          this.setState({ loaded: true });
+        });
+    }  
+}
+
   render() {
+    const { navigation } = this.props;
     if (!this.state.loaded) {
       return (
         <View>
@@ -72,7 +83,7 @@ export default class AwaitingDemand extends React.Component {
                   return (
                     <TouchableOpacity
                       onPress={() => {
-                        console.log('item', item);
+                       navigation.navigate('Demande',{item:item})
                       }}>
                       <View
                         style={{
@@ -141,12 +152,13 @@ export default class AwaitingDemand extends React.Component {
               <FlatList
                 data={this.state.publicRequest}
                 extraData={this.state}
+                refreshing={this.state.refresh}
                 keyExtractor={(item) => item?.id.toString()}
                 renderItem={({ item }) => {
                   return (
                     <TouchableOpacity
                       onPress={() => {
-                        console.log(item);
+                      navigate('Demande',{item:item})
                       }}>
                       <View
                         style={{
@@ -186,7 +198,7 @@ export default class AwaitingDemand extends React.Component {
                                 marginBottom: 5,
                                 color: 'white',
                               }}>
-                              {item?.athlete.first_name}{' '}
+                              {item?.athlete?.first_name}
                               {item?.athlete?.last_name}
                             </Text>
                           </View>

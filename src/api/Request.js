@@ -14,12 +14,14 @@ export const get_public_request = async() => {
         })
 };
 
-export const assign_request = params => {   
-      const data = params
+export const assign_request = async(params)  => { 
+  const headers = await getHeaders();  
+      const id = params
         return axios({
           method: 'POST',
           url: `${API_URL}/request/assign`,
-          data: data
+          data:{request_id:id},
+          headers:headers
         })
 };
 

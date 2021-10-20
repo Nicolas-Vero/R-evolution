@@ -581,7 +581,6 @@ export default class Dashboard extends React.Component {
               marginBottom: 25,
             }}></View>
           <View>
-            <View></View>
             <View style={{ alignItems: 'center' }}>
               <SwitchSelector
                 options={options}
@@ -604,7 +603,7 @@ export default class Dashboard extends React.Component {
             </View>
             <View>{/*TO DO: passe les jours en francais  */}</View>
             {this.state.screen == 'Planning' ? (
-              <ScrollView styl={{ marginBottom: 100 }}>
+             <View>
                 <View style={{ alignItems: 'center', marginTop: 16 }}>
                   <Text
                     style={{
@@ -650,6 +649,7 @@ export default class Dashboard extends React.Component {
                     </View>
                   )}
                 </View>
+                 <ScrollView>
                 <View
                   style={{ flexDirection: 'row', justifyContent: 'center' }}>
                   <View style={{ alignItems: 'center' }}>
@@ -714,10 +714,11 @@ export default class Dashboard extends React.Component {
                         height: 45,
                         width: 45,
                       }}
-                    />
+                      />
                   </TouchableOpacity>
                 </View>
-              </ScrollView>
+                      </ScrollView>
+                      </View>
             ) : (
               <ScrollView>
                 <View style={{ height: heightPercentageToDP(95) }}>
@@ -819,7 +820,7 @@ export default class Dashboard extends React.Component {
             )}
           </View>
         </SafeAreaView>
-      </View>
+        </View>
     );
   }
 }

@@ -6,61 +6,74 @@ import Dashboard from '../../screens/Dashboard';
 import CreateReminder from '../../screens/CreateReminder';
 import Account from '../../screens/Account';
 import MyInformations from '../../screens/MyInformations';
+import Demande from '../../screens/Demande';
 const HomeStack = createStackNavigator(
   {
     Dashboard: {
       screen: Dashboard,
       navigationOptions: {
+        gestureEnabled:false,
         headerShown: false,
+        swipeEnabled: false,
       },
     },
     CreateBook: {
       screen: CreateBook,
       navigationOptions: {
-        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
+        gestureEnabled:false,
         headerShown: false,
+        swipeEnabled: false,
       },
     },
     CreateReminder: {
       screen: CreateReminder,
       navigationOptions: {
-        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
+        gestureEnabled:false,
         headerShown: false,
+        swipeEnabled: false,
       },
     },
     Activitie: {
       screen: Activitie,
       navigationOptions: {
-        headerShown: false
+        gestureEnabled:false,
+        headerShown: false,
+        swipeEnabled: false,
       },
     },
     Account:{
       screen: Account,
       navigationOptions: {
-        tabBarIcon: ({tintColor}) => (
-          <Ionicons  size={20} color={tintColor} />
-        ),
+        gestureEnabled:false,
         headerShown: false,
+        swipeEnabled: false,
       },
     },
     MyInformations:{
       screen: MyInformations,
       navigationOptions: {
-        tabBarIcon: ({tintColor}) => (
-          <Ionicons  size={20} color={tintColor} />
-        ),
+        gestureEnabled:false,
         headerShown: false,
+        swipeEnabled: false,
       },
     },
     AwaitingDemand: {
       screen: AwaitingDemand,
       navigationOptions: {
-        tabBarIcon: ({tintColor}) => (
-          <Ionicons  size={20} color={tintColor} />
-        ),
+        gestureEnabled:false,
         headerShown: false,
+        swipeEnabled: false,
       },
     },
+    Demande: {
+      screen: Demande,
+      navigationOptions: {
+        gestureEnabled:false,
+        headerShown: false,
+        swipeEnabled: false,
+      },
+    },
+
   },
   {
     lazy: true,

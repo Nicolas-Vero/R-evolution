@@ -148,16 +148,14 @@ export const cancel_booking = async (params, navigation) => (
 * expiry        | header | string | (req)
 * */
 
-export const get_athlete_by_id = async (params, navigation) => (
-  MiddleWare.validateRequest(
-    async () => {
+export const get_athlete_by_id = async (params) => {
       const headers = await getHeaders();
       return axios({
         method: 'GET',
-        url: `${API_URL}/athlete/${params.id}`,
+        url: `${API_URL}/athlete/${params}`,
         headers: headers
       })
-    }, navigation));
+};
 
 
 export const get_athlete = async () => {
