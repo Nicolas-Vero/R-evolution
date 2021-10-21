@@ -149,7 +149,7 @@ export default class MyAthletes extends React.Component {
                         console.log('ddd', item),
                         (
                           <TouchableOpacity
-                            style={{ alignItems: 'center' }}
+                            style={{ alignItems: 'center', marginBottom: 10 }}
                             onPress={() => {
                               navigate('MyAthleteDetails', { item });
                             }}>
@@ -318,70 +318,68 @@ export default class MyAthletes extends React.Component {
                       extraData={this.state}
                       keyExtractor={(item) => toString(item.id)}
                       renderItem={({ item }) => (
-                        (
-                          <TouchableOpacity
-                            style={{ alignItems: 'center' }}
-                            onPress={() => {
-                              navigate('MyAthleteDetailsProspects', { item });
+                        <TouchableOpacity
+                          style={{ alignItems: 'center' }}
+                          onPress={() => {
+                            navigate('MyAthleteDetailsProspects', { item });
+                          }}>
+                          <View
+                            style={{
+                              borderRadius: 5,
+                              flexDirection: 'row',
+                              justifyContent: 'space-between',
+                              alignContent: 'center',
+                              backgroundColor: '#1E2026',
+                              width: widthPercentageToDP(92),
+                              height: 70,
                             }}>
                             <View
                               style={{
-                                borderRadius: 5,
+                                justifyContent: 'center',
                                 flexDirection: 'row',
-                                justifyContent: 'space-between',
-                                alignContent: 'center',
-                                backgroundColor: '#1E2026',
-                                width: widthPercentageToDP(92),
-                                height: 70,
                               }}>
                               <View
                                 style={{
                                   justifyContent: 'center',
-                                  flexDirection: 'row',
+                                  marginLeft: 15,
                                 }}>
-                                <View
-                                  style={{
-                                    justifyContent: 'center',
-                                    marginLeft: 15,
-                                  }}>
-                                  <Avatar
-                                    size="medium"
-                                    rounded
-                                    source={{
-                                      uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                                    }}
-                                  />
-                                </View>
-                                <View
-                                  style={{
-                                    justifyContent: 'center',
-                                    marginHorizontal: 20,
-                                  }}>
-                                  <Text
-                                    style={{
-                                      fontWeight: 'bold',
-                                      fontSize: 15,
-                                      color: 'white',
-                                    }}>
-                                    {item.first_name} {item.last_name}
-                                  </Text>
-                                </View>
+                                <Avatar
+                                  size="medium"
+                                  rounded
+                                  source={{
+                                    uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                                  }}
+                                />
                               </View>
-                              <View style={{ justifyContent: 'center' }}>
+                              <View
+                                style={{
+                                  justifyContent: 'center',
+                                  marginHorizontal: 20,
+                                }}>
                                 <Text
                                   style={{
                                     fontWeight: 'bold',
-                                    color: '#979797',
-                                    fontSize: 10,
-                                    marginRight: 10,
+                                    fontSize: 15,
+                                    color: 'white',
                                   }}>
-                                  Depuis le{' '}
-                                  {moment(item.created_at).format('DD/MM/YYYY')}
+                                  {item.first_name} {item.last_name}
                                 </Text>
                               </View>
                             </View>
-                          </TouchableOpacity>
-                        )
+                            <View style={{ justifyContent: 'center' }}>
+                              <Text
+                                style={{
+                                  fontWeight: 'bold',
+                                  color: '#979797',
+                                  fontSize: 10,
+                                  marginRight: 10,
+                                }}>
+                                Depuis le{' '}
+                                {moment(item.created_at).format('DD/MM/YYYY')}
+                              </Text>
+                            </View>
+                          </View>
+                        </TouchableOpacity>
                       )}
                     />
                   </View>

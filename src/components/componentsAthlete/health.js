@@ -51,175 +51,182 @@ export default class health extends React.Component {
             y: 1,
           }}
           style={styles.background}>
-            <ScrollView>
-          <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <Header title="Let' go" />
-            <View style={{ alignItems: 'center' }}>
-              <Image
-                source={require('../../../assets/images/GroupA_4.png')}
-                style={{ width: widthPercentageToDP(80) }}
-              />
-            </View>
-            <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
-              <Formik
-                initialValues={{
-                  health_issues: '',
-                  health_problem_description: '',
-                }}
-                onSubmit={(values) => {
-                  const item = { ...passItem, ...values };
-                  navigation.navigate('selectList', { item: item });
-                  console.log(item);
-                }}
-              >
-                {({
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  setFieldValue,
-                  values,
-                  setFieldTouched,
-                  touched,
-                  errors,
-                  isValid,
-                  validate,
-                  ref,
-                }) => (
-                  <View>
-                    <Field
-                      name="health_issues"
-                      id="health_issues"
-                      validate={validate}>
-                      {({
-                        field,
-                        meta,
-                        form: {
-                          touched,
-                          errors,
-                          isSubmitting,
-                          setFieldTouched,
-                        },
-                      }) => {
-                        return (
-                          <View     style={{
-                            height: heightPercentageToDP(75),
-                          }}>
+          <ScrollView>
+            <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
+              <Header title="Let' go" />
+              <View style={{ alignItems: 'center' }}>
+                <Image
+                  source={require('../../../assets/images/GroupA_4.png')}
+                  style={{
+                    width: widthPercentageToDP(80),
+                    resizeMode: 'contain',
+                  }}
+                />
+              </View>
+              <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
+                <Formik
+                  initialValues={{
+                    health_issues: '',
+                    health_problem_description: '',
+                  }}
+                  onSubmit={(values) => {
+                    const item = { ...passItem, ...values };
+                    navigation.navigate('selectList', { item: item });
+                    console.log(item);
+                  }}>
+                  {({
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    setFieldValue,
+                    values,
+                    setFieldTouched,
+                    touched,
+                    errors,
+                    isValid,
+                    validate,
+                    ref,
+                  }) => (
+                    <View style={{ paddingBottom: 15 }}>
+                      <Field
+                        name="health_issues"
+                        id="health_issues"
+                        validate={validate}>
+                        {({
+                          field,
+                          meta,
+                          form: {
+                            touched,
+                            errors,
+                            isSubmitting,
+                            setFieldTouched,
+                          },
+                        }) => {
+                          return (
                             <View
                               style={{
-                                alignItems: 'flex-start',
-                                marginTop: 135,
+                                height: heightPercentageToDP(75),
                               }}>
-                              <Text
+                              <View
                                 style={{
-                                  fontFamily: 'RobotoBold',
-                                  fontSize: 17,
-                                  color: '#FFFF',
+                                  alignItems: 'flex-start',
+                                  marginTop: 135,
                                 }}>
-                                DES PROBLÈMES DE SANTÉ A SIGNALER
-                              </Text>
-                            </View>
-                            <View>
-                              <FieldArray
-                                name="health_issues"
-                                render={(arrayhelper) => (
-                                  <View>
-                                    <View style={styles.container3}>
-                                      <SelectDropdown
-                                        buttonStyle={{
-                                          width: widthPercentageToDP(50),
-                                          borderRadius: 5,
-                                        }}
-                                        data={data}
-                                        defaultButtonText={'choisir'}
-                                        onSelect={(selectedItem, index) => {
-                                          let boolValue = '';
-                                          if (selectedItem == 'OUI') {
-                                            boolValue = true;
-                                          } else {
-                                            boolValue = false;
-                                          }
-                                          arrayhelper.form.values.health_issues =
-                                            boolValue;
-                                        }}
-                                        renderDropdownIcon={() => {
-                                          return (
-                                            <AntDesign
-                                              name="down"
-                                              size={24}
-                                              color="black"
-                                            />
-                                          );
-                                        }}
-                                        dropdownIconPosition={'right'}
-                                        buttonTextAfterSelection={(
-                                          selectedItem,
-                                          index,
-                                        ) => {
-                                          // text represented after item is selected
-                                          // if data array is an array of objects then return selectedItem.property to render after item is selected
-                                          return selectedItem;
-                                        }}
-                                        rowTextStyle={{
-                                          color: 'white',
-                                          fontSize: 15,
-                                          marginRight: 90,
-                                        }}
-                                        dropdownStyle={{
-                                          backgroundColor: '#282C3A',
-                                          borderRadius: 5,
-                                        }}
-                                        rowTextForSelection={(item, index) => {
-                                          // text represented for each item in dropdown
-                                          // if data array is an array of objects then return item.property to represent item in dropdown
-                                          return item;
-                                        }}
-                                      />
-                                    </View>
+                                <Text
+                                  style={{
+                                    fontFamily: 'RobotoBold',
+                                    fontSize: 17,
+                                    color: '#FFFF',
+                                  }}>
+                                  DES PROBLÈMES DE SANTÉ A SIGNALER
+                                </Text>
+                              </View>
+                              <View>
+                                <FieldArray
+                                  name="health_issues"
+                                  render={(arrayhelper) => (
                                     <View>
-                                      <View style={{ marginTop: 20 }}>
-                                        <Text
-                                          style={{
-                                            fontFamily: 'RobotoBold',
-                                            fontSize: 17,
-                                            color: '#FFFF',
-                                          }}>
-                                          INFORMATIONS COMPLÉMENTAIRES
-                                        </Text>
-                                      </View>
                                       <View style={styles.container3}>
-                                        <TextInput
-                                          style={styles.field}
-                                          placeholder="Description"
-                                          onChangeText={(text) =>
-                                            (arrayhelper.form.values.health_problem_description =
-                                              text)
-                                          }
+                                        <SelectDropdown
+                                          buttonStyle={{
+                                            width: widthPercentageToDP(50),
+                                            borderRadius: 5,
+                                          }}
+                                          data={data}
+                                          defaultButtonText={'choisir'}
+                                          onSelect={(selectedItem, index) => {
+                                            let boolValue = '';
+                                            if (selectedItem == 'OUI') {
+                                              boolValue = true;
+                                            } else {
+                                              boolValue = false;
+                                            }
+                                            arrayhelper.form.values.health_issues =
+                                              boolValue;
+                                          }}
+                                          renderDropdownIcon={() => {
+                                            return (
+                                              <AntDesign
+                                                name="down"
+                                                size={24}
+                                                color="black"
+                                              />
+                                            );
+                                          }}
+                                          dropdownIconPosition={'right'}
+                                          buttonTextAfterSelection={(
+                                            selectedItem,
+                                            index,
+                                          ) => {
+                                            // text represented after item is selected
+                                            // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                            return selectedItem;
+                                          }}
+                                          rowTextStyle={{
+                                            color: 'white',
+                                            fontSize: 15,
+                                            marginRight: 90,
+                                          }}
+                                          dropdownStyle={{
+                                            backgroundColor: '#282C3A',
+                                            borderRadius: 5,
+                                          }}
+                                          rowTextForSelection={(
+                                            item,
+                                            index,
+                                          ) => {
+                                            // text represented for each item in dropdown
+                                            // if data array is an array of objects then return item.property to represent item in dropdown
+                                            return item;
+                                          }}
                                         />
                                       </View>
+                                      <View>
+                                        <View style={{ marginTop: 10 }}>
+                                          <Text
+                                            style={{
+                                              fontFamily: 'RobotoBold',
+                                              fontSize: 17,
+                                              color: '#FFFF',
+                                              marginBottom: 10,
+                                            }}>
+                                            INFORMATIONS COMPLÉMENTAIRES
+                                          </Text>
+                                        </View>
+                                        <View style={styles.container3}>
+                                          <TextInput
+                                            style={styles.field}
+                                            placeholder="Description"
+                                            onChangeText={(text) =>
+                                              (arrayhelper.form.values.health_problem_description =
+                                                text)
+                                            }
+                                          />
+                                        </View>
+                                      </View>
                                     </View>
-                                  </View>
-                                )}
-                              />
+                                  )}
+                                />
+                              </View>
                             </View>
-                          </View>
-                        );
-                      }}
-                    </Field>
-                    <Button
-                      loading={false}
-                      disabled={!isValid}
-                      title="suivant"
-                      customTextStyle={{
-                        fontFamily: 'RobotoBold',
-                        fontSize: 17,
-                      }}
-                      onPress={handleSubmit}
-                    />
-                  </View>
-                )}
-              </Formik>
-            </View>
-          </SafeAreaView>
+                          );
+                        }}
+                      </Field>
+                      <Button
+                        loading={false}
+                        disabled={!isValid}
+                        title="suivant"
+                        customTextStyle={{
+                          fontFamily: 'RobotoBold',
+                          fontSize: 17,
+                        }}
+                        onPress={handleSubmit}
+                      />
+                    </View>
+                  )}
+                </Formik>
+              </View>
+            </SafeAreaView>
           </ScrollView>
         </LinearGradient>
       </View>
@@ -228,9 +235,8 @@ export default class health extends React.Component {
 }
 
 const styles = StyleSheet.create({
-
   container3: {
-    height: 150,
+    height: 125,
     width: widthPercentageToDP(95),
     justifyContent: 'center',
     marginBottom: 30,
@@ -289,12 +295,12 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
 
-    field: {
-      backgroundColor: '#FFFFFF',
-      width: widthPercentageToDP(92),
-      paddingLeft: 15,
-      height:130,
-      paddingRight: 15,
-      borderRadius: 5,
-  }
+  field: {
+    backgroundColor: '#FFFFFF',
+    width: widthPercentageToDP(92),
+    paddingLeft: 15,
+    height: 130,
+    paddingRight: 15,
+    borderRadius: 5,
+  },
 });

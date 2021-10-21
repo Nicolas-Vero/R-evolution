@@ -64,250 +64,256 @@ export default class dynamicList extends React.Component {
             y: 1,
           }}
           style={styles.background}>
-            <ScrollView>
-          <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <Header title="Let' go" />
-            <View style={{ alignItems: 'center' }}>
-              <Image
-                source={require('../../assets/images/Group_3.png')}
-                style={{ width: widthPercentageToDP(80) }}
-              />
-            </View>
-            <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
-              <Formik
-                initialValues={{
-                  specialties: [],
-                }}
-                onSubmit={(values) => {
-                  const item = { ...passItem, ...values };
-                  navigation.navigate('selectList', { item: item });
-                  console.log(item);
-                }}
-                validationSchema={Yup.object().shape({
-                  specialties: Yup.array().min(1).required('Requis'),
-                })}>
-                {({
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  setFieldValue,
-                  values,
-                  setFieldTouched,
-                  touched,
-                  errors,
-                  isValid,
-                  validate,
-                  ref,
-                }) => (
-                  <View>
-                    <Field
-                      name="specialties"
-                      id="specialties"
-                      validate={validate}>
-                      {({
-                        field,
-                        meta,
-                        form: {
-                          touched,
-                          errors,
-                          isSubmitting,
-                          setFieldTouched,
-                        },
-                      }) => {
-                        const numColumns = 3;
-                        return (
-                          <View
-                            style={{
-                              alignItems: 'center',
-                              height: heightPercentageToDP(75),
-                            }}>
-                            <View style={styles.container2}>
-                              <Text style={styles.title}>SPECIALITÉ(S)</Text>
-                            </View>
+          <ScrollView style={{ flex: 1 }}>
+            <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
+              <Header title="Let' go" />
+              <View style={{ alignItems: 'center' }}>
+                <Image
+                  source={require('../../assets/images/Group_3.png')}
+                  style={{ width: widthPercentageToDP(80) }}
+                />
+              </View>
+              <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
+                <Formik
+                  initialValues={{
+                    specialties: [],
+                  }}
+                  onSubmit={(values) => {
+                    const item = { ...passItem, ...values };
+                    navigation.navigate('selectList', { item: item });
+                    console.log(item);
+                  }}
+                  validationSchema={Yup.object().shape({
+                    specialties: Yup.array().min(1).required('Requis'),
+                  })}>
+                  {({
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    setFieldValue,
+                    values,
+                    setFieldTouched,
+                    touched,
+                    errors,
+                    isValid,
+                    validate,
+                    ref,
+                  }) => (
+                    <View>
+                      <Field
+                        name="specialties"
+                        id="specialties"
+                        validate={validate}>
+                        {({
+                          field,
+                          meta,
+                          form: {
+                            touched,
+                            errors,
+                            isSubmitting,
+                            setFieldTouched,
+                          },
+                        }) => {
+                          const numColumns = 3;
+                          return (
+                            <View
+                              style={{
+                                alignItems: 'center',
+                                height: heightPercentageToDP(75),
+                              }}>
+                              <View style={styles.container2}>
+                                <Text style={styles.title}>SPECIALITÉ(S)</Text>
+                              </View>
 
-                            <Text style={styles.text}>
-                              Sélectionne une ou plusieurs spécialité(s)
-                            </Text>
+                              <Text style={styles.text}>
+                                Sélectionne une ou plusieurs spécialité(s)
+                              </Text>
 
-                            <View style={{ height: heightPercentageToDP(60) }}>
-                              <FieldArray
-                                name="specialties"
-                                render={(arrayhelper) => (
-                                  <View>
-                                    <View
-                                      style={{
-                                        borderWidth: errors.specialties ? 2 : 0,
-                                        borderColor: errors.specialties
-                                          ? 'red'
-                                          : 'transparent',
-                                        height: 150,
-                                        width: widthPercentageToDP(95),
-                                        padding: 5,
-                                        justifyContent: 'center',
-                                      }}>
-                                      <FlatList
-                                        data={this.state.specData}
-                                        extraData={this.state}
-                                        renderItem={({ item }) => {
-                                          console.log('item', item),
-                                            item.selected
-                                              ? console.log(item.selected)
-                                              : console.log('noclick');
-                                          const backgroundColor =
-                                            item.selected == 1
-                                              ? '#2CDEE4'
-                                              : 'transparent';
-                                          const borderColor =
-                                            item.selected == 1
-                                              ? 'transparent'
-                                              : 'white';
-                                          const borderWidth =
-                                            item.selected == 1 ? 1 : 1;
-                                          const color =
-                                            item.selected == 1
-                                              ? 'black'
-                                              : 'white';
-
-                                          return (
-                                            <TouchableOpacity
-                                              onPress={() => {
-                                                item.selected != 1
-                                                  ? (item.selected = 1)
-                                                  : (item.selected = 0);
-                                                arrayhelper.form.values.specialties.includes(
-                                                  item.value,
-                                                )
-                                                  ? arrayhelper.remove(
-                                                      item.value,
-                                                    )
-                                                  : arrayhelper.push(
-                                                      item.value,
-                                                    );
-                                              }}>
-                                              <View
-                                                style={{
-                                                  backgroundColor:
-                                                    backgroundColor,
-                                                  borderRadius: 25,
-                                                  padding: 10,
-                                                  justifyContent: 'center',
-                                                  margin: 5,
-                                                  borderColor: borderColor,
-                                                  borderWidth: borderWidth,
-                                                }}>
-                                                <Text
-                                                  style={{
-                                                    fontFamily: 'RobotoBold',
-                                                    fontSize: 15,
-                                                    color: color,
-                                                  }}>
-                                                  {item.value}
-                                                </Text>
-                                              </View>
-                                            </TouchableOpacity>
-                                          );
-                                        }}
-                                        keyExtractor={(item) => item}
-                                        // extraData={selectedId}
-                                        numColumns={numColumns}
-                                      />
-                                    </View>
-                                    {errors.specialties ? (
-                                      <Text style={{ color: 'red' }}>
-                                        Ajouter une spécialité
-                                      </Text>
-                                    ) : null}
-                                    <TextInput
-                                      name="specialties"
-                                      onChangeText={(text) => {
-                                        this.setState({ term: text });
-                                      }}
-                                      style={{
-                                        backgroundColor: '#FFFFFF',
-                                        paddingTop: 10,
-                                        paddingBottom: 10,
-                                        paddingLeft: 15,
-                                        paddingRight: 15,
-                                        marginLeft: 5,
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        alignContent: 'center',
-                                        width: widthPercentageToDP(90),
-                                      }}
-                                    />
-
-                                    <View
-                                      style={{
-                                        alignItems: 'flex-end',
-                                        marginTop: 15,
-                                        marginBottom: 5,
-                                        marginRight: 5,
-                                        color: '#2CDEE4',
-                                      }}>
-                                      <TouchableOpacity
-                                        onPress={() => {
-                                          this.state.specData.pop();
-                                          this.setState({ term: '' });
-                                        }}>
-                                        <Text style={{ color: '#2CDEE4' }}>
-                                          Supprimer
-                                        </Text>
-                                      </TouchableOpacity>
-                                    </View>
-
-                                    <TouchableOpacity
-                                      onPress={() => {
-                                        this.state.specData.push({
-                                          value: this.state.term,
-                                        }),
-                                          this.setState({ term: '' });
-                                      }}>
+                              <View
+                                style={{
+                                  marginBottom: 20,
+                                }}>
+                                <FieldArray
+                                  name="specialties"
+                                  render={(arrayhelper) => (
+                                    <View>
                                       <View
                                         style={{
-                                          flexDirection: 'row',
-                                          alignItems: 'baseline',
-                                          marginLeft: 5,
-                                          marginRight: widthPercentageToDP(48),
+                                          borderWidth: errors.specialties
+                                            ? 2
+                                            : 0,
+                                          borderColor: errors.specialties
+                                            ? 'red'
+                                            : 'transparent',
+                                          height: 150,
+                                          width: widthPercentageToDP(95),
+                                          padding: 5,
+                                          justifyContent: 'center',
                                         }}>
-                                        <FontAwesome
-                                          name="plus-square"
-                                          size={24}
-                                          color="#2CDEE4"
+                                        <FlatList
+                                          data={this.state.specData}
+                                          extraData={this.state}
+                                          renderItem={({ item }) => {
+                                            console.log('item', item),
+                                              item.selected
+                                                ? console.log(item.selected)
+                                                : console.log('noclick');
+                                            const backgroundColor =
+                                              item.selected == 1
+                                                ? '#2CDEE4'
+                                                : 'transparent';
+                                            const borderColor =
+                                              item.selected == 1
+                                                ? 'transparent'
+                                                : 'white';
+                                            const borderWidth =
+                                              item.selected == 1 ? 1 : 1;
+                                            const color =
+                                              item.selected == 1
+                                                ? 'black'
+                                                : 'white';
+
+                                            return (
+                                              <TouchableOpacity
+                                                onPress={() => {
+                                                  item.selected != 1
+                                                    ? (item.selected = 1)
+                                                    : (item.selected = 0);
+                                                  arrayhelper.form.values.specialties.includes(
+                                                    item.value,
+                                                  )
+                                                    ? arrayhelper.remove(
+                                                        item.value,
+                                                      )
+                                                    : arrayhelper.push(
+                                                        item.value,
+                                                      );
+                                                }}>
+                                                <View
+                                                  style={{
+                                                    backgroundColor:
+                                                      backgroundColor,
+                                                    borderRadius: 25,
+                                                    padding: 10,
+                                                    justifyContent: 'center',
+                                                    margin: 5,
+                                                    borderColor: borderColor,
+                                                    borderWidth: borderWidth,
+                                                  }}>
+                                                  <Text
+                                                    style={{
+                                                      fontFamily: 'RobotoBold',
+                                                      fontSize: 15,
+                                                      color: color,
+                                                    }}>
+                                                    {item.value}
+                                                  </Text>
+                                                </View>
+                                              </TouchableOpacity>
+                                            );
+                                          }}
+                                          keyExtractor={(item) => item}
+                                          // extraData={selectedId}
+                                          numColumns={numColumns}
                                         />
-                                        <Text
-                                          style={{
-                                            fontFamily: 'RobotoBold',
-                                            marginLeft: 10,
-                                            padding: 5,
-                                            color: '#FFFFFF',
-                                          }}>
-                                          Ajouter une specialité
-                                        </Text>
                                       </View>
-                                    </TouchableOpacity>
-                                  </View>
-                                )}
+                                      {errors.specialties ? (
+                                        <Text style={{ color: 'red' }}>
+                                          Ajouter une spécialité
+                                        </Text>
+                                      ) : null}
+                                      <TextInput
+                                        name="specialties"
+                                        onChangeText={(text) => {
+                                          this.setState({ term: text });
+                                        }}
+                                        style={{
+                                          backgroundColor: '#FFFFFF',
+                                          paddingTop: 10,
+                                          paddingBottom: 10,
+                                          paddingLeft: 15,
+                                          paddingRight: 15,
+                                          // marginLeft: 5,
+                                          alignSelf: 'center',
+                                          justifyContent: 'center',
+                                          alignItems: 'center',
+                                          alignContent: 'center',
+                                          width: widthPercentageToDP(93),
+                                        }}
+                                      />
+                                      <View
+                                        style={{
+                                          alignItems: 'flex-end',
+                                          marginTop: 15,
+                                          marginBottom: 5,
+                                          marginRight: 5,
+                                          color: '#2CDEE4',
+                                        }}>
+                                        <TouchableOpacity
+                                          onPress={() => {
+                                            this.state.specData.pop();
+                                            this.setState({ term: '' });
+                                          }}>
+                                          <Text style={{ color: '#2CDEE4' }}>
+                                            Supprimer
+                                          </Text>
+                                        </TouchableOpacity>
+                                      </View>
+
+                                      <TouchableOpacity
+                                        onPress={() => {
+                                          this.state.specData.push({
+                                            value: this.state.term,
+                                          }),
+                                            this.setState({ term: '' });
+                                        }}>
+                                        <View
+                                          style={{
+                                            flexDirection: 'row',
+                                            alignItems: 'baseline',
+                                            marginLeft: 5,
+                                            marginRight:
+                                              widthPercentageToDP(48),
+                                          }}>
+                                          <FontAwesome
+                                            name="plus-square"
+                                            size={24}
+                                            color="#2CDEE4"
+                                          />
+                                          <Text
+                                            style={{
+                                              fontFamily: 'RobotoBold',
+                                              marginLeft: 10,
+                                              padding: 5,
+                                              color: '#FFFFFF',
+                                            }}>
+                                            Ajouter une specialité
+                                          </Text>
+                                        </View>
+                                      </TouchableOpacity>
+                                    </View>
+                                  )}
+                                />
+                              </View>
+                              <Button
+                                loading={false}
+                                disabled={!isValid}
+                                title="suivant"
+                                customTextStyle={{
+                                  fontFamily: 'RobotoBold',
+                                  fontSize: 17,
+                                }}
+                                onPress={handleSubmit}
                               />
                             </View>
-                          </View>
-                        );
-                      }}
-                    </Field>
-                    <Button
-                      loading={false}
-                      disabled={!isValid}
-                      title="suivant"
-                      customTextStyle={{
-                        fontFamily: 'RobotoBold',
-                        fontSize: 17,
-                      }}
-                      onPress={handleSubmit}
-                    />
-                  </View>
-                )}
-              </Formik>
-            </View>
-          </SafeAreaView>
+                          );
+                        }}
+                      </Field>
+                    </View>
+                  )}
+                </Formik>
+              </View>
+            </SafeAreaView>
           </ScrollView>
         </LinearGradient>
       </View>
@@ -323,7 +329,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   container2: {
-    height: 150,
+    height: '20%',
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 65,

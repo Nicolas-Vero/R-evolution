@@ -34,7 +34,7 @@ export default class mensuration extends React.Component {
   }
   render() {
     const phoneRegExp =
-    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+      /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
     const passItem = this.props.navigation.state.params.item;
     const { navigation } = this.props;
     console.log('passitem', passItem);
@@ -51,81 +51,82 @@ export default class mensuration extends React.Component {
             y: 1,
           }}
           style={styles.background}>
-            <ScrollView>
-          <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <Header title="Let' go" />
-            <View style={{ alignItems: 'center' }}>
-              <Image
-                source={require('../../../assets/images/GroupA_1.png')}
-                style={{ width: widthPercentageToDP(80) }}
-              />
-            </View>
-            <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
-              <Formik
-                initialValues={{
-                  age: '',
-                  weight: '',
-                  size: '',
-                }}
-                onSubmit={(values) => {
-                  const item = { ...passItem, ...values };
-                   navigation.navigate('ElementSlider', { item: item });
-                  console.log(item);
-                }}
-                // validationSchema={Yup.object().shape({
-                //   age: Yup.string()
-                //   .matches(
-                //     phoneRegExp,
-                //     'Tu dois entrer un age valide.',
-                //   ).required('Requis'),
-                //   weight: Yup.string()
-                //   .matches(
-                //     phoneRegExp,
-                //     'Tu dois entrer un poids valide.',
-                //   ).required('Requis'),
-                //   size: Yup.string()
-                //   .matches(
-                //     phoneRegExp,
-                //     'Tu dois entrer une taille valide.',
-                //   ).required('Requis'),
-                // })}
-                validationSchema={Yup.object().shape({
-                  age: Yup.number().required('Requis'),
-                  weight:Yup.number().required('Requis'),
-                  size: Yup.number().required('Requis'),
-                })}
-                >
-                {({
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  setFieldValue,
-                  values,
-                  setFieldTouched,
-                  touched,
-                  errors,
-                  isValid,
-                  validate,
-                  ref,
-                }) => (
-                  <View>
-                    <Field
-                      name="mensuration"
-                      id="mensuration"
-                      validate={validate}>
-                      {({
-                        field,
-                        meta,
-                        form: {
-                          touched,
-                          errors,
-                          isSubmitting,
-                          setFieldTouched,
-                        },
-                      }) => {
-                        return (
-                          (
-                            <View style={{ height: heightPercentageToDP(75) }}>
+          <ScrollView>
+            <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
+              <Header title="Let' go" />
+              <View style={{ alignItems: 'center' }}>
+                <Image
+                  source={require('../../../assets/images/GroupA_1.png')}
+                  style={{
+                    width: widthPercentageToDP(80),
+                    resizeMode: 'contain',
+                  }}
+                />
+              </View>
+              <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
+                <Formik
+                  initialValues={{
+                    age: '',
+                    weight: '',
+                    size: '',
+                  }}
+                  onSubmit={(values) => {
+                    const item = { ...passItem, ...values };
+                    navigation.navigate('ElementSlider', { item: item });
+                    console.log(item);
+                  }}
+                  // validationSchema={Yup.object().shape({
+                  //   age: Yup.string()
+                  //   .matches(
+                  //     phoneRegExp,
+                  //     'Tu dois entrer un age valide.',
+                  //   ).required('Requis'),
+                  //   weight: Yup.string()
+                  //   .matches(
+                  //     phoneRegExp,
+                  //     'Tu dois entrer un poids valide.',
+                  //   ).required('Requis'),
+                  //   size: Yup.string()
+                  //   .matches(
+                  //     phoneRegExp,
+                  //     'Tu dois entrer une taille valide.',
+                  //   ).required('Requis'),
+                  // })}
+                  validationSchema={Yup.object().shape({
+                    age: Yup.number().required('Requis'),
+                    weight: Yup.number().required('Requis'),
+                    size: Yup.number().required('Requis'),
+                  })}>
+                  {({
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    setFieldValue,
+                    values,
+                    setFieldTouched,
+                    touched,
+                    errors,
+                    isValid,
+                    validate,
+                    ref,
+                  }) => (
+                    <View>
+                      <Field
+                        name="mensuration"
+                        id="mensuration"
+                        validate={validate}>
+                        {({
+                          field,
+                          meta,
+                          form: {
+                            touched,
+                            errors,
+                            isSubmitting,
+                            setFieldTouched,
+                          },
+                        }) => {
+                          return (
+                            <View style={{ height: heightPercentageToDP(72) }}>
                               <View
                                 style={{
                                   alignItems: 'center',
@@ -148,7 +149,6 @@ export default class mensuration extends React.Component {
                                       {
                                         <View>
                                           <View style={styles.container2}>
-                                          
                                             <TextInput
                                               style={{
                                                 backgroundColor: '#FFFFFF',
@@ -189,29 +189,31 @@ export default class mensuration extends React.Component {
                                             )}
                                           </View>
                                           <View style={styles.container2}>
-                                            
                                             <TextInput
                                               placeholder="Poids"
                                               onChangeText={(text) =>
                                                 (arrayhelper.form.values.weight =
                                                   text)
                                               }
-                                              style={{ backgroundColor: '#FFFFFF',
-                                              width: widthPercentageToDP(60),
-                                              paddingTop: 10,
-                                              paddingBottom: 10,
-                                              paddingLeft: 15,
-                                              paddingRight: 15,
-                                              borderRadius: 5,
-                                              borderWidth:
-                                                errors.weight && touched.weight
-                                                  ? 2
-                                                  : 0,
-                                              borderColor:
-                                                errors.weight && touched.weight
-                                                  ? 'red'
-                                                  : null,
-                                            }}
+                                              style={{
+                                                backgroundColor: '#FFFFFF',
+                                                width: widthPercentageToDP(60),
+                                                paddingTop: 10,
+                                                paddingBottom: 10,
+                                                paddingLeft: 15,
+                                                paddingRight: 15,
+                                                borderRadius: 5,
+                                                borderWidth:
+                                                  errors.weight &&
+                                                  touched.weight
+                                                    ? 2
+                                                    : 0,
+                                                borderColor:
+                                                  errors.weight &&
+                                                  touched.weight
+                                                    ? 'red'
+                                                    : null,
+                                              }}
                                             />
                                             {errors.weight && touched.weight && (
                                               <View
@@ -229,24 +231,24 @@ export default class mensuration extends React.Component {
                                             )}
                                           </View>
                                           <View style={styles.container2}>
-                                            
                                             <TextInput
-                                              style={{ backgroundColor: '#FFFFFF',
-                                              width: widthPercentageToDP(60),
-                                              paddingTop: 10,
-                                              paddingBottom: 10,
-                                              paddingLeft: 15,
-                                              paddingRight: 15,
-                                              borderRadius: 5,
-                                              borderWidth:
-                                                errors.size && touched.size
-                                                  ? 2
-                                                  : 0,
-                                              borderColor:
-                                                errors.size && touched.size
-                                                  ? 'red'
-                                                  : null,
-                                            }}
+                                              style={{
+                                                backgroundColor: '#FFFFFF',
+                                                width: widthPercentageToDP(60),
+                                                paddingTop: 10,
+                                                paddingBottom: 10,
+                                                paddingLeft: 15,
+                                                paddingRight: 15,
+                                                borderRadius: 5,
+                                                borderWidth:
+                                                  errors.size && touched.size
+                                                    ? 2
+                                                    : 0,
+                                                borderColor:
+                                                  errors.size && touched.size
+                                                    ? 'red'
+                                                    : null,
+                                              }}
                                               placeholder="Âge"
                                               onChangeText={(text) =>
                                                 (arrayhelper.form.values.age =
@@ -275,25 +277,24 @@ export default class mensuration extends React.Component {
                                 />
                               </View>
                             </View>
-                          )
-                        );
-                      }}
-                    </Field>
-                    <Button
-                      loading={false}
-                      disabled={!isValid}
-                      title="suivant"
-                      customTextStyle={{
-                        fontFamily: 'RobotoBold',
-                        fontSize: 17,
-                      }}
-                      onPress={handleSubmit}
-                    />
-                  </View>
-                )}
-              </Formik>
-            </View>
-          </SafeAreaView>
+                          );
+                        }}
+                      </Field>
+                      <Button
+                        loading={false}
+                        disabled={!isValid}
+                        title="suivant"
+                        customTextStyle={{
+                          fontFamily: 'RobotoBold',
+                          fontSize: 17,
+                        }}
+                        onPress={handleSubmit}
+                      />
+                    </View>
+                  )}
+                </Formik>
+              </View>
+            </SafeAreaView>
           </ScrollView>
         </LinearGradient>
       </View>

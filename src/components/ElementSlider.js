@@ -49,142 +49,154 @@ export default class ElementSlider extends React.Component {
             y: 1,
           }}
           style={styles.background}>
-            <ScrollView>
-          <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <Header title="Let' go" />
-            <View style={{ alignItems: 'center' }}>
-              <Image
-                source={require('../../assets/images/Group_2.png')}
-                style={{ width: widthPercentageToDP(80) }}
-              />
-            </View>
-            <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
-              <Formik
-                initialValues={{
-                  experience_years:'0',
-                }}
-                onSubmit={(values) => {
-                  const item = { ...passItem, ...values };
-                  navigation.navigate('dynamicList', { item: item });
-                  console.log(item);
-                }}
-                >
-                {({
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  setFieldValue,
-                  values,
-                  setFieldTouched,
-                  touched,
-                  errors,
-                  isValid,
-                  validate,
-                  ref,
-                }) => (
-                  <View>
-                  <Field name='experience_years' id='experience_years' validate={validate}>
-                    {({
-                      field,
-                      meta,
-                      form: { touched, errors, isSubmitting, setFieldTouched },
-                    }) => {
-                      return (
-                        <View style={{height:heightPercentageToDP(75)}}>
-                          <View
-                            style={{
-                              alignContent: 'center',
-                              alignItems: 'center',
-                              marginTop: 75,
-                            }}>
-                            <Text
-                              style={{
-                                marginTop: 60,
-                                fontFamily: 'RobotoBold',
-                                fontSize: 20,
-                                color: '#FFFF',
-                              }}>
-                              ANNÉE(S) D'EXPÉRIENCE
-                            </Text>
-                          </View>
-                          <View
-                            style={{ alignItems: 'center', marginTop: 110 }}>
-                            <Slider
-                              style={{ width: widthPercentageToDP(90) }}
-                              trackStyle={{
-                                height: 10,
-                                backgroundColor: '#282C3A',
-                              }}
-                              thumbStyle={{
-                                height: 20,
-                                width: 20,
-                                backgroundColor: '#2CDEE4',
-                              }}
-                              minimumTrackTintColor="#2CDEE4"
-                              track
-                              ref={ref}
-                              name='experience_years'
-                              onSlidingComplete={(num) => {
-                                field.onChange('experience_years')('' + num);
-                              }}
-                              maximumValue={10}
-                              minimumValue={0}
-                              step={1}
-                            />
-                            <View
-                              style={{
-                                marginTop: widthPercentageToDP(10),
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                height: heightPercentageToDP(5),
-                                width: widthPercentageToDP(40),
-                                backgroundColor: '#282C3A',
-                                borderRadius: 5,
-                              }}>
-                              {field.value < 1 ? (
+          <ScrollView>
+            <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
+              <Header title="Let' go" />
+              <View style={{ alignItems: 'center' }}>
+                <Image
+                  source={require('../../assets/images/Group_2.png')}
+                  style={{ width: widthPercentageToDP(80) }}
+                />
+              </View>
+              <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
+                <Formik
+                  initialValues={{
+                    experience_years: '0',
+                  }}
+                  onSubmit={(values) => {
+                    const item = { ...passItem, ...values };
+                    navigation.navigate('dynamicList', { item: item });
+                    console.log(item);
+                  }}>
+                  {({
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    setFieldValue,
+                    values,
+                    setFieldTouched,
+                    touched,
+                    errors,
+                    isValid,
+                    validate,
+                    ref,
+                  }) => (
+                    <View>
+                      <Field
+                        name="experience_years"
+                        id="experience_years"
+                        validate={validate}>
+                        {({
+                          field,
+                          meta,
+                          form: {
+                            touched,
+                            errors,
+                            isSubmitting,
+                            setFieldTouched,
+                          },
+                        }) => {
+                          return (
+                            <View style={{ height: heightPercentageToDP(75) }}>
+                              <View
+                                style={{
+                                  alignContent: 'center',
+                                  alignItems: 'center',
+                                  marginTop: 75,
+                                }}>
                                 <Text
                                   style={{
+                                    marginTop: 60,
                                     fontFamily: 'RobotoBold',
-                                    fontSize: 17,
-                                    color: '#FFFF',
-                                  }}>
-                                  MOINS D'UN ANS
-                                </Text>
-                              ) : field.value == 1 ? (
-                                <Text
-                                  style={{
-                                    fontWeight: 'bold',
                                     fontSize: 20,
                                     color: '#FFFF',
                                   }}>
-                                  {field.value} AN
+                                  ANNÉE(S) D'EXPÉRIENCE
                                 </Text>
-                              ) : field.value > 9 ? (
-                                <Text
+                              </View>
+                              <View
+                                style={{
+                                  alignItems: 'center',
+                                  marginTop: 110,
+                                }}>
+                                <Slider
+                                  style={{ width: widthPercentageToDP(90) }}
+                                  trackStyle={{
+                                    height: 10,
+                                    backgroundColor: '#282C3A',
+                                  }}
+                                  thumbStyle={{
+                                    height: 20,
+                                    width: 20,
+                                    backgroundColor: '#2CDEE4',
+                                  }}
+                                  minimumTrackTintColor="#2CDEE4"
+                                  track
+                                  ref={ref}
+                                  name="experience_years"
+                                  onSlidingComplete={(num) => {
+                                    field.onChange('experience_years')(
+                                      '' + num,
+                                    );
+                                  }}
+                                  maximumValue={10}
+                                  minimumValue={0}
+                                  step={1}
+                                />
+                                <View
                                   style={{
-                                    fontWeight: 'bold',
-                                    fontSize: 20,
-                                    color: '#FFFF',
+                                    marginTop: widthPercentageToDP(10),
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    height: heightPercentageToDP(5),
+                                    width: widthPercentageToDP(40),
+                                    backgroundColor: '#282C3A',
+                                    borderRadius: 5,
                                   }}>
-                                  PLUS DE {field.value} ANS
-                                </Text>
-                              ) : (
-                                <Text
-                                  style={{
-                                    fontWeight: 'bold',
-                                    fontSize: 20,
-                                    color: '#FFFF',
-                                  }}>
-                                  {field.value} ANS
-                                </Text>
-                              )}
+                                  {field.value < 1 ? (
+                                    <Text
+                                      style={{
+                                        fontFamily: 'RobotoBold',
+                                        fontSize: 17,
+                                        color: '#FFFF',
+                                      }}>
+                                      MOINS D'UN ANS
+                                    </Text>
+                                  ) : field.value == 1 ? (
+                                    <Text
+                                      style={{
+                                        fontWeight: 'bold',
+                                        fontSize: 20,
+                                        color: '#FFFF',
+                                      }}>
+                                      {field.value} AN
+                                    </Text>
+                                  ) : field.value > 9 ? (
+                                    <Text
+                                      style={{
+                                        fontWeight: 'bold',
+                                        fontSize: 20,
+                                        color: '#FFFF',
+                                      }}>
+                                      PLUS DE {field.value} ANS
+                                    </Text>
+                                  ) : (
+                                    <Text
+                                      style={{
+                                        fontWeight: 'bold',
+                                        fontSize: 20,
+                                        color: '#FFFF',
+                                      }}>
+                                      {field.value} ANS
+                                    </Text>
+                                  )}
+                                </View>
+                              </View>
                             </View>
-                          </View>
-                        </View>
-                      );
-                    }}
-                  </Field>
-                        <Button
+                          );
+                        }}
+                      </Field>
+                      <Button
                         loading={false}
                         disabled={!isValid}
                         title="suivant"
@@ -194,12 +206,11 @@ export default class ElementSlider extends React.Component {
                         }}
                         onPress={handleSubmit}
                       />
-                    </View>  
-                )}
-                
-              </Formik>
-            </View>
-          </SafeAreaView>
+                    </View>
+                  )}
+                </Formik>
+              </View>
+            </SafeAreaView>
           </ScrollView>
         </LinearGradient>
       </View>
