@@ -414,13 +414,13 @@ export default class Dashboard extends React.Component {
       const arrayOfPage = [];
       arrayOfAppointment.forEach((rdv) => {
         arrayOfPage.push({
-          firstname: rdv.athlete.first_name,
+          firstname: rdv?.athlete?.first_name,
           Avatar:
             '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
           lastname: rdv.athlete.last_name,
-          session_number: rdv.session_number,
-          total_sessions: rdv.athleteCourse.total_sessions,
-          slot: rdv.slot,
+          session_number: rdv?.session_number,
+          total_sessions: rdv?.athleteCourse?.total_sessions,
+          slot: rdv?.slot,
         });
       });
       this.setState({ page: arrayOfPage });
