@@ -1000,11 +1000,6 @@ export default class DashboardAthlete extends React.Component {
                           item?.availability === curDate 
                           ? 2
                           : 0;
-                          const borderColor = 
-                          item?.availability === curDate 
-                          ? '#2CDEE4'
-                          : '#1E2026';
-                          // const backgroundColor = item?.availability === this.state.selectedDate ? "#2CDEE4" : "#101010";
                           const backgroundColor =
                             item?.availability === this.state.selectedDate
                               ? '#2CDEE4'
@@ -1027,7 +1022,6 @@ export default class DashboardAthlete extends React.Component {
                                   styles.day,
                                   { backgroundColor: backgroundColor },
                                   {borderWidth:borderWidth},
-                                  {borderColor:borderColor}
                                 ]}>
                                 <View
                                   style={{
@@ -1194,6 +1188,7 @@ const styles = StyleSheet.create({
     width: 50,
     backgroundColor: '#2D333C',
     margin: 5,
+    borderColor:'#2CDEE4',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,

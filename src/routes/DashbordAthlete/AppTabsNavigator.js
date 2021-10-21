@@ -14,7 +14,7 @@ const AppTabsNavigator = createBottomTabNavigator(
       HomeStack: {
         screen: HomeStack,
         navigationOptions: {
-          tabBarLabel: 'Dashboard',
+          tabBarLabel: 'Home',
           tabBarIcon: ({tintColor}) => (
            <Image source={require('../../../assets/images/Calendar.png')}
                   style={{height: 24, resizeMode: 'contain', tintColor}}
@@ -25,7 +25,7 @@ const AppTabsNavigator = createBottomTabNavigator(
       OffresStack: {
         screen: OffresStack,
         navigationOptions: {
-          tabBarLabel: 'Dashboard',
+          tabBarLabel: 'Offres',
           tabBarIcon: ({tintColor}) => (
             <Image source={require('../../../assets/images/Category.png')}
             style={{height: 24, resizeMode: 'contain', tintColor}}
@@ -36,7 +36,7 @@ const AppTabsNavigator = createBottomTabNavigator(
       AthletesStack: {
         screen: MyCoach,
         navigationOptions: {
-          tabBarLabel: 'Dashboard',
+          tabBarLabel: 'MyCoach',
           tabBarIcon: ({tintColor}) => (
             <Image source={require('../../../assets/images/User.png')}
             style={{height: 24, resizeMode: 'contain', tintColor}}
@@ -52,8 +52,9 @@ const AppTabsNavigator = createBottomTabNavigator(
       animationEnabled: true,
       tabBarPosition: 'bottom',
       navigationOptions: {
-        tabBarVisible: false,
+        tabBarVisible: true,
         animationEnabled: true,
+        gestureEnabled:false,
       },
      // tabBarComponent: props => <CustomMainTabBar {...props} main={true} />,
       tabBarOptions: {
@@ -62,7 +63,7 @@ const AppTabsNavigator = createBottomTabNavigator(
         showIcon: true,
         showLabel: false,
         allowFontScaling: false,
-        style:{borderTopColor:'#2CDEE4', backgroundColor:'#1E2026',height:heightPercentageToDP(4.5)}
+        style:{borderTopColor:'#2CDEE4', alignSelf:'center', backgroundColor:'#1E2026'}
       },
     },
   );

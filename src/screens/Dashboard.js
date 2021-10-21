@@ -16,7 +16,8 @@ import { get_availabilities, update_availability } from '../api/Availabilities';
 import SwitchSelector from 'react-native-switch-selector';
 import { Avatar } from 'react-native-elements';
 import { Calendar } from 'react-native-calendars';
-const { width } = Dimensions.get('window');
+const { width, height} = Dimensions.get('window');
+
 import { LocaleConfig } from 'react-native-calendars';
 import MonthsSlider from '../components/MonthsSlider';
 import { get_appointement } from '../api/Coach';
@@ -510,6 +511,7 @@ export default class Dashboard extends React.Component {
   render() {
     const selected = this.state.selectedDate;
     const dates = this.state.markedDate;
+    const curDate = moment().format('YYYY-MM-DD');
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <SafeAreaView>
@@ -737,6 +739,10 @@ export default class Dashboard extends React.Component {
                         refreshing={this.state.refresh}
                         keyExtractor={(item) => item?.date}
                         renderItem={({ item }) => {
+                          const borderWidth = 
+                          item?.availability === curDate 
+                          ? 2
+                          : 0;
                           const backgroundColor =
                             item.availability === this.state.selectedDate
                               ? '#2CDEE4'
@@ -757,6 +763,7 @@ export default class Dashboard extends React.Component {
                                 style={[
                                   styles.day,
                                   { backgroundColor: backgroundColor },
+                                  {borderWidth:borderWidth},
                                 ]}>
                                 <View
                                   style={{
@@ -863,6 +870,7 @@ const styles = StyleSheet.create({
     height: 70,
     width: 50,
     marginHorizontal: 5,
+    borderColor:'#2CDEE4',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
