@@ -66,7 +66,7 @@ export default class health extends React.Component {
               <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
                 <Formik
                   initialValues={{
-                    health_issues: '',
+                    health_issues:false,
                     health_problem_description: '',
                   }}
                   onSubmit={(values) => {
