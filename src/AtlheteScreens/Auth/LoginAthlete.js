@@ -12,7 +12,7 @@ import {
 //import Button from '../../common/Button';
 import Color from '../../configs/design/color';
 import ResponsiveText from '../../common/ResponsiveText';
-import { get_athlete, sign_in } from '../../api/Athlete';
+import { get_athlete, athlete_login } from '../../api/Athlete';
 import Header from '../../components/Header';
 const { width } = Dimensions.get('window');
 import { Formik } from 'formik';
@@ -36,7 +36,7 @@ export default class LoginAthlete extends React.Component {
     //{email:'blakos972@yahoo.fr',password:'a'};
     console.log(body);
     this.setState({ loading: true });
-    sign_in(body)
+    athlete_login(body)
       .then((res) => ({
         data: res.data,
         headers: {

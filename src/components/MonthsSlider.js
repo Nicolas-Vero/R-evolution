@@ -1,11 +1,8 @@
 import React from "react";
 import {Dimensions, View, TouchableOpacity, Text} from 'react-native'; 
-import Icons from "../configs/design/icon";
 import {widthPercentageToDP as wp} from "react-native-responsive-screen";
-import ResponsiveText from "./ResponsiveText";
 import 'moment/min/moment-with-locales'
 import moment from "moment";
-import {FrenchConfig} from "./FrenchCalendar";
 import { AntDesign } from '@expo/vector-icons'; 
 const {width} = Dimensions.get('window');
 

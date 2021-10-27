@@ -13,7 +13,6 @@ import {
 import { ActivityIndicator } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import SelectDropdown from 'react-native-select-dropdown';
-import { get_gym } from '../../api/ReferenceData';
 import { Button } from '../../components/Button';
 import Header from '../../components/Header';
 const { width } = Dimensions.get('window');
@@ -77,7 +76,8 @@ export default class destinataire extends React.Component {
                 <View style={{ alignItems: 'center' }}>
                   <Image
                     source={require('../../../assets/images/GroupA_7.png')}
-                    style={{ width: widthPercentageToDP(80) }}
+                    style={{  width: widthPercentageToDP(80),
+                      resizeMode: 'contain', }}
                   />
                 </View>
 

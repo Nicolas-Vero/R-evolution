@@ -1,14 +1,11 @@
 import React from 'react';
 import {View, Image, SafeAreaView, TouchableOpacity, AsyncStorage} from 'react-native'
 import {ImagePicker, Permissions} from 'expo';
-
-
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Logo from '../../common/Logo';
 import Color from '../../configs/design/color';
 import ResponsiveText from '../../common/ResponsiveText';
 import Button from '../../common/Button';
-import Icons from '../../configs/design/icon';
 import {update_current_pro} from "../../api/Pros";
 import {STORAGE} from "../../configs/Constants";
 

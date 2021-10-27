@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Color from '../../configs/design/color';
 import ResponsiveText from '../../common/ResponsiveText';
-import { sign_in } from '../../api/Login';
+import { coach_login } from '../../api/Coach';
 import Header from '../../components/Header';
 const { width } = Dimensions.get('window');
 import { Formik } from 'formik';
@@ -32,12 +32,11 @@ export default class Login extends React.Component {
     loadFonts;
   }
   async onLoginPress(values) {
-    // const {email, password}=values;
     const { email, password } = values;
     const body = { email, password };
     console.log(body);
     this.setState({ loading: true });
-    sign_in(body)
+    coach_login(body)
       .then((res) => ({
         data: res.data,
         headers: {
@@ -117,10 +116,7 @@ export default class Login extends React.Component {
         }}
         style={{
           backgroundColor: 'black',
-
           flex: 1,
-
-          // justifyContent:"space-evenly"
         }}>
           <ScrollView>
         <SafeAreaView  onPress={Keyboard.dismiss}>
