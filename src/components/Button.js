@@ -104,13 +104,13 @@ export const DeleteButton = (props) => {
 
 const defaultStyle = StyleSheet.create({
   container: {
-    height: 60,
+    height: 50,
     backgroundColor: '#2CDEE4',
     borderRadius: 3,
     width: wp(92),
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'row',
+    // flexDirection: 'row',
   },
   Offercontainer: {
     height: 52,
@@ -124,7 +124,7 @@ const defaultStyle = StyleSheet.create({
   },
   Modifycontainer: {
     height: 30,
-    backgroundColor: 'white',
+    backgroundColor: 'green',
     borderRadius: 3,
     alignItems: 'center',
     justifyContent: 'center',
