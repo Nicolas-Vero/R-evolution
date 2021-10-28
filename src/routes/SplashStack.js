@@ -112,7 +112,7 @@ const SplashStack = createStackNavigator(
       swipeEnabled: false,
       animationEnabled: true,
     },
- //   tabBarComponent: props => <CustomMainTabBar {...props} main={false} />,
+ 
     tabBarOptions: {
       activeTintColor: 'white',
       inactiveTintColor: 'grey',

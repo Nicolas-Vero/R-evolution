@@ -28,7 +28,7 @@ import { get_coach_by_id } from '../api/Coach';
 import {} from '../api/Availabilities';
 import { FrenchConfig } from '../components/FrenchCalendar';
 import { DeleteButton } from '../components/Button';
-import { athlete_active_appointement } from '../api/Athlete';
+import { get_athlete_active_appointement } from '../api/Athlete';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../configs/Constants';
 import {
@@ -240,10 +240,10 @@ export default class DashboardAthlete extends React.Component {
       });
     });
 
-    athlete_active_appointement({ today: true }).then((res) => {
+    get_athlete_active_appointement({ today: true }).then((res) => {
       this.setState({ dayApointement: res.data });
     });
-    athlete_active_appointement({ upcoming: true }).then((res) => {
+    get_athlete_active_appointement({ upcoming: true }).then((res) => {
       const sortdata = res.data;
       const data = res.data.map((item, index) => {
         console.log(item);

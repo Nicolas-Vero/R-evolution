@@ -135,7 +135,7 @@ import { widthPercentageToDP } from 'react-native-responsive-screen';
                       color: '#2CDEE4',
                       marginRight:15
                     }}>
-                    {item.price}€
+                    {item.price/100}€
                   </Text>
                 </View>
               </LinearGradient>

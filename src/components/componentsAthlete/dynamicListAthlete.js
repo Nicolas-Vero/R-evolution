@@ -118,14 +118,13 @@ export default class dynamicListAthlete extends React.Component {
                           return (
                             <View
                               style={{
-                                alignItems: 'center',
                                 height: heightPercentageToDP(75),
                               }}>
                               <View
                                 style={{
                                   alignItems: 'center',
                                   marginTop: 75,
-                                  marginBottom: 80,
+                                  marginBottom: 100,
                                 }}>
                                 <Text style={styles.title}>
                                   QUEL EST TON OBJECTIF ?
@@ -295,7 +294,12 @@ export default class dynamicListAthlete extends React.Component {
                                   )}
                                 />
                               </View>
-                              <Button
+                             
+                            </View>
+                          );
+                        }}
+                      </Field>
+                      <Button
                                 loading={false}
                                 disabled={!isValid}
                                 title="suivant"
@@ -305,10 +309,6 @@ export default class dynamicListAthlete extends React.Component {
                                 }}
                                 onPress={handleSubmit}
                               />
-                            </View>
-                          );
-                        }}
-                      </Field>
                     </View>
                   )}
                 </Formik>

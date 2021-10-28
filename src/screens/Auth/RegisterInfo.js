@@ -134,7 +134,7 @@ export default class RegisterInfo extends React.Component {
                       .min(10, 'Tu dois entrer un numéro de téléphone valide.')
                       .max(10, 'Tu dois entrer un numéro de téléphone valide.')
                       .required('Requis'),
-                    password: Yup.string().required(),
+                    password: Yup.string().required('Requis'),
                     confirm_password: Yup.string().oneOf(
                       [Yup.ref('password'), null],
                       'Les mots de passe saisis ne sont pas identiques.',
@@ -321,13 +321,13 @@ export default class RegisterInfo extends React.Component {
                               height: 45,
                               borderRadius: 5,
                               borderWidth:
-                                errors.confirm_password &&
-                                touched.confirm_password
+                                errors.password &&
+                                touched.password
                                   ? 2
                                   : 0,
                               borderColor:
-                                errors.confirm_password &&
-                                touched.confirm_password
+                                errors.password &&
+                                touched.password
                                   ? 'red'
                                   : null,
                             }}
@@ -335,6 +335,13 @@ export default class RegisterInfo extends React.Component {
                             onBlur={handleBlur('password')}
                             value={values.password}
                           />
+                          {errors.password && touched.password && (
+                            <View style={{ alignItems: 'flex-end' }}>
+                              <Text style={{ fontSize: 15, color: 'red' }}>
+                                {errors.password}
+                              </Text>
+                            </View>
+                          )}
                         </View>
 
                         <View style={{ marginBottom: 15 }}>

@@ -31,11 +31,12 @@ export default class OffreCreation extends React.Component {
 
   createOffer(values) {
     try {
+      values.price  =  parseFloat(values.price)*100
       AddOffer(values).then(this.props.navigation.navigate('Offres'));
     } catch (error) {
       this.setState({ loading: false });
       //alert('Please try again. ');
-      console.warn(err);
+      console.warn(error);
     }
   }
   getErrorMessage() {

@@ -196,7 +196,7 @@ export default class OffreUpdate extends React.Component {
                           }}
                           onChangeText={handleChange('price')}
                           onBlur={handleBlur('price')}
-                          value={values.price}
+                          value={values.price*100}
                         />
                         <Text style={styles.euro}>€</Text>
                       </View>

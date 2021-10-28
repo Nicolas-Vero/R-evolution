@@ -16,7 +16,7 @@ export const auth = params => {
   });
 };
 
-export const sign_in = params=> {
+export const coach_login = params=> {
   const data = params;
   return axios({
     method: 'POST',
@@ -203,7 +203,7 @@ export const is_pro_signed_in = async () => {
   });
 };
 
-export const CalendarAppointement = async (params) => {
+export const get_CalendarAppointement = async (params) => {
   const start_date = params.start_date;
   const end_date = params.end_date;
   const headers = await getHeaders();

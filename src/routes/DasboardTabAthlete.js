@@ -49,7 +49,7 @@ const DashboardTab = createBottomTabNavigator(
         tabBarVisible: false,
         animationEnabled: true,
       },
-     // tabBarComponent: props => <CustomMainTabBar {...props} main={true} />,
+   
       tabBarOptions: {
         activeTintColor: '#2CDEE4',
         inactiveTintColor: 'grey',
