@@ -138,7 +138,7 @@ export default class MyAthleteDetailsInactifs extends React.Component {
                   </Text>
                   <Image
                     style={styles.Logo}
-                    source={require('../../assets/images/Téléphone.png')}
+                    source={require('../../assets/images/phone.png')}
                   />
                 </View>
                 <View style={styles.container}>

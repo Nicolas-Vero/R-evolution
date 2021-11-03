@@ -72,7 +72,7 @@ export default class destinataire extends React.Component {
             style={styles.background}>
             <ScrollView>
               <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-                <Header title="Let' go" />
+              <Header title="LET'S GO" />
                 <View style={{ alignItems: 'center' }}>
                   <Image
                     source={require('../../../assets/images/GroupA_7.png')}

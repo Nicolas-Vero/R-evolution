@@ -1,10 +1,10 @@
 import React from 'react';
-import {createStackNavigator} from 'react-navigation-stack';
+import { createStackNavigator } from 'react-navigation-stack';
 import { Ionicons } from '@expo/vector-icons';
 // Auth import
 import LoginAthlete from '../AtlheteScreens/Auth/LoginAthlete';
-import RegisterInfoAthlete from '../AtlheteScreens/Auth/RegisterInfoAthlete';
-import MoreInfoAthlete from '../AtlheteScreens/Auth/MoreInfoAthlete'; 
+import RegisterInfoAthlete from '../AtlheteScreens/Auth/RegisterInfo/RegisterInfoAthlete';
+import MoreInfoAthlete from '../AtlheteScreens/Auth/MoreInfoAthlete';
 import mensuration from '../components/componentsAthlete/mensuration';
 import ElementSlider from '../components/componentsAthlete/ElementSlider';
 import dynamicListAthlete from '../components/componentsAthlete/dynamicListAthlete';
@@ -18,7 +18,7 @@ const AuthStackAthlete = createStackNavigator(
     LoginAthlete: {
       screen: LoginAthlete,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
@@ -26,7 +26,7 @@ const AuthStackAthlete = createStackNavigator(
     RegisterInfoAthlete: {
       screen: RegisterInfoAthlete,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
@@ -34,74 +34,82 @@ const AuthStackAthlete = createStackNavigator(
     MoreInfoAthlete: {
       screen: MoreInfoAthlete,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
-      },},
+      },
+    },
 
     mensuration: {
       screen: mensuration,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
-      },},
+      },
+    },
     ElementSlider: {
       screen: ElementSlider,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
-      },},
-      dynamicListAthlete: {
+      },
+    },
+    dynamicListAthlete: {
       screen: dynamicListAthlete,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
-      },},
-      health: {
+      },
+    },
+    health: {
       screen: health,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
-      },},
-      selectList: {
+      },
+    },
+    selectList: {
       screen: selectList,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
-      },},
-      ElementSlider2: {
+      },
+    },
+    ElementSlider2: {
       screen: ElementSlider2,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
-      },},
-      avatarAthlete: {
+      },
+    },
+    avatarAthlete: {
       screen: avatarAthlete,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
-      },},
+      },
+    },
   },
   {
     lazy: true,
-    initialRouteName: 'RegisterInfoAthlete',
+    initialRouteName: 'mensuration',
     animationEnabled: true,
     tabBarPosition: 'bottom',
     navigationOptions: {
       tabBarVisible: false,
       headerVisible: false,
-      gestureEnabled:false,
+      gestureEnabled: false,
       swipeEnabled: false,
       animationEnabled: true,
     },
- 
+
     tabBarOptions: {
       activeTintColor: 'white',
       inactiveTintColor: 'grey',
@@ -109,5 +117,5 @@ const AuthStackAthlete = createStackNavigator(
       allowFontScaling: false,
     },
   },
-); 
+);
 export default AuthStackAthlete;

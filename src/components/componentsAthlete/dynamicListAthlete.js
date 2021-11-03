@@ -22,7 +22,6 @@ import * as Yup from 'yup';
 import { Formik, FieldArray, Field } from 'formik';
 import { FontAwesome } from '@expo/vector-icons';
 import {
-  heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 //import { ScrollView } from 'react-native-gesture-handler';
@@ -66,7 +65,7 @@ export default class dynamicListAthlete extends React.Component {
           style={styles.background}>
           <ScrollView>
             <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-              <Header title="Let' go" />
+              <Header title="LET'S GO" />
               <View style={{ alignItems: 'center' }}>
                 <Image
                   source={require('../../../assets/images/GroupA_3.png')}
@@ -89,42 +88,20 @@ export default class dynamicListAthlete extends React.Component {
                   validationSchema={Yup.object().shape({
                     goals: Yup.array().min(1).required('Requis'),
                   })}>
-                  {({
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    setFieldValue,
-                    values,
-                    setFieldTouched,
-                    touched,
-                    errors,
-                    isValid,
-                    validate,
-                    ref,
-                  }) => (
+                  {({ handleSubmit, isValid, validate, ref }) => (
                     <View>
                       <Field name="goals" id="goals" validate={validate}>
-                        {({
-                          field,
-                          meta,
-                          form: {
-                            touched,
-                            errors,
-                            isSubmitting,
-                            setFieldTouched,
-                          },
-                        }) => {
+                        {({ form: { errors } }) => {
                           const numColumns = 3;
                           return (
                             <View
                               style={{
-                                height: heightPercentageToDP(75),
                               }}>
                               <View
                                 style={{
                                   alignItems: 'center',
-                                  marginTop: 75,
-                                  marginBottom: 100,
+                                  marginTop: 88,
+                                  marginBottom: 56,
                                 }}>
                                 <Text style={styles.title}>
                                   QUEL EST TON OBJECTIF ?
@@ -134,7 +111,7 @@ export default class dynamicListAthlete extends React.Component {
                                 Sélectionne ton ou tes objectifs(s)
                               </Text>
 
-                              <View style={{ marginBottom: 20 }}>
+                              <View style={{ marginBottom: 26 }}>
                                 <FieldArray
                                   name="goals"
                                   render={(arrayhelper) => (
@@ -145,10 +122,7 @@ export default class dynamicListAthlete extends React.Component {
                                           borderColor: errors.goals
                                             ? 'red'
                                             : 'transparent',
-                                          height: 130,
-                                          width: widthPercentageToDP(95),
-                                          padding: 5,
-                                          justifyContent: 'center',
+                                            marginBottom:24
                                         }}>
                                         <FlatList
                                           data={this.state.specData}
@@ -196,7 +170,7 @@ export default class dynamicListAthlete extends React.Component {
                                                     borderRadius: 25,
                                                     padding: 10,
                                                     justifyContent: 'center',
-                                                    margin: 5,
+                                                    margin: 7.5,
                                                     borderColor: borderColor,
                                                     borderWidth: borderWidth,
                                                   }}>
@@ -294,21 +268,20 @@ export default class dynamicListAthlete extends React.Component {
                                   )}
                                 />
                               </View>
-                             
                             </View>
                           );
                         }}
                       </Field>
                       <Button
-                                loading={false}
-                                disabled={!isValid}
-                                title="suivant"
-                                customTextStyle={{
-                                  fontFamily: 'RobotoBold',
-                                  fontSize: 17,
-                                }}
-                                onPress={handleSubmit}
-                              />
+                        loading={false}
+                        disabled={!isValid}
+                        title="suivant"
+                        customTextStyle={{
+                          fontFamily: 'RobotoBold',
+                          fontSize: 17,
+                        }}
+                        onPress={handleSubmit}
+                      />
                     </View>
                   )}
                 </Formik>
@@ -354,7 +327,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: 'RobotoBold',
-    fontSize: 20,
+    fontSize: 16,
     color: '#FFFFFF',
     lineHeight: 24,
   },

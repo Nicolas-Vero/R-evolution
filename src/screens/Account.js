@@ -54,7 +54,7 @@ export default class Account extends React.Component {
                 style={{alignItems:'center',marginTop:10,  borderColor: 'green' }}>
                 <TouchableOpacity onPress={() =>  AsyncStorage.removeItem(STORAGE.HEADERS).then(()=>{navigate('Entry')})}>
                 <Image
-                    source={require('../../assets/images/Bouton_Déconnexion.png')}
+                    source={require('../../assets/images/logout.png')}
                     style={styles.backgroundContainer}
                          />
               

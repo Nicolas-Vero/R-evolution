@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStackNavigator} from 'react-navigation-stack';
+import { createStackNavigator } from 'react-navigation-stack';
 import { Ionicons } from '@expo/vector-icons';
 // Auth import
 import AuthEntry from '../screens/Auth/index';
@@ -11,7 +11,7 @@ import SplashAuth from '../screens/SplashAuth';
 import AuthStack from './AuthStack';
 import AuthStackAthlete from './AuthStackAthlete';
 import RegisterInfo from '../screens/Auth/RegisterInfo';
-import RegisterInfoAthlete from '../AtlheteScreens/Auth/RegisterInfoAthlete';
+import RegisterInfoAthlete from '../AtlheteScreens/Auth/RegisterInfo/RegisterInfoAthlete';
 
 // Auth bottom tabs menu
 const SplashStack = createStackNavigator(
@@ -26,53 +26,46 @@ const SplashStack = createStackNavigator(
       screen: RegisterInfo,
       navigationOptions: {
         headerShown: false,
-        gestureEnabled:false,
+        gestureEnabled: false,
       },
     },
     RegisterInfoAthlete: {
       screen: RegisterInfoAthlete,
       navigationOptions: {
         headerShown: false,
-        gestureEnabled:false,
+        gestureEnabled: false,
       },
     },
 
-    SwitchApp:{
-        screen:Splash,
-        navigationOptions: {
-            headerShown: false,
-          },
+    SwitchApp: {
+      screen: Splash,
+      navigationOptions: {
+        headerShown: false,
+      },
     },
-    SwitchAppAuth:{
-        screen:SplashAuth,
-        navigationOptions: {
-            tabBarLabel: 'Sign in',
-            tabBarIcon: ({tintColor}) => (
-              <Ionicons  size={20} color={tintColor} />
-            ),
-            headerShown: false,
-          },
+    SwitchAppAuth: {
+      screen: SplashAuth,
+      navigationOptions: {
+        tabBarLabel: 'Sign in',
+        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
+        headerShown: false,
+      },
     },
 
     Login: {
       screen: Login,
       navigationOptions: {
         tabBarLabel: 'Sign in',
-        tabBarIcon: ({tintColor}) => (
-          <Ionicons  size={20} color={tintColor} />
-        ),
+        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,
       },
-
     },
 
     LoginAthlete: {
       screen: LoginAthlete,
       navigationOptions: {
         tabBarLabel: 'Sign in',
-        tabBarIcon: ({tintColor}) => (
-          <Ionicons  size={20} color={tintColor} />
-        ),
+        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,
       },
     },
@@ -81,23 +74,17 @@ const SplashStack = createStackNavigator(
       screen: AuthStack,
       navigationOptions: {
         tabBarLabel: 'Sign in',
-        tabBarIcon: ({tintColor}) => (
-          <Ionicons  size={20} color={tintColor} />
-        ),
+        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,
       },
-
     },
     AuthAthlete: {
       screen: AuthStackAthlete,
       navigationOptions: {
         tabBarLabel: 'Sign in',
-        tabBarIcon: ({tintColor}) => (
-          <Ionicons  size={20} color={tintColor} />
-        ),
+        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,
       },
-
     },
   },
   {
@@ -108,11 +95,11 @@ const SplashStack = createStackNavigator(
     navigationOptions: {
       tabBarVisible: false,
       headerVisible: false,
-      gestureEnabled:false,
+      gestureEnabled: false,
       swipeEnabled: false,
       animationEnabled: true,
     },
- 
+
     tabBarOptions: {
       activeTintColor: 'white',
       inactiveTintColor: 'grey',
@@ -120,5 +107,5 @@ const SplashStack = createStackNavigator(
       allowFontScaling: false,
     },
   },
-); 
+);
 export default SplashStack;

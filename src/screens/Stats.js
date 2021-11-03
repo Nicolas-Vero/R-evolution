@@ -75,7 +75,7 @@ export default class Stats extends React.Component {
           <Header title="inscription" />
         ) : (
           <Header
-            title="let's go"
+            title="LET'S GO"
             onPress={() => this.changeStep(stepperStep - 1)}
           />
         )}

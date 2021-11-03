@@ -51,7 +51,7 @@ export default class ElementSlider extends React.Component {
           style={styles.background}>
           <ScrollView>
             <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-              <Header title="Let' go" />
+            <Header title="LET'S GO" />
               <View style={{ alignItems: 'center' }}>
                 <Image
                   source={require('../../../assets/images/GroupA_2.png')}
@@ -71,47 +71,24 @@ export default class ElementSlider extends React.Component {
                     navigation.navigate('dynamicListAthlete', { item: item });
                     console.log(item);
                   }}>
-                  {({
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    setFieldValue,
-                    values,
-                    setFieldTouched,
-                    touched,
-                    errors,
-                    isValid,
-                    validate,
-                    ref,
-                  }) => (
+                  {({ handleSubmit, isValid, validate, ref }) => (
                     <View>
                       <Field
                         name="experience_years"
                         id="experience_years"
                         validate={validate}>
-                        {({
-                          field,
-                          meta,
-                          form: {
-                            touched,
-                            errors,
-                            isSubmitting,
-                            setFieldTouched,
-                          },
-                        }) => {
+                        {({ field, form: {} }) => {
                           return (
                             <View style={{ height: heightPercentageToDP(72) }}>
                               <View
                                 style={{
-                                  alignContent: 'center',
                                   alignItems: 'center',
-                                  marginTop: 50,
+                                  marginTop: 88,
                                 }}>
                                 <Text
                                   style={{
-                                    marginTop: 60,
                                     fontFamily: 'RobotoBold',
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     color: '#FFFF',
                                   }}>
                                   ANNÉE(S) D'EXPÉRIENCE
@@ -120,7 +97,7 @@ export default class ElementSlider extends React.Component {
                               <View
                                 style={{
                                   alignItems: 'center',
-                                  marginTop: 110,
+                                  marginTop: 92,
                                 }}>
                                 <Slider
                                   style={{ width: widthPercentageToDP(90) }}
@@ -148,10 +125,9 @@ export default class ElementSlider extends React.Component {
                                 />
                                 <View
                                   style={{
-                                    marginTop: widthPercentageToDP(10),
+                                    marginTop: 76,
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    height: heightPercentageToDP(5),
                                     width: widthPercentageToDP(40),
                                     backgroundColor: '#282C3A',
                                     borderRadius: 5,
@@ -159,17 +135,19 @@ export default class ElementSlider extends React.Component {
                                   {field.value < 1 ? (
                                     <Text
                                       style={{
+                                        marginVertical: 10,
+                                        marginHorizontal: 14,
                                         fontFamily: 'RobotoBold',
-                                        fontSize: 17,
+                                        fontSize: 16,
                                         color: '#FFFF',
                                       }}>
-                                      MOINS D'UN ANS
+                                      MOINS D'UN AN
                                     </Text>
                                   ) : field.value == 1 ? (
                                     <Text
                                       style={{
                                         fontWeight: 'bold',
-                                        fontSize: 20,
+                                        fontSize: 16,
                                         color: '#FFFF',
                                       }}>
                                       {field.value} AN
@@ -178,7 +156,7 @@ export default class ElementSlider extends React.Component {
                                     <Text
                                       style={{
                                         fontWeight: 'bold',
-                                        fontSize: 20,
+                                        fontSize: 16,
                                         color: '#FFFF',
                                       }}>
                                       PLUS DE {field.value} ANS
@@ -187,7 +165,7 @@ export default class ElementSlider extends React.Component {
                                     <Text
                                       style={{
                                         fontWeight: 'bold',
-                                        fontSize: 20,
+                                        fontSize: 16,
                                         color: '#FFFF',
                                       }}>
                                       {field.value} ANS

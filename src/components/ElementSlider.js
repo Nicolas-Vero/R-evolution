@@ -51,7 +51,7 @@ export default class ElementSlider extends React.Component {
           style={styles.background}>
           <ScrollView>
             <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-              <Header title="Let' go" />
+            <Header title="LET'S GO" />
               <View style={{ alignItems: 'center' }}>
                 <Image
                   source={require('../../assets/images/Group_2.png')}
@@ -69,14 +69,7 @@ export default class ElementSlider extends React.Component {
                     console.log(item);
                   }}>
                   {({
-                    handleChange,
-                    handleBlur,
                     handleSubmit,
-                    setFieldValue,
-                    values,
-                    setFieldTouched,
-                    touched,
-                    errors,
                     isValid,
                     validate,
                     ref,

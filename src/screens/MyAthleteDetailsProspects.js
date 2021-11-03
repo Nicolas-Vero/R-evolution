@@ -94,7 +94,7 @@ export default class MyAthleteDetailsProspects extends React.Component {
                   marginTop: 20,
                   color: 'white',
                 }}>
-                 {Athlete.first_name }   {Athlete.last_name }
+                {Athlete.first_name} {Athlete.last_name}
               </Text>
             </View>
             <Image
@@ -138,7 +138,7 @@ export default class MyAthleteDetailsProspects extends React.Component {
                   </Text>
                   <Image
                     style={styles.Logo}
-                    source={require('../../assets/images/Téléphone.png')}
+                    source={require('../../assets/images/phone.png')}
                   />
                 </View>
                 <View style={styles.container}>
@@ -333,7 +333,9 @@ export default class MyAthleteDetailsProspects extends React.Component {
                     justifyContent: 'center',
                   }}>
                   <View style={{ flexDirection: 'column' }}>
-                    <Text style={styles.text}>Créneaux de sport souhaités :</Text>
+                    <Text style={styles.text}>
+                      Créneaux de sport souhaités :
+                    </Text>
 
                     <View style={{ flexDirection: 'row', marginTop: 15 }}>
                       <Text style={styles.textTiny}> Entre</Text>

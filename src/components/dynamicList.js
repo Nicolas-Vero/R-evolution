@@ -66,7 +66,7 @@ export default class dynamicList extends React.Component {
           style={styles.background}>
           <ScrollView style={{ flex: 1 }}>
             <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-              <Header title="Let' go" />
+            <Header title="LET'S GO" />
               <View style={{ alignItems: 'center' }}>
                 <Image
                   source={require('../../assets/images/Group_3.png')}

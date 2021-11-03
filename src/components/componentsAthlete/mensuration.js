@@ -53,7 +53,7 @@ export default class mensuration extends React.Component {
           style={styles.background}>
           <ScrollView>
             <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-              <Header title="Let' go" />
+            <Header title="LET'S GO" />
               <View style={{ alignItems: 'center' }}>
                 <Image
                   source={require('../../../assets/images/GroupA_1.png')}
@@ -73,56 +73,22 @@ export default class mensuration extends React.Component {
                   onSubmit={(values) => {
                     const item = { ...passItem, ...values };
                     navigation.navigate('ElementSlider', { item: item });
-                    console.log(item);
                   }}
-                  // validationSchema={Yup.object().shape({
-                  //   age: Yup.string()
-                  //   .matches(
-                  //     phoneRegExp,
-                  //     'Tu dois entrer un age valide.',
-                  //   ).required('Requis'),
-                  //   weight: Yup.string()
-                  //   .matches(
-                  //     phoneRegExp,
-                  //     'Tu dois entrer un poids valide.',
-                  //   ).required('Requis'),
-                  //   size: Yup.string()
-                  //   .matches(
-                  //     phoneRegExp,
-                  //     'Tu dois entrer une taille valide.',
-                  //   ).required('Requis'),
-                  // })}
                   validationSchema={Yup.object().shape({
                     age: Yup.number().required('Requis'),
                     weight: Yup.number().required('Requis'),
                     size: Yup.number().required('Requis'),
                   })}>
-                  {({
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    setFieldValue,
-                    values,
-                    setFieldTouched,
-                    touched,
-                    errors,
-                    isValid,
-                    validate,
-                    ref,
-                  }) => (
+                  {({ handleSubmit, isValid, validate, ref }) => (
                     <View>
                       <Field
                         name="mensuration"
                         id="mensuration"
                         validate={validate}>
                         {({
-                          field,
-                          meta,
                           form: {
                             touched,
                             errors,
-                            isSubmitting,
-                            setFieldTouched,
                           },
                         }) => {
                           return (
@@ -130,12 +96,12 @@ export default class mensuration extends React.Component {
                               <View
                                 style={{
                                   alignItems: 'center',
-                                  marginTop: 135,
+                                  marginTop: 88,
                                 }}>
                                 <Text
                                   style={{
                                     fontFamily: 'RobotoBold',
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     color: '#FFFF',
                                   }}>
                                   AIDE NOUS A MIEUX TE CONNAÎTRE
@@ -145,133 +111,128 @@ export default class mensuration extends React.Component {
                                 <FieldArray
                                   name="mensuration"
                                   render={(arrayhelper) => (
-                                    <View style={styles.container2}>
-                                      {
-                                        <View>
-                                          <View style={styles.container2}>
-                                            <TextInput
+                                    <View>
+                                      <View style={{ marginBottom: 15 }}>
+                                        <TextInput
+                                          style={{
+                                            ...styles.input,
+                                            borderWidth:
+                                              errors.size && touched.size
+                                                ? 2
+                                                : 0,
+                                            borderColor:
+                                              errors.size && touched.size
+                                                ? 'red'
+                                                : null,
+                                          }}
+                                          placeholder="Taille"
+                                          onChangeText={(text) =>
+                                            (arrayhelper.form.values.size =
+                                              text)
+                                          }
+                                          placeholderTextColor="#979797"
+                                          blurOnSubmit={false}
+                                          onSubmitEditing={() =>
+                                            this.weightInput &&
+                                            this.weightInput.focus()
+                                          }
+                                          returnKeyType="next"
+                                        />
+                                        {errors.size && touched.size && (
+                                          <View
+                                            style={{
+                                              alignItems: 'flex-end',
+                                            }}>
+                                            <Text
                                               style={{
-                                                backgroundColor: '#FFFFFF',
-                                                width: widthPercentageToDP(60),
-                                                paddingTop: 10,
-                                                paddingBottom: 10,
-                                                paddingLeft: 15,
-                                                paddingRight: 15,
-                                                borderRadius: 5,
-                                                borderWidth:
-                                                  errors.size && touched.size
-                                                    ? 2
-                                                    : 0,
-                                                borderColor:
-                                                  errors.size && touched.size
-                                                    ? 'red'
-                                                    : null,
-                                              }}
-                                              placeholder="Taille"
-                                              onChangeText={(text) =>
-                                                (arrayhelper.form.values.size =
-                                                  text)
-                                              }
-                                            />
-                                            {errors.size && touched.size && (
-                                              <View
-                                                style={{
-                                                  alignItems: 'flex-end',
-                                                }}>
-                                                <Text
-                                                  style={{
-                                                    fontSize: 15,
-                                                    color: 'red',
-                                                  }}>
-                                                  {errors.size}
-                                                </Text>
-                                              </View>
-                                            )}
+                                                fontSize: 15,
+                                                color: 'red',
+                                              }}>
+                                              {errors.size}
+                                            </Text>
                                           </View>
-                                          <View style={styles.container2}>
-                                            <TextInput
-                                              placeholder="Poids"
-                                              onChangeText={(text) =>
-                                                (arrayhelper.form.values.weight =
-                                                  text)
-                                              }
+                                        )}
+                                      </View>
+                                      <View style={{ marginBottom: 15 }}>
+                                        <TextInput
+                                          placeholder="Poids"
+                                          onChangeText={(text) =>
+                                            (arrayhelper.form.values.weight =
+                                              text)
+                                          }
+                                          style={{
+                                            ...styles.input,
+                                            borderWidth:
+                                              errors.weight && touched.weight
+                                                ? 2
+                                                : 0,
+                                            borderColor:
+                                              errors.weight && touched.weight
+                                                ? 'red'
+                                                : null,
+                                          }}
+                                          ref={(ref) =>
+                                            (this.weightInput = ref)
+                                          }
+                                          placeholderTextColor="#979797"
+                                          blurOnSubmit={false}
+                                          onSubmitEditing={() =>
+                                            this.ageInput &&
+                                            this.ageInput.focus()
+                                          }
+                                          returnKeyType="next"
+                                        />
+                                        {errors.weight && touched.weight && (
+                                          <View
+                                            style={{
+                                              alignItems: 'flex-end',
+                                            }}>
+                                            <Text
                                               style={{
-                                                backgroundColor: '#FFFFFF',
-                                                width: widthPercentageToDP(60),
-                                                paddingTop: 10,
-                                                paddingBottom: 10,
-                                                paddingLeft: 15,
-                                                paddingRight: 15,
-                                                borderRadius: 5,
-                                                borderWidth:
-                                                  errors.weight &&
-                                                  touched.weight
-                                                    ? 2
-                                                    : 0,
-                                                borderColor:
-                                                  errors.weight &&
-                                                  touched.weight
-                                                    ? 'red'
-                                                    : null,
-                                              }}
-                                            />
-                                            {errors.weight && touched.weight && (
-                                              <View
-                                                style={{
-                                                  alignItems: 'flex-end',
-                                                }}>
-                                                <Text
-                                                  style={{
-                                                    fontSize: 15,
-                                                    color: 'red',
-                                                  }}>
-                                                  {errors.weight}
-                                                </Text>
-                                              </View>
-                                            )}
+                                                fontSize: 15,
+                                                color: 'red',
+                                              }}>
+                                              {errors.weight}
+                                            </Text>
                                           </View>
-                                          <View style={styles.container2}>
-                                            <TextInput
-                                              style={{
-                                                backgroundColor: '#FFFFFF',
-                                                width: widthPercentageToDP(60),
-                                                paddingTop: 10,
-                                                paddingBottom: 10,
-                                                paddingLeft: 15,
-                                                paddingRight: 15,
-                                                borderRadius: 5,
-                                                borderWidth:
-                                                  errors.size && touched.size
-                                                    ? 2
-                                                    : 0,
-                                                borderColor:
-                                                  errors.size && touched.size
-                                                    ? 'red'
-                                                    : null,
-                                              }}
-                                              placeholder="Âge"
-                                              onChangeText={(text) =>
-                                                (arrayhelper.form.values.age =
-                                                  text)
-                                              }
-                                            />
-                                            {errors.age && touched.age && (
-                                              <View
-                                                style={{
-                                                  alignItems: 'flex-end',
-                                                }}>
-                                                <Text
-                                                  style={{
-                                                    fontSize: 15,
-                                                    color: 'red',
-                                                  }}>
-                                                  {errors.age}
-                                                </Text>
-                                              </View>
-                                            )}
-                                          </View>
+                                        )}
+                                      </View>
+                                      <TextInput
+                                        style={{
+                                          ...styles.input,
+                                          borderWidth:
+                                            errors.size && touched.size ? 2 : 0,
+                                          borderColor:
+                                            errors.size && touched.size
+                                              ? 'red'
+                                              : null,
+                                        }}
+                                        placeholder="Âge"
+                                        onChangeText={(text) =>
+                                          (arrayhelper.form.values.age = text)
+                                        }
+                                        ref={(ref) => (this.ageInput = ref)}
+                                        placeholderTextColor="#979797"
+                                        blurOnSubmit={false}
+                                        onSubmitEditing={() =>
+                                          Keyboard.dismiss()
+                                        }
+                                        returnKeyType="done"
+                                      />
+                                      {errors.age && touched.age && (
+                                        <View
+                                          style={{
+                                            alignItems: 'flex-end',
+                                          }}>
+                                          <Text
+                                            style={{
+                                              fontSize: 15,
+                                              color: 'red',
+                                            }}>
+                                            {errors.age}
+                                          </Text>
                                         </View>
-                                      }
+                                      )}
                                     </View>
                                   )}
                                 />
@@ -283,10 +244,11 @@ export default class mensuration extends React.Component {
                       <Button
                         loading={false}
                         disabled={!isValid}
-                        title="suivant"
+                        title="Suivant"
                         customTextStyle={{
                           fontFamily: 'RobotoBold',
                           fontSize: 17,
+                          color: '#393637',
                         }}
                         onPress={handleSubmit}
                       />
@@ -311,16 +273,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  input: {
+    backgroundColor: '#FFFFFF',
+    width: widthPercentageToDP(60),
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    borderRadius: 3,
+    fontSize: 15,
+  },
   textStyle: {
     color: '#000000',
   },
   container: {
     marginTop: heightPercentageToDP(10),
     alignItems: 'center',
-  },
-  container2: {
-    alignItems: 'flex-start',
-    justifyContent: 'center',
   },
   textStyle: {
     color: '#000000',
@@ -354,7 +320,7 @@ const styles = StyleSheet.create({
   container2: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: 5,
+    marginBottom: 15,
   },
   textStyle: {
     color: '#000000',
