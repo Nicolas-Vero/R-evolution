@@ -618,7 +618,7 @@ export default class Dashboard extends React.Component {
                     {this.state.currentDate.toUpperCase()}
                   </Text>
                 </View>
-                <ScrollView style={{ height: heightPercentageToDP(100) }}>
+               
                   <View>
                     <View style={{ alignItems: 'center' }}>
                       {this.state.page.length == 0 ? (
@@ -723,7 +723,7 @@ export default class Dashboard extends React.Component {
                       </TouchableOpacity>
                     </View>
                   </View>
-                </ScrollView>
+               
               </View>
             ) : (
               <ScrollView>

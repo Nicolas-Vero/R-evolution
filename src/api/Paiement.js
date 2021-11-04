@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {API_URL, STORAGE} from '../configs/Constants';
 import {getHeaders} from './Global';
-import MiddleWare from "./MiddleWare";
+
 
 
 export const create_paiement = async (params) => {

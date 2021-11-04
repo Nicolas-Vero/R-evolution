@@ -2,7 +2,7 @@ import axios from 'axios';
 import {AsyncStorage} from 'react-native';
 import {API_URL, STORAGE} from '../configs/Constants';
 import {getHeaders} from './Global';
-import MiddleWare from "./MiddleWare";
+
 
 
 

@@ -8,9 +8,3 @@ export const getHeaders = async () => {
   return headers;
 };
 
-export const buildQueryParams = (params = {}) => {
-  let queryParams = "?";
-  const keys = Object.keys(params);
-  keys.forEach(key => queryParams += `${key}=${params[key]}&`);
-  return queryParams;
-};

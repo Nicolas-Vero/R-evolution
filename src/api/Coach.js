@@ -2,7 +2,7 @@ import axios from 'axios';
 import {AsyncStorage} from 'react-native';
 import {API_URL, STORAGE} from '../configs/Constants';
 import {getHeaders} from './Global';
-import MiddleWare from "./MiddleWare";
+
 
 
 
@@ -48,9 +48,7 @@ export const coach_booking = async(params)=> {
 }
 
 export const get_appointement = async (params, navigation) => {
- // MiddleWare.validateRequest(
-  
-  //  async () => {
+
     const date =  params ; 
      const headers = await getHeaders();
       return axios({
@@ -59,13 +57,9 @@ export const get_appointement = async (params, navigation) => {
         headers: headers ,
         params: {date:date.date}
       })
- //   }
-    //, navigation)
     };
 
-export const add_manual_payment = async (params, navigation) => (
-  MiddleWare.validateRequest(
-    async () => {
+export const add_manual_payment = async (params, navigation) =>  {
       const data = params
       const headers = await getHeaders();
       return axios({
@@ -74,11 +68,9 @@ export const add_manual_payment = async (params, navigation) => (
         headers: headers,
         data:data
       })
-    }, navigation));
+    };
 
-export const get_coach_by_gym_place = async (params, navigation) => (
-  MiddleWare.validateRequest(
-    async () => {
+export const get_coach_by_gym_place = async (params, navigation) => {
       const headers = await getHeaders();
       return axios({
         method: 'POST',
@@ -86,7 +78,7 @@ export const get_coach_by_gym_place = async (params, navigation) => (
         headers: headers,
         data:data
       })
-    }, navigation));
+    };
 
 export const get_coach_athlete = async () => {
       const headers = await getHeaders();
@@ -97,16 +89,14 @@ export const get_coach_athlete = async () => {
       })
     };
 
-export const cancel_booking = async (params, navigation) => (
-  MiddleWare.validateRequest(
-    async () => {
+export const cancel_booking = async (params, navigation) =>  {
       const headers = await getHeaders();
       return axios({
         method: 'POST',
         url: `${API_URL}/coach/cancel-booking/${params.id}`,
         headers: headers,
       })
-    }, navigation));
+    };
 
 
 export const get_coach_by_id = async (params) => {
@@ -121,15 +111,12 @@ export const get_coach_by_id = async (params) => {
 
 
 export const get_coach_me = async (navigation) => {
-  //MiddleWare.validateRequest(
- //   async () => {
       const headers = await getHeaders();
       return axios({
         method: 'GET',
         url: `${API_URL}/coach/me`,
         headers: headers
       })
-   //}, navigation));
     }
 
 export const get_coach = async (navigation) => {
@@ -142,21 +129,17 @@ export const get_coach = async (navigation) => {
     }
 
 
-    export const verify_coach = async (navigation) => (
-  MiddleWare.validateRequest(
-    async () => {
+    export const verify_coach = async (navigation) => {
       const headers = await getHeaders();
       return axios({
         method: 'POST',
         url: `${API_URL}/auth/verify-coach`,
         headers: headers
       })
-    }, navigation));
+    };
 
 
-    export const coach_forgot_password = async (params, navigation) => (
-      MiddleWare.validateRequest(
-        async () => {
+    export const coach_forgot_password = async (params, navigation) =>  {
           const headers = await getHeaders();
           let user = await AsyncStorage.getItem(STORAGE.USER);
           user = JSON.parse(user);
@@ -172,11 +155,9 @@ export const get_coach = async (navigation) => {
             data: data,
             headers: headers
           });
-        }, navigation));    
+        };    
 
-        export const reset_password_mail_link = async (params, navigation) => (
-          MiddleWare.validateRequest(
-            async () => {
+        export const reset_password_mail_link = async (params, navigation) =>  {
               const headers = await getHeaders();
               let user = await AsyncStorage.getItem(STORAGE.USER);
               user = JSON.parse(user);
@@ -192,7 +173,7 @@ export const get_coach = async (navigation) => {
                 data: data,
                 headers: headers
               });
-            }, navigation));   
+            };   
 
 export const is_pro_signed_in = async () => {
   const headers = await getHeaders();

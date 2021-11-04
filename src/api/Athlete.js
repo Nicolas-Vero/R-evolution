@@ -2,7 +2,6 @@ import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import { API_URL, STORAGE } from '../configs/Constants';
 import { getHeaders } from './Global';
-import MiddleWare from './MiddleWare';
 
 export const athlete_login = (params) => {
   const data = params;
@@ -100,7 +99,7 @@ export const sign_up = async (params) => {
 };
 
 export const get_coach_by_gym_place = async (params, navigation) =>
-  MiddleWare.validateRequest(async () => {
+  {
     const headers = await getHeaders();
     return axios({
       method: 'POST',
@@ -108,17 +107,17 @@ export const get_coach_by_gym_place = async (params, navigation) =>
       headers: headers,
       data: data,
     });
-  }, navigation);
+  };
 
 export const cancel_booking = async (params, navigation) =>
-  MiddleWare.validateRequest(async () => {
+ {
     const headers = await getHeaders();
     return axios({
       method: 'POST',
       url: `${API_URL}/coach/cancel-booking/${params.id}`,
       headers: headers,
     });
-  }, navigation);
+  };
 
 export const get_athlete_by_id = async (params) => {
   const headers = await getHeaders();
@@ -219,7 +218,7 @@ export const athlete_forgot_password = async (params) => {
 };
 
 export const reset_password_mail_link = async (params, navigation) =>
-  MiddleWare.validateRequest(async () => {
+  {
     const headers = await getHeaders();
     let user = await AsyncStorage.getItem(STORAGE.USER);
     user = JSON.parse(user);
@@ -233,4 +232,4 @@ export const reset_password_mail_link = async (params, navigation) =>
       data: data,
       headers: headers,
     });
-  }, navigation);
+  };
