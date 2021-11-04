@@ -134,7 +134,6 @@ export default class MoreInfoAthlete extends React.Component {
                 ...{preferred_exercise_place_id:1}
               };
               try {
-                console.log('ddddd',data);
                 sign_up(data).then(() => {
                   navigate('LoginAthlete');
                 });

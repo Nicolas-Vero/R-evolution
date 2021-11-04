@@ -4,12 +4,13 @@ import { getHeaders } from './Global';
 
 
 
-export const upload_file = params => {
+export const upload_file = ( params) => {
     const data = params;
     return axios({
       method: 'POST',
       url: `${API_URL}/file/s3/upload`,
       data: data,
+      headers: { "Content-Type": "multipart/form-data" },
     });
   };
 
@@ -17,8 +18,6 @@ export const get_file = params => {
     const data = params;
     return axios({
       method: 'GET',
-      url: `${API_URL}/file/`,
-      data: data,
-      params:{title_content:data.title}
+      url: `${API_URL}/file/s3/${data.title}`,
     });
   };

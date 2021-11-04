@@ -8,6 +8,7 @@ import {
   Image,
   SafeAreaView,
   Text,
+  StatusBar,
 } from 'react-native';
 const { width } = Dimensions.get('window');
 import {
@@ -23,13 +24,15 @@ import * as Yup from 'yup';
 import { Formik, FieldArray, Field } from 'formik';
 import { sign_up } from '../../api/Athlete';
 import { ScrollView } from 'react-native-gesture-handler';
+import { upload_file } from '../../api/File';
 
 export default class avatarAthlete extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoaded: false,
-      image: '',
+      image: {},
+      isValid: true,
     };
   }
   async componentDidMount() {
@@ -55,7 +58,7 @@ export default class avatarAthlete extends React.Component {
       });
 
       if (!result.cancelled) {
-        this.setState({ image: result.uri });
+        this.setState({ image: result });
         arrayhelper.form.values.profile_picture_url = result.uri;
       }
     };
@@ -72,155 +75,170 @@ export default class avatarAthlete extends React.Component {
             y: 1,
           }}
           style={styles.background}>
-            <ScrollView>
-          <SafeAreaView onPress={Keyboard.dismiss}>
-          <Header title="LET'S GO" />
-            <View style={{ alignItems: 'center' }}>
-              <Image
-                source={require('../../../assets/images/GroupA_8.png')}
-                style={{ width: widthPercentageToDP(75) }}
-              />
-            </View>
+          <ScrollView>
+            <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
+              <Header title="LET'S GO" />
+              <View style={{ alignItems: 'center' }}>
+                <Image
+                  source={require('../../../assets/images/GroupA_8.png')}
+                  style={{
+                    width: widthPercentageToDP(80),
+                    resizeMode: 'contain',
+                  }}
+                />
+              </View>
 
-            <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
-              <Formik
-                initialValues={{
-                  profile_picture_url: '',
-                }}
-                onSubmit={(values) => {
-                  const item = { ...passItem, ...values };
-                  try {
-                    sign_up(item).then(() => {
-                      navigate('LoginAthlete');
+              <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
+                <Formik
+                  initialValues={{
+                    profile_picture_url: '',
+                  }}
+                  onSubmit={(values) => {
+                    var item = { ...passItem, ...values };
+                    const formData = new FormData();
+                    formData.append('file', {
+                      uri: this.state.image.uri,
+                      type: this.state.image.type,
                     });
-                  } catch (error) {
-                    console.log('error:', error, ' ', 'data:', item);
-                  
-                  }
-                }}>
-                {({
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  setFieldValue,
-                  values,
-                  setFieldTouched,
-                  touched,
-                  errors,
-                  isValid,
-                  validate,
-                  ref,
-                }) => (
-                  <View>
-                    <Field
-                      name="profile_picture_url"
-                      id="profile_picture_url"
-                      validate={validate}>
-                      {({
-                        field,
-                        meta,
-                        form: {
-                          touched,
-                          errors,
-                          isSubmitting,
-                          setFieldTouched,
-                        },
-                      }) => {
-                        return (
-                          <View
-                            style={{
-                              alignItems: 'center',
-
-                              height: heightPercentageToDP(75),
-                            }}>
+                    try {
+                      upload_file(formData).then((res) => {
+                        item.profile_picture_url = res.data.location;
+                      })
+                      .then(()=>{
+                       sign_up(item)
+                      })
+                        .then(() => {
+                        navigate('LoginAthlete');
+                      }
+                      );
+                    } catch (error) {
+                      console.log('error:', error, ' ', 'data:', item);
+                    }
+                  }}>
+                  {({
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    setFieldValue,
+                    values,
+                    setFieldTouched,
+                    touched,
+                    errors,
+                    isValid,
+                    validate,
+                    ref,
+                  }) => (
+                    <View>
+                      <Field
+                        name="profile_picture_url"
+                        id="profile_picture_url"
+                        validate={validate}>
+                        {({
+                          field,
+                          meta,
+                          form: {
+                            touched,
+                            errors,
+                            isSubmitting,
+                            setFieldTouched,
+                          },
+                        }) => {
+                          return (
                             <View
                               style={{
                                 alignItems: 'center',
-                                marginTop: 75,
-                                marginBottom: 100,
-                              }}>
-                              <Text
-                                style={{
-                                  fontWeight: 'bold',
-                                  fontSize: 20,
-                                  color: '#FFFF',
-                                }}>
-                                PHOTO DE PROFIL
-                              </Text>
-                            </View>
-                            <View>
-                              <View style={{ marginBottom: 50 }}>
-                                {this.state.image ? (
-                                  <Text
-                                    style={{
-                                      fontWeight: 'bold',
-                                      fontSize: 17,
-                                      color: '#FFFF',
-                                    }}>
-                                    Superbe photo !
-                                  </Text>
-                                ) : (
-                                  <Text
-                                    style={{
-                                      fontWeight: 'bold',
-                                      fontSize: 17,
-                                      color: '#FFFF',
-                                      textAlign: 'center',
-                                    }}>
-                                    C'est toujours plus sympa avec une photo de profil
-                                  </Text>
-                                )}
-                              </View>
-                            </View>
 
-                            <FieldArray
-                              name="profile_picture_url"
-                              render={(arrayhelper) => (
-                                <TouchableOpacity
-                                  onPress={(item) => {
-                                    pickImage(arrayhelper, item);
+                                height: heightPercentageToDP(75),
+                              }}>
+                              <View
+                                style={{
+                                  alignItems: 'center',
+                                  marginTop: 75,
+                                  marginBottom: 100,
+                                }}>
+                                <Text
+                                  style={{
+                                    fontWeight: 'bold',
+                                    fontSize: 20,
+                                    color: '#FFFF',
                                   }}>
-                                  {this.state.image ? (
-                                    <View>
-                                      <Avatar
-                                        size="xlarge"
-                                        rounded
-                                        source={{ uri: this.state.image }}
-                                      />
-                                    </View>
-                                  ) : (
-                                    <Image
+                                  PHOTO DE PROFIL
+                                </Text>
+                              </View>
+                              <View>
+                                <View style={{ marginBottom: 50 }}>
+                                  {this.state.image.uri ? (
+                                    <Text
                                       style={{
-                                        height: 150,
-                                        width: 190,
-                                        resizeMode: 'contain',
-                                      }}
-                                      source={require('../../../assets/images/AddPhoto.png')}
-                                    />
+                                        fontWeight: 'bold',
+                                        fontSize: 17,
+                                        color: '#FFFF',
+                                      }}>
+                                      Superbe photo !
+                                    </Text>
+                                  ) : (
+                                    <Text
+                                      style={{
+                                        fontWeight: 'bold',
+                                        fontSize: 17,
+                                        color: '#FFFF',
+                                        textAlign: 'center',
+                                      }}>
+                                      C'est toujours plus sympa avec une photo
+                                      de profil
+                                    </Text>
                                   )}
-                                </TouchableOpacity>
-                              )}
-                            />
-                          </View>
-                        );
-                      }}
-                    </Field>
-                    <Button
-                      loading={false}
-                      disabled={!isValid}
-                      title="suivant"
-                      customTextStyle={{
-                        fontFamily: 'RobotoBold',
-                        fontSize: 17,
-                      }}
-                      onPress={handleSubmit}
-                    />
-                  </View>
-                )}
-              </Formik>
-            </View>
-          </SafeAreaView>
-           </ScrollView>
+                                </View>
+                              </View>
+
+                              <FieldArray
+                                name="profile_picture_url"
+                                render={(arrayhelper) => (
+                                  <TouchableOpacity
+                                    onPress={(item) => {
+                                      pickImage(arrayhelper, item);
+                                    }}>
+                                    {this.state.image.uri ? (
+                                      <View>
+                                        <Avatar
+                                          size="xlarge"
+                                          rounded
+                                          source={{ uri: this.state.image.uri }}
+                                        />
+                                      </View>
+                                    ) : (
+                                      <Image
+                                        style={{
+                                          height: 150,
+                                          width: 190,
+                                          resizeMode: 'contain',
+                                        }}
+                                        source={require('../../../assets/images/AddPhoto.png')}
+                                      />
+                                    )}
+                                  </TouchableOpacity>
+                                )}
+                              />
+                            </View>
+                          );
+                        }}
+                      </Field>
+                      <Button
+                        loading={false}
+                        disabled={!isValid}
+                        title="suivant"
+                        customTextStyle={{
+                          fontFamily: 'RobotoBold',
+                          fontSize: 17,
+                        }}
+                        onPress={handleSubmit}
+                      />
+                    </View>
+                  )}
+                </Formik>
+              </View>
+            </SafeAreaView>
+          </ScrollView>
         </LinearGradient>
       </View>
     );
@@ -228,6 +246,9 @@ export default class avatarAthlete extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
   container1: {
     height: 300,
     alignItems: 'center',
