@@ -5,13 +5,17 @@ import { Ionicons } from '@expo/vector-icons';
 import LoginAthlete from '../AtlheteScreens/Auth/LoginAthlete';
 import RegisterInfoAthlete from '../AtlheteScreens/Auth/RegisterInfo/RegisterInfoAthlete';
 import MoreInfoAthlete from '../AtlheteScreens/Auth/MoreInfoAthlete';
-import mensuration from '../components/componentsAthlete/mensuration';
-import ElementSlider from '../components/componentsAthlete/ElementSlider';
+import mensuration from '../components/componentsAthlete/mensuration/mensuration';
+import experience from '../components/componentsAthlete/experience/experience';
 import dynamicListAthlete from '../components/componentsAthlete/dynamicListAthlete';
-import health from '../components/componentsAthlete/health';
+import health from '../components/componentsAthlete/health/health';
 import selectList from '../components/componentsAthlete/selectList';
 import ElementSlider2 from '../components/componentsAthlete/ElementSlider2';
 import avatarAthlete from '../components/componentsAthlete/avatarAthlete';
+import goal from '../components/componentsAthlete/goal/goal';
+import gym from '../components/componentsAthlete/gym/gym';
+import trainingDay from '../components/componentsAthlete/trainingDay/trainingDay';
+
 // Auth bottom tabs menu
 const AuthStackAthlete = createStackNavigator(
   {
@@ -48,16 +52,16 @@ const AuthStackAthlete = createStackNavigator(
         swipeEnabled: false,
       },
     },
-    ElementSlider: {
-      screen: ElementSlider,
+    experience: {
+      screen: experience,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    dynamicListAthlete: {
-      screen: dynamicListAthlete,
+    goal: {
+      screen: goal,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
@@ -72,16 +76,16 @@ const AuthStackAthlete = createStackNavigator(
         swipeEnabled: false,
       },
     },
-    selectList: {
-      screen: selectList,
+    gym: {
+      screen: gym,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    ElementSlider2: {
-      screen: ElementSlider2,
+    trainingDay: {
+      screen: trainingDay,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
@@ -99,7 +103,6 @@ const AuthStackAthlete = createStackNavigator(
   },
   {
     lazy: true,
-    initialRouteName: 'mensuration',
     animationEnabled: true,
     tabBarPosition: 'bottom',
     navigationOptions: {

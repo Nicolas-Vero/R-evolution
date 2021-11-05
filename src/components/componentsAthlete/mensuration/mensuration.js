@@ -1,28 +1,23 @@
 import React from 'react';
 import {
-  Text,
   View,
   SafeAreaView,
-  StyleSheet,
-  Platform,
-  Dimensions,
   Keyboard,
-  StatusBar,
+  ScrollView,
+  Text,
   TextInput,
-  Image,
 } from 'react-native';
 
-import { Button } from '../Button';
-import Header from '../../components/Header';
-const { width } = Dimensions.get('window');
+import Header from '../../Header';
+import RegisterStepImageView from '../../register/registerStepImage/RegisterStepImageView';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Formik, FieldArray, Field } from 'formik';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import styles from './mensurationStyle';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
+import { Formik, Field, FieldArray } from 'formik';
 import * as Yup from 'yup';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Button } from '../../Button';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+
 export default class mensuration extends React.Component {
   constructor(props) {
     super(props);
@@ -32,14 +27,16 @@ export default class mensuration extends React.Component {
       arrayofdiplomas: [],
     };
   }
+
+  onNavigate = (item) => {
+    this.props.navigation.navigate('experience', { item: item });
+  };
+  
   render() {
-    const phoneRegExp =
-      /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
     const passItem = this.props.navigation.state.params.item;
-    const { navigation } = this.props;
     console.log('passitem', passItem);
     return (
-      <View style={{ flex: 1, backgroundColor: 'black' }}>
+      <View style={styles.container}>
         <LinearGradient
           colors={['#060606', '#2D333C']}
           start={{
@@ -50,20 +47,17 @@ export default class mensuration extends React.Component {
             x: 1,
             y: 1,
           }}
-          style={styles.background}>
-          <ScrollView>
-            <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <Header title="LET'S GO" />
-              <View style={{ alignItems: 'center' }}>
-                <Image
-                  source={require('../../../assets/images/GroupA_1.png')}
-                  style={{
-                    width: widthPercentageToDP(80),
-                    resizeMode: 'contain',
-                  }}
-                />
-              </View>
-              <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
+          style={styles.container}>
+          <Header title="LET'S GO" />
+          <SafeAreaView
+            onPress={Keyboard.dismiss}
+            style={styles.safeArea}
+            style={styles.container}>
+            <ScrollView
+              style={styles.container}
+              keyboardShouldPersistTaps="handled">
+              <RegisterStepImageView step={1} />
+              <View style={styles.content}>
                 <Formik
                   initialValues={{
                     age: '',
@@ -72,47 +66,49 @@ export default class mensuration extends React.Component {
                   }}
                   onSubmit={(values) => {
                     const item = { ...passItem, ...values };
-                    navigation.navigate('ElementSlider', { item: item });
+                    this.onNavigate(item);
                   }}
                   validationSchema={Yup.object().shape({
-                    age: Yup.number().required('Requis'),
-                    weight: Yup.number().required('Requis'),
-                    size: Yup.number().required('Requis'),
+                    age: Yup.number()
+                      .typeError('Age non valide')
+                      .min(15, 'Tu dois entrer un age correct')
+                      .max(100, 'Tu dois entrer un age correct')
+                      .required('Requis'),
+                    weight: Yup.number()
+                      .typeError('Poid non valide')
+                      .max(500, 'Tu dois entrer un poid correct')
+                      .min(30, 'Tu dois entrer un poid correct')
+                      .required('Requis'),
+                    size: Yup.number()
+                      .typeError('Taille non valide')
+                      .min(1000, 'Tu dois entrer une taille correcte')
+                      .max(3000, 'Tu dois entrer une taille correcte')
+                      .required('Requis'),
                   })}>
                   {({ handleSubmit, isValid, validate, ref }) => (
-                    <View>
+                    <View style={styles.content}>
                       <Field
                         name="mensuration"
                         id="mensuration"
                         validate={validate}>
-                        {({
-                          form: {
-                            touched,
-                            errors,
-                          },
-                        }) => {
+                        {({ form: { touched, errors } }) => {
                           return (
-                            <View style={{ height: heightPercentageToDP(72) }}>
-                              <View
-                                style={{
-                                  alignItems: 'center',
-                                  marginTop: 88,
-                                }}>
-                                <Text
-                                  style={{
-                                    fontFamily: 'RobotoBold',
-                                    fontSize: 16,
-                                    color: '#FFFF',
-                                  }}>
+                            <View
+                              style={{
+                                height: heightPercentageToDP(72),
+                                flex: 1,
+                              }}>
+                              <View>
+                                <Text style={styles.title}>
                                   AIDE NOUS A MIEUX TE CONNAÎTRE
                                 </Text>
                               </View>
-                              <View style={styles.container}>
+                              <View style={styles.content}>
                                 <FieldArray
                                   name="mensuration"
                                   render={(arrayhelper) => (
                                     <View>
-                                      <View style={{ marginBottom: 15 }}>
+                                      <View style={styles.inputContainer}>
                                         <TextInput
                                           style={{
                                             ...styles.input,
@@ -122,7 +118,7 @@ export default class mensuration extends React.Component {
                                                 : 0,
                                             borderColor:
                                               errors.size && touched.size
-                                                ? 'red'
+                                                ? '#FD7279'
                                                 : null,
                                           }}
                                           placeholder="Taille"
@@ -140,20 +136,14 @@ export default class mensuration extends React.Component {
                                         />
                                         {errors.size && touched.size && (
                                           <View
-                                            style={{
-                                              alignItems: 'flex-end',
-                                            }}>
-                                            <Text
-                                              style={{
-                                                fontSize: 15,
-                                                color: 'red',
-                                              }}>
+                                            style={styles.errorInputContainer}>
+                                            <Text style={styles.errorInputText}>
                                               {errors.size}
                                             </Text>
                                           </View>
                                         )}
                                       </View>
-                                      <View style={{ marginBottom: 15 }}>
+                                      <View style={styles.inputContainer}>
                                         <TextInput
                                           placeholder="Poids"
                                           onChangeText={(text) =>
@@ -168,7 +158,7 @@ export default class mensuration extends React.Component {
                                                 : 0,
                                             borderColor:
                                               errors.weight && touched.weight
-                                                ? 'red'
+                                                ? '#FD7279'
                                                 : null,
                                           }}
                                           ref={(ref) =>
@@ -184,14 +174,8 @@ export default class mensuration extends React.Component {
                                         />
                                         {errors.weight && touched.weight && (
                                           <View
-                                            style={{
-                                              alignItems: 'flex-end',
-                                            }}>
-                                            <Text
-                                              style={{
-                                                fontSize: 15,
-                                                color: 'red',
-                                              }}>
+                                            style={styles.errorInputContainer}>
+                                            <Text style={styles.errorInputText}>
                                               {errors.weight}
                                             </Text>
                                           </View>
@@ -204,7 +188,7 @@ export default class mensuration extends React.Component {
                                             errors.size && touched.size ? 2 : 0,
                                           borderColor:
                                             errors.size && touched.size
-                                              ? 'red'
+                                              ? '#FD7279'
                                               : null,
                                         }}
                                         placeholder="Âge"
@@ -221,14 +205,8 @@ export default class mensuration extends React.Component {
                                       />
                                       {errors.age && touched.age && (
                                         <View
-                                          style={{
-                                            alignItems: 'flex-end',
-                                          }}>
-                                          <Text
-                                            style={{
-                                              fontSize: 15,
-                                              color: 'red',
-                                            }}>
+                                          style={styles.errorInputContainer}>
+                                          <Text style={styles.errorInputText}>
                                             {errors.age}
                                           </Text>
                                         </View>
@@ -241,97 +219,24 @@ export default class mensuration extends React.Component {
                           );
                         }}
                       </Field>
-                      <Button
-                        loading={false}
-                        disabled={!isValid}
-                        title="Suivant"
-                        customTextStyle={{
-                          fontFamily: 'RobotoBold',
-                          fontSize: 17,
-                          color: '#393637',
-                        }}
-                        onPress={handleSubmit}
-                      />
+                      <View style={styles.buttonContainer}>
+                        <Button
+                          loading={false}
+                          disabled={!isValid}
+                          title="Suivant"
+                          customTextStyle={styles.buttonText}
+                          onPress={handleSubmit}
+                        />
+                      </View>
                     </View>
                   )}
                 </Formik>
               </View>
-            </SafeAreaView>
-          </ScrollView>
+              <KeyboardSpacer />
+            </ScrollView>
+          </SafeAreaView>
         </LinearGradient>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: width,
-    height: 48,
-    backgroundColor: '#2CDEE4',
-    borderRadius: 3,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input: {
-    backgroundColor: '#FFFFFF',
-    width: widthPercentageToDP(60),
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    borderRadius: 3,
-    fontSize: 15,
-  },
-  textStyle: {
-    color: '#000000',
-  },
-  container: {
-    marginTop: heightPercentageToDP(10),
-    alignItems: 'center',
-  },
-  textStyle: {
-    color: '#000000',
-  },
-  safeArea: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: width,
-    height: 49,
-    marginTop: 29,
-    marginBottom: 49,
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
-  background: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-  },
-  container: {
-    marginTop: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  container2: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 15,
-  },
-  textStyle: {
-    color: '#000000',
-  },
-  field: {
-    backgroundColor: '#FFFFFF',
-    width: widthPercentageToDP(60),
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 5,
-  },
-});

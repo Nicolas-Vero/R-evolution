@@ -65,7 +65,6 @@ export default class RegisterInfoAthlete extends React.Component {
             style={styles.ScrollView}
             keyboardShouldPersistTaps="handled">
             <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-              {/* <Header title="INSCRIPTION" /> */}
               <View style={styles.formContainer}>
                 <Formik
                   initialValues={formValue}
