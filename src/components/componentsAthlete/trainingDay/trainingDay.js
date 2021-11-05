@@ -39,7 +39,7 @@ export default class trainingDay extends React.Component {
   }
 
   onNavigate = (item) => {
-    this.props.navigation.navigate('destinataire', { item: item });
+    this.props.navigation.navigate('selectCoach', { item: item });
   };
 
   setDayChoice = (val) => {
@@ -176,7 +176,6 @@ export default class trainingDay extends React.Component {
                                                   .days_preference
                                                   .is_monday_preferred;
                                               this.setDayChoice('L');
-
                                               break;
                                             case 'M':
                                               arrayhelper.form.values.days_preference.is_tuesday_preferred =
@@ -184,7 +183,6 @@ export default class trainingDay extends React.Component {
                                                   .days_preference
                                                   .is_tuesday_preferred;
                                               this.setDayChoice('M');
-
                                               break;
                                             case 'ME':
                                               arrayhelper.form.values.days_preference.is_wednesday_preferred =

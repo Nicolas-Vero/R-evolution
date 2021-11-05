@@ -15,7 +15,6 @@ module.exports = StyleSheet.create({
     bottom: 0,
   },
   content: {
-    alignItems: 'center',
     height: heightPercentageToDP(75),
   },
   title: {
@@ -26,20 +25,21 @@ module.exports = StyleSheet.create({
     color: '#FFFF',
   },
   subTitle: {
-    textAlign: 'center',
-    marginTop: 25,
+    marginLeft: 16,
+    marginTop: 89,
     fontFamily: 'RobotoBold',
-    fontSize: 17,
+    fontSize: 15,
     color: '#FFFF',
   },
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   dropdownContainer: {
-    width: widthPercentageToDP(95),
+    marginTop: 26,
+    alignItems: 'center',
   },
   dropdownButton: {
-    width: widthPercentageToDP(70),
+    width: widthPercentageToDP(80),
     borderRadius: 3,
     height: 35,
   },

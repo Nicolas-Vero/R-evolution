@@ -3,30 +3,20 @@ import {
   Text,
   View,
   SafeAreaView,
-  StyleSheet,
-  Platform,
-  Dimensions,
   Keyboard,
-  StatusBar,
-  Image,
   ActivityIndicator,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import SelectDropdown from 'react-native-select-dropdown';
 import * as Yup from 'yup';
 import { LinearGradient } from 'expo-linear-gradient';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
 import { Formik, FieldArray, Field } from 'formik';
-import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { CheckBox } from 'react-native-elements';
 
 import RegisterStepImageView from '../../register/registerStepImage/RegisterStepImageView';
 import { Button } from '../../../components/Button';
 import Header from '../../../components/Header';
-import { get_coach } from '../../api/Coach';
+import { get_coach } from '../../../api/Coach';
 import styles from './selectCoachStyle';
 
 export default class selectCoach extends React.Component {
@@ -71,7 +61,7 @@ export default class selectCoach extends React.Component {
         </View>
       );
     }
-    const passItem = this.props.navigation.state.params.item;
+    const passItem = {};
 
     return (
       <View style={styles.container}>
@@ -110,7 +100,7 @@ export default class selectCoach extends React.Component {
                       name="coach_preference"
                       id="coach_preference"
                       validate={validate}>
-                      {({ form: {} }) => {
+                      {({ form: { errors } }) => {
                         return (
                           <View style={styles.content}>
                             <Text style={styles.title}>
@@ -185,7 +175,7 @@ export default class selectCoach extends React.Component {
                                               type: 'any_coach',
                                             };
                                           this.setState({
-                                            checked: true,
+                                            checked: !this.state.checked,
                                           });
                                         }}
                                       />
@@ -208,6 +198,7 @@ export default class selectCoach extends React.Component {
                                 )}
                               />
                             </View>
+                            {this.renderCommercialView()}
                           </View>
                         );
                       }}
@@ -228,4 +219,106 @@ export default class selectCoach extends React.Component {
       </View>
     );
   }
+
+  renderCommercialView = () => {
+    return (
+      <View>
+        {/* <View >
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      fontSize: 17,
+                      color: '#FFFF',
+                    }}>
+                    Quel commercial t'a contacté ?
+                  </Text>
+                </View>
+                <View style={styles.container}>
+                  <FieldArray
+                    name='coach_preference'
+                    render={(arrayhelper) => (
+                   <View>
+                   <View>
+                        <SelectDropdown
+                          buttonStyle={{ width: widthPercentageToDP(90), borderRadius: 5 }}
+                          data={this.state.Coach}
+                          defaultButtonText={'Recherche ton commercial'}
+                          onSelect={(selectedItem, index) => {
+                            arrayhelper.form.values.coach_preference = {
+                              type: 'specific_coach',
+                              coach_id: selectedItem.id,
+                            };
+                            this.setState({checked:false})
+                          }}
+                          renderDropdownIcon={() => {
+                            return (
+                              <AntDesign name="down" size={24} color="black" />
+                            );
+                          }}
+                          dropdownIconPosition={'right'}
+                          buttonTextAfterSelection={(selectedItem, index) => {
+                            let show = '';
+                            this.state.checked?null: show = `${selectedItem.first_name}  ${selectedItem.last_name}`;
+                            return show;
+                          }}
+                          rowTextStyle={{
+                            color: 'white',
+                            fontSize: 15,
+                            marginRight: 90,
+                          }}
+                          dropdownStyle={{
+                            backgroundColor: '#282C3A',
+                            borderRadius: 5,
+                          }}
+                          rowTextForSelection={(item, index) => {
+                            // text represented for each item in dropdown
+                            // if data array is an array of objects then return item.property to represent item in dropdown
+                            return item.first_name;
+                          }}
+                        />
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            marginTop: 15,
+                            marginBottom: 24,
+                          }}>
+                          <CheckBox
+                            size={25}
+                            containerStyle={{
+                              paddingLeft: 0,
+                              marginLeft: 0,
+                              borderWidth: 0,
+                            }}
+                            uncheckedColor="#2CDEE4"
+                            checked={this.state.checked}
+                            value={arrayhelper.form.values.coach_preference}
+                            onPress={() => {
+                              arrayhelper.form.values.coach_preference = {
+                                type: 'any_coach',
+                              };
+                              this.setState({checked:true})
+                            }}
+                          />
+                          <Text
+                            style={{
+                              flex: 1,
+                              flexWrap: 'wrap',
+                              color: '#FFFFFF',
+                              fontFamily: 'Roboto',
+                              fontSize: 13,
+                            }}>
+                            je n'ai pas été contacté
+                          </Text>
+                        </View>
+                      </View>
+                            
+                </View>
+                    )}
+                  />
+              
+              </View> */}
+      </View>
+    );
+  };
 }

@@ -15,6 +15,7 @@ import avatarAthlete from '../components/componentsAthlete/avatarAthlete';
 import goal from '../components/componentsAthlete/goal/goal';
 import gym from '../components/componentsAthlete/gym/gym';
 import trainingDay from '../components/componentsAthlete/trainingDay/trainingDay';
+import selectCoach from '../components/componentsAthlete/selectCoach/selectCoach';
 
 // Auth bottom tabs menu
 const AuthStackAthlete = createStackNavigator(
@@ -35,15 +36,6 @@ const AuthStackAthlete = createStackNavigator(
         swipeEnabled: false,
       },
     },
-    MoreInfoAthlete: {
-      screen: MoreInfoAthlete,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-        swipeEnabled: false,
-      },
-    },
-
     mensuration: {
       screen: mensuration,
       navigationOptions: {
@@ -86,6 +78,14 @@ const AuthStackAthlete = createStackNavigator(
     },
     trainingDay: {
       screen: trainingDay,
+      navigationOptions: {
+        gestureEnabled: false,
+        headerShown: false,
+        swipeEnabled: false,
+      },
+    },
+    selectCoach: {
+      screen: selectCoach,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,

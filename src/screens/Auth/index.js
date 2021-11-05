@@ -75,7 +75,7 @@ export default class Index extends React.Component {
                 fontWeight: 'bold',
                 fontSize: 17,
               }}
-              onPress={() => navigate('SwitchAppAuth')}
+              onPress={() => navigate('selectCoach')}
             />
             <Button
               title="Se connecter"
