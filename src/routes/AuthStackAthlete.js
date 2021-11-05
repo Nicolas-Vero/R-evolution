@@ -14,6 +14,7 @@ import ElementSlider2 from '../components/componentsAthlete/ElementSlider2';
 import avatarAthlete from '../components/componentsAthlete/avatarAthlete';
 import goal from '../components/componentsAthlete/goal/goal';
 import gym from '../components/componentsAthlete/gym/gym';
+import trainingDay from '../components/componentsAthlete/trainingDay/trainingDay';
 
 // Auth bottom tabs menu
 const AuthStackAthlete = createStackNavigator(
@@ -83,8 +84,8 @@ const AuthStackAthlete = createStackNavigator(
         swipeEnabled: false,
       },
     },
-    ElementSlider2: {
-      screen: ElementSlider2,
+    trainingDay: {
+      screen: trainingDay,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,

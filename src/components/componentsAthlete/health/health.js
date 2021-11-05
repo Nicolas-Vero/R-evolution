@@ -149,7 +149,7 @@ export default class health extends React.Component {
                     <Button
                       loading={false}
                       disabled={!isValid}
-                      title="suivant"
+                      title="Suivant"
                       customTextStyle={styles.nextButtonText}
                       onPress={handleSubmit}
                     />

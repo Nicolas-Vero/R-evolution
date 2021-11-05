@@ -222,7 +222,7 @@ export default class selectList extends React.Component {
                         <Button
                           loading={false}
                           disabled={!isValid}
-                          title="suivant"
+                          title="Suivant"
                           customTextStyle={{
                             fontFamily: 'RobotoBold',
                             fontSize: 17,

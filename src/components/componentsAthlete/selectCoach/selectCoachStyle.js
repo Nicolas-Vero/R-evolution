@@ -25,9 +25,6 @@ module.exports = StyleSheet.create({
     fontSize: 16,
     color: '#FFFF',
   },
-  subTitleColored: {
-    color: '#2CDEE4',
-  },
   subTitle: {
     textAlign: 'center',
     marginTop: 25,
@@ -38,45 +35,49 @@ module.exports = StyleSheet.create({
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
-  sliderContainer: {
-    marginTop: 10,
-    alignItems: 'center',
+  dropdownContainer: {
+    width: widthPercentageToDP(95),
   },
-  sliderTrack: {
-    height: 7,
+  dropdownButton: {
+    width: widthPercentageToDP(70),
+    borderRadius: 3,
+    height: 35,
+  },
+  dropdownButtonText: {
+    fontSize: 15,
+    textAlign: 'left',
+  },
+  dropdownRowText: {
+    color: 'white',
+    fontSize: 13,
+    marginRight: 90,
+  },
+  dropdownBg: {
     backgroundColor: '#282C3A',
-    borderRadius: 5,
   },
-  sliderMarker: {
-    backgroundColor: '#2CDEE4',
-    height: 16,
-    width: 16,
-    borderColor: '#2CDEE4',
-    justifyContent: 'center',
-    marginTop: 7,
+  dropdownRow: {
+    height: 40,
+    borderBottomColor: '#50525B',
   },
-  sliderSelected: {
-    backgroundColor: '#2CDEE4',
-  },
-  daysTitle: {
-    textAlign: 'center',
-    marginTop: 75,
-    fontFamily: 'RobotoBold',
-    fontSize: 16,
-    color: '#FFFF',
-  },
-  flatlist: {
-    marginTop: 30,
-    width: widthPercentageToDP(90),
-    alignSelf: 'center',
-  },
-  day: {
-    height: 57,
-    width: 40,
-    marginHorizontal: 4,
-    justifyContent: 'center',
+  noWayContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 6,
+    marginTop: 15,
+    marginBottom: 24,
+  },
+  noWayText: {
+    flex: 1,
+    flexWrap: 'wrap',
+    color: '#FFFFFF',
+    fontFamily: 'Roboto',
+    fontSize: 13,
+  },
+  errorContainer: {
+    alignItems: 'flex-end',
+  },
+  errorText: {
+    fontSize: 12,
+    color: '#FD7279',
   },
   nextButtonText: {
     fontFamily: 'RobotoBold',

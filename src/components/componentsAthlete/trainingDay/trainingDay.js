@@ -1,22 +1,25 @@
 import React from 'react';
-import { Text, View, SafeAreaView, Keyboard } from 'react-native';
+import {
+  Text,
+  View,
+  SafeAreaView,
+  Keyboard,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import { Formik, FieldArray, Field } from 'formik';
-
-import SelectDropdown from 'react-native-select-dropdown';
-import { AntDesign } from '@expo/vector-icons';
-import * as Yup from 'yup';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import RegisterStepImageView from '../../register/registerStepImage/RegisterStepImageView';
-import { get_gym } from '../../../api/ReferenceData';
 import { Button } from '../../../components/Button';
 import Header from '../../../components/Header';
-import styles from './gymStyle';
+import styles from './trainingDayStyle';
 
-export default class gym extends React.Component {
+export default class trainingDay extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,8 +42,19 @@ export default class gym extends React.Component {
     this.props.navigation.navigate('destinataire', { item: item });
   };
 
+  setDayChoice = (val) => {
+    this.setState({
+      SelectedDay: this.state.SelectedDay.map((item) =>
+        item.day === val
+          ? {
+              ...item,
+              selected: !item.selected,
+            }
+          : item,
+      ),
+    });
+  };
   render() {
-    const data = ['OUI', 'NON'];
     const passItem = this.props.navigation.state.params.item;
     return (
       <View style={styles.container}>
@@ -77,74 +91,162 @@ export default class gym extends React.Component {
                 }}
                 onSubmit={(values) => {
                   const item = { ...passItem, ...values };
-                  navigation.navigate('destinataire', { item: item });
-                  console.log(item);
+                  this.onNavigate(item);
                 }}>
                 {({ handleSubmit, isValid, validate }) => (
                   <View style={{ paddingBottom: 15 }}>
                     <Field
-                      name="health_issues"
-                      id="health_issues"
+                      name="days_preference"
+                      id="days_preference"
                       validate={validate}>
-                      {() => {
+                      {({ form: {} }) => {
                         return (
-                          <View style={{ height: heightPercentageToDP(72) }}>
+                          <View style={styles.content}>
                             <Text style={styles.title}>
-                              OÙ SOUHAITES-TU T'ENTRAÎNER ?
+                              À QUELLE MOMMENT DE LA JOURNÉE ?
                             </Text>
                             <Text style={styles.subTitle}>
-                              Dans quelle salle pratiques-tu?
+                              ENTRE{' '}
+                              <Text style={styles.subTitleColored}>
+                                {this.state.multi[0]}H
+                              </Text>{' '}
+                              ET{' '}
+                              <Text style={styles.subTitleColored}>
+                                {this.state.multi[1]}H
+                              </Text>
                             </Text>
-                            <View style={styles.selectContainer}>
+                            <View style={styles.sliderContainer}>
                               <FieldArray
-                                name="gym_id"
+                                name="days_preference"
                                 render={(arrayhelper) => (
-                                  <SelectDropdown
-                                    buttonStyle={styles.dropdownButton}
-                                    buttonTextStyle={styles.dropdownButtonText}
-                                    rowTextStyle={styles.dropdownRowText}
-                                    dropdownStyle={styles.dropdownBg}
-                                    rowStyle={styles.dropdownRow}
-                                    data={this.state.Gymdata}
-                                    defaultButtonText={
-                                      'Recherche le nom de ta salle'
-                                    }
-                                    onSelect={(selectedItem, index) => {
-                                      //   if (arrayhelper.form.values.gym_id.length!='') {
-                                      //     console.log(arrayhelper.form.values.gym_id.length);
-                                      //      arrayhelper.pop()
-                                      //   }
-                                      //   arrayhelper.push(selectedItem.id)
-                                      // }
-                                      arrayhelper.form.values.gym_id =
-                                        selectedItem.id;
+                                  <MultiSlider
+                                    values={[
+                                      this.state.multi[0],
+                                      this.state.multi[1],
+                                    ]}
+                                    sliderLength={widthPercentageToDP(90)}
+                                    onValuesChange={(values) => {
+                                      this.setState({ multi: values });
+                                      arrayhelper.form.values.time_preference.start_time =
+                                        values[0];
+                                      arrayhelper.form.values.time_preference.end_time =
+                                        values[1];
                                     }}
-                                    renderDropdownIcon={() => {
-                                      return (
-                                        <AntDesign
-                                          name="down"
-                                          size={24}
-                                          color="black"
-                                        />
-                                      );
+                                    min={0}
+                                    max={24}
+                                    step={1}
+                                    snapped
+                                    style={{
+                                      padding: 0,
+                                      margin: 0,
                                     }}
-                                    dropdownIconPosition={'right'}
-                                    buttonTextAfterSelection={(
-                                      selectedItem,
-                                    ) => {
-                                      // text represented after item is selected
-                                      // if data array is an array of objects then return selectedItem.property to render after item is selected
-                                      return selectedItem.name;
-                                    }}
-                                    rowTextForSelection={(item, index) => {
-                                      // text represented for each item in dropdown
-                                      // if data array is an array of objects then return item.property to represent item in dropdown
-                                      return item.name;
-                                    }}
+                                    trackStyle={styles.sliderTrack}
+                                    markerStyle={styles.sliderMarker}
+                                    selectedStyle={styles.sliderSelected}
+                                    name="days_preference"
                                   />
                                 )}
                               />
                             </View>
+                            <Text style={styles.daysTitle}>
+                              QUEL(S) JOUR(S) ?
+                            </Text>
+                            <FieldArray
+                              name="days_preference"
+                              render={(arrayhelper) => (
+                                <FlatList
+                                  style={styles.flatlist}
+                                  horizontal={true}
+                                  data={this.state.SelectedDay}
+                                  extraData={this.state}
+                                  renderItem={({ item }) => {
+                                    const backgroundColor =
+                                      item.selected == 1
+                                        ? '#2CDEE4'
+                                        : '#1E2026';
+                                    const textColor =
+                                      item.selected == 1 ? 'black' : 'white';
+                                    return (
+                                      <TouchableOpacity
+                                        onPress={() => {
+                                          switch (item.day) {
+                                            case 'L':
+                                              arrayhelper.form.values.days_preference.is_monday_preferred =
+                                                !arrayhelper.form.values
+                                                  .days_preference
+                                                  .is_monday_preferred;
+                                              this.setDayChoice('L');
+
+                                              break;
+                                            case 'M':
+                                              arrayhelper.form.values.days_preference.is_tuesday_preferred =
+                                                !arrayhelper.form.values
+                                                  .days_preference
+                                                  .is_tuesday_preferred;
+                                              this.setDayChoice('M');
+
+                                              break;
+                                            case 'ME':
+                                              arrayhelper.form.values.days_preference.is_wednesday_preferred =
+                                                !arrayhelper.form.values
+                                                  .days_preference
+                                                  .is_wednesday_preferred;
+                                              this.setDayChoice('ME');
+                                              break;
+                                            case 'J':
+                                              arrayhelper.form.values.days_preference.is_thursday_preferred =
+                                                !arrayhelper.form.values
+                                                  .days_preference
+                                                  .is_thursday_preferred;
+                                              this.setDayChoice('J');
+                                              break;
+                                            case 'V':
+                                              arrayhelper.form.values.days_preference.is_friday_preferred =
+                                                !arrayhelper.form.values
+                                                  .days_preference
+                                                  .is_friday_preferred;
+                                              this.setDayChoice('V');
+                                              break;
+                                            case 'S':
+                                              arrayhelper.form.values.days_preference.is_saturday_preferred =
+                                                !arrayhelper.form.values
+                                                  .days_preference
+                                                  .is_saturday_preferred;
+                                              this.setDayChoice('S');
+                                              break;
+                                            case 'D':
+                                              arrayhelper.form.values.days_preference.is_sunday_preferred =
+                                                !arrayhelper.form.values
+                                                  .days_preference
+                                                  .is_sunday_preferred;
+                                              this.setDayChoice('D');
+                                              break;
+                                            default:
+                                              break;
+                                          }
+                                        }}>
+                                        <View
+                                          style={[
+                                            styles.day,
+                                            {
+                                              backgroundColor: backgroundColor,
+                                            },
+                                          ]}>
+                                          <Text
+                                            style={{
+                                              fontSize: 13,
+                                              color: textColor,
+                                            }}>
+                                            {item.day}
+                                          </Text>
+                                        </View>
+                                      </TouchableOpacity>
+                                    );
+                                  }}
+                                  keyExtractor={(item) => item.day}
+                                />
+                              )}
+                            />
                           </View>
                         );
                       }}
@@ -152,7 +254,7 @@ export default class gym extends React.Component {
                     <Button
                       loading={false}
                       disabled={!isValid}
-                      title="suivant"
+                      title="Suivant"
                       customTextStyle={styles.nextButtonText}
                       onPress={handleSubmit}
                     />

@@ -37,7 +37,7 @@ export default class gym extends React.Component {
   }
 
   onNavigate = (item) => {
-    this.props.navigation.navigate('ElementSlider2', { item: item });
+    this.props.navigation.navigate('trainingDay', { item: item });
   };
 
   render() {
@@ -143,7 +143,7 @@ export default class gym extends React.Component {
                     <Button
                       loading={false}
                       disabled={!isValid}
-                      title="suivant"
+                      title="Suivant"
                       customTextStyle={styles.nextButtonText}
                       onPress={handleSubmit}
                     />
