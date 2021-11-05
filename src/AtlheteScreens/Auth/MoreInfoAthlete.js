@@ -22,7 +22,7 @@ import { dynamicListAthlete } from '../../components/componentsAthlete/dynamicLi
 import { selectList } from '../../components/componentsAthlete/selectList';
 import { avatarAthlete } from '../../components/componentsAthlete/avatarAthlete';
 import { LinearGradient } from 'expo-linear-gradient';
-import { mensuration } from '../../components/componentsAthlete/mensuration';
+import { mensuration } from '../../components/componentsAthlete/mensuration/mensuration';
 import { health } from '../../components/componentsAthlete/health';
 import { ElementSlider2 } from '../../components/componentsAthlete/ElementSlider2';
 import { loadFonts } from '../../configs/design/font';

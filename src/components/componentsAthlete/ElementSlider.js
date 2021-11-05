@@ -49,9 +49,8 @@ export default class ElementSlider extends React.Component {
             y: 1,
           }}
           style={styles.background}>
-          <ScrollView>
+          <Header title="LET'S GO" />
             <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <Header title="LET'S GO" />
               <View style={{ alignItems: 'center' }}>
                 <Image
                   source={require('../../../assets/images/GroupA_2.png')}
@@ -192,7 +191,6 @@ export default class ElementSlider extends React.Component {
                 </Formik>
               </View>
             </SafeAreaView>
-          </ScrollView>
         </LinearGradient>
       </View>
     );
@@ -200,41 +198,8 @@ export default class ElementSlider extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: width,
-    height: 48,
-    backgroundColor: '#2CDEE4',
-    borderRadius: 3,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textStyle: {
-    color: '#000000',
-  },
-  container: {
-    marginTop: heightPercentageToDP(10),
-    alignItems: 'center',
-  },
-  container2: {
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-  },
-  textStyle: {
-    color: '#000000',
-  },
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: width,
-    height: 49,
-    marginTop: 29,
-    marginBottom: 49,
-    paddingLeft: 16,
-    paddingRight: 16,
   },
   background: {
     position: 'absolute',

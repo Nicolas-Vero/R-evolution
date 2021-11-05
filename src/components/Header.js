@@ -42,8 +42,8 @@ const defaultStyle = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     width: width,
-    marginTop: 28,
-    marginBottom: 15,
+    marginTop: 26,
+    marginBottom: 20,
   },
   image: { marginLeft: 16, height: 20.54, width: 12.33, resizeMode: 'contain' },
   textContainer: { alignItems: 'center', flex: 6 },
@@ -52,6 +52,5 @@ const defaultStyle = StyleSheet.create({
     fontWeight: '800',
     fontSize: 20,
     color: '#FFFFFF',
-    lineHeight: 24,
   },
 });
