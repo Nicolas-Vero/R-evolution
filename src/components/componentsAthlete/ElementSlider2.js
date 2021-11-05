@@ -10,7 +10,6 @@ import {
   StatusBar,
   FlatList,
   TouchableOpacity,
-  TextInput,
   Image,
 } from 'react-native';
 import { Button } from '../../components/Button';
