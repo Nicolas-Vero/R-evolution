@@ -1,16 +1,10 @@
-import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
-import { Ionicons } from '@expo/vector-icons';
 // Auth import
 import LoginAthlete from '../AtlheteScreens/Auth/LoginAthlete';
 import RegisterInfoAthlete from '../AtlheteScreens/Auth/RegisterInfo/RegisterInfoAthlete';
-import MoreInfoAthlete from '../AtlheteScreens/Auth/MoreInfoAthlete';
 import mensuration from '../components/componentsAthlete/mensuration/mensuration';
 import experience from '../components/componentsAthlete/experience/experience';
-import dynamicListAthlete from '../components/componentsAthlete/dynamicListAthlete';
 import health from '../components/componentsAthlete/health/health';
-import selectList from '../components/componentsAthlete/selectList';
-import ElementSlider2 from '../components/componentsAthlete/ElementSlider2';
 import avatarAthlete from '../components/componentsAthlete/avatarAthlete';
 import goal from '../components/componentsAthlete/goal/goal';
 import gym from '../components/componentsAthlete/gym/gym';
