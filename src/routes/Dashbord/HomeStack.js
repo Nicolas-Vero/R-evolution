@@ -3,16 +3,17 @@ import Activitie from '../../screens/Activitie'; //athlet activite screen
 import AwaitingDemand from '../../screens/AwaitingDemand';
 import CreateBook from '../../screens/CreateBook';
 import Dashboard from '../../screens/Dashboard';
+import homeCoachScreen from '../../screens/homeCoach/homeCoachScreen';
 import CreateReminder from '../../screens/CreateReminder';
 import Account from '../../screens/Account';
 import MyInformations from '../../screens/MyInformations';
 import Demande from '../../screens/Demande';
 const HomeStack = createStackNavigator(
   {
-    Dashboard: {
-      screen: Dashboard,
+    homeCoachScreen: {
+      screen: homeCoachScreen,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
@@ -20,7 +21,7 @@ const HomeStack = createStackNavigator(
     CreateBook: {
       screen: CreateBook,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
@@ -28,7 +29,7 @@ const HomeStack = createStackNavigator(
     CreateReminder: {
       screen: CreateReminder,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
@@ -36,23 +37,23 @@ const HomeStack = createStackNavigator(
     Activitie: {
       screen: Activitie,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    Account:{
+    Account: {
       screen: Account,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    MyInformations:{
+    MyInformations: {
       screen: MyInformations,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
@@ -60,7 +61,7 @@ const HomeStack = createStackNavigator(
     AwaitingDemand: {
       screen: AwaitingDemand,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
@@ -68,12 +69,11 @@ const HomeStack = createStackNavigator(
     Demande: {
       screen: Demande,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-
   },
   {
     lazy: true,

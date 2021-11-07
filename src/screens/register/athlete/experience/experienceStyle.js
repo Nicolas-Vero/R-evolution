@@ -55,4 +55,8 @@ module.exports = StyleSheet.create({
     fontSize: 16,
     color: '#FFFF',
   },
+  buttonText: {
+    fontFamily: 'RobotoBold',
+    fontSize: 17,
+  },
 });

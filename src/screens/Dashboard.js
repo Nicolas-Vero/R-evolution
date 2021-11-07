@@ -16,7 +16,7 @@ import { get_availabilities, update_availability } from '../api/Availabilities';
 import SwitchSelector from 'react-native-switch-selector';
 import { Avatar } from 'react-native-elements';
 import { Calendar } from 'react-native-calendars';
-const { width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 import { LocaleConfig } from 'react-native-calendars';
 import MonthsSlider from '../components/MonthsSlider';
@@ -410,6 +410,7 @@ export default class Dashboard extends React.Component {
     this.setState({ currentDate: curDate });
 
     get_appointement(formatdata).then((res) => {
+      console.log('dataaaa', res.data);
       this.setState({ carousselLoad: false });
       const arrayOfAppointment = res.data;
       const arrayOfPage = [];
@@ -618,112 +619,111 @@ export default class Dashboard extends React.Component {
                     {this.state.currentDate.toUpperCase()}
                   </Text>
                 </View>
-               
-                  <View>
-                    <View style={{ alignItems: 'center' }}>
-                      {this.state.page.length == 0 ? (
-                        <View
-                          style={{
-                            height: heightPercentageToDP(22),
-                            width: widthPercentageToDP(94),
-                            alignItems: 'center',
-                            alignSelf: 'center',
-                          }}>
-                          <Text
-                            style={{
-                              fontFamily: 'RobotoItalic',
-                              fontSize: 15,
-                              marginTop: 20,
-                              color: 'white',
-                            }}>
-                            Aucun rendez-vous prévu ce jour-là.
-                          </Text>
-                        </View>
-                      ) : this.state.carousselLoad ? (
-                        <Pager pager={this.state.page} />
-                      ) : (
-                        <View
-                          style={{
-                            height: heightPercentageToDP(22),
-                            width: widthPercentageToDP(94),
-                            alignItems: 'center',
-                          }}>
-                          <ActivityIndicator />
-                        </View>
-                      )}
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'center',
-                      }}>
-                      <View style={{ alignItems: 'center' }}>
-                        <Calendar
-                          theme={{
-                            calendarBackground: '#1E2026',
-                            textSectionTitleColor: 'white',
-                            textSectionTitleWeight: 'bold',
-                            textSectionTitleDisabledColor: '#d9e1e8',
-                            selectedDayBackgroundColor: '#2CDEE4',
-                            todayTextColor: '#2CDEE4',
-                            dayTextColor: 'white',
-                            textDisabledColor: 'grey',
-                            arrowColor: 'white',
-                            monthTextColor: 'white',
-                            indicatorColor: '#2CDEE4',
-                            textDayFontFamily: 'Montserrat',
-                            textMonthFontFamily: 'MontserratBoldItalic',
-                            textDayHeaderFontFamily: 'MontserratMedium',
-                            textDayFontSize: 16,
-                            textMonthFontSize: 22,
-                            textDayHeaderFontSize: 16,
-                          }}
-                          enableSwipeMonths={true}
-                          firstDay={1}
-                          markingType={'custom'}
-                          markedDates={{
-                            [selected]: {
-                              selected: true,
-                              selectedColor: '#2CDEE4',
-                              selectedTextColor: 'black',
-                            },
-                          }}
-                          // dayComponent={({date, state}) => {
-                          //   return (
-                          //     <View>
-                          //       <Text style={[styles.customDay, state === 'disabled' ? styles.disabledText : styles.defaultText]}>
-                          //         {date.day}
-                          //       </Text>
-                          //     </View>
-                          //   );
-                          // }}
-                          onDayPress={(day) => this.changeTaskList(day)}
-                          style={styles.calendar}
-                        />
-                      </View>
-                      <TouchableOpacity
+
+                <View>
+                  <View style={{ alignItems: 'center' }}>
+                    {this.state.page.length == 0 ? (
+                      <View
                         style={{
-                          position: 'absolute',
-                          left: widthPercentageToDP(88),
-                          top: heightPercentageToDP(20),
-                          right: widthPercentageToDP(10),
-                          // height: heightPercentageToDP(18),
-                          // width: widthPercentageToDP(1),
-                        }}
-                        onPress={() => {
-                          navigate('CreateBook');
+                          height: heightPercentageToDP(22),
+                          width: widthPercentageToDP(94),
+                          alignItems: 'center',
+                          alignSelf: 'center',
                         }}>
-                        <Image
-                          source={require('../../assets/images/Group_8766.png')}
+                        <Text
                           style={{
-                            height: 45,
-                            width: 45,
-                          }}
-                        />
-                      </TouchableOpacity>
-                    </View>
+                            fontFamily: 'RobotoItalic',
+                            fontSize: 15,
+                            marginTop: 20,
+                            color: 'white',
+                          }}>
+                          Aucun rendez-vous prévu ce jour-là.
+                        </Text>
+                      </View>
+                    ) : this.state.carousselLoad ? (
+                      <Pager pager={this.state.page} />
+                    ) : (
+                      <View
+                        style={{
+                          height: heightPercentageToDP(22),
+                          width: widthPercentageToDP(94),
+                          alignItems: 'center',
+                        }}>
+                        <ActivityIndicator />
+                      </View>
+                    )}
                   </View>
-               
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                    }}>
+                    <View style={{ alignItems: 'center' }}>
+                      <Calendar
+                        theme={{
+                          calendarBackground: '#1E2026',
+                          textSectionTitleColor: 'white',
+                          textSectionTitleWeight: 'bold',
+                          textSectionTitleDisabledColor: '#d9e1e8',
+                          selectedDayBackgroundColor: '#2CDEE4',
+                          todayTextColor: '#2CDEE4',
+                          dayTextColor: 'white',
+                          textDisabledColor: 'grey',
+                          arrowColor: 'white',
+                          monthTextColor: 'white',
+                          indicatorColor: '#2CDEE4',
+                          textDayFontFamily: 'Montserrat',
+                          textMonthFontFamily: 'MontserratBoldItalic',
+                          textDayHeaderFontFamily: 'MontserratMedium',
+                          textDayFontSize: 16,
+                          textMonthFontSize: 22,
+                          textDayHeaderFontSize: 16,
+                        }}
+                        enableSwipeMonths={true}
+                        firstDay={1}
+                        markingType={'custom'}
+                        markedDates={{
+                          [selected]: {
+                            selected: true,
+                            selectedColor: '#2CDEE4',
+                            selectedTextColor: 'black',
+                          },
+                        }}
+                        // dayComponent={({date, state}) => {
+                        //   return (
+                        //     <View>
+                        //       <Text style={[styles.customDay, state === 'disabled' ? styles.disabledText : styles.defaultText]}>
+                        //         {date.day}
+                        //       </Text>
+                        //     </View>
+                        //   );
+                        // }}
+                        onDayPress={(day) => this.changeTaskList(day)}
+                        style={styles.calendar}
+                      />
+                    </View>
+                    <TouchableOpacity
+                      style={{
+                        position: 'absolute',
+                        left: widthPercentageToDP(88),
+                        top: heightPercentageToDP(20),
+                        right: widthPercentageToDP(10),
+                        // height: heightPercentageToDP(18),
+                        // width: widthPercentageToDP(1),
+                      }}
+                      onPress={() => {
+                        navigate('CreateBook');
+                      }}>
+                      <Image
+                        source={require('../../assets/images/Group_8766.png')}
+                        style={{
+                          height: 45,
+                          width: 45,
+                        }}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </View>
             ) : (
               <ScrollView>
@@ -739,10 +739,8 @@ export default class Dashboard extends React.Component {
                         refreshing={this.state.refresh}
                         keyExtractor={(item) => item?.date}
                         renderItem={({ item }) => {
-                          const borderWidth = 
-                          item?.availability === curDate 
-                          ? 2
-                          : 0;
+                          const borderWidth =
+                            item?.availability === curDate ? 2 : 0;
                           const backgroundColor =
                             item.availability === this.state.selectedDate
                               ? '#2CDEE4'
@@ -763,7 +761,7 @@ export default class Dashboard extends React.Component {
                                 style={[
                                   styles.day,
                                   { backgroundColor: backgroundColor },
-                                  {borderWidth:borderWidth},
+                                  { borderWidth: borderWidth },
                                 ]}>
                                 <View
                                   style={{
@@ -870,7 +868,7 @@ const styles = StyleSheet.create({
     height: 70,
     width: 50,
     marginHorizontal: 5,
-    borderColor:'#2CDEE4',
+    borderColor: '#2CDEE4',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,

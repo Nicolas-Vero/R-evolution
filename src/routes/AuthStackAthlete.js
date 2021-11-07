@@ -1,93 +1,93 @@
 import { createStackNavigator } from 'react-navigation-stack';
 // Auth import
-import LoginAthlete from '../AtlheteScreens/Auth/LoginAthlete';
-import RegisterInfoAthlete from '../AtlheteScreens/Auth/RegisterInfo/RegisterInfoAthlete';
-import mensuration from '../components/componentsAthlete/mensuration/mensuration';
-import experience from '../components/componentsAthlete/experience/experience';
-import health from '../components/componentsAthlete/health/health';
-import avatarAthlete from '../components/componentsAthlete/avatarAthlete';
-import goal from '../components/componentsAthlete/goal/goal';
-import gym from '../components/componentsAthlete/gym/gym';
-import trainingDay from '../components/componentsAthlete/trainingDay/trainingDay';
-import selectCoach from '../components/componentsAthlete/selectCoach/selectCoach';
+import loginScreen from '../screens/Auth/login/loginScreen';
 
+import registerScreen from '../screens/register/common/register/registerScreen';
+import mensurationScreen from '../screens/register/athlete/mensuration/mensurationScreen';
+import experienceScreen from '../screens/register/athlete/experience/experienceScreen';
+import goalScreen from '../screens/register/athlete/goal/goalScreen';
+import healthScreen from '../screens/register/athlete/health/healthScreen';
+import selectGymScreen from '../screens/register/athlete/selectGym/selectGymScreen';
+import trainingDayScreen from '../screens/register/athlete/trainingDay/trainingDayScreen';
+import selectCoachScreen from '../screens/register/athlete/selectCoach/selectCoachScreen';
+import avatarScreen from '../screens/register/common/avatar/avatarScreen';
 // Auth bottom tabs menu
 const AuthStackAthlete = createStackNavigator(
   {
-    LoginAthlete: {
-      screen: LoginAthlete,
+    loginScreen: {
+      screen: loginScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    RegisterInfoAthlete: {
-      screen: RegisterInfoAthlete,
+    registerScreen: {
+      screen: registerScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    mensuration: {
-      screen: mensuration,
+    mensurationScreen: {
+      screen: mensurationScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    experience: {
-      screen: experience,
+    experienceScreen: {
+      screen: experienceScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    goal: {
-      screen: goal,
+    goalScreen: {
+      screen: goalScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    health: {
-      screen: health,
+    healthScreen: {
+      screen: healthScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    gym: {
-      screen: gym,
+    selectGymScreen: {
+      screen: selectGymScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    trainingDay: {
-      screen: trainingDay,
+    trainingDayScreen: {
+      screen: trainingDayScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    selectCoach: {
-      screen: selectCoach,
+    selectCoachScreen: {
+      screen: selectCoachScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    avatarAthlete: {
-      screen: avatarAthlete,
+    avatarScreen: {
+      screen: avatarScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,

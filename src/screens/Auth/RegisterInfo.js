@@ -452,7 +452,7 @@ export default class RegisterInfo extends React.Component {
                             textDecorationLine: 'underline',
                             fontFamily: 'Montserrat',
                           }}
-                          onPress={() => navigate('Login')}>
+                          onPress={() => navigate('loginScreen')}>
                           Se connecter.
                         </Text>
                       </View>

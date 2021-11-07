@@ -1,23 +1,20 @@
 import React from 'react';
 import { Text, View, SafeAreaView, Keyboard } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { Formik, FieldArray, Field } from 'formik';
 
 import SelectDropdown from 'react-native-select-dropdown';
 import { AntDesign } from '@expo/vector-icons';
 import * as Yup from 'yup';
 
-import RegisterStepImageView from '../../register/registerStepImage/RegisterStepImageView';
-import { get_gym } from '../../../api/ReferenceData';
-import { Button } from '../../../components/Button';
-import Header from '../../../components/Header';
-import styles from './gymStyle';
+import { get_gym } from '../../../../api/ReferenceData';
+import Header from '../../../../components/Header';
+import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
+import { Button } from '../../../../components/Button';
+import styles from './selectGymStyle';
 
-export default class gym extends React.Component {
+export default class selectGymScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,7 +34,7 @@ export default class gym extends React.Component {
   }
 
   onNavigate = (item) => {
-    this.props.navigation.navigate('trainingDay', { item: item });
+    this.props.navigation.navigate('trainingDayScreen', { item: item });
   };
 
   render() {

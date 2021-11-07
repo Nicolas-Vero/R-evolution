@@ -29,6 +29,9 @@ export default class RegisterStepImageView extends React.Component {
       case 7:
         image = require('../../../../assets/images/GroupA_7.png');
         break;
+        case 8:
+          image = require('../../../../assets/images/GroupA_8.png');
+          break;
     }
     return (
       <View style={styles.imageContainer}>

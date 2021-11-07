@@ -8,17 +8,18 @@ import {
   TextInput,
 } from 'react-native';
 
-import Header from '../../Header';
-import RegisterStepImageView from '../../register/registerStepImage/RegisterStepImageView';
 import { LinearGradient } from 'expo-linear-gradient';
-import styles from './mensurationStyle';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { Formik, Field, FieldArray } from 'formik';
 import * as Yup from 'yup';
-import { Button } from '../../Button';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
-export default class mensuration extends React.Component {
+import Header from '../../../../components/Header';
+import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
+import { Button } from '../../../../components/Button';
+import styles from './mensurationStyle';
+
+export default class mensurationScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,9 +30,9 @@ export default class mensuration extends React.Component {
   }
 
   onNavigate = (item) => {
-    this.props.navigation.navigate('experience', { item: item });
+    this.props.navigation.navigate('experienceScreen', { item: item });
   };
-  
+
   render() {
     const passItem = this.props.navigation.state.params.item;
     console.log('passitem', passItem);

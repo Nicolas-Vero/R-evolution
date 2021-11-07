@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  PanResponder,
-  Animated,
-  StyleSheet
-} from 'react-native';
+import { View, PanResponder, Animated, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { forEach, indexOf } from 'lodash';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -26,9 +21,9 @@ export default class CarouselPager extends Component {
     blurredbackgroundColor: PropTypes.string,
     onPageChange: PropTypes.func,
     deltaDelay: PropTypes.number,
-    children: PropTypes.array.isRequired
-  }
-  componentDidMount(){
+    children: PropTypes.array.isRequired,
+  };
+  componentDidMount() {
     loadFonts;
   }
 
@@ -36,19 +31,19 @@ export default class CarouselPager extends Component {
     initialPage: 0,
     blurredZoom: 0.8,
     blurredOpacity: 0.8,
-    blurredbackgroundColor:'blue',
+    blurredbackgroundColor: 'blue',
     animationDuration: 150,
     containerPadding: 30,
     pageSpacing: 10,
     vertical: false,
     deltaDelay: 0,
     onPageChange: () => {},
-  }
+  };
 
   state = {
     width: 0,
-    height: 0
-  }
+    height: 0,
+  };
   convertSlotToDate(slot) {
     switch (slot) {
       case 0:
@@ -157,7 +152,7 @@ export default class CarouselPager extends Component {
   _runAfterMeasurements(width, height) {
     // Set box and box interval size
     let length = this.props.vertical ? height : width;
-    this._boxSize = length - (2 * this.props.containerPadding);
+    this._boxSize = length - 2 * this.props.containerPadding;
     this._boxSizeInterval = this._boxSize + this.props.pageSpacing;
     // Get initial page
     let initialPage = this.props.initialPage || 0;
@@ -169,22 +164,30 @@ export default class CarouselPager extends Component {
 
     this._currentPage = initialPage;
     this._lastPos = this._getPosForPage(this._currentPage);
-    
+
     let viewsScale = [];
     let viewsOpacity = [];
-    let backgroundColor=[];
-    let textColor=[];
+    let backgroundColor = [];
+    let textColor = [];
     for (let i = 0; i < this.props.children.length; ++i) {
-      viewsScale.push(new Animated.Value(i === this._currentPage ? 1 : this.props.blurredZoom));
-      viewsOpacity.push(new Animated.Value(i === this._currentPage ? 1 : this.props.blurredOpacity));
+      viewsScale.push(
+        new Animated.Value(
+          i === this._currentPage ? 1 : this.props.blurredZoom,
+        ),
+      );
+      viewsOpacity.push(
+        new Animated.Value(
+          i === this._currentPage ? 1 : this.props.blurredOpacity,
+        ),
+      );
     }
     for (let i = 0; i < this.props.children.length; ++i) {
-      if (i == 0 ) {
-        backgroundColor.push('#2CDEE4')
-        textColor.push('black')
+      if (i == 0) {
+        backgroundColor.push('#2CDEE4');
+        textColor.push('black');
       } else {
-        backgroundColor.push('transparent')
-        textColor.push('white')
+        backgroundColor.push('transparent');
+        textColor.push('white');
       }
     }
     this.setState({
@@ -200,56 +203,54 @@ export default class CarouselPager extends Component {
 
   animateToPage(page) {
     let animations = [];
-    let arrayofcolor =[];
+    let arrayofcolor = [];
     let arrayofTextColor = [];
-    var i = 0
+    var i = 0;
     if (this._currentPage !== page) {
       // New page needs to be shown (adjust opacity and scale)
       animations.push(
         Animated.timing(this.state.viewsScale[page], {
           toValue: 1,
           duration: this.props.animationDuration,
-          useNativeDriver: false
-        })
+          useNativeDriver: false,
+        }),
       );
 
       animations.push(
         Animated.timing(this.state.viewsOpacity[page], {
           toValue: 1,
           duration: this.props.animationDuration,
-          useNativeDriver: false
-        })
+          useNativeDriver: false,
+        }),
       );
-  
+
       animations.push(
         Animated.timing(this.state.viewsScale[this._currentPage], {
           toValue: this.props.blurredZoom,
           duration: this.props.animationDuration,
-          useNativeDriver: false
-        })
+          useNativeDriver: false,
+        }),
       );
-
 
       animations.push(
         Animated.timing(this.state.viewsOpacity[this._currentPage], {
           toValue: this.props.blurredOpacity,
           duration: this.props.animationDuration,
-          useNativeDriver: false
-        })
+          useNativeDriver: false,
+        }),
       );
     }
     for (let i = 0; i < this.props.children.length; ++i) {
-      if (page == i ) {
-        arrayofcolor.push('#2CDEE4')
-        arrayofTextColor.push('black')
-
+      if (page == i) {
+        arrayofcolor.push('#2CDEE4');
+        arrayofTextColor.push('black');
       } else {
-        arrayofcolor.push('transparent')
-        arrayofTextColor.push('white')
+        arrayofcolor.push('transparent');
+        arrayofTextColor.push('white');
       }
     }
-  this.setState({backgroundColor:arrayofcolor});
-  this.setState({textColor:arrayofTextColor});
+    this.setState({ backgroundColor: arrayofcolor });
+    this.setState({ textColor: arrayofTextColor });
     // Move to proper position for selected page
     let toValue = this._getPosForPage(page);
 
@@ -257,16 +258,15 @@ export default class CarouselPager extends Component {
       Animated.timing(this.state.pos, {
         toValue: toValue,
         duration: this.props.animationDuration,
-        useNativeDriver: false
-      })
+        useNativeDriver: false,
+      }),
     );
-   
+
     Animated.parallel(animations).start();
 
     this._lastPos = toValue;
     this._currentPage = page;
     this.props.onPageChange(page);
-  
   }
 
   goToPage(index) {
@@ -283,19 +283,22 @@ export default class CarouselPager extends Component {
       onStartShouldSetPanResponder: (evt, gestureState) => {
         const dx = Math.abs(gestureState.dx);
         const dy = Math.abs(gestureState.dy);
-        return this.props.vertical ? (dy > this.props.deltaDelay && dy > dx) : (dx > this.props.deltaDelay && dx > dy);
+        return this.props.vertical
+          ? dy > this.props.deltaDelay && dy > dx
+          : dx > this.props.deltaDelay && dx > dy;
       },
       onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
       onMoveShouldSetPanResponder: (evt, gestureState) => {
         // Set PanResponder only if it is a gesture in the right direction
         const dx = Math.abs(gestureState.dx);
         const dy = Math.abs(gestureState.dy);
-        return this.props.vertical ? (dy > this.props.deltaDelay && dy > dx) : (dx > this.props.deltaDelay && dx > dy);
+        return this.props.vertical
+          ? dy > this.props.deltaDelay && dy > dx
+          : dx > this.props.deltaDelay && dx > dy;
       },
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => false,
 
-      onPanResponderGrant: (evt, gestureState) => {
-      },
+      onPanResponderGrant: (evt, gestureState) => {},
       onPanResponderMove: (evt, gestureState) => {
         let suffix = this.props.vertical ? 'y' : 'x';
         this.state.pos.setValue(this._lastPos + gestureState['d' + suffix]);
@@ -304,12 +307,14 @@ export default class CarouselPager extends Component {
       onPanResponderRelease: (evt, gestureState) => {
         let suffix = this.props.vertical ? 'y' : 'x';
         this._lastPos += gestureState['d' + suffix];
-        let page = this._getPageForOffset(this._lastPos, gestureState['d' + suffix]);
+        let page = this._getPageForOffset(
+          this._lastPos,
+          gestureState['d' + suffix],
+        );
         this.animateToPage(page);
       },
-      onPanResponderTerminate: (evt, gestureState) => {
-      },
-      onShouldBlockNatiResponder: (evt, gestureState) => true
+      onPanResponderTerminate: (evt, gestureState) => {},
+      onShouldBlockNatiResponder: (evt, gestureState) => true,
     });
   }
 
@@ -319,8 +324,15 @@ export default class CarouselPager extends Component {
       return (
         <View style={{ flex: 1 }}>
           <View
-            style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'transparent' }}
-            onLayout={evt => {
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'transparent',
+            }}
+            onLayout={(evt) => {
               let width = evt.nativeEvent.layout.width;
               let height = evt.nativeEvent.layout.height;
               this._runAfterMeasurements(width, height);
@@ -337,76 +349,113 @@ export default class CarouselPager extends Component {
         top: this.state.pos,
         paddingTop: this.props.containerPadding,
         paddingBottom: this.props.containerPadding,
-        flexDirection: 'column'
-      }
+        flexDirection: 'column',
+      };
       boxStyle = {
         height: this._boxSize,
-        marginBottom: this.props.pageSpacing
-      }
+        marginBottom: this.props.pageSpacing,
+      };
     } else {
       containerStyle = {
         left: this.state.pos,
         paddingLeft: this.props.containerPadding,
         paddingRight: this.props.containerPadding,
-        flexDirection: 'row'
-      }
+        flexDirection: 'row',
+      };
       boxStyle = {
         width: this._boxSize,
-        marginRight: this.props.pageSpacing
+        marginRight: this.props.pageSpacing,
       };
     }
 
     return (
-      <View style={{ flex: 1, flexDirection: this.props.vertical ? 'column' : 'row', overflow: 'hidden' }}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: this.props.vertical ? 'column' : 'row',
+          overflow: 'hidden',
+        }}>
         <Animated.View
           style={[{ flex: 1 }, containerStyle]}
-          {...this._panResponder.panHandlers}
-        >
+          {...this._panResponder.panHandlers}>
           {this.props.children.map((page, index) => {
-
             return (
               <Animated.View
                 key={index}
-                style={[{
-                  
-                  backgroundColor:this.state.backgroundColor[index],
-                  opacity: this.state.viewsOpacity[index],
-                  transform: [
-                    this.props.vertical ? {
-                      scaleX: this.state.viewsScale[index]
-                    } : {
-                        scaleY: this.state.viewsScale[index]
-                      }
-                  ]
-                }, boxStyle, this.props.pageStyle]}>
-                  <TouchableOpacity onPress={()=>{navigate('')}} style={{justifyContent:'center'}}>
-          <View style={{flexDirection:'row',justifyContent:'space-around',alignContent:'center',width:widthPercentageToDP(94),alignItems:'center'}}key={page.id}>
-            <View style={{marginTop:2}}>
-              <Avatar
-                size="medium"
-                rounded
-                source={{
-                  uri: page.Avatar,
-                }}
-              />
-              </View>
-            <View style={{flexDirection:'column',marginRight:40}}>
-              <View style={{flexDirection:'row'}}>
-                <Text style={{
-                  fontFamily:'RobotoMedium',
-                  fontSize: 20,
-                  color:this.state.textColor[index],
-                }}>{page.firstname} {page.lastname}</Text>
-            </View>
-            <Text style={{fontFamily:'MontserratMedium', fontSize: 12,  color:this.state.textColor[index]}}>Séance: {page.session_number}/{page.total_sessions}</Text>
-            </View>
-            <View style={{justifyContent:'center'}}>
-              <Text style={{
-                   fontFamily:'RobotoMedium',
-                  fontSize: 20,marginTop:1.2,   color:this.state.textColor[index]}} >{this.convertSlotToDate(page.slot)}</Text>
-            </View>
-          </View>
-          </TouchableOpacity>
+                style={[
+                  {
+                    backgroundColor: this.state.backgroundColor[index],
+                    alignItems: 'center',
+                    opacity: this.state.viewsOpacity[index],
+                    transform: [
+                      this.props.vertical
+                        ? {
+                            scaleX: this.state.viewsScale[index],
+                          }
+                        : {
+                            scaleY: this.state.viewsScale[index],
+                          },
+                    ],
+                  },
+                  boxStyle,
+                  this.props.pageStyle,
+                ]}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigate('');
+                  }}
+                  style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
+                      alignContent: 'center',
+                      width: widthPercentageToDP(94),
+                      alignItems: 'center',
+                    }}
+                    key={page.id}>
+                    <View style={{ marginTop: 2 }}>
+                      <Avatar
+                        size="small"
+                        rounded
+                        source={{
+                          uri: page.Avatar,
+                        }}
+                      />
+                    </View>
+                    <View style={{ flexDirection: 'column', marginRight: 23 }}>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Text
+                          style={{
+                            fontFamily: 'RobotoMedium',
+                            fontSize: 18,
+                            color: this.state.textColor[index],
+                          }}>
+                          {page.firstname} {page.lastname}
+                        </Text>
+                      </View>
+                      <Text
+                        style={{
+                          fontFamily: 'MontserratMedium',
+                          fontSize: 10,
+                          color: this.state.textColor[index],
+                        }}>
+                        Séance: {page.session_number}/{page.total_sessions}
+                      </Text>
+                    </View>
+                    <View style={{ justifyContent: 'center' }}>
+                      <Text
+                        style={{
+                          fontFamily: 'RobotoMedium',
+                          fontSize: 15,
+                          marginTop: 1.2,
+                          color: this.state.textColor[index],
+                        }}>
+                        {this.convertSlotToDate(page.slot)}
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
               </Animated.View>
             );
           })}

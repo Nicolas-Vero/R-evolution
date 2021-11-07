@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, View, Platform,StyleSheet,SafeAreaView, StatusBar } from 'react-native';
-import * as Font from 'expo-font';
+import { ActivityIndicator } from 'react-native';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 import configureStore from './store/configureStore';
 import Router from './routes/index';
-import AppNavigation from './routes/navigationService';
 import './config/logger';
+import { createAppContainer } from 'react-navigation';
+import * as Font from 'expo-font';
 import * as Notifications from 'expo-notifications';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as Updates from 'expo-updates';
-import Constants from 'expo-constants';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
-const statusBarHeight = Constants.statusBarHeight
-const { persistor, store } = configureStore();
+
+const { store } = configureStore();
+
+const Navigation = createAppContainer(Router);
+import AppNavigation from './routes/navigationService';
 
 export class App extends Component {
   constructor(props) {
@@ -28,29 +28,11 @@ export class App extends Component {
     };
   }
 
- state={
-  loaded:false,
- }
+  state = {
+    loaded: true,
+  };
 
-  async registerForPushNotification() {
-    let token = null;
-    token = await Notifications.getExpoPushTokenAsync();
-    console.log('[push-token]', token);
-    if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
-      });
-    }
-    // return token;
-  }
-  async  lockScreenOrientation() {
-    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
-  }
-
-async  componentDidMount() {
+  async componentDidMount() {
     try {
       const update = await Updates.checkForUpdateAsync();
       if (update.isAvailable) {
@@ -72,42 +54,36 @@ async  componentDidMount() {
       RobotoItalic: require('../assets/fonts/Roboto-LightItalic.ttf'),
       RobotoBold: require('../assets/fonts/Roboto-Bold.ttf'),
       RobotoMedium: require('../assets/fonts/Roboto-Medium.ttf'),
-    }).then(()=>{
-      this.setState({loaded:true})
+    }).then(() => {
+      this.setState({ loaded: true });
     });
-  //  this.registerForPushNotification();
+    //  this.registerForPushNotification();
     this.lockScreenOrientation();
-    this.notificationListener = Notifications.addNotificationReceivedListener(notification => {
-      console.log('[Notification]', notification);
-      this.sendNotificationImmediately();
-    });
+    this.notificationListener = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        console.log('[Notification]', notification);
+        this.sendNotificationImmediately();
+      },
+    );
 
-    this.responseListener = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log('[Notification-Response]', response);
-      this.sendNotificationImmediately();
-    });
+    this.responseListener =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log('[Notification-Response]', response);
+        this.sendNotificationImmediately();
+      });
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     Notifications.removeNotificationSubscription(this.notificationListener);
     Notifications.removeNotificationSubscription(this.responseListener);
   }
 
   render() {
-    const { store } = this.state;
-      return (
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}> 
-            <StatusBar barStyle={'light-content'} />
-            {!this.state.loaded?<ActivityIndicator/>:<Router
-                ref={(navigatorRef) => {
-                  AppNavigation.setTopLevelNavigator(navigatorRef);
-                }}
-              />}
-              
-          </PersistGate>
-        </Provider>     
-      ); 
+    return (
+      <Provider store={this.state.store}>
+        {!this.state.loaded ? <ActivityIndicator /> : <Navigation />}
+      </Provider>
+    );
   }
 }
 

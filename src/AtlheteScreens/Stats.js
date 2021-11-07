@@ -281,7 +281,7 @@ export default class Stats extends React.Component {
                       <Text>déja membre ? </Text>
                       <Text
                         style={{ color: '#38aae3' }}
-                        onPress={() => navigate('Login')}>
+                        onPress={() => navigate('logcinScreen')}>
                         Connecter-vous
                       </Text>
                     </View>

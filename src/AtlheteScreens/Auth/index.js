@@ -27,13 +27,13 @@ export default class Index extends React.Component {
                           title="Rejoindre"
                           customContainerStyles={styles.registerButton}
                           customTextStyle={{color: "#393637"}}
-                          onPress={() => navigate('RegisterInfo')}
+                          onPress={() => navigate('SplashAuth')}
                         />
                         <Button 
                           title="Se connecter"
                           customTextStyle={{color: "#FFFFFF"}}
                           customContainerStyles={styles.loginButton} 
-                          onPress={() => navigate('Login')}
+                          onPress={() => navigate('loginScreen')}
                         />
                     </View>
                 </View>

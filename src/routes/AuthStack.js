@@ -1,77 +1,78 @@
-import {createStackNavigator} from 'react-navigation-stack';
+import { createStackNavigator } from 'react-navigation-stack';
 import RegisterInfo from '../screens/Auth/RegisterInfo';
-import Login from '../screens/Auth/Login';
+import loginScreen from '../screens/Auth/login/loginScreen';
 import SplashAuth from '../screens/SplashAuth';
 import dynamicInput from '../components/dynamicInput';
 import ElementSlider from '../components/ElementSlider';
 import dynamicList from '../components/dynamicList';
-import selectList  from '../components/selectList';
+import selectList from '../components/selectList';
 import avatar from '../components/avatar';
 import destinataire from '../components/componentsAthlete/destinataire';
 
 const AuthStack = createStackNavigator(
   {
-    Login: {
-      screen: Login,
+    loginScreen: {
+      screen: loginScreen,
       navigationOptions: {
         headerShown: false,
       },
     },
-    SplashAuth:{
-      screen:SplashAuth,
+    SplashAuth: {
+      screen: SplashAuth,
       navigationOptions: {
-          headerShown: false,
-        },},
+        headerShown: false,
+      },
+    },
 
     RegisterInfo: {
       screen: RegisterInfo,
       navigationOptions: {
-        gestureEnabled:false,
+        gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    dynamicInput:{
-      screen:dynamicInput,
+    dynamicInput: {
+      screen: dynamicInput,
       navigationOptions: {
-            gestureEnabled:false,
-          headerShown: false,
-       },
+        gestureEnabled: false,
+        headerShown: false,
+      },
     },
-    ElementSlider:{
-      screen:ElementSlider,
+    ElementSlider: {
+      screen: ElementSlider,
       navigationOptions: {
-            gestureEnabled:false,
-          headerShown: false,
-       },
+        gestureEnabled: false,
+        headerShown: false,
+      },
     },
-    dynamicList:{
-      screen:dynamicList,
+    dynamicList: {
+      screen: dynamicList,
       navigationOptions: {
-            gestureEnabled:false,
-          headerShown: false,
-       },
+        gestureEnabled: false,
+        headerShown: false,
+      },
     },
-    selectList:{
-      screen:selectList,
+    selectList: {
+      screen: selectList,
       navigationOptions: {
-            gestureEnabled:false,
-          headerShown: false,
-       },
+        gestureEnabled: false,
+        headerShown: false,
+      },
     },
-    avatar:{
-      screen:avatar,
+    avatar: {
+      screen: avatar,
       navigationOptions: {
-            gestureEnabled:false,
-          headerShown: false,
-       },
+        gestureEnabled: false,
+        headerShown: false,
+      },
     },
-    destinataire:{
-      screen:destinataire,
+    destinataire: {
+      screen: destinataire,
       navigationOptions: {
-            gestureEnabled:false,
-          headerShown: false,
-       },
+        gestureEnabled: false,
+        headerShown: false,
+      },
     },
     // MoreInfo: {
     //   screen: MoreInfo,
@@ -80,8 +81,6 @@ const AuthStack = createStackNavigator(
     //     headerShown: false,
     //   },
     // },
-
-
   },
   {
     lazy: true,
@@ -90,7 +89,7 @@ const AuthStack = createStackNavigator(
     tabBarPosition: 'bottom',
     navigationOptions: {
       tabBarVisible: false,
-      gestureEnabled:false,
+      gestureEnabled: false,
       headerVisible: false,
       animationEnabled: true,
       swipeEnabled: false,
@@ -102,5 +101,5 @@ const AuthStack = createStackNavigator(
       allowFontScaling: false,
     },
   },
-); 
+);
 export default AuthStack;

@@ -3,10 +3,8 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { Ionicons } from '@expo/vector-icons';
 // Auth import
 import AuthEntry from '../screens/Auth/index';
-import Activitie from '../screens/Activitie';
-import LoginAthlete from '../AtlheteScreens/Auth/LoginAthlete';
 import Splash from '../screens/Splash';
-import Login from '../screens/Auth/Login';
+import loginScreen from '../screens/Auth/login/loginScreen';
 import SplashAuth from '../screens/SplashAuth';
 import AuthStack from './AuthStack';
 import AuthStackAthlete from './AuthStackAthlete';
@@ -52,17 +50,8 @@ const SplashStack = createStackNavigator(
       },
     },
 
-    Login: {
-      screen: Login,
-      navigationOptions: {
-        tabBarLabel: 'Sign in',
-        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
-        headerShown: false,
-      },
-    },
-
-    LoginAthlete: {
-      screen: LoginAthlete,
+    loginScreen: {
+      screen: loginScreen,
       navigationOptions: {
         tabBarLabel: 'Sign in',
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,

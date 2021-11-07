@@ -21,7 +21,7 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import { STORAGE } from '../configs/Constants';
-
+import AuthService from '../services/AuthService';
 export default class AccountAthlete extends React.Component {
   constructor(props) {
     super(props);
@@ -56,7 +56,7 @@ export default class AccountAthlete extends React.Component {
               <View style={{ alignItems: 'center', marginTop: 10 }}>
                 <TouchableOpacity
                   onPress={() =>
-                    AsyncStorage.removeItem(STORAGE.HEADERS).then(() => {
+                    AuthService.removeAuth().then(() => {
                       navigate('Entry');
                     })
                   }>

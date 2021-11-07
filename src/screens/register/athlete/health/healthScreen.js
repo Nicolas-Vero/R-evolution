@@ -5,15 +5,14 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { Formik, FieldArray, Field } from 'formik';
 
-import RegisterStepImageView from '../../register/registerStepImage/RegisterStepImageView';
-import { Button } from '../../../components/Button';
-import Header from '../../../components/Header';
-import styles from './healthStyle';
 import SelectDropdown from 'react-native-select-dropdown';
 import { AntDesign } from '@expo/vector-icons';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
+import Header from '../../../../components/Header';
+import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
+import { Button } from '../../../../components/Button';
+import styles from './healthStyle';
 
-export default class health extends React.Component {
+export default class healthScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +23,7 @@ export default class health extends React.Component {
   }
 
   onNavigate = (item) => {
-    this.props.navigation.navigate('gym', { item: item });
+    this.props.navigation.navigate('selectGymScreen', { item: item });
   };
 
   render() {

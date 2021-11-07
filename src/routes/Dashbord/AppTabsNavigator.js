@@ -1,6 +1,6 @@
 import React from 'react';
-import {Image} from 'react-native'
-import {createBottomTabNavigator} from 'react-navigation-tabs';
+import { Image } from 'react-native';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 //import Stats from '../../screens/Stats';
 import OffresStack from './OffresStack';
 import HomeStack from './HomeStack';
@@ -9,76 +9,82 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 // Auth import
 
-
 const AppTabsNavigator = createBottomTabNavigator(
-    {
-      HomeStack: {
-        screen: HomeStack,
-        navigationOptions: {
-          gestureEnabled:false,
-          tabBarLabel: 'Home',
-          tabBarIcon: ({tintColor}) => (
-           <Image source={require('../../../assets/images/Calendar.png')}
-                  style={{height: 24, resizeMode: 'contain', tintColor}}
-           />
-          ),
-        },
-      },
-      OffresStack: {
-        screen: OffresStack,
-        navigationOptions: {
-          tabBarLabel: 'Offres',
-          tabBarIcon: ({tintColor}) => (
-            <Image source={require('../../../assets/images/Category.png')}
-            style={{height: 24, resizeMode: 'contain', tintColor}}
-     />
-          ),
-        },
-      },
-      MyAthletesStack: {
-        screen: MyAthletesStack,
-        navigationOptions: {
-          gestureEnabled:false,
-          tabBarLabel: 'Athlètes',
-          tabBarIcon: ({tintColor}) => (
-            <Image source={require('../../../assets/images/User.png')}
-            style={{height: 24, resizeMode: 'contain', tintColor}}
-     />
-          ),
-        },
-      },
-      // stat: {
-      //   screen: Stats,
-      //   navigationOptions: {
-  
-      //     tabBarIcon: ({tintColor}) => (
-      //       <Image source={require('../../../assets/images/Chart.png')}
-      //             style={{height: 24, resizeMode: 'contain', tintColor}}
-      //      />
-      //     ),
-      //   },
-      // },
-    },
-    {
-      lazy: true,
-      initialRouteName:'HomeStack',
-      swipeEnabled: true,
-      animationEnabled: true,
-      tabBarPosition: 'bottom',
+  {
+    HomeStack: {
+      screen: HomeStack,
       navigationOptions: {
-        tabBarVisible: true,
-        animationEnabled: true,
-        gestureEnabled:false,
-      },
-   
-      tabBarOptions: {
-        activeTintColor: '#2CDEE4',
-        inactiveTintColor: 'white',
-        showIcon: true,
-        showLabel: false,
-        allowFontScaling: false,
-        style:{borderTopColor:'#2CDEE4', alignSelf:'center', backgroundColor:'#1E2026'}
+        gestureEnabled: false,
+        tabBarLabel: 'Home',
+        tabBarIcon: ({ tintColor }) => (
+          <Image
+            source={require('../../../assets/images/Calendar.png')}
+            style={{ height: 24, resizeMode: 'contain', tintColor }}
+          />
+        ),
       },
     },
-  );
-  export default AppTabsNavigator;
+    OffresStack: {
+      screen: OffresStack,
+      navigationOptions: {
+        tabBarLabel: 'Offres',
+        tabBarIcon: ({ tintColor }) => (
+          <Image
+            source={require('../../../assets/images/Category.png')}
+            style={{ height: 24, resizeMode: 'contain', tintColor }}
+          />
+        ),
+      },
+    },
+    MyAthletesStack: {
+      screen: MyAthletesStack,
+      navigationOptions: {
+        gestureEnabled: false,
+        tabBarLabel: 'Athlètes',
+        tabBarIcon: ({ tintColor }) => (
+          <Image
+            source={require('../../../assets/images/User.png')}
+            style={{ height: 24, resizeMode: 'contain', tintColor }}
+          />
+        ),
+      },
+    },
+    // stat: {
+    //   screen: Stats,
+    //   navigationOptions: {
+
+    //     tabBarIcon: ({tintColor}) => (
+    //       <Image source={require('../../../assets/images/Chart.png')}
+    //             style={{height: 24, resizeMode: 'contain', tintColor}}
+    //      />
+    //     ),
+    //   },
+    // },
+  },
+  {
+    lazy: true,
+    initialRouteName: 'HomeStack',
+    swipeEnabled: true,
+    animationEnabled: true,
+    tabBarPosition: 'bottom',
+    navigationOptions: {
+      tabBarVisible: true,
+      animationEnabled: true,
+      gestureEnabled: false,
+    },
+
+    tabBarOptions: {
+      activeTintColor: '#2CDEE4',
+      inactiveTintColor: 'white',
+      showIcon: true,
+      showLabel: false,
+      allowFontScaling: false,
+      style: {
+        borderTopColor: '#2CDEE4',
+        alignSelf: 'center',
+        backgroundColor: '#1E2026',
+      },
+    },
+  },
+);
+export default AppTabsNavigator;
