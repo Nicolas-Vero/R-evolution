@@ -84,37 +84,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     flex: 1,
   },
-  container: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.88)',
-    alignItems: 'center',
-  },
-  safeArea: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: width,
-    height: 49,
-    marginTop: 29,
-    marginBottom: 49,
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
-  title: {
-    color: '#FFFFFF',
-    fontWeight: '500',
-    fontSize: 15,
-    fontStyle: 'italic',
-    textAlign: 'center',
-    marginTop: 112,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    width: width,
-    justifyContent: 'space-between',
-    marginBottom: 35,
-  },
 });

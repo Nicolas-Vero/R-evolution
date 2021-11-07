@@ -75,7 +75,7 @@ export default class Index extends React.Component {
                 fontWeight: 'bold',
                 fontSize: 17,
               }}
-              onPress={() => navigate('SplashAuth')}
+              onPress={() => navigate('avatarScreen')}
             />
             <Button
               title="Se connecter"

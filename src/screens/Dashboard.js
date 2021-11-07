@@ -33,47 +33,6 @@ import { Right } from 'native-base';
 import * as Notifications from 'expo-notifications';
 import { ScrollView } from 'react-native';
 
-LocaleConfig.locales['fr'] = {
-  monthNames: [
-    'JANVIER',
-    'FÉVRIER',
-    'MARS',
-    'AVRIL',
-    'MAI',
-    'JUIN',
-    'JUILLET',
-    'AOÛT',
-    'SEPTEMBRE',
-    'OCTOBRE',
-    'NOVEMBRE',
-    'DÉCEMBRE',
-  ],
-  monthNamesShort: [
-    'Janv.',
-    'Févr.',
-    'Mars',
-    'Avril',
-    'Mai',
-    'Juin',
-    'Juil.',
-    'Août',
-    'Sept.',
-    'Oct.',
-    'Nov.',
-    'Déc.',
-  ],
-  dayNames: [
-    'Dimanche',
-    'Lundi',
-    'Mardi',
-    'Mercredi',
-    'Jeudi',
-    'Vendredi',
-    'Samedi',
-  ],
-  dayNamesShort: ['D', 'L', 'M', 'ME', 'J', 'V', 'S'],
-  today: "Aujourd'hui",
-};
 LocaleConfig.defaultLocale = 'fr';
 
 const monthNames = [

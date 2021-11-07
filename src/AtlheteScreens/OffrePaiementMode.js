@@ -19,10 +19,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../configs/Constants';
 import { create_paiement } from '../api/Paiement';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
-const options = [
-  { label: 'EN COURS', value: 'EN COURS' },
-  { label: 'CATALOGUE', value: 'CATALOGUE' },
-];
 
 export default class OffrePaiementMode extends React.Component {
   
@@ -45,10 +41,6 @@ export default class OffrePaiementMode extends React.Component {
       return this.state.items.map((element) => {
         return console.log(element);
       });
-    };
-    const onRefresh = () => {
-      this.setState({ refresh: true });
-      console.log(this.state.refresh);
     };
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
@@ -148,9 +140,7 @@ export default class OffrePaiementMode extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  image: {
-    width: width,
-  },
+
   bcontainer: {
     height: 55,
     width: widthPercentageToDP(94),
@@ -160,33 +150,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     margin:10,
-  },
-  container: {
-    height: 48,
-    backgroundColor: '#2CDEE4',
-    borderRadius: 3,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  textStyle: {
-    color: '#000000',
-  },
-  background: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-  },
-  backgroundContainer: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.88)',
-    alignItems: 'center',
   },
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
@@ -215,28 +178,5 @@ const styles = StyleSheet.create({
     width: width,
     justifyContent: 'space-between',
     marginBottom: 35,
-  },
-  container: {
-    flex: 1,
-  },
-  logoContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 30,
-    marginTop: 45,
-    marginBottom: 50,
-  },
-  form: {
-    marginLeft: 70,
-    marginRight: 30,
-  },
-  textInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  logoText: {
-    fontSize: 5,
-    alignSelf: 'center',
-    marginTop: 20,
   },
 });

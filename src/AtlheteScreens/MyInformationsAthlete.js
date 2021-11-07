@@ -614,17 +614,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: width,
-    height: 49,
-    marginTop: 29,
-    marginBottom: 49,
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
   inputs: {
     marginVertical: heightPercentageToDP(1),
     alignItems: 'center',
@@ -663,23 +652,6 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP(92),
     padding: 5,
     justifyContent: 'center',
-  },
-  item: {
-    backgroundColor: '#393637',
-    borderRadius: 25,
-    marginVertical: 8,
-    padding: 10,
-    justifyContent: 'center',
-  },
-  itemcontent: {
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  title: {
-    fontFamily: 'RobotoBold',
-    fontSize: 20,
-    color: '#FFFFFF',
-    lineHeight: 24,
   },
   text: {
     fontFamily: 'RobotoBold',

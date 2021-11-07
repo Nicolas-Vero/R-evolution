@@ -12,17 +12,16 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { heightPercentageToDP, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 //import { auth } from '../../api/Register';
 import { Formik } from 'formik';
 import moment from 'moment';
 import { AntDesign } from '@expo/vector-icons'; 
-import { CheckBox, Text } from 'react-native-elements';
+import { Text } from 'react-native-elements';
 import { Button } from '../components/Button';
 import Header from '../components/Header';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Right } from 'native-base';
 import { AddOffer, get_coach_offers } from '../api/Offers';
 import SelectDropdown from 'react-native-select-dropdown';
 import { create_paiement, get_paiement_for_coach } from '../api/Paiement';
@@ -360,9 +359,7 @@ if (!this.state.loaded) {
 }
 
 const styles = StyleSheet.create({
-  image: {
-    width: width,
-  },
+
   text:{
     fontFamily:'RobotoBold',
     fontSize:15,
@@ -374,95 +371,7 @@ const styles = StyleSheet.create({
     fontFamily:'RobotoBold',
     color:'#2CDEE4'
   },
-  backgroundContainer: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.88)',
-    alignItems: 'center',
-  },
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: width,
-    height: 49,
-    marginTop: 29,
-    marginBottom: 49,
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
-  text: {
-    fontStyle: 'italic',
-    fontWeight: 'bold',
-    fontSize: 18,
-    color: '#FFFFFF',
-    lineHeight: 24,
-  },
-  euro: {
-    fontStyle: 'italic',
-    fontWeight: 'bold',
-    fontSize: 30,
-    color: '#FFFFFF',
-    marginLeft: 5,
-  },
-  title: {
-    color: '#FFFFFF',
-    fontWeight: '500',
-    fontSize: 15,
-    fontStyle: 'italic',
-    textAlign: 'center',
-    marginTop: 112,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    width: width,
-    justifyContent: 'space-between',
-    marginBottom: 35,
-  },
-  loginButton: {
-    width: 158.4,
-    height: 48,
-    borderRadius: 10,
-    borderWidth: 1,
-    marginRight: 22,
-    borderColor: '#2CDEE4',
-    backgroundColor: 'transparent',
-  },
-  registerButton: {
-    width: 158.4,
-    height: 48,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    marginLeft: 22,
-  },
-  container: {
-    flex: 1,
-  },
-  logoContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 30,
-    marginTop: 45,
-    marginBottom: 50,
-  },
-  form: {
-    marginLeft: 70,
-    marginRight: 30,
-  },
-  textInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  logoText: {
-    fontSize: 5,
-    alignSelf: 'center',
-    marginTop: 20,
   },
 });

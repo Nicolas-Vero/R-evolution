@@ -78,49 +78,9 @@ export default class Notifications extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  listonebyone: {},
 
-  ccontainer: {},
-  item: {
-    backgroundColor: '#2CDEE4',
-    flex: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 17,
-  },
-  items: {
-    flex: 1,
-    borderRadius: 25,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 17,
-  },
-  calendar: {
-    borderRadius: 15,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 20,
-    height: 400,
-  },
   background: {
     backgroundColor: 'black',
     flex: 1,
-  },
-  day: {
-    borderWidth: 3,
-    borderColor: 'blue',
-    height: 80,
-    width: 50,
-    backgroundColor: '#2D333C',
-    margin: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-  emptyDate: {
-    height: 15,
-    flex: 1,
-    paddingTop: 30,
   },
 });

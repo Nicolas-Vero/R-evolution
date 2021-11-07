@@ -221,7 +221,8 @@ export default class DashboardAthlete extends React.Component {
     await loadFonts();
     let user = await AsyncStorage.getItem(STORAGE.USER);
     user = JSON.parse(user);
-    this.setState({ coach_id: user.coach_id });
+    try {
+      this.setState({ coach_id: user.coach_id });
     this.setState({ user: user });
     get_athlete_active_courses().then((res) => {
       this.setState({ athleteCourse: res.data });
@@ -257,6 +258,10 @@ export default class DashboardAthlete extends React.Component {
       });
       this.setState({ upcomingApointement: data });
     });
+    } catch (error) {
+      console.log(error);
+    }
+    
     this.setState({ user: user });
   }
 
@@ -264,86 +269,6 @@ export default class DashboardAthlete extends React.Component {
     Notifications.removeNotificationSubscription(this.notificationListener);
     Notifications.removeNotificationSubscription(this.responseListener);
   }
-
-  convertSlotToDateV2(slot) {
-    switch (slot) {
-      case 0:
-        return { slot_start: '00:00', slot_end: '01:00' };
-        break;
-      case 1:
-        return { slot_start: '01:00', slot_end: '02:00' };
-        break;
-      case 2:
-        return { slot_start: '02:00', slot_end: '03:00' };
-        break;
-      case 3:
-        return { slot_start: '03:00', slot_end: '04:00' };
-        break;
-      case 4:
-        return { slot_start: '04:00', slot_end: '05:00' };
-        break;
-      case 5:
-        return { slot_start: '05:00', slot_end: '06:00' };
-        break;
-      case 6:
-        return { slot_start: '06:00', slot_end: '07:00' };
-        break;
-      case 7:
-        return { slot_start: '07:00', slot_end: '08:00' };
-        break;
-      case 8:
-        return { slot_start: '08:00', slot_end: '09:00' };
-        break;
-      case 9:
-        return { slot_start: '09:00', slot_end: '10:00' };
-        break;
-      case 10:
-        return { slot_start: '10:00', slot_end: '11:00' };
-        break;
-      case 11:
-        return { slot_start: '11:00', slot_end: '12:00' };
-        break;
-      case 12:
-        return { slot_start: '12:00', slot_end: '13:00' };
-        break;
-      case 13:
-        return { slot_start: '13:00', slot_end: '14:00' };
-        break;
-      case 14:
-        return { slot_start: '14:00', slot_end: '15:00' };
-        break;
-      case 15:
-        return { slot_start: '15:00', slot_end: '16:00' };
-        break;
-      case 16:
-        return { slot_start: '16:00', slot_end: '17:00' };
-        break;
-      case 17:
-        return { slot_start: '17:00', slot_end: '18:00' };
-        break;
-      case 18:
-        return { slot_start: '18:00', slot_end: '19:00' };
-        break;
-      case 19:
-        return { slot_start: '19:00', slot_end: '10:00' };
-        break;
-      case 20:
-        return { slot_start: '20:00', slot_end: '11:00' };
-        break;
-      case 21:
-        return { slot_start: '21:00', slot_end: '12:00' };
-        break;
-      case 22:
-        return { slot_start: '22:00', slot_end: '13:00' };
-        break;
-      case 23:
-        return { slot_start: '23:00', slot_end: '00:00' };
-        break;
-      default:
-        break;
-    }
-  }
-
   convertSlotToDate(slot) {
     switch (slot) {
       case 0:
@@ -422,44 +347,11 @@ export default class DashboardAthlete extends React.Component {
         break;
     }
   }
-
-  getSlotTime(time) {
-    let date = new Date(time);
-    const day = FrenchConfig.dayNames[date.getDay()];
-    const month = FrenchConfig.monthNames[date.getMonth()];
-    return `${day} ${date.getDate()} ${month}`;
-  }
   getDate(date = new Date()) {
     return moment(date).format('YYYY-MM-DD');
   }
 
-  handleRefresh = () => {
-    this.setState({ refreshing: true });
-  };
 
-  fetchData = () => {
-    dispatch(getAllDataAction(userParamData));
-    setIsFetching(false);
-  };
-
-  show(item) {
-    const params = {
-      availability_date: item?.availability_date,
-      coachId: item?.coachId,
-    };
-    get_availabilities(params)
-      .then((res) => {
-        this.setState({ currentAvailabilities: res });
-        this.setState({ currentAvailabilities: res[0] });
-      })
-      .catch((error) => {
-        console.log('Api call error');
-        alert(error.message);
-      });
-
-    this.setState({ currentAvailabilities: item });
-    this.setState({ refresh: !this.state.refresh });
-  }
   getDaysArrayByMonth(date) {
     var daysInMonth = moment(date, 'DD-MM').daysInMonth();
     var arrDays = [];
@@ -1115,7 +1007,6 @@ export default class DashboardAthlete extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  listonebyone: {},
   centeredView: {
     flex: 1,
     justifyContent: 'center',
@@ -1138,51 +1029,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  button: {
-    padding: 10,
-    elevation: 2,
-    color: 'white',
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  ccontainer: {},
-  item: {
-    backgroundColor: '#2CDEE4',
-    flex: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 17,
-  },
-  items: {
-    flex: 1,
-    borderRadius: 25,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 17,
-  },
-  calendar: {
-    borderRadius: 30,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 20,
-  },
-  background: {
-    backgroundColor: 'black',
-  },
   day: {
     height: 80,
     width: 50,
@@ -1192,10 +1038,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
-  },
-  emptyDate: {
-    height: 15,
-    flex: 1,
-    paddingTop: 30,
   },
 });
