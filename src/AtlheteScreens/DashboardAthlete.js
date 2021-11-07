@@ -19,14 +19,13 @@ import {
   get_availabilities,
 } from '../api/Athlete';
 import SwitchSelector from 'react-native-switch-selector';
-import { Avatar, Badge, Icon, withBadge } from 'react-native-elements';
+import { Avatar, Icon, withBadge } from 'react-native-elements';
 import { loadFonts } from '../configs/design/font';
 const { width } = Dimensions.get('window');
 import { LocaleConfig } from 'react-native-calendars';
 import MonthsSlider from '../components/MonthsSlider';
 import { get_coach_by_id } from '../api/Coach';
 import {} from '../api/Availabilities';
-import { FrenchConfig } from '../components/FrenchCalendar';
 import { DeleteButton } from '../components/Button';
 import { get_athlete_active_appointement } from '../api/Athlete';
 import AsyncStorage from '@react-native-async-storage/async-storage';

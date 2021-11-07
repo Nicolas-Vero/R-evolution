@@ -71,7 +71,7 @@ export default class health extends React.Component {
                   }}
                   onSubmit={(values) => {
                     const item = { ...passItem, ...values };
-                    navigation.navigate('selectList', { item: item });
+                    navigation.navigate('trainingPlace', { item: item });
                     console.log(item);
                   }}>
                   {({

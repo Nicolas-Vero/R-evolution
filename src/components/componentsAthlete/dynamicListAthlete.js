@@ -29,7 +29,7 @@ import {
 import { get_specialities } from '../../api/ReferenceData';
 import { ScrollView } from 'react-native-gesture-handler';
 
-export default class dynamicListAthlete extends React.Component {
+export default class specialitiesAthlete extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

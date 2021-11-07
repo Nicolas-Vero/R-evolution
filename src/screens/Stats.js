@@ -15,18 +15,18 @@ import { CheckBox } from 'react-native-elements';
 import { Button } from '../components/Button';
 import Header from '../components/Header';
 //import { Slider } from 'react-native-elements';
-import { ElementSlider } from '../components/ElementSlider';
+import { experience } from '../components/experience';
 const { width } = Dimensions.get('window');
-import { dynamicInput } from '../components/dynamicInput';
-import { dynamicList } from '../components/dynamicList';
-import { selectList } from '../components/selectList';
+import { diplomas } from '../components/diplomas';
+import { specialities } from '../components/specialities';
+import { trainingPlace } from '../components/trainingPlace';
 import { LinearGradient } from 'expo-linear-gradient';
 import { avatar } from '../components/avatar';
 const inputs = [
-  { name: 'degrees', type: 'default', component: dynamicInput },
-  { name: 'xP', type: 'default', component: ElementSlider },
-  { name: 'spécialities', type: 'default', component: dynamicList },
-  { name: 'gymPlace', type: 'default', component: selectList },
+  { name: 'degrees', type: 'default', component: diplomas },
+  { name: 'xP', type: 'default', component: experience },
+  { name: 'spécialities', type: 'default', component: specialities },
+  { name: 'gymPlace', type: 'default', component: trainingPlace },
   { name: 'avatar', type: 'default', component: avatar },
 ];
 

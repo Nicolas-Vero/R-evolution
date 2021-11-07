@@ -24,7 +24,7 @@ import { Formik, FieldArray, Field } from 'formik';
 import { auth } from '../api/Coach';
 import { ScrollView } from 'react-native-gesture-handler';
 
-export default class selectList extends React.Component {
+export default class trainingPlace extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

@@ -3,9 +3,6 @@ import {
   Text,
   View,
   SafeAreaView,
-  StyleSheet,
-  Platform,
-  StatusBar,
   Dimensions,
   ActivityIndicator,
 } from 'react-native';

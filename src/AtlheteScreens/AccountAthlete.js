@@ -2,22 +2,16 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import {
   View,
-  Text,
   SafeAreaView,
-  ImageBackground,
   Image,
   StyleSheet,
-  Platform,
-  StatusBar,
   Dimensions,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Button } from '../components/Button';
 const { width } = Dimensions.get('window');
 import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../components/Header';
 import {
-  heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import { STORAGE } from '../configs/Constants';
