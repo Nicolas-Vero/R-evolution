@@ -94,7 +94,7 @@ export default class selectList extends React.Component {
                   // navigation.navigate('avatar', { item: item });
                   try {
                     auth(item).then(() => {
-                      navigate('Login');
+                      navigate('loginScreen');
                     });
                   } catch (error) {
                     console.log(error, 'data', item);

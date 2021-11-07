@@ -13,13 +13,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Formik, FieldArray, Field } from 'formik';
 import { CheckBox } from 'react-native-elements';
 
-import RegisterStepImageView from '../../register/registerStepImage/RegisterStepImageView';
-import { Button } from '../../../components/Button';
-import Header from '../../../components/Header';
-import { get_coach } from '../../../api/Coach';
+import Header from '../../../../components/Header';
+import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
+import { Button } from '../../../../components/Button';
+import { get_coach } from '../../../../api/Coach';
 import styles from './selectCoachStyle';
 
-export default class selectCoach extends React.Component {
+export default class selectCoachScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,7 +38,7 @@ export default class selectCoach extends React.Component {
   }
 
   onNavigate = (item) => {
-    this.props.navigation.navigate('avatarAthlete', { item: item });
+    this.props.navigation.navigate('avatarScreen', { item: item });
   };
 
   setDayChoice = (val) => {
@@ -87,7 +87,6 @@ export default class selectCoach extends React.Component {
                 onSubmit={(values) => {
                   const item = { ...passItem, ...values };
                   this.onNavigate(item);
-                  console.log(item);
                 }}
                 validationSchema={Yup.object().shape({
                   coach_preference: Yup.object().required(

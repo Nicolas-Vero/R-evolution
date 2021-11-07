@@ -37,13 +37,17 @@ export default class LoginAthlete extends React.Component {
     console.log(body);
     this.setState({ loading: true });
     athlete_login(body)
-      .then((res) => ({
-        data: res.data,
-        headers: {
-          Authorization: 'Bearer ' + res.data.token,
-        },
-      }))
+      .then((res) => {
+        console.log('res', res);
+        return {
+          data: res.data,
+          headers: {
+            Authorization: 'Bearer ' + res.data.token,
+          },
+        };
+      })
       .then(async (res) => {
+        console.log('res2', res);
         try {
           console.log('toto', res);
           await AsyncStorage.setItem(
@@ -69,6 +73,7 @@ export default class LoginAthlete extends React.Component {
           });
       })
       .catch((error) => {
+        console.log(error);
         if (error.response.status === 401) {
           Alert.alert('Login failed', error.response.data.errors[0]);
         }
@@ -212,11 +217,12 @@ export default class LoginAthlete extends React.Component {
                     marginTop: 20,
                   }}>
                   <Text style={{ fontFamily: 'Roboto', color: '#B9B9BC' }}>
-                    Pas encore membre ? {' '}
+                    Pas encore membre ?{' '}
                   </Text>
-                  <TouchableOpacity onPress={()=>{
-                    navigate('RegisterInfoAthlete')}
-                  }>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigate('registerScreen');
+                    }}>
                     <Text style={{ fontFamily: 'Roboto', color: '#2CDEE4' }}>
                       Créer ton compte
                     </Text>

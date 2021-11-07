@@ -1,19 +1,19 @@
 import React from 'react';
 import { Text, View, SafeAreaView, Keyboard } from 'react-native';
-
-import { Button } from '../../../components/Button';
-import Header from '../../../components/Header';
+import Slider from 'react-native-slider';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Formik, Field } from 'formik';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import styles from './experienceStyle';
-import RegisterStepImageView from '../../register/registerStepImage/RegisterStepImageView';
 
-import Slider from 'react-native-slider';
-export default class experience extends React.Component {
+import Header from '../../../../components/Header';
+import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
+import { Button } from '../../../../components/Button';
+import styles from './experienceStyle';
+
+export default class experienceScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +24,7 @@ export default class experience extends React.Component {
   }
 
   onNavigate = (item) => {
-    this.props.navigation.navigate('goal', { item: item });
+    this.props.navigation.navigate('goalScreen', { item: item });
   };
 
   render() {
@@ -113,10 +113,7 @@ export default class experience extends React.Component {
                       loading={false}
                       disabled={!isValid}
                       title="Suivant"
-                      customTextStyle={{
-                        fontFamily: 'RobotoBold',
-                        fontSize: 17,
-                      }}
+                      customTextStyle={styles.buttonText}
                       onPress={handleSubmit}
                     />
                   </View>

@@ -26,9 +26,15 @@ import {
 } from 'react-native-responsive-screen';
 import { loadFonts } from '../../configs/design/font';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ScrollView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import {
+  ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
+import AuthService from '../../services/AuthService';
 export default class Login extends React.Component {
   componentDidMount() {
+    console.log('login');
     loadFonts;
   }
   async onLoginPress(values) {
@@ -37,35 +43,45 @@ export default class Login extends React.Component {
     console.log(body);
     this.setState({ loading: true });
     coach_login(body)
-      .then((res) => ({
-        data: res.data,
-        headers: {
-          Authorization: 'Bearer ' + res.data.token,
-        },
-      }))
       .then(async (res) => {
-        try {
-          await AsyncStorage.setItem(
-            STORAGE.HEADERS,
-            JSON.stringify(res.headers),
-          );
-          this.setState({ loading: false });
-        } catch (err) {
-          this.setState({ loading: false });
-          //alert('Please try again. ');
-          console.warn(err);
-        }
+        console.log('data response', res.data);
+        await AuthService.setAuth(res.data);
+        const auth = await AuthService.getAuth();
+        console.log('auth token', auth.token);
+        console.log('auth userId', auth.token);
+
+        return auth;
+        // ({
+        //   data: res.data,
+        //   headers: {
+        //     Authorization: 'Bearer ' + res.data.token,
+        //   },
+        // });
+      })
+      .then(async (res) => {
+        // console.log(res);
+        // try {
+        //   await AsyncStorage.setItem(
+        //     STORAGE.HEADERS,
+        //     JSON.stringify(res.headers),
+        //   );
+        //   this.setState({ loading: false });
+        // } catch (err) {
+        //   this.setState({ loading: false });
+        //   //alert('Please try again. ');
+        //   console.warn(err);
+        // }
       })
       .then(() => {
-        get_coach_me()
-          .then(async (res) => {
-            await AsyncStorage.setItem(STORAGE.USER, JSON.stringify(res.data));
-            this.props.navigation.navigate('Dashboard');
-          })
-          .then(async () => {
-            const test = await AsyncStorage.getItem(STORAGE.USER);
-            console.log('*******', test);
-          });
+        // get_coach_me()
+        //   .then(async (res) => {
+        //     await AsyncStorage.setItem(STORAGE.USER, JSON.stringify(res.data));
+        //     // this.props.navigation.navigate('Dashboard');
+        //   })
+        //   .then(async () => {
+        //     const test = await AsyncStorage.getItem(STORAGE.USER);
+        //     console.log('*******', test);
+        //   });
       })
       .catch((error) => {
         if (error.response.status === 401) {
@@ -118,64 +134,64 @@ export default class Login extends React.Component {
           backgroundColor: 'black',
           flex: 1,
         }}>
-          <ScrollView>
-        <SafeAreaView  onPress={Keyboard.dismiss}>
-          <Header />
-          <View style={styles.logoContainer}>
-            <Image
-              source={require('../../../assets/images/logo.png')}
-              style={styles.image}></Image>
-          </View>
+        <ScrollView>
+          <SafeAreaView onPress={Keyboard.dismiss}>
+            <Header />
+            <View style={styles.logoContainer}>
+              <Image
+                source={require('../../../assets/images/logo.png')}
+                style={styles.image}></Image>
+            </View>
 
-          <View style={{ alignItems: 'center', }}>
-            <Formik
-              initialValues={{
-                email: '',
-                password: '',
-              }}
-              onSubmit={(values, { onLoginPress }) => onLoginPress(values)}>
-              {({
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                setFieldValue,
-                values,
-              }) => (
-                <KeyboardAvoidingView>
-                  <View style={{ marginBottom: 15 }}>
-                    <TextInput
-                      placeholder="Email"
-                      style={{
-                        backgroundColor: '#FFFFFF',
-                        height: 40,
-                        width: wp(92),
-                        borderRadius: 5,
-                        paddingLeft: 15,
-                      }}
-                      onChangeText={handleChange('email')}
-                      autoCapitalize="none"
-                      onBlur={handleBlur('email')}
-                      value={values.mail}
-                    />
-                  </View>
-                  <View style={{ marginBottom: 15 }}>
-                    <TextInput
-                      placeholder="Mot de passe"
-                      secureTextEntry={true}
-                      style={{
-                        backgroundColor: '#FFFFFF',
-                        height: 40,
-                        width: wp(92),
-                        borderRadius: 5,
-                        paddingLeft: 15,
-                      }}
-                      onChangeText={handleChange('password')}
-                      autoCapitalize="none"
-                      onBlur={handleBlur('password')}
-                      value={values.password}
-                    />
-                  </View>
-                  {/* <View>
+            <View style={{ alignItems: 'center' }}>
+              <Formik
+                initialValues={{
+                  email: '',
+                  password: '',
+                }}
+                onSubmit={(values, { onLoginPress }) => onLoginPress(values)}>
+                {({
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  setFieldValue,
+                  values,
+                }) => (
+                  <KeyboardAvoidingView>
+                    <View style={{ marginBottom: 15 }}>
+                      <TextInput
+                        placeholder="Email"
+                        style={{
+                          backgroundColor: '#FFFFFF',
+                          height: 40,
+                          width: wp(92),
+                          borderRadius: 5,
+                          paddingLeft: 15,
+                        }}
+                        onChangeText={handleChange('email')}
+                        autoCapitalize="none"
+                        onBlur={handleBlur('email')}
+                        value={values.mail}
+                      />
+                    </View>
+                    <View style={{ marginBottom: 15 }}>
+                      <TextInput
+                        placeholder="Mot de passe"
+                        secureTextEntry={true}
+                        style={{
+                          backgroundColor: '#FFFFFF',
+                          height: 40,
+                          width: wp(92),
+                          borderRadius: 5,
+                          paddingLeft: 15,
+                        }}
+                        onChangeText={handleChange('password')}
+                        autoCapitalize="none"
+                        onBlur={handleBlur('password')}
+                        value={values.password}
+                      />
+                    </View>
+                    {/* <View>
                     <TouchableOpacity>
                       <Text style={{ fontFamily: 'Roboto', color: '#B9B9BC' }}>
                         Mot de passe oublié ?
@@ -183,47 +199,46 @@ export default class Login extends React.Component {
                     </TouchableOpacity>
                   </View> */}
 
-                  <View style={{ alignItems: 'center', marginTop: 25 }}>
-                    <Button
-                      style={{ width: wp(94), borderRadius: 5 }}
-                      loading={false}
-                      title="Se connecter"
-                      customTextStyle={{
-                        color: 'black',
-                        fontFamily: 'RobotoBold',
-                        fontWeight: 'bold',
-                        fontSize: 17,
-                      }}
-                      onPress={() => {
-                        this.onLoginPress(values);
-                      }}
-                    />
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      marginTop: 20,
-                    }}>
-                    <Text style={{ fontFamily: 'Roboto', color: '#B9B9BC' }}>
-                    Pas encore membre ?{' '}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() => {
-                        this.props.navigation.navigate('RegisterInfo');
+                    <View style={{ alignItems: 'center', marginTop: 25 }}>
+                      <Button
+                        style={{ width: wp(94), borderRadius: 5 }}
+                        loading={false}
+                        title="Se connecter"
+                        customTextStyle={{
+                          color: 'black',
+                          fontFamily: 'RobotoBold',
+                          fontWeight: 'bold',
+                          fontSize: 17,
+                        }}
+                        onPress={() => {
+                          this.onLoginPress(values);
+                        }}
+                      />
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        marginTop: 20,
                       }}>
-                      <Text style={{ fontFamily: 'Roboto', color: '#2CDEE4' }}>
-                        Créer ton compte
+                      <Text style={{ fontFamily: 'Roboto', color: '#B9B9BC' }}>
+                        Pas encore membre ?{' '}
                       </Text>
-                    </TouchableOpacity>
-                  </View>
-                </KeyboardAvoidingView>
-                
-              )}
-            </Formik>
-          </View>
-    
-        </SafeAreaView>
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.props.navigation.navigate('RegisterInfo');
+                        }}>
+                        <Text
+                          style={{ fontFamily: 'Roboto', color: '#2CDEE4' }}>
+                          Créer ton compte
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </KeyboardAvoidingView>
+                )}
+              </Formik>
+            </View>
+          </SafeAreaView>
         </ScrollView>
       </LinearGradient>
     );

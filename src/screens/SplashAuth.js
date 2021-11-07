@@ -77,7 +77,9 @@ export default class Splash extends React.Component {
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.props.navigation.navigate('RegisterInfoAthlete');
+                    this.props.navigation.navigate('registerScreen', {
+                      isAthlete: true,
+                    });
                   }}>
                   <View style={styles.bcontainer}>
                     <Text
@@ -97,7 +99,9 @@ export default class Splash extends React.Component {
                 }}>
                 <TouchableOpacity
                   onPress={() => {
-                    this.props.navigation.navigate('RegisterInfo');
+                    this.props.navigation.navigate('registerScreen', {
+                      isAthlete: false,
+                    });
                   }}>
                   <View>
                     <Text

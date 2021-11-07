@@ -1,22 +1,18 @@
-import {createAppContainer, createSwitchNavigator} from 'react-navigation';
-// Auth import
-import AppTabsNavigator from './Dashbord/AppTabsNavigator';
+import { createSwitchNavigator } from 'react-navigation';
 import AuthStack from './AuthStack';
 import DashboardStack from './DashboardStack';
-//import AuthStackAthlete from './AuthStackAthlete';
 import SplashStack from './SplashStack';
 import DashboardStackAtlhete from './DashboardStackAthlete';
-const App = createSwitchNavigator(
+import AppLauncher from './AppLauncher/AppLauncher';
+export default createSwitchNavigator(
   {
-    Entry:SplashStack,
+    AppLauncher: AppLauncher,
+    Entry: SplashStack,
     Auth: AuthStack,
-    DashboardStack:DashboardStack,
-    DashboardStackAtlhete:DashboardStackAtlhete,
-    
+    DashboardStack: DashboardStack,
+    DashboardStackAtlhete: DashboardStackAtlhete,
   },
   {
-    initialRouteName:'Entry',
+    initialRouteName: 'AppLauncher',
   },
 );
-
-export default createAppContainer(App);

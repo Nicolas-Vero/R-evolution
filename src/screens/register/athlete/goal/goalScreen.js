@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   TextInput,
+  ScrollView,
 } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
@@ -15,14 +16,13 @@ import * as Yup from 'yup';
 import { Formik, FieldArray, Field } from 'formik';
 import { FontAwesome } from '@expo/vector-icons';
 
-import RegisterStepImageView from '../../register/registerStepImage/RegisterStepImageView';
-import { get_specialities } from '../../../api/ReferenceData';
-import { Button } from '../../../components/Button';
-import Header from '../../../components/Header';
+import { get_specialities } from '../../../../api/ReferenceData';
+import Header from '../../../../components/Header';
+import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
+import { Button } from '../../../../components/Button';
 import styles from './goalStyle';
-import { ScrollView } from 'react-native-gesture-handler';
 
-export default class goal extends React.Component {
+export default class goalScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,7 +42,7 @@ export default class goal extends React.Component {
   }
 
   onNavigate = (item) => {
-    this.props.navigation.navigate('health', { item: item });
+    this.props.navigation.navigate('healthScreen', { item: item });
   };
 
   renderGoalList(errors, arrayhelper) {

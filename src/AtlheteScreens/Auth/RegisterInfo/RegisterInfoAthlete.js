@@ -375,7 +375,7 @@ export default class RegisterInfoAthlete extends React.Component {
                         </Text>
                         <Text
                           style={styles.alreadyMemberTextUnderline}
-                          onPress={() => navigate('Login')}>
+                          onPress={() => navigate('loginScreen')}>
                           Se connecter.
                         </Text>
                       </View>

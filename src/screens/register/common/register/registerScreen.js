@@ -4,26 +4,21 @@ import {
   View,
   TextInput,
   SafeAreaView,
-  StyleSheet,
-  Platform,
   Keyboard,
-  StatusBar,
   Dimensions,
   KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
-import { auth } from '../../api/Coach';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { STORAGE } from '../../configs/Constants';
 import { Formik } from 'formik';
 import { CheckBox } from 'react-native-elements';
-import { Button } from '../../components/Button';
-import Header from '../../components/Header';
-const { width } = Dimensions.get('window');
+import { Button } from '../../../../components/Button';
+import Header from '../../../../components/Header';
 import { LinearGradient } from 'expo-linear-gradient';
-import { loadFonts } from '../../configs/design/font';
+import { loadFonts } from '../../../../configs/design/font';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 import * as Yup from 'yup';
-import {ScrollView} from 'react-native-gesture-handler';
-export default class RegisterInfo extends React.Component {
+import styles from './registerStyle';
+export default class registerScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -35,61 +30,25 @@ export default class RegisterInfo extends React.Component {
     };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     loadFonts();
   }
-
-  onContinuePress(values) {
-    if (values.password === values.confirm_password) {
-      auth(values)
-        .then(
-          (res) => (
-            {
-              data: res.data.data,
-              headers: {
-                access_token: res.data.headers['access-token'],
-                token_type: res.data.headers['token-name'],
-                uid: res.data.headers['uid'],
-              },
-            },
-            this.changeStep,
-            console.log(header)
-          ),
-        )
-        .then(async (res) => {
-          await AsyncStorage.setItem(STORAGE.USER, JSON.stringify(res.data));
-          await AsyncStorage.setItem(
-            STORAGE.HEADERS,
-            JSON.stringify(res.headers),
-          );
-        })
-        .then(() => {
-          console.log;
-          this.changeStep;
-        })
-        .catch((err) => {
-          //  this.setState({loading: false});
-          if (err.request && err.request.status === 422) {
-            // this.setState({
-            //   message: 'Email déjà utilisé, veuillez vous connecter.',
-            // });
-          } else {
-            console.log(err);
-            //alert('Please try again. ');
-          }
-        });
-    } else {
-      console.log('invalid confirmation');
-      //alert('Passwords don\'t match');
-    }
-  }
-
   render() {
     const { navigation } = this.props;
     const phoneRegExp =
       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
+    const formValue = {
+      gender: 'male',
+      first_name: '',
+      last_name: '',
+      email: '',
+      phone: '',
+      password: '',
+      confirm_password: '',
+    };
     return (
-      <View style={{ flex: 1, backgroundColor: 'black' }}>
+      <View style={styles.container}>
         <LinearGradient
           colors={['#060606', '#2D333C']}
           start={{
@@ -99,25 +58,20 @@ export default class RegisterInfo extends React.Component {
           end={{
             x: 1,
             y: 1,
-          }}
-          style={styles.background}>
-          <ScrollView>
+          }}>
+          <Header title="INSCRIPTION" />
+          <ScrollView
+            style={styles.ScrollView}
+            keyboardShouldPersistTaps="handled">
             <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-              <Header title="INSCRIPTION" />
-              <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
+              <View style={styles.formContainer}>
                 <Formik
-                  initialValues={{
-                    gender: 'male',
-                    first_name: '',
-                    last_name: '',
-                    email: '',
-                    phone: '',
-                    password: '',
-                    confirm_password: '',
-                  }}
+                  initialValues={formValue}
                   onSubmit={(values) => {
                     this.state.termsCondition
-                      ? navigation.navigate('dynamicInput', { item: values })
+                      ? navigation.navigate('mensurationScreen', {
+                          item: values,
+                        })
                       : alert('accepter les terms des conditons');
                   }}
                   validationSchema={Yup.object().shape({
@@ -146,23 +100,17 @@ export default class RegisterInfo extends React.Component {
                     handleSubmit,
                     setFieldValue,
                     values,
-                    setFieldTouched,
                     touched,
                     errors,
                     isValid,
                   }) => (
                     <View>
-                      <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                      <View style={styles.checkBoxContainer}>
                         <CheckBox
-                          containerStyle={{
-                            paddingLeft: 0,
-                            marginLeft: 0,
-                            backgroundColor: 'transparent',
-                            borderWidth: 0,
-                          }}
+                          containerStyle={styles.checkbox}
                           checkedColor="#2CDEE4"
                           title="M"
-                          textStyle={{ color: 'white' }}
+                          textStyle={styles.checkboxTextColor}
                           checkedIcon="dot-circle-o"
                           uncheckedIcon="dot-circle-o"
                           checked={values.gender.toString() === 'male'}
@@ -171,14 +119,9 @@ export default class RegisterInfo extends React.Component {
                         />
                         <CheckBox
                           checkedColor="#2CDEE4"
-                          containerStyle={{
-                            paddingLeft: 0,
-                            marginLeft: 0,
-                            backgroundColor: 'transparent',
-                            borderWidth: 0,
-                          }}
+                          containerStyle={styles.checkbox}
                           title="Mme"
-                          textStyle={{ color: 'white' }}
+                          textStyle={styles.checkboxTextColor}
                           checkedIcon="dot-circle-o"
                           uncheckedIcon="dot-circle-o"
                           checked={values.gender === 'female'}
@@ -187,23 +130,23 @@ export default class RegisterInfo extends React.Component {
                         />
                       </View>
                       <KeyboardAvoidingView>
-                        <View style={{ marginBottom: 15 }}>
+                        <View style={styles.inputContainer}>
                           <TextInput
                             name="first_Name"
                             placeholder="Prénom"
+                            placeholderTextColor="#979797"
+                            blurOnSubmit={false}
+                            onSubmitEditing={() =>
+                              this.lastNameInput && this.lastNameInput.focus()
+                            }
+                            returnKeyType="next"
                             style={{
-                              backgroundColor: '#FFFFFF',
-                              paddingTop: 10,
-                              paddingBottom: 10,
-                              borderRadius: 5,
-                              height: 45,
-                              paddingLeft: 15,
-                              paddingRight: 15,
+                              ...styles.input,
                               borderWidth:
                                 errors.first_name && touched.first_name ? 2 : 0,
                               borderColor:
                                 errors.first_name && touched.first_name
-                                  ? 'red'
+                                  ? '#FD7279'
                                   : null,
                             }}
                             onChangeText={handleChange('first_name')}
@@ -211,30 +154,32 @@ export default class RegisterInfo extends React.Component {
                             value={values.first_name}
                           />
                           {errors.first_name && touched.first_name && (
-                            <View style={{ alignItems: 'flex-end' }}>
-                              <Text style={{ fontSize: 15, color: 'red' }}>
+                            <View style={styles.errorInputContainer}>
+                              <Text style={styles.errorInputText}>
                                 {errors.first_name}
                               </Text>
                             </View>
                           )}
                         </View>
-                        <View style={{ marginBottom: 15 }}>
+                        <View style={styles.inputContainer}>
                           <TextInput
                             name="last_name"
                             placeholder="Nom"
+                            placeholderTextColor="#979797"
+                            ref={(ref) => (this.lastNameInput = ref)}
+                            blurOnSubmit={false}
+                            autoCapitalize="none"
+                            onSubmitEditing={() =>
+                              this.emailInput && this.emailInput.focus()
+                            }
+                            returnKeyType="next"
                             style={{
-                              backgroundColor: '#FFFFFF',
-                              paddingTop: 10,
-                              paddingBottom: 10,
-                              borderRadius: 5,
-                              height: 45,
-                              paddingLeft: 15,
-                              paddingRight: 15,
+                              ...styles.input,
                               borderWidth:
                                 errors.last_name && touched.last_name ? 2 : 0,
                               borderColor:
                                 errors.last_name && touched.last_name
-                                  ? 'red'
+                                  ? '#FD7279'
                                   : null,
                             }}
                             onChangeText={handleChange('last_name')}
@@ -242,25 +187,28 @@ export default class RegisterInfo extends React.Component {
                             value={values.last_name}
                           />
                           {errors.last_name && touched.last_name && (
-                            <View style={{ alignItems: 'flex-end' }}>
-                              <Text style={{ fontSize: 15, color: 'red' }}>
+                            <View style={styles.errorInputContainer}>
+                              <Text style={styles.errorInputText}>
                                 {errors.last_name}
                               </Text>
                             </View>
                           )}
                         </View>
-                        <View style={{ marginBottom: 15 }}>
+                        <View style={styles.inputContainer}>
                           <TextInput
                             name="email"
-                            placeholder="Email"
+                            placeholder="Adresse e-mail"
+                            placeholderTextColor="#979797"
+                            ref={(ref) => (this.emailInput = ref)}
+                            blurOnSubmit={false}
+                            autoCapitalize="none"
+                            onSubmitEditing={() =>
+                              this.phoneNumberInput &&
+                              this.phoneNumberInput.focus()
+                            }
+                            returnKeyType="next"
                             style={{
-                              backgroundColor: '#FFFFFF',
-                              paddingTop: 10,
-                              paddingBottom: 10,
-                              borderRadius: 5,
-                              height: 45,
-                              paddingLeft: 15,
-                              paddingRight: 15,
+                              ...styles.input,
                               borderWidth:
                                 errors.email && touched.email ? 2 : 0,
                               borderColor:
@@ -271,25 +219,28 @@ export default class RegisterInfo extends React.Component {
                             value={values.email}
                           />
                           {errors.email && touched.email && (
-                            <View style={{ alignItems: 'flex-end' }}>
-                              <Text style={{ fontSize: 15, color: 'red' }}>
+                            <View style={styles.errorInputContainer}>
+                              <Text style={styles.errorInputText}>
                                 {errors.email}
                               </Text>
                             </View>
                           )}
                         </View>
-                        <View style={{ marginBottom: 15 }}>
+                        <View style={styles.inputContainer}>
                           <TextInput
                             name="phone"
-                            placeholder="Téléphone"
+                            placeholder="Numéro de téléphone"
+                            placeholderTextColor="#979797"
+                            ref={(ref) => (this.phoneNumberInput = ref)}
+                            keyboardType="numeric"
+                            blurOnSubmit={false}
+                            autoCapitalize="none"
+                            onSubmitEditing={() =>
+                              this.passwordInput && this.passwordInput.focus()
+                            }
+                            returnKeyType="next"
                             style={{
-                              backgroundColor: '#FFFFFF',
-                              paddingTop: 10,
-                              paddingBottom: 10,
-                              paddingLeft: 15,
-                              paddingRight: 15,
-                              height: 45,
-                              borderRadius: 5,
+                              ...styles.input,
                               borderWidth:
                                 errors.phone && touched.phone ? 2 : 0,
                               borderColor:
@@ -300,34 +251,33 @@ export default class RegisterInfo extends React.Component {
                             value={values.phone}
                           />
                           {errors.phone && touched.phone && (
-                            <View style={{ alignItems: 'flex-end' }}>
-                              <Text style={{ fontSize: 15, color: 'red' }}>
+                            <View style={styles.errorInputContainer}>
+                              <Text style={styles.errorInputText}>
                                 {errors.phone}
                               </Text>
                             </View>
                           )}
                         </View>
-                        <View style={{ marginBottom: 15 }}>
+                        <View style={styles.inputContainer}>
                           <TextInput
                             name="password"
                             placeholder="Mot de passe"
+                            placeholderTextColor="#979797"
+                            ref={(ref) => (this.passwordInput = ref)}
+                            blurOnSubmit={false}
+                            autoCapitalize="none"
+                            onSubmitEditing={() =>
+                              this.confirmPasswordInput &&
+                              this.confirmPasswordInput.focus()
+                            }
+                            returnKeyType="next"
                             secureTextEntry={true}
                             style={{
-                              backgroundColor: '#FFFFFF',
-                              paddingTop: 10,
-                              paddingBottom: 10,
-                              paddingLeft: 15,
-                              paddingRight: 15,
-                              height: 45,
-                              borderRadius: 5,
+                              ...styles.input,
                               borderWidth:
-                                errors.password &&
-                                touched.password
-                                  ? 2
-                                  : 0,
+                                errors.password && touched.password ? 2 : 0,
                               borderColor:
-                                errors.password &&
-                                touched.password
+                                errors.password && touched.password
                                   ? 'red'
                                   : null,
                             }}
@@ -336,27 +286,26 @@ export default class RegisterInfo extends React.Component {
                             value={values.password}
                           />
                           {errors.password && touched.password && (
-                            <View style={{ alignItems: 'flex-end' }}>
-                              <Text style={{ fontSize: 15, color: 'red' }}>
+                            <View style={styles.errorInputContainer}>
+                              <Text style={styles.errorInputText}>
                                 {errors.password}
                               </Text>
                             </View>
                           )}
                         </View>
-
-                        <View style={{ marginBottom: 15 }}>
+                        <View style={styles.inputContainer}>
                           <TextInput
                             name="confirm_password"
-                            placeholder="Confirmer votre mot de passe"
+                            placeholder="Confirmation du mot de passe"
                             secureTextEntry={true}
+                            placeholderTextColor="#979797"
+                            ref={(ref) => (this.confirmPasswordInput = ref)}
+                            blurOnSubmit={false}
+                            onSubmitEditing={() => Keyboard.dismiss()}
+                            autoCapitalize="none"
+                            returnKeyType="done"
                             style={{
-                              backgroundColor: '#FFFFFF',
-                              paddingTop: 10,
-                              paddingBottom: 10,
-                              borderRadius: 5,
-                              height: 45,
-                              paddingLeft: 15,
-                              paddingRight: 15,
+                              ...styles.input,
                               borderWidth:
                                 errors.confirm_password &&
                                 touched.confirm_password
@@ -373,8 +322,8 @@ export default class RegisterInfo extends React.Component {
                             value={values.confirm_password}
                           />
                           {errors.confirm_password && touched.confirm_password && (
-                            <View style={{ alignItems: 'flex-end' }}>
-                              <Text style={{ fontSize: 15, color: 'red' }}>
+                            <View style={styles.errorInputContainer}>
+                              <Text style={styles.errorInputText}>
                                 {errors.confirm_password}
                               </Text>
                             </View>
@@ -386,17 +335,11 @@ export default class RegisterInfo extends React.Component {
                         style={{
                           flexDirection: 'row',
                           alignItems: 'center',
-                          marginTop: 15,
                           marginBottom: 24,
                         }}>
                         <CheckBox
                           size={25}
-                          containerStyle={{
-                            paddingLeft: 0,
-                            marginLeft: 0,
-                            backgroundColor: 'transparent',
-                            borderWidth: 0,
-                          }}
+                          containerStyle={styles.acceptContainer}
                           checked={this.state.termsCondition}
                           value={this.state.termsCondition}
                           onPress={() =>
@@ -405,53 +348,34 @@ export default class RegisterInfo extends React.Component {
                             })
                           }
                         />
-                        <Text
-                          style={{
-                            flex: 1,
-                            flexWrap: 'wrap',
-                            color: '#FFFFFF',
-                            fontFamily: 'Roboto',
-                            fontSize: 13,
-                          }}>
+                        <Text style={styles.acceptText}>
                           En créant un compte, vous acceptez de vous conformer à
-                          la Politique de confidentialité et aux Conditions
-                          générales de [R]evolution.
+                          la{' '}
+                          <Text style={styles.acceptTextLink}>
+                            Politique de confidentialité
+                          </Text>{' '}
+                          et aux{' '}
+                          <Text style={styles.acceptTextLink}>
+                            Conditions générales
+                          </Text>{' '}
+                          de [R]evolution.
                         </Text>
                       </View>
-
-                      <View style={{ alignItems: 'center' }}>
+                      <View style={styles.butonContainer}>
                         <Button
                           loading={false}
                           disabled={!isValid}
                           title="Rejoins-nous"
-                          customTextStyle={{
-                            fontFamily: 'RobotoBold',
-                            fontSize: 17,
-                          }}
+                          customTextStyle={styles.buttonText}
                           onPress={handleSubmit}
                         />
                       </View>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          marginTop: 25,
-                          marginBottom: 24,
-                        }}>
-                        <Text
-                          style={{
-                            color: '#FFFFFF',
-                            fontFamily: 'Montserrat',
-                          }}>
+                      <View style={styles.alreadyMemberContainer}>
+                        <Text style={styles.alreadyMemberText}>
                           Déjà membre ?{' '}
                         </Text>
                         <Text
-                          style={{
-                            color: '#2CDEE4',
-                            textDecorationLine: 'underline',
-                            fontFamily: 'Montserrat',
-                          }}
+                          style={styles.alreadyMemberTextUnderline}
                           onPress={() => navigate('loginScreen')}>
                           Se connecter.
                         </Text>
@@ -461,32 +385,10 @@ export default class RegisterInfo extends React.Component {
                 </Formik>
               </View>
             </SafeAreaView>
+            <KeyboardSpacer />
           </ScrollView>
         </LinearGradient>
       </View>
     );
   }
 }
-const styles = StyleSheet.create({
-  safeArea: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: width,
-    height: 49,
-    marginTop: 29,
-    marginBottom: 49,
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
-  background: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-  },
-});

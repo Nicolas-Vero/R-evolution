@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL } from '../configs/Constants';
-import { getHeaders } from './Global';
+import AuthService from '../services/AuthService';
 // export const get_availabilities = (params) => {
 
 //   console.log('oooo'.params);
@@ -20,37 +20,37 @@ import { getHeaders } from './Global';
 
 //   //}
 // };
-export const get_availabilities = async(param) => {
-  const date = param
-  const headers = await getHeaders();
+export const get_availabilities = async (param) => {
+  const date = param;
+  const headers = await AuthService.getHeader();
   return axios({
-    method:'GET',
-    url:`${API_URL}/coach/availability`,
-    headers:headers,
-    params:{date:date}
-  })
+    method: 'GET',
+    url: `${API_URL}/coach/availability`,
+    headers: headers,
+    params: { date: date },
+  });
 };
-export const update_availabilities = async(params) => {
-  const data =params
-  const headers = await getHeaders();
+export const update_availabilities = async (params) => {
+  const data = params;
+  const headers = await AuthService.getHeader();
   return axios({
-    method:'POST',
-    url:`${API_URL}/coach/availability`,
-    headers:headers,
-    data:data
-  })
+    method: 'POST',
+    url: `${API_URL}/coach/availability`,
+    headers: headers,
+    data: data,
+  });
 };
 
 export const get_appointement = async (params) => {
-     const date =  params ; 
-      const headers = await getHeaders();
-       return axios({
-         method: 'GET',
-         url: `${API_URL}/coach/appointment`,
-         headers: headers ,
-         params: {date:date.date}
-       })
-     };
+  const date = params;
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/coach/appointment`,
+    headers: headers,
+    params: { date: date.date },
+  });
+};
 
 export const updateorcreate_availability = (params) => {
   return axios({
@@ -59,4 +59,3 @@ export const updateorcreate_availability = (params) => {
     data: params,
   });
 };
-

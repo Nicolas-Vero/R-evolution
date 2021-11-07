@@ -8,18 +8,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { Formik, FieldArray, Field } from 'formik';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import RegisterStepImageView from '../../register/registerStepImage/RegisterStepImageView';
-import { Button } from '../../../components/Button';
-import Header from '../../../components/Header';
+import Header from '../../../../components/Header';
+import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
+import { Button } from '../../../../components/Button';
 import styles from './trainingDayStyle';
 
-export default class trainingDay extends React.Component {
+export default class trainingDayScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,7 +36,7 @@ export default class trainingDay extends React.Component {
   }
 
   onNavigate = (item) => {
-    this.props.navigation.navigate('selectCoach', { item: item });
+    this.props.navigation.navigate('selectCoachScreen', { item: item });
   };
 
   setDayChoice = (val) => {

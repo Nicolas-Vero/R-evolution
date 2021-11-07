@@ -22,6 +22,7 @@ import {
 import { withNavigation } from 'react-navigation';
 import Constants from 'expo-constants';
 const statusBarHeight = Constants.statusBarHeight;
+import ContextService from '../services/ContextService';
 export default class Splash extends React.Component {
   state = {
     offers: [],
@@ -36,6 +37,15 @@ export default class Splash extends React.Component {
   componentDidMount() {
     this.loadFonts();
   }
+
+  onNavigate = (isCoach) => {
+    // this.props.navigation.navigate('LoginAthlete', {
+    //   isCoach: false,
+    // });
+    const navigation = ContextService.get('current_navigation');
+    navigation.navigate('loginScreen', { isCoach });
+  };
+
   render() {
     const { navigation } = this.props;
     return (
@@ -80,10 +90,7 @@ export default class Splash extends React.Component {
                   alignItems: 'center',
                   margin: 10,
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigation.navigate('LoginAthlete');
-                  }}>
+                <TouchableOpacity onPress={() => this.onNavigate(false)}>
                   <View style={styles.bcontainer}>
                     <Text
                       style={{
@@ -91,7 +98,7 @@ export default class Splash extends React.Component {
                         fontFamily: 'RobotoBold',
                         fontSize: 17,
                       }}>
-                      Espace sportif
+                      Espace sportifff
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -100,10 +107,7 @@ export default class Splash extends React.Component {
                 style={{
                   alignItems: 'center',
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigation.navigate('Login');
-                  }}>
+                <TouchableOpacity onPress={() => this.onNavigate(true)}>
                   <View>
                     <Text
                       style={{

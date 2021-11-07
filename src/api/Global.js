@@ -1,10 +1,8 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {STORAGE} from '../configs/Constants';
-
+import AuthService from '../services/AuthService';
 export const getHeaders = async () => {
-  let headers = await AsyncStorage.getItem(STORAGE.HEADERS);
+  let headers = await AuthService.getHeader();
+  console.log('headers', headers);
   if (!headers) return null;
-  headers = JSON.parse(headers);
+
   return headers;
 };
-
