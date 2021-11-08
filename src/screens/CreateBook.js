@@ -197,7 +197,7 @@ export default class CreateBook extends React.Component {
     if (!isLoaded) {
       return (
   
-        <View style={[styles.Activitycontainer, styles.horizontal]}>
+        <View>
           <ActivityIndicator size="large" color="#696969" />
         </View>
   
@@ -584,16 +584,9 @@ export default class CreateBook extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  image: {
-    width: width,
-  },
+  
   background: {
     flex: 1,
-  },
-  backgroundContainer: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
   },
   form: {
     backgroundColor: '#FFFFFF',
@@ -607,79 +600,5 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: width,
-    height: 49,
-    marginTop: 29,
-    marginBottom: 49,
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
-  text: {
-    fontStyle: 'italic',
-    fontWeight: 'bold',
-    fontSize: 18,
-    color: '#FFFFFF',
-    lineHeight: 24,
-  },
-  euro: {
-    fontStyle: 'italic',
-    fontWeight: 'bold',
-    fontSize: 30,
-    color: '#FFFFFF',
-    marginLeft: 5,
-  },
-  title: {
-    color: '#FFFFFF',
-    fontWeight: '500',
-    fontSize: 15,
-    fontStyle: 'italic',
-    textAlign: 'center',
-    marginTop: 112,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    width: width,
-    justifyContent: 'space-between',
-    marginBottom: 35,
-  },
-  loginButton: {
-    width: 158.4,
-    height: 48,
-    borderRadius: 10,
-    borderWidth: 1,
-    marginRight: 22,
-    borderColor: '#2CDEE4',
-    backgroundColor: 'transparent',
-  },
-  registerButton: {
-    width: 158.4,
-    height: 48,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    marginLeft: 22,
-  },
-  container: {
-    flex: 1,
-  },
-  logoContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 30,
-    marginTop: 45,
-    marginBottom: 50,
-  },
-  textInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  logoText: {
-    fontSize: 5,
-    alignSelf: 'center',
-    marginTop: 20,
   },
 });

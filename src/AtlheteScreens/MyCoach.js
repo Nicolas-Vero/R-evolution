@@ -240,13 +240,7 @@ export default class MyCoach extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  tinyLogo: {
-    resizeMode: 'contain',
-    width: 80,
-    height: 50,
-    marginRight: 12,
-    marginTop: 10,
-  },
+
   Logo: {
     resizeMode: 'contain',
     width: 25,
@@ -269,37 +263,11 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     color: 'white',
   },
-  textTiny: {
-    fontFamily: 'RobotoBold',
-    fontSize: 13,
-    color: 'black',
-    marginLeft: 15,
-    color: 'white',
-  },
-  text2: {
-    fontFamily: 'RobotoBold',
-    fontSize: 15,
-    color: 'black',
-    marginLeft: 15,
-    color: 'white',
-  },
   textBlue: {
     fontFamily: 'RobotoBold',
     fontSize: 15,
     marginLeft: 15,
     marginTop: 9,
-    color: '#2CDEE4',
-  },
-  textBlue2: {
-    fontSize: 15,
-    marginLeft: 15,
-    fontFamily: 'RobotoBold',
-    color: '#2CDEE4',
-  },
-  textBlue2Tiny: {
-    fontSize: 13,
-    marginLeft: 10,
-    fontFamily: 'RobotoBold',
     color: '#2CDEE4',
   },
 });

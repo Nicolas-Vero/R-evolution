@@ -117,7 +117,7 @@ export default class RegisterInfo extends React.Component {
                   }}
                   onSubmit={(values) => {
                     this.state.termsCondition
-                      ? navigation.navigate('dynamicInput', { item: values })
+                      ? navigation.navigate('diplomas', { item: values })
                       : alert('accepter les terms des conditons');
                   }}
                   validationSchema={Yup.object().shape({

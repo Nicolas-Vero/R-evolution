@@ -2,10 +2,10 @@ import { createStackNavigator } from 'react-navigation-stack';
 import RegisterInfo from '../screens/Auth/RegisterInfo';
 import loginScreen from '../screens/Auth/login/loginScreen';
 import SplashAuth from '../screens/SplashAuth';
-import dynamicInput from '../components/dynamicInput';
-import ElementSlider from '../components/ElementSlider';
-import dynamicList from '../components/dynamicList';
-import selectList from '../components/selectList';
+import diplomas from '../components/diplomas';
+import experience from '../components/experience';
+import specialities from '../components/specialities';
+import trainingPlace from '../components/trainingPlace';
 import avatar from '../components/avatar';
 import destinataire from '../components/componentsAthlete/destinataire';
 
@@ -32,29 +32,30 @@ const AuthStack = createStackNavigator(
         swipeEnabled: false,
       },
     },
-    dynamicInput: {
-      screen: dynamicInput,
+    diplomas: {
+      screen: diplomas,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
       },
     },
-    ElementSlider: {
-      screen: ElementSlider,
+
+    experience: {
+      screen: experience,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
       },
     },
-    dynamicList: {
-      screen: dynamicList,
+    specialities: {
+      screen: specialities,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
       },
     },
-    selectList: {
-      screen: selectList,
+    trainingPlace: {
+      screen: trainingPlace,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,

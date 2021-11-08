@@ -49,7 +49,6 @@ export const coach_booking = async (params) => {
 export const get_appointement = async (params, navigation) => {
   const date = params;
   const headers = await AuthService.getHeader();
-  console.log('headers', headers);
   return axios({
     method: 'GET',
     url: `${API_URL}/coach/appointment`,

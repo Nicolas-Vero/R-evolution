@@ -5,16 +5,12 @@ import {
   Text,
   SafeAreaView,
   ImageBackground,
-  Image,
   StyleSheet,
   Platform,
   StatusBar,
   Dimensions,
 } from 'react-native';
-import { Button } from '../components/Button';
 const { width } = Dimensions.get('window');
-import { LinearGradient } from 'expo-linear-gradient';
-import Header from '../components/Header';
 import HeaderSimple from '../components/HeaderSimple';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 
@@ -112,17 +108,7 @@ const styles = StyleSheet.create({
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: width,
-    height: 49,
-    marginTop: 29,
-    marginBottom: 49,
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
+
   title: {
     color: '#FFFFFF',
     fontWeight: '800',

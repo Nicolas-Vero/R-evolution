@@ -12,8 +12,8 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import { Button } from '../../components/Button';
-import Header from '../../components/Header';
+import { Button } from '../Button';
+import Header from '../Header';
 import { LinearGradient } from 'expo-linear-gradient';
 const { width } = Dimensions.get('window');
 import {
@@ -22,10 +22,8 @@ import {
 } from 'react-native-responsive-screen';
 import { Field, FieldArray, Formik } from 'formik';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import { ListItemBase } from 'react-native-elements/dist/list/ListItemBase';
-import { ScrollView } from 'react-native-gesture-handler';
 
-export default class ElementSlider2 extends React.Component {
+export default class trainingPreferences extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

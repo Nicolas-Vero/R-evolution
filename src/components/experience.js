@@ -11,8 +11,8 @@ import {
   Image,
 } from 'react-native';
 
-import { Button } from '../components/Button';
-import Header from '../components/Header';
+import { Button } from './Button';
+import Header from './Header';
 const { width } = Dimensions.get('window');
 import { LinearGradient } from 'expo-linear-gradient';
 import { Formik, Field } from 'formik';
@@ -23,7 +23,7 @@ import {
 
 import Slider from 'react-native-slider';
 import { ScrollView } from 'react-native-gesture-handler';
-export default class ElementSlider extends React.Component {
+export default class experience extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -65,7 +65,7 @@ export default class ElementSlider extends React.Component {
                   }}
                   onSubmit={(values) => {
                     const item = { ...passItem, ...values };
-                    navigation.navigate('dynamicList', { item: item });
+                    navigation.navigate('specialities', { item: item });
                     console.log(item);
                   }}>
                   {({

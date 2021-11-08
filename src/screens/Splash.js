@@ -98,7 +98,7 @@ export default class Splash extends React.Component {
                         fontFamily: 'RobotoBold',
                         fontSize: 17,
                       }}>
-                      Espace sportif
+                      Espace sportifff
                     </Text>
                   </View>
                 </TouchableOpacity>

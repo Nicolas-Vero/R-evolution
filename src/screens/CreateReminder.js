@@ -18,15 +18,12 @@ import { Text } from 'react-native-elements';
 import { Button } from '../components/Button';
 import Header from '../components/Header';
 import { loadFonts } from '../configs/design/font';
-import { get_coach_athlete } from '../api/Coach';
 import { AntDesign } from '@expo/vector-icons';
 import { isLoaded } from 'expo-font';
-import { get_availabilities } from '../api/Availabilities';
 import { LinearGradient } from 'expo-linear-gradient';
 import { coach_reminder } from '../api/CoachReminder';
 const { width } = Dimensions.get('window');
 import * as Notifications from 'expo-notifications';
-import moment from 'moment';
 export default class CreateReminder extends React.Component {
   state = {
     isLoaded: false,
@@ -78,7 +75,7 @@ export default class CreateReminder extends React.Component {
     const color = ['blue', 'red', 'green', 'yellow'];
     if (!isLoaded) {
       return (
-        <View style={[styles.Activitycontainer, styles.horizontal]}>
+        <View>
           <ActivityIndicator size="large" color="#696969" />
         </View>
       );
@@ -294,16 +291,9 @@ export default class CreateReminder extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  image: {
-    width: width,
-  },
+
   background: {
     flex: 1,
-  },
-  backgroundContainer: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
   },
   form1: {
     backgroundColor: '#FFFFFF',
@@ -327,63 +317,5 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: width,
-    height: 49,
-    marginTop: 29,
-    marginBottom: 49,
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
-  text: {
-    fontStyle: 'italic',
-    fontWeight: 'bold',
-    fontSize: 18,
-    color: '#FFFFFF',
-    lineHeight: 24,
-  },
-  euro: {
-    fontStyle: 'italic',
-    fontWeight: 'bold',
-    fontSize: 30,
-    color: '#FFFFFF',
-    marginLeft: 5,
-  },
-  title: {
-    color: '#FFFFFF',
-    fontWeight: '500',
-    fontSize: 15,
-    fontStyle: 'italic',
-    textAlign: 'center',
-    marginTop: 112,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    width: width,
-    justifyContent: 'space-between',
-    marginBottom: 35,
-  },
-  container: {
-    flex: 1,
-  },
-  logoContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 30,
-    marginTop: 45,
-    marginBottom: 50,
-  },
-  textInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  logoText: {
-    fontSize: 5,
-    alignSelf: 'center',
-    marginTop: 20,
   },
 });

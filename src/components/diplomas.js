@@ -12,8 +12,8 @@ import {
   TextInput,
   Image,
 } from 'react-native';
-import { Button } from '../components/Button';
-import Header from '../components/Header';
+import { Button } from './Button';
+import Header from './Header';
 const { width } = Dimensions.get('window');
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Yup from 'yup';
@@ -25,7 +25,7 @@ import {
 } from 'react-native-responsive-screen';
 
 import { ScrollView } from 'react-native-gesture-handler';
-export default class dynamicInput extends React.Component {
+export default class diplomas extends React.Component {
   constructor(props) {
     super(props);
 
@@ -69,7 +69,7 @@ export default class dynamicInput extends React.Component {
                 }}
                 onSubmit={(values) => {
                   const item = { ...passItem, ...values };
-                  navigation.navigate('ElementSlider', { item:item})
+                  navigation.navigate('experience', { item:item})
                   console.log(item);
                 }}
                 validationSchema={Yup.object().shape({

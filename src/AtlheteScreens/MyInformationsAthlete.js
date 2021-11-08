@@ -26,12 +26,12 @@ import { Avatar, CheckBox } from 'react-native-elements';
 import { Button, DeleteButton, ModifyButton } from '../components/Button';
 import HeaderLight from '../components/HeaderLight';
 //import { Slider } from 'react-native-elements';
-import { ElementSlider } from '../components/ElementSlider';
+import { experience } from '../components/experience';
 import { FontAwesome } from '@expo/vector-icons';
 const { width } = Dimensions.get('window');
-import { dynamicInput } from '../components/dynamicInput';
-import { dynamicList } from '../components/dynamicList';
-import { selectList } from '../components/selectList';
+import { diplomas } from '../components/diplomas';
+import { specialities } from '../components/specialities';
+import { trainingPlace } from '../components/trainingPlace';
 import { LinearGradient } from 'expo-linear-gradient';
 import { avatar } from '../components/avatar';
 import { loadFonts } from '../configs/design/font';
@@ -614,17 +614,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: width,
-    height: 49,
-    marginTop: 29,
-    marginBottom: 49,
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
   inputs: {
     marginVertical: heightPercentageToDP(1),
     alignItems: 'center',
@@ -663,23 +652,6 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP(92),
     padding: 5,
     justifyContent: 'center',
-  },
-  item: {
-    backgroundColor: '#393637',
-    borderRadius: 25,
-    marginVertical: 8,
-    padding: 10,
-    justifyContent: 'center',
-  },
-  itemcontent: {
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  title: {
-    fontFamily: 'RobotoBold',
-    fontSize: 20,
-    color: '#FFFFFF',
-    lineHeight: 24,
   },
   text: {
     fontFamily: 'RobotoBold',

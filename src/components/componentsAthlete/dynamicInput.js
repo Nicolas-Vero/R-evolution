@@ -15,7 +15,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { loadFonts } from '../../configs/design/font';
 
-export const dynamicInput = React.forwardRef(
+export const diplomas = React.forwardRef(
   (
     { name, placeholder, values, secureTextEntry, keyboardType, validate },
     ref,

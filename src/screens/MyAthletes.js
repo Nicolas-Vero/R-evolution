@@ -8,7 +8,6 @@ import {
   Text,
 } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
-const { width } = Dimensions.get('window');
 import { FlatList } from 'react-native-gesture-handler';
 import { get_coach_athlete } from '../api/Coach';
 import { Avatar } from 'react-native-elements';
@@ -149,7 +148,7 @@ export default class MyAthletes extends React.Component {
                         console.log('ddd', item),
                         (
                           <TouchableOpacity
-                            style={{ alignItems: 'center', marginBottom: 10 }}
+                          style={styles.container}
                             onPress={() => {
                               navigate('MyAthleteDetails', { item });
                             }}>
@@ -236,7 +235,7 @@ export default class MyAthletes extends React.Component {
                         console.log('ddd', item),
                         (
                           <TouchableOpacity
-                            style={{ alignItems: 'center' }}
+                          style={styles.container}
                             onPress={() => {
                               navigate('MyAthleteDetailsInactifs', { item });
                             }}>
@@ -319,7 +318,7 @@ export default class MyAthletes extends React.Component {
                       keyExtractor={(item) => toString(item.id)}
                       renderItem={({ item }) => (
                         <TouchableOpacity
-                          style={{ alignItems: 'center' }}
+                          style={styles.container}
                           onPress={() => {
                             navigate('MyAthleteDetailsProspects', { item });
                           }}>
@@ -394,42 +393,8 @@ export default class MyAthletes extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  listonebyone: {},
-
-  ccontainer: {},
-  item: {
-    backgroundColor: '#2CDEE4',
-    flex: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 17,
-  },
-  items: {
-    flex: 1,
-    borderRadius: 25,
-    padding: 10,
-    marginRight: 10,
-    marginTop: 17,
-  },
-  background: {
-    backgroundColor: 'black',
-    flex: 1,
-  },
-  day: {
-    borderWidth: 3,
-    borderColor: 'blue',
-    height: 80,
-    width: 50,
-    backgroundColor: '#2D333C',
-    margin: 5,
-    justifyContent: 'center',
+  container: {
     alignItems: 'center',
-    borderRadius: 10,
-  },
-  emptyDate: {
-    height: 15,
-    flex: 1,
-    paddingTop: 30,
+    marginVertical:5 ,
   },
 });

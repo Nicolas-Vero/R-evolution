@@ -14,8 +14,8 @@ import {
   Image,
 } from 'react-native';
 
-import { Button } from '../components/Button';
-import Header from '../components/Header';
+import { Button } from './Button';
+import Header from './Header';
 const { width } = Dimensions.get('window');
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Yup from 'yup';
@@ -30,7 +30,7 @@ import {
 import { get_specialities } from '../api/ReferenceData';
 import { ScrollView } from 'react-native-gesture-handler';
 
-export default class dynamicList extends React.Component {
+export default class specialities extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -80,7 +80,7 @@ export default class dynamicList extends React.Component {
                   }}
                   onSubmit={(values) => {
                     const item = { ...passItem, ...values };
-                    navigation.navigate('selectList', { item: item });
+                    navigation.navigate('trainingPlace', { item: item });
                     console.log(item);
                   }}
                   validationSchema={Yup.object().shape({

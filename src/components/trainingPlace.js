@@ -14,8 +14,8 @@ import { ActivityIndicator } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import SelectDropdown from 'react-native-select-dropdown';
 import { get_gym } from '../api/ReferenceData';
-import { Button } from '../components/Button';
-import Header from '../components/Header';
+import { Button } from './Button';
+import Header from './Header';
 const { width } = Dimensions.get('window');
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Yup from 'yup';
@@ -23,7 +23,7 @@ import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsi
 import { Formik, FieldArray, Field } from 'formik';
 import { ScrollView } from 'react-native-gesture-handler';
 
-export default class selectList extends React.Component {
+export default class trainingPlace extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

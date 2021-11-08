@@ -14,8 +14,8 @@ import { ActivityIndicator } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import SelectDropdown from 'react-native-select-dropdown';
 import { get_gym } from '../../api/ReferenceData';
-import { Button } from '../../components/Button';
-import Header from '../../components/Header';
+import { Button } from '../Button';
+import Header from '../Header';
 const { width } = Dimensions.get('window');
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Yup from 'yup';
@@ -26,7 +26,7 @@ import {
 import { Formik, FieldArray, Field } from 'formik';
 import { ScrollView } from 'react-native-gesture-handler';
 
-export default class selectList extends React.Component {
+export default class trainingPlace extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,7 +44,6 @@ export default class selectList extends React.Component {
     });
   }
   render() {
-    const passItem = this.props.navigation.state.params.item;
     const { navigation } = this.props;
     if (!this.state.isLoaded) {
       return (
@@ -89,35 +88,22 @@ export default class selectList extends React.Component {
                     }}
                     onSubmit={(values) => {
                       const item = { ...passItem, ...values };
-                      navigation.navigate('ElementSlider2', { item: item });
+                      navigation.navigate('trainingPreferences', { item: item });
                       console.log(item);
                     }}
                     validationSchema={Yup.object().shape({
                       gym_id: Yup.string().required('Requis'),
                     })}>
                     {({
-                      handleChange,
-                      handleBlur,
                       handleSubmit,
-                      setFieldValue,
-                      values,
-                      setFieldTouched,
-                      touched,
-                      errors,
                       isValid,
                       validate,
-                      ref,
                     }) => (
                       <View style={{ paddingBottom: 10 }}>
                         <Field name="gym_id" id="gym_id" validate={validate}>
                           {({
-                            field,
-                            meta,
                             form: {
-                              touched,
                               errors,
-                              isSubmitting,
-                              setFieldTouched,
                             },
                           }) => {
                             return (
@@ -163,7 +149,7 @@ export default class selectList extends React.Component {
                                           defaultButtonText={
                                             'Recherche le nom de ta salle'
                                           }
-                                          onSelect={(selectedItem, index) => {
+                                          onSelect={(selectedItem) => {
                                             //   if (arrayhelper.form.values.gym_id.length!='') {
                                             //     console.log(arrayhelper.form.values.gym_id.length);
                                             //      arrayhelper.pop()
@@ -185,7 +171,6 @@ export default class selectList extends React.Component {
                                           dropdownIconPosition={'right'}
                                           buttonTextAfterSelection={(
                                             selectedItem,
-                                            index,
                                           ) => {
                                             // text represented after item is selected
                                             // if data array is an array of objects then return selectedItem.property to render after item is selected
@@ -203,7 +188,6 @@ export default class selectList extends React.Component {
                                           }}
                                           rowTextForSelection={(
                                             item,
-                                            index,
                                           ) => {
                                             // text represented for each item in dropdown
                                             // if data array is an array of objects then return item.property to represent item in dropdown
