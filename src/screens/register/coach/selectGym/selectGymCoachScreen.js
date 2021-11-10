@@ -12,15 +12,17 @@ import { get_gym } from '../../../../api/ReferenceData';
 import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
 import { Button } from '../../../../components/Button';
-import styles from './selectGymStyle';
+import styles from './selectGymCoachStyle';
 
-export default class selectGymScreen extends React.Component {
+export default class selectGymCoachScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       step: 'initial',
+      // passItem: this.props.navigation.state.params.item,
       Gymdata: [],
       isLoaded: false,
+      term: '',
     };
   }
 
@@ -32,7 +34,10 @@ export default class selectGymScreen extends React.Component {
   }
 
   onNavigate = (item) => {
-    this.props.navigation.navigate('trainingDayScreen', { item: item });
+    this.props.navigation.navigate('avatarScreen', {
+      item: item,
+      isCoach: true,
+    });
   };
 
   render() {
@@ -52,7 +57,7 @@ export default class selectGymScreen extends React.Component {
           style={styles.background}>
           <Header title="LET'S GO" />
           <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <RegisterStepImageView step={5} />
+            <RegisterStepImageView step={12} />
             <View style={styles.content}>
               <Formik
                 initialValues={{
@@ -67,16 +72,15 @@ export default class selectGymScreen extends React.Component {
                 })}>
                 {({ handleSubmit, isValid, validate }) => (
                   <View style={{ paddingBottom: 15 }}>
-                    <Field
-                      name="health_issues"
-                      id="health_issues"
-                      validate={validate}>
+                    <Field name="gym_id" id="gym_id" validate={validate}>
                       {() => {
                         return (
                           <View style={{ height: heightPercentageToDP(72) }}>
                             <Text style={styles.title}>
+                              {' '}
                               DANS QUELLE SALLE PRATIQUES-TU ?
                             </Text>
+
                             <View style={styles.selectContainer}>
                               <FieldArray
                                 name="gym_id"
@@ -99,7 +103,7 @@ export default class selectGymScreen extends React.Component {
                                       return (
                                         <AntDesign
                                           name="down"
-                                          size={18}
+                                          size={24}
                                           color="black"
                                         />
                                       );

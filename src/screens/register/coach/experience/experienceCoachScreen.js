@@ -11,9 +11,9 @@ import {
 import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
 import { Button } from '../../../../components/Button';
-import styles from './experienceStyle';
+import styles from './experienceCoachStyle';
 
-export default class experienceScreen extends React.Component {
+export default class experienceCoachScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +24,7 @@ export default class experienceScreen extends React.Component {
   }
 
   onNavigate = (item) => {
-    this.props.navigation.navigate('goalScreen', { item: item });
+    this.props.navigation.navigate('speclalitiesScreen', { item: item });
   };
 
   render() {
@@ -44,7 +44,7 @@ export default class experienceScreen extends React.Component {
           style={styles.background}>
           <Header title="LET'S GO" />
           <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <RegisterStepImageView step={2} />
+            <RegisterStepImageView step={10} />
             <View style={styles.content}>
               <Formik
                 initialValues={{
@@ -67,7 +67,7 @@ export default class experienceScreen extends React.Component {
                               height: heightPercentageToDP(72),
                             }}>
                             <Text style={styles.title}>
-                              EXPÉRIENCES SPORTIVES
+                              ANNÉE(S) D'EXPÉRIENCE
                             </Text>
                             <View style={styles.content}>
                               <View style={styles.infoContainer}>
@@ -81,21 +81,25 @@ export default class experienceScreen extends React.Component {
                                     : `${field.value} ANS`}
                                 </Text>
                               </View>
-                              <Slider
-                                style={{ width: widthPercentageToDP(90) }}
-                                trackStyle={styles.track}
-                                thumbStyle={styles.thumb}
-                                minimumTrackTintColor="#2CDEE4"
-                                track
-                                ref={ref}
-                                name="experience_years"
-                                onSlidingComplete={(num) => {
-                                  field.onChange('experience_years')('' + num);
-                                }}
-                                maximumValue={10}
-                                minimumValue={0}
-                                step={1}
-                              />
+                              <View style={styles.sliderContainer}>
+                                <Slider
+                                  style={{ width: widthPercentageToDP(90) }}
+                                  trackStyle={styles.track}
+                                  thumbStyle={styles.thumb}
+                                  minimumTrackTintColor="#2CDEE4"
+                                  track
+                                  ref={ref}
+                                  name="experience_years"
+                                  onSlidingComplete={(num) => {
+                                    field.onChange('experience_years')(
+                                      '' + num,
+                                    );
+                                  }}
+                                  maximumValue={10}
+                                  minimumValue={0}
+                                  step={1}
+                                />
+                              </View>
                             </View>
                           </View>
                         );

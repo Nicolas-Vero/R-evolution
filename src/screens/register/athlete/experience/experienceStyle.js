@@ -18,7 +18,7 @@ module.exports = StyleSheet.create({
   },
   title: {
     textAlign: 'center',
-    marginTop: 88,
+    marginTop: 64,
     fontFamily: 'RobotoBold',
     fontSize: 16,
     color: '#FFFF',
@@ -36,7 +36,7 @@ module.exports = StyleSheet.create({
     backgroundColor: '#2CDEE4',
   },
   infoContainer: {
-    marginTop: 76,
+    marginVertical: 60,
     alignItems: 'center',
     justifyContent: 'center',
     width: widthPercentageToDP(40),

@@ -5,10 +5,16 @@ module.exports = StyleSheet.create({
   container: {
     flex: 1,
   },
+  background: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+  },
   content: {
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
   },
   title: {
     textAlign: 'center',
@@ -17,35 +23,36 @@ module.exports = StyleSheet.create({
     fontSize: 16,
     color: '#FFFF',
   },
-  inputContainer: {
-    marginBottom: 15,
-  },
-  input: {
-    backgroundColor: '#FFFFFF',
-    width: widthPercentageToDP(50),
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    borderRadius: 3,
-    fontSize: 15,
-  },
-  errorInputContainer: {
-    marginTop: 2,
-    alignItems: 'flex-end',
-  },
-  errorInputText: {
-    fontSize: 12,
-    color: '#FD7279',
-  },
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
-  buttonContainer: {
-    marginBottom: 27,
+  track: {
+    height: 10,
+    backgroundColor: '#282C3A',
+  },
+  thumb: {
+    height: 20,
+    width: 20,
+    backgroundColor: '#2CDEE4',
+  },
+  sliderContainer: {},
+  infoContainer: {
+    marginVertical: 60,
     alignItems: 'center',
+    justifyContent: 'center',
+    width: widthPercentageToDP(40),
+    backgroundColor: '#282C3A',
+    borderRadius: 5,
+  },
+  textInfo: {
+    marginVertical: 10,
+    marginHorizontal: 14,
+    fontFamily: 'RobotoMedium',
+    fontSize: 16,
+    color: '#FFFF',
   },
   buttonText: {
     fontFamily: 'RobotoBold',
     fontSize: 17,
-    color: '#393637',
   },
 });

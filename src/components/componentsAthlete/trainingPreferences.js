@@ -60,7 +60,7 @@ export default class trainingPreferences extends React.Component {
           style={styles.background}>
           {/* <ScrollView> */}
           <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-          <Header title="LET'S GO" />
+            <Header title="LET'S GO" />
             <View style={{ alignItems: 'center' }}>
               <Image
                 source={require('../../../assets/images/GroupA_6.png')}
@@ -135,7 +135,7 @@ export default class trainingPreferences extends React.Component {
                                   fontSize: 20,
                                   color: '#FFFF',
                                 }}>
-                                À QUELLE MOMMENT DE LA JOURNÉE?
+                                À QUEL MOMENT DE LA JOURNÉE?
                               </Text>
                               <View style={{ flexDirection: 'row' }}>
                                 <Text

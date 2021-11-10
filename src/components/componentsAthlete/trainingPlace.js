@@ -123,7 +123,7 @@ export default class trainingPlace extends React.Component {
                                         fontSize: 20,
                                         color: '#FFFF',
                                       }}>
-                                      OÙ SOUHAITES-TU T'ENTRAÎNER ?
+                                      DANS QUELLE SALLE PRATIQUES-TU ?
                                     </Text>
                                   </View>
                                   <View style={{ marginTop: 30 }}>

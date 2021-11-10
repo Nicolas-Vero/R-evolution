@@ -100,7 +100,7 @@ export default class trainingDayScreen extends React.Component {
                         return (
                           <View style={styles.content}>
                             <Text style={styles.title}>
-                              À QUELLE MOMMENT DE LA JOURNÉE ?
+                              À QUEL MOMENT DE LA JOURNÉE ?
                             </Text>
                             <Text style={styles.subTitle}>
                               ENTRE{' '}

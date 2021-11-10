@@ -11,18 +11,15 @@ import {
   StatusBar,
   Dimensions,
 } from 'react-native';
-import { Button } from '../../components/Button';
 import {
   heightPercentageToDP,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import * as Notifications from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
-import moment from 'moment';
+import { Button } from '../../../components/Button';
 
 const { width } = Dimensions.get('window');
 
-export default class Index extends React.Component {
+export default class choiceAuthTypeScreen extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -32,9 +29,9 @@ export default class Index extends React.Component {
 
   async loadFonts() {
     await Font.loadAsync({
-      MontserratItalic: require('../../../assets/fonts/Montserrat-Italic.ttf'),
-      Montserrat: require('../../../assets/fonts/Montserrat-Regular.ttf'),
-      RobotoBold: require('../../../assets/fonts/Roboto-Bold.ttf'),
+      MontserratItalic: require('../../../../assets/fonts/Montserrat-Italic.ttf'),
+      Montserrat: require('../../../../assets/fonts/Montserrat-Regular.ttf'),
+      RobotoBold: require('../../../../assets/fonts/Roboto-Bold.ttf'),
     });
     this.setState({ fontsLoaded: true });
   }
@@ -42,6 +39,7 @@ export default class Index extends React.Component {
   componentDidMount() {
     this.loadFonts();
   }
+
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -75,7 +73,7 @@ export default class Index extends React.Component {
                 fontWeight: 'bold',
                 fontSize: 17,
               }}
-              onPress={() => navigate('registerScreen')}
+              onPress={() => navigate('SplashAuth')}
             />
             <Button
               title="Se connecter"

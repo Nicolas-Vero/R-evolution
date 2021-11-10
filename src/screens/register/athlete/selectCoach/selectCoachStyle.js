@@ -15,7 +15,9 @@ module.exports = StyleSheet.create({
     bottom: 0,
   },
   content: {
-    height: heightPercentageToDP(75),
+    height: heightPercentageToDP(72),
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
     textAlign: 'center',
@@ -35,22 +37,25 @@ module.exports = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   dropdownContainer: {
-    marginTop: 26,
+    marginTop: 50,
     alignItems: 'center',
   },
   dropdownButton: {
-    width: widthPercentageToDP(80),
+    width: widthPercentageToDP(90),
     borderRadius: 3,
-    height: 35,
+    height: 38,
   },
   dropdownButtonText: {
     fontSize: 15,
     textAlign: 'left',
+    fontFamily: 'Roboto',
   },
   dropdownRowText: {
-    color: 'white',
-    fontSize: 13,
-    marginRight: 90,
+    fontFamily: 'Roboto',
+    color: '#DFDFDF',
+    fontSize: 15,
+    textAlign: 'left',
+    marginLeft: 20,
   },
   dropdownBg: {
     backgroundColor: '#282C3A',
@@ -63,14 +68,17 @@ module.exports = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 15,
-    marginBottom: 24,
+  },
+  noWayCheckBox: {
+    paddingLeft: 0,
+    marginLeft: 0,
+    paddingRight: 0,
+    borderWidth: 0,
   },
   noWayText: {
-    flex: 1,
-    flexWrap: 'wrap',
     color: '#FFFFFF',
     fontFamily: 'Roboto',
-    fontSize: 13,
+    fontSize: 15,
   },
   errorContainer: {
     alignItems: 'flex-end',

@@ -77,13 +77,13 @@ export default class mensurationScreen extends React.Component {
                       .required('Requis'),
                     weight: Yup.number()
                       .typeError('Poid non valide')
-                      .max(500, 'Tu dois entrer un poid correct')
+                      .max(300, 'Tu dois entrer un poid correct')
                       .min(30, 'Tu dois entrer un poid correct')
                       .required('Requis'),
                     size: Yup.number()
                       .typeError('Taille non valide')
-                      .min(1000, 'Tu dois entrer une taille correcte')
-                      .max(3000, 'Tu dois entrer une taille correcte')
+                      .min(100, 'Tu dois entrer une taille correcte')
+                      .max(300, 'Tu dois entrer une taille correcte')
                       .required('Requis'),
                   })}>
                   {({ handleSubmit, isValid, validate, ref }) => (

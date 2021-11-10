@@ -33,8 +33,15 @@ export default class registerScreen extends React.Component {
   componentDidMount() {
     loadFonts();
   }
+
+  onNavigate = (item) => {
+    console.log('item');
+    this.props.navigation.navigate(
+      item.userType === 'coach' ? 'diplomasScreen' : 'mensurationScreen',
+      item,
+    );
+  };
   render() {
-    const { navigation } = this.props;
     const phoneRegExp =
       /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
@@ -46,6 +53,7 @@ export default class registerScreen extends React.Component {
       phone: '',
       password: '',
       confirm_password: '',
+      userType: 'athlete',
     };
     return (
       <View style={styles.container}>
@@ -69,9 +77,7 @@ export default class registerScreen extends React.Component {
                   initialValues={formValue}
                   onSubmit={(values) => {
                     this.state.termsCondition
-                      ? navigation.navigate('mensurationScreen', {
-                          item: values,
-                        })
+                      ? this.onNavigate(values)
                       : alert('accepter les terms des conditons');
                   }}
                   validationSchema={Yup.object().shape({
@@ -89,10 +95,12 @@ export default class registerScreen extends React.Component {
                       .max(10, 'Tu dois entrer un numéro de téléphone valide.')
                       .required('Requis'),
                     password: Yup.string().required('Requis'),
-                    confirm_password: Yup.string().oneOf(
-                      [Yup.ref('password'), null],
-                      'Les mots de passe saisis ne sont pas identiques.',
-                    ),
+                    confirm_password: Yup.string()
+                      .oneOf(
+                        [Yup.ref('password'), null],
+                        'Les mots de passe saisis ne sont pas identiques.',
+                      )
+                      .required('Requis'),
                   })}>
                   {({
                     handleChange,
@@ -168,7 +176,6 @@ export default class registerScreen extends React.Component {
                             placeholderTextColor="#979797"
                             ref={(ref) => (this.lastNameInput = ref)}
                             blurOnSubmit={false}
-                            autoCapitalize="none"
                             onSubmitEditing={() =>
                               this.emailInput && this.emailInput.focus()
                             }
@@ -329,6 +336,30 @@ export default class registerScreen extends React.Component {
                             </View>
                           )}
                         </View>
+                        <View style={styles.checkBoxContainer}>
+                          <CheckBox
+                            containerStyle={styles.checkbox}
+                            checkedColor="#2CDEE4"
+                            title="Athlete"
+                            textStyle={styles.checkboxTextColor}
+                            checkedIcon="dot-circle-o"
+                            uncheckedIcon="dot-circle-o"
+                            checked={values.userType.toString() === 'athlete'}
+                            value={values.userType}
+                            onPress={() => setFieldValue('userType', 'athlete')}
+                          />
+                          <CheckBox
+                            checkedColor="#2CDEE4"
+                            containerStyle={styles.checkbox}
+                            title="Coach"
+                            textStyle={styles.checkboxTextColor}
+                            checkedIcon="dot-circle-o"
+                            uncheckedIcon="dot-circle-o"
+                            checked={values.userType === 'coach'}
+                            value={values.userType}
+                            onPress={() => setFieldValue('userType', 'coach')}
+                          />
+                        </View>
                       </KeyboardAvoidingView>
 
                       <View
@@ -348,6 +379,13 @@ export default class registerScreen extends React.Component {
                             })
                           }
                         />
+                        {errors.userType && (
+                          <View style={styles.errorInputContainer}>
+                            <Text style={styles.errorInputText}>
+                              {errors.userType}
+                            </Text>
+                          </View>
+                        )}
                         <Text style={styles.acceptText}>
                           En créant un compte, vous acceptez de vous conformer à
                           la{' '}

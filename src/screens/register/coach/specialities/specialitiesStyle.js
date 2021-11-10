@@ -42,15 +42,17 @@ module.exports = StyleSheet.create({
     borderRadius: 25,
     padding: 10,
     justifyContent: 'center',
+    alignItems: 'center',
     margin: 7.5,
     borderWidth: 1,
   },
-  scrollVIewContainer: {
-    maxHeight: 100,
-  },
   goalItemText: {
+    textAlign: 'center',
     fontFamily: 'RobotoBold',
     fontSize: 15,
+  },
+  scrollVIewContainer: {
+    maxHeight: 100,
   },
   errorText: {
     color: '#FD7279',
@@ -90,6 +92,7 @@ module.exports = StyleSheet.create({
     alignItems: 'baseline',
     marginHorizontal: widthPercentageToDP(2),
   },
+
   addGoalButtonText: {
     fontFamily: 'RobotoBold',
     marginLeft: 10,

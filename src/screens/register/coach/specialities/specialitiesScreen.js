@@ -20,13 +20,14 @@ import { get_specialities } from '../../../../api/ReferenceData';
 import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
 import { Button } from '../../../../components/Button';
-import styles from './goalStyle';
+import styles from './specialitiesStyle';
 
-export default class goalScreen extends React.Component {
+export default class speclalitiesScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       step: 'initial',
+      // passItem: this.props.navigation.state.params.item,
       specData: [],
       isLoaded: false,
       term: '',
@@ -41,10 +42,10 @@ export default class goalScreen extends React.Component {
   }
 
   onNavigate = (item) => {
-    this.props.navigation.navigate('healthScreen', { item: item });
+    this.props.navigation.navigate('selectGymCoachScreen', { item: item });
   };
 
-  renderGoalList(errors, arrayhelper) {
+  renderSpecialitiesList(errors, arrayhelper) {
     return (
       <View>
         <ScrollView style={styles.goalContainer}>
@@ -63,7 +64,7 @@ export default class goalScreen extends React.Component {
                     item.selected != 1
                       ? (item.selected = 1)
                       : (item.selected = 0);
-                    arrayhelper.form.values.goals.includes(item.value)
+                    arrayhelper.form.values.specialties.includes(item.value)
                       ? arrayhelper.remove(item.value)
                       : arrayhelper.push(item.value);
                   }}>
@@ -89,9 +90,9 @@ export default class goalScreen extends React.Component {
             numColumns={3}
           />
         </ScrollView>
-        {errors.goals ? (
+        {errors.specialties ? (
           <Text style={styles.errorText}>
-            Selectionne ou ajoute un objectif
+            Selectionne ou ajoute une spécialité
           </Text>
         ) : null}
       </View>
@@ -100,6 +101,7 @@ export default class goalScreen extends React.Component {
 
   render() {
     const passItem = this.props.navigation.state.params.item;
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -115,51 +117,54 @@ export default class goalScreen extends React.Component {
           style={styles.background}>
           <Header title="LET'S GO" />
           <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <RegisterStepImageView step={3} />
+            <RegisterStepImageView step={11} />
             <View style={styles.content}>
               <Formik
                 initialValues={{
-                  goals: [],
+                  specialties: [],
                 }}
                 onSubmit={(values) => {
                   const item = { ...passItem, ...values };
                   this.onNavigate(item);
                 }}
                 validationSchema={Yup.object().shape({
-                  goals: Yup.array().min(1).required('Requis'),
+                  specialties: Yup.array().min(1).required('Requis'),
                 })}>
                 {({ handleSubmit, isValid, validate }) => (
                   <View style={styles.content}>
-                    <Field name="goals" id="goals" validate={validate}>
+                    <Field
+                      name="specialties"
+                      id="specialties"
+                      validate={validate}>
                       {({ form: { errors } }) => {
                         return (
                           <View
                             style={{
                               height: heightPercentageToDP(72),
                             }}>
-                            <Text style={styles.title}>
-                              QUEL EST TON OBJECTIF ?
-                            </Text>
+                            <Text style={styles.title}>SPECIALITÉ(S)</Text>
                             <Text style={styles.subTitle}>
-                              Sélectionne ton ou tes objectifs(s)
+                              Sélectionne une ou plusieurs spécialités
                             </Text>
-
                             <View style={{ marginTop: 26, marginBottom: 26 }}>
                               <FieldArray
-                                name="goals"
+                                name="specialties"
                                 render={(arrayhelper) => (
                                   <View>
                                     <View
                                       style={{
                                         marginBottom: 24,
                                       }}>
-                                      {this.renderGoalList(errors, arrayhelper)}
+                                      {this.renderSpecialitiesList(
+                                        errors,
+                                        arrayhelper,
+                                      )}
                                     </View>
                                     <View style={styles.inputContainer}>
                                       <TextInput
-                                        placeholder="Ajouter un objectif"
+                                        placeholder="Ajouter une spécialité"
                                         placeholderTextColor="#979797"
-                                        name="goals"
+                                        name="specialties"
                                         value={this.state.term}
                                         onChangeText={(text) => {
                                           this.setState({ term: text });
@@ -171,10 +176,7 @@ export default class goalScreen extends React.Component {
                                           this.state.specData.push({
                                             value: this.state.term,
                                           }),
-                                            arrayhelper.form.values.goals.push(
-                                              this.state.term,
-                                            );
-                                          this.setState({ term: '' });
+                                            this.setState({ term: '' });
                                         }}>
                                         <View
                                           style={styles.addGoalButtonContainer}>

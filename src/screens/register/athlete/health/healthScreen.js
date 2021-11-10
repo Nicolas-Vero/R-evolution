@@ -17,7 +17,6 @@ export default class healthScreen extends React.Component {
     super(props);
     this.state = {
       step: 'initial',
-      // passItem: this.props.navigation.state.params.item,
       arrayofdiplomas: [],
     };
   }
@@ -56,7 +55,7 @@ export default class healthScreen extends React.Component {
                   this.onNavigate(item);
                 }}>
                 {({ handleSubmit, isValid, validate, ref }) => (
-                  <View style={{ paddingBottom: 15 }}>
+                  <View style={styles.content}>
                     <Field
                       name="health_issues"
                       id="health_issues"
@@ -100,7 +99,7 @@ export default class healthScreen extends React.Component {
                                           return (
                                             <AntDesign
                                               name="down"
-                                              size={24}
+                                              size={18}
                                               color="black"
                                             />
                                           );
@@ -127,6 +126,7 @@ export default class healthScreen extends React.Component {
                                       </Text>
                                       <View style={styles.inputContainer}>
                                         <TextInput
+                                          multiline={true}
                                           style={styles.input}
                                           placeholder="Description"
                                           placeholderTextColor="#979797"

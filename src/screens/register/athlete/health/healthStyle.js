@@ -26,13 +26,14 @@ module.exports = StyleSheet.create({
   subTitle: {
     marginTop: 24,
     fontFamily: 'RobotoBold',
-    fontSize: 17,
+    fontSize: 16,
     color: '#FFFF',
   },
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   healthContainer: {
+    alignItems: 'center',
     marginTop: 24,
   },
   dropdownContainer: {
@@ -41,16 +42,19 @@ module.exports = StyleSheet.create({
   dropdownButton: {
     width: widthPercentageToDP(50),
     borderRadius: 3,
-    height: 35,
+    height: 38,
   },
   dropdownButtonText: {
     fontSize: 15,
     textAlign: 'left',
+    fontFamily: 'Roboto',
   },
   dropdownRowText: {
-    color: 'white',
-    fontSize: 13,
-    marginRight: 90,
+    fontFamily: 'Roboto',
+    color: '#DFDFDF',
+    fontSize: 15,
+    textAlign: 'left',
+    marginLeft: 20,
   },
   dropdownBg: {
     backgroundColor: '#282C3A',
@@ -68,10 +72,12 @@ module.exports = StyleSheet.create({
   input: {
     backgroundColor: '#FFFFFF',
     width: widthPercentageToDP(92),
-    paddingLeft: 15,
-    height: 130,
-    paddingRight: 15,
+    paddingHorizontal: 15,
+    paddingTop: 10,
+    paddingBottom: 10,
+    height: 120,
     borderRadius: 3,
+    justifyContent: 'flex-start',
   },
   nextButtonText: {
     fontFamily: 'RobotoBold',

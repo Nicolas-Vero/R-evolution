@@ -24,7 +24,6 @@ module.exports = StyleSheet.create({
     color: '#FFFF',
   },
   subTitle: {
-    marginTop: 50,
     fontFamily: 'RobotoBold',
     fontSize: 17,
     color: '#FFFF',
@@ -33,7 +32,7 @@ module.exports = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   selectContainer: {
-    marginTop: 60,
+    marginTop: 50,
     alignItems: 'center',
   },
   dropdownButton: {

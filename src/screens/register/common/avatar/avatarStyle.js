@@ -18,7 +18,7 @@ module.exports = StyleSheet.create({
   },
   title: {
     textAlign: 'center',
-    marginTop: 88,
+    marginTop: 64,
     fontFamily: 'RobotoBold',
     fontSize: 16,
     color: '#FFFF',

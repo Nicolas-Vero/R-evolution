@@ -22,6 +22,7 @@ import { Avatar } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Formik, FieldArray, Field } from 'formik';
 import { sign_up } from '../../../../api/Athlete';
+import { auth } from '../../../../api/Coach';
 import { upload_file } from '../../../../api/File';
 import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
@@ -34,11 +35,11 @@ export default class avatarScreen extends React.Component {
       isLoaded: false,
       image: {},
       isValid: true,
+      isCoach: props.navigation.state.params.isCoach,
     };
   }
   async componentDidMount() {
     {
-      console.log(props.item);
       if (Platform.OS !== 'web') {
         const { status } =
           await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -49,14 +50,40 @@ export default class avatarScreen extends React.Component {
     }
   }
 
+  onRegister = async (formData, item) => {
+    console.log(formData);
+    console.log(item);
+    const { isCoach } = this.state;
+    try {
+      upload_file(formData)
+        .then((res) => {
+          console.log(res);
+          item.profile_picture_url = res.data.location;
+        })
+        .then(() => {
+          console.log('item', item);
+          const register = isCoach ? auth(item) : sign_up(item);
+          console.log('register', register);
+        })
+        .then(() => {
+          //call login route item.email, item.pwd
+          // get token
+          // authservice.setAuth()
+          // redirect to correct stack
+          this.props.navigation.popToTop();
+          this.props.navigation.push('loginScreen');
+        });
+    } catch (error) {
+      console.log('error:', error, ' ', 'data:', item);
+    }
+  };
+
   onNavigate = () => {
     this.props.navigation.navigate('LoginAthlete');
   };
 
   render() {
     const passItem = this.props.navigation.state.params.item;
-    console.log(passItem);
-    const { navigation } = this.props;
     const pickImage = async (arrayhelper) => {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -85,7 +112,7 @@ export default class avatarScreen extends React.Component {
           style={styles.background}>
           <Header title="LET'S GO" />
           <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <RegisterStepImageView step={8} />
+            <RegisterStepImageView step={this.state.isCoach ? 13 : 8} />
             <View style={styles.content}>
               <Formik
                 initialValues={{
@@ -99,21 +126,7 @@ export default class avatarScreen extends React.Component {
                     uri: this.state.image.uri,
                     type: this.state.image.type,
                   });
-                  try {
-                    upload_file(formData)
-                      .then((res) => {
-                        item.profile_picture_url = res.data.location;
-                      })
-                      .then(() => {
-                        console.log('item', item);
-                        sign_up(item);
-                      })
-                      .then(() => {
-                        this.onNavigate();
-                      });
-                  } catch (error) {
-                    console.log('error:', error, ' ', 'data:', item);
-                  }
+                  this.onRegister(formData, item);
                 }}>
                 {({ handleSubmit, isValid, validate, ref }) => (
                   <View style={styles.content}>
@@ -125,7 +138,7 @@ export default class avatarScreen extends React.Component {
                         return (
                           <View
                             style={{
-                              height: heightPercentageToDP(75),
+                              height: heightPercentageToDP(72),
                             }}>
                             <Text style={styles.title}>PHOTO DE PROFIL</Text>
                             <View

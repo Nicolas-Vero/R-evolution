@@ -61,7 +61,7 @@ export default class selectCoachScreen extends React.Component {
         </View>
       );
     }
-    const passItem = {};
+    const passItem = this.props.navigation.state.params.item;
 
     return (
       <View style={styles.container}>
@@ -94,7 +94,7 @@ export default class selectCoachScreen extends React.Component {
                   ),
                 })}>
                 {({ handleSubmit, isValid, validate }) => (
-                  <View style={{ paddingBottom: 15 }}>
+                  <View style={{ paddingBottom: 15, alignItems: 'center' }}>
                     <Field
                       name="coach_preference"
                       id="coach_preference"
@@ -103,11 +103,9 @@ export default class selectCoachScreen extends React.Component {
                         return (
                           <View style={styles.content}>
                             <Text style={styles.title}>
-                              À QUI VEUX-TU ADRESSER TA DEMANDE ?
+                              À QUEL COACH VEUX-TU ADRESSER TA DEMANDE ?
                             </Text>
-                            <Text style={styles.subTitle}>
-                              Un coach en particulier ?
-                            </Text>
+
                             <View style={styles.dropdownContainer}>
                               <FieldArray
                                 name="coach_preference"
@@ -122,7 +120,9 @@ export default class selectCoachScreen extends React.Component {
                                       dropdownStyle={styles.dropdownBg}
                                       rowStyle={styles.dropdownRow}
                                       data={this.state.Coach}
-                                      defaultButtonText={'Recherche ton coach'}
+                                      defaultButtonText={
+                                        'Recherche le nom de ton coach'
+                                      }
                                       onSelect={(selectedItem, index) => {
                                         arrayhelper.form.values.coach_preference =
                                           {
@@ -157,11 +157,7 @@ export default class selectCoachScreen extends React.Component {
                                     <View style={styles.noWayContainer}>
                                       <CheckBox
                                         size={25}
-                                        containerStyle={{
-                                          paddingLeft: 0,
-                                          marginLeft: 0,
-                                          borderWidth: 0,
-                                        }}
+                                        containerStyle={styles.noWayCheckBox}
                                         uncheckedColor="#2CDEE4"
                                         checked={this.state.checked}
                                         value={

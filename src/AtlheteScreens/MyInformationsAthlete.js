@@ -5,17 +5,13 @@ import {
   TextInput,
   SafeAreaView,
   StyleSheet,
-  Platform,
-  StatusBar,
   Dimensions,
-  Image,
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
 } from 'react-native';
 import {
   heightPercentageToDP,
-  heightPercentageToDP as hp,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -23,20 +19,15 @@ import { STORAGE } from '../configs/Constants';
 import { FieldArray, Field, Formik } from 'formik';
 import { AntDesign } from '@expo/vector-icons';
 import { Avatar, CheckBox } from 'react-native-elements';
-import { Button, DeleteButton, ModifyButton } from '../components/Button';
+import { Button, DeleteButton } from '../components/Button';
 import HeaderLight from '../components/HeaderLight';
 //import { Slider } from 'react-native-elements';
-import { experience } from '../components/experience';
 import { FontAwesome } from '@expo/vector-icons';
 const { width } = Dimensions.get('window');
-import { diplomas } from '../components/diplomas';
-import { specialities } from '../components/specialities';
-import { trainingPlace } from '../components/trainingPlace';
 import { LinearGradient } from 'expo-linear-gradient';
-import { avatar } from '../components/avatar';
+
 import { loadFonts } from '../configs/design/font';
 import { ScrollView } from 'react-native-gesture-handler';
-import { get_coach_me } from '../api/Coach';
 import SelectDropdown from 'react-native-select-dropdown';
 import { get_gym } from '../api/ReferenceData';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
