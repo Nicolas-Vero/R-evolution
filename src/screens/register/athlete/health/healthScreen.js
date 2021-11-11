@@ -11,6 +11,7 @@ import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
 import { Button } from '../../../../components/Button';
 import styles from './healthStyle';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export default class healthScreen extends React.Component {
   constructor(props) {
@@ -41,8 +42,9 @@ export default class healthScreen extends React.Component {
             y: 1,
           }}
           style={styles.background}>
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <Header title="LET'S GO" />
-          <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
+          <SafeAreaView  style={styles.safeArea}>
             <RegisterStepImageView step={4} />
             <View style={styles.content}>
               <Formik
@@ -157,6 +159,7 @@ export default class healthScreen extends React.Component {
               </Formik>
             </View>
           </SafeAreaView>
+      </TouchableWithoutFeedback>
         </LinearGradient>
       </View>
     );
