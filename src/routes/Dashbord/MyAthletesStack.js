@@ -1,5 +1,5 @@
 import { createStackNavigator } from 'react-navigation-stack';
-import Activitie from '../../screens/Activitie';
+import activitiesScreen from '../../screens/ActivitiesCoach/ActivitiesScreen';
 import MyAthleteDetails from '../../screens/MyAthleteDetails';
 import MyAthleteDetailsInactifs from '../../screens/MyAthleteDetailsInactifs';
 import MyAthleteDetailsProspects from '../../screens/MyAthleteDetailsProspects';
@@ -37,7 +37,7 @@ const MyAthletesStack = createStackNavigator(
       },
     },
     AthletesProfils: {
-      screen: Activitie,
+      screen: activitiesScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,

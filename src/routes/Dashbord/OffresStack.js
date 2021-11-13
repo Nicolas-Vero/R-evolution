@@ -1,61 +1,49 @@
 import React from 'react';
-import {createStackNavigator} from 'react-navigation-stack';
+import { createStackNavigator } from 'react-navigation-stack';
 import { Ionicons } from '@expo/vector-icons';
-import OffreCreation from '../../screens/OffreCreation';
-import OffreUpdate from '../../screens/OffreUpdate';
 // Auth import
-import OffresFormations from '../../screens/OffresFormations';
-import Offres from '../../screens/Offres';
-
-
+import offersTrainingsCoachScreen from '../../screens/offersTrainingsCoach/offersTrainingsCoachScreen';
+import offersCoachScreen from '../../screens/offersCoach/offersCoachScreen';
+import addOfferCoachScreen from '../../screens/addOfferCoach/addOfferCoachScreen';
+import updateOfferCoachScreen from '../../screens/updateOfferCoach/updateOfferCoachScreen';
 const OffresStack = createStackNavigator(
-    {
-      OffresFormations: {
-        screen: OffresFormations,
-        navigationOptions: {
-          headerShown: false,
-        },
+  {
+    offersTrainingsCoachScreen: {
+      screen: offersTrainingsCoachScreen,
+      navigationOptions: {
+        headerShown: false,
       },
-      Offres: {
-        screen: Offres,
-        navigationOptions: {
-         
-          tabBarIcon: ({tintColor}) => (
-            <Ionicons  size={20} color={tintColor} />
-          ),
-          headerShown: false,
-        },},
-      OffreCreation: {
-        screen: OffreCreation,
-        navigationOptions: {
-          tabBarIcon: ({tintColor}) => (
-            <Ionicons  size={20} color={tintColor} />
-          ),
-          headerShown: false,
-        },
-      },
-
-      OffreUpdate: {
-        screen: OffreUpdate,
-        navigationOptions: {
-          tabBarIcon: ({tintColor}) => (
-            <Ionicons  size={20} color={tintColor} />
-          ),
-          headerShown: false,
-        },
-      },
-      
-    
-  
     },
-    {
-      lazy: true,
+    offersCoachScreen: {
+      screen: offersCoachScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
+        headerShown: false,
+      },
+    },
+    addOfferCoachScreen: {
+      screen: addOfferCoachScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
+        headerShown: false,
+      },
+    },
+
+    updateOfferCoachScreen: {
+      screen: updateOfferCoachScreen,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
+        headerShown: false,
+      },
+    },
+  },
+  {
+    lazy: true,
     //   initialRouteName: 'OffresFormations',
-      swipeEnabled: true,
-      animationEnabled: true,
-      tabBarPosition: 'bottom', 
-      
-    },
-  );
+    swipeEnabled: true,
+    animationEnabled: true,
+    tabBarPosition: 'bottom',
+  },
+);
 
-  export default OffresStack;
+export default OffresStack;

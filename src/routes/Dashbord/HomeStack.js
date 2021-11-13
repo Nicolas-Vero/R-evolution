@@ -1,13 +1,13 @@
 import { createStackNavigator } from 'react-navigation-stack';
-import Activitie from '../../screens/Activitie'; //athlet activite screen
-import AwaitingDemand from '../../screens/AwaitingDemand';
-import CreateBook from '../../screens/CreateBook';
-import Dashboard from '../../screens/Dashboard';
-import homeCoachScreen from '../../screens/homeCoach/homeCoachScreen';
-import CreateReminder from '../../screens/CreateReminder';
-import Account from '../../screens/Account';
-import MyInformations from '../../screens/MyInformations';
+import pendingRequestCoachScreen from '../../screens/pendingRequestCoach/pendingRequestCoachScreen';
+// import MyInformations from '../../screens/MyInformations';
 import Demande from '../../screens/Demande';
+import homeCoachScreen from '../../screens/homeCoach/homeCoachScreen';
+import createBookCoachScreen from '../../screens/createBookCoach/createBookCoachScreen';
+import activitiesScreen from '../../screens/ActivitiesCoach/ActivitiesScreen';
+import createReminderCoachScreen from '../../screens/createReminderCoach/createReminderCoachScreen';
+import accountScreen from '../../screens/account/accountScreen';
+import profileCoachScreen from '../../screens/profileCoach/profileCoachScreen';
 const HomeStack = createStackNavigator(
   {
     homeCoachScreen: {
@@ -18,48 +18,48 @@ const HomeStack = createStackNavigator(
         swipeEnabled: false,
       },
     },
-    CreateBook: {
-      screen: CreateBook,
+    createBookCoachScreen: {
+      screen: createBookCoachScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    CreateReminder: {
-      screen: CreateReminder,
+    createReminderCoachScreen: {
+      screen: createReminderCoachScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    Activitie: {
-      screen: Activitie,
+    activitiesScreen: {
+      screen: activitiesScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    Account: {
-      screen: Account,
+    accountScreen: {
+      screen: accountScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    MyInformations: {
-      screen: MyInformations,
+    profileCoachScreen: {
+      screen: profileCoachScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
         swipeEnabled: false,
       },
     },
-    AwaitingDemand: {
-      screen: AwaitingDemand,
+    pendingRequestCoachScreen: {
+      screen: pendingRequestCoachScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,

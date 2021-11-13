@@ -45,7 +45,13 @@ const defaultStyle = StyleSheet.create({
     marginTop: 26,
     marginBottom: 20,
   },
-  image: { marginLeft: 16, height: 20.54, width: 12.33, resizeMode: 'contain' },
+  image: {
+    marginLeft: 16,
+    height: 20.54,
+    width: 12.33,
+    resizeMode: 'contain',
+    tintColor: '#fff',
+  },
   textContainer: { alignItems: 'center', flex: 6 },
   text: {
     fontStyle: 'italic',

@@ -1,11 +1,11 @@
 import { createStackNavigator } from 'react-navigation-stack';
 
+import entryScreen from '../screens/Auth/entry/entryScreen';
+
 //common
 import registerScreen from '../screens/register/common/register/registerScreen';
 import loginScreen from '../screens/Auth/login/loginScreen';
 import avatarScreen from '../screens/register/common/avatar/avatarScreen';
-
-import AuthEntry from '../screens/Auth/index';
 
 //athlete
 import mensurationScreen from '../screens/register/athlete/mensuration/mensurationScreen';
@@ -22,11 +22,10 @@ import experienceCoachScreen from '../screens/register/coach/experience/experien
 import speclalitiesScreen from '../screens/register/coach/specialities/specialitiesScreen';
 import selectGymCoachScreen from '../screens/register/coach/selectGym/selectGymCoachScreen';
 
-// Auth bottom tabs menu
 const AuthStack = createStackNavigator(
   {
     AuthEntry: {
-      screen: AuthEntry,
+      screen: entryScreen,
       navigationOptions: {
         headerShown: false,
       },
