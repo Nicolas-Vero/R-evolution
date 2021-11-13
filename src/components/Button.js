@@ -40,19 +40,31 @@ export const AddButton = (props) => {
             ...defaultStyle.Offercontainer,
             ...props.customContainerStyles,
           }}>
-          <Entypo
-            name="squared-plus"
-            size={27}
-            color="black"
-            style={{ marginRight: 18 }}
-          />
-          <Text
+          <View
             style={{
-              ...defaultStyle.textStyleAddButton,
-              ...props.customTextStyle,
+              marginLeft: 22,
+              justifyContent: 'flex-start',
             }}>
-            {props.title}
-          </Text>
+            <Entypo
+              name="squared-plus"
+              size={30}
+              color="black"
+              style={{ marginRight: 18 }}
+            />
+          </View>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                ...defaultStyle.textStyleAddButton,
+                ...props.customTextStyle,
+              }}>
+              {props.title}
+            </Text>
+          </View>
         </View>
       )}
     </TouchableOpacity>
@@ -116,16 +128,15 @@ const defaultStyle = StyleSheet.create({
     height: 52,
     backgroundColor: '#2CDEE4',
     width: widthPercentageToDP(94),
-    borderRadius: 5,
+    borderRadius: 6,
     alignItems: 'center',
     justifyContent: 'center',
-    justifyContent: 'space-evenly',
     flexDirection: 'row',
   },
   Modifycontainer: {
     height: 30,
     backgroundColor: 'green',
-    borderRadius: 3,
+    borderRadius: 2,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
@@ -137,15 +148,13 @@ const defaultStyle = StyleSheet.create({
   Deletecontainer: {
     height: 30,
     borderWidth: 1,
-    borderRadius: 3,
+    borderRadius: 2,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    paddingLeft: 10,
+    paddingLeft: 5,
     borderColor: 'white',
     paddingRight: 10,
-    marginLeft: 10,
-    marginRight: 10,
   },
   textStyleAddButton: {
     color: '#000000',

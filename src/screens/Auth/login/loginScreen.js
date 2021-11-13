@@ -34,13 +34,15 @@ export default class loginScreen extends React.Component {
     await AuthService.removeAuth();
     const { email, password } = values;
     const body = { email, password };
-    if (this.props.navigation.state.params.isCoach) {
-      await this.loginCoach(body);
+    await this.loginCoach(body);
 
-      return;
-    }
+    // if (this.props.navigation.state.params.isCoach) {
+    //   await this.loginCoach(body);
 
-    await this.loginAthlet(body);
+    //   return;
+    // }
+
+    // await this.loginAthlet(body);
 
     this.setState({ loading: true });
   }
@@ -54,7 +56,7 @@ export default class loginScreen extends React.Component {
         await AuthService.setUser(user.data);
         console.log(await AuthService.getUser());
 
-        this.props.navigation.navigate('Dashboard');
+        this.props.navigation.navigate('DashboardStack');
       }
 
       return;
@@ -72,7 +74,7 @@ export default class loginScreen extends React.Component {
         await AuthService.setUser(user.data);
         console.log(await AuthService.getUser());
 
-        this.props.navigation.navigate('DashboardAthlete');
+        this.props.navigation.navigate('DashboardStackAtlhete');
       }
 
       return;
@@ -82,9 +84,10 @@ export default class loginScreen extends React.Component {
   }
 
   async setAuth(data) {
-    const type = this.props.navigation.state.params.isCoach
-      ? 'coach'
-      : 'athlete';
+    // const type = this.props.navigation.state.params.isCoach
+    //   ? 'coach'
+    //   : 'athlete';
+    const type = 'coach';
     const toStore = {
       user: { id: data.user.id, type },
       headers: {
@@ -182,7 +185,7 @@ export default class loginScreen extends React.Component {
                           this.props.navigation.navigate('RegisterScreen');
                         }}>
                         <Text style={styles.notYetMemberTextColor}>
-                          Créer ton compte
+                          Créer ton compte.
                         </Text>
                       </TouchableOpacity>
                     </View>

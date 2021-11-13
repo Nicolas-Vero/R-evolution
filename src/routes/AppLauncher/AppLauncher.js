@@ -36,7 +36,6 @@ export default class AppLauncher extends React.Component {
     // await AuthService.removeAuth();
     const auth = await AuthService.getAuth();
     ContextService.set('current_navigation', this.props.navigation);
-    console.log('auth', auth);
     const navigation = ContextService.get('current_navigation');
     let stack = 'Entry';
     if (auth) {
