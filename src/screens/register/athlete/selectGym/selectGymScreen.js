@@ -56,14 +56,14 @@ export default class selectGymScreen extends React.Component {
             <View style={styles.content}>
               <Formik
                 initialValues={{
-                  gym_id: '',
+                  preferred_gym_id: '',
                 }}
                 onSubmit={(values) => {
                   const item = { ...passItem, ...values };
                   this.onNavigate(item);
                 }}
                 validationSchema={Yup.object().shape({
-                  gym_id: Yup.string().required('Requis'),
+                  preferred_gym_id: Yup.string().required('Requis'),
                 })}>
                 {({ handleSubmit, isValid, validate }) => (
                   <View style={{ paddingBottom: 15 }}>
@@ -79,7 +79,7 @@ export default class selectGymScreen extends React.Component {
                             </Text>
                             <View style={styles.selectContainer}>
                               <FieldArray
-                                name="gym_id"
+                                name="preferred_gym_id"
                                 render={(arrayhelper) => (
                                   <SelectDropdown
                                     buttonStyle={styles.dropdownButton}
@@ -92,7 +92,7 @@ export default class selectGymScreen extends React.Component {
                                       'Recherche le nom de ta salle'
                                     }
                                     onSelect={(selectedItem, index) => {
-                                      arrayhelper.form.values.gym_id =
+                                      arrayhelper.form.values.preferred_gym_id =
                                         selectedItem.id;
                                     }}
                                     renderDropdownIcon={() => {
