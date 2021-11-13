@@ -38,7 +38,7 @@ export default class Dashboard extends React.Component {
     refresh: false,
     carousselLoad: false,
     user: { name: 'Florian GALOPIN', avatar: 'string avatar' },
-    screen: 'Planningg',
+    screen: 'Planning',
     user: {
       name: 'toto',
       avatar: '../../../assets/icon.png',

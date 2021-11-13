@@ -401,7 +401,7 @@ export default class MyAthleteDetailsProspects extends React.Component {
                   )}
                 </View>
                 <View style={styles.container}>
-                  <Text style={styles.text}>Unfo complémentaires: </Text>
+                  <Text style={styles.text}>Info complémentaires: </Text>
                   {Athlete.health_problem_description == null ? (
                     <Text style={styles.textBlue}>Pas d'information</Text>
                   ) : (
