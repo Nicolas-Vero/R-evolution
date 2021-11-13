@@ -45,13 +45,14 @@ module.exports = StyleSheet.create({
     margin: 7.5,
     borderWidth: 1,
   },
-  scrollVIewContainer: {
-    maxHeight: 100,
-  },
   goalItemText: {
     fontFamily: 'RobotoBold',
     fontSize: 15,
   },
+  scrollVIewContainer: {
+    maxHeight: 100,
+  },
+
   errorText: {
     color: '#FD7279',
     fontSize: 12,

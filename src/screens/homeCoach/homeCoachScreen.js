@@ -116,7 +116,7 @@ export default class Dashboard extends React.Component {
       Notifications.addNotificationResponseReceivedListener((response) => {
         console.log('[Response-C-Dashboard]', response);
         this.sendNotificationImmediately(response);
-        this.props.navigation.push('Activitie');
+        this.props.navigation.push('activitiesScreen');
       });
   }
 
@@ -287,7 +287,7 @@ export default class Dashboard extends React.Component {
             <TouchableOpacity
               style={styles.addBookContainer}
               onPress={() => {
-                navigate('CreateBook');
+                navigate('createBookCoachScreen');
               }}>
               <Image
                 source={require('../../../assets/images/Group_8766.png')}
@@ -398,7 +398,7 @@ export default class Dashboard extends React.Component {
             <View style={styles.headerLeft}>
               <TouchableOpacity
                 onPress={() => {
-                  navigate('Account');
+                  navigate('accountScreen');
                 }}>
                 <View style={styles.userInfoContainer}>
                   <Avatar
@@ -414,7 +414,7 @@ export default class Dashboard extends React.Component {
               <View style={styles.headerRight}>
                 <TouchableOpacity
                   onPress={() => {
-                    navigate('AwaitingDemand');
+                    navigate('pendingRequestCoachScreen');
                   }}>
                   <Image
                     style={styles.headerRightImage}
@@ -424,7 +424,7 @@ export default class Dashboard extends React.Component {
 
                 <TouchableOpacity
                   onPress={() => {
-                    navigate('Activitie');
+                    navigate('activitiesScreen');
                   }}
                   style={styles.headerRightActivities}>
                   <Image

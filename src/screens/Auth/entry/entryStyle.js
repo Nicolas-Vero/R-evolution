@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, StatusBar } from 'react-native';
+import { StyleSheet, Platform, StatusBar, Dimensions } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP,
@@ -18,16 +18,15 @@ module.exports = StyleSheet.create({
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: width,
-    height: 49,
-    marginTop: 29,
-    marginBottom: 49,
-    paddingLeft: 16,
-    paddingRight: 16,
+  headerContaner: {
+    flex: 1,
+    marginTop: 50,
+  },
+  logoImage: {
+    marginTop: heightPercentageToDP(15),
+    height: 60,
+    width: wp(75),
+    resizeMode: 'contain',
   },
   title: {
     color: '#FFFFFF',
@@ -36,7 +35,7 @@ module.exports = StyleSheet.create({
     fontFamily: 'MontserratItalic',
     fontStyle: 'italic',
     textAlign: 'center',
-    marginTop: 112,
+    marginTop: 90,
   },
   subtitle: {
     color: '#FFFFFF',
@@ -48,26 +47,37 @@ module.exports = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    width: width,
     justifyContent: 'space-between',
-    marginBottom: 35,
+    marginBottom: 50,
+    marginLeft: 15,
+    marginRight: 15,
+  },
+  buttonRegisterText: {
+    color: '#393637',
+    fontFamily: 'RobotoBold',
+    fontWeight: 'bold',
+    fontSize: 17,
+  },
+  buttonLoginText: {
+    color: '#FFFFFF',
+    fontFamily: 'RobotoBold',
+    fontWeight: 'bold',
+    fontSize: 17,
   },
   loginButton: {
-    width: wp(43),
-    height: 52,
+    marginHorizontal: 10,
+    width: wp(42),
+    height: 48,
     borderRadius: 10,
     borderWidth: 2,
-    fontFamily: 'RobotoBold',
-    marginRight: 22,
-
     borderColor: '#2CDEE4',
     backgroundColor: 'transparent',
   },
   registerButton: {
-    width: wp(43),
-    height: 52,
+    marginHorizontal: 10,
+    width: wp(42),
+    height: 48,
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    marginLeft: 22,
   },
 });
