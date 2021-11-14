@@ -4,10 +4,19 @@ import pendingRequestCoachScreen from '../../screens/pendingRequestCoach/pending
 import Demande from '../../screens/Demande';
 import homeCoachScreen from '../../screens/homeCoach/homeCoachScreen';
 import createBookCoachScreen from '../../screens/createBookCoach/createBookCoachScreen';
-import activitiesScreen from '../../screens/ActivitiesCoach/ActivitiesScreen';
+import activitiesScreen from '../../screens/activitiesCoach/activitiesScreen';
 import createReminderCoachScreen from '../../screens/createReminderCoach/createReminderCoachScreen';
 import accountScreen from '../../screens/account/accountScreen';
 import profileCoachScreen from '../../screens/profileCoach/profileCoachScreen';
+const getTabBarVisiblility = (navigation) => {
+  const route = navigation.state.routeName;
+  console.log(route);
+  const test = ['homeCoachScreen'].includes(route);
+
+  console.log(test);
+
+  return test;
+};
 const HomeStack = createStackNavigator(
   {
     homeCoachScreen: {
@@ -20,26 +29,30 @@ const HomeStack = createStackNavigator(
     },
     createBookCoachScreen: {
       screen: createBookCoachScreen,
-      navigationOptions: {
+      navigationOptions: ({ navigation }) => ({
         gestureEnabled: false,
         headerShown: false,
-        swipeEnabled: false,
-      },
+        tabBarVisible: getTabBarVisiblility(navigation),
+      }),
+      // navigationOptions: {
+      //   gestureEnabled: false,
+      //   headerShown: false,
+      //   swipeEnabled: false,
+      // },
     },
     createReminderCoachScreen: {
       screen: createReminderCoachScreen,
-      navigationOptions: {
+      navigationOptions: ({ navigation }) => ({
         gestureEnabled: false,
         headerShown: false,
-        swipeEnabled: false,
-      },
+        tabBarVisible: getTabBarVisiblility(navigation),
+      }),
     },
     activitiesScreen: {
       screen: activitiesScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
-        swipeEnabled: false,
       },
     },
     accountScreen: {
@@ -47,7 +60,6 @@ const HomeStack = createStackNavigator(
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
-        swipeEnabled: false,
       },
     },
     profileCoachScreen: {
@@ -55,7 +67,6 @@ const HomeStack = createStackNavigator(
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
-        swipeEnabled: false,
       },
     },
     pendingRequestCoachScreen: {
@@ -63,7 +74,6 @@ const HomeStack = createStackNavigator(
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
-        swipeEnabled: false,
       },
     },
     Demande: {
@@ -71,7 +81,6 @@ const HomeStack = createStackNavigator(
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
-        swipeEnabled: false,
       },
     },
   },

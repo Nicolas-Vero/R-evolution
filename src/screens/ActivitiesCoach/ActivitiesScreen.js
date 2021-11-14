@@ -18,7 +18,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { FontAwesome } from '@expo/vector-icons';
 import { get_coach_reminder } from '../../api/CoachReminder';
 import Header from '../../components/Header';
-import styles from './ActivitiesStyle';
+import styles from './activitiesStyle';
 const options = [
   { label: 'NOTIFICATIONS', value: 'NOTIFICATIONS' },
   { label: 'RAPPELS', value: 'RAPPELS' },

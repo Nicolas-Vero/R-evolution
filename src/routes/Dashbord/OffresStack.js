@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 // Auth import
 import offersTrainingsCoachScreen from '../../screens/offersTrainingsCoach/offersTrainingsCoachScreen';
 import offersCoachScreen from '../../screens/offersCoach/offersCoachScreen';
-import addOfferCoachScreen from '../../screens/addOfferCoach/addOfferCoachScreen';
+import createOfferCoachScreen from '../../screens/createOfferCoach/createOfferCoachScreen';
 import updateOfferCoachScreen from '../../screens/updateOfferCoach/updateOfferCoachScreen';
 const OffresStack = createStackNavigator(
   {
@@ -21,8 +21,8 @@ const OffresStack = createStackNavigator(
         headerShown: false,
       },
     },
-    addOfferCoachScreen: {
-      screen: addOfferCoachScreen,
+    createOfferCoachScreen: {
+      screen: createOfferCoachScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,

@@ -81,7 +81,6 @@ export default class profileCoachScreen extends React.Component {
           );
         })
         .then(() => {
-          console.log;
           this.changeStep;
 
           //this.props.navigation.navigate('AddSpecialities');

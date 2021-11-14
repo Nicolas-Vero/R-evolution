@@ -1,0 +1,249 @@
+import React from 'react';
+import moment from 'moment';
+import {
+  View,
+  Dimensions,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+import { Avatar } from 'react-native-elements';
+import { FlatList } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-navigation';
+import { get_athlete_active_courses } from '../../api/Athlete';
+import { get_paiement_for_coach } from '../../api/Paiement';
+import HeaderLight from '../../components/HeaderLight';
+import { Image } from 'react-native';
+import { ScrollView } from 'react-native';
+import { loadFonts } from '../../configs/design/font';
+import { Entypo } from '@expo/vector-icons';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
+import styles from './athleteSheetCoachStyle';
+
+export default class athleteSheetCoachScreen extends React.Component {
+  state = {
+    ActiveCourses: [],
+    Paiement: [],
+  };
+  componentDidMount() {
+    loadFonts;
+    get_athlete_active_courses().then((res) => {
+      this.setState({ ActiveCourses: res.data });
+    });
+    get_paiement_for_coach().then((res) => {
+      this.setState({ Paiement: res.data });
+    });
+  }
+  render() {
+    const user = this.props.navigation.state.params.item;
+    console.log(this.props.navigation.state.params);
+    const dayPreference = [];
+    if (user.is_monday_preferred == true) {
+      dayPreference.push({ day: 'Lundi' });
+    }
+    if (user.is_tuesday_preferred == true) {
+      dayPreference.push({ day: 'Mardi' });
+    }
+    if (user.is_wednesday_preferred == true) {
+      dayPreference.push({ day: 'Mercreedi' });
+    }
+    if (user.is_thursday_preferred == true) {
+      dayPreference.push({ day: 'Jeudi' });
+    }
+    if (user.is_friday_preferred == true) {
+      dayPreference.push({ day: 'Vendredi' });
+    }
+    if (user.is_saturday_preferred == true) {
+      dayPreference.push({ day: 'Samedi' });
+    }
+    if (user.is_sunday_preferred == true) {
+      dayPreference.push({ day: 'Dimanche' });
+    }
+    return (
+      <View style={styles.container}>
+        <SafeAreaView>
+          <View style={styles.header}>
+            <HeaderLight />
+            <View style={styles.headerLeft}>
+              <Avatar
+                size={82}
+                rounded
+                source={require('../../../assets/images/avatar.png')}
+              />
+              <Text style={styles.username}>
+                {user.first_name} {user.last_name}aa
+              </Text>
+            </View>
+            <Image
+              style={styles.userStatusImage}
+              source={require('../../../assets/images/Actif.png')}
+            />
+          </View>
+          <View style={{}}>
+            <ScrollView style={styles.scrollView}>
+              <View style={styles.phoneNumberContainer}>
+                <View style={styles.phoneNumberLeft}>
+                  <Text style={styles.phoneNumberIndexText}>Son numéro : </Text>
+                </View>
+                <View style={styles.phoneNumberMidle}>
+                  <Text style={styles.phoneNumberText}>{user.phone}</Text>
+                </View>
+                <View style={styles.phoneNumberRight}>
+                  <Image
+                    style={styles.phoneImg}
+                    source={require('../../../assets/images/phone.png')}
+                  />
+                </View>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.infoText}>Adresse e-mail :</Text>
+                <Text style={styles.valueText}>{user.email}</Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.infoText}>Offre en cours :</Text>
+                <Text style={styles.valueText}>
+                  Pack transformation - 8 séances restantes sur 10
+                </Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.infoText}>Paiement(s) effectué(s) :</Text>
+
+                <FlatList
+                  style={styles.paiementList}
+                  data={this.state.Paiement}
+                  extraData={this.state}
+                  // onRefresh={onRefresh}
+                  // refreshing={this.state.refresh}
+                  keyExtractor={(item) => item.id.toString()}
+                  renderItem={({ item }) => (
+                    <View style={styles.paiementItem}>
+                      <Text style={styles.paiementItemText}>
+                        {moment(item.created_at).format('L')}
+                      </Text>
+                      <Text style={styles.paiementItemText}>{item.title}</Text>
+                      <Text style={styles.paiementItemText}>
+                        {item.mode} - {item.amount}
+                      </Text>
+                    </View>
+                  )}
+                />
+                <TouchableOpacity
+                  onPress={() => {
+                    navigate('createPaymentScreen');
+                  }}
+                  style={styles.addPaiementContainer}>
+                  <View style={styles.addPaiementIconMargin}>
+                    <Entypo name="squared-plus" size={27} color="#2CDEE4" />
+                  </View>
+                  <Text style={styles.infoText}>Ajouter un paiement</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.infoText}>Ses objectifs :</Text>
+                <FlatList
+                  style={styles.flatlist}
+                  horizontal={true}
+                  data={user.goals}
+                  extraData={this.state}
+                  // onRefresh={onRefresh}
+                  // refreshing={this.state.refresh}
+                  keyExtractor={(item) => item.id.toString()}
+                  renderItem={({ item, index }) => (
+                    <View
+                      style={[
+                        styles.flatlistItem,
+                        {
+                          marginLeft: index === 0 ? 0 : 5,
+                          marginRight: index === user.goals.length - 1 ? 0 : 5,
+                        },
+                      ]}>
+                      <Text style={styles.flatlistItemText}>{item.name}</Text>
+                    </View>
+                  )}
+                />
+              </View>
+              <View style={styles.row}>
+                <View style={[styles.item, styles.itemRowLeft]}>
+                  <View style={styles.row}>
+                    <Text style={styles.infoText}>Taille :</Text>
+                    <Text style={styles.valueTextRow}>
+                      {`${user.size / 100}`.substring(0, 1)}m
+                      {`${user.size / 100}`.substring(2)}
+                    </Text>
+                  </View>
+                </View>
+                <View style={[styles.item, styles.itemRowRight]}>
+                  <View style={styles.row}>
+                    <Text style={styles.infoText}>Poids :</Text>
+                    <Text style={styles.valueTextRow}>{user.weight}Kg</Text>
+                  </View>
+                </View>
+              </View>
+              <View style={styles.item}>
+                <View style={styles.row}>
+                  <Text style={styles.infoText}>Age :</Text>
+                  <Text style={styles.valueTextRow}>{user.age} ans</Text>
+                </View>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.infoText}>
+                  Créneaux de sport souhaités :
+                </Text>
+                <Text style={styles.sportSlotText}>
+                  Entre{' '}
+                  <Text style={styles.textColored}>
+                    {user.preferred_time_start}H
+                  </Text>{' '}
+                  et{' '}
+                  <Text style={styles.textColored}>
+                    {user.preferred_time_end}H
+                  </Text>
+                </Text>
+                <FlatList
+                  style={styles.flatlist}
+                  horizontal={true}
+                  data={dayPreference}
+                  extraData={this.state}
+                  // onRefresh={onRefresh}
+                  // refreshing={this.state.refresh}
+                  keyExtractor={(item) => item.day}
+                  renderItem={({ item, index }) => (
+                    <View
+                      style={[
+                        styles.flatlistItem,
+                        {
+                          marginLeft: index === 0 ? 0 : 5,
+                          marginRight:
+                            index === dayPreference.length - 1 ? 0 : 5,
+                        },
+                      ]}>
+                      <Text style={styles.flatlistItemText}>{item.day}</Text>
+                    </View>
+                  )}
+                />
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.infoText}>Experience(s) sportive(s) :</Text>
+                <Text style={styles.valueText}>
+                  plus de {user.experience_years} ans
+                </Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.infoText}>Santé :</Text>
+                <Text style={styles.valueText}>
+                  {user.health_issues || "Pas d'informations"}
+                </Text>
+              </View>
+              <View style={styles.item}>
+                <Text style={styles.infoText}>Info complémentaires : </Text>
+                <Text style={styles.valueText}>
+                  {user.health_problem_description || "Pas d'informations"}
+                </Text>
+              </View>
+            </ScrollView>
+          </View>
+        </SafeAreaView>
+      </View>
+    );
+  }
+}

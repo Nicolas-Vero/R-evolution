@@ -1,38 +1,21 @@
 import { createStackNavigator } from 'react-navigation-stack';
-import activitiesScreen from '../../screens/ActivitiesCoach/ActivitiesScreen';
-import MyAthleteDetails from '../../screens/MyAthleteDetails';
-import MyAthleteDetailsInactifs from '../../screens/MyAthleteDetailsInactifs';
-import MyAthleteDetailsProspects from '../../screens/MyAthleteDetailsProspects';
-import MyAthletes from '../../screens/MyAthletes';
-import Paiements from '../../screens/Paiements';
-
+import activitiesScreen from '../../screens/activitiesCoach/activitiesScreen';
+import athleteSheetCoachScreen from '../../screens/athleteSheetCoach/athleteSheetCoachScreen';
+import createPaymentScreen from '../../screens/createPayment/createPaymentScreen';
+import athletesCoachScreen from '../../screens/athletesCoach/athletesCoachScreen';
 const MyAthletesStack = createStackNavigator(
   {
-    MyAthletes: {
-      screen: MyAthletes,
+    athletesCoachScreen: {
+      screen: athletesCoachScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,
       },
     },
-    MyAthleteDetails: {
-      screen: MyAthleteDetails,
+    athleteSheetCoachScreen: {
+      screen: athleteSheetCoachScreen,
       navigationOptions: {
-        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
-        headerShown: false,
-      },
-    },
-    MyAthleteDetailsProspects: {
-      screen: MyAthleteDetailsProspects,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
-        headerShown: false,
-      },
-    },
-    MyAthleteDetailsInactifs: {
-      screen: MyAthleteDetailsInactifs,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
+        tabBarVisible: false,
         headerShown: false,
       },
     },
@@ -43,8 +26,8 @@ const MyAthletesStack = createStackNavigator(
         headerShown: false,
       },
     },
-    AddPaiement: {
-      screen: Paiements,
+    createPaymentScreen: {
+      screen: createPaymentScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,
