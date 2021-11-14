@@ -21,6 +21,7 @@ import { Button } from '../../../components/Button';
 import styles from './loginStyle';
 import { coach_login, get_coach_me } from '../../../api/Coach';
 import { athlete_login, get_athlete } from '../../../api/Athlete';
+import { userType } from '../../../api/Auth';
 
 export default class loginScreen extends React.Component {
   constructor(props) {
@@ -34,15 +35,12 @@ export default class loginScreen extends React.Component {
     await AuthService.removeAuth();
     const { email, password } = values;
     const body = { email, password };
-    await this.loginCoach(body);
-
-    // if (this.props.navigation.state.params.isCoach) {
-    //   await this.loginCoach(body);
-
-    //   return;
-    // }
-
-    // await this.loginAthlet(body);
+    const user = await userType(email);
+    if (user === 'coach') {
+      await this.loginCoach(body);
+      return;
+    }
+    await this.loginAthlete(body);
 
     this.setState({ loading: true });
   }
@@ -55,7 +53,6 @@ export default class loginScreen extends React.Component {
       if (user.status === 200) {
         await AuthService.setUser(user.data);
         console.log(await AuthService.getUser());
-
         this.props.navigation.navigate('DashboardStack');
       }
 
@@ -65,7 +62,7 @@ export default class loginScreen extends React.Component {
     this.setState({ password: '' });
   }
 
-  async loginAthlet(body) {
+  async loginAthlete(body) {
     const login = await athlete_login(body);
     if (login.status === 200) {
       await this.setAuth(login.data);
@@ -97,8 +94,6 @@ export default class loginScreen extends React.Component {
 
     await AuthService.setAuth(toStore);
   }
-
-  async loginAthlet(body) {}
 
   render() {
     return (
