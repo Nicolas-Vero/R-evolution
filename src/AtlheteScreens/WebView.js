@@ -1,13 +1,4 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  SafeAreaView,
-  StyleSheet,
-  Platform,
-  StatusBar,
-  Dimensions,
-} from 'react-native';
 import { WebView } from 'react-native-webview';
 
 export default class MyWeb extends React.Component {
@@ -48,7 +39,7 @@ export default class MyWeb extends React.Component {
     console.log('[nav-state]', newNavState);
     if (!url) return;
     if (url.includes('/api/v1/payment/return-url')) { 
-        this.props.navigation.navigate('Offres');
+        this.props.navigation.navigate('offersScreen');
     }
     // handle certain doctypes
     if (url.includes('.pdf')) {

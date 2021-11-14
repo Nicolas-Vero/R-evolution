@@ -125,10 +125,11 @@ export default class avatarScreen extends React.Component {
                   formData.append('file', {
                     uri: this.state.image.uri,
                     type: this.state.image.type,
+                    name: 'picture'
                   });
                   this.onRegister(formData, item);
                 }}>
-                {({ handleSubmit, isValid, validate, ref }) => (
+                {({ handleSubmit, validate, ref }) => (
                   <View style={styles.content}>
                     <Field
                       name="profile_picture_url"
@@ -187,8 +188,8 @@ export default class avatarScreen extends React.Component {
                       }}
                     </Field>
                     <Button
-                      loading={false}
-                      disabled={!isValid}
+                      loading={!this.state.isValid}
+                      disabled={this.state.isValid}
                       title="Suivant"
                       customTextStyle={styles.buttonText}
                       onPress={handleSubmit}

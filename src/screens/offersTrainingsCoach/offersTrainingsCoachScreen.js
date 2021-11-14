@@ -40,7 +40,7 @@ export default class offersTrainingsCoachScreen extends React.Component {
               </ImageBackground>
             </TouchableOpacity>
             <View style={styles.trainingContainer}>
-              <TouchableOpacity onPress={() => navigate('Offres')}>
+              <TouchableOpacity onPress={() => navigate('offersScreen')}>
                 <ImageBackground
                   imageStyle={styles.image}
                   source={require('../../../assets/images/Formation.jpg')}

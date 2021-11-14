@@ -10,7 +10,6 @@ export const upload_file = ( params) => {
       method: 'POST',
       url: `${API_URL}/file/s3/upload`,
       data: data,
-      headers: { "Content-Type": "multipart/form-data" },
     });
   };
 

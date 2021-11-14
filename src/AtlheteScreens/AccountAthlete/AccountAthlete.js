@@ -10,12 +10,13 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const { width } = Dimensions.get('window');
 import { LinearGradient } from 'expo-linear-gradient';
-import Header from '../components/Header';
+import Header from '../../components/Header';
 import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { STORAGE } from '../configs/Constants';
-import AuthService from '../services/AuthService';
+import { STORAGE } from '../../configs/Constants';
+import AuthService from '../../services/AuthService';
+import styles from './AccountAthleteStyle';
 export default class AccountAthlete extends React.Component {
   constructor(props) {
     super(props);
@@ -41,9 +42,9 @@ export default class AccountAthlete extends React.Component {
             <View style={{ alignItems: 'center', justifyContent: 'center' }}>
               <View>
                 <TouchableOpacity
-                  onPress={() => navigate('MyInformationsAthlete')}>
+                  onPress={() => navigate('myInformationsAthleteScreen')}>
                   <Image
-                    source={require('../../assets/images/Bouton_modifier_mes_informations.png')}
+                    source={require('../../../assets/images/Bouton_modifier_mes_informations.png')}
                     style={styles.backgroundContainer}></Image>
                 </TouchableOpacity>
               </View>
@@ -55,7 +56,7 @@ export default class AccountAthlete extends React.Component {
                     })
                   }>
                   <Image
-                    source={require('../../assets/images/logout.png')}
+                    source={require('../../../assets/images/logout.png')}
                     style={styles.backgroundContainer}
                   />
                 </TouchableOpacity>
@@ -67,15 +68,3 @@ export default class AccountAthlete extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  backgroundContainer: {
-    resizeMode: 'contain',
-    width: widthPercentageToDP(94),
-    height: 60,
-  },
-  background: {
-    backgroundColor: 'black',
-    flex: 1,
-  },
-});

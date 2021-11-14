@@ -2,8 +2,8 @@ import React from 'react';
 import {createStackNavigator} from 'react-navigation-stack';
 import { Ionicons } from '@expo/vector-icons';
 // Auth import
-import Offres from '../../AtlheteScreens/Offres';
-import OffrePaiementMode from '../../AtlheteScreens/OffrePaiementMode';
+import offersScreen from '../../AtlheteScreens/offers/offersScreen';
+import offerPaimentModeScreen from '../../AtlheteScreens/offerPaiement/offerPaiementMode';
 import MyWeb  from '../../AtlheteScreens/WebView';
 
 
@@ -11,8 +11,8 @@ import MyWeb  from '../../AtlheteScreens/WebView';
 const OffresStack = createStackNavigator(
     {
       
-      Offres: {
-        screen: Offres,
+      offersScreen: {
+        screen: offersScreen,
         navigationOptions: {
          
           tabBarIcon: ({tintColor}) => (
@@ -21,8 +21,8 @@ const OffresStack = createStackNavigator(
           headerShown: false,
         },},
         
-        OffrePaiementMode: {
-          screen: OffrePaiementMode,
+        offerPaimentModeScreen: {
+          screen: offerPaimentModeScreen,
           navigationOptions: {
             tabBarIcon: ({tintColor}) => (
               <Ionicons  size={20} color={tintColor} />

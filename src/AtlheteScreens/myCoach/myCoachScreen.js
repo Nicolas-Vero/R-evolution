@@ -12,19 +12,18 @@ import { SafeAreaView } from 'react-navigation';
 
 import { Image } from 'react-native';
 import { ScrollView } from 'react-native';
-import { loadFonts } from '../configs/design/font';
+import { loadFonts } from '../../configs/design/font';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import { get_coach_by_id } from '../api/Coach';
+import { get_coach_by_id } from '../../api/Coach';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { STORAGE } from '../configs/Constants';
-import Header from '../components/Header';
-import HeaderSimple from '../components/HeaderSimple';
-const { width } = Dimensions.get('window');
+import { STORAGE } from '../../configs/Constants';
+import Header from '../../components/Header';
+import styles from'./myCoachStyle';
 
-export default class MyCoach extends React.Component {
+export default class myCoachScreen extends React.Component {
   state = {
     coach: {},
     loading: false,
@@ -152,7 +151,7 @@ export default class MyCoach extends React.Component {
                   </Text>
                   <Image
                     style={styles.Logo}
-                    source={require('../../assets/images/phone.png')}
+                    source={require('../../../assets/images/phone.png')}
                   />
                 </View>
                 <View style={styles.container}>
@@ -238,36 +237,3 @@ export default class MyCoach extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-
-  Logo: {
-    resizeMode: 'contain',
-    width: 25,
-    height: 30,
-    marginRight: 25,
-  },
-  container: {
-    backgroundColor: '#1E2026',
-    flexDirection: 'column',
-    margin: 5,
-    borderRadius: 5,
-    alignContent: 'center',
-    justifyContent: 'center',
-    height: 70,
-  },
-  text: {
-    fontFamily: 'RobotoBold',
-    fontSize: 15,
-    color: 'black',
-    marginLeft: 15,
-    color: 'white',
-  },
-  textBlue: {
-    fontFamily: 'RobotoBold',
-    fontSize: 15,
-    marginLeft: 15,
-    marginTop: 9,
-    color: '#2CDEE4',
-  },
-});

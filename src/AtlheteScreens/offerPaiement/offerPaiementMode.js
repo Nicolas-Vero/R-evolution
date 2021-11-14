@@ -3,24 +3,17 @@ import {
   Text,
   View,
   SafeAreaView,
-  StyleSheet,
-  Platform,
-  StatusBar,
   Dimensions,
 } from 'react-native';
-//import { auth } from '../../api/Register';
-//import { Button } from '../components/Button';
-//import { Slider } from 'react-native-elements';
-const { width } = Dimensions.get('window');
+
 import { TouchableOpacity } from 'react-native';
-import Header from '../components/Header';
+import Header from '../../components/Header';
 import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { STORAGE } from '../configs/Constants';
-import { create_paiement } from '../api/Paiement';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
-
-export default class OffrePaiementMode extends React.Component {
+import { STORAGE } from '../../configs/Constants';
+import { create_paiement } from '../../api/Paiement';
+import styles from './offerPaiementStyle';
+export default class offerPaimentModeScreen extends React.Component {
   
   state = {
     offersDetails:{},
@@ -138,45 +131,3 @@ export default class OffrePaiementMode extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-
-  bcontainer: {
-    height: 55,
-    width: widthPercentageToDP(94),
-    backgroundColor: '#2CDEE4',
-    borderRadius: 3,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    margin:10,
-  },
-  safeArea: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: width,
-    height: 49,
-    marginTop: 29,
-    marginBottom: 49,
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
-  title: {
-    color: '#FFFFFF',
-    fontWeight: '500',
-    fontSize: 15,
-    fontStyle: 'italic',
-    textAlign: 'center',
-    marginTop: 112,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    width: width,
-    justifyContent: 'space-between',
-    marginBottom: 35,
-  },
-});

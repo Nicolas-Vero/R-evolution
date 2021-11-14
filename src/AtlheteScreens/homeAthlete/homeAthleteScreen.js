@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Button } from '../components/Button';
+import { Button } from '../../components/Button';
 import {
   TouchableOpacity,
   View,
@@ -17,25 +17,24 @@ import {
   athlete_booking,
   get_athlete_active_courses,
   get_availabilities,
-} from '../api/Athlete';
+} from '../../api/Athlete';
 import SwitchSelector from 'react-native-switch-selector';
 import { Avatar, Icon, withBadge } from 'react-native-elements';
-import { loadFonts } from '../configs/design/font';
+import { loadFonts } from '../../configs/design/font';
 const { width } = Dimensions.get('window');
 import { LocaleConfig } from 'react-native-calendars';
-import MonthsSlider from '../components/MonthsSlider';
-import { get_coach_by_id } from '../api/Coach';
-import {} from '../api/Availabilities';
-import { DeleteButton } from '../components/Button';
-import { get_athlete_active_appointement } from '../api/Athlete';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { STORAGE } from '../configs/Constants';
+import MonthsSlider from '../../components/MonthsSlider';
+import { get_coach_by_id } from '../../api/Coach';
+import {} from '../../api/Availabilities';
+import { DeleteButton } from '../../components/Button';
+import { get_athlete_active_appointement } from '../../api/Athlete';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import * as Notifications from 'expo-notifications';
-
+import AuthService from '../../services/AuthService';
+import styles from './homeAthleteStyle';
 LocaleConfig.locales['fr'] = {
   monthNames: [
     'Janvier',
@@ -79,29 +78,6 @@ LocaleConfig.locales['fr'] = {
 };
 LocaleConfig.defaultLocale = 'fr';
 
-const monthNames = [
-  'Janvier',
-  'Février',
-  'Mars',
-  'Avril',
-  'Mai',
-  'Juin',
-  'Juillet',
-  'Août',
-  'Septembre',
-  'Octobre',
-  'Novembre',
-  'Décembre',
-];
-const dayNames = [
-  'Dimanche',
-  'Lundi',
-  'Mardi',
-  'Mercredi',
-  'Jeudi',
-  'Vendredi',
-  'Samedi',
-];
 moment.locale('fr', {
   months:
     'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split(
@@ -158,7 +134,7 @@ moment.locale('fr', {
   // meridiemHour : function (hour, meridiem) {
   //     return /* 0-23 hour, given meridiem token and hour 1-12 */ ;
   // },
-  meridiem: function (hours, minutes, isLower) {
+  meridiem: function (hours) {
     return hours < 12 ? 'PD' : 'MD';
   },
   week: {
@@ -170,7 +146,7 @@ const options = [
   { label: 'MES RENDEZ-VOUS', value: 'MES RENDEZ-VOUS' },
   { label: 'RESERVER', value: 'RESERVER' },
 ];
-export default class DashboardAthlete extends React.Component {
+export default class homeAthleteScreen extends React.Component {
   state = {
     refresh: false,
     screen: 'MES RENDEZ-VOUS',
@@ -218,10 +194,9 @@ export default class DashboardAthlete extends React.Component {
     }
 
     await loadFonts();
-    let user = await AsyncStorage.getItem(STORAGE.USER);
-    user = JSON.parse(user);
+    let user = await AuthService.getUser();
     try {
-      this.setState({ coach_id: user.coach_id });
+      this.setState({ coach_id: user.coach?.coach_id });
     this.setState({ user: user });
     get_athlete_active_courses().then((res) => {
       this.setState({ athleteCourse: res.data });
@@ -244,7 +219,6 @@ export default class DashboardAthlete extends React.Component {
       this.setState({ dayApointement: res.data });
     });
     get_athlete_active_appointement({ upcoming: true }).then((res) => {
-      const sortdata = res.data;
       const data = res.data.map((item, index) => {
         console.log(item);
         if (index == 0) {
@@ -422,7 +396,6 @@ export default class DashboardAthlete extends React.Component {
 
   render() {
     const curDate = moment().format('YYYY-MM-DD');
-    const BadgedIcon = withBadge(1)(Icon)
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <SafeAreaView>
@@ -441,7 +414,7 @@ export default class DashboardAthlete extends React.Component {
                 <Avatar
                   size="medium"
                   rounded
-                  source={require('../../assets/images/avatar.png')}
+                  source={require('../../../assets/images/avatar.png')}
                 />
                 <Text
                   style={{
@@ -463,7 +436,7 @@ export default class DashboardAthlete extends React.Component {
                 style={{ marginLeft: 20, marginRight: 10 }}>
                 <Image
                   style={{ height: 38, width: 48, resizeMode: 'contain' }}
-                  source={require('../../assets/images/Notif.png')}
+                  source={require('../../../assets/images/Notif.png')}
                 />
                   <View style={{position:'absolute'}}>
                 {/* <BadgedIcon type="ionicon"/> */}
@@ -1004,38 +977,3 @@ export default class DashboardAthlete extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: '#1E2026',
-    borderRadius: 20,
-    padding: 35,
-    height: 200,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  day: {
-    height: 80,
-    width: 50,
-    backgroundColor: '#2D333C',
-    margin: 5,
-    borderColor:'#2CDEE4',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-});

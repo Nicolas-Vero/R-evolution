@@ -27,7 +27,7 @@ const AppTabsNavigator = createBottomTabNavigator(
     OffresStack: {
       screen: OffresStack,
       navigationOptions: {
-        tabBarLabel: 'Offres',
+        tabBarLabel: 'offersScreen',
         tabBarIcon: ({ tintColor }) => (
           <Image
             source={require('../../../assets/images/Category.png')}

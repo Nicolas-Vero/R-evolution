@@ -135,6 +135,14 @@ export const get_athlete = async () => {
     headers: headers,
   });
 };
+export const get_personal_coach = async () => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/coach`,
+    headers: headers,
+  });
+};
 
 export const verify_athlete = async (params) => {
   const data = params;

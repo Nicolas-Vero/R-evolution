@@ -27,7 +27,7 @@ export default class createOfferCoachScreen extends React.Component {
   createOffer(values) {
     try {
       values.price = parseFloat(values.price) * 100;
-      AddOffer(values).then(this.props.navigation.navigate('Offres'));
+      AddOffer(values).then(this.props.navigation.navigate('offersScreen'));
     } catch (error) {
       this.setState({ loading: false });
       //alert('Please try again. ');

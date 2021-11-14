@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Text,
   View,
   TextInput,
   SafeAreaView,
-  StyleSheet,
-  Dimensions,
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
@@ -14,25 +12,20 @@ import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { STORAGE } from '../configs/Constants';
-import { FieldArray, Field, Formik } from 'formik';
+import { FieldArray, Formik } from 'formik';
 import { AntDesign } from '@expo/vector-icons';
 import { Avatar, CheckBox } from 'react-native-elements';
-import { Button, DeleteButton } from '../components/Button';
-import HeaderLight from '../components/HeaderLight';
-//import { Slider } from 'react-native-elements';
-import { FontAwesome } from '@expo/vector-icons';
-const { width } = Dimensions.get('window');
+import { Button, DeleteButton } from '../../components/Button';
+import HeaderLight from '../../components/HeaderLight';
 import { LinearGradient } from 'expo-linear-gradient';
-
-import { loadFonts } from '../configs/design/font';
+import { loadFonts } from '../../configs/design/font';
 import { ScrollView } from 'react-native-gesture-handler';
 import SelectDropdown from 'react-native-select-dropdown';
-import { get_gym } from '../api/ReferenceData';
+import { get_gym } from '../../api/ReferenceData';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import styles from './myInformationsAthleteStyle'
 
-export default class MyInformationsAthlete extends React.Component {
+export default class myInformationsAthleteScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -64,15 +57,10 @@ export default class MyInformationsAthlete extends React.Component {
     get_gym().then((res) => {
       this.setState({ Gymdata: res.data });
     });
-    const user = await AsyncStorage.getItem(STORAGE.USER).then((res) => {
-      this.setState({ User: JSON.parse(res) });
-      this.setState({ loaded: true });
-    });
   }
 
   render() {
     const arrayhelper = [];
-    var term = '';
     const data = ['OUI', 'NON'];
     if (!this.state.loaded) {
       return (
@@ -136,7 +124,6 @@ export default class MyInformationsAthlete extends React.Component {
                 {({
                   handleChange,
                   handleBlur,
-                  handleSubmit,
                   setFieldValue,
                   values,
                 }) => (
@@ -246,7 +233,7 @@ export default class MyInformationsAthlete extends React.Component {
                             }}
                             data={data}
                             defaultButtonText={'choisir'}
-                            onSelect={(selectedItem, index) => {
+                            onSelect={(selectedItem) => {
                               let boolValue = '';
                               if (selectedItem == 'OUI') {
                                 boolValue = true;
@@ -265,7 +252,7 @@ export default class MyInformationsAthlete extends React.Component {
                               );
                             }}
                             dropdownIconPosition={'right'}
-                            buttonTextAfterSelection={(selectedItem, index) => {
+                            buttonTextAfterSelection={(selectedItem) => {
                               // text represented after item is selected
                               // if data array is an array of objects then return selectedItem.property to render after item is selected
                               return selectedItem;
@@ -279,7 +266,7 @@ export default class MyInformationsAthlete extends React.Component {
                               backgroundColor: '#282C3A',
                               borderRadius: 5,
                             }}
-                            rowTextForSelection={(item, index) => {
+                            rowTextForSelection={(item) => {
                               // text represented for each item in dropdown
                               // if data array is an array of objects then return item.property to represent item in dropdown
                               return item;
@@ -317,7 +304,7 @@ export default class MyInformationsAthlete extends React.Component {
                             }}
                             data={this.state.Gymdata}
                             defaultButtonText={'Recherche le nom de ta salle'}
-                            onSelect={(selectedItem, index) => {
+                            onSelect={(selectedItem) => {
                               if (arrayhelper.form.values.gymPlace.length > 1) {
                                 // console.log(
                                 //   arrayhelper?.form?.values?.gymPlace?.length,
@@ -339,7 +326,7 @@ export default class MyInformationsAthlete extends React.Component {
                               );
                             }}
                             dropdownIconPosition={'right'}
-                            buttonTextAfterSelection={(selectedItem, index) => {
+                            buttonTextAfterSelection={(selectedItem) => {
                               // text represented after item is selected
                               // if data array is an array of objects then return selectedItem.property to render after item is selected
                               return selectedItem;
@@ -353,7 +340,7 @@ export default class MyInformationsAthlete extends React.Component {
                               backgroundColor: '#282C3A',
                               borderRadius: 5,
                             }}
-                            rowTextForSelection={(item, index) => {
+                            rowTextForSelection={(item) => {
                               // text represented for each item in dropdown
                               // if data array is an array of objects then return item.property to represent item in dropdown
                               return item.name;
@@ -401,11 +388,6 @@ export default class MyInformationsAthlete extends React.Component {
                               data={this.state.SelectedDay}
                               extraData={this.state}
                               renderItem={({ item }) => {
-                                const borderColor =
-                                  item.selected == 1 ? 'transparent' : 'white';
-                                const borderWidth = item.selected == 1 ? 1 : 1;
-                                const color =
-                                  item.selected == 1 ? 'black' : 'white';
                                 const backgroundColor =
                                   item.selected == 1 ? '#2CDEE4' : '#1E2026';
                                 const textColor =
@@ -596,59 +578,3 @@ export default class MyInformationsAthlete extends React.Component {
     }
   }
 }
-const styles = StyleSheet.create({
-  day: {
-    height: 70,
-    width: widthPercentageToDP(13.5),
-    marginHorizontal: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-  },
-  inputs: {
-    marginVertical: heightPercentageToDP(1),
-    alignItems: 'center',
-  },
-  container: {
-    backgroundColor: '#FFFFFF',
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 15,
-    width: widthPercentageToDP(92),
-    borderRadius: 5,
-    paddingRight: 15,
-  },
-  background: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-  },
-  field: {
-    backgroundColor: '#FFFFFF',
-    width: widthPercentageToDP(92),
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 5,
-  },
-  container2: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  container3: {
-    maxHeight: heightPercentageToDP(25),
-    width: widthPercentageToDP(92),
-    padding: 5,
-    justifyContent: 'center',
-  },
-  text: {
-    fontFamily: 'RobotoBold',
-    fontSize: 15,
-    color: '#FFFFFF',
-    marginLeft: 15,
-    marginBottom: 10,
-  },
-});

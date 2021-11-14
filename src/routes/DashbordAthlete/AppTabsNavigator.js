@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from 'react-navigation-tabs';
 import OffresStack from './OffresStack';
 import HomeStack from './HomeStack';
 import AthletesStack from './AthletesStack';
-import MyCoach from '../../AtlheteScreens/MyCoach';
+import myCoachScreen from '../../AtlheteScreens/myCoach/myCoachScreen';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 // Auth import
 
@@ -25,7 +25,7 @@ const AppTabsNavigator = createBottomTabNavigator(
       OffresStack: {
         screen: OffresStack,
         navigationOptions: {
-          tabBarLabel: 'Offres',
+          tabBarLabel: 'offres',
           tabBarIcon: ({tintColor}) => (
             <Image source={require('../../../assets/images/Category.png')}
             style={{height: 24, resizeMode: 'contain', tintColor}}
@@ -34,9 +34,9 @@ const AppTabsNavigator = createBottomTabNavigator(
         },
       },
       AthletesStack: {
-        screen: MyCoach,
+        screen: myCoachScreen,
         navigationOptions: {
-          tabBarLabel: 'MyCoach',
+          tabBarLabel: 'myCoachScreen',
           tabBarIcon: ({tintColor}) => (
             <Image source={require('../../../assets/images/User.png')}
             style={{height: 24, resizeMode: 'contain', tintColor}}

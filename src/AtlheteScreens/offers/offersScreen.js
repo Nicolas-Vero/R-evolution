@@ -9,14 +9,14 @@ import {
 const { width } = Dimensions.get('window');
 import SwitchSelector from 'react-native-switch-selector';
 import { FlatList } from 'react-native-gesture-handler';
-import { get_coach_offer_by_id } from '../api/Offers';
-import Header from '../components/Header';
+import { get_coach_offer_by_id } from '../../api/Offers';
+import Header from '../../components/Header';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ModifyButton } from '../components/Button';
+import { ModifyButton } from '../../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { STORAGE } from '../configs/Constants';
-import { get_athlete_active_courses } from '../api/Athlete';
-import { loadFonts } from '../configs/design/font';
+import { STORAGE } from '../../configs/Constants';
+import { get_athlete_active_courses } from '../../api/Athlete';
+import { loadFonts } from '../../configs/design/font';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
@@ -27,7 +27,7 @@ const options = [
   { label: 'CATALOGUE', value: 'CATALOGUE' },
 ];
 
-export default class Offres extends React.Component {
+export default class offersScreen extends React.Component {
   state = {
     offers: [],
     screen: 'EN COURS',
@@ -298,7 +298,7 @@ export default class Offres extends React.Component {
                         <ModifyButton
                           title="Choisir cette offre"
                           onPress={() => {
-                            navigate('OffrePaiementMode', { item });
+                            navigate('offerPaimentModeScreen', { item });
                           }}></ModifyButton>
                       </View>
                       <Text
