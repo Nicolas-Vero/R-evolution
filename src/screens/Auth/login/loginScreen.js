@@ -36,11 +36,14 @@ export default class loginScreen extends React.Component {
     const { email, password } = values;
     const body = { email, password };
     const user = await userType(email);
-    if (user === 'coach') {
+    if (user.data.type === 'coach') {
       await this.loginCoach(body);
       return;
     }
-    await this.loginAthlete(body);
+    if (user.data.type === 'athlete') {
+      await this.loginAthlete(body);
+      return;
+    }
 
     this.setState({ loading: true });
   }

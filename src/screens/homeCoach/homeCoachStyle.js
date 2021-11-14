@@ -59,7 +59,7 @@ module.exports = StyleSheet.create({
     alignSelf: 'center',
   },
   noAppointmentText: {
-    fontFamily: 'RobotoRegular',
+    fontFamily: 'Roboto',
     fontSize: 15,
     color: '#DFDFDF',
   },

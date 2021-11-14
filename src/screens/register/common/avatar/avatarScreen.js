@@ -79,7 +79,7 @@ export default class avatarScreen extends React.Component {
   };
 
   onNavigate = () => {
-    this.props.navigation.navigate('LoginAthlete');
+    this.props.navigation.navigate('loginScreen');
   };
 
   render() {

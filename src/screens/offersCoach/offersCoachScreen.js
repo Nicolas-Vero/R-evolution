@@ -39,7 +39,7 @@ export default class offersCoachScreen extends React.Component {
             customTextStyle={styles.addButtonText}
             title="CRÉER UNE NOUVELLE OFFRE"
             onPress={() => {
-              navigate('addOfferCoachScreen');
+              navigate('createOfferCoachScreen');
             }}
           />
           <View style={styles.alignCenter}>
