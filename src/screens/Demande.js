@@ -15,48 +15,48 @@ import HeaderLight from '../components/HeaderLight';
 import { Image } from 'react-native';
 import { ScrollView } from 'react-native';
 import { assign_request  } from '../api/Request';
-import { loadFonts } from '../configs/design/font';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
-const { width } = Dimensions.get('window');
 
 export default class Demande extends React.Component {
   state = {
-    Athlete: [],
+    Athlete:{},
     isLoaded:false
   };
   componentDidMount() {
-    get_athlete_by_id(this.props.navigation.state.params.item.athlete_id).then((res) => {
-      this.setState({ Athlete: res.data });
-    }).then(()=>{
-        this.setState({isLoaded:true})
-    });
+    // get_athlete_by_id(this.props.navigation.state.params.item.athlete_id).then((res) => {
+    //   this.setState({ Athlete: res.data });
+    // }).then(()=>{
+    //     this.setState({isLoaded:true})
+    // });
+      this.setState({ Athlete:this.props.navigation.state.params.item})
+        this.setState({isLoaded:true})  
   }
   render() {
       
     const request = this.props.navigation.state.params.item;
     const dayPreference = [];
-    if (this.state.Athlete.is_monday_preferred == true) {
+    if (this.state.Athlete.athlete?.is_monday_preferred == true) {
       dayPreference.push({ day: 'Lundi' });
     }
-    if (this.state.Athlete.is_tuesday_preferred == true) {
+    if (this.state.Athlete.athlete?.is_tuesday_preferred == true) {
       dayPreference.push({ day: 'Mardi' });
     }
-    if (this.state.Athlete.is_wednesday_preferred == true) {
-      dayPreference.push({ day: 'Mercreedi' });
+    if (this.state.Athlete.athlete?.is_wednesday_preferred == true) {
+      dayPreference.push({ day: 'mercredi' });
     }
-    if (this.state.Athlete.is_thursday_preferred == true) {
+    if (this.state.Athlete.athlete?.is_thursday_preferred == true) {
       dayPreference.push({ day: 'Jeudi' });
     }
-    if (this.state.Athlete.is_friday_preferred == true) {
+    if (this.state.Athlete.athlete?.is_friday_preferred == true) {
       dayPreference.push({ day: 'Vendredi' });
     }
-    if (this.state.Athlete.is_saturday_preferred == true) {
+    if (this.state.Athlete.athlete?.is_saturday_preferred == true) {
       dayPreference.push({ day: 'Samedi' });
     }
-    if (this.state.Athlete.is_sunday_preferred == true) {
+    if (this.state.Athlete.athlete?.is_sunday_preferred == true) {
       dayPreference.push({ day: 'Dimanche' });
     }
 
@@ -100,52 +100,20 @@ export default class Demande extends React.Component {
                   marginTop: 20,
                   color: 'white',
                 }}>
-                {this.state.Athlete.first_name} {this.state.Athlete.last_name}
+                {this.state.Athlete.athlete?.first_name} {this.state.Athlete.athlete?.last_name}
               </Text>
             </View>
           </View>
           <View style={{ alignItems: 'center' }}>
             <ScrollView style={{ height: heightPercentageToDP(65) }}>
               <View>
-                <View
-                  style={{
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                    backgroundColor: '#2CDEE4',
-                    marginTop: 15,
-                    margin: 5,
-                    height: 50,
-                    width: widthPercentageToDP(94),
-                    borderRadius: 5,
-                    justifyContent: 'center',
-                    justifyContent: 'space-between',
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: 15,
-                      color: 'black',
-                      fontFamily: 'Roboto',
-                      marginLeft: 15,
-                    }}>
-                    Son numéro :{' '}
-                  </Text>
-                  <Text
-                    style={{
-                      justifyContent: 'center',
-                      fontFamily: 'RobotoBold',
-                      fontSize: 18,
-                      marginRight: 50,
-                    }}>
-                    {this.state.Athlete.phone}
-                  </Text>
-                  <Image
-                    style={styles.Logo}
-                    source={require('../../assets/images/phone.png')}
-                  />
+                <View style={styles.container}>
+                  <Text style={styles.text}>Demande adressée à :</Text>
+                  <Text style={styles.textBlue2}>{this.state.Athlete.request_coach_type === 'any_coach'?'tous les coachs':'toi uniquement'}</Text>
                 </View>
                 <View style={styles.container}>
                   <Text style={styles.text}>Adresse e-mail :</Text>
-                  <Text style={styles.textBlue2}>{this.state.Athlete.email}</Text>
+                  <Text style={styles.textBlue2}>{this.state.Athlete.athlete?.email}</Text>
                 </View>
                 <View
                   style={{
@@ -156,7 +124,7 @@ export default class Demande extends React.Component {
                   <Text style={styles.text}>Ses objectifs :</Text>
                   <FlatList
                     horizontal={true}
-                    data={this.state.Athlete.goals}
+                    data={this.state.Athlete.athlete?.goals}
                     extraData={this.state}
                     // onRefresh={onRefresh}
                     // refreshing={this.state.refresh}
@@ -214,8 +182,8 @@ export default class Demande extends React.Component {
                       }}>
                       <Text style={styles.text2}>Taille :</Text>
                       <Text style={styles.textBlue2}>
-                        {`${this.state.Athlete.size / 100}`.substring(0, 1)}m
-                        {`${this.state.Athlete.size / 100}`.substring(2)}{' '}
+                        {`${this.state.Athlete.athlete?.size / 100}`.substring(0, 1)}m
+                        {`${this.state.Athlete.athlete?.size / 100}`.substring(2)}{' '}
                       </Text>
                     </View>
                   </View>
@@ -232,7 +200,7 @@ export default class Demande extends React.Component {
                     }}>
                     <View style={{ flexDirection: 'row' }}>
                       <Text style={styles.text2}>Poids:</Text>
-                      <Text style={styles.textBlue2}>{this.state.Athlete.weight}Kg</Text>
+                      <Text style={styles.textBlue2}>{this.state.Athlete.athlete?.weight}Kg</Text>
                     </View>
                   </View>
                 </View>
@@ -246,7 +214,7 @@ export default class Demande extends React.Component {
                   }}>
                   <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.text}>Age:</Text>
-                    <Text style={styles.textBlue}>{this.state.Athlete.age}ans</Text>
+                    <Text style={styles.textBlue}>{this.state.Athlete.athlete?.age}ans</Text>
                   </View>
                 </View>
                 <View
@@ -265,11 +233,11 @@ export default class Demande extends React.Component {
                     <View style={{ flexDirection: 'row', marginTop: 15 }}>
                       <Text style={styles.textTiny}> Entre</Text>
                       <Text style={styles.textBlue2Tiny}>
-                        {this.state.Athlete.preferred_time_start}H
+                        {this.state.Athlete.athlete?.preferred_time_start}H
                       </Text>
                       <Text style={styles.textTiny}>et</Text>
                       <Text style={styles.textBlue2Tiny}>
-                        {this.state.Athlete.preferred_time_end}H
+                        {this.state.Athlete.athlete?.preferred_time_end}H
                       </Text>
                     </View>
                   </View>
@@ -314,14 +282,14 @@ export default class Demande extends React.Component {
                 <View style={styles.container}>
                   <Text style={styles.text}>Experience(s) sportive(s) :</Text>
                   <Text style={styles.textBlue2}>
-                    plus de {this.state.Athlete.experience_years} ans
+                    plus de {this.state.Athlete.athlete?.experience_years} ans
                   </Text>
                 </View>
                 <View style={styles.container}>
                   <Text style={styles.text}>Santé :</Text>
-                  {this.state.Athlete.health_issues ? (
+                  {this.state.Athlete.athlete?.health_issues ? (
                     <Text style={styles.textBlue2}>
-                      {this.state.Athlete.health_issues}
+                      {this.state.Athlete.athlete?.health_issues}
                     </Text>
                   ) : (
                     <Text style={styles.textBlue2}>Pas d'information</Text>
@@ -329,11 +297,11 @@ export default class Demande extends React.Component {
                 </View>
                 <View style={styles.container}>
                   <Text style={styles.text}>Info complémentaires : </Text>
-                  {this.state.Athlete.health_problem_description == null ? (
+                  {this.state.Athlete.athlete?.health_problem_description == null ? (
                     <Text style={styles.textBlue2}>Pas d'information</Text>
                   ) : (
                     <Text style={styles.textBlue2}>
-                      {this.state.Athlete.health_problem_description}
+                      {this.state.Athlete.athlete?.health_problem_description}
                     </Text>
                   )}
                 </View>
