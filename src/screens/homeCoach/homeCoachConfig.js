@@ -1,7 +1,5 @@
 import moment from 'moment';
 
-import { FrenchConfig } from '../../components/FrenchCalendar';
-
 import { LocaleConfig } from 'react-native-calendars';
 
 export const options = [

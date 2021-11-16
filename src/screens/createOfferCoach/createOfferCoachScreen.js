@@ -87,7 +87,7 @@ export default class createOfferCoachScreen extends React.Component {
                   />
                   <CheckBox
                     containerStyle={styles.checkbox}
-                    title="Autre coaching"
+                    title="Autre prestation"
                     textStyle={styles.checkBoxText}
                     checkedColor="#2CDEE4"
                     checkedIcon="dot-circle-o"
@@ -102,7 +102,7 @@ export default class createOfferCoachScreen extends React.Component {
                 </View>
                 <View style={styles.inputContainer}>
                   <TextInput
-                    placeholder="Title"
+                    placeholder="Titre"
                     placeholderTextColor="#979797"
                     style={styles.input}
                     onChangeText={handleChange('title')}

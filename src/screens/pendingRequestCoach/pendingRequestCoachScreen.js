@@ -6,6 +6,7 @@ import {
   Text,
   FlatList,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import Header from '../../components/Header';
 import { get_personnal_request, get_public_request } from '../../api/Request';
@@ -17,21 +18,26 @@ export default class pendingRequestCoachScreen extends React.Component {
     personalRequest: [],
     publicRequest: [],
     loaded: false,
+    isRefreshing: false,
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    await this.loadData();
+    this.setState({ loaded: true });
+  }
+
+  loadData = () => {
+    this.setState({ isRefreshing: true });
     get_personnal_request().then((res) => {
       this.setState({ personalRequest: res.data.requests });
     });
-    get_public_request()
-      .then((res) => {
-        this.setState({ publicRequest: res.data.requests });
-      })
-      .then(() => {
-        this.setState({ loaded: true });
-      });
-  }
+    get_public_request().then((res) => {
+      this.setState({ publicRequest: res.data.requests });
+    });
 
+    console.log('aze');
+    this.setState({ isRefreshing: false });
+  };
   componentDidUpdate(prevProps) {
     if (this.props.isFocused && prevProps.isFocused !== this.props.isFocused) {
       get_personnal_request().then((res) => {
@@ -50,7 +56,9 @@ export default class pendingRequestCoachScreen extends React.Component {
     return (
       <TouchableOpacity
         onPress={() => {
-          this.props.navigation.navigate('Demande', { item: item });
+          this.props.navigation.navigate('treshRequestCoachScreen', {
+            item: item,
+          });
         }}
         style={[
           styles.item,
@@ -82,7 +90,9 @@ export default class pendingRequestCoachScreen extends React.Component {
     );
   };
   render() {
-    const { navigation } = this.props;
+    const { isRefreshing } = this.state;
+
+    console.log(isRefreshing);
     if (!this.state.loaded) {
       return (
         <View>
@@ -96,40 +106,44 @@ export default class pendingRequestCoachScreen extends React.Component {
         <SafeAreaView>
           <Header title="DEMANDES EN ATTENTE" />
           <View style={styles.content}>
-            {!this.state.personalRequest.length ? null : (
+            <ScrollView>
               <View>
                 <Text style={styles.textInfo}>
-                  Ces demandes s'adressent à toi uniquement
+                  {!this.state.personalRequest.length
+                    ? "Aucune demande ne t'est adréssée"
+                    : "Ces demandes s'adressent à toi uniquement"}
                 </Text>
-                <FlatList
-                  data={this.state.personalRequest}
-                  extraData={this.state}
-                  refreshing={this.state.refresh}
-                  keyExtractor={(item) => item?.id.toString()}
-                  renderItem={({ item }) => this.renderItem(item, true)}
-                />
+                <View style={{ flex: 1 }}>
+                  <FlatList
+                    data={this.state.personalRequest}
+                    onRefresh={() => this.loadData()}
+                    refreshing={this.state.isRefreshing}
+                    keyExtractor={(item) => item?.id.toString()}
+                    renderItem={({ item }) => this.renderItem(item, true)}
+                  />
+                </View>
               </View>
-            )}
-            {!this.state.publicRequest.length ? null : (
               <View style={{ marginTop: 15 }}>
                 <Text style={styles.textUserInfo}>
-                  Ces demandes s'adressent à tous les coachs
+                  {!this.state.publicRequest.length
+                    ? 'Aucune demande aux coachs'
+                    : "Ces demandes s'adressent à toi uniquement"}{' '}
                 </Text>
                 <FlatList
                   data={this.state.publicRequest}
-                  extraData={this.state}
-                  refreshing={this.state.refresh}
+                  onRefresh={() => this.loadData()}
+                  refreshing={this.state.isRefreshing}
                   keyExtractor={(item) => item?.id.toString()}
                   renderItem={({ item }) => this.renderItem(item, false)}
                 />
               </View>
-            )}
-            <View style={styles.processedRequestContainer}>
-              <Text style={styles.textColored}>0 </Text>
-              <Text style={styles.processedRequestText}>
-                demandes ont été traitées ce mois-ci
-              </Text>
-            </View>
+              <View style={styles.processedRequestContainer}>
+                <Text style={styles.textColored}>0 </Text>
+                <Text style={styles.processedRequestText}>
+                  demandes ont été traitées ce mois-ci
+                </Text>
+              </View>
+            </ScrollView>
           </View>
         </SafeAreaView>
       </View>

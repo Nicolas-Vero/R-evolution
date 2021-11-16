@@ -32,7 +32,6 @@ export default class loginScreen extends React.Component {
   }
 
   async onLoginPress(values) {
-    await AuthService.removeAuth();
     const { email, password } = values;
     const body = { email, password };
     const user = await userType(email);
@@ -44,14 +43,12 @@ export default class loginScreen extends React.Component {
       await this.loginAthlete(body);
       return;
     }
-
-    this.setState({ loading: true });
   }
 
   async loginCoach(body) {
     const login = await coach_login(body);
     if (login.status === 200) {
-      await this.setAuth(login.data);
+      await this.setAuth(login.data, 'coach');
       const user = await get_coach_me();
       if (user.status === 200) {
         await AuthService.setUser(user.data);
@@ -68,7 +65,7 @@ export default class loginScreen extends React.Component {
   async loginAthlete(body) {
     const login = await athlete_login(body);
     if (login.status === 200) {
-      await this.setAuth(login.data);
+      await this.setAuth(login.data, 'athlete');
       const user = await get_athlete();
       if (user.status === 200) {
         await AuthService.setUser(user.data);
@@ -83,11 +80,7 @@ export default class loginScreen extends React.Component {
     this.setState({ password: '' });
   }
 
-  async setAuth(data) {
-    // const type = this.props.navigation.state.params.isCoach
-    //   ? 'coach'
-    //   : 'athlete';
-    const type = 'coach';
+  async setAuth(data, type) {
     const toStore = {
       user: { id: data.user.id, type },
       headers: {
@@ -97,7 +90,6 @@ export default class loginScreen extends React.Component {
 
     await AuthService.setAuth(toStore);
   }
-
   render() {
     return (
       <View style={styles.container}>

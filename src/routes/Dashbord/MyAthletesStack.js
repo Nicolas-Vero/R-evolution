@@ -1,5 +1,5 @@
 import { createStackNavigator } from 'react-navigation-stack';
-import activitiesScreen from '../../screens/ActivitiesCoach/activitiesScreen';
+import activitiesCoachScreen from '../../screens/activitiesCoach/activitiesCoachScreen';
 import athleteSheetCoachScreen from '../../screens/athleteSheetCoach/athleteSheetCoachScreen';
 import createPaymentScreen from '../../screens/createPayment/createPaymentScreen';
 import athletesCoachScreen from '../../screens/athletesCoach/athletesCoachScreen';
@@ -20,7 +20,7 @@ const MyAthletesStack = createStackNavigator(
       },
     },
     AthletesProfils: {
-      screen: activitiesScreen,
+      screen: activitiesCoachScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,

@@ -5,6 +5,10 @@ import {
 } from 'react-native-responsive-screen';
 
 module.exports = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000',
+  },
   background: {
     flex: 1,
   },

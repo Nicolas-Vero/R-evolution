@@ -6,7 +6,6 @@ import { Formik } from 'formik';
 import { CheckBox, Text } from 'react-native-elements';
 import { ScrollView } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { isLoaded } from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import moment from 'moment';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -107,12 +106,9 @@ export default class createBookCoachScreen extends React.Component {
   }
 
   render() {
-    if (!isLoaded) {
-      return (
-        <View>
-          <ActivityIndicator size="large" color="#696969" />
-        </View>
-      );
+    console.log(this.state.isLoaded);
+    if (!this.state.isLoaded) {
+      return <View></View>;
     }
     return (
       <View style={styles.container}>

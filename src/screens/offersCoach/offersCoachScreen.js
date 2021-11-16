@@ -8,11 +8,20 @@ import { get_coach_offers } from '../../api/Offers';
 import Header from '../../components/Header';
 import { AddButton, DeleteButton, ModifyButton } from '../../components/Button';
 import styles from './offersCoachStyle';
+import DeleteOfferDialog from '../../components/dialogs/deleteOfferDialog/deleteOfferDialog';
+import { truncate } from 'lodash';
 export default class offersCoachScreen extends React.Component {
-  state = {
-    offers: [],
-    fontsLoaded: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      offers: [],
+      fontsLoaded: false,
+      dialogVisible: false,
+      itemId: null,
+    };
+  }
+
   componentDidMount() {
     get_coach_offers()
       .then((res) => res.data.offers)
@@ -29,10 +38,42 @@ export default class offersCoachScreen extends React.Component {
         });
     }
   }
+
+  onOpenDialog = (itemId) => {
+    this.setState({ dialogVisible: true, itemId });
+  };
+
+  onDismissDialog = () => {
+    this.setState({ dialogVisible: !this.state.dialogVisible, itemId: null });
+  };
+
+  onDelete = () => {
+    if (!this.state.itemId) return;
+    delete_coach_offers({ offer_id: this.state.itemId }).then(() => {
+      get_coach_offers().then(() => {
+        get_coach_offers()
+          .then((res) => res.data.offers)
+          .then((res) => {
+            this.setState({ offers: res });
+          });
+      });
+    });
+    this.onDismissDialog();
+  };
+  renderDialog() {
+    return (
+      <DeleteOfferDialog
+        dialogVisible={this.state.dialogVisible}
+        onClose={() => this.onDismissDialog()}
+        onDelete={(itemId) => this.onDelete(itemId)}
+      />
+    );
+  }
   render() {
     return (
       <View style={styles.container}>
         <Header title="MES OFFRES" />
+        {/* {this.renderDialog()} */}
         <View style={styles.content}>
           <AddButton
             customContainerStyles={styles.addButton}
@@ -79,21 +120,21 @@ export default class offersCoachScreen extends React.Component {
                         onPress={() => {
                           navigate('updateOfferCoachScreen', { item });
                         }}></ModifyButton>
-                      <DeleteButton
-                        onPress={() => {
-                          delete_coach_offers({ offer_id: item.id }).then(
-                            () => {
-                              get_coach_offers().then(() => {
-                                get_coach_offers()
-                                  .then((res) => res.data.offers)
-                                  .then((res) => {
-                                    this.setState({ offers: res });
-                                  });
-                              });
-                            },
-                          );
+                      <ModifyButton
+                        title="Supprimer"
+                        customContainerStyles={{
+                          backgroundColor: 'transparent',
+                          borderWidth: 2,
+                          borderColor: '#FFF',
+                          borderRadius: 3,
                         }}
-                        title="Supprimer"></DeleteButton>
+                        customTextStyle={{
+                          fontFamily: 'Roboto',
+                          color: '#fff',
+                        }}
+                        onPress={() => {
+                          this.onOpenDialog(item.id);
+                        }}></ModifyButton>
                     </View>
                     <Text style={styles.itemBottomPrice}>
                       {item.price / 100}€

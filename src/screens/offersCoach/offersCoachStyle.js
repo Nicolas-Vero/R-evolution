@@ -14,12 +14,14 @@ module.exports = StyleSheet.create({
     alignItems: 'center',
   },
   addButton: {
+    marginLeft: 6,
     height: 57,
   },
   addButtonText: {
+    textAlign: 'center',
     fontFamily: 'MontserratBoldItalic',
     fontSize: 13,
-    color: '#393637',
+    color: '#000',
   },
   flatList: {
     marginTop: 20,

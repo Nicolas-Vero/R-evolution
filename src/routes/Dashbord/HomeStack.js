@@ -4,10 +4,11 @@ import pendingRequestCoachScreen from '../../screens/pendingRequestCoach/pending
 import Demande from '../../screens/Demande';
 import homeCoachScreen from '../../screens/homeCoach/homeCoachScreen';
 import createBookCoachScreen from '../../screens/createBookCoach/createBookCoachScreen';
-import activitiesScreen from '../../screens/ActivitiesCoach/activitiesScreen';
+import activitiesCoachScreen from '../../screens/activitiesCoach/activitiesCoachScreen';
 import createReminderCoachScreen from '../../screens/createReminderCoach/createReminderCoachScreen';
 import accountScreen from '../../screens/account/accountScreen';
 import profileCoachScreen from '../../screens/profileCoach/profileCoachScreen';
+import treshRequestCoachScreen from '../../screens/trestRequestCoach/trestRequestCoachScreen';
 const getTabBarVisiblility = (navigation) => {
   const route = navigation.state.routeName;
   console.log(route);
@@ -48,8 +49,8 @@ const HomeStack = createStackNavigator(
         tabBarVisible: getTabBarVisiblility(navigation),
       }),
     },
-    activitiesScreen: {
-      screen: activitiesScreen,
+    activitiesCoachScreen: {
+      screen: activitiesCoachScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
@@ -76,8 +77,8 @@ const HomeStack = createStackNavigator(
         headerShown: false,
       },
     },
-    Demande: {
-      screen: Demande,
+    treshRequestCoachScreen: {
+      screen: treshRequestCoachScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,

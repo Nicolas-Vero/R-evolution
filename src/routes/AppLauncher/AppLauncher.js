@@ -38,11 +38,12 @@ export default class AppLauncher extends React.Component {
     ContextService.set('current_navigation', this.props.navigation);
     const navigation = ContextService.get('current_navigation');
     let stack = 'Entry';
+    console.log(auth.user.type);
     if (auth) {
-      stack = auth.user.type = 'coach'
-        ? 'DashboardStack'
-        : 'DashboardStackAtlhete';
+      stack =
+        auth.user.type === 'coach' ? 'DashboardStack' : 'DashboardStackAtlhete';
     }
+
     navigation.navigate(stack);
   };
 
@@ -51,7 +52,7 @@ export default class AppLauncher extends React.Component {
       <View style={styles.flex}>
         <View style={styles.container}>
           <ActivityIndicator size="large" color="#BB1D26" />
-          <StatusBar barStyle="default" />
+          <StatusBar barStyle="dark-content" backgroundColor="#212121" />
         </View>
         <View style={styles.flex} />
       </View>

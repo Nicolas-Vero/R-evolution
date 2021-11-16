@@ -75,7 +75,6 @@ const AuthStack = createStackNavigator(
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
-        swipeEnabled: false,
       },
     },
     selectGymScreen: {

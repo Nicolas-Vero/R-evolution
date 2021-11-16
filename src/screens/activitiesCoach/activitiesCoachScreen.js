@@ -18,12 +18,12 @@ import { FlatList } from 'react-native-gesture-handler';
 import { FontAwesome } from '@expo/vector-icons';
 import { get_coach_reminder } from '../../api/CoachReminder';
 import Header from '../../components/Header';
-import styles from './activitiesStyle';
+import styles from './activitiesCoachStyle';
 const options = [
   { label: 'NOTIFICATIONS', value: 'NOTIFICATIONS' },
   { label: 'RAPPELS', value: 'RAPPELS' },
 ];
-export default class activitiesScreen extends React.Component {
+export default class activitiesCoachScreen extends React.Component {
   state = {
     reminders: [],
     refresh: false,

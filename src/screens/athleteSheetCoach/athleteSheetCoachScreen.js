@@ -1,12 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import {
-  View,
-  Dimensions,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-navigation';
@@ -17,7 +11,6 @@ import { Image } from 'react-native';
 import { ScrollView } from 'react-native';
 import { loadFonts } from '../../configs/design/font';
 import { Entypo } from '@expo/vector-icons';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
 import styles from './athleteSheetCoachStyle';
 
 export default class athleteSheetCoachScreen extends React.Component {
@@ -79,21 +72,20 @@ export default class athleteSheetCoachScreen extends React.Component {
               source={require('../../../assets/images/Actif.png')}
             />
           </View>
-          <View style={{}}>
+          <View style={styles.content}>
             <ScrollView style={styles.scrollView}>
               <View style={styles.phoneNumberContainer}>
-                <View style={styles.phoneNumberLeft}>
-                  <Text style={styles.phoneNumberIndexText}>Son numéro : </Text>
-                </View>
+                <View style={styles.phoneNumberLeft}></View>
                 <View style={styles.phoneNumberMidle}>
-                  <Text style={styles.phoneNumberText}>{user.phone}</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Image
+                      style={styles.phoneImg}
+                      source={require('../../../assets/images/phone.png')}
+                    />
+                    <Text style={styles.phoneNumberText}>{user.phone}</Text>
+                  </View>
                 </View>
-                <View style={styles.phoneNumberRight}>
-                  <Image
-                    style={styles.phoneImg}
-                    source={require('../../../assets/images/phone.png')}
-                  />
-                </View>
+                <View style={styles.phoneNumberRight}></View>
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Adresse e-mail :</Text>
@@ -225,7 +217,7 @@ export default class athleteSheetCoachScreen extends React.Component {
               <View style={styles.item}>
                 <Text style={styles.infoText}>Experience(s) sportive(s) :</Text>
                 <Text style={styles.valueText}>
-                  plus de {user.experience_years} ans
+                  Plus de {user.experience_years} ans
                 </Text>
               </View>
               <View style={styles.item}>
@@ -235,7 +227,9 @@ export default class athleteSheetCoachScreen extends React.Component {
                 </Text>
               </View>
               <View style={styles.item}>
-                <Text style={styles.infoText}>Info complémentaires : </Text>
+                <Text style={styles.infoText}>
+                  Informations complémentaires :{' '}
+                </Text>
                 <Text style={styles.valueText}>
                   {user.health_problem_description || "Pas d'informations"}
                 </Text>

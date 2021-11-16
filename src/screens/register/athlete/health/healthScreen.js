@@ -42,9 +42,8 @@ export default class healthScreen extends React.Component {
             y: 1,
           }}
           style={styles.background}>
-          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <Header title="LET'S GO" />
-          <SafeAreaView  style={styles.safeArea}>
+          <SafeAreaView style={styles.safeArea}>
             <RegisterStepImageView step={4} />
             <View style={styles.content}>
               <Formik
@@ -159,7 +158,6 @@ export default class healthScreen extends React.Component {
               </Formik>
             </View>
           </SafeAreaView>
-      </TouchableWithoutFeedback>
         </LinearGradient>
       </View>
     );

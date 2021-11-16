@@ -2922,7 +2922,7 @@ color-support@^1.1.3:
   resolved "https://registry.yarnpkg.com/color-support/-/color-support-1.1.3.tgz#93834379a1cc9a0c61f82f52f0d04322251bd5a2"
   integrity sha512-qiBjkpbMLO/HL68y+lh4q0/O1MZFj2RX6X/KmMa3+gJD3z+WwI1ZzDHysvqHGS3mP6mznPckpXmw1nI9cJjyRg==
 
-color@^3.1.2:
+color@^3.1.2, color@^3.1.3:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/color/-/color-3.2.1.tgz#3544dc198caf4490c3ecc9a790b54fe9ff45e164"
   integrity sha512-aBl7dZI9ENN6fUGC7mWpMTPNHmWUSNan9tuWN6ahh5ZLNk9baLJOnSMlrQkHcrfFgz2/RigjUVAjdx36VcemKA==
@@ -6343,6 +6343,11 @@ raf@^3.1.0:
   dependencies:
     performance-now "^2.1.0"
 
+random-string@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/random-string/-/random-string-0.2.0.tgz#a46e4375352beda9a0d7b0d19ed6d321ecd1d82d"
+  integrity sha1-pG5DdTUr7amg17DRntbTIezR2C0=
+
 range-parser@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
@@ -6537,6 +6542,11 @@ react-native-select-dropdown@^1.0.9:
   resolved "https://registry.yarnpkg.com/react-native-select-dropdown/-/react-native-select-dropdown-1.3.0.tgz#9c45773a6fd52ee08c266fad422e3728b3a311b1"
   integrity sha512-smrRro240/id5kIWd1ozBuXfvS45BHiRz4fJiPQ7mZPkKMG5OPYn6DKFUkknzW+iqgLjtrSsv2zw0pkJAS7K2g==
 
+react-native-simple-dialogs@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-simple-dialogs/-/react-native-simple-dialogs-1.4.0.tgz#3379f093f4797b2a3609013eeaec41a29cd88220"
+  integrity sha512-EkVhiY9oDgumAIFA1qZUrvg068lRZa4fZoWYfTAAFZGmA495C4npdLmz6VMG3iRgWPwpp19JEzZLGaHYOURxBQ==
+
 react-native-size-matters@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/react-native-size-matters/-/react-native-size-matters-0.3.1.tgz#24d0cfc335a2c730f6d58bd7b43ea5a41be4b49f"
@@ -6675,21 +6685,22 @@ react-native@~0.63.4:
     use-subscription "^1.0.0"
     whatwg-fetch "^3.0.0"
 
-react-navigation-props-mapper@^1.0.1:
+react-navigation-props-mapper@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/react-navigation-props-mapper/-/react-navigation-props-mapper-1.0.4.tgz#0c5026aeb51469f9cb9034e6dc9a4db3701e768c"
   integrity sha512-uwGCzz6AYDHLEaCrACaTUrQD7e5YEUC6XFr0ooq2ZJ+tAkPQcHJqDtO3mw50FFs8KWwO37B+SBcgf9kKWyOwQQ==
   dependencies:
     hoist-non-react-statics "^3.3.0"
 
-react-navigation-stack@^1.10.3:
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/react-navigation-stack/-/react-navigation-stack-1.10.3.tgz#e714e442b20427f0d2d3c18fce1f9e8cfe69be0b"
-  integrity sha512-1gksFi/g/Lg9sBhgLlD0OiEB5xnatHb4C0eNMA5tli9cTVlhq375XNPIqOiTyftibBmjdApAsZFj5srUCoOu/w==
+react-navigation-stack@^2.10.4:
+  version "2.10.4"
+  resolved "https://registry.yarnpkg.com/react-navigation-stack/-/react-navigation-stack-2.10.4.tgz#377fd6533f8ae0cf5ca5a435a0115851f010306a"
+  integrity sha512-3LE1PFsFV9v4PUlZRATMotqs6H7MOOpIKtjyP+l8D1cyzYmsMQh3EFikeDfzGQUXIvy8VyLAMtcEssicQPYvFA==
   dependencies:
-    prop-types "^15.7.2"
+    color "^3.1.3"
+    react-native-iphone-x-helper "^1.3.0"
 
-react-navigation-tabs@^2.8.6:
+react-navigation-tabs@^2.11.1:
   version "2.11.1"
   resolved "https://registry.yarnpkg.com/react-navigation-tabs/-/react-navigation-tabs-2.11.1.tgz#dd2ccb04c540b4439aadc4bc8f5a776dfc90439f"
   integrity sha512-wq2wR3awu6PKimmVOycBf+iTPA9FWThbJwcaDBQEhQiiviXQzAtT3lw3nV9oqNIg4v65tdPhL1Dg8ptTJ03NjQ==
@@ -6699,12 +6710,7 @@ react-navigation-tabs@^2.8.6:
     react-native-iphone-x-helper "^1.3.0"
     react-native-tab-view "^2.15.2"
 
-react-navigation-transitions@^1.0.12:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/react-navigation-transitions/-/react-navigation-transitions-1.0.12.tgz#7307668bc7d5fdbdc1954224e7891f7fe6cb5f74"
-  integrity sha512-Hp0wX9KoXwsFch6Fgiz9HpGjQZDhnyucLbCai0LcaOC3VpmgYmvkbeAg/mQ5Z5exuY6PPrh/+FXU00yMPDHkcw==
-
-react-navigation@^4.0.10:
+react-navigation@^4.4.4:
   version "4.4.4"
   resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-4.4.4.tgz#8cda2219196311db440e54998bc724523359949f"
   integrity sha512-08Nzy1aKEd73496CsuzN49vLFmxPKYF5WpKGgGvkQ10clB79IRM2BtAfVl6NgPKuUM8FXq1wCsrjo/c5ftl5og==

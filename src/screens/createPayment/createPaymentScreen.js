@@ -209,29 +209,30 @@ export default class createPaymentScreen extends React.Component {
                         </View>
                       )}
                     />
-
-                    <Text style={styles.text}>Paiement en attente</Text>
-                    <FlatList
-                      style={{ maxHeight: 75 }}
-                      data={this.state.Paiement}
-                      extraData={this.state}
-                      // onRefresh={onRefresh}
-                      // refreshing={this.state.refresh}
-                      keyExtractor={(item) => item.id.toString()}
-                      renderItem={({ item }) => (
-                        <View style={styles.paymentItem}>
-                          <Text style={styles.paymentItemText}>
-                            {moment(item.created_at).format('L')}
-                          </Text>
-                          <Text style={styles.paymentItemText}>
-                            {item.title}
-                          </Text>
-                          <Text style={styles.paymentItemText}>
-                            {item.mode} - {item.amount}
-                          </Text>
-                        </View>
-                      )}
-                    />
+                    <View style={{ marginTop: 10 }}>
+                      <Text style={styles.text}>Paiement(s) en attente</Text>
+                      <FlatList
+                        style={{ maxHeight: 75 }}
+                        data={this.state.Paiement}
+                        extraData={this.state}
+                        // onRefresh={onRefresh}
+                        // refreshing={this.state.refresh}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => (
+                          <View style={styles.paymentItem}>
+                            <Text style={styles.paymentItemText}>
+                              {moment(item.created_at).format('L')}
+                            </Text>
+                            <Text style={styles.paymentItemText}>
+                              {item.title}
+                            </Text>
+                            <Text style={styles.paymentItemText}>
+                              {item.mode} - {item.amount}
+                            </Text>
+                          </View>
+                        )}
+                      />
+                    </View>
                   </View>
                   <View style={styles.buttonContainer}>
                     <Button

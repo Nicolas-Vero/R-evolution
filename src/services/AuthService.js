@@ -59,6 +59,9 @@ export default class AuthService {
 
   static removeAuth = async () => {
     await AsyncStorage.removeItem('auth');
+  };
+
+  static removeUser = async () => {
     await AsyncStorage.removeItem('user');
   };
 

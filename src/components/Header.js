@@ -18,7 +18,6 @@ class Header extends React.Component {
       <View style={defaultStyle.container}>
         <View style={{ flex: 1 }}>
           <TouchableOpacity
-            style={{ paddingLeft: 7 }}
             onPress={() => navigation.goBack()}>
             <Image
               source={require('../../assets/icons/header-back.png')}
@@ -41,7 +40,6 @@ const defaultStyle = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: width,
     marginTop: 26,
     marginBottom: 20,
   },

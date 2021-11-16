@@ -18,7 +18,9 @@ export default class updateOfferCoachScreen extends React.Component {
   Update(values) {
     console.log(values);
     try {
-      UpdateOffer(values).then(this.props.navigation.navigate('offersCoachScreen'));
+      UpdateOffer(values).then(
+        this.props.navigation.navigate('offersCoachScreen'),
+      );
     } catch (error) {
       this.setState({ loading: false });
       //alert('Please try again. ');
@@ -81,7 +83,7 @@ export default class updateOfferCoachScreen extends React.Component {
                   />
                   <CheckBox
                     containerStyle={styles.checkbox}
-                    title="Autre coaching"
+                    title="Autre prestation"
                     textStyle={styles.checkBoxText}
                     checkedColor="#2CDEE4"
                     checkedIcon="dot-circle-o"
@@ -96,7 +98,7 @@ export default class updateOfferCoachScreen extends React.Component {
                 </View>
                 <View style={styles.inputContainer}>
                   <TextInput
-                    placeholder="Title"
+                    placeholder="Titre"
                     placeholderTextColor="#979797"
                     style={styles.input}
                     onChangeText={handleChange('title')}
@@ -127,7 +129,7 @@ export default class updateOfferCoachScreen extends React.Component {
                 <View style={styles.bottomInputContainer}>
                   {this.state.type == 'Coaching' ? (
                     <View style={styles.seanceContainer}>
-                      <Text style={styles.text}>Nombre de séance</Text>
+                      <Text style={styles.text}>Nombre de séances</Text>
                       <TextInput
                         ref={(ref) => (this.nbSeanceInput = ref)}
                         blurOnSubmit={false}

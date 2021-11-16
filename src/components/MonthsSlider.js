@@ -79,6 +79,6 @@ const styles = {
     fontFamily: 'MontserratBoldItalic',
     fontSize: 15,
     color: '#FFFFFF',
-    marginVertical: 30,
+    marginVertical: 15,
   },
 };

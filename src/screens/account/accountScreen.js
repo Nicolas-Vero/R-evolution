@@ -9,6 +9,14 @@ export default class accountScreen extends React.Component {
     super(props);
   }
 
+  onLogoutPress = async () => {
+    await AuthService.removeAuth();
+    this.props.navigation.navigate('Entry');
+  };
+
+  onProfilePress = async () => {
+    this.props.navigation.navigate('profileCoachScreen');
+  };
   render() {
     const { navigate } = this.props.navigation;
     return (
@@ -16,19 +24,14 @@ export default class accountScreen extends React.Component {
         <Header title="MON COMPTE" />
         <View style={styles.content}>
           <View style={styles.imageContainer}>
-            <TouchableOpacity onPress={() => navigate('profileCoachScreen')}>
+            <TouchableOpacity onPress={() => this.onProfilePress()}>
               <Image
                 source={require('../../../assets/images/Bouton_modifier_mes_informations.png')}
                 style={styles.image}></Image>
             </TouchableOpacity>
           </View>
           <View style={styles.imageContainer}>
-            <TouchableOpacity
-              onPress={() =>
-                AuthService.removeAuth().then(() => {
-                  navigate('Entry');
-                })
-              }>
+            <TouchableOpacity onPress={() => this.onLogoutPress()}>
               <Image
                 source={require('../../../assets/images/logout.png')}
                 style={styles.image}

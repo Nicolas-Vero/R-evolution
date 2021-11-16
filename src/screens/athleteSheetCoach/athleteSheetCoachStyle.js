@@ -67,9 +67,9 @@ module.exports = StyleSheet.create({
     fontSize: 18,
   },
   phoneImg: {
-    resizeMode: 'contain',
-    width: 16,
-    height: 16,
+    marginRight: 10,
+    width: 20,
+    height: 20,
   },
   item: {
     paddingHorizontal: 20,

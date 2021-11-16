@@ -87,6 +87,7 @@ export default class Dashboard extends React.Component {
     // ajouter le coach id pour pouvoir associe des dispo a un coacg
     availabilities: [],
     page: [],
+    dialogVisible: false,
   };
 
   sendNotificationImmediately = async (notification) => {
@@ -116,7 +117,7 @@ export default class Dashboard extends React.Component {
       Notifications.addNotificationResponseReceivedListener((response) => {
         console.log('[Response-C-Dashboard]', response);
         this.sendNotificationImmediately(response);
-        this.props.navigation.push('activitiesScreen');
+        this.props.navigation.push('activitiesCoachScreen');
       });
   }
 
@@ -212,6 +213,27 @@ export default class Dashboard extends React.Component {
       this.setState({ carousselLoad: true });
       // console.log(this.state.page);
     });
+  }
+
+  onOpenDialog = () => {
+    this.setState({ dialogVisible: true });
+  };
+
+  onDismissDialog = () => {
+    this.setState({ dialogVisible: !this.state.dialogVisible });
+  };
+
+  onFilterTimes = () => {
+    this.onDismissDialog();
+  };
+  renderDialog() {
+    return (
+      <TreshRequestDialog
+        dialogVisible={this.state.dialogVisible}
+        onClose={() => this.onDismissDialog()}
+        onValidate={() => this.onValidate()}
+      />
+    );
   }
 
   renderPlanning = () => {
@@ -364,7 +386,10 @@ export default class Dashboard extends React.Component {
               }}
             />
             <View style={styles.filterContainer}>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  this.openDialog();
+                }}>
                 <Image
                   style={styles.filterImage}
                   source={require('../../../assets/images/filtre.png')}
@@ -424,7 +449,7 @@ export default class Dashboard extends React.Component {
 
                 <TouchableOpacity
                   onPress={() => {
-                    navigate('activitiesScreen');
+                    navigate('activitiesCoachScreen');
                   }}
                   style={styles.headerRightActivities}>
                   <Image

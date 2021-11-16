@@ -5,8 +5,6 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import OffresStack from './OffresStack';
 import HomeStack from './HomeStack';
 import MyAthletesStack from './MyAthletesStack';
-import { LinearGradient } from 'expo-linear-gradient';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
 // Auth import
 
 const AppTabsNavigator = createBottomTabNavigator(

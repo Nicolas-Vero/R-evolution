@@ -27,7 +27,9 @@ export default class addOfferCoachScreen extends React.Component {
   createOffer(values) {
     try {
       values.price = parseFloat(values.price) * 100;
-      AddOffer(values).then(this.props.navigation.navigate('offersCoachScreen'));
+      AddOffer(values).then(
+        this.props.navigation.navigate('offersCoachScreen'),
+      );
     } catch (error) {
       this.setState({ loading: false });
       //alert('Please try again. ');
@@ -87,7 +89,7 @@ export default class addOfferCoachScreen extends React.Component {
                   />
                   <CheckBox
                     containerStyle={styles.checkbox}
-                    title="Autre coaching"
+                    title="Autre prestation"
                     textStyle={styles.checkBoxText}
                     checkedColor="#2CDEE4"
                     checkedIcon="dot-circle-o"
@@ -102,7 +104,7 @@ export default class addOfferCoachScreen extends React.Component {
                 </View>
                 <View style={styles.inputContainer}>
                   <TextInput
-                    placeholder="Title"
+                    placeholder="Titre"
                     placeholderTextColor="#979797"
                     style={styles.input}
                     onChangeText={handleChange('title')}
