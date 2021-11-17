@@ -9,6 +9,9 @@ module.exports = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
   },
+  content: {
+    marginHorizontal: 16,
+  },
   header: {
     marginTop: 20,
     flexDirection: 'row',
@@ -121,6 +124,73 @@ module.exports = StyleSheet.create({
     color: '#fff',
     fontFamily: 'Roboto',
     fontSize: 11,
+  },
+  appointmentText: {
+    marginTop: 31,
+    textAlign: 'center',
+    fontFamily: 'MontserratBoldItalic',
+    fontSize: 15,
+    color: '#FFFFFF',
+  },
+  appointmentTodayItem: {
+    paddingVertical: 3,
+    paddingLeft: 10,
+    paddingRight: 29,
+    backgroundColor: '#2CDEE4',
+    flexDirection: 'row',
+    alignContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    marginVertical: 5,
+  },
+  appointmentTodayItemLeft: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  appointmentTodayItemLeftTexts: {
+    marginLeft: 23,
+  },
+  appointmentTodayItemLeftUsername: {
+    fontFamily: 'Roboto',
+    fontSize: 18,
+  },
+  appointmentTodayItemLeftSession: {
+    fontFamily: 'RobotoMedium',
+    fontSize: 8,
+  },
+  appointmentTodayItemRight: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  appointmentTodayItemRightText: {
+    fontFamily: 'Roboto',
+    fontSize: 15,
+  },
+  appointmentItemDateText: {
+    color: 'white',
+    fontSize: 8,
+    fontFamily: 'MontserratBoldItalic',
+    marginRight: 10,
+  },
+  appointmentItemDateBorder: {
+    borderColor: 'white',
+    flex: 5,
+    borderBottomWidth: 1,
+  },
+  appointmentItemDateContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+    marginTop: 15,
+  },
+  noSeanceText: {
+    textAlign: 'center',
+    fontFamily: 'Montserrat',
+    fontSize: 15,
+    color: '#DFDFDF',
+    marginTop: 10,
   },
   centeredView: {
     flex: 1,

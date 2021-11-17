@@ -36,7 +36,7 @@ export default class HomeAthleteView extends AbstractScreenView {
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => {
-            navigate('AccountAthlete');
+            navigate('AccountScreen');
           }}>
           <View style={styles.headerLeft}>
             <Avatar
@@ -212,18 +212,8 @@ export default class HomeAthleteView extends AbstractScreenView {
   }
   renderMyAppointment() {
     return (
-      <View>
-        <View style={{ alignItems: 'center' }}>
-          <Text
-            style={{
-              fontFamily: 'MontserratBoldItalic',
-              fontSize: 25,
-              color: '#FFFFFF',
-              margin: 10,
-            }}>
-            AUJOURD'HUI
-          </Text>
-        </View>
+      <View style={styles.content}>
+        <Text style={styles.appointmentText}>AUJOURD'HUI</Text>
         {this.component.state.dayApointement &&
         this.component.state.dayApointement.length ? (
           <FlatList
@@ -236,61 +226,27 @@ export default class HomeAthleteView extends AbstractScreenView {
                   onPress={() => {
                     console.log(item);
                   }}>
-                  <View
-                    style={{
-                      backgroundColor: '#2CDEE4',
-                      flexDirection: 'row',
-                      height: 70,
-                      justifyContent: 'space-around',
-                      alignContent: 'center',
-                      margin: 10,
-                      borderRadius: 5,
-                    }}>
-                    <View
-                      style={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}>
+                  <View style={styles.appointmentTodayItem}>
+                    <View style={styles.appointmentTodayItemLeft}>
                       <Avatar
-                        size={65}
+                        size={44}
                         rounded
                         source={{
                           uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                         }}
                       />
-                    </View>
-                    <View
-                      style={{
-                        justifyContent: 'center',
-                        flexDirection: 'column',
-                        marginRight: 40,
-                      }}>
-                      <View style={{ flexDirection: 'row' }}>
-                        <Text
-                          style={{
-                            fontFamily: 'RobotoBold',
-                            fontSize: 25,
-                            marginBottom: 5,
-                          }}>
+                      <View style={styles.appointmentTodayItemLeftTexts}>
+                        <Text style={styles.appointmentTodayItemLeftUsername}>
                           {item?.athlete.first_name} {item?.athlete?.last_name}
                         </Text>
+                        <Text style={styles.appointmentTodayItemLeftSession}>
+                          Séance: {item?.session_number}/
+                          {item?.athleteCourse?.total_sessions}
+                        </Text>
                       </View>
-                      <Text
-                        style={{
-                          fontFamily: 'Roboto',
-                          fontSize: 10,
-                          marginBottom: 15,
-                        }}>
-                        Séance: {item?.session_number}/
-                        {item?.athleteCourse?.total_sessions}
-                      </Text>
                     </View>
-                    <View style={{ justifyContent: 'center' }}>
-                      <Text
-                        style={{
-                          fontWeight: 'bold',
-                          fontSize: 20,
-                        }}>
+                    <View style={styles.appointmentTodayItemRight}>
+                      <Text style={styles.appointmentTodayItemRightText}>
                         {convertSlotToDate(item?.slot)}
                       </Text>
                     </View>
@@ -300,123 +256,59 @@ export default class HomeAthleteView extends AbstractScreenView {
             }}
           />
         ) : (
-          <View style={{ alignItems: 'center' }}>
-            <Text
-              style={{
-                fontFamily: 'Montserrat',
-                fontSize: 17,
-                color: '#DFDFDF',
-                margin: 10,
-              }}>
-              Aucune séance
-            </Text>
-          </View>
+          <Text style={styles.noSeanceText}>Aucune séance</Text>
         )}
-        <View style={{ alignItems: 'center' }}>
-          <Text
-            style={{
-              fontFamily: 'MontserratBoldItalic',
-              fontSize: 25,
-              color: '#FFFFFF',
-              margin: 20,
-            }}>
-            À VENIR
-          </Text>
-        </View>
+        <Text style={styles.appointmentText}>À VENIR</Text>
+
         {this.component.state.upcomingApointement &&
         this.component.state.upcomingApointement.length ? (
           <FlatList
             style={{ maxHeight: heightPercentageToDP(45) }}
             data={this.component.state.upcomingApointement}
-            // onRefresh={onRefresh}
             refreshing={this.component.state.refresh}
             keyExtractor={(item) => item?.id.toString()}
             renderItem={({ item }) => {
               return (
-                <View style={{ alignItems: 'center' }}>
+                <View>
                   {item?.show == 1 ? (
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        width: widthPercentageToDP(94),
-                        alignItems: 'center',
-                      }}>
-                      <Text
-                        style={{
-                          color: 'white',
-                          flex: 2,
-                          fontSize: 10,
-                          fontFamily: 'MontserratBoldItalic',
-                        }}>
-                        {moment(item?.date).format('dddd D MMMM')}
+                    <View style={styles.appointmentItemDateContainer}>
+                      <Text style={styles.appointmentItemDateText}>
+                        {moment(item?.date).format('dddd D MMMM').toUpperCase()}
                       </Text>
                       <View
                         style={{
                           borderColor: 'white',
-                          flex: 5,
+                          flex: 1,
                           borderBottomWidth: 1,
                         }}></View>
                     </View>
-                  ) : (
-                    <View></View>
-                  )}
+                  ) : null}
                   <TouchableOpacity
                     onPress={() => {
                       console.log(item);
                     }}>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-around',
-                        alignContent: 'center',
-                        backgroundColor: '#1E2026',
-                        margin: 10,
-                        width: widthPercentageToDP(94),
-                        borderRadius: 5,
-                      }}>
-                      <View
-                        style={{
-                          height: 70,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
+                    <View style={styles.appointmentTodayItem}>
+                      <View style={styles.appointmentTodayItemLeft}>
                         <Avatar
-                          size="medium"
+                          size={44}
                           rounded
                           source={{
                             uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                           }}
                         />
-                      </View>
-
-                      <View
-                        style={{
-                          justifyContent: 'center',
-                          flexDirection: 'column',
-                          marginRight: 40,
-                        }}>
-                        <View style={{ flexDirection: 'row' }}>
-                          <Text
-                            style={{
-                              fontWeight: 'bold',
-                              fontSize: 17,
-                              color: 'white',
-                            }}>
-                            {item?.athlete.first_name} {item?.athlete.last_name}
+                        <View style={styles.appointmentTodayItemLeftTexts}>
+                          <Text style={styles.appointmentTodayItemLeftUsername}>
+                            {item?.athlete.first_name}{' '}
+                            {item?.athlete?.last_name}
+                          </Text>
+                          <Text style={styles.appointmentTodayItemLeftSession}>
+                            Séance: {item?.session_number}/
+                            {item?.athleteCourse?.total_sessions}
                           </Text>
                         </View>
-                        <Text style={{ fontSize: 12, color: 'white' }}>
-                          Séance : {item?.session_number}/
-                          {item?.athleteCourse?.total_sessions}
-                        </Text>
                       </View>
-                      <View style={{ justifyContent: 'center' }}>
-                        <Text
-                          style={{
-                            fontWeight: 'bold',
-                            fontSize: 15,
-                            color: 'white',
-                          }}>
+                      <View style={styles.appointmentTodayItemRight}>
+                        <Text style={styles.appointmentTodayItemRightText}>
                           {convertSlotToDate(item?.slot)}
                         </Text>
                       </View>
@@ -427,17 +319,7 @@ export default class HomeAthleteView extends AbstractScreenView {
             }}
           />
         ) : (
-          <View style={{ alignItems: 'center' }}>
-            <Text
-              style={{
-                fontFamily: 'Montserrat',
-                fontSize: 17,
-                color: '#DFDFDF',
-                margin: 10,
-              }}>
-              Aucune séance
-            </Text>
-          </View>
+          <Text style={styles.noSeanceText}>Aucune séance</Text>
         )}
       </View>
     );
@@ -458,7 +340,7 @@ export default class HomeAthleteView extends AbstractScreenView {
           y: 1,
         }}
         style={styles.reserveContainer}>
-        {this.renderModal()}
+        {/* {this.renderModal()} */}
         <MonthsSlider onChange={this.controller.onMonthChange.bind(this)} />
         {this.component.state.coach.first_name ? (
           <Text style={styles.coachName}>

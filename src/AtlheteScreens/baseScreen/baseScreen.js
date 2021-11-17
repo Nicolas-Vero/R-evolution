@@ -4,8 +4,8 @@ import { compose } from 'redux';
 //TODO use for props
 import { withMappedNavigationParams } from 'react-navigation-props-mapper';
 import AbstractScreen from '../../components/abstracts/AbstractScreen/AbstractScreen';
-import BaseScreenView from './baseScreenView';
-import BaseScreenController from './baseScreenController';
+import BaseScreenView from './BaseScreenView';
+import BaseScreenController from './BaseScreenController';
 
 class BaseScreen extends AbstractScreen {
   constructor(props) {
@@ -18,4 +18,4 @@ class BaseScreen extends AbstractScreen {
   }
 }
 
-export default BaseScreen;
+export default withMappedNavigationParams()(BaseScreen);

@@ -23,7 +23,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import SelectDropdown from 'react-native-select-dropdown';
 import { get_gym } from '../../api/ReferenceData';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import styles from './myInformationsAthleteStyle'
+import styles from './myInformationsAthleteStyle';
 
 export default class myInformationsAthleteScreen extends React.Component {
   constructor(props) {
@@ -56,6 +56,7 @@ export default class myInformationsAthleteScreen extends React.Component {
     loadFonts();
     get_gym().then((res) => {
       this.setState({ Gymdata: res.data });
+      this.setState({ loaded: true });
     });
   }
 
@@ -121,12 +122,7 @@ export default class myInformationsAthleteScreen extends React.Component {
                   profile_picture_url: '',
                 }}
                 onSubmit={(values) => onContinuePress(values)}>
-                {({
-                  handleChange,
-                  handleBlur,
-                  setFieldValue,
-                  values,
-                }) => (
+                {({ handleChange, handleBlur, setFieldValue, values }) => (
                   <View>
                     <View style={styles.container2}>
                       <View

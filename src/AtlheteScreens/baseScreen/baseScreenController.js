@@ -11,4 +11,11 @@ export default class BaseScreenController extends AbstractScreenController {
   async componentDidMount() {}
 
   componentWillUnmount() {}
+
+  onProfilePress = () => {
+    
+  }
+  onLogoutPress = () => {
+
+  }
 }
