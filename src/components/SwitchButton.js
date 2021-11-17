@@ -1,36 +1,66 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { Button, Switch } from 'native-base';
-import ResponsiveText from './ResponsiveText';
-import { FrenchConfig } from './FrenchCalendar';
-import { FlatList } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { CheckBox } from 'react-native-elements';
-import {
-  get_availabilities,
-  update_availabilities,
-} from '../api/Availabilities';
-import { loadFonts } from '../configs/design/font';
+import { get_book, update_availabilities } from '../api/Availabilities';
+import { isEmpty } from 'lodash-es';
+import moment from 'moment';
+
 export default class SwitchButton extends Component {
+  state = {
+    bookOfDay: [],
+    currentBook: {},
+    day: '',
+  };
   componentDidMount() {
-    loadFonts;
+    this.setState({ day: moment().format('YYYY-MM-DD') });
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.day !== prevProps.item.date) {
+      get_book(this.props.item.date).then((res) => {
+        console.log('ll',res.data,'kk');
+        var filterarray = [];
+        res.data.forEach((element) => {
+          console.log('toto');
+          filterarray.push({
+            slot: element.slot,
+            first_name: element.athlete.first_name,
+            profile_picture_url: element.athlete.profile_picture_url,
+          });
+        });
+        this.setState({ bookOfDay: filterarray });
+      });
+      this.setState({ day: this.props.item.date });
+    }
   }
 
-  getSlotTime(time) {
-    let date = new Date(time);
-    const day = FrenchConfig.dayNames[date.getDay()];
-    const month = FrenchConfig.monthNames[date.getMonth()];
-    return `${day} ${date.getDate()} ${month}`;
+  daybooked(currentSlot) {
+    var currentBook = {};
+    this.state.bookOfDay.forEach((day) => {
+      if (currentSlot === day.slot) {
+        currentBook = {
+          first_name: day.first_name,
+          profile_picture_url: day.profile_picture_url,
+        };
+      }
+    });
+    return currentBook;
   }
 
   getSlot(time, status, item, slots) {
     const { disabled } = this.props;
     var handler = this.props.handler;
+    const currentBook = this.daybooked(
+      parseInt(Object.keys(slots)[0].substring(5)),
+    );
     return (
       <View style={styles.container}>
         <Text style={styles.text}>{time}</Text>
         {status == false ? (
-          <Text style={styles.text}>Indisponible</Text>
+          isEmpty(currentBook) ? (
+            <Text style={styles.text}>Indisponible</Text>
+          ) : (
+            <Text style={styles.text}>Réserver</Text>
+          )
         ) : (
           <Text style={styles.textColored}>Disponible</Text>
         )}
@@ -81,19 +111,6 @@ export default class SwitchButton extends Component {
 
     return (
       <View>
-        {/* <LinearGradient
-    colors={['#060606', '#2D333C']}
-    start={{
-      x: 0,
-      y: 0,
-    }}
-    end={{
-      x: 1,
-      y: 1,
-    }}
-    style={styles.background}
-  >  */}
-
         <View style={styles.slotsContainer}>
           {this.getSlot('00:00 - 00:00 ', slot_0, item, { slot_0: !slot_0 })}
           {this.getSlot('01:00 - 02:00 ', slot_1, item, { slot_1: !slot_1 })}
@@ -120,7 +137,6 @@ export default class SwitchButton extends Component {
           {this.getSlot('22:00 - 23:00 ', slot_22, item, { slot_22: !slot_22 })}
           {this.getSlot('23:00 - 00:00 ', slot_23, item, { slot_23: !slot_23 })}
         </View>
-        {/* </LinearGradient> */}
       </View>
     );
   }
