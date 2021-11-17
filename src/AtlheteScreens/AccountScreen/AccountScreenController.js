@@ -14,6 +14,6 @@ export default class AccountScreenController extends AbstractScreenController {
   };
 
   onProfilePress = async () => {
-    this.component.props.navigation.navigate('myInformationsAthleteScreen');
+    this.component.props.navigation.navigate('ProfileAthleteScreen');
   };
 }
