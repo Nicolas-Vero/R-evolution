@@ -12,22 +12,13 @@ module.exports = StyleSheet.create({
   background: {
     flex: 1,
   },
-  linear: {
-    flex: 1,
-    borderRadius: 3,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignContent: 'center',
-    backgroundColor: '#1E2026',
-    width: wp(92),
-    height: 54,
-    marginBottom: 10,
-  },
+
   content: {
     marginTop: 10,
     alignItems: 'center',
   },
   rightSwip: {
+    height: 54,
     borderTopRightRadius: 6,
     borderBottomRightRadius: 6,
     justifyContent: 'center',
@@ -44,16 +35,39 @@ module.exports = StyleSheet.create({
   rightSwipText: {
     color: '#fff',
   },
+  item: {
+    flex: 1,
+    borderRadius: 3,
+    flexDirection: 'row',
+    backgroundColor: '#1E2026',
+    width: wp(92),
+    height: 54,
+    marginBottom: 10,
+  },
+  itemColor: {
+    borderRadius: 3,
+    width: 5,
+  },
+  itemContent: {
+    marginRight: 30,
+    marginLeft: 15,
+    alignItems: 'center',
+    flexDirection: 'row',
+    alignContent: 'center',
+  },
+  itemLeft: {
+    alignItems: 'flex-start',
+  },
+  itemRight: {
+    alignItems: 'flex-end',
+  },
   itemRow: {
     justifyContent: 'center',
     flexDirection: 'row',
   },
-  itemMargin: {
-    justifyContent: 'center',
-    margin: 11,
-  },
+
   itemText: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'MontserratMedium',
     fontSize: 10,
     color: '#fff',
   },

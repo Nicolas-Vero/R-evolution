@@ -3,7 +3,6 @@ import {
   TouchableOpacity,
   View,
   SafeAreaView,
-  StyleSheet,
   Text,
   Image,
 } from 'react-native';
@@ -19,6 +18,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { get_coach_reminder } from '../../api/CoachReminder';
 import Header from '../../components/Header';
 import styles from './activitiesCoachStyle';
+
 const options = [
   { label: 'NOTIFICATIONS', value: 'NOTIFICATIONS' },
   { label: 'RAPPELS', value: 'RAPPELS' },
@@ -36,7 +36,7 @@ export default class activitiesCoachScreen extends React.Component {
       console.log(this.state.reminders);
     });
   }
-  rightSwipe(item) {
+  rightSwipe() {
     return (
       <TouchableOpacity style={styles.rightSwip}>
         <FontAwesome name="trash" size={26} color="#fff" />
@@ -45,12 +45,12 @@ export default class activitiesCoachScreen extends React.Component {
   }
 
   renderReminder = () => {
+    console.log('reminder', this.state.reminders[0]);
     return (
       <View>
         <View style={{ paddingBottom: heightPercentageToDP(35) }}>
           <FlatList
             data={this.state.reminders}
-            extraData={this.state}
             // onRefresh={onRefresh}
             // refreshing={this.state.refresh}
             keyExtractor={(item) => item.id.toString()}
@@ -72,12 +72,21 @@ export default class activitiesCoachScreen extends React.Component {
                       x: 0,
                       y: 0,
                     }}
-                    style={styles.linear}>
-                    <View style={styles.itemRow}>
-                      <View style={styles.itemMargin}>
+                    style={styles.item}>
+                    <View
+                      style={[
+                        styles.itemColor,
+                        { backgroundColor: item.color || '#2CDEE4' },
+                      ]}
+                    />
+                    <View style={styles.itemContent}>
+                      <View style={styles.itemLeft}>
                         <Text style={styles.itemText}>
                           {`${item.title} ${item.content}`}
                         </Text>
+                      </View>
+                      <View style={styles.itemRight}>
+                        <Text style={styles.itemText}>9:00</Text>
                       </View>
                     </View>
                   </LinearGradient>

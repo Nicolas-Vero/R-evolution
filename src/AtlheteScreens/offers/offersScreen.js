@@ -22,6 +22,7 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import { Avatar } from 'react-native-elements';
+import AuthService from '../../services/AuthService';
 const options = [
   { label: 'EN COURS', value: 'EN COURS' },
   { label: 'CATALOGUE', value: 'CATALOGUE' },
@@ -38,18 +39,18 @@ export default class offersScreen extends React.Component {
 
   async componentDidMount() {
     loadFonts();
-    var user = await AsyncStorage.getItem(STORAGE.USER);
-    user = JSON.parse(user);
-    get_athlete_active_courses()
-      .then((res) => {
-        this.setState({ ActiveCourses: res.data });
-      })
-      .then(() => {
-        this.setState({ loading: true });
-      });
-    get_coach_offer_by_id(user.coach.coach_id).then((res) => {
-      this.setState({ offers: res.data.offers });
-    });
+    const user = await AuthService.getUser();
+    const courses = await get_athlete_active_courses();
+    if (courses.status === 200) {
+      console.log('courses', courses.data);
+      this.setState({ ActiveCourses: courses.data });
+    }
+    const offers = await get_coach_offer_by_id(user.coach.coach_id);
+    if (offers.status === 200) {
+      console.log('offers', offers.data);
+      this.setState({ offers: offers.data.offers });
+    }
+    this.setState({ loading: true });
   }
 
   render() {
@@ -211,24 +212,22 @@ export default class offersScreen extends React.Component {
                   </View>
                 </LinearGradient>
               )
+            ) : this.state.offers == null ? (
+              <View
+                style={{
+                  alignItems: 'center',
+                  marginTop: heightPercentageToDP(25),
+                }}>
+                <Text
+                  style={{
+                    fontFamily: 'RobotoBold',
+                    fontSize: 20,
+                    color: '#FFFF',
+                  }}>
+                  pas de coach associé
+                </Text>
+              </View>
             ) : (
-              
-                this.state.ActiveCourses.offer == null ? (
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      marginTop: heightPercentageToDP(25),
-                    }}>
-                    <Text
-                      style={{
-                        fontFamily: 'RobotoBold',
-                        fontSize: 20,
-                        color: '#FFFF',
-                      }}>
-                     pas de coach associé
-                    </Text>
-                  </View>
-                ) :(
               <FlatList
                 style={{
                   height: heightPercentageToDP(70),
@@ -314,12 +313,11 @@ export default class offersScreen extends React.Component {
                     </View>
                   </LinearGradient>
                 )}
-              />)
-              )}
+              />
+            )}
           </SafeAreaView>
         </View>
       );
     }
   }
 }
-

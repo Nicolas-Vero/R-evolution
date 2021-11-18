@@ -1,10 +1,10 @@
 import { createStackNavigator } from 'react-navigation-stack';
-import myCoachScreen from '../../AtlheteScreens/myCoach/myCoachScreen';
+import CoachSheetScreen from '../../AtlheteScreens/CoachSheetScreen/CoachSheetScreen';
 
 const AthletesStack = createStackNavigator(
   {
-    myCoachScreen: {
-      screen: myCoachScreen,
+    CoachSheetScreen: {
+      screen: CoachSheetScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,
