@@ -21,8 +21,8 @@ import { get_coach_by_id } from '../../api/Coach';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../../configs/Constants';
 import Header from '../../components/Header';
-import styles from'./myCoachStyle';
-
+import styles from './myCoachStyle';
+import AuthService from '../../services/AuthService';
 export default class myCoachScreen extends React.Component {
   state = {
     coach: {},
@@ -31,30 +31,25 @@ export default class myCoachScreen extends React.Component {
   };
   async componentDidMount() {
     loadFonts;
-    let user = await AsyncStorage.getItem(STORAGE.USER);
-    user = JSON.parse(user);
+    let user = await AuthService.getUser();
+    console.log(user.coach);
     if (user.coach) {
       this.setState({ coach_id: user.coach?.coach_id });
-
-      get_coach_by_id(user.coach?.coach_id)
-        .then((res) => {
-          this.setState({ coach: res.data });
-        })
-        .then(() => {
-          this.setState({ loading: true });
-        });
-    } else {
-      this.setState({ loading: true });
+      const coach = await get_coach_by_id(user.coach?.coach_id);
+      if (coach.status === 200) {
+        console.log('coach', coach.data);
+        this.setState({ coach: coach.data });
+        this.setState({ loading: true });
+      }
     }
   }
   render() {
-    const dayPreference = [];
     return this.state.loading == false ? (
       <ActivityIndicator size="large" color="#2CDEE4" />
-    ) : this.state.coach ? (
+    ) : !this.state.coach ? (
       <View style={{ backgroundColor: 'black', flex: 1 }}>
         <SafeAreaView>
-        <Header title="TON COACH" />
+          <Header title="TON COACH" />
         </SafeAreaView>
         <View
           style={{

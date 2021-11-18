@@ -25,6 +25,7 @@ export const athlete_appointement = (params) => {
 
 export const athlete_booking = async (params) => {
   const { coach_id, date, athlete_course_id, currentSlot } = params;
+  console.log(params);
   const data = {
     date: date,
     athlete_course_id: athlete_course_id,

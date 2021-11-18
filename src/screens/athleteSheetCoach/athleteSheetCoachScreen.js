@@ -52,6 +52,16 @@ export default class athleteSheetCoachScreen extends React.Component {
     if (user.is_sunday_preferred == true) {
       dayPreference.push({ day: 'Dimanche' });
     }
+
+    let badgeImage = '';
+    console.log(user.type);
+    if (user.status === 'active')
+      badgeImage = require('../../../assets/images/Actif.png');
+    else if (user.status === 'inactive')
+      badgeImage = require('../../../assets/images/Inactif.png');
+    else if (user.status === 'prospect')
+      badgeImage = require('../../../assets/images/Prospect.png');
+
     return (
       <View style={styles.container}>
         <SafeAreaView>
@@ -67,10 +77,7 @@ export default class athleteSheetCoachScreen extends React.Component {
                 {user.first_name} {user.last_name}aa
               </Text>
             </View>
-            <Image
-              style={styles.userStatusImage}
-              source={require('../../../assets/images/Actif.png')}
-            />
+            <Image style={styles.userStatusImage} source={badgeImage} />
           </View>
           <View style={styles.content}>
             <ScrollView style={styles.scrollView}>

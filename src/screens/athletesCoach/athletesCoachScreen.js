@@ -74,17 +74,8 @@ export default class athletesCoachScreen extends React.Component {
   };
 
   onNavigate = (item) => {
-    // console.log(this.state.screen);
-    if (this.state.screen === 'ACTIFS')
-      this.props.navigation.navigate('athleteSheetCoachScreen', item);
-
-    if (this.state.screen === 'INACTIFS')
-      return this.props.navigation.navigate('athleteSheetCoachScreen', item);
-
-    if (this.state.screen === 'PROSPECTS')
-      return this.props.navigation.navigate('athleteSheetCoachScreen', item);
+    return this.props.navigation.navigate('athleteSheetCoachScreen', item);
   };
-
   renderActifList = () => {
     return (
       <View>
@@ -149,6 +140,7 @@ export default class athletesCoachScreen extends React.Component {
     );
   };
   renderItem = (item) => {
+    console.log('item', item.status);
     return (
       <TouchableOpacity
         onPress={() => {

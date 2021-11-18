@@ -5,18 +5,12 @@ import { Button } from '../../components/Button';
 import {
   TouchableOpacity,
   View,
-  SafeAreaView,
-  Dimensions,
   Text,
   FlatList,
   Modal,
   Image,
 } from 'react-native';
-import {
-  athlete_booking,
-  get_athlete_active_courses,
-  get_availabilities,
-} from '../../api/Athlete';
+import { athlete_booking } from '../../api/Athlete';
 import SwitchSelector from 'react-native-switch-selector';
 import { Avatar } from 'react-native-elements';
 import MonthsSlider from '../../components/MonthsSlider';
@@ -26,9 +20,11 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 import styles from './HomeAthleteStyle';
-import { options, LocaleConfig } from './HomeAthleteConfig';
+import { options } from './HomeAthleteConfig';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import { convertSlotToDate } from '../../helpers/dateHelper';
+import RenewOfferDialog from '../../components/dialogs/renewOfferDialog/renewOfferDialog';
+import BookOfferDialog from '../../components/dialogs/bookSessionDialog/bookOfferDialog';
 
 export default class HomeAthleteView extends AbstractScreenView {
   renderHeader() {
@@ -78,7 +74,7 @@ export default class HomeAthleteView extends AbstractScreenView {
           textColor="white"
           borderRadius={10}
           height={38}
-          style={{ width: widthPercentageToDP(95) }}
+          style={{ width: widthPercentageToDP(91.5) }}
           hasPadding
           fontSize={13}
           selectedTextStyle={{
@@ -210,9 +206,75 @@ export default class HomeAthleteView extends AbstractScreenView {
       </Modal>
     );
   }
+
+  renderRenewOfferDialog() {
+    return (
+      <RenewOfferDialog
+        dialogVisible={this.component.state.isRenewDialogVisible}
+        onClose={this.controller.onDismissRenewDialog}
+        onValidate={this.controller.onCoachPress}
+      />
+    );
+  }
+
+  renderBookDialog() {
+    return (
+      <BookOfferDialog
+        dialogVisible={this.component.state.isBookOfferDialogVisible}
+        onClose={this.controller.onDismissBookDialog}
+        onValidate={this.controller.onBook}
+      />
+    );
+  }
+
+  renderUnbookDialog() {
+    return (
+      <RenewOfferDialog
+        dialogVisible={this.component.state.isUnBookOfferDialogVisible}
+        onClose={this.controller.onDismissUnBookDialog}
+        onValidate={this.controller.onUnbook}
+      />
+    );
+  }
+
   renderMyAppointment() {
+    console.log('appointment', this.component.state.dayApointement);
     return (
       <View style={styles.content}>
+        <View
+          style={{
+            marginTop: 16,
+            backgroundColor: '#1E2026',
+            alignItems: 'center',
+            paddingVertical: 17,
+            borderRadius: 6,
+          }}>
+          <Text
+            style={{
+              color: '#fff',
+              fontFamily: 'MontserratBoldItalic',
+              fontSize: 9,
+              fontWeight: 'bold',
+            }}>
+            IL NE TE RESTE QUE <Text style={{ color: '#2CDEE4' }}>"X"</Text>{' '}
+            SÉANCES SUR TON
+            <Text style={{ color: '#2CDEE4' }}> "PACK X"</Text>
+          </Text>
+          <TouchableOpacity
+            onPress={this.controller.onRenewOfferPress}
+            style={{
+              marginTop: 16,
+              paddingVertical: 8,
+              paddingHorizontal: 25,
+              alignItems: 'center',
+              backgroundColor: '#2CDEE4',
+              borderRadius: 6,
+            }}>
+            <Text style={{ fontSize: 11, fontFamily: 'RobotoMedium' }}>
+              Renouveler l'offre
+            </Text>
+          </TouchableOpacity>
+        </View>
         <Text style={styles.appointmentText}>AUJOURD'HUI</Text>
         {this.component.state.dayApointement &&
         this.component.state.dayApointement.length ? (
@@ -279,7 +341,7 @@ export default class HomeAthleteView extends AbstractScreenView {
                         style={{
                           borderColor: 'white',
                           flex: 1,
-                          borderBottomWidth: 1,
+                          borderBottomWidth: 0.3,
                         }}></View>
                     </View>
                   ) : null}
@@ -340,7 +402,8 @@ export default class HomeAthleteView extends AbstractScreenView {
           y: 1,
         }}
         style={styles.reserveContainer}>
-        {/* {this.renderModal()} */}
+        {this.renderBookDialog()}
+        {this.renderUnbookDialog()}
         <MonthsSlider onChange={this.controller.onMonthChange.bind(this)} />
         {this.component.state.coach.first_name ? (
           <Text style={styles.coachName}>
@@ -372,13 +435,7 @@ export default class HomeAthleteView extends AbstractScreenView {
                   : 'white';
               return (
                 <TouchableOpacity
-                  onPress={() => {
-                    this.component.setState({
-                      selectedDate: item?.availability,
-                    });
-                    this.controller.getAvailabilities(item);
-                    this.component.setState({ currentItem: item });
-                  }}>
+                  onPress={() => this.controller.onDayPress(item)}>
                   <View
                     style={[
                       styles.dayContainer,
@@ -438,19 +495,7 @@ export default class HomeAthleteView extends AbstractScreenView {
                 {convertSlotToDate(item?.slot)}
               </Text>
               <TouchableOpacity
-                onPress={() => {
-                  this.component.setState({
-                    currentSlot: convertSlotToDate(item?.slot),
-                  });
-                  const bookInformation = {
-                    date: this.component.state.selectedDate,
-                    coach_id: this.component.state.coach_id,
-                    currentSlot: item?.slot,
-                    athlete_course_id: this.component.state.athleteCourse.id,
-                  };
-                  this.component.setState({ book: bookInformation });
-                  this.component.setState({ modalVisible: true });
-                }}
+                onPress={() => this.controller.onBookOfferPress(item.slot)}
                 style={styles.reserveItemButton}
                 title="Réserver ce créneau">
                 <Text style={styles.reserveItemButtonText}>
@@ -472,6 +517,7 @@ export default class HomeAthleteView extends AbstractScreenView {
         {this.component.state.screen == 'MES RENDEZ-VOUS'
           ? this.renderMyAppointment()
           : this.renderReserve()}
+        {this.renderRenewOfferDialog()}
       </View>
     );
   }

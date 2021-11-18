@@ -11,7 +11,7 @@ import {
   get_availabilities,
 } from '../../api/Athlete';
 import moment from 'moment';
-
+import { convertSlotToDate } from '../../helpers/dateHelper';
 export default class HomeAhleteController extends AbstractScreenController {
   constructor(component) {
     super(component);
@@ -34,6 +34,9 @@ export default class HomeAhleteController extends AbstractScreenController {
       currentSlot: '',
       dayApointement: [],
       upcomingApointement: [],
+      isRenewDialogVisible: false,
+      isBookOfferDialogVisible: false,
+      isUnbookOfferDialogVisible: false,
     };
   }
 
@@ -55,7 +58,6 @@ export default class HomeAhleteController extends AbstractScreenController {
       console.log('[Error]', error);
     }
 
-    await loadFonts();
     let user = await AuthService.getUser();
     try {
       this.component.setState({ coach_id: user.coach?.coach_id });
@@ -156,7 +158,7 @@ export default class HomeAhleteController extends AbstractScreenController {
       });
       this.component.setState({ currentAvailabilities: availabilitiesArray });
       this.component.setState({ refresh: !this.component.state.refresh });
-      console.log(this.component.state.currentAvailabilities);
+      // console.log(this.component.state.currentAvailabilities);
     });
   };
 
@@ -187,4 +189,79 @@ export default class HomeAhleteController extends AbstractScreenController {
     });
     console.log(notificationId); // can be saved in AsyncStorage or send to server
   };
+
+  onDayPress = (item) => {
+    this.component.setState({
+      selectedDate: item?.availability,
+    });
+    this.getAvailabilities(item);
+    this.component.setState({ currentItem: item });
+  };
+
+  onRenewOfferPress = () => {
+    this.component.setState({
+      isRenewDialogVisible: true,
+    });
+  };
+
+  onDismissRenewDialog = () => {
+    this.component.setState({
+      isRenewDialogVisible: !this.component.state.isRenewDialogVisible,
+    });
+  };
+
+  onCoachPress = () => {
+    this.component.props.navigation.navigate('AthletesStack');
+    this.onDismissDialog();
+  };
+
+  onDismissBookDialog = () => {
+    this.component.setState({
+      isBookOfferDialogVisible: !this.component.state.isBookOfferDialogVisible,
+    });
+  };
+
+  onBookOfferPress = (slot) => {
+    this.component.setState({
+      currentSlot: convertSlotToDate(slot),
+    });
+    const bookInformation = {
+      date: this.component.state.selectedDate,
+      coach_id: this.component.state.coach_id,
+      currentSlot: slot,
+      athlete_course_id: this.component.state.athleteCourse.id,
+    };
+    this.component.setState({ book: bookInformation });
+    // this.component.setState({ modalVisible: true });
+    this.component.setState({
+      isBookOfferDialogVisible: true,
+    });
+  };
+
+  onBook = async () => {
+    console.log('on book');
+    const res = await athlete_booking(this.component.state.book);
+    console.log(res.status);
+    console.log(res.data);
+    if (res.status === 200) {
+      this.getAvailabilities(this.component.state.currentItem);
+    }
+
+    this.onDismissBookDialog();
+  };
+
+  onDismissUnBookDialog = () => {
+    this.component.setState({
+      isUnBookOfferDialogVisible:
+        !this.component.state.isUnBookOfferDialogVisible,
+    });
+  };
+
+  onUnbookOfferPress = () => {
+    this.component.setState({
+      isUnBookOfferDialogVisible: true,
+    });
+  };
+
+  onUnbook = () => {};
 }
