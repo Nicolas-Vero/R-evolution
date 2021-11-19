@@ -98,7 +98,7 @@ export default class activitiesCoachScreen extends React.Component {
         <TouchableOpacity
           style={styles.createReminderButton}
           onPress={() => {
-            navigate('createReminderCoachScreen');
+            navigate('CreateReminderCoachScreen');
           }}>
           <Image
             source={require('../../../assets/images/Group_8766.png')}

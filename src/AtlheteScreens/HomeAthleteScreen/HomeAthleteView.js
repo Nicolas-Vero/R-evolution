@@ -50,7 +50,7 @@ export default class HomeAthleteView extends AbstractScreenView {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            navigate('Notifications');
+            navigate('NotificationsScreen');
           }}
           style={styles.headerRight}>
           <Image
@@ -241,38 +241,16 @@ export default class HomeAthleteView extends AbstractScreenView {
     console.log('appointment', this.component.state.dayApointement);
     return (
       <View style={styles.content}>
-        <View
-          style={{
-            marginTop: 16,
-            backgroundColor: '#1E2026',
-            alignItems: 'center',
-            paddingVertical: 17,
-            borderRadius: 6,
-          }}>
-          <Text
-            style={{
-              color: '#fff',
-              fontFamily: 'MontserratBoldItalic',
-              fontSize: 9,
-              fontWeight: 'bold',
-            }}>
-            IL NE TE RESTE QUE <Text style={{ color: '#2CDEE4' }}>"X"</Text>{' '}
+        <View style={styles.renewContainer}>
+          <Text style={styles.renewText}>
+            IL NE TE RESTE QUE <Text style={styles.textColored}>"X"</Text>{' '}
             SÉANCES SUR TON
-            <Text style={{ color: '#2CDEE4' }}> "PACK X"</Text>
+            <Text style={styles.textColored}> "PACK X"</Text>
           </Text>
           <TouchableOpacity
             onPress={this.controller.onRenewOfferPress}
-            style={{
-              marginTop: 16,
-              paddingVertical: 8,
-              paddingHorizontal: 25,
-              alignItems: 'center',
-              backgroundColor: '#2CDEE4',
-              borderRadius: 6,
-            }}>
-            <Text style={{ fontSize: 11, fontFamily: 'RobotoMedium' }}>
-              Renouveler l'offre
-            </Text>
+            style={styles.renewButton}>
+            <Text style={styles.renewButtonText}>Renouveler l'offre</Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.appointmentText}>AUJOURD'HUI</Text>

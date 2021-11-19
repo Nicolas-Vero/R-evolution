@@ -212,7 +212,7 @@ export default class HomeAhleteController extends AbstractScreenController {
 
   onCoachPress = () => {
     this.component.props.navigation.navigate('AthletesStack');
-    this.onDismissDialog();
+    this.onDismissRenewDialog();
   };
 
   onDismissBookDialog = () => {

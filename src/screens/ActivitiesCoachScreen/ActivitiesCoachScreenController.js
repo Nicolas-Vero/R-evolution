@@ -5,24 +5,22 @@ export default class ActivitiesCoachScreenController extends AbstractScreenContr
     super(component);
 
     this.initialState = {
-      reminders: [],
+      reminders: null,
       refresh: false,
       screen: 'NOTIFICATIONS',
       isLoaded: false,
     };
   }
-  componentDidMount = async () => {
+  async componentDidMount() {
     const reminders = await get_coach_reminder();
     if (reminders.status === 200) {
       this.component.setState({
-        reminders: reminders.data,
+        reminders: reminders.data.reminders,
+        isLoaded: true,
       });
-
-      this.component.setState({ isLoaded: true });
     }
-
-    onCreateReminderPress = () => {
-      this.component.props.navigation.navigate('createReminderCoachScreen');
-    };
-  };
+  }
+  onCreateReminderPress() {
+    this.component.props.navigation.navigate('CreateReminderCoachScreen');
+  }
 }

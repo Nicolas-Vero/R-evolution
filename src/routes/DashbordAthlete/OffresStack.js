@@ -2,14 +2,13 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Ionicons } from '@expo/vector-icons';
 // Auth import
-import offersScreen from '../../AtlheteScreens/offers/offersScreen';
 import offerPaimentModeScreen from '../../AtlheteScreens/offerPaiement/offerPaiementMode';
 import MyWeb from '../../AtlheteScreens/WebView';
-
+import OffersScreen from '../../AtlheteScreens/OffersScreen/OffersScreen';
 const OffresStack = createStackNavigator(
   {
-    offersScreen: {
-      screen: offersScreen,
+    OffersScreen: {
+      screen: OffersScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,
@@ -34,7 +33,7 @@ const OffresStack = createStackNavigator(
   },
   {
     lazy: true,
-      // initialRouteName: ':',
+    // initialRouteName: ':',
     swipeEnabled: true,
     animationEnabled: true,
     tabBarPosition: 'bottom',

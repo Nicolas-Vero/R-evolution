@@ -1,8 +1,8 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeAthleteScreen from '../../AtlheteScreens/HomeAthleteScreen/HomeAthleteScreen';
-import Notifications from '../../AtlheteScreens/Notifications';
 import AccountScreen from '../../AtlheteScreens/AccountScreen/AccountScreen';
 import ProfileAthleteScreen from '../../AtlheteScreens/ProfileAthleteScreen/ProfileAthleteScreen';
+import NotificationsScreen from '../../AtlheteScreens/NotificationsScreen/NotificationsScreen';
 
 const HomeStack = createStackNavigator(
   {
@@ -13,8 +13,8 @@ const HomeStack = createStackNavigator(
       },
     },
 
-    Notifications: {
-      screen: Notifications,
+    NotificationsScreen: {
+      screen: NotificationsScreen,
       navigationOptions: {
         headerShown: false,
         tabBarVisible: false,

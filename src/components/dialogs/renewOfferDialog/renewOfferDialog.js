@@ -1,17 +1,13 @@
 import React from 'react';
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 import { Dialog } from 'react-native-simple-dialogs';
 import styles from './renewOfferDialogStyle';
 import { Button } from '../../Button';
 export default class RenewOfferDialog extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      // keyBoardHeight: 0,
-    };
   }
 
-  onClose = () => this.props.onClose();
   render() {
     return (
       <Dialog
@@ -20,12 +16,16 @@ export default class RenewOfferDialog extends React.Component {
         contentStyle={styles.contentDialog}
         dialogStyle={styles.dialog}
         titleStyle={styles.title}
-        title="Contacte ton coach pour renouveler l'offre"
+        title={
+          this.props.isNewOffer
+            ? 'Pour souscrire cette offre, contacte directement ton coach'
+            : "Pour renouveler l'offre, contacte directement ton coach"
+        }
         onTouchOutside={this.props.onClose}>
         <View style={styles.buttonContainer}>
           <Button
             loading={false}
-            title="Voir mon coach"
+            title="Fiche coach"
             customContainerStyles={styles.button}
             customTextStyle={styles.buttonText}
             onPress={this.props.onValidate}

@@ -5,11 +5,11 @@ import Demande from '../../screens/Demande';
 import homeCoachScreen from '../../screens/homeCoach/homeCoachScreen';
 import createBookCoachScreen from '../../screens/createBookCoach/createBookCoachScreen';
 // import activitiesCoachScreen from '../../screens/activitiesCoach/activitiesCoachScreen';
-import createReminderCoachScreen from '../../screens/createReminderCoach/createReminderCoachScreen';
 import AccountScreen from '../../screens/AccountScreen/AccountScreen';
 import treshRequestCoachScreen from '../../screens/trestRequestCoach/trestRequestCoachScreen';
 import ProfileCoachScreen from '../../screens/ProfileCoachScreen/ProfileCoachScreen';
 import ActivitiesCoachScreen from '../../screens/ActivitiesCoachScreen/ActivitiesCoachScreen';
+import CreateReminderCoachScreen from '../../screens/CreateReminderCoachScreen/CreateReminderCoachScreen';
 const getTabBarVisiblility = (navigation) => {
   const route = navigation.state.routeName;
   console.log(route);
@@ -42,8 +42,8 @@ const HomeStack = createStackNavigator(
       //   swipeEnabled: false,
       // },
     },
-    createReminderCoachScreen: {
-      screen: createReminderCoachScreen,
+    CreateReminderCoachScreen: {
+      screen: CreateReminderCoachScreen,
       navigationOptions: ({ navigation }) => ({
         gestureEnabled: false,
         headerShown: false,
