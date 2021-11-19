@@ -53,6 +53,7 @@ export default class treshRequestCoachScreen extends React.Component {
       item: this.state.Athlete.athlete,
     });
   };
+
   renderDialog() {
     return (
       <TreshRequestDialog

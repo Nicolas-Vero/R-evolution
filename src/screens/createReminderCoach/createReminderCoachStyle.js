@@ -68,25 +68,20 @@ module.exports = StyleSheet.create({
     flex: 1,
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
-
   dropdownButton: {
-    alignItems: 'flex-start',
-    padding: 0,
-    alignItems: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: '#000',
+    paddingHorizontal: 0,
+    marginHorizontal: 0,
     width: 48,
   },
   dropdownBg: {
     backgroundColor: '#000',
-    borderRadius: 5,
   },
-
   dropdownRow: {
     height: 45,
     borderBottomColor: '#000',
   },
   dropdownRowText: {
-    textAlign: 'left',
     marginHorizontal: 10,
   },
   buttonContainer: {

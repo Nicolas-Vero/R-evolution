@@ -70,9 +70,10 @@ export default class createReminderCoachScreen extends React.Component {
                       title: '',
                       content: '',
                       status: 'ACTIVE',
-                      color: '',
+                      color: '#2CDEE4',
                     }}
                     onSubmit={(values) => {
+                      console.log(values);
                       try {
                         coach_reminder(values).then(navigate('Activitie'));
                       } catch (error) {
@@ -152,6 +153,9 @@ export default class createReminderCoachScreen extends React.Component {
                                         width: 28,
                                         height: 28,
                                         borderRadius: 14,
+                                        borderColor: '#50525B',
+                                        borderWidth:
+                                          values.color === item ? 3 : 0,
                                       }}></View>
                                   );
                                 }}
@@ -199,6 +203,7 @@ export default class createReminderCoachScreen extends React.Component {
                             title="Ajouter le Rappel"
                             onPress={() => {
                               try {
+                                console.log(values);
                                 coach_reminder(values).then(() => {
                                   this.scheduleNotification(values);
                                   navigate('Activitie');

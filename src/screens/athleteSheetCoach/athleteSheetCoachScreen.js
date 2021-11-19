@@ -19,7 +19,6 @@ export default class athleteSheetCoachScreen extends React.Component {
     Paiement: [],
   };
   componentDidMount() {
-    loadFonts;
     get_athlete_active_courses().then((res) => {
       this.setState({ ActiveCourses: res.data });
     });
@@ -29,7 +28,6 @@ export default class athleteSheetCoachScreen extends React.Component {
   }
   render() {
     const user = this.props.navigation.state.params.item;
-    console.log(this.props.navigation.state.params);
     const dayPreference = [];
     if (user.is_monday_preferred == true) {
       dayPreference.push({ day: 'Lundi' });
@@ -54,7 +52,6 @@ export default class athleteSheetCoachScreen extends React.Component {
     }
 
     let badgeImage = '';
-    console.log(user.type);
     if (user.status === 'active')
       badgeImage = require('../../../assets/images/Actif.png');
     else if (user.status === 'inactive')
