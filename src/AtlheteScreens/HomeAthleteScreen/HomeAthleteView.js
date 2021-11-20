@@ -472,14 +472,53 @@ export default class HomeAthleteView extends AbstractScreenView {
               <Text style={styles.reserveItemText}>
                 {convertSlotToDate(item?.slot)}
               </Text>
-              <TouchableOpacity
-                onPress={() => this.controller.onBookOfferPress(item.slot)}
-                style={styles.reserveItemButton}
-                title="Réserver ce créneau">
-                <Text style={styles.reserveItemButtonText}>
-                  Réserver ce créneau
-                </Text>
-              </TouchableOpacity>
+              {item.value ? (
+                <TouchableOpacity
+                  onPress={() => {
+                    this.component.setState({
+                      currentSlot: convertSlotToDate(item?.slot),
+                    });
+                    const bookInformation = {
+                      date: this.component.state.selectedDate,
+                      coach_id: this.component.state.coach_id,
+                      currentSlot: item?.slot,
+                      athlete_course_id: this.component.state.athleteCourse.id,
+                    };
+                    console.log(bookInformation, 'here');
+                    this.component.setState({ book: bookInformation });
+                    this.component.setState({ modalVisible: true });
+                    console.log(this.component.state.modalVisible, 'here');
+                  }}
+                  style={styles.reserveItemButton}
+                  title="Réserver ce créneau">
+                  <Text style={styles.reserveItemButtonText}>
+                    Réserver ce créneau
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    this.component.setState({
+                      currentSlot: convertSlotToDate(item?.slot),
+                    });
+                    const bookInformation = {
+                      date: this.component.state.selectedDate,
+                      coach_id: this.component.state.coach_id,
+                      currentSlot: item?.slot,
+                      athlete_course_id: this.component.state.athleteCourse.id,
+                    };
+                    console.log(bookInformation, 'here');
+                    this.component.setState({ book: bookInformation });
+                    this.component.setState({ modalVisible: true });
+                    console.log(this.component.state.modalVisible, 'here');
+                  }}
+                  style={styles.reserveItemButton}
+                  title="Réserver ce créneau">
+                  <Text style={styles.reserveItemButtonText}>
+                    Annuler ce crénneau
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
           )}
         />

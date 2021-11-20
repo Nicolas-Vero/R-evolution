@@ -2,7 +2,10 @@ import { Animated } from 'react-native';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import * as Notifications from 'expo-notifications';
 import AuthService from '../../services/AuthService';
-import { get_athlete_active_appointement } from '../../api/Athlete';
+import {
+  get_athlete_active_appointement,
+  get_book_athlete,
+} from '../../api/Athlete';
 import { get_coach_by_id } from '../../api/Coach';
 import { loadFonts } from '../../configs/design/font';
 import {
@@ -12,6 +15,7 @@ import {
 } from '../../api/Athlete';
 import moment from 'moment';
 import { convertSlotToDate } from '../../helpers/dateHelper';
+import { get_book } from '../../api/Availabilities';
 export default class HomeAhleteController extends AbstractScreenController {
   constructor(component) {
     super(component);
@@ -120,9 +124,14 @@ export default class HomeAhleteController extends AbstractScreenController {
     }
     return arrDays.reverse();
   };
-  getAvailabilities = (item) => {
+  getAvailabilities = async (item) => {
+    const ArrayOfBookedSlot = [];
     const date = moment(item?.availability).format('YYYY-MM-DD');
     const params = { date: date, coach_id: this.component.state.coach_id };
+    const bookOfDay = await get_book_athlete(date);
+    bookOfDay.data.forEach((element) => {
+      ArrayOfBookedSlot.push(element.slot);
+    });
     get_availabilities(params).then((res) => {
       const availabilitiesArray = [];
       const data = [
@@ -152,7 +161,7 @@ export default class HomeAhleteController extends AbstractScreenController {
         { slot: 23, value: res.data.slot_23 },
       ];
       data.forEach((element) => {
-        if (element.value == true) {
+        if (element.value == true || ArrayOfBookedSlot.includes(element.slot)) {
           availabilitiesArray.push(element);
         }
       });

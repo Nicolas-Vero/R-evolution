@@ -17,10 +17,8 @@ export default class SwitchButton extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.state.day !== prevProps.item.date) {
       get_book(this.props.item.date).then((res) => {
-        console.log('ll',res.data,'kk');
         var filterarray = [];
         res.data.forEach((element) => {
-          console.log('toto');
           filterarray.push({
             slot: element.slot,
             first_name: element.athlete.first_name,
