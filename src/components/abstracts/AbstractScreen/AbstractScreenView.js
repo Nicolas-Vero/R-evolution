@@ -8,13 +8,7 @@ import PlatformHelper from '../../../helpers/PlatformHelper';
 export default class AbstractScreenView extends AbstractComponentView {
   abstractRender = () => {
     return (
-      <View
-        style={[
-          styles.container,
-          {
-            backgroundColor: this.component.props.screenBackgroundColor,
-          },
-        ]}>
+      <View style={[styles.container]}>
         <StatusBar barStyle="light-content" backgroundColor="#000" />
         <View
           style={{

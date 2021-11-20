@@ -398,7 +398,7 @@ export default class Dashboard extends React.Component {
             <View style={styles.headerLeft}>
               <TouchableOpacity
                 onPress={() => {
-                  navigate('accountScreen');
+                  navigate('AccountScreen');
                 }}>
                 <View style={styles.userInfoContainer}>
                   <Avatar
@@ -424,7 +424,7 @@ export default class Dashboard extends React.Component {
 
                 <TouchableOpacity
                   onPress={() => {
-                    navigate('activitiesCoachScreen');
+                    navigate('ActivitiesCoachScreen');
                   }}
                   style={styles.headerRightActivities}>
                   <Image

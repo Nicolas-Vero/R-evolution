@@ -59,6 +59,31 @@ module.exports = StyleSheet.create({
   textColored: {
     color: '#2CDEE4',
   },
+  renewContainer: {
+    marginTop: 16,
+    backgroundColor: '#1E2026',
+    alignItems: 'center',
+    paddingVertical: 17,
+    borderRadius: 6,
+  },
+  renewText: {
+    color: '#fff',
+    fontFamily: 'MontserratBoldItalic',
+    fontSize: 9,
+    fontWeight: 'bold',
+  },
+  renewButton: {
+    marginTop: 16,
+    paddingVertical: 8,
+    paddingHorizontal: 25,
+    alignItems: 'center',
+    backgroundColor: '#2CDEE4',
+    borderRadius: 6,
+  },
+  renewButtonText: {
+    fontSize: 11,
+    fontFamily: 'RobotoMedium',
+  },
   flatlist: {
     marginTop: 22,
   },

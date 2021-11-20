@@ -11,40 +11,12 @@ import { Formik } from 'formik';
 import { Text } from 'react-native-elements';
 import { Button } from '../../components/Button';
 import Header from '../../components/Header';
-import { loadFonts } from '../../configs/design/font';
 import { isLoaded } from 'expo-font';
-import { coach_reminder } from '../../api/CoachReminder';
-import * as Notifications from 'expo-notifications';
-import styles from './createReminderCoachStyle';
+import styles from './CreateReminderCoachScreenStyle';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
-export default class createReminderCoachScreen extends React.Component {
-  state = {
-    isLoaded: false,
-  };
-  componentDidMount() {
-    this.scheduleNotification();
-    loadFonts;
-  }
+import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 
-  scheduleNotification = async (value) => {
-    Notifications.setNotificationHandler({
-      handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: true,
-        shouldSetBadge: false,
-      }),
-    });
-    let date = value.date.split('/').reverse().join('-');
-    Notifications.scheduleNotificationAsync({
-      content: {
-        title: value?.title,
-        body: value?.content,
-      },
-      trigger:
-        new Date(date).getTime() - 60000 * 60 * 5 + 60000 * 60 * value.hour,
-    });
-  };
-
+export default class CreateReminderCoachScreenView extends AbstractScreenView {
   render() {
     const colors = ['#2CDEE4', '#FD7279', '#4FE470', '#979797', '#FED32C'];
     if (!isLoaded) {
@@ -72,14 +44,9 @@ export default class createReminderCoachScreen extends React.Component {
                       status: 'ACTIVE',
                       color: '#2CDEE4',
                     }}
-                    onSubmit={(values) => {
-                      console.log(values);
-                      try {
-                        coach_reminder(values).then(navigate('Activitie'));
-                      } catch (error) {
-                        console.log(error);
-                      }
-                    }}>
+                    onSubmit={(values) =>
+                      this.controller.onAddReminderPress(values)
+                    }>
                     {({ handleChange, handleBlur, values }) => (
                       <View>
                         <View>
@@ -201,17 +168,9 @@ export default class createReminderCoachScreen extends React.Component {
                             customTextStyle={styles.buttonText}
                             loading={false}
                             title="Ajouter le Rappel"
-                            onPress={() => {
-                              try {
-                                console.log(values);
-                                coach_reminder(values).then(() => {
-                                  this.scheduleNotification(values);
-                                  navigate('Activitie');
-                                });
-                              } catch (error) {
-                                console.log(error);
-                              }
-                            }}
+                            onPress={() =>
+                              this.controller.onAddReminderPress(values)
+                            }
                           />
                         </View>
                       </View>

@@ -64,7 +64,7 @@ export default class offersCoachScreen extends React.Component {
     return (
       <DeleteOfferDialog
         dialogVisible={this.state.dialogVisible}
-        onClose={() => this.onDismissDialog()}
+        onClose={this.onDismissDialog}
         onDelete={(itemId) => this.onDelete(itemId)}
       />
     );
@@ -73,7 +73,7 @@ export default class offersCoachScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Header title="MES OFFRES" />
-        {/* {this.renderDialog()} */}
+        {this.renderDialog()}
         <View style={styles.content}>
           <AddButton
             customContainerStyles={styles.addButton}
