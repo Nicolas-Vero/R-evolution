@@ -3,6 +3,7 @@ import pendingRequestCoachScreen from '../../screens/pendingRequestCoach/pending
 // import MyInformations from '../../screens/MyInformations';
 import Demande from '../../screens/Demande';
 import homeCoachScreen from '../../screens/homeCoach/homeCoachScreen';
+import HomeCoachScreen from '../../screens/HomeCoachScreen/HomeCoachScreen';
 import createBookCoachScreen from '../../screens/createBookCoach/createBookCoachScreen';
 // import activitiesCoachScreen from '../../screens/activitiesCoach/activitiesCoachScreen';
 import AccountScreen from '../../screens/AccountScreen/AccountScreen';
@@ -22,7 +23,7 @@ const getTabBarVisiblility = (navigation) => {
 const HomeStack = createStackNavigator(
   {
     homeCoachScreen: {
-      screen: homeCoachScreen,
+      screen: HomeCoachScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,

@@ -156,6 +156,7 @@ module.exports = StyleSheet.create({
     fontFamily: 'MontserratBoldItalic',
     fontSize: 15,
     color: '#FFFFFF',
+    marginBottom:10
   },
   appointmentTodayItem: {
     paddingVertical: 3,

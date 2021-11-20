@@ -72,10 +72,7 @@ export default class OffersScreenView extends AbstractScreenView {
         {this.renderDialog()}
         <FlatList
           style={styles.flatlist}
-          data={[
-            ...this.component.state.offers,
-            ...this.component.state.offers,
-          ]}
+          data={this.component.state.offers}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item, index }) => (
             <LinearGradient

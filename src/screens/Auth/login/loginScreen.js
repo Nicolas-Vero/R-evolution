@@ -172,7 +172,7 @@ export default class loginScreen extends React.Component {
                       </Text>
                       <TouchableOpacity
                         onPress={() => {
-                          this.props.navigation.navigate('RegisterScreen');
+                          this.props.navigation.navigate('registerScreen');
                         }}>
                         <Text style={styles.notYetMemberTextColor}>
                           Créer ton compte.
