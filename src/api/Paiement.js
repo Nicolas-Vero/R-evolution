@@ -4,8 +4,8 @@ import { API_URL, STORAGE } from '../configs/Constants';
 import AuthService from '../services/AuthService';
 
 export const create_paiement = async (params) => {
-  const { coach_id, installments, offer_id } = params;
-  const data = { coach_id: coach_id, installments: installments };
+  const { coach_id, installments, offer_id, date, transaction_id } = params;
+  const data = { coach_id: coach_id, installments: installments, date:date, transaction_id:transaction_id};
   const headers = await AuthService.getHeader();
   return axios({
     method: 'POST',

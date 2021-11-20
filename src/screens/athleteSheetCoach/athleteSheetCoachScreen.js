@@ -4,7 +4,6 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-navigation';
-import { get_athlete_active_courses } from '../../api/Athlete';
 import { get_paiement_for_coach } from '../../api/Paiement';
 import HeaderLight from '../../components/HeaderLight';
 import { Image } from 'react-native';
@@ -12,14 +11,17 @@ import { ScrollView } from 'react-native';
 import { loadFonts } from '../../configs/design/font';
 import { Entypo } from '@expo/vector-icons';
 import styles from './athleteSheetCoachStyle';
+import { get_athlete_active_courses_with_param } from '../../api/Coach';
 
 export default class athleteSheetCoachScreen extends React.Component {
   state = {
-    ActiveCourses: [],
+    ActiveCourses:{},
     Paiement: [],
   };
   componentDidMount() {
-    get_athlete_active_courses().then((res) => {
+    loadFonts;
+    get_athlete_active_courses_with_param(this.props.navigation.state.params.item.id).then((res) => {
+      console.log(res.data);
       this.setState({ ActiveCourses: res.data });
     });
     get_paiement_for_coach().then((res) => {
@@ -98,7 +100,7 @@ export default class athleteSheetCoachScreen extends React.Component {
               <View style={styles.item}>
                 <Text style={styles.infoText}>Offre en cours :</Text>
                 <Text style={styles.valueText}>
-                  Pack transformation - 8 séances restantes sur 10
+                <Text style={styles.valueText}>{this.state.ActiveCourses.offer?.title}</Text>
                 </Text>
               </View>
               <View style={styles.item}>
@@ -112,6 +114,13 @@ export default class athleteSheetCoachScreen extends React.Component {
                   // refreshing={this.state.refresh}
                   keyExtractor={(item) => item.id.toString()}
                   renderItem={({ item }) => (
+                    <TouchableOpacity
+                  onPress={() => {
+                    console.log(item);
+                    //navigate('createPaymentScreen',{item:item});
+                  }
+                  }
+                    >
                     <View style={styles.paiementItem}>
                       <Text style={styles.paiementItemText}>
                         {moment(item.created_at).format('L')}
@@ -121,11 +130,12 @@ export default class athleteSheetCoachScreen extends React.Component {
                         {item.mode} - {item.amount}
                       </Text>
                     </View>
+                  </TouchableOpacity>  
                   )}
                 />
                 <TouchableOpacity
                   onPress={() => {
-                    navigate('createPaymentScreen');
+                    navigate('createPaymentScreen',{athlete:this.props.navigation.state.params.item.id});
                   }}
                   style={styles.addPaiementContainer}>
                   <View style={styles.addPaiementIconMargin}>

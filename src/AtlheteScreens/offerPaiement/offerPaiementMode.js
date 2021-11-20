@@ -107,7 +107,7 @@ export default class offerPaimentModeScreen extends React.Component {
                       color: '#2CDEE4',
                       marginRight:15
                     }}>
-                    {offerPurchase.price}€
+                    {offerPurchase.price/100}€
                   </Text>
                 </View>
               </LinearGradient>

@@ -105,7 +105,9 @@ module.exports = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
   },
-
+  scrollView: {
+    maxHeight: 300,
+  },
   paymentItemText: {
     fontSize: 11,
     fontFamily: 'RobotoMedium',

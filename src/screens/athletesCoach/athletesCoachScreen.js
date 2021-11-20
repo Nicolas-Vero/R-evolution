@@ -51,7 +51,6 @@ export default class athletesCoachScreen extends React.Component {
     const inactifs = [];
     const prospects = [];
     data.forEach((element) => {
-      console.log(element.status);
       switch (element.status) {
         case 'active':
           actifs.push(element);

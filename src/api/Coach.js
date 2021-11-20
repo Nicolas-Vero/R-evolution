@@ -37,7 +37,6 @@ export const coach_booking = async (params) => {
     slot: currentSlot,
   };
   const headers = await AuthService.getHeader();
-  console.log('coachID', coach_id, '', currentSlot);
   return axios({
     method: 'POST',
     url: `${API_URL}/coach/book-slot/`,
@@ -46,7 +45,7 @@ export const coach_booking = async (params) => {
   });
 };
 
-export const get_appointement = async (params, navigation) => {
+export const get_appointement = async (params) => {
   const date = params;
   const headers = await AuthService.getHeader();
   return axios({
@@ -57,16 +56,18 @@ export const get_appointement = async (params, navigation) => {
   });
 };
 
-export const add_manual_payment = async (params, navigation) => {
-  const data = params;
+export const add_manual_payment = async (params) => {
+  const {athlete_id, coach_id, installments, offer_id, date, payment_id, amount , mode } = params;
+  const data = {athlete_id:athlete_id, coach_id: coach_id, installments: installments, date:date, payment_id:payment_id, amount:amount , mode:mode};
+  console.log('params',params);
   const headers = await AuthService.getHeader();
   return axios({
     method: 'POST',
-    url: `${API_URL}/coach/${params.id}`,
+    url: `${API_URL}/payment/coach/${offer_id}`,
     headers: headers,
     data: data,
   });
-};
+}
 
 export const get_coach_by_gym_place = async (params, navigation) => {
   const headers = await AuthService.getHeader();
@@ -75,6 +76,14 @@ export const get_coach_by_gym_place = async (params, navigation) => {
     url: `${API_URL}/coach/exercise_place`,
     headers: headers,
     data: data,
+  });
+};
+export const get_athlete_active_courses_with_param = async (param) => { 
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/coach/active-courses/${param}`,
+    headers: headers,
   });
 };
 
