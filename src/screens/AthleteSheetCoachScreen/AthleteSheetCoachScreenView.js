@@ -56,7 +56,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 source={require('../../../assets/images/avatar.png')}
               />
               <Text style={styles.username}>
-                {user.first_name} {user.last_name}aa
+                {user.first_name} {user.last_name}
               </Text>
             </View>
             <Image style={styles.userStatusImage} source={badgeImage} />
