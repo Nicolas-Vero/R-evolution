@@ -2,15 +2,16 @@ import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import { API_URL, STORAGE } from '../configs/Constants';
 import AuthService from '../services/AuthService';
-
+import moment from 'moment'; 
 export const coach_reminder = async (params) => {
-  const data = params;
-  const { title, content, status, color } = params;
+  const { title, content, status, color, date, hour } = params;
+
+  const formatDate = moment(date,'YYYY-MM-DD')
   const headers = await AuthService.getHeader();
   return axios({
     method: 'PUT',
     url: `${API_URL}/coach-reminder`,
-    data: { title: title, content: content, status: status, color: color },
+    data: { title: title, content: content, status: status, color: color, date:formatDate, hour:hour },
     headers: headers,
   });
 };
