@@ -29,7 +29,7 @@ export default class ActivitiesCoachScreenController extends AbstractScreenContr
   }
 
   onDeleteReminder = async (item) => {
-    const deleteReminder = await delete_reminder({ id: item.id });
+    const deleteReminder = await delete_reminder({ reminder_id: item.id });
     console.log(deleteReminder.status);
     if (deleteReminder.status === 200) {
       await this.fetchData();

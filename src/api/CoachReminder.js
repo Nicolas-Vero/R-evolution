@@ -52,10 +52,13 @@ export const reminder_update = (params) => {
 };
 
 export const delete_reminder = async (params) => {
-  const data = params;
+  const {reminder_id} = params;
+  const data ={reminder_id:reminder_id}
+  const headers = await AuthService.getHeader();
   return axios({
     method: 'DELETE',
     url: `${API_URL}/coach-reminder`,
+    headers:headers,
     data: data,
   });
 };
