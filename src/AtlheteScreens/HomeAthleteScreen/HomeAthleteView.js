@@ -450,6 +450,8 @@ export default class HomeAthleteView extends AbstractScreenView {
           </Text>
         </View>
         <FlatList
+          style={{ marginHorizontal: 50 }}
+          contentContainerStyle={{ paddingBottom: 50 }}
           data={this.component.state.currentAvailabilities}
           extraData={this.component.state}
           //onRefresh={onRefresh}
@@ -465,32 +467,34 @@ export default class HomeAthleteView extends AbstractScreenView {
                   marginTop: index === 0 ? 0 : 9,
                 },
               ]}>
-              <Text style={styles.reserveItemText}>
-                {convertSlotToDate(item?.slot)}
-              </Text>
-              {item.value ? (
-                <TouchableOpacity
-                  onPress={() => {
-                    this.controller.onBookOfferPress(item?.slot);
-                  }}
-                  style={styles.reserveItemButton}
-                  title="Réserver ce créneau">
-                  <Text style={styles.reserveItemButtonText}>
-                    Réserver ce créneau
-                  </Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  onPress={() => {
-                    this.controller.onUnbookOfferPress(item.slot);
-                  }}
-                  style={styles.reserveItemButton}
-                  title="Réserver ce créneau">
-                  <Text style={styles.reserveItemButtonText}>
-                    Annuler ce crénneau
-                  </Text>
-                </TouchableOpacity>
-              )}
+              <View style={styles.reserveLeft}>
+                <Text style={styles.reserveItemText}>
+                  {convertSlotToDate(item?.slot)}
+                </Text>
+              </View>
+              <View style={styles.reserveRight}>
+                {item.value ? (
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.controller.onBookOfferPress(item?.slot);
+                    }}
+                    style={styles.reserveItemButton}>
+                    <Text style={styles.reserveItemButtonText}>
+                      Réserver ce créneau
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.controller.onUnbookOfferPress(item.slot);
+                    }}
+                    style={styles.unReserveItemButton}>
+                    <Text style={styles.unReserveItemButtonText}>
+                      Annuler ma réservation
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
             </View>
           )}
         />

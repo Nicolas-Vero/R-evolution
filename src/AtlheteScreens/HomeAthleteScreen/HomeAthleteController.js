@@ -283,6 +283,6 @@ export default class HomeAhleteController extends AbstractScreenController {
       this.getAvailabilities(this.component.state.currentItem);
     }
 
-    this.onDismissBookDialog();
+    this.onDismissUnBookDialog();
   };
 }

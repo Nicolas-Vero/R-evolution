@@ -129,12 +129,18 @@ module.exports = StyleSheet.create({
   reserveItem: {
     marginBottom: 9,
     flexDirection: 'row',
-    justifyContent: 'space-around',
   },
   reserveItemText: {
     color: '#FFFFFF',
     fontSize: 15,
     fontFamily: 'Roboto',
+  },
+  reserveLeft: {
+    alignItems: 'flex-start',
+    flex: 1,
+  },
+  reserveRight: {
+    alignItems: 'flex-end',
   },
   reserveItemButton: {
     borderColor: '#FFF',
@@ -144,6 +150,19 @@ module.exports = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 7,
     paddingVertical: 8,
+  },
+  unReserveItemButton: {
+    backgroundColor: '#2CDEE4',
+    borderRadius: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 11,
+    paddingVertical: 8,
+  },
+  unReserveItemButtonText: {
+    color: '#000',
+    fontFamily: 'Roboto',
+    fontSize: 11,
   },
   reserveItemButtonText: {
     color: '#fff',
