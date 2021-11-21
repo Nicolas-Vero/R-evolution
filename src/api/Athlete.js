@@ -53,16 +53,17 @@ export const get_availabilities = async (params) => {
 };
 
 export const cancel_booking_athlete = async (params) => {
-  const { atlhete_id, date, coach_course_id, currentSlot } = params;
+  const { coach_id, date, athlete_course_id, currentSlot } = params;
   const data = {
+    athlete_course_id:athlete_course_id,
     date: date,
-    coach_course_id: coach_course_id,
-    slot: currentSlot,
+    coach_id:coach_id,
+    currentSlot: currentSlot,
   };
   const headers = await AuthService.getHeader();
   return axios({
     method: 'POST',
-    url: `${API_URL}/coach/book-slot/${bookingid}`,
+    url: `${API_URL}/athlete/cancel-booking/`,
     headers: headers,
     data: data,
   });
