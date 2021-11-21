@@ -49,7 +49,7 @@ export default class CoachSheetScreenView extends AbstractScreenView {
               <Text style={styles.username}>
                 {`${this.component.state.coach?.first_name} ${this.component.state.coach?.last_name}`}
               </Text>
-              <Text style={styles.trainingPlace}>Nom de la salle</Text>
+              <Text style={styles.trainingPlace}>{this.component.state.coach?.gym.name}</Text>
             </View>
             <View style={styles.content}>
               <ScrollView style={styles.scrollView}>
