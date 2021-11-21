@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, SafeAreaView, Dimensions } from 'react-native';
+import { View, TextInput, SafeAreaView, Keyboard } from 'react-native';
 import { Formik } from 'formik';
 import { CheckBox, Text } from 'react-native-elements';
 import { Button } from '../../components/Button';

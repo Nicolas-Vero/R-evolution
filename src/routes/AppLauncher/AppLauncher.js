@@ -38,7 +38,6 @@ export default class AppLauncher extends React.Component {
     ContextService.set('current_navigation', this.props.navigation);
     const navigation = ContextService.get('current_navigation');
     let stack = 'Entry';
-    console.log(auth?.user.type);
     if (auth) {
       stack =
         auth.user.type === 'coach' ? 'DashboardStack' : 'DashboardStackAtlhete';

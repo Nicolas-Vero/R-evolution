@@ -44,7 +44,20 @@ export default class SwitchButton extends Component {
     return currentBook;
   }
 
+  async test(slots, item) {
+    const req = await update_availabilities({
+      slots,
+      date: item.date,
+    });
+    console.log(req.status);
+    this.props.handler && this.props.handler(item.date);
+    // update_availabilities(onChangeParams).then(get_availabilities())
+  }
   getSlot(time, status, item, slots) {
+    console.log('time', time);
+    console.log('status', status);
+    console.log('item', item);
+    console.log('slots', slots);
     const { disabled } = this.props;
     var handler = this.props.handler;
     const currentBook = this.daybooked(
@@ -70,12 +83,7 @@ export default class SwitchButton extends Component {
           uncheckedIcon="dot-circle-o"
           checked={status === true}
           value={status}
-          onPress={() => {
-            update_availabilities({ slots, date: item.date }).then(() => {
-              handler(item.date);
-            });
-            // update_availabilities(onChangeParams).then(get_availabilities())
-          }}
+          onPress={() => this.test(slots, item)}
         />
       </View>
     );
