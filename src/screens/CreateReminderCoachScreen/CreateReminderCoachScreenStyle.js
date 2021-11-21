@@ -17,8 +17,8 @@ module.exports = StyleSheet.create({
     flex: 1,
   },
   formContainer: {
-    marginTop: 70,
-    paddingHorizontal: 15,
+    marginTop: 30,
+    paddingHorizontal: 16,
   },
   formRow: {
     flexDirection: 'row',

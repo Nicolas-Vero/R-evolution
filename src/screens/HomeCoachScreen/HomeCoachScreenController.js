@@ -4,6 +4,7 @@ import { get_availabilities } from '../../api/Availabilities';
 import { get_appointement } from '../../api/Coach';
 import * as Notifications from 'expo-notifications';
 import { options, LocaleConfig } from './homeCoachConfig';
+import AuthService from '../../services/AuthService';
 
 export default class HomeCoachScreenController extends AbstractScreenController {
   constructor(component) {
@@ -12,12 +13,9 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     this.initialState = {
       refresh: false,
       carousselLoad: false,
-      user: { name: 'Florian GALOPIN', avatar: 'string avatar' },
+      user: {},
       screen: 'Planning',
-      user: {
-        name: 'toto',
-        avatar: '../../../assets/icon.png',
-      },
+
       selectedDate: '',
       items: [
         {
@@ -83,6 +81,9 @@ export default class HomeCoachScreenController extends AbstractScreenController 
   };
 
   async componentDidMount() {
+    const user = await AuthService.getUser();
+    console.log('user', user);
+    this.component.setState({ user });
     const curDate = moment().format('YYYY-MM-DD');
     this.component.setState({ today: curDate });
     this.changeTaskList(curDate);
@@ -140,9 +141,8 @@ export default class HomeCoachScreenController extends AbstractScreenController 
   getAvailabilities(item) {
     const date = moment(item).format('YYYY-MM-DD');
     get_availabilities(date).then((res) => {
-      console.log('res.data', res.data);
       this.component.setState({ currentAvailabilities: res.data });
-      this.component.setState({ refresh: !this.state.refresh });
+      this.component.setState({ refresh: !this.component.state.refresh });
     });
   }
 

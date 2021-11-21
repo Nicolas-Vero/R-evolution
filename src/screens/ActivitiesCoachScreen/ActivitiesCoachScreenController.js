@@ -13,6 +13,7 @@ export default class ActivitiesCoachScreenController extends AbstractScreenContr
   }
   async componentDidMount() {
     const reminders = await get_coach_reminder();
+    console.log(reminders.data);
     if (reminders.status === 200) {
       this.component.setState({
         reminders: reminders.data.reminders,

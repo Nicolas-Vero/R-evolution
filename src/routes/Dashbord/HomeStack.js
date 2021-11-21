@@ -1,16 +1,14 @@
 import { createStackNavigator } from 'react-navigation-stack';
-import pendingRequestCoachScreen from '../../screens/pendingRequestCoach/pendingRequestCoachScreen';
+import PendingRequestCoachScreen from '../../screens/PendingRequestCoachScreen/PendingRequestCoachScreen';
 // import MyInformations from '../../screens/MyInformations';
-import Demande from '../../screens/Demande';
-import homeCoachScreen from '../../screens/homeCoach/homeCoachScreen';
 import HomeCoachScreen from '../../screens/HomeCoachScreen/HomeCoachScreen';
-import createBookCoachScreen from '../../screens/createBookCoach/createBookCoachScreen';
 // import activitiesCoachScreen from '../../screens/activitiesCoach/activitiesCoachScreen';
 import AccountScreen from '../../screens/AccountScreen/AccountScreen';
-import treshRequestCoachScreen from '../../screens/trestRequestCoach/trestRequestCoachScreen';
+import TreshRequestCoachScreen from '../../screens/TreshRequestCoachScreen/TreshRequestCoachScreen';
 import ProfileCoachScreen from '../../screens/ProfileCoachScreen/ProfileCoachScreen';
 import ActivitiesCoachScreen from '../../screens/ActivitiesCoachScreen/ActivitiesCoachScreen';
 import CreateReminderCoachScreen from '../../screens/CreateReminderCoachScreen/CreateReminderCoachScreen';
+import CreateBookCoachScreen from '../../screens/CreateBookCoachScreen/CreateBookCoachScreen';
 const getTabBarVisiblility = (navigation) => {
   const route = navigation.state.routeName;
   console.log(route);
@@ -30,8 +28,8 @@ const HomeStack = createStackNavigator(
         swipeEnabled: false,
       },
     },
-    createBookCoachScreen: {
-      screen: createBookCoachScreen,
+    CreateBookCoachScreen: {
+      screen: CreateBookCoachScreen,
       navigationOptions: ({ navigation }) => ({
         gestureEnabled: false,
         headerShown: false,
@@ -72,15 +70,15 @@ const HomeStack = createStackNavigator(
         headerShown: false,
       },
     },
-    pendingRequestCoachScreen: {
-      screen: pendingRequestCoachScreen,
+    PendingRequestCoachScreen: {
+      screen: PendingRequestCoachScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
       },
     },
-    treshRequestCoachScreen: {
-      screen: treshRequestCoachScreen,
+    TreshRequestCoachScreen: {
+      screen: TreshRequestCoachScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,

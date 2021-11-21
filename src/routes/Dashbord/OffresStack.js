@@ -2,35 +2,35 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Ionicons } from '@expo/vector-icons';
 // Auth import
-import offersTrainingsCoachScreen from '../../screens/offersTrainingsCoach/offersTrainingsCoachScreen';
-import offersCoachScreen from '../../screens/offersCoach/offersCoachScreen';
-import createOfferCoachScreen from '../../screens/createOfferCoach/createOfferCoachScreen';
-import updateOfferCoachScreen from '../../screens/updateOfferCoach/updateOfferCoachScreen';
+import OffersCoachScreen from '../../screens/OffersCoachScreen/OffersCoachScreen';
+import UpdateOfferCoachScreen from '../../screens/UpdateOfferCoachScreen/UpdateOfferCoachScreen';
+import OffersTrainingsCoachScreen from '../../screens/OffersTrainingsCoachScreen/OffersTrainingsCoachScreen';
+import CreateOfferCoachScreen from '../../screens/CreateOfferCoachScreen/CreateOfferCoachScreen';
 const OffresStack = createStackNavigator(
   {
-    offersTrainingsCoachScreen: {
-      screen: offersTrainingsCoachScreen,
+    OffersTrainingsCoachScreen: {
+      screen: OffersTrainingsCoachScreen,
       navigationOptions: {
         headerShown: false,
       },
     },
-    offersCoachScreen: {
-      screen: offersCoachScreen,
+    OffersCoachScreen: {
+      screen: OffersCoachScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,
       },
     },
-    createOfferCoachScreen: {
-      screen: createOfferCoachScreen,
+    CreateOfferCoachScreen: {
+      screen: CreateOfferCoachScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,
       },
     },
 
-    updateOfferCoachScreen: {
-      screen: updateOfferCoachScreen,
+    UpdateOfferCoachScreen: {
+      screen: UpdateOfferCoachScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,

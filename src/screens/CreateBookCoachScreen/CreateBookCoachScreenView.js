@@ -1,0 +1,435 @@
+import React from 'react';
+import { View, TextInput, SafeAreaView } from 'react-native';
+import SelectDropdown from 'react-native-select-dropdown';
+import { Formik } from 'formik';
+import { CheckBox, Text } from 'react-native-elements';
+import { ScrollView } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import moment from 'moment';
+import { Button } from '../../components/Button';
+import Header from '../../components/Header';
+import { slots, formConfig } from './createBookCoachConfig';
+import styles from './CreateBookCoachScreenStyle';
+import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
+export default class CreateBookCoachScreenView extends AbstractScreenView {
+  render() {
+    if (!this.component.state.isLoaded) {
+      return <View></View>;
+    }
+    return (
+      <View style={styles.container}>
+        <LinearGradient
+          colors={['black', '#2D333C']}
+          start={{
+            x: 0,
+            y: 0,
+          }}
+          end={{
+            x: 1,
+            y: 1,
+          }}
+          style={styles.background}>
+          <SafeAreaView style={styles.safeArea} />
+          <Header title="AJOUTER UN RDV" />
+          <View style={styles.content}>
+            <Formik
+              initialValues={formConfig}
+              onSubmit={(values, { onLoginPress }) => onLoginPress(values)}>
+              {({ handleChange, handleBlur, setFieldValue, values }) => (
+                <View>
+                  <View style={{ flexDirection: 'column', marginBottom: 15 }}>
+                    <CheckBox
+                      containerStyle={styles.checkBoxContainer}
+                      title="Mes athlètes actifs"
+                      checkedIcon="dot-circle-o"
+                      uncheckedIcon="dot-circle-o"
+                      checkedColor="#2CDEE4"
+                      textStyle={styles.checkBoxText}
+                      checked={values.type === 'Actifs'}
+                      value={values.type}
+                      onPress={() => {
+                        setFieldValue('type', 'Actifs'),
+                          this.component.setState({ type: 'Actifs' });
+                        this.component.setState({ isProspect: false });
+                      }}
+                    />
+                    {this.component.state.type == 'Actifs' ? (
+                      <View>
+                        <SelectDropdown
+                          buttonStyle={styles.dropdownButton}
+                          buttonTextStyle={styles.dropdownButtonText}
+                          rowTextStyle={styles.dropdownRowText}
+                          dropdownStyle={styles.dropdownBg}
+                          rowStyle={styles.dropdownRow}
+                          data={[this.component.state.atlhetesActifs]}
+                          defaultButtonText={'Choisir'}
+                          onSelect={(selectedItem, index) => {
+                            // console.log(selectedItem, index);
+                          }}
+                          renderDropdownIcon={() => {
+                            return (
+                              <AntDesign name="down" size={18} color="black" />
+                            );
+                          }}
+                          dropdownIconPosition={'right'}
+                          buttonTextAfterSelection={(selectedItem, index) => {
+                            return selectedItem;
+                          }}
+                          rowTextForSelection={(item, index) => {
+                            return item;
+                          }}
+                        />
+                      </View>
+                    ) : null}
+                    <CheckBox
+                      containerStyle={styles.checkBoxContainer}
+                      title="Mes athlètes inactifs"
+                      checkedIcon="dot-circle-o"
+                      uncheckedIcon="dot-circle-o"
+                      checkedColor="#2CDEE4"
+                      textStyle={styles.checkBoxText}
+                      checked={values.type.toString() === 'Inactifs'}
+                      value={values.type}
+                      onPress={() => {
+                        setFieldValue('type', 'Inactifs'),
+                          this.component.setState({ type: 'Inactifs' });
+                        this.component.setState({ isProspect: false });
+                      }}
+                    />
+                    {this.component.state.type == 'Inactifs' ? (
+                      <View>
+                        <SelectDropdown
+                          buttonStyle={styles.dropdownButton}
+                          buttonTextStyle={styles.dropdownButtonText}
+                          rowTextStyle={styles.dropdownRowText}
+                          dropdownStyle={styles.dropdownBg}
+                          rowStyle={styles.dropdownRow}
+                          data={this.component.state.atlhetesInactifs}
+                          defaultButtonText={'Choisir'}
+                          onSelect={(selectedItem, index) => {
+                            // console.log(selectedItem, index);
+                          }}
+                          renderDropdownIcon={() => {
+                            return (
+                              <AntDesign name="down" size={18} color="black" />
+                            );
+                          }}
+                          dropdownIconPosition={'right'}
+                          buttonTextAfterSelection={(selectedItem, index) => {
+                            return selectedItem;
+                          }}
+                          rowTextForSelection={(item, index) => {
+                            return item;
+                          }}
+                        />
+                      </View>
+                    ) : null}
+
+                    <CheckBox
+                      containerStyle={styles.checkBoxContainer}
+                      title="Prospects"
+                      checkedColor="#2CDEE4"
+                      checkedIcon="dot-circle-o"
+                      textStyle={styles.checkBoxText}
+                      uncheckedIcon="dot-circle-o"
+                      checked={values.type.toString() === 'Prospect'}
+                      value={values.type}
+                      onPress={() => {
+                        setFieldValue('type', 'Prospect'),
+                          this.component.setState({ type: 'Prospect' });
+                        this.component.setState({ isProspect: true });
+                      }}
+                    />
+                    {this.component.state.type == 'Prospect' ? (
+                      <View>
+                        <SelectDropdown
+                          buttonStyle={styles.dropdownButton}
+                          buttonTextStyle={styles.dropdownButtonText}
+                          rowTextStyle={styles.dropdownRowText}
+                          dropdownStyle={styles.dropdownBg}
+                          rowStyle={styles.dropdownRow}
+                          data={this.component.state.atlhetesProspects}
+                          defaultButtonText={'Choisir un prospect existant'}
+                          onSelect={(selectedItem, index) => {
+                            // console.log(selectedItem, index);
+                          }}
+                          renderDropdownIcon={() => {
+                            return (
+                              <AntDesign name="down" size={18} color="black" />
+                            );
+                          }}
+                          dropdownIconPosition={'right'}
+                          buttonTextAfterSelection={(selectedItem, index) => {
+                            return selectedItem;
+                          }}
+                          rowTextForSelection={(item, index) => {
+                            return item;
+                          }}
+                        />
+                        <ScrollView style={styles.scrollView}>
+                          <View>
+                            <Text style={styles.addProspectText}>
+                              Ou ajouter un Prospect
+                            </Text>
+                            <View>
+                              <View style={styles.addProspectCheckBoxContainer}>
+                                <CheckBox
+                                  containerStyle={styles.checkBoxContainer}
+                                  title="M"
+                                  checkedColor="#2CDEE4"
+                                  checkedIcon="dot-circle-o"
+                                  textStyle={styles.checkBoxText}
+                                  uncheckedIcon="dot-circle-o"
+                                  checked={values.gender.toString() === 'male'}
+                                  value={values.gender}
+                                  onPress={() =>
+                                    setFieldValue('gender', 'male')
+                                  }
+                                />
+                                <CheckBox
+                                  containerStyle={styles.checkBoxContainer}
+                                  title="Mme"
+                                  checkedColor="#2CDEE4"
+                                  checkedIcon="dot-circle-o"
+                                  textStyle={styles.checkBoxText}
+                                  uncheckedIcon="dot-circle-o"
+                                  checked={values.gender === 'female'}
+                                  value={values.gender}
+                                  onPress={() =>
+                                    setFieldValue('gender', 'female')
+                                  }
+                                />
+                              </View>
+                              <View style={styles.inputContainer}>
+                                <TextInput
+                                  name="first_name"
+                                  placeholder="Prénom"
+                                  placeholderTextColor="#979797"
+                                  style={styles.input}
+                                  onChangeText={handleChange('last_name')}
+                                  onBlur={handleBlur('last_name')}
+                                  value={values.last_name}
+                                  onSubmitEditing={() =>
+                                    this.lastNameInput &&
+                                    this.lastNameInput.focus()
+                                  }
+                                  blurOnSubmit={false}
+                                  returnKeyType="next"
+                                />
+                              </View>
+                              <View style={styles.inputContainer}>
+                                <TextInput
+                                  name="last_name"
+                                  placeholder="Nom"
+                                  placeholderTextColor="#979797"
+                                  ref={(ref) => (this.lastNameInput = ref)}
+                                  style={styles.input}
+                                  onChangeText={handleChange('first_name')}
+                                  onBlur={handleBlur('first_name')}
+                                  value={values.last_name}
+                                  onSubmitEditing={() =>
+                                    this.emailInput && this.emailInput.focus()
+                                  }
+                                  blurOnSubmit={false}
+                                  returnKeyType="next"
+                                />
+                              </View>
+
+                              <View style={styles.inputContainer}>
+                                <TextInput
+                                  name="email"
+                                  placeholder="Email"
+                                  placeholderTextColor="#979797"
+                                  ref={(ref) => (this.emailInput = ref)}
+                                  style={styles.input}
+                                  onChangeText={handleChange('email')}
+                                  onBlur={handleBlur('email')}
+                                  value={values.email}
+                                  onSubmitEditing={() =>
+                                    this.phoneInput && this.phoneInput.focus()
+                                  }
+                                  blurOnSubmit={false}
+                                  autoCapitalize="none"
+                                  returnKeyType="next"
+                                />
+                              </View>
+                              <View style={styles.inputContainer}>
+                                <TextInput
+                                  name="phone"
+                                  placeholder="Téléphone"
+                                  placeholderTextColor="#979797"
+                                  ref={(ref) => (this.phoneInput = ref)}
+                                  style={styles.input}
+                                  onChangeText={handleChange('phone')}
+                                  onBlur={handleBlur('phone')}
+                                  value={values.phone}
+                                  onSubmitEditing={() =>
+                                    this.descriptionInput &&
+                                    this.descriptionInput.focus()
+                                  }
+                                  blurOnSubmit={false}
+                                  returnKeyType="next"
+                                />
+                              </View>
+                              <View style={styles.inputContainer}>
+                                <View>
+                                  <SelectDropdown
+                                    buttonStyle={styles.dropdownButton}
+                                    buttonTextStyle={styles.dropdownButtonText}
+                                    rowTextStyle={styles.dropdownRowText}
+                                    dropdownStyle={styles.dropdownBg}
+                                    rowStyle={styles.dropdownRow}
+                                    data={slots}
+                                    defaultButtonText={'choisir un créneau'}
+                                    onSelect={(selectedItem, index) => {
+                                      // console.log(selectedItem, index);
+                                    }}
+                                    renderDropdownIcon={() => {
+                                      return (
+                                        <AntDesign
+                                          name="down"
+                                          size={24}
+                                          color="black"
+                                        />
+                                      );
+                                    }}
+                                    dropdownIconPosition={'right'}
+                                    buttonTextAfterSelection={(
+                                      selectedItem,
+                                      index,
+                                    ) => {
+                                      return (
+                                        moment(selectedItem.date).format(
+                                          'dddd D MMMM ',
+                                        ) +
+                                        '   ' +
+                                        slots[selectedItem.slot]
+                                      );
+                                    }}
+                                    rowTextForSelection={(item, index) => {
+                                      values.slot = item.slot;
+                                      values.date = item.date;
+
+                                      return (
+                                        moment(item.date).format(
+                                          'dddd D MMMM ',
+                                        ) +
+                                        '   ' +
+                                        slots[index]
+                                      );
+                                    }}
+                                  />
+                                </View>
+                              </View>
+                              <View style={styles.inputContainer}>
+                                <TextInput
+                                  placeholder="Description"
+                                  multiline={true}
+                                  ref={(ref) => (this.descriptionInput = ref)}
+                                  style={{
+                                    backgroundColor: '#FFFFFF',
+                                    paddingTop: 10,
+                                    paddingBottom: 10,
+                                    paddingLeft: 15,
+                                    paddingRight: 15,
+                                    height: 100,
+                                  }}
+                                  onChangeText={handleChange('Description')}
+                                  onBlur={handleBlur('Description')}
+                                  value={values.description}
+                                />
+                              </View>
+                            </View>
+                          </View>
+                          <Button
+                            style={{
+                              paddingTop: 10,
+                              paddingBottom: 10,
+                              paddingLeft: 15,
+                              paddingRight: 15,
+                            }}
+                            loading={false}
+                            customTextStyle={{
+                              color: 'black',
+                              fontFamily: 'RobotoBold',
+                              fontWeight: 'bold',
+                              fontSize: 15,
+                            }}
+                            title="Valider"
+                            onPress={() => {
+                              this.controller.onInviteProspectPress(values);
+                            }}
+                          />
+                        </ScrollView>
+                      </View>
+                    ) : (
+                      <View>
+                        <View>
+                          <SelectDropdown
+                            buttonStyle={styles.dropdownButton}
+                            buttonTextStyle={styles.dropdownButtonText}
+                            rowTextStyle={styles.dropdownRowText}
+                            dropdownStyle={styles.dropdownBg}
+                            rowStyle={styles.dropdownRow}
+                            data={slots}
+                            defaultButtonText={'choisir un créneau'}
+                            onSelect={(selectedItem, index) => {
+                              // console.log(selectedItem, index);
+                            }}
+                            renderDropdownIcon={() => {
+                              return (
+                                <AntDesign
+                                  name="down"
+                                  size={24}
+                                  color="black"
+                                />
+                              );
+                            }}
+                            dropdownIconPosition={'right'}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                              // text represented after item is selected
+                              // if data array is an array of objects then return selectedItem.property to render after item is selected
+                              return (
+                                moment(selectedItem.date).format(
+                                  'dddd D MMMM ',
+                                ) +
+                                '   ' +
+                                slots[index]
+                              );
+                            }}
+                            rowTextForSelection={(item, index) => {
+                              values.date = item.date;
+                              values.slot = item.slot;
+                              return (
+                                moment(item.date).format('dddd D MMMM ') +
+                                '   ' +
+                                slots[index]
+                              );
+                            }}
+                          />
+                        </View>
+                      </View>
+                    )}
+                  </View>
+
+                  <View style={styles.buttonContainer}>
+                    <Button
+                      style={styles.button}
+                      customTextStyle={styles.buttonText}
+                      loading={false}
+                      title="Valider"
+                      onPress={() => {
+                        this.controller.onCreateBookPress(values);
+                      }}
+                    />
+                  </View>
+                </View>
+              )}
+            </Formik>
+          </View>
+        </LinearGradient>
+      </View>
+    );
+  }
+}

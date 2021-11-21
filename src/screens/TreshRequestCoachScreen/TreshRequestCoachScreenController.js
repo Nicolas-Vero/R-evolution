@@ -1,0 +1,48 @@
+import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
+import { assign_request } from '../../api/Request';
+
+export default class TreshRequestCoachScreenController extends AbstractScreenController {
+  constructor(component) {
+    super(component);
+
+    this.initialState = {
+      Athlete: props.navigation.state.params.item,
+      isLoaded: false,
+      dialogVisible: false,
+      requestId: props.navigation.state.params.item.id,
+      isValidate: false,
+    };
+  }
+
+  componentDidMount() {
+    this.component.setState({ isLoaded: true });
+  }
+
+  onOpenDialog = () => {
+    this.component.setState({ dialogVisible: true });
+  };
+
+  onDismissDialog = () => {
+    this.component.setState({ dialogVisible: !this.state.dialogVisible });
+  };
+
+  onValidate = () => {
+    if (!this.component.state.requestId) return;
+    try {
+      assign_request(this.component.state.requestId).then(() => {
+        this.component.setState({ isValidate: true });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  onNavigateToUserSheet = () => {
+    if (!this.component.state.isValidate) return;
+    this.onDismissDialog();
+    this.component.props.navigation.popToTop();
+    this.component.props.navigation.navigate('AthleteSheetCoachScreen', {
+      item: this.state.Athlete.athlete,
+    });
+  };
+}

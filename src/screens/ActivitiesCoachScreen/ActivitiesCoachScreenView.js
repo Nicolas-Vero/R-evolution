@@ -42,7 +42,6 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
           // refreshing={this.component.state.refresh}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item, index }) => {
-            console.log(index, item);
             return (
               <Swipeable
                 key={index}
@@ -84,7 +83,9 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
   };
   render() {
     return !this.component.state.isLoaded ? (
-      <ActivityIndicator size="large" color="#2CDEE4" />
+      <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+        <ActivityIndicator size="large" color="#2CDEE4" />
+      </View>
     ) : (
       <View style={styles.container}>
         <Header title="ACTIVITÉ" />

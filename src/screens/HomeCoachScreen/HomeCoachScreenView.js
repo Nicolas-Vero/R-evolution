@@ -108,7 +108,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             <TouchableOpacity
               style={styles.addBookContainer}
               onPress={() => {
-                navigate('createBookCoachScreen');
+                navigate('CreateBookCoachScreen');
               }}>
               <Image
                 source={require('../../../assets/images/Group_8766.png')}
@@ -194,6 +194,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               </TouchableOpacity>
             </View>
             <FlatList
+              contentContainerStyle={{ paddingBottom: 50 }}
               style={{ maxHeight: heightPercentageToDP(50), marginTop: 5 }}
               data={[this.component.state.currentAvailabilities]}
               //      onRefresh={onRefresh}
@@ -233,14 +234,15 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                     }}
                   />
                   <Text style={styles.username}>
-                    {this.component.state.user.name}
+                    {this.component.state.user.first_name}{' '}
+                    {this.component.state.user.last_name}
                   </Text>
                 </View>
               </TouchableOpacity>
               <View style={styles.headerRight}>
                 <TouchableOpacity
                   onPress={() => {
-                    navigate('pendingRequestCoachScreen');
+                    navigate('PendingRequestCoachScreen');
                   }}>
                   <Image
                     style={styles.headerRightImage}

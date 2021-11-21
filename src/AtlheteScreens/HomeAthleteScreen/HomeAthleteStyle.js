@@ -127,6 +127,7 @@ module.exports = StyleSheet.create({
     fontFamily: 'MontserratMedium',
   },
   reserveItem: {
+    backgroundColor: 'red',
     marginBottom: 9,
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -156,7 +157,7 @@ module.exports = StyleSheet.create({
     fontFamily: 'MontserratBoldItalic',
     fontSize: 15,
     color: '#FFFFFF',
-    marginBottom:10
+    marginBottom: 10,
   },
   appointmentTodayItem: {
     paddingVertical: 3,

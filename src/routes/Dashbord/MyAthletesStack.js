@@ -1,26 +1,26 @@
 import { createStackNavigator } from 'react-navigation-stack';
-import activitiesCoachScreen from '../../screens/activitiesCoach/activitiesCoachScreen';
-import athleteSheetCoachScreen from '../../screens/athleteSheetCoach/athleteSheetCoachScreen';
+import ActivitiesCoachScreen from '../../screens/ActivitiesCoachScreen/ActivitiesCoachScreen';
 import createPaymentScreen from '../../screens/createPayment/createPaymentScreen';
-import athletesCoachScreen from '../../screens/athletesCoach/athletesCoachScreen';
+import AthletesCoachScreen from '../../screens/AthletesCoachScreen/AthletesCoachScreen';
+import AthleteSheetCoachScreen from '../../screens/AthleteSheetCoachScreen/AthleteSheetCoachScreen';
 const MyAthletesStack = createStackNavigator(
   {
-    athletesCoachScreen: {
-      screen: athletesCoachScreen,
+    AthletesCoachScreen: {
+      screen: AthletesCoachScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,
       },
     },
-    athleteSheetCoachScreen: {
-      screen: athleteSheetCoachScreen,
+    AthleteSheetCoachScreen: {
+      screen: AthleteSheetCoachScreen,
       navigationOptions: {
         tabBarVisible: false,
         headerShown: false,
       },
     },
     AthletesProfils: {
-      screen: activitiesCoachScreen,
+      screen: ActivitiesCoachScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,
