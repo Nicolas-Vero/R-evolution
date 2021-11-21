@@ -127,7 +127,6 @@ module.exports = StyleSheet.create({
     fontFamily: 'MontserratMedium',
   },
   reserveItem: {
-    backgroundColor: 'red',
     marginBottom: 9,
     flexDirection: 'row',
     justifyContent: 'space-around',

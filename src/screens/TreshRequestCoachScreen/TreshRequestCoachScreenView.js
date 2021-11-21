@@ -136,7 +136,7 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                       <Text style={styles.infoText}>Poids :</Text>
                       <Text style={styles.valueTextRow}>
                         {' '}
-                        {this.componentv.state.Athlete.athlete?.weight}Kg
+                        {this.component.state.Athlete.athlete?.weight}Kg
                       </Text>
                     </View>
                   </View>

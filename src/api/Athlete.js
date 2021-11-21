@@ -52,7 +52,7 @@ export const get_availabilities = async (params) => {
   });
 };
 
-export const cancel_booking_athlete = async(params) =>{
+export const cancel_booking_athlete = async (params) => {
   const { atlhete_id, date, coach_course_id, currentSlot } = params;
   const data = {
     date: date,
@@ -67,7 +67,6 @@ export const cancel_booking_athlete = async(params) =>{
     data: data,
   });
 };
-
 
 export const get_athlete_active_appointement = async (params) => {
   const data = params;
@@ -109,13 +108,13 @@ export const get_athlete_appointement = async (params) => {
 };
 export const get_book_athlete = async (params) => {
   const headers = await AuthService.getHeader();
-  const date =  params
+  const date = params;
   console.log(params);
   return axios({
     method: 'GET',
     url: `${API_URL}/athlete/appointments/day`,
     headers: headers,
-    params:{ date: date },
+    params: { date: date },
   });
 };
 

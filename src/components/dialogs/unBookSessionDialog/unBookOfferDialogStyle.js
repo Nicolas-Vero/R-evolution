@@ -5,7 +5,6 @@ module.exports = StyleSheet.create({
   dialog: {
     backgroundColor: '#1E2026',
     borderRadius: 3,
-    paddingHorizontal: 16,
   },
   title: {
     color: '#fff',
@@ -15,6 +14,9 @@ module.exports = StyleSheet.create({
     margin: 0,
     padding: 0,
     marginVertical: 30,
+  },
+  textColored: {
+    color: '#2CDEE4',
   },
   buttonContainer: {
     alignItems: 'center',

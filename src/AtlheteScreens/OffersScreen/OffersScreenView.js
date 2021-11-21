@@ -118,7 +118,7 @@ export default class OffersScreenView extends AbstractScreenView {
       return (
         <View style={styles.container}>
           <SafeAreaView>
-            <Header title="LES OFFRES" />
+            <Header title="LES OFFRES" disableBackPress />
             <View style={styles.alignCenter}>
               {this.renderSwitchSelector()}
               {this.component.state.screen == 'EN COURS' ? (

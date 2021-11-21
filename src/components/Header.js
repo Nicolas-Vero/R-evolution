@@ -13,12 +13,22 @@ const { width } = Dimensions.get('window');
 
 class Header extends React.Component {
   render() {
-    const { title, navigation } = this.props;
+    const { title, navigation, disableBackPress } = this.props;
+    console.log(disableBackPress);
+
+    if (disableBackPress) {
+      return (
+        <View style={defaultStyle.containerWithTitle}>
+          <View style={defaultStyle.title}>
+            <Text style={defaultStyle.text}>{title}</Text>
+          </View>
+        </View>
+      );
+    }
     return (
       <View style={defaultStyle.container}>
         <View style={{ flex: 1 }}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image
               source={require('../../assets/icons/header-back.png')}
               style={defaultStyle.image}
@@ -36,6 +46,12 @@ class Header extends React.Component {
 export default withNavigation(Header);
 
 const defaultStyle = StyleSheet.create({
+  containerWithTitle: {
+    alignItems: 'center',
+    marginTop: 26,
+    marginBottom: 20,
+  },
+  title: { alignItems: 'center' },
   container: {
     flexDirection: 'row',
     alignItems: 'center',

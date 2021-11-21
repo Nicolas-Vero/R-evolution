@@ -6,10 +6,10 @@ export default class TreshRequestCoachScreenController extends AbstractScreenCon
     super(component);
 
     this.initialState = {
-      Athlete: props.navigation.state.params.item,
+      Athlete: component.props.navigation.state.params.item,
       isLoaded: false,
       dialogVisible: false,
-      requestId: props.navigation.state.params.item.id,
+      requestId: component.props.navigation.state.params.item.id,
       isValidate: false,
     };
   }
@@ -23,7 +23,9 @@ export default class TreshRequestCoachScreenController extends AbstractScreenCon
   };
 
   onDismissDialog = () => {
-    this.component.setState({ dialogVisible: !this.state.dialogVisible });
+    this.component.setState({
+      dialogVisible: !this.component.state.dialogVisible,
+    });
   };
 
   onValidate = () => {
@@ -42,7 +44,7 @@ export default class TreshRequestCoachScreenController extends AbstractScreenCon
     this.onDismissDialog();
     this.component.props.navigation.popToTop();
     this.component.props.navigation.navigate('AthleteSheetCoachScreen', {
-      item: this.state.Athlete.athlete,
+      item: this.component.state.Athlete.athlete,
     });
   };
 }

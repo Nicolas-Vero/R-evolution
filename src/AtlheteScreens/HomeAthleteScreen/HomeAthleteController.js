@@ -5,17 +5,14 @@ import AuthService from '../../services/AuthService';
 import {
   get_athlete_active_appointement,
   get_book_athlete,
-} from '../../api/Athlete';
-import { get_coach_by_id } from '../../api/Coach';
-import { loadFonts } from '../../configs/design/font';
-import {
   athlete_booking,
   get_athlete_active_courses,
   get_availabilities,
+  cancel_booking_athlete,
 } from '../../api/Athlete';
+import { get_coach_by_id } from '../../api/Coach';
 import moment from 'moment';
 import { convertSlotToDate } from '../../helpers/dateHelper';
-import { get_book } from '../../api/Availabilities';
 export default class HomeAhleteController extends AbstractScreenController {
   constructor(component) {
     super(component);
@@ -29,7 +26,7 @@ export default class HomeAhleteController extends AbstractScreenController {
       coach_id: '',
       coach: {},
       currentDate: '',
-      modalVisible: false,
+      isBookOfferDialogVisible: false,
       currentAvailabilities: [],
       book: [],
       currentItem: [],
@@ -48,18 +45,16 @@ export default class HomeAhleteController extends AbstractScreenController {
     try {
       this.notificationListener = Notifications.addNotificationReceivedListener(
         (notification) => {
-          console.log('[Notification-A-Dashboard]', notification);
           this.sendNotificationImmediately(notification);
         },
       );
       this.responseListener =
         Notifications.addNotificationResponseReceivedListener((response) => {
-          console.log('[Response-A-Dashboard]', response);
           this.sendNotificationImmediately(response);
           this.props.navigation.push('Activitie');
         });
     } catch (error) {
-      console.log('[Error]', error);
+      // console.log('[Error]', error);
     }
 
     let user = await AuthService.getUser();
@@ -87,7 +82,6 @@ export default class HomeAhleteController extends AbstractScreenController {
       });
       get_athlete_active_appointement({ upcoming: true }).then((res) => {
         const data = res.data.map((item, index) => {
-          console.log(item);
           if (index == 0) {
             return { ...item, show: true };
           } else {
@@ -99,7 +93,7 @@ export default class HomeAhleteController extends AbstractScreenController {
         this.component.setState({ upcomingApointement: data });
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
 
     this.component.setState({ user: user });
@@ -196,7 +190,6 @@ export default class HomeAhleteController extends AbstractScreenController {
       title: notification?.request?.content?.title,
       body: notification?.request?.content?.body,
     });
-    console.log(notificationId); // can be saved in AsyncStorage or send to server
   };
 
   onDayPress = (item) => {
@@ -241,17 +234,13 @@ export default class HomeAhleteController extends AbstractScreenController {
       athlete_course_id: this.component.state.athleteCourse.id,
     };
     this.component.setState({ book: bookInformation });
-    // this.component.setState({ modalVisible: true });
     this.component.setState({
       isBookOfferDialogVisible: true,
     });
   };
 
   onBook = async () => {
-    console.log('on book');
     const res = await athlete_booking(this.component.state.book);
-    console.log(res.status);
-    console.log(res.data);
     if (res.status === 200) {
       this.getAvailabilities(this.component.state.currentItem);
     }
@@ -266,11 +255,34 @@ export default class HomeAhleteController extends AbstractScreenController {
     });
   };
 
-  onUnbookOfferPress = () => {
+  onUnbookOfferPress = (slot) => {
+    this.component.setState({
+      currentSlot: convertSlotToDate(slot),
+    });
+    console.log(this.component.state.currentSlot.slice(0, 5));
+    console.log(this.component.state.currentSlot.slice(8, 14));
+    const bookInformation = {
+      date: this.component.state.selectedDate,
+      coach_id: this.component.state.coach_id,
+      currentSlot: slot,
+      athlete_course_id: this.component.state.athleteCourse.id,
+    };
+    console.log(bookInformation);
+    this.component.setState({ book: bookInformation });
     this.component.setState({
       isUnBookOfferDialogVisible: true,
     });
   };
 
-  onUnbook = () => {};
+  onUnbook = async () => {
+    console.log('on unbook');
+    const res = await cancel_booking_athlete(this.component.state.book);
+    console.log(res.status);
+    console.log(res.data);
+    if (res.status === 200) {
+      this.getAvailabilities(this.component.state.currentItem);
+    }
+
+    this.onDismissBookDialog();
+  };
 }

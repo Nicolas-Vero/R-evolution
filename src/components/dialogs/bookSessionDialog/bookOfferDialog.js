@@ -20,8 +20,17 @@ export default class BookOfferDialog extends React.Component {
         titleStyle={styles.title}
         onTouchOutside={this.props.onClose}>
         <Text style={styles.title}>
-          Veux-tu confirmer la séance avec <Text>Soufien Arbia</Text> de
-          <Text>07:00</Text> à <Text>08:00</Text>
+          Veux-tu confirmer la séance avec
+          <Text style={styles.textColored}>{` ${this.props.coachName} `}</Text>
+          de
+          <Text style={styles.textColored}>
+            {` ${this.props.slot.slice(0, 5)} `}
+          </Text>
+          à{' '}
+          <Text style={styles.textColored}>
+            {` ${this.props.slot.slice(8, 14)} `}
+          </Text>
+          ?
         </Text>
         <View style={styles.buttonContainer}>
           <Button

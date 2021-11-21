@@ -16,6 +16,9 @@ module.exports = StyleSheet.create({
     padding: 0,
     marginVertical: 30,
   },
+  textColored: {
+    color: '#2CDEE4',
+  },
   buttonContainer: {
     alignItems: 'center',
     justifyContent: 'center',

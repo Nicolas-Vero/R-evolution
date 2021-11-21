@@ -31,7 +31,7 @@ export default class CoachSheetScreenView extends AbstractScreenView {
   render() {
     return (
       <View style={styles.container}>
-        <Header title="TON COACH" />
+        <Header title="TON COACH" disableBackPress />
         {!this.component.state.isLoaded ? (
           <ActivityIndicator size="large" color="#2CDEE4" />
         ) : !this.component.state.coach ? (

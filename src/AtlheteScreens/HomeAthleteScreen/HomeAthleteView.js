@@ -25,6 +25,7 @@ import AbstractScreenView from '../../components/abstracts/AbstractScreen/Abstra
 import { convertSlotToDate } from '../../helpers/dateHelper';
 import RenewOfferDialog from '../../components/dialogs/renewOfferDialog/renewOfferDialog';
 import BookOfferDialog from '../../components/dialogs/bookSessionDialog/bookOfferDialog';
+import UnBookOfferDialog from '../../components/dialogs/unBookSessionDialog/unBookOfferDialog';
 
 export default class HomeAthleteView extends AbstractScreenView {
   renderHeader() {
@@ -218,8 +219,11 @@ export default class HomeAthleteView extends AbstractScreenView {
   }
 
   renderBookDialog() {
+    const coachName = `${this.component.state.coach.first_name} ${this.component.state.coach.last_name}`;
     return (
       <BookOfferDialog
+        coachName={coachName}
+        slot={this.component.state.currentSlot}
         dialogVisible={this.component.state.isBookOfferDialogVisible}
         onClose={this.controller.onDismissBookDialog}
         onValidate={this.controller.onBook}
@@ -228,8 +232,11 @@ export default class HomeAthleteView extends AbstractScreenView {
   }
 
   renderUnbookDialog() {
+    const coachName = `${this.component.state.coach.first_name} ${this.component.state.coach.last_name}`;
     return (
-      <RenewOfferDialog
+      <UnBookOfferDialog
+        coachName={coachName}
+        slot={this.component.state.currentSlot}
         dialogVisible={this.component.state.isUnBookOfferDialogVisible}
         onClose={this.controller.onDismissUnBookDialog}
         onValidate={this.controller.onUnbook}
@@ -262,36 +269,31 @@ export default class HomeAthleteView extends AbstractScreenView {
             keyExtractor={(item) => item?.id.toString()}
             renderItem={({ item }) => {
               return (
-                <TouchableOpacity
-                  onPress={() => {
-                    console.log(item);
-                  }}>
-                  <View style={styles.appointmentTodayItem}>
-                    <View style={styles.appointmentTodayItemLeft}>
-                      <Avatar
-                        size={44}
-                        rounded
-                        source={{
-                          uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                        }}
-                      />
-                      <View style={styles.appointmentTodayItemLeftTexts}>
-                        <Text style={styles.appointmentTodayItemLeftUsername}>
-                          {item?.athlete.first_name} {item?.athlete?.last_name}
-                        </Text>
-                        <Text style={styles.appointmentTodayItemLeftSession}>
-                          Séance: {item?.session_number}/
-                          {item?.athleteCourse?.total_sessions}
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={styles.appointmentTodayItemRight}>
-                      <Text style={styles.appointmentTodayItemRightText}>
-                        {convertSlotToDate(item?.slot)}
+                <View style={styles.appointmentTodayItem}>
+                  <View style={styles.appointmentTodayItemLeft}>
+                    <Avatar
+                      size={44}
+                      rounded
+                      source={{
+                        uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                      }}
+                    />
+                    <View style={styles.appointmentTodayItemLeftTexts}>
+                      <Text style={styles.appointmentTodayItemLeftUsername}>
+                        {item?.athlete.first_name} {item?.athlete?.last_name}
+                      </Text>
+                      <Text style={styles.appointmentTodayItemLeftSession}>
+                        Séance: {item?.session_number}/
+                        {item?.athleteCourse?.total_sessions}
                       </Text>
                     </View>
                   </View>
-                </TouchableOpacity>
+                  <View style={styles.appointmentTodayItemRight}>
+                    <Text style={styles.appointmentTodayItemRightText}>
+                      {convertSlotToDate(item?.slot)}
+                    </Text>
+                  </View>
+                </View>
               );
             }}
           />
@@ -323,37 +325,31 @@ export default class HomeAthleteView extends AbstractScreenView {
                         }}></View>
                     </View>
                   ) : null}
-                  <TouchableOpacity
-                    onPress={() => {
-                      console.log(item);
-                    }}>
-                    <View style={styles.appointmentTodayItem}>
-                      <View style={styles.appointmentTodayItemLeft}>
-                        <Avatar
-                          size={44}
-                          rounded
-                          source={{
-                            uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                          }}
-                        />
-                        <View style={styles.appointmentTodayItemLeftTexts}>
-                          <Text style={styles.appointmentTodayItemLeftUsername}>
-                            {item?.athlete.first_name}{' '}
-                            {item?.athlete?.last_name}
-                          </Text>
-                          <Text style={styles.appointmentTodayItemLeftSession}>
-                            Séance: {item?.session_number}/
-                            {item?.athleteCourse?.total_sessions}
-                          </Text>
-                        </View>
-                      </View>
-                      <View style={styles.appointmentTodayItemRight}>
-                        <Text style={styles.appointmentTodayItemRightText}>
-                          {convertSlotToDate(item?.slot)}
+                  <View style={styles.appointmentTodayItem}>
+                    <View style={styles.appointmentTodayItemLeft}>
+                      <Avatar
+                        size={44}
+                        rounded
+                        source={{
+                          uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                        }}
+                      />
+                      <View style={styles.appointmentTodayItemLeftTexts}>
+                        <Text style={styles.appointmentTodayItemLeftUsername}>
+                          {item?.athlete.first_name} {item?.athlete?.last_name}
+                        </Text>
+                        <Text style={styles.appointmentTodayItemLeftSession}>
+                          Séance: {item?.session_number}/
+                          {item?.athleteCourse?.total_sessions}
                         </Text>
                       </View>
                     </View>
-                  </TouchableOpacity>
+                    <View style={styles.appointmentTodayItemRight}>
+                      <Text style={styles.appointmentTodayItemRightText}>
+                        {convertSlotToDate(item?.slot)}
+                      </Text>
+                    </View>
+                  </View>
                 </View>
               );
             }}
@@ -475,19 +471,7 @@ export default class HomeAthleteView extends AbstractScreenView {
               {item.value ? (
                 <TouchableOpacity
                   onPress={() => {
-                    this.component.setState({
-                      currentSlot: convertSlotToDate(item?.slot),
-                    });
-                    const bookInformation = {
-                      date: this.component.state.selectedDate,
-                      coach_id: this.component.state.coach_id,
-                      currentSlot: item?.slot,
-                      athlete_course_id: this.component.state.athleteCourse.id,
-                    };
-                    console.log(bookInformation, 'here');
-                    this.component.setState({ book: bookInformation });
-                    this.component.setState({ modalVisible: true });
-                    console.log(this.component.state.modalVisible, 'here');
+                    this.controller.onBookOfferPress(item?.slot);
                   }}
                   style={styles.reserveItemButton}
                   title="Réserver ce créneau">
@@ -498,19 +482,7 @@ export default class HomeAthleteView extends AbstractScreenView {
               ) : (
                 <TouchableOpacity
                   onPress={() => {
-                    this.component.setState({
-                      currentSlot: convertSlotToDate(item?.slot),
-                    });
-                    const bookInformation = {
-                      date: this.component.state.selectedDate,
-                      coach_id: this.component.state.coach_id,
-                      currentSlot: item?.slot,
-                      athlete_course_id: this.component.state.athleteCourse.id,
-                    };
-                    console.log(bookInformation, 'here');
-                    this.component.setState({ book: bookInformation });
-                    this.component.setState({ modalVisible: true });
-                    console.log(this.component.state.modalVisible, 'here');
+                    this.controller.onUnbookOfferPress(item.slot);
                   }}
                   style={styles.reserveItemButton}
                   title="Réserver ce créneau">

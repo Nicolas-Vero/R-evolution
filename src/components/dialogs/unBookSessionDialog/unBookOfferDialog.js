@@ -3,13 +3,12 @@ import { Platform, View, Text } from 'react-native';
 import { Dialog } from 'react-native-simple-dialogs';
 import styles from './unBookOfferDialogStyle';
 import { Button } from '../../Button';
-export default class UNBookOfferDialog extends React.Component {
+export default class UnBookOfferDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
-  onClose = () => this.props.onClose();
   render() {
     return (
       <Dialog
@@ -20,8 +19,16 @@ export default class UNBookOfferDialog extends React.Component {
         titleStyle={styles.title}
         onTouchOutside={this.props.onClose}>
         <Text style={styles.title}>
-          Veux-tu confirmer la séance avec <Text>Soufien Arbia</Text> de
-          <Text>07:00</Text> à <Text>08:00</Text>
+          Es-tu sûr(e) de vouloir annuler la séance avec
+          <Text style={styles.textColored}>{` ${this.props.coachName} `}</Text>
+          de
+          <Text style={styles.textColored}>
+            {` ${this.props.slot.slice(0, 5)} `}
+          </Text>
+          à
+          <Text style={styles.textColored}>
+            {` ${this.props.slot.slice(8, 14)} `}
+          </Text>
         </Text>
         <View style={styles.buttonContainer}>
           <Button

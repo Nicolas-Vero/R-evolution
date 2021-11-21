@@ -47,7 +47,7 @@ export default class PendingRequestCoachScreenController extends AbstractScreenC
   }
 
   onItemPress = (item) => {
-    this.component.props.navigation.navigate('treshRequestCoachScreen', {
+    this.component.props.navigation.navigate('TreshRequestCoachScreen', {
       item,
     });
   };
