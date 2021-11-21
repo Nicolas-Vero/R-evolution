@@ -195,6 +195,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
           slot: rdv?.slot,
         });
       });
+      console.log('arrayOfPage', arrayOfPage);
       this.component.setState({ page: arrayOfPage });
       this.component.setState({ carousselLoad: true });
     });

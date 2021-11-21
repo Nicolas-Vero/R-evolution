@@ -51,7 +51,7 @@ export const reminder_update = (params) => {
   });
 };
 
-export const delete_reminder = (params) => {
+export const delete_reminder = async (params) => {
   const data = params;
   return axios({
     method: 'DELETE',

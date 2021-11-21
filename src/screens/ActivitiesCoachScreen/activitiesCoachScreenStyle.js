@@ -10,17 +10,18 @@ module.exports = StyleSheet.create({
     backgroundColor: '#000',
   },
   content: {
+    marginHorizontal: 16,
     marginTop: 10,
     alignItems: 'center',
   },
   rightSwip: {
-    height: 54,
+    height: 57,
     borderTopRightRadius: 6,
     borderBottomRightRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FD7279',
-    width: 75,
+    width: 57,
   },
   switchSelectedText: {
     fontFamily: 'MontserratBoldItalic',
@@ -35,22 +36,24 @@ module.exports = StyleSheet.create({
     borderRadius: 3,
     flexDirection: 'row',
     backgroundColor: '#1E2026',
-    width: wp(92),
-    height: 54,
+    width: 'auto',
     marginBottom: 10,
+    paddingRight: 30,
   },
   itemColor: {
     borderRadius: 3,
     width: 5,
   },
   itemContent: {
-    marginRight: 30,
-    marginLeft: 15,
+    width: '100%',
+    paddingVertical: 11,
+    paddingLeft: 11,
+    paddingRight: 30,
     alignItems: 'center',
     flexDirection: 'row',
-    alignContent: 'center',
   },
   itemLeft: {
+    flex: 1,
     alignItems: 'flex-start',
   },
   itemRight: {
@@ -63,8 +66,19 @@ module.exports = StyleSheet.create({
 
   itemText: {
     fontFamily: 'MontserratMedium',
+    fontSize: 12,
+    color: '#fff',
+  },
+  itemTextContent: {
+    marginTop: 8,
+    fontFamily: 'MontserratMedium',
     fontSize: 10,
     color: '#fff',
+  },
+  itemTextDate: {
+    fontFamily: 'MontserratMedium',
+    fontSize: 10,
+    color: '#979797',
   },
   createReminderButton: {
     position: 'absolute',

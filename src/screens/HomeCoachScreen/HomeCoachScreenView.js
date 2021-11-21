@@ -61,7 +61,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             )}
           </View>
           <View style={styles.calendarContainer}>
-            <ScrollView>
+            <ScrollView style={{ flex: 1, maxHeight: 500 }}>
               <Calendar
                 theme={{
                   calendarBackground: '#1E2026',
@@ -276,7 +276,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 textColor="white"
                 borderRadius={10}
                 height={38}
-                style={{ width: widthPercentageToDP(100) }}
+                style={{ width: 'auto' }}
                 hasPadding
                 fontSize={13}
                 selectedTextStyle={{

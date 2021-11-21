@@ -17,13 +17,13 @@ export default class Pager extends Component {
     this.carousel.goToPage(2);
   }
   render() {
+    const data = this.props.pager;
     return (
-      // console.log('cafrousel',this.props.pager),
       <View
         style={{
+          marginBottom: 10,
           height: heightPercentageToDP(20),
-          width: widthPercentageToDP(94),
-          alignItems: 'center',
+          width: 'auto',
         }}>
         <CarouselPager
           ref={(ref) => (this.carousel = ref)}
@@ -31,13 +31,14 @@ export default class Pager extends Component {
           initialPage={0}
           blurredOpacity={0.2}
           vertical={true}
-          containerPadding={63}
           pageStyle={{
-            borderRadius: 5,
-            alignItems: 'center',
-            width: widthPercentageToDP(94),
+            paddingVertical: 3,
+            paddingHorizontal: 10,
+            paddingRight: 45,
+            paddingLeft: 10,
+            marginBottom: 5,
           }}>
-          {this.props.pager}
+          {data}
         </CarouselPager>
       </View>
     );

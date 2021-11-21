@@ -52,6 +52,7 @@ module.exports = StyleSheet.create({
     resizeMode: 'contain',
   },
   alignCenter: {
+    marginHorizontal: 16,
     alignItems: 'center',
   },
   noAppointmentContainer: {

@@ -7,7 +7,6 @@ import { Text } from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { Avatar } from 'react-native-elements';
 import { loadFonts } from '../configs/design/font';
-
 export default class CarouselPager extends Component {
   static propTypes = {
     initialPage: PropTypes.number,
@@ -346,14 +345,11 @@ export default class CarouselPager extends Component {
     let boxStyle = {};
     if (this.props.vertical) {
       containerStyle = {
-        top: this.state.pos,
-        paddingTop: this.props.containerPadding,
         paddingBottom: this.props.containerPadding,
-        flexDirection: 'column',
       };
       boxStyle = {
-        height: this._boxSize,
-        marginBottom: this.props.pageSpacing,
+        // height: this._boxSize,
+        // marginBottom: this.props.pageSpacing,
       };
     } else {
       containerStyle = {
@@ -386,6 +382,7 @@ export default class CarouselPager extends Component {
                   {
                     backgroundColor: this.state.backgroundColor[index],
                     alignItems: 'center',
+                    borderRadius: 5,
                     opacity: this.state.viewsOpacity[index],
                     transform: [
                       this.props.vertical
@@ -400,62 +397,57 @@ export default class CarouselPager extends Component {
                   boxStyle,
                   this.props.pageStyle,
                 ]}>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigate('');
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    width: widthPercentageToDP(78),
                   }}
-                  style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  key={page.id}>
                   <View
                     style={{
                       flexDirection: 'row',
-                      justifyContent: 'space-around',
-                      alignContent: 'center',
-                      width: widthPercentageToDP(94),
-                      alignItems: 'center',
-                    }}
-                    key={page.id}>
-                    <View style={{ marginTop: 2 }}>
-                      <Avatar
-                        size="small"
-                        rounded
-                        source={{
-                          uri: page.Avatar,
-                        }}
-                      />
-                    </View>
-                    <View style={{ flexDirection: 'column', marginRight: 23 }}>
-                      <View style={{ flexDirection: 'row' }}>
-                        <Text
-                          style={{
-                            fontFamily: 'RobotoMedium',
-                            fontSize: 18,
-                            color: this.state.textColor[index],
-                          }}>
-                          {page.firstname} {page.lastname}
-                        </Text>
-                      </View>
-                      <Text
-                        style={{
-                          fontFamily: 'MontserratMedium',
-                          fontSize: 10,
-                          color: this.state.textColor[index],
-                        }}>
-                        Séance: {page.session_number}/{page.total_sessions}
-                      </Text>
-                    </View>
-                    <View style={{ justifyContent: 'center' }}>
+                      flex: 1,
+                      alignItems: 'flex-start',
+                    }}>
+                    <Avatar
+                      size={44}
+                      rounded
+                      source={{
+                        uri: page.Avatar,
+                      }}
+                    />
+                    <View style={{ marginLeft: 23 }}>
                       <Text
                         style={{
                           fontFamily: 'RobotoMedium',
-                          fontSize: 15,
-                          marginTop: 1.2,
+                          fontSize: 18,
                           color: this.state.textColor[index],
                         }}>
-                        {this.convertSlotToDate(page.slot)}
+                        {page.firstname} {page.lastname}
                       </Text>
+                      {!this.state.textColor[index] ? null : (
+                        <Text
+                          style={{
+                            fontFamily: 'MontserratMedium',
+                            fontSize: 10,
+                            marginTop: 5,
+                            color: this.state.textColor[index],
+                          }}>
+                          Séance: {page.session_number}/{page.total_sessions}
+                        </Text>
+                      )}
                     </View>
                   </View>
-                </TouchableOpacity>
+                  <Text
+                    style={{
+                      fontFamily: 'RobotoMedium',
+                      fontSize: 15,
+                      color: this.state.textColor[index],
+                    }}>
+                    {this.convertSlotToDate(page.slot)}
+                  </Text>
+                </View>
               </Animated.View>
             );
           })}

@@ -90,7 +90,7 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                   <Text style={styles.text}>Prénom</Text>
                   <View style={styles.inputContainer}>
                     <TextInput
-                      placeholder="Nom"
+                      placeholder="Prénom"
                       placeholderTextColor="#979797"
                       style={styles.input}
                       onChangeText={handleChange('first_name')}
@@ -101,61 +101,64 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                       }
                       returnKeyType="next"
                     />
-                    <Text style={styles.text}>Nom</Text>
-                    <View style={styles.inputContainer}>
-                      <TextInput
-                        ref={(ref) => (this.firstnameInput = ref)}
-                        placeholder="Prénom"
-                        placeholderTextColor="#979797"
-                        style={styles.input}
-                        onChangeText={handleChange('last_name')}
-                        onBlur={handleBlur('last_name')}
-                        value={values.last_name}
-                        onSubmitEditing={() =>
-                          this.emailInput && this.emailInput.focus()
-                        }
-                        returnKeyType="next"
-                      />
-                    </View>
-                    <Text style={styles.text}>Adresse e-mail</Text>
-                    <View style={styles.inputContainer}>
-                      <TextInput
-                        ref={(ref) => (this.emailInput = ref)}
-                        placeholder="Email"
-                        placeholderTextColor="#979797"
-                        style={styles.input}
-                        onChangeText={handleChange('email')}
-                        onBlur={handleBlur('email')}
-                        value={values.email}
-                        onSubmitEditing={() =>
-                          this.phoneInput && this.phoneInput.focus()
-                        }
-                        returnKeyType="next"
-                      />
-                    </View>
-                    <Text style={styles.text}>Téléphone</Text>
-                    <View style={styles.inputContainer}>
-                      <TextInput
-                        ref={(ref) => (this.phoneInput = ref)}
-                        placeholder="Téléphone"
-                        placeholderTextColor="#979797"
-                        style={styles.input}
-                        onChangeText={handleChange('phone')}
-                        onBlur={handleBlur('phone')}
-                        value={values.phone}
-                        returnKeyType="done"
-                      />
-                    </View>
-                    <View style={styles.changePasswordContainer}>
-                      <DeleteButton
-                        customContainerStyles={styles.changePasswordButton}
-                        customTextStyle={styles.changePasswordText}
-                        title="Modifier mon mot de passe"
-                      />
-                    </View>
-                    <Text style={styles.text}>
-                      Des probèmes de santé à signaler ?
-                    </Text>
+                  </View>
+                  <Text style={styles.text}>Nom</Text>
+                  <View style={styles.inputContainer}>
+                    <TextInput
+                      ref={(ref) => (this.firstnameInput = ref)}
+                      placeholder="Prénom"
+                      placeholderTextColor="#979797"
+                      style={styles.input}
+                      onChangeText={handleChange('last_name')}
+                      onBlur={handleBlur('last_name')}
+                      value={values.last_name}
+                      onSubmitEditing={() =>
+                        this.emailInput && this.emailInput.focus()
+                      }
+                      returnKeyType="next"
+                    />
+                  </View>
+                  <Text style={styles.text}>Adresse e-mail</Text>
+                  <View style={styles.inputContainer}>
+                    <TextInput
+                      ref={(ref) => (this.emailInput = ref)}
+                      placeholder="Email"
+                      placeholderTextColor="#979797"
+                      style={styles.input}
+                      onChangeText={handleChange('email')}
+                      onBlur={handleBlur('email')}
+                      value={values.email}
+                      onSubmitEditing={() =>
+                        this.phoneInput && this.phoneInput.focus()
+                      }
+                      returnKeyType="next"
+                    />
+                  </View>
+                  <Text style={styles.text}>Téléphone</Text>
+                  <View style={styles.inputContainer}>
+                    <TextInput
+                      ref={(ref) => (this.phoneInput = ref)}
+                      placeholder="Téléphone"
+                      placeholderTextColor="#979797"
+                      style={styles.input}
+                      onChangeText={handleChange('phone')}
+                      onBlur={handleBlur('phone')}
+                      value={values.phone}
+                      returnKeyType="done"
+                    />
+                  </View>
+                  <View style={styles.changePasswordContainer}>
+                    <DeleteButton
+                      customContainerStyles={styles.changePasswordButton}
+                      customTextStyle={styles.changePasswordText}
+                      title="Modifier mon mot de passe"
+                    />
+                  </View>
+
+                  <Text style={styles.text}>
+                    Des probèmes de santé à signaler ?
+                  </Text>
+                  <View style={styles.inputContainer}>
                     <FieldArray
                       render={(arrayhelper) => (
                         <SelectDropdown

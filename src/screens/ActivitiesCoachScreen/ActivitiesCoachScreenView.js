@@ -18,16 +18,19 @@ import { FontAwesome } from '@expo/vector-icons';
 import Header from '../../components/Header';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import styles from './activitiesCoachScreenStyle';
+import moment from 'moment';
 
 const options = [
   { label: 'NOTIFICATIONS', value: 'NOTIFICATIONS' },
   { label: 'RAPPELS', value: 'RAPPELS' },
 ];
 export default class ActivitiesCoachScreenView extends AbstractScreenView {
-  rightSwipe() {
+  rightSwipe(item) {
     return (
-      <TouchableOpacity style={styles.rightSwip}>
-        <FontAwesome name="trash" size={26} color="#fff" />
+      <TouchableOpacity
+        style={styles.rightSwip}
+        onPress={() => this.controller.onDeleteReminder(item)}>
+        <FontAwesome name="trash" size={22} color="#fff" />
       </TouchableOpacity>
     );
   }
@@ -42,6 +45,7 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
           // refreshing={this.component.state.refresh}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item, index }) => {
+            console.log(item);
             return (
               <Swipeable
                 key={index}
@@ -65,12 +69,14 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
                   />
                   <View style={styles.itemContent}>
                     <View style={styles.itemLeft}>
-                      <Text style={styles.itemText}>
-                        {`${item.title} ${item.content}`}
-                      </Text>
+                      <Text style={styles.itemText}>{`${item.title}`}</Text>
+                      <Text style={styles.itemTextContent}>{item.content}</Text>
                     </View>
                     <View style={styles.itemRight}>
-                      <Text style={styles.itemText}>9:00</Text>
+                      <Text style={styles.itemTextDate}>
+                        {moment(item.date).format('dddd D MMMM')}
+                      </Text>
+                      <Text style={styles.itemTextDate}>{item.hour}</Text>
                     </View>
                   </View>
                 </LinearGradient>
@@ -90,7 +96,7 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
       <View style={styles.container}>
         <Header title="ACTIVITÉ" />
         <View style={styles.content}>
-          <View style={{ marginBottom: 28 }}>
+          <View style={{ marginBottom: 28, alignItems: 'center' }}>
             <SwitchSelector
               options={options}
               initial={0}
@@ -101,7 +107,7 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
               textColor="white"
               borderRadius={10}
               height={38}
-              style={{ width: widthPercentageToDP(92) }}
+              style={{ width: 'auto' }}
               fontSize={13}
               selectedTextStyle={styles.switchSelectedText}
               textStyle={styles.switchSelectedText}
