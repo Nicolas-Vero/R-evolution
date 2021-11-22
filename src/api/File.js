@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {API_URL} from '../configs/Constants';
+import AuthService from '../services/AuthService';
 import { getHeaders } from './Global';
 
 
@@ -13,10 +14,12 @@ export const upload_file = ( params) => {
     });
   };
 
-export const get_file = params => {
+export const get_file = async(params) => {
+  const headers = await AuthService.getHeader();
     const data = params;
     return axios({
       method: 'GET',
-      url: `${API_URL}/file/s3/${data.title}`,
+      url: `${API_URL}/file/s3/${data}`,
+      headers:headers
     });
   };

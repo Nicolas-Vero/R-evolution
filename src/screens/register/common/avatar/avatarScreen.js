@@ -120,12 +120,11 @@ export default class avatarScreen extends React.Component {
                 }}
                 onSubmit={(values) => {
                   var item = { ...passItem, ...values };
-                  console.log('item', item);
                   const formData = new FormData();
                   formData.append('file', {
                     uri: this.state.image.uri,
                     type: this.state.image.type,
-                    name: 'picture'
+                    name: this.state.image.uri,
                   });
                   this.onRegister(formData, item);
                 }}>

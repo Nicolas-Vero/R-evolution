@@ -116,11 +116,21 @@ export const get_coach_by_id = async (params) => {
 
 export const get_coach_me = async (navigation) => {
   const headers = await AuthService.getHeader();
-  console.log(headers);
   return axios({
     method: 'GET',
     url: `${API_URL}/coach/me`,
     headers: headers,
+  });
+};
+export const updateCoach = async (params) => {
+  const data = params
+  const headers = await AuthService.getHeader();
+  console.log(headers);
+  return axios({
+    method: 'POST',
+    url: `${API_URL}/coach/me`,
+    headers:headers,
+    data:data
   });
 };
 
