@@ -13,7 +13,6 @@ module.exports = StyleSheet.create({
     marginHorizontal: 16,
   },
   header: {
-    marginTop: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

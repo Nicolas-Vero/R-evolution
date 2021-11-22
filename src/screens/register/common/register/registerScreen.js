@@ -18,6 +18,7 @@ import { loadFonts } from '../../../../configs/design/font';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import * as Yup from 'yup';
 import styles from './registerStyle';
+
 export default class registerScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -66,7 +67,8 @@ export default class registerScreen extends React.Component {
           end={{
             x: 1,
             y: 1,
-          }}>
+          }}
+          style={{ flex: 1 }}>
           <Header title="INSCRIPTION" />
           <ScrollView
             style={styles.ScrollView}

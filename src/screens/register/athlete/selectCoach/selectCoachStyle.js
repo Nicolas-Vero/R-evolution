@@ -21,7 +21,6 @@ module.exports = StyleSheet.create({
   },
   title: {
     textAlign: 'center',
-    marginTop: 64,
     fontFamily: 'RobotoBold',
     fontSize: 16,
     color: '#FFFF',
@@ -39,11 +38,11 @@ module.exports = StyleSheet.create({
   dropdownContainer: {
     marginTop: 50,
     alignItems: 'center',
+    height:50
   },
   dropdownButton: {
     width: widthPercentageToDP(90),
     borderRadius: 3,
-    height: 38,
   },
   dropdownButtonText: {
     fontSize: 15,
@@ -58,6 +57,7 @@ module.exports = StyleSheet.create({
     marginLeft: 20,
   },
   dropdownBg: {
+    height: 200,
     backgroundColor: '#282C3A',
   },
   dropdownRow: {

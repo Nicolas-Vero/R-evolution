@@ -37,53 +37,65 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
 
   renderReminder = () => {
     return (
-      <View style={{ paddingBottom: heightPercentageToDP(35) }}>
-        <FlatList
-          style={{ backgroundColor: '#000' }}
-          data={this.component.state.reminders}
-          // onRefresh={onRefresh}
-          // refreshing={this.component.state.refresh}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item, index }) => {
-            console.log(item);
-            return (
-              <Swipeable
-                key={index}
-                renderRightActions={() => this.rightSwipe(item)}>
-                <LinearGradient
-                  colors={['#101010', '#2D333C']}
-                  start={{
-                    x: 0,
-                    y: 1,
-                  }}
-                  end={{
-                    x: 0,
-                    y: 0,
-                  }}
-                  style={styles.item}>
-                  <View
-                    style={[
-                      styles.itemColor,
-                      { backgroundColor: item.color || '#2CDEE4' },
-                    ]}
-                  />
-                  <View style={styles.itemContent}>
-                    <View style={styles.itemLeft}>
-                      <Text style={styles.itemText}>{`${item.title}`}</Text>
-                      <Text style={styles.itemTextContent}>{item.content}</Text>
+      <View>
+        <TouchableOpacity
+          style={styles.createReminderButton}
+          onPress={() => this.controller.onCreateReminderPress()}>
+          <Image
+            source={require('../../../assets/images/Group_8766.png')}
+            style={styles.createReminderImage}
+          />
+        </TouchableOpacity>
+        <View style={{ paddingBottom: heightPercentageToDP(35) }}>
+          <FlatList
+            style={{ backgroundColor: '#000' }}
+            data={this.component.state.reminders}
+            // onRefresh={onRefresh}
+            // refreshing={this.component.state.refresh}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item, index }) => {
+              console.log(item);
+              return (
+                <Swipeable
+                  key={index}
+                  renderRightActions={() => this.rightSwipe(item)}>
+                  <LinearGradient
+                    colors={['#101010', '#2D333C']}
+                    start={{
+                      x: 0,
+                      y: 1,
+                    }}
+                    end={{
+                      x: 0,
+                      y: 0,
+                    }}
+                    style={styles.item}>
+                    <View
+                      style={[
+                        styles.itemColor,
+                        { backgroundColor: item.color || '#2CDEE4' },
+                      ]}
+                    />
+                    <View style={styles.itemContent}>
+                      <View style={styles.itemLeft}>
+                        <Text style={styles.itemText}>{`${item.title}`}</Text>
+                        <Text style={styles.itemTextContent}>
+                          {item.content}
+                        </Text>
+                      </View>
+                      <View style={styles.itemRight}>
+                        <Text style={styles.itemTextDate}>
+                          {moment(item.date).format('dddd D MMMM')}
+                        </Text>
+                        <Text style={styles.itemTextDate}>{item.hour}</Text>
+                      </View>
                     </View>
-                    <View style={styles.itemRight}>
-                      <Text style={styles.itemTextDate}>
-                        {moment(item.date).format('dddd D MMMM')}
-                      </Text>
-                      <Text style={styles.itemTextDate}>{item.hour}</Text>
-                    </View>
-                  </View>
-                </LinearGradient>
-              </Swipeable>
-            );
-          }}
-        />
+                  </LinearGradient>
+                </Swipeable>
+              );
+            }}
+          />
+        </View>
       </View>
     );
   };
@@ -120,14 +132,6 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
           ) : (
             this.renderReminder()
           )}
-          <TouchableOpacity
-            style={styles.createReminderButton}
-            onPress={() => this.controller.onCreateReminderPress()}>
-            <Image
-              source={require('../../../assets/images/Group_8766.png')}
-              style={styles.createReminderImage}
-            />
-          </TouchableOpacity>
         </View>
       </View>
     );

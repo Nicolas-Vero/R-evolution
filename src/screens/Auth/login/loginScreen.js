@@ -22,7 +22,6 @@ import styles from './loginStyle';
 import { coach_login, get_coach_me } from '../../../api/Coach';
 import { athlete_login, get_athlete } from '../../../api/Athlete';
 import { userType } from '../../../api/Auth';
-
 export default class loginScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -147,13 +146,14 @@ export default class loginScreen extends React.Component {
                       value={values.password}
                       returnKeyType="end"
                     />
-                    <View>
+
+                    {/* TODO <View>
                       <TouchableOpacity>
                         <Text style={styles.forgetPasswordText}>
                           Mot de passe oublié ?
                         </Text>
                       </TouchableOpacity>
-                    </View>
+                    </View> */}
 
                     <View style={styles.buttonContainer}>
                       <Button

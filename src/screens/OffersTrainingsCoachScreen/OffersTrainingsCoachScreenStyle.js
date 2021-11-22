@@ -13,6 +13,7 @@ module.exports = StyleSheet.create({
     height: hp(70),
   },
   centerAlign: {
+    paddingTop: 5,
     alignContent: 'center',
     justifyContent: 'center',
   },

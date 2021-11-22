@@ -218,7 +218,7 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                 <Button
                   loading={false}
                   title="Traiter la demande"
-                  customContainerStyles={{ width: widthPercentageToDP(91) }}
+                  customContainerStyles={{ width: 'auto' }}
                   customTextStyle={styles.butonText}
                   onPress={() => {
                     this.controller.onOpenDialog();

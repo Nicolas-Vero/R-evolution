@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, TextInput, SafeAreaView, Keyboard } from 'react-native';
+import {
+  View,
+  ScrollView,
+  SafeAreaView,
+  Keyboard,
+  TextInput,
+} from 'react-native';
 //import { auth } from '../../api/Register';
 import { Formik } from 'formik';
 import { CheckBox, Text } from 'react-native-elements';
@@ -8,6 +14,7 @@ import Header from '../../components/Header';
 //import { Slider } from 'react-native-elements';
 import styles from './CreateOfferCoachScreenStyle';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 export default class CreateOfferCoachScreenView extends AbstractScreenView {
   getErrorMessage() {
     if (this.component.state.errorMessage !== '')
@@ -33,7 +40,7 @@ export default class CreateOfferCoachScreenView extends AbstractScreenView {
       <View style={styles.container}>
         <SafeAreaView style={styles.safeArea} />
         <Header title="CRÉER UNE OFFRE" />
-        <View style={styles.content}>
+        <ScrollView style={styles.content}>
           <Formik
             initialValues={{
               type: 'Coaching',
@@ -158,7 +165,8 @@ export default class CreateOfferCoachScreenView extends AbstractScreenView {
               </View>
             )}
           </Formik>
-        </View>
+          <KeyboardSpacer />
+        </ScrollView>
       </View>
     );
   }

@@ -82,8 +82,7 @@ module.exports = StyleSheet.create({
   },
   createReminderButton: {
     position: 'absolute',
-    alignItems: 'flex-end',
-    left: wp(84),
+    left: wp(35),
     top: hp(50),
   },
   createReminderImage: {

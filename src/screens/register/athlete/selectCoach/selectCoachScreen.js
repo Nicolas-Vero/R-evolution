@@ -135,7 +135,7 @@ export default class selectCoachScreen extends React.Component {
                                         return (
                                           <AntDesign
                                             name="down"
-                                            size={24}
+                                            size={18}
                                             color="black"
                                           />
                                         );
@@ -151,7 +151,7 @@ export default class selectCoachScreen extends React.Component {
                                         return show;
                                       }}
                                       rowTextForSelection={(item, index) => {
-                                        return item.first_name;
+                                        return `${item.first_name} ${item.last_name}`;
                                       }}
                                     />
                                     <View style={styles.noWayContainer}>

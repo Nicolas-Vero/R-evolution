@@ -9,6 +9,8 @@ import { Image } from 'react-native';
 import { ScrollView } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import styles from './AthleteSheetCoachScreenStyle';
+import { isIphoneX } from 'react-native-iphone-x-helper';
+
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 export default class AthleteSheetCoachScreenView extends AbstractScreenView {
   render() {
@@ -47,19 +49,21 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
     return (
       <View style={styles.container}>
         <SafeAreaView>
-          <View style={styles.header}>
-            <HeaderLight />
-            <View style={styles.headerLeft}>
-              <Avatar
-                size={82}
-                rounded
-                source={require('../../../assets/images/avatar.png')}
-              />
-              <Text style={styles.username}>
-                {user.first_name} {user.last_name}
-              </Text>
+          <View style={{marginTop: isIphoneX() ? 50 : 0}}>
+            <View style={styles.header}>
+              <HeaderLight />
+              <View style={styles.headerLeft}>
+                <Avatar
+                  size={82}
+                  rounded
+                  source={require('../../../assets/images/avatar.png')}
+                />
+                <Text style={styles.username}>
+                  {user.first_name} {user.last_name}
+                </Text>
+              </View>
+              <Image style={styles.userStatusImage} source={badgeImage} />
             </View>
-            <Image style={styles.userStatusImage} source={badgeImage} />
           </View>
           <View style={styles.content}>
             <ScrollView style={styles.scrollView}>

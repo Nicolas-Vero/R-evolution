@@ -59,6 +59,7 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
                    value={this.state.search}
                  /> */}
         <FlatList
+          contentContainerStyle={{ paddingBottom: 50 }}
           data={this.component.state.atlhetesInactifs}
           // onRefresh={onRefresh}
           // refreshing={this.state.refresh}
@@ -80,6 +81,7 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
          // value={this.state.search}
                  /> */}
         <FlatList
+          contentContainerStyle={{ marginBottom: 50 }}
           data={this.component.state.atlhetesProspects}
           keyExtractor={(item) => toString(item.id)}
           renderItem={({ item }) => this.renderItem(item)}

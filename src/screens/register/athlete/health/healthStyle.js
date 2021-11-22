@@ -11,6 +11,7 @@ module.exports = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
+    flex: 1,
   },
   content: {
     alignItems: 'center',
@@ -37,7 +38,7 @@ module.exports = StyleSheet.create({
     marginTop: 24,
   },
   dropdownContainer: {
-    width: widthPercentageToDP(95),
+    width: 'auto',
   },
   dropdownButton: {
     width: widthPercentageToDP(50),
@@ -66,12 +67,12 @@ module.exports = StyleSheet.create({
   inputContainer: {
     marginTop: 24,
     height: 125,
-    width: widthPercentageToDP(95),
+    width: widthPercentageToDP(93),
     marginBottom: 30,
   },
   input: {
     backgroundColor: '#FFFFFF',
-    width: widthPercentageToDP(92),
+    width: 'auto',
     paddingHorizontal: 15,
     paddingTop: 10,
     paddingBottom: 10,

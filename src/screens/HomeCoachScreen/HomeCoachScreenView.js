@@ -182,7 +182,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 );
               }}
             />
-            <View style={styles.filterContainer}>
+            {/* <View style={styles.filterContainer}>
               <TouchableOpacity
                 onPress={() => {
                   this.controller.openDialog();
@@ -192,10 +192,10 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                   source={require('../../../assets/images/filtre.png')}
                 />
               </TouchableOpacity>
-            </View>
+            </View> */}
             <FlatList
-              contentContainerStyle={{ paddingBottom: 50 }}
-              style={{ maxHeight: heightPercentageToDP(50), marginTop: 5 }}
+              contentContainerStyle={{ paddingBottom: 60 }}
+              style={{ maxHeight: heightPercentageToDP(50), marginTop: 25 }}
               data={[this.component.state.currentAvailabilities]}
               //      onRefresh={onRefresh}
               // refreshing={this.component.state.refresh}

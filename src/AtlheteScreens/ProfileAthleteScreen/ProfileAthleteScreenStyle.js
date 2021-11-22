@@ -18,7 +18,7 @@ module.exports = StyleSheet.create({
     alignItems: 'flex-start',
   },
   headerMidle: {
-    marginTop: 30,
+    marginTop: 40,
     alignItems: 'center',
   },
   headerRight: {

@@ -18,24 +18,28 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { AntDesign } from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 
 export default class ProfileAthleteScreenView extends AbstractScreenView {
   renderHeader() {
     return (
-      <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <HeaderLight />
+      <View style={{ paddingTop: isIphoneX() ? 50 : 0 }}>
+        <View style={styles.header}>
+          <View style={styles.headerLeft}>
+            <HeaderLight />
+          </View>
+          <View style={styles.headerMidle}>
+            <Avatar
+              size={105}
+              rounded
+              source={{
+                uri: '../../../assets/images/avatar.png',
+              }}
+            />
+          </View>
+          <View style={styles.headerRight}></View>
         </View>
-        <View style={styles.headerMidle}>
-          <Avatar
-            size={105}
-            rounded
-            source={{
-              uri: '../../../assets/images/avatar.png',
-            }}
-          />
-        </View>
-        <View style={styles.headerRight}></View>
       </View>
     );
   }
@@ -50,8 +54,8 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
     }
     return (
       <View style={styles.container}>
+        {this.renderHeader()}
         <ScrollView>
-          {this.renderHeader()}
           <View style={styles.content}>
             <Formik
               initialValues={{
@@ -432,6 +436,7 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
               )}
             </Formik>
           </View>
+          <KeyboardSpacer />
         </ScrollView>
       </View>
     );

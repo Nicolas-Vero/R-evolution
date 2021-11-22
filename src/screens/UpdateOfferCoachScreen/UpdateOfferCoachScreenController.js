@@ -18,7 +18,7 @@ export default class UpdateOfferCoachScreenController extends AbstractScreenCont
         this.component.props.navigation.navigate('OffersCoachScreen');
       }
     } catch (error) {
-      this.setState({ loading: false });
+      this.component.setState({ loading: false });
       console.warn(error);
     }
   };

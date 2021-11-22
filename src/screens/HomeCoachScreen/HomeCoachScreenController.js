@@ -146,9 +146,11 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     });
   }
 
-  onMonthChange(date) {
+  onMonthChange = (date) => {
     var item = [];
-    var ArrayOfday = this.getDaysArrayByMonth(this.getDate(date));
+    var ArrayOfday = this.getDaysArrayByMonth(
+      moment(date).format('YYYY-MM-DD'),
+    );
     ArrayOfday.forEach((element) => {
       const elementdaynum = moment(element).format('dd');
       const elementday = moment(element).format('D');
@@ -161,7 +163,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       item?.push(Object);
     });
     this.component.setState({ availabilities: item });
-  }
+  };
 
   async changeTaskList(date) {
     let formatdata = {};

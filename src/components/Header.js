@@ -10,6 +10,7 @@ import {
 import { withNavigation } from 'react-navigation';
 
 const { width } = Dimensions.get('window');
+import { isIphoneX } from 'react-native-iphone-x-helper';
 
 class Header extends React.Component {
   render() {
@@ -48,7 +49,7 @@ export default withNavigation(Header);
 const defaultStyle = StyleSheet.create({
   containerWithTitle: {
     alignItems: 'center',
-    marginTop: 26,
+    marginTop: isIphoneX() ? 40 : 26,
     marginBottom: 20,
   },
   title: { alignItems: 'center' },
@@ -56,11 +57,11 @@ const defaultStyle = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 26,
+    marginTop: isIphoneX() ? 40 : 26,
     marginBottom: 20,
+    marginLeft: 16,
   },
   image: {
-    marginLeft: 16,
     height: 20.54,
     width: 12.33,
     resizeMode: 'contain',

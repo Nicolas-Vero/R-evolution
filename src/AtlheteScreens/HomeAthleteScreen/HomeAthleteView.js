@@ -26,39 +26,41 @@ import { convertSlotToDate } from '../../helpers/dateHelper';
 import RenewOfferDialog from '../../components/dialogs/renewOfferDialog/renewOfferDialog';
 import BookOfferDialog from '../../components/dialogs/bookSessionDialog/bookOfferDialog';
 import UnBookOfferDialog from '../../components/dialogs/unBookSessionDialog/unBookOfferDialog';
-
+import { isIphoneX } from 'react-native-iphone-x-helper';
 export default class HomeAthleteView extends AbstractScreenView {
   renderHeader() {
     return (
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => {
-            navigate('AccountScreen');
-          }}>
-          <View style={styles.headerLeft}>
-            <Avatar
-              size={37}
-              rounded
-              source={{
-                uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
-              }}
+      <View style={{ paddingTop: isIphoneX() ? 50 : 20 }}>
+        <View style={styles.header}>
+          <TouchableOpacity
+            onPress={() => {
+              navigate('AccountScreen');
+            }}>
+            <View style={styles.headerLeft}>
+              <Avatar
+                size={37}
+                rounded
+                source={{
+                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
+                }}
+              />
+              <Text style={styles.username}>
+                {this.component.state.user.first_name}{' '}
+                {this.component.state.user.last_name}
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigate('NotificationsScreen');
+            }}
+            style={styles.headerRight}>
+            <Image
+              style={styles.headerRightImage}
+              source={require('../../../assets/images/Notif.png')}
             />
-            <Text style={styles.username}>
-              {this.component.state.user.first_name}{' '}
-              {this.component.state.user.last_name}
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigate('NotificationsScreen');
-          }}
-          style={styles.headerRight}>
-          <Image
-            style={styles.headerRightImage}
-            source={require('../../../assets/images/Notif.png')}
-          />
-        </TouchableOpacity>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }

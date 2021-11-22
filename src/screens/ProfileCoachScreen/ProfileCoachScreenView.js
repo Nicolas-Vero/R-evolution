@@ -16,6 +16,9 @@ import { ScrollView } from 'react-native-gesture-handler';
 import SelectDropdown from 'react-native-select-dropdown';
 import styles from './ProfileCoachScreenStyle';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
+import { isIphoneX } from 'react-native-iphone-x-helper';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+
 export default class ProfileCoachScreenView extends AbstractScreenView {
   render() {
     // const { navigation } = this.compoment.props;
@@ -30,7 +33,7 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
     } else {
       return (
         <View style={styles.container}>
-          <ScrollView>
+          <View style={{ marginTop: isIphoneX() ? 50 : 0 }}>
             <View style={styles.header}>
               <View style={styles.headerLeft}>
                 <HeaderLight />
@@ -46,6 +49,8 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
               </View>
               <View style={styles.headerRight}></View>
             </View>
+          </View>
+          <ScrollView>
             <Formik
               initialValues={{
                 ...this.component.state.User,
@@ -394,6 +399,7 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                 </View>
               )}
             </Formik>
+            <KeyboardSpacer />
           </ScrollView>
         </View>
       );
