@@ -15,9 +15,10 @@ module.exports = StyleSheet.create({
     bottom: 0,
   },
   content: {
-    height: heightPercentageToDP(72),
+    height: heightPercentageToDP(62),
     alignItems: 'center',
-    justifyContent: 'center',
+    marginTop:60
+
   },
   title: {
     textAlign: 'center',
@@ -38,7 +39,6 @@ module.exports = StyleSheet.create({
   dropdownContainer: {
     marginTop: 50,
     alignItems: 'center',
-    height:50
   },
   dropdownButton: {
     width: widthPercentageToDP(90),
@@ -57,7 +57,6 @@ module.exports = StyleSheet.create({
     marginLeft: 20,
   },
   dropdownBg: {
-    height: 200,
     backgroundColor: '#282C3A',
   },
   dropdownRow: {

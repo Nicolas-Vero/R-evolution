@@ -18,6 +18,8 @@ import RegisterStepImageView from '../../../../components/register/registerStepI
 import { Button } from '../../../../components/Button';
 import { get_coach } from '../../../../api/Coach';
 import styles from './selectCoachStyle';
+import { get_commercial_by_place } from '../../../../api/Commercial';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 export default class selectCoachScreen extends React.Component {
   constructor(props) {
@@ -27,10 +29,16 @@ export default class selectCoachScreen extends React.Component {
       // passItem: this.props.navigation.state.params.item,
       Coach: [],
       isLoaded: false,
-      checked: false,
+      checkedCommercial: false,
+      checkedCoach: false,
     };
   }
   componentDidMount() {
+    get_commercial_by_place(1).then((res)=>{
+      this.setState({Commercial:res.data})
+      console.log(res.data);
+      this.setState({ isLoaded: true });
+    });
     get_coach().then((res) => {
       this.setState({ Coach: res.data });
       this.setState({ isLoaded: true });
@@ -83,6 +91,7 @@ export default class selectCoachScreen extends React.Component {
               <Formik
                 initialValues={{
                   coach_preference: '',
+                  commercial_id:0
                 }}
                 onSubmit={(values) => {
                   const item = { ...passItem, ...values };
@@ -94,7 +103,7 @@ export default class selectCoachScreen extends React.Component {
                   ),
                 })}>
                 {({ handleSubmit, isValid, validate }) => (
-                  <View style={{ paddingBottom: 15, alignItems: 'center' }}>
+                  <View>
                     <Field
                       name="coach_preference"
                       id="coach_preference"
@@ -129,7 +138,7 @@ export default class selectCoachScreen extends React.Component {
                                             type: 'specific_coach',
                                             coach_id: selectedItem.id,
                                           };
-                                        this.setState({ checked: false });
+                                        this.setState({ checkedCoach: false });
                                       }}
                                       renderDropdownIcon={() => {
                                         return (
@@ -145,7 +154,7 @@ export default class selectCoachScreen extends React.Component {
                                         selectedItem,
                                       ) => {
                                         let show = '';
-                                        this.state.checked
+                                        this.state.checkedCoach
                                           ? null
                                           : (show = `${selectedItem.first_name}  ${selectedItem.last_name}`);
                                         return show;
@@ -159,7 +168,7 @@ export default class selectCoachScreen extends React.Component {
                                         size={25}
                                         containerStyle={styles.noWayCheckBox}
                                         uncheckedColor="#2CDEE4"
-                                        checked={this.state.checked}
+                                        checked={this.state.checkedCoach}
                                         value={
                                           arrayhelper.form.values
                                             .coach_preference
@@ -170,7 +179,7 @@ export default class selectCoachScreen extends React.Component {
                                               type: 'any_coach',
                                             };
                                           this.setState({
-                                            checked: !this.state.checked,
+                                            checkedCoach: !this.state.checkedCoach,
                                           });
                                         }}
                                       />
@@ -192,8 +201,8 @@ export default class selectCoachScreen extends React.Component {
                                   </View>
                                 )}
                               />
-                            </View>
                             {this.renderCommercialView()}
+                            </View>
                           </View>
                         );
                       }}
@@ -217,8 +226,8 @@ export default class selectCoachScreen extends React.Component {
 
   renderCommercialView = () => {
     return (
-      <View>
-        {/* <View >
+      <View style={{marginTop:50}} >
+
                   <Text
                     style={{
                       fontWeight: 'bold',
@@ -227,23 +236,20 @@ export default class selectCoachScreen extends React.Component {
                     }}>
                     Quel commercial t'a contacté ?
                   </Text>
-                </View>
-                <View style={styles.container}>
+                <View style={styles.dropdownContainer}>
                   <FieldArray
-                    name='coach_preference'
+                    name='commercial_id'
                     render={(arrayhelper) => (
                    <View>
                    <View>
                         <SelectDropdown
                           buttonStyle={{ width: widthPercentageToDP(90), borderRadius: 5 }}
-                          data={this.state.Coach}
+                          data={this.state.Commercial}
                           defaultButtonText={'Recherche ton commercial'}
                           onSelect={(selectedItem, index) => {
-                            arrayhelper.form.values.coach_preference = {
-                              type: 'specific_coach',
-                              coach_id: selectedItem.id,
-                            };
-                            this.setState({checked:false})
+                            arrayhelper.form.values.commercial_id =   selectedItem.id,
+                       
+                            this.setState({checkedCommercial:false})
                           }}
                           renderDropdownIcon={() => {
                             return (
@@ -253,7 +259,7 @@ export default class selectCoachScreen extends React.Component {
                           dropdownIconPosition={'right'}
                           buttonTextAfterSelection={(selectedItem, index) => {
                             let show = '';
-                            this.state.checked?null: show = `${selectedItem.first_name}  ${selectedItem.last_name}`;
+                            this.state.checkedCommercial?null: show = `${selectedItem.first_name}  ${selectedItem.last_name}`;
                             return show;
                           }}
                           rowTextStyle={{
@@ -286,13 +292,11 @@ export default class selectCoachScreen extends React.Component {
                               borderWidth: 0,
                             }}
                             uncheckedColor="#2CDEE4"
-                            checked={this.state.checked}
+                            checked={this.state.checkedCommercial}
                             value={arrayhelper.form.values.coach_preference}
                             onPress={() => {
-                              arrayhelper.form.values.coach_preference = {
-                                type: 'any_coach',
-                              };
-                              this.setState({checked:true})
+                              arrayhelper.form.values.commercial_id = 0
+                              this.setState({checkedCommercial:true})
                             }}
                           />
                           <Text
@@ -312,7 +316,7 @@ export default class selectCoachScreen extends React.Component {
                     )}
                   />
               
-              </View> */}
+              </View>
       </View>
     );
   };
