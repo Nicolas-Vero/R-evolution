@@ -36,7 +36,6 @@ export default class registerScreen extends React.Component {
   }
 
   onNavigate = (item) => {
-    console.log('item');
     this.props.navigation.navigate(
       item.userType === 'coach' ? 'diplomasScreen' : 'mensurationScreen',
       item,

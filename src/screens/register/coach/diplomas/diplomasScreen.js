@@ -38,7 +38,6 @@ export default class diplomasScreen extends React.Component {
 
   render() {
     const passItem = this.props.navigation.state.params;
-
     return (
       <View style={styles.container}>
         <LinearGradient

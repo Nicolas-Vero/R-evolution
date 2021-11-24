@@ -18,7 +18,6 @@ export default class healthScreen extends React.Component {
     super(props);
     this.state = {
       step: 'initial',
-      arrayofdiplomas: [],
     };
   }
 
