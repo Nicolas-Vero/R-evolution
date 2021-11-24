@@ -86,6 +86,11 @@ module.exports = StyleSheet.create({
     borderRadius: 3,
     height: 38,
   },
+  previewImage: {
+    width: 105,
+    height: 105,
+    resizeMode: 'contain',
+  },
   dropdownButtonText: {
     fontSize: 15,
     textAlign: 'left',

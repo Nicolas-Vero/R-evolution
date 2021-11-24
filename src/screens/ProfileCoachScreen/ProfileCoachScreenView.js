@@ -54,37 +54,39 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                 console.log('image retour de S3:', this.component.state.image),
                 (
                   <View>
-                    <View style={styles.header}>
-                      <View style={styles.headerLeft}>
-                        <HeaderLight />
-                      </View>
-                      <View style={styles.headerMidle}>
-                        <FieldArray
-                          name="profile_picture_url"
-                          render={(arrayhelper) => (
-                            <TouchableOpacity
-                              onPress={(item) => {
-                                this.controller.pickImage(arrayhelper, item);
-                              }}>
-                              {this.component.state.image.uri ? (
-                                <View>
-                                  <Avatar
-                                    size={105}
-                                    rounded
-                                    source={{
-                                      uri: this.component.state.image.uri,
-                                    }}
+                    <View style={{ paddingTop: isIphoneX() ? 50 : 0 }}>
+                      <View style={styles.header}>
+                        <View style={styles.headerLeft}>
+                          <HeaderLight />
+                        </View>
+                        <View style={styles.headerMidle}>
+                          <FieldArray
+                            name="profile_picture_url"
+                            render={(arrayhelper) => (
+                              <TouchableOpacity
+                                onPress={(item) => {
+                                  this.controller.pickImage(arrayhelper, item);
+                                }}>
+                                {this.component.state.image.uri ? (
+                                  <View>
+                                    <Avatar
+                                      size={105}
+                                      rounded
+                                      source={{
+                                        uri: this.component.state.image.uri,
+                                      }}
+                                    />
+                                  </View>
+                                ) : (
+                                  <Image
+                                    style={styles.previewImage}
+                                    source={require('../../../assets/images/AddPhoto.png')}
                                   />
-                                </View>
-                              ) : (
-                                <Image
-                                  style={styles.previewImage}
-                                  source={require('/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/AddPhoto.png')}
-                                />
-                              )}
-                            </TouchableOpacity>
-                          )}
-                        />
+                                )}
+                              </TouchableOpacity>
+                            )}
+                          />
+                        </View>
                       </View>
                       <View style={styles.headerRight}></View>
                     </View>

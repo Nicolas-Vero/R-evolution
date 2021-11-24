@@ -4,15 +4,15 @@
   "expo": {
     "name": "R_evolution",
     "slug": "R_evolution",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "assetBundlePatterns": ["**/*"],
     "icon": "./assets/icons/luncher.png",
     "android": {
       "package": "com.org.revolution",
-      "versionCode": 13
+      "versionCode": 14
     },
     "ios": {
-      "buildNumber": "12",
+      "buildNumber": "1",
       "bundleIdentifier": "com.org.revolution",
       "supportsTablet": false
     }
