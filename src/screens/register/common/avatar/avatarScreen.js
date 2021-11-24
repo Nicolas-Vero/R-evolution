@@ -51,28 +51,30 @@ export default class avatarScreen extends React.Component {
   }
 
   onRegister = async (formData, item) => {
-    console.log(formData);
-    console.log(item);
     const { isCoach } = this.state;
     try {
-      upload_file(formData)
-        .then((res) => {
-          console.log(res);
-          item.profile_picture_url = res.data.location;
-        })
-        .then(() => {
-          console.log('item', item);
-          const register = isCoach ? auth(item) : sign_up(item);
-          console.log('register', register);
-        })
-        .then(() => {
-          //call login route item.email, item.pwd
-          // get token
-          // authservice.setAuth()
-          // redirect to correct stack
-          this.props.navigation.popToTop();
-          this.props.navigation.push('loginScreen');
-        });
+      (isCoach? auth(item) : sign_up(item)).then(()=>{
+              this.props.navigation.popToTop();
+              this.props.navigation.push('loginScreen');
+      })
+      // upload_file(formData)
+      //   .then((res) => {
+      //     console.log(res);
+      //     item.profile_picture_url = res.data.location;
+      //   })
+      //   .then(() => {
+      //     console.log('item', item);
+      //     const register = isCoach ? auth(item) : sign_up(item);
+      //     console.log('register', register);
+      //   })
+      //   .then(() => {
+      //     //call login route item.email, item.pwd
+      //     // get token
+      //     // authservice.setAuth()
+      //     // redirect to correct stack
+      //     this.props.navigation.popToTop();
+      //     this.props.navigation.push('loginScreen');
+      //   });
     } catch (error) {
       console.log('error:', error, ' ', 'data:', item);
     }
@@ -126,6 +128,7 @@ export default class avatarScreen extends React.Component {
                     type: this.state.image.type,
                     name: this.state.image.uri,
                   });
+                  console.log(formData);
                   this.onRegister(formData, item);
                 }}>
                 {({ handleSubmit, validate, ref }) => (
@@ -189,7 +192,7 @@ export default class avatarScreen extends React.Component {
                     <Button
                       loading={!this.state.isValid}
                       disabled={this.state.isValid}
-                      title="Suivant"
+                      title="crée ton compte"
                       customTextStyle={styles.buttonText}
                       onPress={handleSubmit}
                     />

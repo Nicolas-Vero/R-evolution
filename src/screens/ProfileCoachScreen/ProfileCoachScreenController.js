@@ -37,9 +37,9 @@ export default class ProfileCoachScreenController extends AbstractScreenControll
       this.component.setState({ Gymdata: res.data });
     });
     const user =  await get_coach_me()
-    get_file('0ace0f4b-614c-4820-8970-fae39aaf6b6d.jpeg').then((res)=>{
-      this.component.setState({image:res.data})
-    })
+    // get_file('0ace0f4b-614c-4820-8970-fae39aaf6b6d.jpeg').then((res)=>{
+    //   this.component.setState({image:res.data})
+    // })
    
     user.data.specialties.forEach(element => {
       arrayOfSpec.push(element.specialty_name)
