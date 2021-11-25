@@ -200,7 +200,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               //      onRefresh={onRefresh}
               // refreshing={this.component.state.refresh}
               // keyExtractor={(item) => {item?.date;}}
-              keyExtractor={(item, index) => `${index}`}
+              keyExtractor={(item) => item.time}
               renderItem={({ item }) => (
                 <SwitchButton
                   item={item}

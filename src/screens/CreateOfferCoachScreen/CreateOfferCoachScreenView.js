@@ -159,6 +159,7 @@ export default class CreateOfferCoachScreenView extends AbstractScreenView {
                   loading={false}
                   title="Valider"
                   onPress={() => {
+                    values.type === 'Autre'?values.nb_credits=1:null
                     this.controller.createOffer(values);
                   }}
                 />
