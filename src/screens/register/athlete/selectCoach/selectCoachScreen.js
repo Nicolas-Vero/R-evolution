@@ -31,10 +31,11 @@ export default class selectCoachScreen extends React.Component {
       isLoaded: false,
       checkedCommercial: false,
       checkedCoach: false,
+      Commercial:[]
     };
   }
   componentDidMount() {
-    get_commercial_by_place(1).then((res)=>{
+    get_commercial_by_place(this.props.navigation.state.params.item.preferred_gym_id).then((res)=>{
       this.setState({Commercial:res.data})
       console.log(res.data);
       this.setState({ isLoaded: true });
