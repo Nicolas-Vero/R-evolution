@@ -20,6 +20,7 @@ import styles from './ProfileCoachScreenStyle';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { Entypo } from '@expo/vector-icons';
 
 import { upload_file } from '../../api/File';
 import { updateCoach } from '../../api/Coach';
@@ -54,7 +55,7 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                 console.log('image retour de S3:', this.component.state.image),
                 (
                   <View>
-                    <View style={{ paddingTop: isIphoneX() ? 50 : 0 }}>
+                    <View style={{ paddingTop: isIphoneX() ? 50 : 10 }}>
                       <View style={styles.header}>
                         <View style={styles.headerLeft}>
                           <HeaderLight />
@@ -68,15 +69,13 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                                   this.controller.pickImage(arrayhelper, item);
                                 }}>
                                 {this.component.state.image.uri ? (
-                                  <View>
-                                    <Avatar
-                                      size={105}
-                                      rounded
-                                      source={{
-                                        uri: this.component.state.image.uri,
-                                      }}
-                                    />
-                                  </View>
+                                  <Avatar
+                                    size={105}
+                                    rounded
+                                    source={{
+                                      uri: this.component.state.image.uri,
+                                    }}
+                                  />
                                 ) : (
                                   <Image
                                     style={styles.previewImage}
@@ -87,8 +86,8 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                             )}
                           />
                         </View>
+                        <View style={styles.headerRight}></View>
                       </View>
-                      <View style={styles.headerRight}></View>
                     </View>
                     <View style={styles.content}>
                       <View style={{ flexDirection: 'row', marginBottom: 5 }}>
@@ -212,61 +211,36 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                         <FlatList
                           data={this.component.state.arrayofdiplomas}
                           extraData={this.component}
-                          renderItem={({ item }) => {
+                          numColumns={3}
+                          renderItem={({ item, index }) => {
                             return (
-                              <View style={{ flexDirection: 'row' }}>
-                                <View
-                                  style={{
-                                    backgroundColor: '#2CDEE4',
-                                    borderRadius: 25,
-                                    padding: 10,
-                                    justifyContent: 'center',
-                                    margin: 5,
-                                  }}>
-                                  <Text
-                                    style={{
-                                      fontFamily: 'RobotoBold',
-                                      fontSize: 15,
-                                      color: 'black',
-                                    }}>
-                                    {item}
-                                  </Text>
+                              <View
+                                style={{
+                                  marginLeft: index === 0 ? 0 : 7.5,
+                                  marginRight: 7.5,
+                                }}>
+                                <View style={[styles.item]}>
+                                  <Text style={styles.itemText}>{item}</Text>
                                 </View>
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    if (index > -1) {
+                                      this.component.state.arrayofdiplomas.splice(
+                                        index,
+                                        1,
+                                      );
+                                      values.diplomas.splice(index, 1);
+                                      this.component.setState({
+                                        refresh: !this.component.state.refresh,
+                                      });
+                                    }
 
-                                <View
-                                  style={{
-                                    alignItems: 'flex-end',
-
-                                    marginRight: 5,
-                                    color: '#2CDEE4',
-                                  }}>
-                                  <TouchableOpacity
-                                    onPress={() => {
-                                      const index =
-                                        this.component.state.arrayofdiplomas.indexOf(
-                                          item,
-                                        );
-
-                                      if (index > -1) {
-                                        this.component.state.arrayofdiplomas.splice(
-                                          index,
-                                          1,
-                                        );
-                                        values.diplomas.splice(index, 1);
-                                        this.component.setState({
-                                          refresh:
-                                            !this.component.state.refresh,
-                                        });
-                                      }
-
-                                      console.log(item);
-                                      // values.diplomas.pop();
-                                    }}>
-                                    <Text style={{ color: '#2CDEE4' }}>
-                                      Supprimer
-                                    </Text>
-                                  </TouchableOpacity>
-                                </View>
+                                    console.log(item);
+                                    // values.diplomas.pop();
+                                  }}
+                                  style={styles.deleteContainer}>
+                                  <Entypo name="cross" size={18} />
+                                </TouchableOpacity>
                               </View>
                             );
                           }}
@@ -274,68 +248,49 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                           //   extraData={selectedId}
                         />
                       </View>
-                      <Text style={styles.text}>Spécialities(s)</Text>
+                      <Text style={[styles.text, { marginTop: 10 }]}>
+                        spécialité(s)
+                      </Text>
                       <FlatList
-                        horizontal={true}
                         data={this.component.state.specData}
-                        extraData={this.component.state}
-                        renderItem={({ item }) => {
+                        numColumns={3}
+                        keyExtractor={(item) => item}
+                        renderItem={({ item, index }) => {
                           return (
-                            <View style={{ flexDirection: 'row' }}>
-                              <View
-                                style={{
-                                  backgroundColor: '#2CDEE4',
-                                  borderRadius: 25,
-                                  padding: 10,
-                                  justifyContent: 'center',
-                                  margin: 5,
-                                }}>
-                                <Text
-                                  style={{
-                                    fontFamily: 'RobotoBold',
-                                    fontSize: 15,
-                                    color: 'black',
-                                  }}>
-                                  {item}
-                                </Text>
+                            <View
+                              style={{
+                                marginLeft: index === 0 ? 0 : 7.5,
+                                marginRight: 7.5,
+                              }}>
+                              <View style={styles.item}>
+                                <Text style={styles.itemText}>{item}</Text>
                               </View>
+                              <TouchableOpacity
+                                onPress={() => {
+                                  // const index =
+                                  //   this.component.state.specData.indexOf(
+                                  //     item,
+                                  //   );
 
-                              <View
-                                style={{
-                                  alignItems: 'flex-end',
-                                  marginRight: 5,
-                                  color: '#2CDEE4',
-                                }}>
-                                <TouchableOpacity
-                                  onPress={() => {
-                                    const index =
-                                      this.component.state.specData.indexOf(
-                                        item,
-                                      );
-
-                                    if (index > -1) {
-                                      this.component.state.specData.splice(
-                                        index,
-                                        1,
-                                      );
-                                      values.specialties.splice(index, 1);
-                                      this.component.setState({
-                                        refresh: !this.component.state.refresh,
-                                      });
-                                    }
-                                  }}>
-                                  <Text style={{ color: '#2CDEE4' }}>
-                                    Supprimer
-                                  </Text>
-                                </TouchableOpacity>
-                              </View>
+                                  // if (index > -1) {
+                                  //   this.component.state.specData.splice(
+                                  //     index,
+                                  //     1,
+                                  //   );
+                                  values.specialties.splice(index, 1);
+                                  this.component.setState({
+                                    refresh: !this.component.state.refresh,
+                                  });
+                                }}
+                                style={styles.deleteContainer}>
+                                <Entypo name="cross" size={18} />
+                              </TouchableOpacity>
                             </View>
                           );
                         }}
-                        keyExtractor={(item) => item}
                       />
 
-                      <View style={styles.inputContainer}>
+                      <View style={[styles.inputContainer, { marginTop: 5 }]}>
                         <FieldArray
                           render={(arrayhelper) => (
                             <View style={styles.inputWithButtonContainer}>
@@ -360,9 +315,9 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                                   this.component.state.specData.push(
                                     this.component.state.SpecialitiesTerm,
                                   );
-                                  values.specialties.push(
-                                    this.component.state.SpecialitiesTerm,
-                                  );
+                                  // values.specialties.push(
+                                  //   this.component.state.SpecialitiesTerm,
+                                  // );
                                   this.component.setState({
                                     refresh: !this.component.state.refresh,
                                   });

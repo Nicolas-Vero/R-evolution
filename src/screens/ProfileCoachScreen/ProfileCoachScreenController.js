@@ -13,13 +13,13 @@ export default class ProfileCoachScreenController extends AbstractScreenControll
     super(component);
 
     this.initialState = {
-      refresh:false,
+      refresh: false,
       Coach: {},
       User: [],
       specData: [],
       SpecialitiesTerm: '',
       arrayofdiplomas: [],
-      DiplomasTerm:'',
+      DiplomasTerm: '',
       loaded: false,
       Gymdata: [],
       diplomas: [],
@@ -28,32 +28,32 @@ export default class ProfileCoachScreenController extends AbstractScreenControll
   }
 
   async componentDidMount() {
-    const arrayOfSpec =[]
-    const arrayOfDip=[]
+    const arrayOfSpec = [];
+    const arrayOfDip = [];
     get_coach_me().then((res) => {
       this.component.setState({ Coach: res.data });
     });
     get_gym().then((res) => {
       this.component.setState({ Gymdata: res.data });
     });
-    const user =  await get_coach_me()
-    // get_file('0ace0f4b-614c-4820-8970-fae39aaf6b6d.jpeg').then((res)=>{
-    //   this.component.setState({image:res.data})
-    // })
-   
-    user.data.specialties.forEach(element => {
-      arrayOfSpec.push(element.specialty_name)
+    const user = await get_coach_me();
+    get_file('0ace0f4b-614c-4820-8970-fae39aaf6b6d.jpeg').then((res)=>{
+      this.component.setState({image:res.data})
+    })
+
+    user.data.specialties.forEach((element) => {
+      arrayOfSpec.push(element.specialty_name);
     });
-    user.data.diplomas.forEach(element => {
-      arrayOfDip.push(element.diploma_name)
+    user.data.diplomas.forEach((element) => {
+      arrayOfDip.push(element.diploma_name);
     });
-    console.log(  user.data);
-    this.component.setState({specData:arrayOfSpec});
-    this.component.setState({arrayofdiplomas:arrayOfDip});
+    console.log(user.data);
+    this.component.setState({ specData: arrayOfSpec });
+    this.component.setState({ arrayofdiplomas: arrayOfDip });
     this.component.setState({ User: user.data });
     this.component.setState({ loaded: true });
   }
-   pickImage = async (arrayhelper) => {
+  pickImage = async (arrayhelper) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,

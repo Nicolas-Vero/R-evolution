@@ -157,6 +157,7 @@ export default class CreateReminderCoachScreenView extends AbstractScreenView {
                                 onChangeText={handleChange('content')}
                                 onBlur={handleBlur('content')}
                                 value={values.content}
+                                onSubmitEditing={() => Keyboard.dismiss()}
                                 returnKeyType="done"
                               />
                             </View>

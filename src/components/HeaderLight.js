@@ -16,18 +16,12 @@ class HeaderLight extends React.Component {
     const { title, navigation } = this.props;
     return (
       <View style={defaultStyle.container}>
-        <View style={{ flex: 1 }}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image
-              source={require('../../assets/icons/header-back.png')}
-              style={defaultStyle.image}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={defaultStyle.textContainer}>
-          <Text style={defaultStyle.text}>{title}</Text>
-        </View>
-        <View style={{ flex: 1 }} />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            source={require('../../assets/icons/header-back.png')}
+            style={defaultStyle.image}
+          />
+        </TouchableOpacity>
       </View>
     );
   }
@@ -37,17 +31,7 @@ export default withNavigation(HeaderLight);
 const defaultStyle = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 20,
   },
   image: { height: 20.54, width: 12.33, resizeMode: 'contain', marginLeft: 0 },
   textContainer: { alignItems: 'center', flex: 6 },
-  text: {
-    fontStyle: 'italic',
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: '#FFFFFF',
-    lineHeight: 24,
-  },
 });

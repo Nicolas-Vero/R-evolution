@@ -86,13 +86,19 @@ module.exports = StyleSheet.create({
   },
   addBookContainer: {
     position: 'absolute',
-    left: wp(88),
-    top: hp(20),
-    right: wp(10),
+    bottom: 200,
+    right: 10,
+    zIndex: 1,
+    alignSelf: 'flex-end',
+    height: 45,
+    justifyContent: 'center',
+    alignContent: 'center',
+    width: 45,
   },
   addBookImage: {
     height: 45,
     width: 45,
+    resizeMode: 'contain',
   },
   dayContainer: {
     height: 56,

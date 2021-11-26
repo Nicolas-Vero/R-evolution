@@ -84,10 +84,8 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                   </Text>
                 </View>
                 <View style={styles.item}>
-                  <Text style={styles.infoText}>Adresse e-mail :</Text>
-                  <Text style={styles.valueText}>
-                    {this.component.state.Athlete.athlete?.email}
-                  </Text>
+                  <Text style={styles.infoText}>Commercial référent :</Text>
+                  <Text style={styles.valueText}>blabla</Text>
                 </View>
                 <View style={styles.item}>
                   <Text style={styles.infoText}>Ses objectifs :</Text>

@@ -65,10 +65,11 @@ module.exports = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     width: 80,
-    height: 30,
+    height: 35,
     borderRadius: 3,
     textAlign: 'center',
     fontFamily: 'Roboto',
+    fontSize: 15,
   },
   header: {
     flexDirection: 'row',

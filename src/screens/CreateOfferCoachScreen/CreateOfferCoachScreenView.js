@@ -122,7 +122,7 @@ export default class CreateOfferCoachScreenView extends AbstractScreenView {
                         ref={(ref) => (this.nbSeanceInput = ref)}
                         blurOnSubmit={false}
                         onSubmitEditing={() =>
-                          this.nbSeanceInput && this.nbSeanceInput.focus()
+                          this.priceInput && this.priceInput.focus()
                         }
                         returnKeyType="next"
                         keyboardType="numeric"
@@ -138,7 +138,7 @@ export default class CreateOfferCoachScreenView extends AbstractScreenView {
                     <Text style={styles.text}>Prix</Text>
                     <View style={styles.priceContainer}>
                       <TextInput
-                        ref={(ref) => (this.price = ref)}
+                        ref={(ref) => (this.priceInput = ref)}
                         blurOnSubmit={false}
                         onSubmitEditing={() => Keyboard.dismiss()}
                         keyboardType="number-pad"
