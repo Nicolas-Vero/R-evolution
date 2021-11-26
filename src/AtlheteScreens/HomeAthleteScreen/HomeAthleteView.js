@@ -282,7 +282,7 @@ export default class HomeAthleteView extends AbstractScreenView {
                     />
                     <View style={styles.appointmentTodayItemLeftTexts}>
                       <Text style={styles.appointmentTodayItemLeftUsername}>
-                        {item?.athlete.first_name} {item?.athlete?.last_name}
+                        {`${this.component.state.coach.first_name} ${this.component.state.coach.last_name}`}
                       </Text>
                       <Text style={styles.appointmentTodayItemLeftSession}>
                         Séance: {item?.session_number}/

@@ -154,6 +154,6 @@ module.exports = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    right: 10,
+    right: 0,
   },
 });

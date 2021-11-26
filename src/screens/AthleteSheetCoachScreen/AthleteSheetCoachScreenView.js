@@ -23,7 +23,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
       dayPreference.push({ day: 'Mardi' });
     }
     if (user.is_wednesday_preferred == true) {
-      dayPreference.push({ day: 'Mercreedi' });
+      dayPreference.push({ day: 'Mercredi' });
     }
     if (user.is_thursday_preferred == true) {
       dayPreference.push({ day: 'Jeudi' });
