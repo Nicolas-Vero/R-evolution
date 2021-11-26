@@ -11,18 +11,20 @@ module.exports = StyleSheet.create({
     backgroundColor: '#000',
   },
   header: {
+    marginHorizontal: 16,
+    flex: 1,
     flexDirection: 'row',
-    alignContent: 'center',
+    justifyContent: 'space-between',
   },
   headerLeft: {
-    alignItems: 'flex-start',
+    flex: 1,
   },
   headerMidle: {
-    marginTop: 30,
+    flex: 1,
     alignItems: 'center',
   },
   headerRight: {
-    alignItems: 'flex-end',
+    flex: 1,
   },
   content: {
     marginHorizontal: 16,
@@ -35,17 +37,6 @@ module.exports = StyleSheet.create({
     marginLeft: 0,
     backgroundColor: 'transparent',
     borderWidth: 0,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: width,
-    height: 49,
-    marginTop: 29,
-    marginBottom: 49,
-    paddingLeft: 16,
-    paddingRight: 16,
   },
   inputContainer: {
     marginBottom: 15,
@@ -77,6 +68,8 @@ module.exports = StyleSheet.create({
     alignItems: 'center',
     alignContent: 'center',
     width: wp(85),
+    height: 38,
+
   },
   addButton: {
     marginLeft: 5,
@@ -135,5 +128,32 @@ module.exports = StyleSheet.create({
   validateButtonText: {
     fontFamily: 'RobotoBold',
     fontSize: 15,
+  },
+  flatlist: {
+    maxHeight: 150,
+  },
+  item: {
+    width: wp(25),
+    borderRadius: 25,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 7.5,
+    backgroundColor: '#2CDEE4',
+  },
+  itemText: {
+    fontFamily: 'RobotoBold',
+    fontSize: 15,
+    textAlign: 'center',
+  },
+  deleteContainer: {
+    position: 'absolute',
+    width: 20,
+    height: 20,
+    backgroundColor: '#FD7279',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 10,
   },
 });

@@ -51,7 +51,7 @@ module.exports = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 15,
     paddingRight: 15,
-    width: wp(92),
+    width: 'auto',
     height: 38,
   },
   textArea: {
@@ -61,7 +61,7 @@ module.exports = StyleSheet.create({
     paddingBottom: 170,
     paddingLeft: 15,
     paddingRight: 15,
-    width: wp(92),
+    width: 'auto',
     height: 200,
   },
   safeArea: {

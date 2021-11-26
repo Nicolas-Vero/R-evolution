@@ -99,7 +99,7 @@ export default class OffersScreenView extends AbstractScreenView {
                     Choisir cette offre
                   </Text>
                 </View>
-                <Text style={styles.catalogItemPrice}>{item.price}€</Text>
+                <Text style={styles.catalogItemPrice}>{item.price / 100}€</Text>
               </TouchableOpacity>
             </LinearGradient>
           )}

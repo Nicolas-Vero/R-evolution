@@ -49,7 +49,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
     return (
       <View style={styles.container}>
         <SafeAreaView>
-          <View style={{marginTop: isIphoneX() ? 50 : 0}}>
+          <View style={{ marginTop: isIphoneX() ? 50 : 0 }}>
             <View style={styles.header}>
               <HeaderLight />
               <View style={styles.headerLeft}>
@@ -68,32 +68,42 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
           <View style={styles.content}>
             <ScrollView style={styles.scrollView}>
               <View style={styles.phoneNumberContainer}>
-                <View style={styles.phoneNumberLeft}></View>
-                <View style={styles.phoneNumberMidle}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Image
-                      style={styles.phoneImg}
-                      source={require('../../../assets/images/phone.png')}
-                    />
-                    <Text style={styles.phoneNumberText}>{user.phone}</Text>
-                  </View>
-                </View>
-                <View style={styles.phoneNumberRight}></View>
+                <Image
+                  style={styles.phoneImg}
+                  source={require('../../../assets/images/phone.png')}
+                />
+                <Text style={styles.phoneNumberText}>
+                  {[
+                    user.phone.slice(0, 2),
+                    ' ',
+                    user.phone.slice(2, 4),
+                    ' ',
+                    user.phone.slice(4, 6),
+                    ' ',
+                    user.phone.slice(6, 8),
+                    ' ',
+                    user.phone.slice(8, 10),
+                  ].join('')}
+                </Text>
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Adresse e-mail :</Text>
                 <Text style={styles.valueText}>{user.email}</Text>
               </View>
               <View style={styles.item}>
+                <Text style={styles.infoText}>Commercial référent :</Text>
+                <Text style={styles.valueText}>blabla</Text>
+              </View>
+              <View style={styles.item}>
                 <Text style={styles.infoText}>Offre en cours :</Text>
                 <Text style={styles.valueText}>
                   <Text style={styles.valueText}>
-                    {this.component.state.ActiveCourses.offer?.title}
+                    {this.component.state.ActiveCourses.offer?.title || 'Aucune offre'}
                   </Text>
                 </Text>
               </View>
               <View style={styles.item}>
-                <Text style={styles.infoText}>Paiement(s) effectué(s) :</Text>
+                <Text style={styles.infoText}>vente(s) effectuée(s) :</Text>
 
                 <FlatList
                   style={styles.paiementList}
@@ -132,7 +142,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   <View style={styles.addPaiementIconMargin}>
                     <Entypo name="squared-plus" size={27} color="#2CDEE4" />
                   </View>
-                  <Text style={styles.infoText}>Ajouter un paiement</Text>
+                  <Text style={styles.infoText}>Ajouter une vente</Text>
                 </TouchableOpacity>
               </View>
               <View style={styles.item}>

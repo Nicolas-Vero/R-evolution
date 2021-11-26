@@ -33,9 +33,10 @@ export default class OffersTrainingsCoachScreenView extends AbstractScreenView {
                   source={require('../../../assets/images/Formation.jpg')}
                   style={styles.trainingImageContent}>
                   <View style={styles.imageTextContainer}>
-                    <Text style={styles.title}>LES FORMATION</Text>
+                    <Text style={styles.title}>LES FORMATIONS</Text>
                     <Text style={styles.subTitle}>
-                      Accède à la plateforme de formation
+                      accède aux modules de formation pour aiguiser tes
+                      compétences
                     </Text>
                   </View>
                 </ImageBackground>

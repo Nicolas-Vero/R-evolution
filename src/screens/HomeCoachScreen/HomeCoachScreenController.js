@@ -18,12 +18,13 @@ export default class HomeCoachScreenController extends AbstractScreenController 
 
       selectedDate: '',
       currentDate: '',
-      selectedDate: '',
+      selectedDate: moment(new Date()).format('YYYY-MM-DD'),
       today: '',
       currentAvailabilities: [],
       availabilities: [],
       page: [],
       dialogVisible: false,
+      todayIndex: null,
     };
   }
 
@@ -36,14 +37,14 @@ export default class HomeCoachScreenController extends AbstractScreenController 
   };
 
   async componentDidMount() {
+    this.component.listRef = null;
     const user = await AuthService.getUser();
-    console.log('user', user);
     this.component.setState({ user });
     const curDate = moment().format('YYYY-MM-DD');
     this.component.setState({ today: curDate });
     this.changeTaskList(curDate);
     this.getAvailabilities(curDate);
-    this.onMonthChange(curDate);
+    this.onMonthChange(curDate, true);
     this.component.notificationListener =
       Notifications.addNotificationReceivedListener((notification) => {
         console.log('[Notification-C-Dashboard]', notification);
@@ -101,12 +102,15 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     });
   }
 
-  onMonthChange = (date) => {
+  onMonthChange = (date, isMount) => {
     var item = [];
     var ArrayOfday = this.getDaysArrayByMonth(
       moment(date).format('YYYY-MM-DD'),
     );
-    ArrayOfday.forEach((element) => {
+    let todayIndex = 0;
+    ArrayOfday.forEach((element, index) => {
+      if (this.component.state.today === moment(element).format('YYYY-MM-DD'))
+        todayIndex = index;
       const elementdaynum = moment(element).format('dd');
       const elementday = moment(element).format('D');
       element = moment(element).format('YYYY-MM-DD');
@@ -118,6 +122,9 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       item?.push(Object);
     });
     this.component.setState({ availabilities: item });
+    if (isMount) {
+      this.scrollToIndex(todayIndex, true);
+    }
   };
 
   async changeTaskList(date) {
@@ -152,7 +159,6 @@ export default class HomeCoachScreenController extends AbstractScreenController 
           slot: rdv?.slot,
         });
       });
-      console.log('arrayOfPage', arrayOfPage);
       this.component.setState({ page: arrayOfPage });
       this.component.setState({ carousselLoad: true });
     });
@@ -168,5 +174,12 @@ export default class HomeCoachScreenController extends AbstractScreenController 
 
   onFilterTimes = () => {
     this.onDismissDialog();
+  };
+
+  scrollToIndex = (index, animated) => {
+    setTimeout(() => {
+      this.component.listRef &&
+        this.component.listRef.scrollToIndex({ animated, index });
+    }, 2000);
   };
 }

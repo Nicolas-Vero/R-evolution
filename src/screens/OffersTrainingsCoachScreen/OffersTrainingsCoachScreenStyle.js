@@ -24,7 +24,7 @@ module.exports = StyleSheet.create({
   },
   image: {
     resizeMode: 'cover',
-    opacity: 0.4,
+    opacity: 0.7,
   },
   trainingContainer: {
     marginTop: 25,

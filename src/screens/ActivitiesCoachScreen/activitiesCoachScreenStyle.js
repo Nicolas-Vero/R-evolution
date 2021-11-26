@@ -38,7 +38,6 @@ module.exports = StyleSheet.create({
     backgroundColor: '#1E2026',
     width: 'auto',
     marginBottom: 10,
-    paddingRight: 30,
   },
   itemColor: {
     borderRadius: 3,
@@ -82,11 +81,18 @@ module.exports = StyleSheet.create({
   },
   createReminderButton: {
     position: 'absolute',
-    left: wp(35),
-    top: hp(50),
+    bottom: 300,
+    right: -10,
+    zIndex: 1,
+    alignSelf: 'flex-end',
+    height: 45,
+    justifyContent: 'center',
+    alignContent: 'center',
+    width: 45,
   },
   createReminderImage: {
     width: 42,
     height: 42,
+    resizeMode: 'contain',
   },
 });

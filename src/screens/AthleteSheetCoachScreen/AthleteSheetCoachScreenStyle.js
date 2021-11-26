@@ -10,6 +10,7 @@ module.exports = StyleSheet.create({
     backgroundColor: '#000',
   },
   header: {
+    marginHorizontal: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignContent: 'center',
@@ -25,9 +26,8 @@ module.exports = StyleSheet.create({
   },
   userStatusImage: {
     resizeMode: 'contain',
-    width: 62,
-    height: 29,
-    marginRight: 16,
+    width: 70,
+    height: 37,
   },
   scrollView: {
     marginTop: 10,
@@ -35,28 +35,16 @@ module.exports = StyleSheet.create({
   },
   phoneNumberContainer: {
     alignItems: 'center',
-    flexDirection: 'row',
     backgroundColor: '#2CDEE4',
     borderRadius: 3,
     justifyContent: 'center',
-    justifyContent: 'space-between',
     paddingLeft: 11,
     paddingRight: 15,
     paddingVertical: 11,
     marginBottom: 5,
+    flexDirection: 'row',
   },
-  phoneNumberLeft: {
-    alignItems: 'flex-start',
-    flex: 1,
-  },
-  phoneNumberMidle: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  phoneNumberRight: {
-    alignItems: 'flex-end',
-    flex: 1,
-  },
+  phoneNumberContent: {},
   phoneNumberIndexText: {
     fontSize: 15,
     fontFamily: 'Roboto',

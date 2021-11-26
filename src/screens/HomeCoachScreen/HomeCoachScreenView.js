@@ -18,12 +18,10 @@ import { Avatar } from 'react-native-elements';
 import { Calendar } from 'react-native-calendars';
 import MonthsSlider from '../../components/MonthsSlider';
 import SwitchButton from '../../components/SwitchButton';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { options } from './homeCoachConfig';
 import styles from './HomeCoachScreenStyle';
+import { update } from 'lodash-es';
 export default class HomeCoachScreenView extends AbstractScreenView {
   renderDialog() {
     return (
@@ -35,6 +33,56 @@ export default class HomeCoachScreenView extends AbstractScreenView {
     );
   }
 
+  renderDay = (date, state, marking) => {
+    const isSelected = state === 'today' || marking;
+    return (
+      <TouchableOpacity
+        style={{ margin: 7, height: 30, width: 30 }}
+        onPress={() => this.controller.changeTaskList(date)}>
+        <View
+          style={{
+            zIndex: 1,
+            position: 'absolute',
+            right: -8,
+            width: 13,
+            height: 13,
+            borderRadius: 10,
+            backgroundColor: isSelected ? '#393637' : '#2CDEE4',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <View>
+            <Text
+              style={{
+                fontSize: 8,
+                color: isSelected ? '#fff' : '#000',
+                fontFamily: 'Montserrat',
+              }}>
+              2
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: 36,
+            height: 36,
+            borderRadius: 18,
+            backgroundColor: isSelected ? '#2CDEE4' : '#393637',
+          }}>
+          <Text
+            style={{
+              color: isSelected ? '#000' : '#fff',
+              fontSize: 16,
+              fontFamily: 'MontserratMedium',
+            }}>
+            {date.day}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
   renderPlanning = () => {
     const selected = this.component.state.selectedDate;
     return (
@@ -92,29 +140,13 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                     selectedTextColor: 'black',
                   },
                 }}
-                // dayComponent={({date, state}) => {
-                //   return (
-                //     <View>
-                //       <Text style={[styles.customDay, state === 'disabled' ? styles.disabledText : styles.defaultText]}>
-                //         {date.day}
-                //       </Text>
-                //     </View>
-                //   );
-                // }}
+                dayComponent={({ date, state, marking }) =>
+                  this.renderDay(date, state, marking)
+                }
                 onDayPress={(day) => this.controller.changeTaskList(day)}
                 style={styles.calendar}
               />
             </ScrollView>
-            <TouchableOpacity
-              style={styles.addBookContainer}
-              onPress={() => {
-                navigate('CreateBookCoachScreen');
-              }}>
-              <Image
-                source={require('../../../assets/images/Group_8766.png')}
-                style={styles.addBookImage}
-              />
-            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -129,10 +161,12 @@ export default class HomeCoachScreenView extends AbstractScreenView {
           <MonthsSlider onChange={this.controller.onMonthChange.bind(this)} />
           <View style={{ marginBottom: 34 }}>
             <FlatList
+              // initialNumToRender={this.component.state.todayIndex}
+              ref={(ref) => (this.component.listRef = ref)}
               horizontal={true}
               data={this.component.state.availabilities}
               refreshing={this.component.state.refresh}
-              keyExtractor={(item) => item?.date}
+              keyExtractor={(item) => Math.random(10)}
               renderItem={({ item }) => {
                 const borderWidth = item?.availability === curDate ? 2 : 0;
                 const backgroundColor =
@@ -292,9 +326,31 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               />
             </View>
             <View>{/*TO DO: passe les jours en francais  */}</View>
-            {this.component.state.screen == 'Planning'
-              ? this.renderPlanning()
-              : this.renderAvailability()}
+            {this.component.state.screen == 'Planning' ? (
+              <View>
+                {this.renderPlanning()}
+                <View style={styles.addBookContainer}>
+                  <TouchableOpacity
+                    style={{ zIndex: 1 }}
+                    hitSlop={{
+                      top: 10,
+                      bottom: 15,
+                      left: 10,
+                      right: 10,
+                    }}
+                    onPress={() => {
+                      navigate('CreateBookCoachScreen');
+                    }}>
+                    <Image
+                      source={require('../../../assets/images/Group_8766.png')}
+                      style={styles.addBookImage}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ) : (
+              this.renderAvailability()
+            )}
           </View>
         </SafeAreaView>
       </View>
