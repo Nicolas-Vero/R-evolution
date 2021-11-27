@@ -1,7 +1,7 @@
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE } from '../../configs/Constants';
-import { get_coach_me } from '../../api/Coach';
+import { get_coach_me, updateCoach } from '../../api/Coach';
 import { get_gym } from '../../api/ReferenceData';
 import * as ImagePicker from 'expo-image-picker';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
@@ -37,9 +37,9 @@ export default class ProfileCoachScreenController extends AbstractScreenControll
       this.component.setState({ Gymdata: res.data });
     });
     const user = await get_coach_me();
-    get_file('0ace0f4b-614c-4820-8970-fae39aaf6b6d.jpeg').then((res)=>{
-      this.component.setState({image:res.data})
-    })
+    get_file('0ace0f4b-614c-4820-8970-fae39aaf6b6d.jpeg').then((res) => {
+      this.component.setState({ image: res.data });
+    });
 
     user.data.specialties.forEach((element) => {
       arrayOfSpec.push(element.specialty_name);
@@ -47,7 +47,6 @@ export default class ProfileCoachScreenController extends AbstractScreenControll
     user.data.diplomas.forEach((element) => {
       arrayOfDip.push(element.diploma_name);
     });
-    console.log(user.data);
     this.component.setState({ specData: arrayOfSpec });
     this.component.setState({ arrayofdiplomas: arrayOfDip });
     this.component.setState({ User: user.data });
@@ -62,10 +61,8 @@ export default class ProfileCoachScreenController extends AbstractScreenControll
     });
 
     if (!result.cancelled) {
-      console.log(result);
       this.component.setState({ image: result });
       arrayhelper.form.values.profile_picture_url = result.uri;
-      console.log(arrayhelper);
     }
   };
 
@@ -96,4 +93,20 @@ export default class ProfileCoachScreenController extends AbstractScreenControll
       console.log('invalid confirmation');
     }
   }
+
+  onSave = async (values) => {
+    const formData = new FormData();
+    formData.append('file', {
+      uri: this.component.state.image.uri,
+      type: this.component.state.image.type,
+      name: this.component.state.image.uri,
+    });
+    const update = await updateCoach(values);
+    if (update.status === 200) {
+      const coach = await get_coach_me();
+      if (coach.status === 200) await AuthService.setUser(coach.data);
+    }
+
+    this.component.props.navigation.goBack();
+  };
 }

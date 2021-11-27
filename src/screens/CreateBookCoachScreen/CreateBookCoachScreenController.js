@@ -79,7 +79,7 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
       slot: values.slot,
     });
     if (addProspect.status === 200) {
-      this.component.props.navigation.navigate.goBack();
+      this.component.props.navigation.goBack();
     }
   };
   onCreateBookPress = async (values) => {
@@ -92,7 +92,7 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
     });
 
     if (createBook.status === 200) {
-      this.component.props.navigation.navigate.goBack();
+      this.component.props.navigation.goBack();
     }
   };
 }

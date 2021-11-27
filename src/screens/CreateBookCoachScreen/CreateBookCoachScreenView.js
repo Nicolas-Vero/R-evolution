@@ -412,18 +412,19 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                       </View>
                     )}
                   </View>
-
-                  <View style={styles.buttonContainer}>
-                    <Button
-                      style={styles.button}
-                      customTextStyle={styles.buttonText}
-                      loading={false}
-                      title="Valider"
-                      onPress={() => {
-                        this.controller.onCreateBookPress(values);
-                      }}
-                    />
-                  </View>
+                  {this.component.state.type === 'Prospect' ? null : (
+                    <View style={styles.buttonContainer}>
+                      <Button
+                        style={styles.button}
+                        customTextStyle={styles.buttonText}
+                        loading={false}
+                        title="Valider"
+                        onPress={() => {
+                          this.controller.onCreateBookPress(values);
+                        }}
+                      />
+                    </View>
+                  )}
                 </View>
               )}
             </Formik>

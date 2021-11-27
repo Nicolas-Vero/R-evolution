@@ -6,11 +6,15 @@ import { isEmpty } from 'lodash-es';
 import moment from 'moment';
 
 export default class SwitchButton extends Component {
-  state = {
-    bookOfDay: [],
-    currentBook: {},
-    day: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      bookOfDay: [],
+      currentBook: {},
+      day: '',
+      disable: false,
+    };
+  }
   componentDidMount() {
     this.setState({ day: moment().format('YYYY-MM-DD') });
   }
@@ -27,7 +31,9 @@ export default class SwitchButton extends Component {
         });
         this.setState({ bookOfDay: filterarray });
       });
+      console.log('date', this.props.item.date);
       this.setState({ day: this.props.item.date });
+      this.setState({ disable: prevProps.day < prevProps.today });
     }
   }
 
@@ -71,6 +77,7 @@ export default class SwitchButton extends Component {
           <Text style={styles.textColored}>Disponible</Text>
         )}
         <CheckBox
+          disabled={this.state.disable}
           size={22}
           containerStyle={styles.checkBox}
           checkedColor="#2CDEE4"

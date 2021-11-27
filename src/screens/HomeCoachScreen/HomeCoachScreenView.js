@@ -34,7 +34,12 @@ export default class HomeCoachScreenView extends AbstractScreenView {
   }
 
   renderDay = (date, state, marking) => {
-    const isSelected = state === 'today' || marking;
+    const isSelected = marking;
+    const isToday = state === 'today';
+    const textColor = isToday || !marking ? '#fff' : '#000';
+    const bg = isToday ? '#393637' : marking ? '#2CDEE4' : '#393637';
+    const badgeTextColor = isToday ? '#000' : marking ? '#fff' : '#000';
+    const badgeBg = isToday ? '#2CDEE4' : isSelected ? '#393637' : '#2CDEE4';
     return (
       <TouchableOpacity
         style={{ margin: 7, height: 30, width: 30 }}
@@ -47,7 +52,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             width: 13,
             height: 13,
             borderRadius: 10,
-            backgroundColor: isSelected ? '#393637' : '#2CDEE4',
+            backgroundColor: badgeBg,
             alignItems: 'center',
             justifyContent: 'center',
           }}>
@@ -55,7 +60,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             <Text
               style={{
                 fontSize: 8,
-                color: isSelected ? '#fff' : '#000',
+                color: badgeTextColor,
                 fontFamily: 'Montserrat',
               }}>
               2
@@ -64,16 +69,18 @@ export default class HomeCoachScreenView extends AbstractScreenView {
         </View>
         <View
           style={{
+            borderWidth: isToday ? 1 : 0,
+            borderColor: isToday ? '#2CDEE4' : '#393637',
             alignItems: 'center',
             justifyContent: 'center',
             width: 36,
             height: 36,
             borderRadius: 18,
-            backgroundColor: isSelected ? '#2CDEE4' : '#393637',
+            backgroundColor: bg,
           }}>
           <Text
             style={{
-              color: isSelected ? '#000' : '#fff',
+              color: textColor,
               fontSize: 16,
               fontFamily: 'MontserratMedium',
             }}>
@@ -230,19 +237,27 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             <FlatList
               contentContainerStyle={{ paddingBottom: 60 }}
               style={{ maxHeight: heightPercentageToDP(50), marginTop: 25 }}
-              data={[this.component.state.currentAvailabilities]}
+              data={[this.component.state.currentAvailabilities.avaibilities]}
               //      onRefresh={onRefresh}
               // refreshing={this.component.state.refresh}
               // keyExtractor={(item) => {item?.date;}}
               keyExtractor={(item, index) => `${index}`}
-              renderItem={({ item }) => (
-                <SwitchButton
-                  item={item}
-                  handler={() => {
-                    this.controller.handler(item);
-                  }}
-                />
-              )}
+              renderItem={({ item }) => {
+                // console.log(
+                //   this.component.state.currentAvailabilities.day <
+                //     this.component.state.today,
+                // );
+                return (
+                  <SwitchButton
+                    day={this.component.state.currentAvailabilities.day}
+                    today={this.component.state.today}
+                    item={item}
+                    handler={() => {
+                      this.controller.handler(item);
+                    }}
+                  />
+                );
+              }}
             />
           </View>
         </View>

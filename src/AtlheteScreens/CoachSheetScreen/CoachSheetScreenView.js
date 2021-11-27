@@ -92,7 +92,7 @@ export default class CoachSheetScreenView extends AbstractScreenView {
                   </Text>
                 </View>
                 <View style={styles.item}>
-                  <Text style={styles.infoText}> Spécialitée(s) :</Text>
+                  <Text style={styles.infoText}>Spécialité(s) :</Text>
                   <FlatList
                     style={styles.flatlist}
                     horizontal={true}

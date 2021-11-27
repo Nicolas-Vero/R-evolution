@@ -72,13 +72,13 @@ export default class mensurationScreen extends React.Component {
                   validationSchema={Yup.object().shape({
                     age: Yup.number()
                       .typeError('Age non valide')
-                      .min(15, 'Tu dois entrer un age correct')
-                      .max(100, 'Tu dois entrer un age correct')
+                      .min(15, 'Tu dois entrer un Âge correct')
+                      .max(100, 'Tu dois entrer un Âge correct')
                       .required('Requis'),
                     weight: Yup.number()
                       .typeError('Poid non valide')
-                      .max(300, 'Tu dois entrer un poid correct')
-                      .min(30, 'Tu dois entrer un poid correct')
+                      .max(300, 'Tu dois entrer un poids correct')
+                      .min(30, 'Tu dois entrer un poids correct')
                       .required('Requis'),
                     size: Yup.number()
                       .typeError('Taille non valide')

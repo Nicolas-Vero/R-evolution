@@ -85,7 +85,7 @@ export default class OffersCoachScreenView extends AbstractScreenView {
                         }}></ModifyButton>
                     </View>
                     <Text style={styles.itemBottomPrice}>
-                      {item.price / 100}€
+                      {item.price}€
                     </Text>
                   </View>
                 </LinearGradient>

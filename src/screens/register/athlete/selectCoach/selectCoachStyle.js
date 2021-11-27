@@ -15,10 +15,8 @@ module.exports = StyleSheet.create({
     bottom: 0,
   },
   content: {
-    height: heightPercentageToDP(62),
     alignItems: 'center',
-    marginTop:60
-
+    marginTop: 64,
   },
   title: {
     textAlign: 'center',
@@ -26,23 +24,18 @@ module.exports = StyleSheet.create({
     fontSize: 16,
     color: '#FFFF',
   },
-  subTitle: {
-    marginLeft: 16,
-    marginTop: 89,
-    fontFamily: 'RobotoBold',
-    fontSize: 15,
-    color: '#FFFF',
-  },
+  commercialTitle: {},
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   dropdownContainer: {
-    marginTop: 50,
+    marginTop: 20,
     alignItems: 'center',
   },
   dropdownButton: {
     width: widthPercentageToDP(90),
     borderRadius: 3,
+    height: 38,
   },
   dropdownButtonText: {
     fontSize: 15,
@@ -66,7 +59,6 @@ module.exports = StyleSheet.create({
   noWayContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 15,
   },
   noWayCheckBox: {
     paddingLeft: 0,

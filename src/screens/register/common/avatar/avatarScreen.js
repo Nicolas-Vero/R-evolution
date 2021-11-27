@@ -192,7 +192,7 @@ export default class avatarScreen extends React.Component {
                     <Button
                       loading={!this.state.isValid}
                       disabled={this.state.isValid}
-                      title="crée ton compte"
+                      title="Créer ton compte"
                       customTextStyle={styles.buttonText}
                       onPress={handleSubmit}
                     />

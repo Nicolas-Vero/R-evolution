@@ -53,6 +53,7 @@ export default class trainingDayScreen extends React.Component {
   };
   render() {
     const passItem = this.props.navigation.state.params.item;
+
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -148,103 +149,105 @@ export default class trainingDayScreen extends React.Component {
                             <Text style={styles.daysTitle}>
                               QUEL(S) JOUR(S) ?
                             </Text>
-                            <FieldArray
-                              name="days_preference"
-                              render={(arrayhelper) => (
-                                <FlatList
-                                  style={styles.flatlist}
-                                  horizontal={true}
-                                  data={this.state.SelectedDay}
-                                  extraData={this.state}
-                                  renderItem={({ item }) => {
-                                    const backgroundColor =
-                                      item.selected == 1
-                                        ? '#2CDEE4'
-                                        : '#1E2026';
-                                    const textColor =
-                                      item.selected == 1 ? 'black' : 'white';
-                                    return (
-                                      <View>
-                                        <TouchableOpacity
-                                          onPress={() => {
-                                            switch (item.day) {
-                                              case 'L':
-                                                arrayhelper.form.values.days_preference.is_monday_preferred =
-                                                  !arrayhelper.form.values
-                                                    .days_preference
-                                                    .is_monday_preferred;
-                                                this.setDayChoice('L');
-                                                break;
-                                              case 'M':
-                                                arrayhelper.form.values.days_preference.is_tuesday_preferred =
-                                                  !arrayhelper.form.values
-                                                    .days_preference
-                                                    .is_tuesday_preferred;
-                                                this.setDayChoice('M');
-                                                break;
-                                              case 'ME':
-                                                arrayhelper.form.values.days_preference.is_wednesday_preferred =
-                                                  !arrayhelper.form.values
-                                                    .days_preference
-                                                    .is_wednesday_preferred;
-                                                this.setDayChoice('ME');
-                                                break;
-                                              case 'J':
-                                                arrayhelper.form.values.days_preference.is_thursday_preferred =
-                                                  !arrayhelper.form.values
-                                                    .days_preference
-                                                    .is_thursday_preferred;
-                                                this.setDayChoice('J');
-                                                break;
-                                              case 'V':
-                                                arrayhelper.form.values.days_preference.is_friday_preferred =
-                                                  !arrayhelper.form.values
-                                                    .days_preference
-                                                    .is_friday_preferred;
-                                                this.setDayChoice('V');
-                                                break;
-                                              case 'S':
-                                                arrayhelper.form.values.days_preference.is_saturday_preferred =
-                                                  !arrayhelper.form.values
-                                                    .days_preference
-                                                    .is_saturday_preferred;
-                                                this.setDayChoice('S');
-                                                break;
-                                              case 'D':
-                                                arrayhelper.form.values.days_preference.is_sunday_preferred =
-                                                  !arrayhelper.form.values
-                                                    .days_preference
-                                                    .is_sunday_preferred;
-                                                this.setDayChoice('D');
-                                                break;
-                                              default:
-                                                break;
-                                            }
-                                          }}>
-                                          <View
-                                            style={[
-                                              styles.day,
-                                              {
-                                                backgroundColor:
-                                                  backgroundColor,
-                                              },
-                                            ]}>
-                                            <Text
-                                              style={{
-                                                fontSize: 13,
-                                                color: textColor,
-                                              }}>
-                                              {item.day}
-                                            </Text>
-                                          </View>
-                                        </TouchableOpacity>
-                                      </View>
-                                    );
-                                  }}
-                                  keyExtractor={(item) => item.day}
-                                />
-                              )}
-                            />
+                            <View style={{ alignItems: 'center' }}>
+                              <FieldArray
+                                name="days_preference"
+                                render={(arrayhelper) => (
+                                  <FlatList
+                                    style={styles.flatlist}
+                                    horizontal={true}
+                                    data={this.state.SelectedDay}
+                                    extraData={this.state}
+                                    renderItem={({ item }) => {
+                                      const backgroundColor =
+                                        item.selected == 1
+                                          ? '#2CDEE4'
+                                          : '#2d3038';
+                                      const textColor =
+                                        item.selected == 1 ? 'black' : 'white';
+                                      return (
+                                        <View>
+                                          <TouchableOpacity
+                                            onPress={() => {
+                                              switch (item.day) {
+                                                case 'L':
+                                                  arrayhelper.form.values.days_preference.is_monday_preferred =
+                                                    !arrayhelper.form.values
+                                                      .days_preference
+                                                      .is_monday_preferred;
+                                                  this.setDayChoice('L');
+                                                  break;
+                                                case 'M':
+                                                  arrayhelper.form.values.days_preference.is_tuesday_preferred =
+                                                    !arrayhelper.form.values
+                                                      .days_preference
+                                                      .is_tuesday_preferred;
+                                                  this.setDayChoice('M');
+                                                  break;
+                                                case 'ME':
+                                                  arrayhelper.form.values.days_preference.is_wednesday_preferred =
+                                                    !arrayhelper.form.values
+                                                      .days_preference
+                                                      .is_wednesday_preferred;
+                                                  this.setDayChoice('ME');
+                                                  break;
+                                                case 'J':
+                                                  arrayhelper.form.values.days_preference.is_thursday_preferred =
+                                                    !arrayhelper.form.values
+                                                      .days_preference
+                                                      .is_thursday_preferred;
+                                                  this.setDayChoice('J');
+                                                  break;
+                                                case 'V':
+                                                  arrayhelper.form.values.days_preference.is_friday_preferred =
+                                                    !arrayhelper.form.values
+                                                      .days_preference
+                                                      .is_friday_preferred;
+                                                  this.setDayChoice('V');
+                                                  break;
+                                                case 'S':
+                                                  arrayhelper.form.values.days_preference.is_saturday_preferred =
+                                                    !arrayhelper.form.values
+                                                      .days_preference
+                                                      .is_saturday_preferred;
+                                                  this.setDayChoice('S');
+                                                  break;
+                                                case 'D':
+                                                  arrayhelper.form.values.days_preference.is_sunday_preferred =
+                                                    !arrayhelper.form.values
+                                                      .days_preference
+                                                      .is_sunday_preferred;
+                                                  this.setDayChoice('D');
+                                                  break;
+                                                default:
+                                                  break;
+                                              }
+                                            }}>
+                                            <View
+                                              style={[
+                                                styles.day,
+                                                {
+                                                  backgroundColor:
+                                                    backgroundColor,
+                                                },
+                                              ]}>
+                                              <Text
+                                                style={{
+                                                  fontSize: 13,
+                                                  color: textColor,
+                                                }}>
+                                                {item.day}
+                                              </Text>
+                                            </View>
+                                          </TouchableOpacity>
+                                        </View>
+                                      );
+                                    }}
+                                    keyExtractor={(item) => item.day}
+                                  />
+                                )}
+                              />
+                            </View>
                           </View>
                         );
                       }}

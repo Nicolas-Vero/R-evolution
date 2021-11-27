@@ -160,4 +160,42 @@ module.exports = StyleSheet.create({
     marginTop: 20,
     color: '#fff',
   },
+  deleteSHeetContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 26,
+  },
+  deleteSheet: {
+    color: '#fff',
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+    fontSize: 15,
+    fontFamily: 'Montserrat',
+  },
+
+  cancelItem: {
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    backgroundColor: '#1E2026',
+    flexDirection: 'column',
+    marginVertical: 10,
+    borderRadius: 3,
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  cancelBookContainer: {
+    marginTop: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  cancelBookValue: {
+    fontSize: 12,
+    fontFamily: 'Roboto',
+    color: '#2CDEE4',
+  },
+  cancelBook: {
+    color: '#FD7279',
+    fontSize: 14,
+    fontFamily: 'Roboto',
+  },
 });
