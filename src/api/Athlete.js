@@ -24,15 +24,14 @@ export const athlete_appointement = (params) => {
 };
 
 export const athlete_booking = async (params) => {
-  const { coach_id, date, athlete_course_id, currentSlot } = params;
+  const { coach_id, date, athlete_course_id, slot } = params;
   console.log(params);
   const data = {
     date: date,
     athlete_course_id: athlete_course_id,
-    slot: currentSlot,
+    slot: slot,
   };
   const headers = await AuthService.getHeader();
-  console.log('coachID', coach_id, '', currentSlot);
   return axios({
     method: 'POST',
     url: `${API_URL}/athlete/book-slot/${coach_id}`,
@@ -53,12 +52,12 @@ export const get_availabilities = async (params) => {
 };
 
 export const cancel_booking_athlete = async (params) => {
-  const { coach_id, date, athlete_course_id, currentSlot } = params;
+  const { coach_id, date, athlete_course_id, slot } = params;
   const data = {
     athlete_course_id:athlete_course_id,
     date: date,
     coach_id:coach_id,
-    currentSlot: currentSlot,
+    slot: slot,
   };
   const headers = await AuthService.getHeader();
   return axios({
