@@ -87,7 +87,7 @@ export default class PendingRequestCoachScreenView extends AbstractScreenView {
                 <Text style={styles.textUserInfo}>
                   {!this.component.state.publicRequest.length
                     ? 'Aucune demande aux coachs'
-                    : "Ces demandes s'adressent à toi uniquement"}{' '}
+                    : "Ces demandes ici présentés s'adressent à tous les coachs"}
                 </Text>
                 <FlatList
                   contentContainerStyle={{

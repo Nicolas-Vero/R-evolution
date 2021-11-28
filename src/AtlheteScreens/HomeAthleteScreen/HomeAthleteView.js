@@ -30,7 +30,7 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 export default class HomeAthleteView extends AbstractScreenView {
   renderHeader() {
     return (
-      <View style={{ paddingTop: isIphoneX() ? 50 : 20 }}>
+      <View style={{ paddingTop: isIphoneX() ? 30 : 20 }}>
         <View style={styles.header}>
           <TouchableOpacity
             onPress={() => {
@@ -252,7 +252,7 @@ export default class HomeAthleteView extends AbstractScreenView {
       <View style={styles.content}>
         <View style={styles.renewContainer}>
           <Text style={styles.renewText}>
-            IL NE TE RESTE QUE <Text style={styles.textColored}>"X"</Text>{' '}
+            IL NE TE RESTE QUE <Text style={styles.textColored}>"X"</Text>
             SÉANCES SUR TON
             <Text style={styles.textColored}> "PACK X"</Text>
           </Text>
@@ -380,6 +380,19 @@ export default class HomeAthleteView extends AbstractScreenView {
         style={styles.reserveContainer}>
         {this.renderBookDialog()}
         {this.renderUnbookDialog()}
+        <View>
+          <Text
+            style={{
+              color: '#fff',
+              textAlign: 'center',
+              fontSize: 13,
+              fontFamily: 'MontserratBoldItalic',
+              marginTop: 24,
+              marginBottom: 5,
+            }}>
+            IL TE RESTE 2 SÉANCES À PLACER
+          </Text>
+        </View>
         <MonthsSlider onChange={this.controller.onMonthChange.bind(this)} />
         {this.component.state.coach.first_name ? (
           <Text style={styles.coachName}>
@@ -448,7 +461,7 @@ export default class HomeAthleteView extends AbstractScreenView {
           <Text style={styles.reserveInfoText}>
             {this.component.state.coach.first_name
               ? "Tu peux annuler une séance jusqu'à 24h avant le début de celle-ci."
-              : 'tu dois être pris en charge par un coach associé pour voir ces diponibilitées'}
+              : 'Tu dois être suivi(e) par un coach pour voir ses disponibilités'}
           </Text>
         </View>
         <FlatList

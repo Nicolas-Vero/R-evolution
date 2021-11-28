@@ -35,7 +35,7 @@ export default class OffersTrainingsCoachScreenView extends AbstractScreenView {
                   <View style={styles.imageTextContainer}>
                     <Text style={styles.title}>LES FORMATIONS</Text>
                     <Text style={styles.subTitle}>
-                      accède aux modules de formation pour aiguiser tes
+                      Accède aux modules de formation pour aiguiser tes
                       compétences
                     </Text>
                   </View>

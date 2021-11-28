@@ -55,7 +55,7 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                 console.log('image retour de S3:', this.component.state.image),
                 (
                   <View>
-                    <View style={{ paddingTop: isIphoneX() ? 50 : 10 }}>
+                    <View style={{ paddingTop: isIphoneX() ? 30 : 10 }}>
                       <View style={styles.header}>
                         <View style={styles.headerLeft}>
                           <HeaderLight />
@@ -210,16 +210,11 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                       <View style={styles.container3}>
                         <FlatList
                           data={this.component.state.arrayofdiplomas}
-                          extraData={this.component}
-                          numColumns={3}
+                          // numColumns={3}
                           renderItem={({ item, index }) => {
                             return (
-                              <View
-                                style={{
-                                  marginLeft: index === 0 ? 0 : 7.5,
-                                  marginRight: 7.5,
-                                }}>
-                                <View style={[styles.item]}>
+                              <View>
+                                <View style={[styles.itemDiplomas]}>
                                   <Text style={styles.itemText}>{item}</Text>
                                 </View>
                                 <TouchableOpacity
@@ -248,54 +243,14 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                           //   extraData={selectedId}
                         />
                       </View>
-                      <Text style={[styles.text, { marginTop: 10 }]}>
-                        spécialité(s)
+                      <Text style={[styles.text, { marginTop: 20 }]}>
+                        Spécialité(s)
                       </Text>
-                      <FlatList
-                        data={this.component.state.specData}
-                        numColumns={3}
-                        keyExtractor={(item) => item}
-                        renderItem={({ item, index }) => {
-                          return (
-                            <View
-                              style={{
-                                marginLeft: index === 0 ? 0 : 7.5,
-                                marginRight: 7.5,
-                              }}>
-                              <View style={styles.item}>
-                                <Text style={styles.itemText}>{item}</Text>
-                              </View>
-                              <TouchableOpacity
-                                onPress={() => {
-                                  // const index =
-                                  //   this.component.state.specData.indexOf(
-                                  //     item,
-                                  //   );
-
-                                  // if (index > -1) {
-                                  //   this.component.state.specData.splice(
-                                  //     index,
-                                  //     1,
-                                  //   );
-                                  values.specialties.splice(index, 1);
-                                  this.component.setState({
-                                    refresh: !this.component.state.refresh,
-                                  });
-                                }}
-                                style={styles.deleteContainer}>
-                                <Entypo name="cross" size={18} />
-                              </TouchableOpacity>
-                            </View>
-                          );
-                        }}
-                      />
-
                       <View style={[styles.inputContainer, { marginTop: 5 }]}>
                         <FieldArray
                           render={(arrayhelper) => (
                             <View style={styles.inputWithButtonContainer}>
                               <TextInput
-                                style={{ width: '20px' }}
                                 placeholder="Entre une spécialité"
                                 placeholderTextColor="#979797"
                                 name="spécialité"
@@ -332,6 +287,45 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                               </TouchableOpacity>
                             </View>
                           )}
+                        />
+                        <FlatList
+                          style={{ marginTop: 5 }}
+                          data={this.component.state.specData}
+                          numColumns={3}
+                          keyExtractor={(item) => item}
+                          renderItem={({ item, index }) => {
+                            return (
+                              <View
+                                style={{
+                                  marginLeft: index === 0 ? 0 : 7.5,
+                                  marginRight: 7.5,
+                                }}>
+                                <View style={styles.item}>
+                                  <Text style={styles.itemText}>{item}</Text>
+                                </View>
+                                <TouchableOpacity
+                                  onPress={() => {
+                                    // const index =
+                                    //   this.component.state.specData.indexOf(
+                                    //     item,
+                                    //   );
+
+                                    // if (index > -1) {
+                                    //   this.component.state.specData.splice(
+                                    //     index,
+                                    //     1,
+                                    //   );
+                                    values.specialties.splice(index, 1);
+                                    this.component.setState({
+                                      refresh: !this.component.state.refresh,
+                                    });
+                                  }}
+                                  style={styles.deleteContainer}>
+                                  <Entypo name="cross" size={18} />
+                                </TouchableOpacity>
+                              </View>
+                            );
+                          }}
                         />
                       </View>
                       <View>
@@ -385,31 +379,7 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                           title="Valider les changements"
                           customTextStyle={styles.validateButtonText}
                           onPress={() => {
-                            const formData = new FormData();
-                            formData.append('file', {
-                              uri: this.component.state.image.uri,
-                              type: this.component.state.image.type,
-                              name: this.component.state.image.uri,
-                            });
-                            try {
-                              updateCoach(values).then(() => {
-                                //  this.component.props.navigation.navigate.goBack();
-                              });
-                              // upload_file(formData)
-                              //   .then((res) => {
-                              //     console.log(res);
-                              //     values.profile_picture_url = res.data.location;
-                              //     console.log(res.data);
-                              //   })
-                              //   .then(() => {
-                              //     console.log(values);
-                              //      updateCoach(values)
-                              //   }).then(() => {
-                              //     console.log('work');
-                              //   });
-                            } catch (error) {
-                              console.log('error:', error, ' ', 'data:');
-                            }
+                            this.controller.onSave(values);
                           }}
                         />
                       </View>

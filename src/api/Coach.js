@@ -57,9 +57,26 @@ export const get_appointement = async (params) => {
 };
 
 export const add_manual_payment = async (params) => {
-  const {athlete_id, coach_id, installments, offer_id, date, payment_id, amount , mode } = params;
-  const data = {athlete_id:athlete_id, coach_id: coach_id, installments: installments, date:date, payment_id:payment_id, amount:amount , mode:mode};
-  console.log('params',params);
+  const {
+    athlete_id,
+    coach_id,
+    installments,
+    offer_id,
+    date,
+    payment_id,
+    amount,
+    mode,
+  } = params;
+  const data = {
+    athlete_id: athlete_id,
+    coach_id: coach_id,
+    installments: installments,
+    date: date,
+    payment_id: payment_id,
+    amount: amount,
+    mode: mode,
+  };
+  console.log('params', params);
   const headers = await AuthService.getHeader();
   return axios({
     method: 'POST',
@@ -67,7 +84,7 @@ export const add_manual_payment = async (params) => {
     headers: headers,
     data: data,
   });
-}
+};
 
 export const get_coach_by_gym_place = async (params, navigation) => {
   const headers = await AuthService.getHeader();
@@ -78,7 +95,7 @@ export const get_coach_by_gym_place = async (params, navigation) => {
     data: data,
   });
 };
-export const get_athlete_active_courses_with_param = async (param) => { 
+export const get_athlete_active_courses_with_param = async (param) => {
   const headers = await AuthService.getHeader();
   return axios({
     method: 'GET',
@@ -123,14 +140,14 @@ export const get_coach_me = async (navigation) => {
   });
 };
 export const updateCoach = async (params) => {
-  const data = params
+  const data = params;
   const headers = await AuthService.getHeader();
   console.log(headers);
   return axios({
     method: 'POST',
     url: `${API_URL}/coach/me`,
-    headers:headers,
-    data:data
+    headers: headers,
+    data: data,
   });
 };
 
@@ -202,5 +219,13 @@ export const get_CalendarAppointement = async (params) => {
     url: `${API_URL}/coach/calendar/`,
     headers: headers,
     params: { start_date: start_date, end_date: end_date },
+  });
+};
+export const getUserAppoinement = async (userId) => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/coach/appointment/user/${userId}`,
+    headers: headers,
   });
 };

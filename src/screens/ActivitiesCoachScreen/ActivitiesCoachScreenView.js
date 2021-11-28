@@ -96,6 +96,17 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
     ) : (
       <View style={styles.container}>
         <Header title="ACTIVITÉ" />
+        {this.component.state.screen === 'NOTIFICATIONS' ? null : (
+          <TouchableOpacity
+            style={styles.createReminderButton}
+            onPress={() => this.controller.onCreateReminderPress()}>
+            <Image
+              source={require('../../../assets/images/Group_8766.png')}
+              style={styles.createReminderImage}
+            />
+          </TouchableOpacity>
+        )}
+
         <View style={styles.content}>
           <View style={{ marginBottom: 28, alignItems: 'center' }}>
             <SwitchSelector
@@ -119,17 +130,7 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
           {this.component.state.screen == 'NOTIFICATIONS' ? (
             <View></View>
           ) : (
-            <View>
-              {this.renderReminder()}
-              <TouchableOpacity
-                style={styles.createReminderButton}
-                onPress={() => this.controller.onCreateReminderPress()}>
-                <Image
-                  source={require('../../../assets/images/Group_8766.png')}
-                  style={styles.createReminderImage}
-                />
-              </TouchableOpacity>
-            </View>
+            <View>{this.renderReminder()}</View>
           )}
         </View>
       </View>

@@ -14,6 +14,7 @@ import AbstractScreenView from '../../components/abstracts/AbstractScreen/Abstra
 import RenewOfferDialog from '../../components/dialogs/renewOfferDialog/renewOfferDialog';
 
 import styles from './OffersScreenStyle';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 
 const options = [
   { label: 'EN COURS', value: 'EN COURS' },
@@ -68,9 +69,12 @@ export default class OffersScreenView extends AbstractScreenView {
 
   renderCatalog = () => {
     return (
-      <View>
+      <View style={{ height: '100%' }}>
         {this.renderDialog()}
         <FlatList
+          contentContainerStyle={{
+            paddingBottom: 200,
+          }}
           style={styles.flatlist}
           data={this.component.state.offers}
           keyExtractor={(item) => item.id.toString()}
@@ -117,142 +121,11 @@ export default class OffersScreenView extends AbstractScreenView {
     } else {
       return (
         <View style={styles.container}>
-          <SafeAreaView>
-            <Header title="LES OFFRES" disableBackPress />
-            <View style={styles.alignCenter}>
-              {this.renderSwitchSelector()}
-              {this.component.state.screen == 'EN COURS' ? (
-                this.component.state.ActiveCourses.offer == null ? (
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      marginTop: heightPercentageToDP(25),
-                    }}>
-                    <Text
-                      style={{
-                        fontFamily: 'RobotoBold',
-                        fontSize: 20,
-                        color: '#FFFF',
-                      }}>
-                      Pas de cours actif
-                    </Text>
-                  </View>
-                ) : (
-                  <LinearGradient
-                    colors={['#101010', '#2D333C']}
-                    start={{
-                      x: 1,
-                      y: 1,
-                    }}
-                    end={{
-                      x: 0,
-                      y: 0,
-                    }}
-                    style={{
-                      flexDirection: 'column',
-                      backgroundColor: 'grey',
-                      marginVertical: 10,
-                      borderRadius: 10,
-                      padding: 20,
-                    }}>
-                    <View
-                      style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <Avatar
-                        size="medium"
-                        rounded
-                        source={{
-                          uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
-                        }}
-                      />
-                      <Text
-                        style={{
-                          fontWeight: 'bold',
-                          fontSize: 20,
-                          marginLeft: 10,
-                          fontFamily: 'RobotoBold',
-                          color: '#FFFFFF',
-                          lineHeight: 24,
-                        }}>
-                        {this.component.state.ActiveCourses.coach.first_name}{' '}
-                        {this.component.state.ActiveCourses.coach.last_name}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={{
-                          marginTop: 30,
-                          fontFamily: 'MontserratBold',
-                          fontSize: 20,
-                          color: '#FFFFFF',
-                          lineHeight: 24,
-                        }}>
-                        {this.component.state.ActiveCourses.offer.title}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text
-                        style={{
-                          marginTop: 10,
-                          color: '#FFFFFF',
-                          fontSize: 10,
-                        }}>
-                        {this.component.state.ActiveCourses.offer.content}
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        width: widthPercentageToDP(90),
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                      }}>
-                      <Text style={{ marginTop: 10, color: '#2CDEE4' }}>
-                        {this.component.state.ActiveCourses.total_sessions}{' '}
-                        coachings
-                      </Text>
-                      <Text
-                        style={{
-                          fontStyle: 'italic',
-                          fontWeight: 'bold',
-                          fontSize: 20,
-                          color: '#2CDEE4',
-                        }}>
-                        {this.component.state.ActiveCourses.offer.price}€
-                      </Text>
-                    </View>
-                    <View
-                      style={{
-                        alignItems: 'center',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginTop: 20,
-                      }}>
-                      <View
-                        style={{
-                          alignItems: 'center',
-                          flexDirection: 'row',
-                        }}>
-                        <View
-                          style={{
-                            backgroundColor: '#2CDEE4',
-                            alignItems: 'center',
-                            padding: 10,
-                            paddingHorizontal: 30,
-                            borderRadius: 10,
-                            width: widthPercentageToDP(90),
-                          }}>
-                          <Text style={{ fontFamily: 'Roboto' }}>
-                            Nombre de séances restantes:{' '}
-                            {
-                              this.component.state.ActiveCourses.offer
-                                .nb_credits
-                            }
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-                  </LinearGradient>
-                )
-              ) : this.component.state.offers == null ? (
+          <Header title="LES OFFRES" disableBackPress />
+          <View style={styles.alignCenter}>
+            {this.renderSwitchSelector()}
+            {this.component.state.screen == 'EN COURS' ? (
+              this.component.state.ActiveCourses.offer == null ? (
                 <View
                   style={{
                     alignItems: 'center',
@@ -264,14 +137,139 @@ export default class OffersScreenView extends AbstractScreenView {
                       fontSize: 20,
                       color: '#FFFF',
                     }}>
-                    pas de coach associé
+                    Pas de cours actif
                   </Text>
                 </View>
               ) : (
-                this.renderCatalog()
-              )}
-            </View>
-          </SafeAreaView>
+                <LinearGradient
+                  colors={['#101010', '#2D333C']}
+                  start={{
+                    x: 1,
+                    y: 1,
+                  }}
+                  end={{
+                    x: 0,
+                    y: 0,
+                  }}
+                  style={{
+                    flexDirection: 'column',
+                    backgroundColor: 'grey',
+                    marginVertical: 10,
+                    borderRadius: 10,
+                    padding: 20,
+                  }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Avatar
+                      size="medium"
+                      rounded
+                      source={{
+                        uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
+                      }}
+                    />
+                    <Text
+                      style={{
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                        marginLeft: 10,
+                        fontFamily: 'RobotoBold',
+                        color: '#FFFFFF',
+                        lineHeight: 24,
+                      }}>
+                      {this.component.state.ActiveCourses.coach.first_name}{' '}
+                      {this.component.state.ActiveCourses.coach.last_name}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text
+                      style={{
+                        marginTop: 30,
+                        fontFamily: 'MontserratBold',
+                        fontSize: 20,
+                        color: '#FFFFFF',
+                        lineHeight: 24,
+                      }}>
+                      {this.component.state.ActiveCourses.offer.title}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text
+                      style={{
+                        marginTop: 10,
+                        color: '#FFFFFF',
+                        fontSize: 10,
+                      }}>
+                      {this.component.state.ActiveCourses.offer.content}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      width: widthPercentageToDP(90),
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
+                    <Text style={{ marginTop: 10, color: '#2CDEE4' }}>
+                      {this.component.state.ActiveCourses.total_sessions}{' '}
+                      coachings
+                    </Text>
+                    <Text
+                      style={{
+                        fontStyle: 'italic',
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                        color: '#2CDEE4',
+                      }}>
+                      {this.component.state.ActiveCourses.offer.price}€
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      marginTop: 20,
+                    }}>
+                    <View
+                      style={{
+                        alignItems: 'center',
+                        flexDirection: 'row',
+                      }}>
+                      <View
+                        style={{
+                          backgroundColor: '#2CDEE4',
+                          alignItems: 'center',
+                          padding: 10,
+                          paddingHorizontal: 30,
+                          borderRadius: 10,
+                          width: widthPercentageToDP(90),
+                        }}>
+                        <Text style={{ fontFamily: 'Roboto' }}>
+                          Nombre de séances restantes:{' '}
+                          {this.component.state.ActiveCourses.offer.nb_credits}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </LinearGradient>
+              )
+            ) : this.component.state.offers == null ? (
+              <View
+                style={{
+                  alignItems: 'center',
+                  marginTop: heightPercentageToDP(25),
+                }}>
+                <Text
+                  style={{
+                    fontFamily: 'RobotoBold',
+                    fontSize: 20,
+                    color: '#FFFF',
+                  }}>
+                  pas de coach associé
+                </Text>
+              </View>
+            ) : (
+              this.renderCatalog()
+            )}
+          </View>
         </View>
       );
     }

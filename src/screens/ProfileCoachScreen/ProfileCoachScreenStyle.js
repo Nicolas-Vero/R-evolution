@@ -45,7 +45,7 @@ module.exports = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingVertical: 10,
     paddingHorizontal: 15,
-    width: wp(92),
+    width: 'auto',
     height: 38,
     borderRadius: 3,
     fontFamily: 'Roboto',
@@ -54,7 +54,7 @@ module.exports = StyleSheet.create({
   inputWithButtonContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    width: wp(93),
+    width: 'auto',
   },
   inputWithButton: {
     borderRadius: 3,
@@ -69,7 +69,6 @@ module.exports = StyleSheet.create({
     alignContent: 'center',
     width: wp(85),
     height: 38,
-
   },
   addButton: {
     marginLeft: 5,
@@ -141,12 +140,31 @@ module.exports = StyleSheet.create({
     marginVertical: 7.5,
     backgroundColor: '#2CDEE4',
   },
+  itemDiplomas: {
+    width: 'auto',
+    borderRadius: 25,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    backgroundColor: '#2CDEE4',
+  },
   itemText: {
     fontFamily: 'RobotoBold',
     fontSize: 15,
     textAlign: 'center',
   },
   deleteContainer: {
+    position: 'absolute',
+    width: 20,
+    height: 20,
+    backgroundColor: '#FD7279',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 0,
+  },
+  deleteContainerDiplomas: {
     position: 'absolute',
     width: 20,
     height: 20,

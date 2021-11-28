@@ -12,7 +12,27 @@ import styles from './AthleteSheetCoachScreenStyle';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
+import CancelBookDialog from '../../components/dialogs/cancelBookDialog/cancelBookDialog';
+import DeleteSheetDialog from '../../components/dialogs/deleteSheetDialog/deleteSheetDialog';
 export default class AthleteSheetCoachScreenView extends AbstractScreenView {
+  renderCancelBookDialog = () => {
+    return (
+      <CancelBookDialog
+        dialogVisible={this.component.state.isCancelBookModalVisible}
+        onClose={this.controller.onDismissCancelSheetDialog}
+        onDelete={this.controller.onValidateCancelBook}
+      />
+    );
+  };
+  renderDeleteSheetDialog = () => {
+    return (
+      <DeleteSheetDialog
+        dialogVisible={this.component.state.isDeleteSheetModalVisible}
+        onClose={this.controller.onDismissDeleteSheetDialog}
+        onDelete={this.controller.onValidateDeleteSheet}
+      />
+    );
+  };
   render() {
     const user = this.component.props.navigation.state.params.item;
     const dayPreference = [];
@@ -46,10 +66,13 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
     else if (user.status === 'prospect')
       badgeImage = require('../../../assets/images/Prospect.png');
 
+    const isProspect = user.status === 'prospect';
+    const isActif = user.status === 'active';
+    const { isCanceled } = this.component.state;
     return (
       <View style={styles.container}>
         <SafeAreaView>
-          <View style={{ marginTop: isIphoneX() ? 50 : 0 }}>
+          <View style={{ marginTop: isIphoneX() ? 30 : 0 }}>
             <View style={styles.header}>
               <HeaderLight />
               <View style={styles.headerLeft}>
@@ -67,6 +90,22 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
           </View>
           <View style={styles.content}>
             <ScrollView style={styles.scrollView}>
+              {!isActif || isCanceled ? null : (
+                <View style={styles.cancelItem}>
+                  <Text style={styles.infoText}>Séance :</Text>
+                  <View style={styles.cancelBookContainer}>
+                    <Text style={styles.cancelBookValue}>
+                      6 Avril 2020 - 03:00 - 04:00
+                    </Text>
+                    <Text
+                      style={styles.cancelBook}
+                      onPress={this.controller.onCancelBook}>
+                      Annuler
+                    </Text>
+                  </View>
+                  {this.renderCancelBookDialog()}
+                </View>
+              )}
               <View style={styles.phoneNumberContainer}>
                 <Image
                   style={styles.phoneImg}
@@ -98,12 +137,13 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 <Text style={styles.infoText}>Offre en cours :</Text>
                 <Text style={styles.valueText}>
                   <Text style={styles.valueText}>
-                    {this.component.state.ActiveCourses.offer?.title || 'Aucune offre'}
+                    {this.component.state.ActiveCourses.offer?.title ||
+                      'Aucune offre'}
                   </Text>
                 </Text>
               </View>
               <View style={styles.item}>
-                <Text style={styles.infoText}>vente(s) effectuée(s) :</Text>
+                <Text style={styles.infoText}>Vente(s) effectuée(s) :</Text>
 
                 <FlatList
                   style={styles.paiementList}
@@ -230,7 +270,9 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
               <View style={styles.item}>
                 <Text style={styles.infoText}>Experience(s) sportive(s) :</Text>
                 <Text style={styles.valueText}>
-                  Plus de {user.experience_years} ans
+                  {user.experience_years > 0
+                    ? ` Plus de ${user.experience_years} ans`
+                    : `Moins d'un an`}
                 </Text>
               </View>
               <View style={styles.item}>
@@ -247,6 +289,16 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   {user.health_problem_description || "Pas d'informations"}
                 </Text>
               </View>
+              {!isProspect ? null : (
+                <View style={styles.deleteSHeetContainer}>
+                  <Text
+                    style={styles.deleteSheet}
+                    onPress={this.controller.onDeleteSheet}>
+                    Supprimer la fiche
+                  </Text>
+                  {this.renderDeleteSheetDialog()}
+                </View>
+              )}
             </ScrollView>
           </View>
         </SafeAreaView>

@@ -31,7 +31,7 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
       dayPreference.push({ day: 'Mardi' });
     }
     if (this.component.state.Athlete.athlete?.is_wednesday_preferred == true) {
-      dayPreference.push({ day: 'mercredi' });
+      dayPreference.push({ day: 'Mercredi' });
     }
     if (this.component.state.Athlete.athlete?.is_thursday_preferred == true) {
       dayPreference.push({ day: 'Jeudi' });
@@ -191,8 +191,9 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                     Experience(s) sportive(s) :
                   </Text>
                   <Text style={styles.valueText}>
-                    Plus de{' '}
-                    {this.component.state.Athlete.athlete?.experience_years} ans
+                    {this.component.state.Athlete.athlete?.experience_years > 0
+                      ? `Plus de ${this.component.state.Athlete.athlete?.experience_years} ans`
+                      : "Moins d'un an"}
                   </Text>
                 </View>
                 <View style={styles.item}>

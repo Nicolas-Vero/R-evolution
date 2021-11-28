@@ -21,6 +21,7 @@ import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
 import { Button } from '../../../../components/Button';
 import styles from './goalStyle';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 export default class goalScreen extends React.Component {
   constructor(props) {
@@ -50,7 +51,6 @@ export default class goalScreen extends React.Component {
         <ScrollView style={styles.goalContainer}>
           <FlatList
             data={this.state.specData}
-            extraData={this.state}
             renderItem={({ item }) => {
               const backgroundColor =
                 item.selected == 1 ? '#2CDEE4' : 'transparent';
@@ -60,7 +60,7 @@ export default class goalScreen extends React.Component {
               return (
                 <TouchableOpacity
                   onPress={() => {
-                    item.selected != 1
+                    item.selected !== 1
                       ? (item.selected = 1)
                       : (item.selected = 0);
                     arrayhelper.form.values.goals.includes(item.value)
@@ -135,7 +135,7 @@ export default class goalScreen extends React.Component {
                         return (
                           <View
                             style={{
-                              height: heightPercentageToDP(72),
+                              height: heightPercentageToDP(65),
                             }}>
                             <Text style={styles.title}>
                               QUEL EST TON OBJECTIF ?
@@ -144,7 +144,8 @@ export default class goalScreen extends React.Component {
                               Sélectionne ton ou tes objectifs(s)
                             </Text>
 
-                            <View style={{ marginTop: 26, marginBottom: 26 }}>
+                            <ScrollView
+                              style={{ marginTop: 26, marginBottom: 26 }}>
                               <FieldArray
                                 name="goals"
                                 render={(arrayhelper) => (
@@ -189,7 +190,8 @@ export default class goalScreen extends React.Component {
                                   </View>
                                 )}
                               />
-                            </View>
+                              <KeyboardSpacer />
+                            </ScrollView>
                           </View>
                         );
                       }}

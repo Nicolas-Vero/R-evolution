@@ -67,9 +67,9 @@ module.exports = StyleSheet.create({
   },
   flatlist: {
     marginTop: 30,
-    width: widthPercentageToDP(90),
+    width: 'auto',
     alignSelf: 'center',
-  },
+    },
   day: {
     height: 57,
     width: 40,

@@ -81,8 +81,8 @@ module.exports = StyleSheet.create({
   },
   createReminderButton: {
     position: 'absolute',
-    bottom: 300,
-    right: -10,
+    bottom: 100,
+    right: 10,
     zIndex: 1,
     alignSelf: 'flex-end',
     height: 45,

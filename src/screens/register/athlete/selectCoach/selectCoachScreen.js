@@ -26,7 +26,6 @@ export default class selectCoachScreen extends React.Component {
     super(props);
     this.state = {
       step: 'initial',
-      // passItem: this.props.navigation.state.params.item,
       Coach: [],
       isLoaded: false,
       checkedCommercial: false,
@@ -92,7 +91,7 @@ export default class selectCoachScreen extends React.Component {
               <Formik
                 initialValues={{
                   coach_preference: '',
-                  commercial_id:0
+                  commercial_id: 0,
                 }}
                 onSubmit={(values) => {
                   const item = { ...passItem, ...values };
@@ -115,7 +114,6 @@ export default class selectCoachScreen extends React.Component {
                             <Text style={styles.title}>
                               À QUEL COACH VEUX-TU ADRESSER TA DEMANDE ?
                             </Text>
-
                             <View style={styles.dropdownContainer}>
                               <FieldArray
                                 name="coach_preference"
@@ -180,7 +178,8 @@ export default class selectCoachScreen extends React.Component {
                                               type: 'any_coach',
                                             };
                                           this.setState({
-                                            checkedCoach: !this.state.checkedCoach,
+                                            checkedCoach:
+                                              !this.state.checkedCoach,
                                           });
                                         }}
                                       />
@@ -188,22 +187,21 @@ export default class selectCoachScreen extends React.Component {
                                         Peu importe
                                       </Text>
                                     </View>
-                                    {errors.coach_preference &&
-                                      touched.coach_preference && (
-                                        <View
-                                          style={{
-                                            alignItems: 'flex-end',
-                                          }}>
-                                          <Text style={styles.errorText}>
-                                            {errors.coach_preference}
-                                          </Text>
-                                        </View>
-                                      )}
+                                    {errors.coach_preference && (
+                                      <View
+                                        style={{
+                                          alignItems: 'flex-end',
+                                        }}>
+                                        <Text style={styles.errorText}>
+                                          {errors.coach_preference}
+                                        </Text>
+                                      </View>
+                                    )}
                                   </View>
                                 )}
                               />
-                            {this.renderCommercialView()}
                             </View>
+                            {this.renderCommercialView()}
                           </View>
                         );
                       }}
@@ -227,97 +225,69 @@ export default class selectCoachScreen extends React.Component {
 
   renderCommercialView = () => {
     return (
-      <View style={{marginTop:50}} >
-
-                  <Text
-                    style={{
-                      fontWeight: 'bold',
-                      fontSize: 17,
-                      color: '#FFFF',
-                    }}>
-                    Quel commercial t'a contacté ?
-                  </Text>
-                <View style={styles.dropdownContainer}>
-                  <FieldArray
-                    name='commercial_id'
-                    render={(arrayhelper) => (
-                   <View>
-                   <View>
-                        <SelectDropdown
-                          buttonStyle={{ width: widthPercentageToDP(90), borderRadius: 5 }}
-                          data={this.state.Commercial}
-                          defaultButtonText={'Recherche ton commercial'}
-                          onSelect={(selectedItem, index) => {
-                            arrayhelper.form.values.commercial_id =   selectedItem.id,
-                       
-                            this.setState({checkedCommercial:false})
-                          }}
-                          renderDropdownIcon={() => {
-                            return (
-                              <AntDesign name="down" size={24} color="black" />
-                            );
-                          }}
-                          dropdownIconPosition={'right'}
-                          buttonTextAfterSelection={(selectedItem, index) => {
-                            let show = '';
-                            this.state.checkedCommercial?null: show = `${selectedItem.first_name}  ${selectedItem.last_name}`;
-                            return show;
-                          }}
-                          rowTextStyle={{
-                            color: 'white',
-                            fontSize: 15,
-                            marginRight: 90,
-                          }}
-                          dropdownStyle={{
-                            backgroundColor: '#282C3A',
-                            borderRadius: 5,
-                          }}
-                          rowTextForSelection={(item, index) => {
-                            // text represented for each item in dropdown
-                            // if data array is an array of objects then return item.property to represent item in dropdown
-                            return item.first_name;
-                          }}
-                        />
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            marginTop: 15,
-                            marginBottom: 24,
-                          }}>
-                          <CheckBox
-                            size={25}
-                            containerStyle={{
-                              paddingLeft: 0,
-                              marginLeft: 0,
-                              borderWidth: 0,
-                            }}
-                            uncheckedColor="#2CDEE4"
-                            checked={this.state.checkedCommercial}
-                            value={arrayhelper.form.values.coach_preference}
-                            onPress={() => {
-                              arrayhelper.form.values.commercial_id = 0
-                              this.setState({checkedCommercial:true})
-                            }}
-                          />
-                          <Text
-                            style={{
-                              flex: 1,
-                              flexWrap: 'wrap',
-                              color: '#FFFFFF',
-                              fontFamily: 'Roboto',
-                              fontSize: 13,
-                            }}>
-                            je n'ai pas été contacté
-                          </Text>
-                        </View>
-                      </View>
-                            
-                </View>
-                    )}
+      <View style={styles.dropdownContainer}>
+        <Text style={styles.title}>
+          Par quel commercial as-tu été recommandé ?
+        </Text>
+        <FieldArray
+          name="commercial_id"
+          render={(arrayhelper) => (
+            <View style={styles.dropdownContainer}>
+              <View>
+                <SelectDropdown
+                  buttonStyle={styles.dropdownButton}
+                  buttonTextStyle={styles.dropdownButtonText}
+                  rowTextStyle={styles.dropdownRowText}
+                  dropdownStyle={styles.dropdownBg}
+                  rowStyle={styles.dropdownRow}
+                  data={this.state.Commercial}
+                  defaultButtonText={'Recherche ton commercial'}
+                  onSelect={(selectedItem, index) => {
+                    (arrayhelper.form.values.commercial_id = selectedItem.id),
+                      this.setState({ checkedCommercial: false });
+                  }}
+                  renderDropdownIcon={() => {
+                    return <AntDesign name="down" size={18} color="black" />;
+                  }}
+                  dropdownIconPosition={'right'}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    let show = '';
+                    this.state.checkedCommercial
+                      ? null
+                      : (show = `${selectedItem.first_name}  ${selectedItem.last_name}`);
+                    return show;
+                  }}
+                  rowTextForSelection={(item, index) => {
+                    // text represented for each item in dropdown
+                    // if data array is an array of objects then return item.property to represent item in dropdown
+                    return item.first_name;
+                  }}
+                />
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginBottom: 24,
+                  }}>
+                  <CheckBox
+                    size={25}
+                    containerStyle={styles.noWayCheckBox}
+                    uncheckedColor="#2CDEE4"
+                    checked={this.state.checkedCommercial}
+                    value={arrayhelper.form.values.coach_preference}
+                    onPress={() => {
+                      arrayhelper.form.values.commercial_id = 0;
+                      this.setState({
+                        checkedCommercial: !this.state.checkedCommercial,
+                      });
+                    }}
                   />
-              
+                  <Text style={styles.noWayText}>Je n'ai pas été contacté</Text>
+                </View>
               </View>
+            </View>
+          )}
+        />
       </View>
     );
   };

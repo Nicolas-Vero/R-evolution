@@ -97,7 +97,9 @@ export default class HomeCoachScreenController extends AbstractScreenController 
   getAvailabilities(item) {
     const date = moment(item).format('YYYY-MM-DD');
     get_availabilities(date).then((res) => {
-      this.component.setState({ currentAvailabilities: res.data });
+      this.component.setState({
+        currentAvailabilities: { avaibilities: res.data, day: date },
+      });
       this.component.setState({ refresh: !this.component.state.refresh });
     });
   }

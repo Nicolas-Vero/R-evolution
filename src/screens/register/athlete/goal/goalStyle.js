@@ -29,7 +29,7 @@ module.exports = StyleSheet.create({
     fontFamily: 'RobotoBold',
     fontSize: 15,
     color: '#FFFFFF',
-    width: widthPercentageToDP(90),
+    width: 'auto',
   },
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,

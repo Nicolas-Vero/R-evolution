@@ -24,7 +24,7 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 export default class ProfileAthleteScreenView extends AbstractScreenView {
   renderHeader() {
     return (
-      <View style={{ paddingTop: isIphoneX() ? 50 : 0 }}>
+      <View style={{ paddingTop: isIphoneX() ? 30 : 0 }}>
         <View style={styles.header}>
           <View style={styles.headerLeft}>
             <HeaderLight />
