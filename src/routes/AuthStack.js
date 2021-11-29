@@ -25,7 +25,7 @@ import selectGymCoachScreen from '../screens/register/coach/selectGym/selectGymC
 const AuthStack = createStackNavigator(
   {
     AuthEntry: {
-      screen: entryScreen,
+      screen: selectCoachScreen,
       navigationOptions: {
         headerShown: false,
       },

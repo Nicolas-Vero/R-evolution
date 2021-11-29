@@ -71,12 +71,12 @@ export default class mensurationScreen extends React.Component {
                   }}
                   validationSchema={Yup.object().shape({
                     age: Yup.number()
-                      .typeError('Age non valide')
+                      .typeError('Âge non valide')
                       .min(15, 'Tu dois entrer un âge correct')
                       .max(100, 'Tu dois entrer un âge correct')
                       .required('Requis'),
                     weight: Yup.number()
-                      .typeError('Poid non valide')
+                      .typeError('Poids non valide')
                       .max(300, 'Tu dois entrer un poids correct')
                       .min(30, 'Tu dois entrer un poids correct')
                       .required('Requis'),
@@ -122,7 +122,7 @@ export default class mensurationScreen extends React.Component {
                                                 ? '#FD7279'
                                                 : null,
                                           }}
-                                          placeholder="Taille"
+                                          placeholder="Taille (en cm)"
                                           onChangeText={(text) =>
                                             (arrayhelper.form.values.size =
                                               text)

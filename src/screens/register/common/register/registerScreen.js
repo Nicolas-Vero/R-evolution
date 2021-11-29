@@ -79,7 +79,7 @@ export default class registerScreen extends React.Component {
                   onSubmit={(values) => {
                     this.state.termsCondition
                       ? this.onNavigate(values)
-                      : alert('accepter les terms des conditons');
+                      : alert('Accepter les termes des conditions pour continuer.');
                   }}
                   validationSchema={Yup.object().shape({
                     first_name: Yup.string().required('Requis'),

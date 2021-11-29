@@ -71,7 +71,7 @@ export default class RegisterInfoAthlete extends React.Component {
                   onSubmit={(values) => {
                     this.state.termsCondition
                       ? navigation.navigate('mensuration', { item: values })
-                      : alert('accepter les terms des conditons');
+                      : alert(' Alerte Accepter les termes des conditions pour continuer.');
                   }}
                   validationSchema={Yup.object().shape({
                     first_name: Yup.string().required('Requis'),
