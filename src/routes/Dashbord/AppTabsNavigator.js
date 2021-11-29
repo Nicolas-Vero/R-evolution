@@ -11,41 +11,42 @@ const AppTabsNavigator = createBottomTabNavigator(
   {
     HomeStack: {
       screen: HomeStack,
-      navigationOptions: {
-        gestureEnabled: false,
+      navigationOptions: ({ navigation }) => ({
         tabBarLabel: 'Home',
+        tabBarVisible: getTabBarVisiblility(navigation),
         tabBarIcon: ({ tintColor }) => (
           <Image
             source={require('../../../assets/images/Calendar.png')}
-            style={{ height: 24, resizeMode: 'contain', tintColor }}
+            style={{ height: 26, resizeMode: 'contain', tintColor }}
           />
         ),
-      },
+      }),
     },
     OffresStack: {
       screen: OffresStack,
-      navigationOptions: {
-        tabBarLabel: 'offersScreen',
+      navigationOptions: ({ navigation }) => ({
+        tabBarLabel: 'Offres',
+        tabBarVisible: getTabBarVisiblility(navigation),
         tabBarIcon: ({ tintColor }) => (
           <Image
             source={require('../../../assets/images/Category.png')}
-            style={{ height: 24, resizeMode: 'contain', tintColor }}
+            style={{ height: 26, resizeMode: 'contain', tintColor }}
           />
         ),
-      },
+      }),
     },
     MyAthletesStack: {
       screen: MyAthletesStack,
-      navigationOptions: {
-        gestureEnabled: false,
+      navigationOptions: ({ navigation }) => ({
         tabBarLabel: 'Athlètes',
+        tabBarVisible: getTabBarVisiblility(navigation),
         tabBarIcon: ({ tintColor }) => (
           <Image
             source={require('../../../assets/images/User.png')}
-            style={{ height: 24, resizeMode: 'contain', tintColor }}
+            style={{ height: 26, resizeMode: 'contain', tintColor }}
           />
         ),
-      },
+      }),
     },
     // stat: {
     //   screen: Stats,
@@ -85,4 +86,15 @@ const AppTabsNavigator = createBottomTabNavigator(
     },
   },
 );
+
+const getTabBarVisiblility = (navigation) => {
+  const route = navigation.state.routes[navigation.state.routes.length - 1];
+  console.log(route);
+  return [
+    'homeCoachScreen',
+    'OffersTrainingsCoachScreen',
+    'AthletesCoachScreen',
+  ].includes(route.routeName);
+};
+
 export default AppTabsNavigator;

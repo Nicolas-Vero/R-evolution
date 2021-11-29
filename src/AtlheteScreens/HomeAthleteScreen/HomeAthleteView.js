@@ -377,6 +377,8 @@ export default class HomeAthleteView extends AbstractScreenView {
 
   renderReserve() {
     const curDate = moment().format('YYYY-MM-DD');
+    const { coach } = this.component.state;
+    console.log(coach);
 
     return (
       <LinearGradient
@@ -390,23 +392,26 @@ export default class HomeAthleteView extends AbstractScreenView {
           y: 1,
         }}
         style={styles.reserveContainer}>
-        {this.renderBookDialog()}
-        {this.renderUnbookDialog()}
-        <View>
-          <Text
-            style={{
-              color: '#fff',
-              textAlign: 'center',
-              fontSize: 13,
-              fontFamily: 'MontserratBoldItalic',
-              marginTop: 24,
-              marginBottom: 5,
-            }}>
-            IL TE RESTE 2 SÉANCES À PLACER
-          </Text>
-        </View>
+        {coach ? this.renderBookDialog() : null}
+        {coach ? this.renderUnbookDialog() : null}
+        {coach ? (
+          <View>
+            <Text
+              style={{
+                color: '#fff',
+                textAlign: 'center',
+                fontSize: 13,
+                fontFamily: 'MontserratBoldItalic',
+                marginTop: 24,
+                marginBottom: 5,
+              }}>
+              IL TE RESTE 2 SÉANCES À PLACER
+            </Text>
+          </View>
+        ) : null}
+
         <MonthsSlider onChange={this.controller.onMonthChange.bind(this)} />
-        {this.component.state.coach.first_name ? (
+        {coach ? (
           <Text style={styles.coachName}>
             Les diponibilités de{' '}
             <Text style={styles.textColored}>
@@ -472,7 +477,7 @@ export default class HomeAthleteView extends AbstractScreenView {
         </View>
         <View>
           <Text style={styles.reserveInfoText}>
-            {this.component.state.coach.first_name
+            {coach
               ? "Tu peux annuler une séance jusqu'à 24h avant le début de celle-ci."
               : 'Tu dois être suivi(e) par un coach pour voir ses disponibilités'}
           </Text>

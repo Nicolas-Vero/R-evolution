@@ -1,8 +1,4 @@
-import { StyleSheet, Platform, StatusBar, Dimensions } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import { StyleSheet, Dimensions } from 'react-native';
 const { width } = Dimensions.get('window');
 
 module.exports = StyleSheet.create({
@@ -11,8 +7,7 @@ module.exports = StyleSheet.create({
     backgroundColor: '#000',
   },
   content: {
-    marginHorizontal: 10,
-    marginTop: 30,
+    marginHorizontal: 16,
   },
   imageContainer: {
     marginVertical: 8,

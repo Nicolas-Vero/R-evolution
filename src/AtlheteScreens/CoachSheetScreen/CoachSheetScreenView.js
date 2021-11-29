@@ -17,12 +17,12 @@ export default class CoachSheetScreenView extends AbstractScreenView {
     return (
       <View
         style={{
+          marginTop: 150,
           flex: 1,
-          justifyContent: 'center',
           alignItems: 'center',
         }}>
         <Text
-          style={{ fontFamily: 'RobotoBold', fontSize: 20, color: '#FFFF' }}>
+          style={{ fontFamily: 'Roboto', fontSize: 20, color: '#FFFF' }}>
           Pas de coach associé
         </Text>
       </View>

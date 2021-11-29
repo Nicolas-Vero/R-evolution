@@ -26,16 +26,25 @@ export default class ProfileAthleteScreenController extends AbstractScreenContro
         { day: 'D', selected: 0 },
       ],
       multi: [6, 17],
+      gym: null,
     };
   }
 
   async componentDidMount() {
     // loadFonts();
     const User = await AuthService.getUser();
+    console.log(User);
     this.component.setState({ User });
     get_gym().then((res) => {
-      this.component.setState({ Gymdata: res.data });
-      this.component.setState({ loaded: true });
+      const currentGymId = res.data.find(
+        (gym) => gym.id === User.preferred_gym_id,
+      );
+
+      this.component.setState({
+        Gymdata: res.data,
+        gym: currentGymId.name,
+        loaded: true,
+      });
     });
   }
 

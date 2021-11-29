@@ -3,6 +3,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+
+import { isIphoneX } from 'react-native-iphone-x-helper';
+
 const { width } = Dimensions.get('window');
 
 module.exports = StyleSheet.create({
@@ -12,13 +15,12 @@ module.exports = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    alignContent: 'center',
   },
   headerLeft: {
     alignItems: 'flex-start',
   },
   headerMidle: {
-    marginTop: 40,
+    marginTop: isIphoneX() ? 50 : 50,
     alignItems: 'center',
   },
   headerRight: {
@@ -35,6 +37,7 @@ module.exports = StyleSheet.create({
     marginBottom: 5,
   },
   checkBox: {
+    paddingTop:0,
     paddingLeft: 0,
     marginLeft: 0,
     backgroundColor: 'transparent',

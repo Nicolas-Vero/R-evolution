@@ -11,12 +11,11 @@ export default class OffersScreenController extends AbstractScreenController {
       offers: [],
       screen: 'EN COURS',
       ActiveCourses: [],
-      isLoaded: false,
+      isLoaded: true,
       isDialogVisible: false,
     };
   }
   async componentDidMount() {
-    this.component.setState({ isLoaded: false });
     const user = await AuthService.getUser();
     const courses = await get_athlete_active_courses();
     if (courses.status === 200) {

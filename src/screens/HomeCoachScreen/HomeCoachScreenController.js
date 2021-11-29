@@ -182,6 +182,6 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     setTimeout(() => {
       this.component.listRef &&
         this.component.listRef.scrollToIndex({ animated, index });
-    }, 2000);
+    }, 3000);
   };
 }

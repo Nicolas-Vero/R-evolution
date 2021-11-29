@@ -31,7 +31,8 @@ export default withNavigation(HeaderLight);
 const defaultStyle = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
   },
   image: { height: 20.54, width: 12.33, resizeMode: 'contain', marginLeft: 0 },
-  textContainer: { alignItems: 'center', flex: 6 },
 });

@@ -244,7 +244,7 @@ export default class HomeAhleteController extends AbstractScreenController {
     const bookInformation = {
       date: this.component.state.selectedDate,
       coach_id: this.component.state.coach_id,
-      slot:slot,
+      slot: slot,
       athlete_course_id: this.component.state.athleteCourse.id,
     };
     this.component.setState({ book: bookInformation });
@@ -298,6 +298,6 @@ export default class HomeAhleteController extends AbstractScreenController {
     setTimeout(() => {
       this.component.listRef &&
         this.component.listRef.scrollToIndex({ animated, index });
-    }, 2000);
+    }, 3000);
   };
 }

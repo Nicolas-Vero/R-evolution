@@ -34,7 +34,9 @@ export default class selectCoachScreen extends React.Component {
     };
   }
   componentDidMount() {
-    get_commercial_by_place(8).then((res) => {
+    get_commercial_by_place(
+      this.props.navigation.state.params.item.preferred_gym_id,
+    ).then((res) => {
       this.setState({ Commercial: res.data });
       console.log(res.data);
       this.setState({ isLoaded: true });
@@ -102,7 +104,7 @@ export default class selectCoachScreen extends React.Component {
                   coach_preference: Yup.object().required(
                     "Si vous n'avez pas de preférence selectionner : Peu importe",
                   ),
-                  commercial_id: Yup.object().required(
+                  commercial_id: Yup.string().required(
                     "Si vous n'avez pas été recommandé selectionner : Je n'ai pas été recommandé",
                   ),
                 })}>
@@ -191,16 +193,17 @@ export default class selectCoachScreen extends React.Component {
                                         Peu importe
                                       </Text>
                                     </View>
-                                    {errors.coach_preference && (
-                                      <View
-                                        style={{
-                                          alignItems: 'flex-end',
-                                        }}>
-                                        <Text style={styles.errorText}>
-                                          {errors.coach_preference}
-                                        </Text>
-                                      </View>
-                                    )}
+                                    {errors.coach_preference &&
+                                      !this.state.checkedCoach && (
+                                        <View
+                                          style={{
+                                            alignItems: 'flex-end',
+                                          }}>
+                                          <Text style={styles.errorText}>
+                                            {errors.coach_preference}
+                                          </Text>
+                                        </View>
+                                      )}
                                   </View>
                                 )}
                               />
@@ -227,18 +230,11 @@ export default class selectCoachScreen extends React.Component {
                                           'Recherche ton commercial'
                                         }
                                         onSelect={(selectedItem, index) => {
-                                          arrayhelper.form.values.coach_preference =
-                                            {
-                                              type: 'specific_commercial',
-                                              coach_id: selectedItem.id,
-                                            };
-                                          // this.setState({ checkedCoach: false });
-
-                                          //   (arrayhelper.form.values.commercial_id =
-                                          //     selectedItem.id),
-                                          this.setState({
-                                            checkedCommercial: false,
-                                          });
+                                          (arrayhelper.form.values.commercial_id =
+                                            selectedItem.id),
+                                            this.setState({
+                                              checkedCommercial: false,
+                                            });
                                         }}
                                         renderDropdownIcon={() => {
                                           return (
@@ -279,14 +275,10 @@ export default class selectCoachScreen extends React.Component {
                                           checked={this.state.checkedCommercial}
                                           value={
                                             arrayhelper.form.values
-                                              .commercial_id
+                                              .coach_preference
                                           }
                                           onPress={() => {
-                                            arrayhelper.form.values.commercial_id =
-                                              {
-                                                type: 'any_commercial',
-                                              };
-
+                                            arrayhelper.form.values.commercial_id = 0;
                                             this.setState({
                                               checkedCommercial:
                                                 !this.state.checkedCommercial,

@@ -19,32 +19,35 @@ import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { AntDesign } from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
-import { isIphoneX } from 'react-native-iphone-x-helper';
 
 export default class ProfileAthleteScreenView extends AbstractScreenView {
   renderHeader() {
     return (
-      <View style={{ paddingTop: isIphoneX() ? 30 : 0 }}>
-        <View style={styles.header}>
-          <View style={styles.headerLeft}>
-            <HeaderLight />
-          </View>
-          <View style={styles.headerMidle}>
-            <Avatar
-              size={105}
-              rounded
-              source={{
-                uri: '../../../assets/images/avatar.png',
-              }}
-            />
-          </View>
-          <View style={styles.headerRight}></View>
+      <View style={styles.header}>
+        <View style={styles.headerLeft}>
+          <HeaderLight />
         </View>
+        <View style={styles.headerMidle}>
+          <Avatar
+            size={105}
+            rounded
+            source={{
+              uri: '../../../assets/images/avatar.png',
+            }}
+          />
+        </View>
+        <View style={styles.headerRight}></View>
       </View>
     );
   }
 
   render() {
+    // console.log({
+    //   gender: 'male',
+    //   time_preference: { start_time: 5, end_time: 6 },
+    //   profile_picture_url: '',
+    //   ...this.component.state.User,
+    // });
     if (!this.component.state.loaded) {
       return (
         <View>
@@ -55,7 +58,7 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
     return (
       <View style={styles.container}>
         {this.renderHeader()}
-        <ScrollView>
+        <ScrollView style={{ marginTop: 20 }}>
           <View style={styles.content}>
             <Formik
               initialValues={{
@@ -172,7 +175,11 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                           dropdownStyle={styles.dropdownBg}
                           rowStyle={styles.dropdownRow}
                           data={['OUI', 'NON']}
-                          defaultButtonText={'Choisir'}
+                          defaultButtonText={
+                            this.component.state.User.health_issues
+                              ? 'OUI'
+                              : 'NON'
+                          }
                           onSelect={(selectedItem) => {
                             let boolValue = '';
                             if (selectedItem == 'OUI') {
@@ -215,219 +222,227 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                   </View>
                   <Text style={styles.text}>Où souhaites-tu t’entraîner ?</Text>
                   <View style={styles.inputContainer}>
-                    <SelectDropdown
-                      buttonStyle={styles.dropdownButton}
-                      buttonTextStyle={styles.dropdownButtonText}
-                      rowTextStyle={styles.dropdownRowText}
-                      dropdownStyle={styles.dropdownBg}
-                      rowStyle={styles.dropdownRow}
-                      data={this.component.state.Gymdata}
-                      defaultButtonText={'Recherche le nom de ta salle'}
-                      onSelect={(selectedItem) => {
-                        if (arrayhelper.form.values.gymPlace.length > 1) {
-                          arrayhelper.push(selectedItem);
-                          arrayhelper.pop();
-                        } else {
-                        }
-                        arrayhelper.push(selectedItem);
-                      }}
-                      renderDropdownIcon={() => (
-                        <AntDesign name="down" size={18} color="black" />
+                    <FieldArray
+                      render={(arrayhelper) => (
+                        <SelectDropdown
+                          buttonStyle={styles.dropdownButton}
+                          buttonTextStyle={styles.dropdownButtonText}
+                          rowTextStyle={styles.dropdownRowText}
+                          dropdownStyle={styles.dropdownBg}
+                          rowStyle={styles.dropdownRow}
+                          data={this.component.state.Gymdata}
+                          defaultButtonText={this.component.state.gym}
+                          onSelect={(selectedItem) => {
+                            // TODO NICO FIX CRASH
+                            console.log(selectedItem);
+                            if (
+                              arrayhelper.form.values.prefered_gym.length > 1
+                            ) {
+                              arrayhelper.push(selectedItem);
+                              arrayhelper.pop();
+                            } else {
+                            }
+                            arrayhelper.push(selectedItem);
+                          }}
+                          renderDropdownIcon={() => (
+                            <AntDesign name="down" size={18} color="black" />
+                          )}
+                          dropdownIconPosition={'right'}
+                          buttonTextAfterSelection={(selectedItem) => {
+                            return selectedItem;
+                          }}
+                          rowTextForSelection={(item) => {
+                            return item.name;
+                          }}
+                        />
                       )}
-                      dropdownIconPosition={'right'}
-                      buttonTextAfterSelection={(selectedItem) => {
-                        return selectedItem;
-                      }}
-                      rowTextForSelection={(item) => {
-                        return item.name;
-                      }}
                     />
                   </View>
                   <Text style={styles.text}>A quel moment de la journée ?</Text>
                   <FieldArray
                     render={(arrayhelper) => (
-                      console.log(arrayhelper.form.values),
-                      (
-                        <MultiSlider
-                          values={[
-                            this.component.state.multi[0],
-                            this.component.state.multi[1],
-                          ]}
-                          sliderLength={widthPercentageToDP(92)}
-                          onValuesChange={(values) => {
-                            this.component.setState({ multi: values });
-                            arrayhelper.form.values.time_preference.start_time =
-                              values[0];
-                            arrayhelper.form.values.time_preference.end_time =
-                              values[1];
-                          }}
-                          min={0}
-                          max={24}
-                          step={1}
-                          snapped
-                          trackStyle={{ height: 5 }}
-                          trackStyle={styles.sliderTrack}
-                          markerStyle={styles.sliderMarker}
-                          selectedStyle={styles.sliderSelected}
-                        />
-                      )
-                    )}
-                  />
-                  <Text style={styles.text}>Quel(s) jour(s) ?</Text>
-                  <FieldArray
-                    render={(arrayhelper) => (
-                      <FlatList
-                        horizontal={true}
-                        data={this.component.state.SelectedDay}
-                        renderItem={({ item }) => {
-                          const backgroundColor =
-                            item.selected == 1 ? '#2CDEE4' : '#1E2026';
-                          const textColor =
-                            item.selected == 1 ? 'black' : 'white';
-                          return (
-                            <TouchableOpacity
-                              onPress={() => {
-                                switch (item.day) {
-                                  case 'L':
-                                    arrayhelper.form.values.days_preference.is_monday_preferred =
-                                      !arrayhelper.form.values.days_preference
-                                        .is_monday_preferred;
-                                    setSelectedDay(
-                                      SelectedDay.map((item) =>
-                                        item.day === 'L'
-                                          ? {
-                                              ...item,
-                                              selected: !item.selected,
-                                            }
-                                          : item,
-                                      ),
-                                    );
-                                    break;
-                                  case 'M':
-                                    arrayhelper.form.values.days_preference.is_tuesday_preferred =
-                                      !arrayhelper.form.values.days_preference
-                                        .is_tuesday_preferred;
-                                    setSelectedDay(
-                                      SelectedDay.map((item) =>
-                                        item.day === 'M'
-                                          ? {
-                                              ...item,
-                                              selected: !item.selected,
-                                            }
-                                          : item,
-                                      ),
-                                    );
-                                    break;
-                                  case 'ME':
-                                    arrayhelper.form.values.days_preference.is_wednesday_preferred =
-                                      !arrayhelper.form.values.days_preference
-                                        .is_wednesday_preferred;
-                                    setSelectedDay(
-                                      SelectedDay.map((item) =>
-                                        item.day === 'ME'
-                                          ? {
-                                              ...item,
-                                              selected: !item.selected,
-                                            }
-                                          : item,
-                                      ),
-                                    );
-                                    break;
-                                  case 'J':
-                                    arrayhelper.form.values.days_preference.is_thursday_preferred =
-                                      !arrayhelper.form.values.days_preference
-                                        .is_thursday_preferred;
-                                    setSelectedDay(
-                                      SelectedDay.map((item) =>
-                                        item.day === 'J'
-                                          ? {
-                                              ...item,
-                                              selected: !item.selected,
-                                            }
-                                          : item,
-                                      ),
-                                    );
-                                    break;
-                                  case 'V':
-                                    arrayhelper.form.values.days_preference.is_friday_preferred =
-                                      !arrayhelper.form.values.days_preference
-                                        .is_friday_preferred;
-                                    setSelectedDay(
-                                      SelectedDay.map((item) =>
-                                        item.day === 'V'
-                                          ? {
-                                              ...item,
-                                              selected: !item.selected,
-                                            }
-                                          : item,
-                                      ),
-                                    );
-                                    break;
-                                  case 'S':
-                                    arrayhelper.form.values.days_preference.is_saturday_preferred =
-                                      !arrayhelper.form.values.days_preference
-                                        .is_saturday_preferred;
-                                    setSelectedDay(
-                                      SelectedDay.map((item) =>
-                                        item.day === 'S'
-                                          ? {
-                                              ...item,
-                                              selected: !item.selected,
-                                            }
-                                          : item,
-                                      ),
-                                    );
-                                    break;
-                                  case 'D':
-                                    arrayhelper.form.values.days_preference.is_sunday_preferred =
-                                      !arrayhelper.form.values.days_preference
-                                        .is_sunday_preferred;
-                                    setSelectedDay(
-                                      SelectedDay.map((item) =>
-                                        item.day === 'D'
-                                          ? {
-                                              ...item,
-                                              selected: !item.selected,
-                                            }
-                                          : item,
-                                      ),
-                                    );
-                                    break;
-                                  default:
-                                    break;
-                                }
-                              }}>
-                              <View
-                                style={[
-                                  styles.dayContainer,
-                                  { backgroundColor: backgroundColor },
-                                  // { borderWidth: borderWidth },
-                                ]}>
-                                <View style={styles.dayTextContainer}>
-                                  <Text
-                                    style={[
-                                      styles.dayTextNum,
-                                      {
-                                        color: textColor,
-                                      },
-                                    ]}>
-                                    {item?.day}
-                                  </Text>
-                                </View>
-                              </View>
-                            </TouchableOpacity>
-                          );
+                      <MultiSlider
+                        values={[
+                          this.component.state.multi[0],
+                          this.component.state.multi[1],
+                        ]}
+                        sliderLength={widthPercentageToDP(92)}
+                        onValuesChange={(values) => {
+                          this.component.setState({ multi: values });
+                          arrayhelper.form.values.time_preference.start_time =
+                            values[0];
+                          arrayhelper.form.values.time_preference.end_time =
+                            values[1];
                         }}
-                        keyExtractor={(item) => item.day}
+                        min={0}
+                        max={24}
+                        step={1}
+                        snapped
+                        trackStyle={{ height: 5 }}
+                        trackStyle={styles.sliderTrack}
+                        markerStyle={styles.sliderMarker}
+                        selectedStyle={styles.sliderSelected}
                       />
                     )}
                   />
+                  <Text style={styles.text}>Quel(s) jour(s) ?</Text>
+                  <View style={{ alignItems: 'center' }}>
+                    <FieldArray
+                      render={(arrayhelper) => (
+                        <FlatList
+                          horizontal={true}
+                          data={this.component.state.SelectedDay}
+                          renderItem={({ item }) => {
+                            const backgroundColor =
+                              item.selected == 1 ? '#2CDEE4' : '#1E2026';
+                            const textColor =
+                              item.selected == 1 ? 'black' : 'white';
+                            return (
+                              <TouchableOpacity
+                                onPress={() => {
+                                  switch (item.day) {
+                                    case 'L':
+                                      arrayhelper.form.values.days_preference.is_monday_preferred =
+                                        !arrayhelper.form.values.days_preference
+                                          .is_monday_preferred;
+                                      setSelectedDay(
+                                        SelectedDay.map((item) =>
+                                          item.day === 'L'
+                                            ? {
+                                                ...item,
+                                                selected: !item.selected,
+                                              }
+                                            : item,
+                                        ),
+                                      );
+                                      break;
+                                    case 'M':
+                                      arrayhelper.form.values.days_preference.is_tuesday_preferred =
+                                        !arrayhelper.form.values.days_preference
+                                          .is_tuesday_preferred;
+                                      setSelectedDay(
+                                        SelectedDay.map((item) =>
+                                          item.day === 'M'
+                                            ? {
+                                                ...item,
+                                                selected: !item.selected,
+                                              }
+                                            : item,
+                                        ),
+                                      );
+                                      break;
+                                    case 'ME':
+                                      arrayhelper.form.values.days_preference.is_wednesday_preferred =
+                                        !arrayhelper.form.values.days_preference
+                                          .is_wednesday_preferred;
+                                      setSelectedDay(
+                                        SelectedDay.map((item) =>
+                                          item.day === 'ME'
+                                            ? {
+                                                ...item,
+                                                selected: !item.selected,
+                                              }
+                                            : item,
+                                        ),
+                                      );
+                                      break;
+                                    case 'J':
+                                      arrayhelper.form.values.days_preference.is_thursday_preferred =
+                                        !arrayhelper.form.values.days_preference
+                                          .is_thursday_preferred;
+                                      setSelectedDay(
+                                        SelectedDay.map((item) =>
+                                          item.day === 'J'
+                                            ? {
+                                                ...item,
+                                                selected: !item.selected,
+                                              }
+                                            : item,
+                                        ),
+                                      );
+                                      break;
+                                    case 'V':
+                                      arrayhelper.form.values.days_preference.is_friday_preferred =
+                                        !arrayhelper.form.values.days_preference
+                                          .is_friday_preferred;
+                                      setSelectedDay(
+                                        SelectedDay.map((item) =>
+                                          item.day === 'V'
+                                            ? {
+                                                ...item,
+                                                selected: !item.selected,
+                                              }
+                                            : item,
+                                        ),
+                                      );
+                                      break;
+                                    case 'S':
+                                      arrayhelper.form.values.days_preference.is_saturday_preferred =
+                                        !arrayhelper.form.values.days_preference
+                                          .is_saturday_preferred;
+                                      setSelectedDay(
+                                        SelectedDay.map((item) =>
+                                          item.day === 'S'
+                                            ? {
+                                                ...item,
+                                                selected: !item.selected,
+                                              }
+                                            : item,
+                                        ),
+                                      );
+                                      break;
+                                    case 'D':
+                                      arrayhelper.form.values.days_preference.is_sunday_preferred =
+                                        !arrayhelper.form.values.days_preference
+                                          .is_sunday_preferred;
+                                      setSelectedDay(
+                                        SelectedDay.map((item) =>
+                                          item.day === 'D'
+                                            ? {
+                                                ...item,
+                                                selected: !item.selected,
+                                              }
+                                            : item,
+                                        ),
+                                      );
+                                      break;
+                                    default:
+                                      break;
+                                  }
+                                }}>
+                                <View
+                                  style={[
+                                    styles.dayContainer,
+                                    { backgroundColor: backgroundColor },
+                                    // { borderWidth: borderWidth },
+                                  ]}>
+                                  <View style={styles.dayTextContainer}>
+                                    <Text
+                                      style={[
+                                        styles.dayTextNum,
+                                        {
+                                          color: textColor,
+                                        },
+                                      ]}>
+                                      {item?.day}
+                                    </Text>
+                                  </View>
+                                </View>
+                              </TouchableOpacity>
+                            );
+                          }}
+                          keyExtractor={(item) => item.day}
+                        />
+                      )}
+                    />
+                  </View>
                   <View style={styles.validateButton}>
                     <Button
                       loading={false}
                       title="Valider les changements"
                       customTextStyle={styles.validateButtonText}
                       onPress={(values) => {
+                        // TODO NICO call api & set AuthService.setUser()
                         console.log(values);
                       }}
                     />

@@ -105,8 +105,8 @@ export default class ProfileCoachScreenController extends AbstractScreenControll
     if (update.status === 200) {
       const coach = await get_coach_me();
       if (coach.status === 200) await AuthService.setUser(coach.data);
-    }
 
-    this.component.props.navigation.goBack();
+      this.component.props.navigation.goBack();
+    }
   };
 }

@@ -38,7 +38,7 @@ module.exports = StyleSheet.create({
     maxHeight: 150,
   },
   goalItem: {
-    maxWidth: widthPercentageToDP(50),
+    maxWidth: widthPercentageToDP(25),
     minWidth: widthPercentageToDP(25),
     borderRadius: 25,
     paddingHorizontal: 13,
