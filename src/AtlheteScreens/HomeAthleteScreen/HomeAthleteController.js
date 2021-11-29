@@ -24,7 +24,7 @@ export default class HomeAhleteController extends AbstractScreenController {
       screen: 'MES RENDEZ-VOUS',
       user: {},
       coach_id: '',
-      coach: {},
+      coach: null,
       currentDate: '',
       isBookOfferDialogVisible: false,
       currentAvailabilities: [],
@@ -38,6 +38,8 @@ export default class HomeAhleteController extends AbstractScreenController {
       isRenewDialogVisible: false,
       isBookOfferDialogVisible: false,
       isUnbookOfferDialogVisible: false,
+      today: '',
+      disableAction: false,
     };
   }
 
@@ -65,7 +67,9 @@ export default class HomeAhleteController extends AbstractScreenController {
         this.component.setState({ athleteCourse: res.data });
       });
       const curDate = moment().format('YYYY-MM-DD');
-      this.onMonthChange(curDate);
+      this.component.setState({ today: curDate });
+
+      this.onMonthChange(curDate, true);
 
       get_coach_by_id(this.component.state.coach_id).then((res) => {
         this.component.setState({
@@ -159,17 +163,25 @@ export default class HomeAhleteController extends AbstractScreenController {
           availabilitiesArray.push(element);
         }
       });
+      this.component.setState({
+        disableAction: this.component.state.today > date,
+      });
       this.component.setState({ currentAvailabilities: availabilitiesArray });
       this.component.setState({ refresh: !this.component.state.refresh });
       // console.log(this.component.state.currentAvailabilities);
     });
   };
 
-  onMonthChange = (date) => {
+  onMonthChange = (date, isMount) => {
     var item = [];
-    var ArrayOfday = this.getDaysArrayByMonth(this.getDate(date));
+    var ArrayOfday = this.getDaysArrayByMonth(
+      moment(date).format('YYYY-MM-DD'),
+    );
 
-    ArrayOfday.forEach((element) => {
+    let todayIndex = 0;
+    ArrayOfday.forEach((element, index) => {
+      if (this.component.state.today === moment(element).format('YYYY-MM-DD'))
+        todayIndex = index;
       const elementdaynum = moment(element).format('dd');
       const elementday = moment(element).format('D');
       element = moment(element).format('YYYY-MM-DD');
@@ -180,12 +192,14 @@ export default class HomeAhleteController extends AbstractScreenController {
       };
       item?.push(Object);
     });
+
+    if (isMount) {
+      this.scrollToIndex(todayIndex, true);
+    }
     this.component.setState({ availabilities: item });
   };
 
   sendNotificationImmediately = async (notification) => {
-    // alert(JSON.parse(notification))
-    console.log('=====>>>>>', notification);
     let notificationId = await Notifications.presentLocalNotificationAsync({
       title: notification?.request?.content?.title,
       body: notification?.request?.content?.body,
@@ -259,15 +273,12 @@ export default class HomeAhleteController extends AbstractScreenController {
     this.component.setState({
       currentSlot: convertSlotToDate(slot),
     });
-    console.log(this.component.state.currentSlot.slice(0, 5));
-    console.log(this.component.state.currentSlot.slice(8, 14));
     const bookInformation = {
       date: this.component.state.selectedDate,
       coach_id: this.component.state.coach_id,
       slot: slot,
       athlete_course_id: this.component.state.athleteCourse.id,
     };
-    console.log(bookInformation);
     this.component.setState({ book: bookInformation });
     this.component.setState({
       isUnBookOfferDialogVisible: true,
@@ -276,12 +287,17 @@ export default class HomeAhleteController extends AbstractScreenController {
 
   onUnbook = async () => {
     const res = await cancel_booking_athlete(this.component.state.book);
-    console.log(res.status);
-    console.log(res.data);
     if (res.status === 200) {
       this.getAvailabilities(this.component.state.currentItem);
     }
 
     this.onDismissUnBookDialog();
+  };
+
+  scrollToIndex = (index, animated) => {
+    setTimeout(() => {
+      this.component.listRef &&
+        this.component.listRef.scrollToIndex({ animated, index });
+    }, 2000);
   };
 }

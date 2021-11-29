@@ -33,7 +33,7 @@ export default class OffersCoachScreenView extends AbstractScreenView {
           />
           <View style={styles.alignCenter}>
             <FlatList
-              contentContainerStyle={{ paddingBottom: 50 }}
+              contentContainerStyle={{ paddingBottom: 200 }}
               style={styles.flatList}
               data={this.component.state.offers}
               // onRefresh={onRefresh}
@@ -53,11 +53,13 @@ export default class OffersCoachScreenView extends AbstractScreenView {
                   style={styles.item}>
                   <Text style={styles.itemTitle}>{item.title}</Text>
                   <Text style={styles.itemContent}>{item.content}</Text>
-                  <Text style={styles.itemNbCredits}>
-                    {`${item.nb_credits} coaching${
-                      item.nb_credits > 1 ? 's' : ''
-                    }`}
-                  </Text>
+                  {!(item.nb_credits || item.nb_credits < 1) ? null : (
+                    <Text style={styles.itemNbCredits}>
+                      {`${item.nb_credits} coaching${
+                        item.nb_credits > 1 ? 's' : ''
+                      }`}
+                    </Text>
+                  )}
                   <View style={styles.itemBottomContainer}>
                     <View style={styles.itemBottomLeft}>
                       <ModifyButton
@@ -84,9 +86,7 @@ export default class OffersCoachScreenView extends AbstractScreenView {
                           this.controller.onOpenDialog(item.id);
                         }}></ModifyButton>
                     </View>
-                    <Text style={styles.itemBottomPrice}>
-                      {item.price}€
-                    </Text>
+                    <Text style={styles.itemBottomPrice}>{item.price}€</Text>
                   </View>
                 </LinearGradient>
               )}

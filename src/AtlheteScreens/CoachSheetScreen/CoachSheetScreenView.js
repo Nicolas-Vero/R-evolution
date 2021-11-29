@@ -23,12 +23,13 @@ export default class CoachSheetScreenView extends AbstractScreenView {
         }}>
         <Text
           style={{ fontFamily: 'RobotoBold', fontSize: 20, color: '#FFFF' }}>
-          pas de coach associé
+          Pas de coach associé
         </Text>
       </View>
     );
   }
   render() {
+    console.log(this.component.state.coach);
     return (
       <View style={styles.container}>
         <Header title="TON COACH" disableBackPress />
@@ -49,12 +50,13 @@ export default class CoachSheetScreenView extends AbstractScreenView {
               <Text style={styles.username}>
                 {`${this.component.state.coach?.first_name} ${this.component.state.coach?.last_name}`}
               </Text>
-              <Text style={styles.trainingPlace}>{this.component.state.coach?.gym.name}</Text>
+              <Text style={styles.trainingPlace}>
+                {this.component.state.coach?.gym.name}
+              </Text>
             </View>
             <View style={styles.content}>
               <ScrollView style={styles.scrollView}>
                 <View style={styles.phoneNumberContainer}>
-                  <View style={styles.phoneNumberLeft}></View>
                   <View style={styles.phoneNumberMidle}>
                     <View
                       style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -67,7 +69,6 @@ export default class CoachSheetScreenView extends AbstractScreenView {
                       </Text>
                     </View>
                   </View>
-                  <View style={styles.phoneNumberRight}></View>
                 </View>
                 <View style={styles.item}>
                   <Text style={styles.infoText}>Adresse e-mail :</Text>

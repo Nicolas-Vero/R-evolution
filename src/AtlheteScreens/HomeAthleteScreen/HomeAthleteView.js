@@ -246,22 +246,34 @@ export default class HomeAthleteView extends AbstractScreenView {
     );
   }
 
+  renderInfos = () => {
+    return this.component.state.coach ? (
+      <View style={styles.renewContainer}>
+        {this.renderRenewOfferDialog()}
+        <Text style={styles.renewText}>
+          IL NE TE RESTE QUE <Text style={styles.textColored}>"X"</Text>
+          SÉANCES SUR TON
+          <Text style={styles.textColored}> "PACK X"</Text>
+        </Text>
+        <TouchableOpacity
+          onPress={this.controller.onRenewOfferPress}
+          style={styles.renewButton}>
+          <Text style={styles.renewButtonText}>Renouveler l'offre</Text>
+        </TouchableOpacity>
+      </View>
+    ) : (
+      <View style={styles.noCoachContainer}>
+        <Text style={styles.noCoachText}>
+          Ta demande est en cours de traitement. Un coach te contactera
+          prochainement pour répondre à tes besoins.
+        </Text>
+      </View>
+    );
+  };
   renderMyAppointment() {
-    console.log('appointment', this.component.state.dayApointement);
     return (
       <View style={styles.content}>
-        <View style={styles.renewContainer}>
-          <Text style={styles.renewText}>
-            IL NE TE RESTE QUE <Text style={styles.textColored}>"X"</Text>
-            SÉANCES SUR TON
-            <Text style={styles.textColored}> "PACK X"</Text>
-          </Text>
-          <TouchableOpacity
-            onPress={this.controller.onRenewOfferPress}
-            style={styles.renewButton}>
-            <Text style={styles.renewButtonText}>Renouveler l'offre</Text>
-          </TouchableOpacity>
-        </View>
+        {this.renderInfos()}
         <Text style={styles.appointmentText}>AUJOURD'HUI</Text>
         {this.component.state.dayApointement &&
         this.component.state.dayApointement.length ? (
@@ -406,6 +418,7 @@ export default class HomeAthleteView extends AbstractScreenView {
         )}
         <View>
           <FlatList
+            ref={(ref) => (this.component.listRef = ref)}
             style={styles.flatlist}
             horizontal={true}
             data={this.component.state.availabilities}
@@ -474,44 +487,49 @@ export default class HomeAthleteView extends AbstractScreenView {
           keyExtractor={(item) => {
             item?.slot;
           }}
-          renderItem={({ item, index }) => (
-            <View
-              style={[
-                styles.reserveItem,
-                {
-                  marginTop: index === 0 ? 0 : 9,
-                },
-              ]}>
-              <View style={styles.reserveLeft}>
-                <Text style={styles.reserveItemText}>
-                  {convertSlotToDate(item?.slot)}
-                </Text>
+          renderItem={({ item, index }) => {
+            const { disableAction } = this.component.state;
+            return (
+              <View
+                style={[
+                  styles.reserveItem,
+                  {
+                    marginTop: index === 0 ? 0 : 9,
+                  },
+                ]}>
+                <View style={styles.reserveLeft}>
+                  <Text style={styles.reserveItemText}>
+                    {convertSlotToDate(item?.slot)}
+                  </Text>
+                </View>
+                <View style={styles.reserveRight}>
+                  {item.value ? (
+                    <TouchableOpacity
+                      disabled={disableAction}
+                      onPress={() => {
+                        this.controller.onBookOfferPress(item?.slot);
+                      }}
+                      style={styles.reserveItemButton}>
+                      <Text style={styles.reserveItemButtonText}>
+                        Réserver ce créneau
+                      </Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      disabled={disableAction}
+                      onPress={() => {
+                        this.controller.onUnbookOfferPress(item.slot);
+                      }}
+                      style={styles.unReserveItemButton}>
+                      <Text style={styles.unReserveItemButtonText}>
+                        Annuler ma réservation
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
               </View>
-              <View style={styles.reserveRight}>
-                {item.value ? (
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.controller.onBookOfferPress(item?.slot);
-                    }}
-                    style={styles.reserveItemButton}>
-                    <Text style={styles.reserveItemButtonText}>
-                      Réserver ce créneau
-                    </Text>
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.controller.onUnbookOfferPress(item.slot);
-                    }}
-                    style={styles.unReserveItemButton}>
-                    <Text style={styles.unReserveItemButtonText}>
-                      Annuler ma réservation
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              </View>
-            </View>
-          )}
+            );
+          }}
         />
       </LinearGradient>
     );
@@ -525,7 +543,6 @@ export default class HomeAthleteView extends AbstractScreenView {
         {this.component.state.screen == 'MES RENDEZ-VOUS'
           ? this.renderMyAppointment()
           : this.renderReserve()}
-        {this.renderRenewOfferDialog()}
       </View>
     );
   }

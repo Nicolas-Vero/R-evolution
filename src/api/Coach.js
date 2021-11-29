@@ -225,7 +225,7 @@ export const getUserAppoinement = async (userId) => {
   const headers = await AuthService.getHeader();
   return axios({
     method: 'GET',
-    url: `${API_URL}/coach/appointment/user/${userId}`,
+    url: `${API_URL}/athlete/appointments/user/${userId}?upcoming=true`,
     headers: headers,
   });
 };

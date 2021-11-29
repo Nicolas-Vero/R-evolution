@@ -10,6 +10,8 @@ module.exports = StyleSheet.create({
     backgroundColor: '#000',
   },
   content: {
+    flex: 1,
+
     marginHorizontal: 16,
     marginTop: 10,
     alignItems: 'center',

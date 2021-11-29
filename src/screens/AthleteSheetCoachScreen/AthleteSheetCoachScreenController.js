@@ -17,7 +17,6 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
     };
   }
   componentDidMount() {
-    console.log("props", this.component.props.navigation.state.params.item);
     get_athlete_active_courses_with_param(
       this.component.props.navigation.state.params.item.id,
     ).then((res) => {

@@ -289,7 +289,8 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   {user.health_problem_description || "Pas d'informations"}
                 </Text>
               </View>
-              {!isProspect ? null : (
+              {/* TODO DELETE SHEET */}
+              {/* {!isProspect ? null : (
                 <View style={styles.deleteSHeetContainer}>
                   <Text
                     style={styles.deleteSheet}
@@ -298,7 +299,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   </Text>
                   {this.renderDeleteSheetDialog()}
                 </View>
-              )}
+              )} */}
             </ScrollView>
           </View>
         </SafeAreaView>

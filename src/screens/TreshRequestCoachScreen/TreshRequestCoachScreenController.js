@@ -41,11 +41,10 @@ export default class TreshRequestCoachScreenController extends AbstractScreenCon
   };
 
   onNavigateToUserSheet = () => {
-    if (!this.component.state.isValidate) return;
     this.onDismissDialog();
     this.component.props.navigation.popToTop();
     this.component.props.navigation.navigate('AthleteSheetCoachScreen', {
-      item: this.component.state.Athlete.athlete,
+      item: { ...this.component.state.Athlete.athlete, status: 'prospect' },
     });
   };
 }

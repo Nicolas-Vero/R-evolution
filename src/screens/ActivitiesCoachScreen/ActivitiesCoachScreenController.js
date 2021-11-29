@@ -6,7 +6,7 @@ export default class ActivitiesCoachScreenController extends AbstractScreenContr
 
     this.initialState = {
       reminders: null,
-      refresh: false,
+      refreshing: false,
       screen: 'NOTIFICATIONS',
       isLoaded: false,
     };
@@ -16,11 +16,14 @@ export default class ActivitiesCoachScreenController extends AbstractScreenContr
   }
 
   fetchData = async () => {
+    this.component.setState({ refreshing: true });
     const reminders = await get_coach_reminder();
     if (reminders.status === 200) {
+      console.log('toto');
       this.component.setState({
         reminders: reminders.data.reminders,
         isLoaded: true,
+        refreshing: false,
       });
     }
   };

@@ -11,12 +11,12 @@ export default class OffersScreenController extends AbstractScreenController {
       offers: [],
       screen: 'EN COURS',
       ActiveCourses: [],
-      loading: false,
+      isLoaded: false,
       isDialogVisible: false,
     };
   }
   async componentDidMount() {
-    console.log('toto');
+    this.component.setState({ isLoaded: false });
     const user = await AuthService.getUser();
     const courses = await get_athlete_active_courses();
     if (courses.status === 200) {
@@ -28,7 +28,7 @@ export default class OffersScreenController extends AbstractScreenController {
       // console.log('offers', offers.data);
       this.component.setState({ offers: offers.data.offers });
     }
-    this.component.setState({ loading: true });
+    this.component.setState({ isLoaded: true });
   }
 
   openDialog = () => {

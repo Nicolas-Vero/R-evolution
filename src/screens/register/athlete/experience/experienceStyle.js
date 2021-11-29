@@ -39,7 +39,7 @@ module.exports = StyleSheet.create({
     marginVertical: 60,
     alignItems: 'center',
     justifyContent: 'center',
-    width: 150,
+    width: 200,
     backgroundColor: '#282C3A',
     borderRadius: 5,
   },

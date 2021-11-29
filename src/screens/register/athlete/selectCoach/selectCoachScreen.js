@@ -103,7 +103,7 @@ export default class selectCoachScreen extends React.Component {
                   ),
                 })}>
                 {({ handleSubmit, isValid, validate }) => (
-                  <View>
+                  <View style={{ alignItems: 'center' }}>
                     <Field
                       name="coach_preference"
                       id="coach_preference"
@@ -282,7 +282,9 @@ export default class selectCoachScreen extends React.Component {
                       });
                     }}
                   />
-                  <Text style={styles.noWayText}>Je n'ai pas été contacté</Text>
+                  <Text style={styles.noWayText}>
+                    Je n'ai pas été recommandé
+                  </Text>
                 </View>
               </View>
             </View>
