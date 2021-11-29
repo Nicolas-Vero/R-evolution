@@ -81,6 +81,7 @@ export default class HomeAhleteController extends AbstractScreenController {
         });
       });
 
+
       get_athlete_active_appointement({ today: true }).then((res) => {
         this.component.setState({ dayApointement: res.data });
       });
@@ -102,11 +103,17 @@ export default class HomeAhleteController extends AbstractScreenController {
 
     this.component.setState({ user: user });
   }
+  
 
   componentWillUnmount() {
     Notifications.removeNotificationSubscription(this.notificationListener);
     Notifications.removeNotificationSubscription(this.responseListener);
   }
+  fetcHDataDdv = async () => {
+    get_athlete_active_appointement({ today: true }).then((res) => {
+      this.component.setState({ dayApointement: res.data });
+    });
+  };
 
   getDate = (date = new Date()) => {
     return moment(date).format('YYYY-MM-DD');

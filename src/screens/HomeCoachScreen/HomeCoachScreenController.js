@@ -15,8 +15,6 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       carousselLoad: false,
       user: {},
       screen: 'Planning',
-
-      selectedDate: '',
       currentDate: '',
       selectedDate: moment(new Date()).format('YYYY-MM-DD'),
       today: '',
@@ -25,6 +23,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       page: [],
       dialogVisible: false,
       todayIndex: null,
+      refrehing: false,
     };
   }
 
@@ -43,8 +42,8 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     const curDate = moment().format('YYYY-MM-DD');
     this.component.setState({ today: curDate });
     this.changeTaskList(curDate);
-    this.getAvailabilities(curDate);
     this.onMonthChange(curDate, true);
+    this.getAvailabilities(curDate);
     this.component.notificationListener =
       Notifications.addNotificationReceivedListener((notification) => {
         console.log('[Notification-C-Dashboard]', notification);
@@ -79,9 +78,17 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     this.component.setState({ refreshing: true });
   };
 
-  fetchData = () => {
-    dispatch(getAllDataAction(userParamData));
-    setIsFetching(false);
+  fetchData = async () => {
+    this.component.setState({ refreshing: true });
+    const date = moment(this.component.state.selectedDate).format('YYYY-MM-DD');
+    const avaibilities = await get_availabilities(date);
+    if (avaibilities.status === 200) {
+      this.component.setState({
+        currentAvailabilities: { avaibilities: avaibilities.data, day: date },
+      });
+    }
+
+    this.component.setState({ refreshing: false });
   };
 
   getDaysArrayByMonth(date) {
@@ -94,6 +101,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     }
     return arrDays.reverse();
   }
+
   getAvailabilities(item) {
     const date = moment(item).format('YYYY-MM-DD');
     get_availabilities(date).then((res) => {

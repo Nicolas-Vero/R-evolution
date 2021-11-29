@@ -17,7 +17,7 @@ import {
 } from 'react-native-responsive-screen';
 import moment from 'moment';
 import HeaderSimple from '../../components/HeaderSimple';
-
+import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
 import styles from './AthletesCoachScreenStyle';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 const options = [
@@ -39,8 +39,12 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
         <FlatList
           contentContainerStyle={{ paddingBottom: 50 }}
           data={this.component.state.atlhetesActifs}
-          // onRefresh={onRefresh}
-          // refreshing={this.state.refresh}
+          refreshControl={
+            <SidappRefreshControl
+              refreshing={this.component.state.refreshing}
+              onRefresh={this.controller.fetchData}
+            />
+          }
           keyExtractor={(item) => toString(item.id)}
           renderItem={({ item }) => this.renderItem(item)}
         />
@@ -61,6 +65,12 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
         <FlatList
           contentContainerStyle={{ paddingBottom: 50 }}
           data={this.component.state.atlhetesInactifs}
+          refreshControl={
+            <SidappRefreshControl
+              refreshing={this.component.state.refreshing}
+              onRefresh={this.controller.fetchData}
+            />
+          }
           // onRefresh={onRefresh}
           // refreshing={this.state.refresh}
           keyExtractor={(item) => toString(item.id)}
@@ -83,14 +93,19 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
         <FlatList
           contentContainerStyle={{ marginBottom: 50 }}
           data={this.component.state.atlhetesProspects}
-          keyExtractor={(item) => toString(item.id)}
+          keyExtractor={(item) => item.id.toString()}
+          refreshControl={
+            <SidappRefreshControl
+              refreshing={this.component.state.refreshing}
+              onRefresh={this.controller.fetchData}
+            />
+          }
           renderItem={({ item }) => this.renderItem(item)}
         />
       </View>
     );
   };
   renderItem = (item) => {
-    console.log('item', item.status);
     return (
       <TouchableOpacity
         onPress={() => {

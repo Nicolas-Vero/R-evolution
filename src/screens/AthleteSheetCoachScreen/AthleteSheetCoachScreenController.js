@@ -62,7 +62,7 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
 
   onValidateCancelBook = () => {
     console.log('cancelBook');
-    //TODO CANCEL BOOK
+    //TODO NICOLAS CANCEL BOOK
     this.onDismissCancelSheetDialog();
   };
 }

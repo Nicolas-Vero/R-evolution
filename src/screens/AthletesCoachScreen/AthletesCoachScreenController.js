@@ -13,19 +13,28 @@ export default class AthletesCoachScreenController extends AbstractScreenControl
       atlhetesProspects: [],
       search: '',
       loaded: false,
+      refreshing: false,
     };
   }
-  componentDidMount() {
-    get_coach_athlete()
-      .then((res) => {
-        this.filterData(res.data.athletes);
-      })
-      .then(() => {
-        this.component.setState({ loaded: true });
-      });
-  }
+  componentDidMount = async () => {
+    await this.fetchData().then(() => {
+      this.component.setState({ loaded: true });
+    });
+  };
 
-  filterData(data) {
+  fetchData = async () => {
+    this.component.setState({ refreshing: true });
+    const athletes = await get_coach_athlete();
+    if (athletes.status === 200) {
+      console.log('data', athletes.data);
+      await this.filterData(athletes.data.athletes);
+      this.component.setState({
+        refreshing: false,
+      });
+    }
+  };
+
+  async filterData(data) {
     const actifs = [];
     const inactifs = [];
     const prospects = [];

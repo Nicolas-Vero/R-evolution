@@ -22,6 +22,7 @@ import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { options } from './homeCoachConfig';
 import styles from './HomeCoachScreenStyle';
 import { update } from 'lodash-es';
+import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
 export default class HomeCoachScreenView extends AbstractScreenView {
   renderDialog() {
     return (
@@ -172,7 +173,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               ref={(ref) => (this.component.listRef = ref)}
               horizontal={true}
               data={this.component.state.availabilities}
-              refreshing={this.component.state.refresh}
+              refreshing={this.component.state.refreshing}
               keyExtractor={(item) => Math.random(10)}
               renderItem={({ item }) => {
                 const borderWidth = item?.availability === curDate ? 2 : 0;
@@ -238,15 +239,14 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               contentContainerStyle={{ paddingBottom: 60 }}
               style={{ maxHeight: heightPercentageToDP(50), marginTop: 25 }}
               data={[this.component.state.currentAvailabilities.avaibilities]}
-              //      onRefresh={onRefresh}
-              // refreshing={this.component.state.refresh}
-              // keyExtractor={(item) => {item?.date;}}
               keyExtractor={(item) => item.time}
+              refreshControl={
+                <SidappRefreshControl
+                  refreshing={this.component.state.refreshing}
+                  onRefresh={this.controller.fetchData}
+                />
+              }
               renderItem={({ item }) => {
-                // console.log(
-                //   this.component.state.currentAvailabilities.day <
-                //     this.component.state.today,
-                // );
                 return (
                   <SwitchButton
                     day={this.component.state.currentAvailabilities.day}

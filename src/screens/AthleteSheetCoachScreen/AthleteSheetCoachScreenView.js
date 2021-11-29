@@ -155,7 +155,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                     <TouchableOpacity
                       onPress={() => {
                         console.log(item);
-                        navigate('createPaymentScreen',{item:item});
+                        navigate('createPaymentScreen', { item: item });
                       }}>
                       <View style={styles.paiementItem}>
                         <Text style={styles.paiementItemText}>
@@ -283,13 +283,13 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>
-                  Informations complémentaires :{' '}
+                  Informations complémentaires :
                 </Text>
                 <Text style={styles.valueText}>
                   {user.health_problem_description || "Pas d'informations"}
                 </Text>
               </View>
-              {/* TODO DELETE SHEET */}
+              {/* TODO NICOLAS DELETE SHEET */}
               {/* {!isProspect ? null : (
                 <View style={styles.deleteSHeetContainer}>
                   <Text
