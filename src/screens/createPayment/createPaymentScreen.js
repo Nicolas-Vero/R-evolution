@@ -56,6 +56,7 @@ export default class createPaymentScreen extends React.Component {
     //  // this.setState({awaitingPaiement:awaitingPaiement})
     // })
   //}
+ 
     loadFonts(),
       get_coach_offers()
         .then((res) => {
@@ -145,7 +146,7 @@ export default class createPaymentScreen extends React.Component {
                 Paiement: {
                   amount: 0,
                   installments:1,
-                  mode: "",
+                  mode:"",
                   date:""
                 },
                 offer_id:'',
@@ -360,18 +361,16 @@ export default class createPaymentScreen extends React.Component {
                                 </ScrollView>
                                 <TouchableOpacity
                                     onPress={() =>{ 
-                                    console.log(Math.random()*100);
-                                      const paiementDate = moment(this.state.date).format('l');
-                                    
+                                     const date = moment(this.state.date.split('/').reverse().join('/')).add(1,'hour');
+                                    const today = moment(this.state.today.split('/').reverse().join('/')).add(1,'hour');
                                       const paiement ={
                                         amount:field.value.amount,
                                         installments:values.paiementList.length + 1,
                                         mode:field.value.mode,
                                         date:field.value.date
                                       }
-                                      arrayhelper.push({paiement
-                                          })
-                                        if ( this.state.today > paiementDate ) {
+                                      arrayhelper.push({paiement})
+                                        if ( today >= date ) {
                                           this.setState(prevState => ({
                                             Paiement: [...prevState.Paiement, paiement]
                                           })) 
@@ -417,9 +416,7 @@ export default class createPaymentScreen extends React.Component {
                                                     style={
                                                       styles.paymentItemText
                                                     }>
-                                                    {moment(
-                                                      item.date,
-                                                    ).format('L')}
+                                                    {item.date}
                                                   </Text>
                                                   <Text
                                                     style={
@@ -457,9 +454,7 @@ export default class createPaymentScreen extends React.Component {
                                                       style={
                                                         styles.paymentItemText
                                                       }>
-                                                      {moment(
-                                                        item.date,
-                                                      ).format('l')}
+                                                      {item.date}
                                                     </Text>
                                                     <Text
                                                       style={
