@@ -6,7 +6,6 @@ import {
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
-  LogBox,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
@@ -19,22 +18,44 @@ import Header from '../../components/Header';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AddOffer, get_coach_offers } from '../../api/Offers';
 import SelectDropdown from 'react-native-select-dropdown';
-import { get_paiement_for_coach } from '../../api/Paiement';
+import { get_paiement_for_coach, get_payment_details } from '../../api/Paiement';
 import { loadFonts } from '../../configs/design/font';
 import styles from './createPayementStyle';
-import { add_manual_payment } from '../../api/Coach';
+import { add_manual_payment, add_transaction } from '../../api/Coach';
 import { ScrollView } from 'react-native-gesture-handler';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { arrayPush } from 'redux-form';
 export default class createPaymentScreen extends React.Component {
   state = {
+    today:moment().format('l'),
     Offer: [],
+    date:'',
+    awaitingPaiement: [],
     Paiement: [],
     loaded: false,
     offer_id:'',
-    payment_id:'12355',
+    transaction_id:Math.floor(Math.random()*1000),
     
   };
   componentDidMount() {
+    // if (this.props.navigation.state.params.item.id){
+    // get_payment_details(this.props.navigation.state.params.item.id).then((res)=>{
+    //   // let actifPaiement = []
+    //   // let awaitingPaiement =[]
+    //   res.data.forEach(element => {
+
+    //     console.log('rrrr',element.date, this.state.today);
+    //     // if(element.date>this.state.today){
+    //     //   actifPaiement.arrayPush(element)
+    //     // }else{
+    //     //   awaitingPaiement.arrayPush(element)
+    //     // }
+    //   });
+
+    //   this.setState({Paiement:res.data})
+    //  // this.setState({awaitingPaiement:awaitingPaiement})
+    // })
+  //}
     loadFonts(),
       get_coach_offers()
         .then((res) => {
@@ -43,19 +64,32 @@ export default class createPaymentScreen extends React.Component {
         .then(() => {
           this.setState({ loaded: true });
         });
-    get_paiement_for_coach().then((res) => {
-      this.setState({ Paiement: res.data });
-    });
+    // get_paiement_for_coach().then((res) => {
+    //   this.setState({ Paiement: res.data });
+    // });
   }
 
   addPaiement(values) {
+    let totalAmount = 0;
     try {
-      values.Paiement.forEach(async(element) => {
+      values.paiementList.forEach(async(element) => {
         element.athlete_id = this.props.navigation.state.params.athlete
         element.offer_id = this.state.offer_id
-        element.payment_id = this.state.payment_id
-        await add_manual_payment(element,) 
-      });
+        element.transaction_id = this.state.transaction_id
+        totalAmount = totalAmount + parseInt(element.paiement.amount)
+        element.mode = element.paiement.mode
+        element.date = element.paiement.date
+        element.amount =element.paiement.amount
+        element.installments =element.paiement.installments
+        await add_manual_payment(element) 
+       });
+        add_transaction({
+        athlete_id:this.props.navigation.state.params.athlete,
+        installments:values.paiementList.length,
+        offer_id:values.offer_id,
+        transaction_id: this.state.transaction_id,
+        amount:totalAmount,
+        })
         this.props.navigation.goBack();
     } catch (err) {
       this.setState({ loading: false });
@@ -108,16 +142,17 @@ export default class createPaymentScreen extends React.Component {
           <View style={styles.content}>
             <Formik
               initialValues={{
-                Paiement: [{
+                Paiement: {
                   amount: 0,
                   installments:1,
                   mode: "",
-                }],
-                offer_id:''
+                  date:""
+                },
+                offer_id:'',
+                paiementList:[]
               }}
               onSubmit={(values) => {
-                 this.addPaiement(values);
-                console.log('ttt',values);
+                this.addPaiement(values);
               }}>
               {({
                 handleChange,
@@ -180,7 +215,7 @@ export default class createPaymentScreen extends React.Component {
                                             }}
                                           />
                           <FieldArray
-                            name="Paiement"
+                            name="paiementList"
                             render={(arrayhelper) => (
                               <View style={styles.PaiementContainer}>
                                 <ScrollView
@@ -192,9 +227,8 @@ export default class createPaymentScreen extends React.Component {
                                     })
                                   }>
                                   <View style={styles.alignCenter}>
-                                    {field.value.map((fields, index) => (
                                       <View
-                                        key={index}
+                                       
                                         style={{
                                           marginBottom: 25,
                                         }}>
@@ -210,9 +244,10 @@ export default class createPaymentScreen extends React.Component {
                                                 placeholderTextColor="#979797"
                                                 placeholder="10/20/21"
                                                 style={styles.input}
-                                                onChangeText={(text) =>
-                                                  (field.value[index].date = text)
-                                                }
+                                                onChangeText={(text) =>{
+                                                  (field.value.date = text);
+                                                  this.setState({date:text});
+                                                }}
                                                 onBlur={handleBlur('date')}
                                                 value={values.date}
                                               />
@@ -247,7 +282,7 @@ export default class createPaymentScreen extends React.Component {
                                                   
                                                   
                                                 ) => {      
-                                                 (field.value[index].mode = selectedItem) 
+                                                 (field.value.mode = selectedItem) 
                                                 }}
                                                 renderDropdownIcon={() => {
                                                   return (
@@ -285,7 +320,7 @@ export default class createPaymentScreen extends React.Component {
                                                   placeholder="120"
                                                   style={styles.input}
                                                   onChangeText={(text) =>
-                                                    (field.value[index].amount = text)
+                                                    (field.value.amount = text)
                                                   }
                                                   onBlur={handleBlur('price')}
                                                   value={values.price}
@@ -308,7 +343,7 @@ export default class createPaymentScreen extends React.Component {
                                             }>
                                             <TouchableOpacity
                                               onPress={() =>
-                                                arrayhelper.remove(index)
+                                                arrayhelper.remove()
                                               }>
                                               <Text
                                                 style={{
@@ -319,19 +354,34 @@ export default class createPaymentScreen extends React.Component {
                                             </TouchableOpacity>
                                           </View>
                                         }
-                                      </View>
-                                    ))}
+                                      </View>                             
                                   </View>
                                   <KeyboardSpacer />
                                 </ScrollView>
                                 <TouchableOpacity
                                     onPress={() =>{ 
-                                      console.log(field.value.length + 1);
-                                      arrayhelper.push({
-                                      amount: 0,
-                                      installments:field.value.length + 1,
-                                      mode: "",
-                                    })}}>
+                                    console.log(Math.random()*100);
+                                      const paiementDate = moment(this.state.date).format('l');
+                                    
+                                      const paiement ={
+                                        amount:field.value.amount,
+                                        installments:values.paiementList.length + 1,
+                                        mode:field.value.mode,
+                                        date:field.value.date
+                                      }
+                                      arrayhelper.push({paiement
+                                          })
+                                        if ( this.state.today > paiementDate ) {
+                                          this.setState(prevState => ({
+                                            Paiement: [...prevState.Paiement, paiement]
+                                          })) 
+                                        } else{
+                                          this.setState(prevState => ({
+                                            awaitingPaiement: [...prevState.awaitingPaiement, paiement]
+                                          }))  
+                                        }
+                                    
+                                    }}>
                                     <View style={styles.addPaiementContainer}>
                                       <FontAwesome
                                         name="plus-square"
@@ -356,9 +406,11 @@ export default class createPaymentScreen extends React.Component {
                                               data={this.state.Paiement}
                                               extraData={this.state}
                                               keyExtractor={(item) =>
-                                                item.id.toString()
+                                                item
+                                                // .id.toString()
                                               }
                                               renderItem={({ item }) => (
+                                              
                                                 <View
                                                   style={styles.paymentItem}>
                                                   <Text
@@ -366,7 +418,7 @@ export default class createPaymentScreen extends React.Component {
                                                       styles.paymentItemText
                                                     }>
                                                     {moment(
-                                                      item.created_at,
+                                                      item.date,
                                                     ).format('L')}
                                                   </Text>
                                                   <Text
@@ -391,12 +443,14 @@ export default class createPaymentScreen extends React.Component {
                                               </Text>
                                               <FlatList
                                                 style={{ maxHeight: 75 }}
-                                                data={this.state.Paiement}
+                                                data={this.state.awaitingPaiement}
                                                 extraData={this.state}
                                                 keyExtractor={(item) =>
-                                                  item.id.toString()
+                                                  item
+                                                //  .id.toString()
                                                 }
                                                 renderItem={({ item }) => (
+                                                 
                                                   <View
                                                     style={styles.paymentItem}>
                                                     <Text
@@ -404,8 +458,8 @@ export default class createPaymentScreen extends React.Component {
                                                         styles.paymentItemText
                                                       }>
                                                       {moment(
-                                                        item.created_at,
-                                                      ).format('L')}
+                                                        item.date,
+                                                      ).format('l')}
                                                     </Text>
                                                     <Text
                                                       style={

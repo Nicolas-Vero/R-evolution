@@ -19,16 +19,17 @@ export const get_paiement_for_coach = async () => {
   const headers = await AuthService.getHeader();
   return axios({
     method: 'GET',
-    url: `${API_URL}/payment/made-for-coach`,
+    url: `${API_URL}/transaction/made-for-coach`,
     headers: headers,
   });
 };
 
-export const get_payment_by_athlete = async () => {
+export const get_payment_details = async (params) => {
   const headers = await AuthService.getHeader();
+  const data = params
   return axios({
     method: 'GET',
-    url: `${API_URL}/payment/made-for-coach`,
+    url:`${API_URL}/payment/made-for-coach/${data}`,
     headers: headers,
   });
 };

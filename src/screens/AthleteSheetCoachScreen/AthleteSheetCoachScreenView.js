@@ -155,7 +155,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                     <TouchableOpacity
                       onPress={() => {
                         console.log(item);
-                        //navigate('createPaymentScreen',{item:item});
+                        navigate('createPaymentScreen',{item:item});
                       }}>
                       <View style={styles.paiementItem}>
                         <Text style={styles.paiementItemText}>
