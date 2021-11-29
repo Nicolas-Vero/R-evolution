@@ -45,59 +45,6 @@ export default class goalScreen extends React.Component {
     this.props.navigation.navigate('healthScreen', { item: item });
   };
 
-  renderGoalList(errors, arrayhelper) {
-    return (
-      <View>
-        <ScrollView style={styles.goalContainer}>
-          <FlatList
-            data={this.state.specData}
-            renderItem={({ item }) => {
-              const backgroundColor =
-                item.selected == 1 ? '#2CDEE4' : 'transparent';
-              const borderColor = item.selected == 1 ? 'transparent' : 'white';
-              const color = item.selected == 1 ? 'black' : 'white';
-
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    item.selected !== 1
-                      ? (item.selected = 1)
-                      : (item.selected = 0);
-                    arrayhelper.form.values.goals.includes(item.value)
-                      ? arrayhelper.remove(item.value)
-                      : arrayhelper.push(item.value);
-                  }}>
-                  <View
-                    style={{
-                      ...styles.goalItem,
-                      backgroundColor: backgroundColor,
-                      borderColor: borderColor,
-                    }}>
-                    <Text
-                      style={{
-                        ...styles.goalIemText,
-                        color: color,
-                      }}>
-                      {item.value}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            }}
-            keyExtractor={(item) => item}
-            // extraData={selectedId}
-            numColumns={3}
-          />
-        </ScrollView>
-        {errors.goals ? (
-          <Text style={styles.errorText}>
-            Selectionne ou ajoute un objectif
-          </Text>
-        ) : null}
-      </View>
-    );
-  }
-
   render() {
     const passItem = this.props.navigation.state.params.item;
     return (
@@ -154,7 +101,70 @@ export default class goalScreen extends React.Component {
                                       style={{
                                         marginBottom: 24,
                                       }}>
-                                      {this.renderGoalList(errors, arrayhelper)}
+                                      <ScrollView style={styles.goalContainer}>
+                                        <FlatList
+                                          data={this.state.specData}
+                                          renderItem={({ item }) => {
+                                            console.log(item);
+                                            const backgroundColor =
+                                              item.selected == 1
+                                                ? '#2CDEE4'
+                                                : 'transparent';
+                                            const borderColor =
+                                              item.selected == 1
+                                                ? 'transparent'
+                                                : 'white';
+                                            const color =
+                                              item.selected == 1
+                                                ? 'black'
+                                                : 'white';
+
+                                            return (
+                                              <TouchableOpacity
+                                                onPress={() => {
+                                                  item.selected !== 1
+                                                    ? (item.selected = 1)
+                                                    : (item.selected = 0);
+                                                  arrayhelper.form.values.goals.includes(
+                                                    item.value,
+                                                  )
+                                                    ? arrayhelper.remove(
+                                                        item.value,
+                                                      )
+                                                    : arrayhelper.push(
+                                                        item.value,
+                                                      );
+                                                }}>
+                                                <View
+                                                  style={{
+                                                    ...styles.goalItem,
+                                                    backgroundColor:
+                                                      backgroundColor,
+                                                    borderColor: borderColor,
+                                                  }}>
+                                                  <Text
+                                                    style={{
+                                                      ...styles.goalIemText,
+                                                      color: color,
+                                                    }}>
+                                                    {item.value}
+                                                  </Text>
+                                                </View>
+                                              </TouchableOpacity>
+                                            );
+                                          }}
+                                          keyExtractor={(item) => item}
+                                          // extraData={selectedId}
+                                          numColumns={3}
+                                        />
+                                      </ScrollView>
+                                      {errors.goals &&
+                                      arrayhelper.form.values.goals.length ===
+                                        0 ? (
+                                        <Text style={styles.errorText}>
+                                          Selectionne ou ajoute un objectif
+                                        </Text>
+                                      ) : null}
                                     </View>
                                     <View style={styles.inputContainer}>
                                       <TextInput
@@ -169,13 +179,14 @@ export default class goalScreen extends React.Component {
                                       />
                                       <TouchableOpacity
                                         onPress={() => {
+                                          arrayhelper.form.values.goals.push(
+                                            this.state.term,
+                                          );
                                           this.state.specData.push({
                                             value: this.state.term,
+                                            selected: 1,
                                           }),
-                                            arrayhelper.form.values.goals.push(
-                                              this.state.term,
-                                            );
-                                          this.setState({ term: '' });
+                                            this.setState({ term: '' });
                                         }}>
                                         <View
                                           style={styles.addGoalButtonContainer}>

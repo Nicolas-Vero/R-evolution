@@ -30,7 +30,7 @@ export default class selectCoachScreen extends React.Component {
       isLoaded: false,
       checkedCommercial: false,
       checkedCoach: false,
-      Commercial:[]
+      Commercial: [],
     };
   }
   componentDidMount() {
@@ -110,7 +110,7 @@ export default class selectCoachScreen extends React.Component {
                       validate={validate}>
                       {({ form: { errors } }) => {
                         return (
-                          <View style={styles.content}>
+                          <View style={styles.form}>
                             <Text style={styles.title}>
                               À QUEL COACH VEUX-TU ADRESSER TA DEMANDE ?
                             </Text>
