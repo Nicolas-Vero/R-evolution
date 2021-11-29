@@ -13,14 +13,15 @@ export default class CoachSheetScreenController extends AbstractScreenController
   }
 
   async componentDidMount() {
+    this.component.setState({ isLoaded: false });
     let user = await AuthService.getUser();
     if (user.coach) {
       this.component.setState({ coach_id: user.coach?.coach_id });
       const coach = await get_coach_by_id(user.coach?.coach_id);
       if (coach.status === 200) {
-        console.log(coach.data);
-        this.component.setState({ coach: coach.data, isLoaded: true });
+        this.component.setState({ coach: coach.data });
       }
     }
+    this.component.setState({ isLoaded: true });
   }
 }

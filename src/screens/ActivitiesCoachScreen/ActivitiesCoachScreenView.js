@@ -9,17 +9,13 @@ import {
 } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 import { LinearGradient } from 'expo-linear-gradient';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
 import { Swipeable } from 'react-native-gesture-handler';
 import { FontAwesome } from '@expo/vector-icons';
 import Header from '../../components/Header';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import styles from './activitiesCoachScreenStyle';
 import moment from 'moment';
-
+import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
 const options = [
   { label: 'NOTIFICATIONS', value: 'NOTIFICATIONS' },
   { label: 'RAPPELS', value: 'RAPPELS' },
@@ -36,17 +32,24 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
   }
 
   renderReminder = () => {
+    const { refreshing } = this.component.state;
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <FlatList
-          contentContainerStyle={{ paddingBottom: 50 }}
+          style={{ flex: 1 }}
+          refreshControl={
+            <SidappRefreshControl
+              refreshing={refreshing}
+              onRefresh={this.controller.fetchData}
+            />
+          }
+          contentContainerStyle={{
+            paddingBottom: 200,
+          }}
           style={{ backgroundColor: '#000' }}
           data={this.component.state.reminders}
-          // onRefresh={onRefresh}
-          // refreshing={this.component.state.refresh}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item, index }) => {
-            console.log(item);
             return (
               <Swipeable
                 key={index}

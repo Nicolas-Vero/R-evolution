@@ -49,7 +49,7 @@ export default withNavigation(Header);
 const defaultStyle = StyleSheet.create({
   containerWithTitle: {
     alignItems: 'center',
-    marginTop: isIphoneX() ? 40 : 26,
+    marginTop: 25,
     marginBottom: 20,
   },
   title: { alignItems: 'center' },
@@ -57,7 +57,7 @@ const defaultStyle = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: isIphoneX() ? 40 : 26,
+    marginTop:25,
     marginBottom: 20,
     marginLeft: 16,
   },

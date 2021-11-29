@@ -27,7 +27,7 @@ export default class OffersTrainingsCoachScreenView extends AbstractScreenView {
               </ImageBackground>
             </TouchableOpacity>
             <View style={styles.trainingContainer}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={this.controller.openYoutube}>
                 <ImageBackground
                   imageStyle={styles.image}
                   source={require('../../../assets/images/Formation.jpg')}

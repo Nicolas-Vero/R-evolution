@@ -31,7 +31,6 @@ export default class SwitchButton extends Component {
         });
         this.setState({ bookOfDay: filterarray });
       });
-      console.log('date', this.props.item.date);
       this.setState({ day: this.props.item.date });
       this.setState({ disable: prevProps.day < prevProps.today });
     }

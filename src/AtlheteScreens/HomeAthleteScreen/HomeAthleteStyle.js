@@ -65,6 +65,15 @@ module.exports = StyleSheet.create({
     paddingVertical: 17,
     borderRadius: 6,
   },
+  noCoachContainer: {
+    marginTop: 16,
+  },
+  noCoachText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 13,
+    fontFamily: 'MontserratBoldItalic',
+  },
   renewText: {
     color: '#fff',
     fontFamily: 'MontserratBoldItalic',
