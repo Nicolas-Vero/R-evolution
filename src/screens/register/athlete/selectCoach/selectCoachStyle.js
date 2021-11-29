@@ -24,6 +24,9 @@ module.exports = StyleSheet.create({
     fontSize: 16,
     color: '#FFFF',
   },
+  form: {
+    height: heightPercentageToDP(55),
+  },
   commercialTitle: {},
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
