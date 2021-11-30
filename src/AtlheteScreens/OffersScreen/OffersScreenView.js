@@ -243,7 +243,7 @@ export default class OffersScreenView extends AbstractScreenView {
                       }}>
                       <Text style={{ fontFamily: 'Roboto' }}>
                         Nombre de séances restantes:{' '}
-                        {this.component.state.ActiveCourses.offer.nb_credits}
+                        {this.component.state.ActiveCourses.total_sessions -  this.component.state.ActiveCourses.booked_session}
                       </Text>
                     </View>
                   </View>
