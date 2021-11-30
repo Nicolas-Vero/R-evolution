@@ -131,7 +131,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Commercial référent :</Text>
-                <Text style={styles.valueText}>blabla</Text>
+                <Text style={styles.valueText}> {user.commercial? user.commercial.first_name.concat(' ',  user.commercial.last_name)  : 'pas de recomendation'}</Text>
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Offre en cours :</Text>
@@ -162,7 +162,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                           {moment(item.created_at).format('L')}
                         </Text>
                         <Text style={styles.paiementItemText}>
-                          {item.title}
+                          {item.offer.title}
                         </Text>
                         <Text style={styles.paiementItemText}>
                           {item.mode} - {item.amount}
