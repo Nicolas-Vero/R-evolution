@@ -1,8 +1,14 @@
 import React from 'react';
-import {RefreshControl} from 'react-native';
+import { RefreshControl } from 'react-native';
 
-const SidappRefreshControl = props => {
-  return <RefreshControl colors={['#2CDEE4']} {...props} />;
+const SidappRefreshControl = (props) => {
+  return (
+    <RefreshControl
+      colors={['#fff']}
+      {...props}
+      progressBackgroundColor="red"
+    />
+  );
 };
 
 export default SidappRefreshControl;

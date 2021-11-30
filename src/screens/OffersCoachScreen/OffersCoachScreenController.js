@@ -11,27 +11,33 @@ export default class OffersCoachScreenController extends AbstractScreenControlle
       fontsLoaded: false,
       dialogVisible: false,
       itemId: null,
+      refreshing: false,
     };
   }
-  componentDidMount() {
-    get_coach_offers()
-      .then((res) => res.data.offers)
-      .then((res) => {
-        this.component.setState({ offers: res });
-      });
-  }
-  componentDidUpdate(prevProps) {
+  componentDidMount = async () => {
+    await this.fetchData();
+  };
+  componentDidUpdate = async (prevProps) => {
     if (
       this.component.props.isFocused &&
       prevProps.isFocused !== this.component.props.isFocused
     ) {
-      get_coach_offers()
-        .then((res) => res.data.offers)
-        .then((res) => {
-          this.component.setState({ offers: res });
-        });
+      await this.fetchData();
     }
-  }
+  };
+
+  fetchData = async () => {
+    this.component.setState({ refreshing: true });
+    const offers = await get_coach_offers();
+    if (offers.status === 200) {
+      this.component.setState({
+        offers: offers.data.offers,
+      });
+    }
+    this.component.setState({
+      refreshing: false,
+    });
+  };
 
   onOpenDialog = (itemId) => {
     this.component.setState({ dialogVisible: true, itemId });

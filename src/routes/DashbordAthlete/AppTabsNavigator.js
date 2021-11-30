@@ -17,7 +17,7 @@ const AppTabsNavigator = createBottomTabNavigator(
         tabBarIcon: ({ tintColor }) => (
           <Image
             source={require('../../../assets/images/Calendar.png')}
-            style={{ height: 26, resizeMode: 'contain', tintColor }}
+            style={{ height: 22, resizeMode: 'contain', tintColor }}
           />
         ),
       }),
@@ -30,7 +30,7 @@ const AppTabsNavigator = createBottomTabNavigator(
         tabBarIcon: ({ tintColor }) => (
           <Image
             source={require('../../../assets/images/Category.png')}
-            style={{ height: 26, resizeMode: 'contain', tintColor }}
+            style={{ height: 20, resizeMode: 'contain', tintColor }}
           />
         ),
       }),
@@ -42,7 +42,7 @@ const AppTabsNavigator = createBottomTabNavigator(
         tabBarIcon: ({ tintColor }) => (
           <Image
             source={require('../../../assets/images/User.png')}
-            style={{ height: 26, resizeMode: 'contain', tintColor }}
+            style={{ height: 20, resizeMode: 'contain', tintColor }}
           />
         ),
       }),

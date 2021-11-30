@@ -7,6 +7,7 @@ import { AddButton, ModifyButton } from '../../components/Button';
 import DeleteOfferDialog from '../../components/dialogs/deleteOfferDialog/deleteOfferDialog';
 import styles from './OffersCoachScreenStyle';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
+import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
 export default class OffersCoachScreenView extends AbstractScreenView {
   renderDialog() {
     return (
@@ -33,11 +34,15 @@ export default class OffersCoachScreenView extends AbstractScreenView {
           />
           <View style={styles.alignCenter}>
             <FlatList
+              refreshControl={
+                <SidappRefreshControl
+                  refreshing={this.component.state.refreshing}
+                  onRefresh={this.controller.fetchData}
+                />
+              }
               contentContainerStyle={{ paddingBottom: 200 }}
               style={styles.flatList}
               data={this.component.state.offers}
-              // onRefresh={onRefresh}
-              //  refreshing={this.state.refresh}
               keyExtractor={(item) => item.id.toString()}
               renderItem={({ item }) => (
                 <LinearGradient

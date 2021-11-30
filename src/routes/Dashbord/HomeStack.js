@@ -7,15 +7,6 @@ import ProfileCoachScreen from '../../screens/ProfileCoachScreen/ProfileCoachScr
 import ActivitiesCoachScreen from '../../screens/ActivitiesCoachScreen/ActivitiesCoachScreen';
 import CreateReminderCoachScreen from '../../screens/CreateReminderCoachScreen/CreateReminderCoachScreen';
 import CreateBookCoachScreen from '../../screens/CreateBookCoachScreen/CreateBookCoachScreen';
-const getTabBarVisiblility = (navigation) => {
-  const route = navigation.state.routeName;
-  console.log(route);
-  const test = ['homeCoachScreen'].includes(route);
-
-  console.log(test);
-
-  return test;
-};
 const HomeStack = createStackNavigator(
   {
     homeCoachScreen: {
@@ -31,20 +22,13 @@ const HomeStack = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
         gestureEnabled: false,
         headerShown: false,
-        tabBarVisible: getTabBarVisiblility(navigation),
       }),
-      // navigationOptions: {
-      //   gestureEnabled: false,
-      //   headerShown: false,
-      //   swipeEnabled: false,
-      // },
     },
     CreateReminderCoachScreen: {
       screen: CreateReminderCoachScreen,
       navigationOptions: ({ navigation }) => ({
         gestureEnabled: false,
         headerShown: false,
-        tabBarVisible: getTabBarVisiblility(navigation),
       }),
     },
     ActivitiesCoachScreen: {
