@@ -4,6 +4,7 @@ import { CheckBox } from 'react-native-elements';
 import { get_book, update_availabilities } from '../api/Availabilities';
 import { isEmpty } from 'lodash-es';
 import moment from 'moment';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default class SwitchButton extends Component {
   constructor(props) {
@@ -70,7 +71,9 @@ export default class SwitchButton extends Component {
           isEmpty(currentBook) ? (
             <Text style={styles.text}>Indisponible</Text>
           ) : (
-            <Text style={styles.text}>Réserver</Text>
+            <View >
+           <TouchableOpacity style={styles.button}><Text style={styles.text}>{currentBook.first_name}</Text></TouchableOpacity>
+           </View>
           )
         ) : (
           <Text style={styles.textColored}>Disponible</Text>
@@ -150,6 +153,10 @@ export default class SwitchButton extends Component {
 }
 
 const styles = {
+  
+  button:{
+    backgroundColor: '#2CDEE4',
+  },
   container: {
     flexDirection: 'row',
     alignItems: 'center',
