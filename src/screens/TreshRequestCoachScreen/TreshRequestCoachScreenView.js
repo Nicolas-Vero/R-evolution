@@ -85,14 +85,14 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                 </View>
                 <View style={styles.item}>
                   <Text style={styles.infoText}>Commercial référent :</Text>
-                  <Text style={styles.valueText}>blabla</Text>
+                  <Text style={styles.valueText}>{this.component.state.Athlete?.commercial? this.component.state.Athlete.commercial.first_name.concat(' ',  this.component.state.Athlete.commercial.last_name)  : 'pas de recomendation'}</Text>
                 </View>
                 <View style={styles.item}>
                   <Text style={styles.infoText}>Ses objectifs :</Text>
                   <FlatList
                     style={styles.flatlist}
                     horizontal={true}
-                    data={this.component.state.Athlete.athlete?.goals}
+                    data={this.component.state.Athlete.goals}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item, index }) => (
                       <View
@@ -102,7 +102,7 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                             marginLeft: index === 0 ? 0 : 5,
                             marginRight:
                               index ===
-                              this.component.state.Athlete.athlete?.goals
+                              this.component.state.Athlete.goals
                                 .length -
                                 1
                                 ? 0
