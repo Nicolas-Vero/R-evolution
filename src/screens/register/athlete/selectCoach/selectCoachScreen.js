@@ -16,10 +16,9 @@ import { CheckBox } from 'react-native-elements';
 import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
 import { Button } from '../../../../components/Button';
-import { get_coach } from '../../../../api/Coach';
+import { get_coach_by_gym_place } from '../../../../api/Coach';
 import styles from './selectCoachStyle';
 import { get_commercial_by_place } from '../../../../api/Commercial';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
 
 export default class selectCoachScreen extends React.Component {
   constructor(props) {
@@ -41,7 +40,9 @@ export default class selectCoachScreen extends React.Component {
       console.log(res.data);
       this.setState({ isLoaded: true });
     });
-    get_coach().then((res) => {
+    get_coach_by_gym_place(
+      this.props.navigation.state.params.item.preferred_gym_id,
+    ).then((res) => {
       this.setState({ Coach: res.data });
       this.setState({ isLoaded: true });
     });

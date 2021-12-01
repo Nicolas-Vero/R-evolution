@@ -110,13 +110,11 @@ export const add_transaction = async (params) => {
 };
 
 
-export const get_coach_by_gym_place = async (params, navigation) => {
-  const headers = await AuthService.getHeader();
+export const get_coach_by_gym_place = (params) => {
+  const gym_id = params;
   return axios({
-    method: 'POST',
-    url: `${API_URL}/coach/exercise_place`,
-    headers: headers,
-    data: data,
+    method: 'GET',
+    url: `${API_URL}/coach/by_gym_place/${gym_id}`,
   });
 };
 export const get_athlete_active_courses_with_param = async (param) => {
