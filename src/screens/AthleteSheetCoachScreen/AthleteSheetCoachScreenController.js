@@ -25,12 +25,6 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
     get_paiement_for_coach().then((res) => {
       this.component.setState({ Paiement: res.data });
     });
-    getUserAppoinement(
-      this.component.props.navigation.state.params.item.id,
-    ).then((res) => {
-      console.log(res.status);
-      console.log('data', res.data);
-    });
   }
 
   onDeleteSheet = () => {

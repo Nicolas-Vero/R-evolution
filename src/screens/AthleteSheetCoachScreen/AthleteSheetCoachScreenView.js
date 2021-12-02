@@ -34,30 +34,61 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
     );
   };
   render() {
-    const user = this.component.props.navigation.state.params.item;
+    if (this.component.props.navigation.state.params.item.athlete) {
+      var user = this.component.props.navigation.state.params.item.athlete;
+    } else {
+      var user = this.component.props.navigation.state.params.item;
+    }
     const dayPreference = [];
-    if (user.is_monday_preferred == true) {
-      dayPreference.push({ day: 'Lundi' });
+    if (this.component.props.navigation.state.params.item.athlete) {
+  
+      if (user.athlete.is_monday_preferred == true) {
+        dayPreference.push({ day: 'Lundi' });
+      }
+      if (user.athlete.is_tuesday_preferred == true) {
+        dayPreference.push({ day: 'Mardi' });
+      }
+      if (user.athlete.is_wednesday_preferred == true) {
+        dayPreference.push({ day: 'Mercredi' });
+      }
+      if (user.athlete.is_thursday_preferred == true) {
+        dayPreference.push({ day: 'Jeudi' });
+      }
+      if (user.athlete.is_friday_preferred == true) {
+        dayPreference.push({ day: 'Vendredi' });
+      }
+      if (user.athlete.is_saturday_preferred == true) {
+        dayPreference.push({ day: 'Samedi' });
+      }
+      if (user.athlete.is_sunday_preferred == true) {
+        dayPreference.push({ day: 'Dimanche' });
+      }
+      
+    } else {
+      if (user.is_monday_preferred == true) {
+        dayPreference.push({ day: 'Lundi' });
+      }
+      if (user.is_tuesday_preferred == true) {
+        dayPreference.push({ day: 'Mardi' });
+      }
+      if (user.is_wednesday_preferred == true) {
+        dayPreference.push({ day: 'Mercredi' });
+      }
+      if (user.is_thursday_preferred == true) {
+        dayPreference.push({ day: 'Jeudi' });
+      }
+      if (user.is_friday_preferred == true) {
+        dayPreference.push({ day: 'Vendredi' });
+      }
+      if (user.is_saturday_preferred == true) {
+        dayPreference.push({ day: 'Samedi' });
+      }
+      if (user.is_sunday_preferred == true) {
+        dayPreference.push({ day: 'Dimanche' });
+      }
+   
     }
-    if (user.is_tuesday_preferred == true) {
-      dayPreference.push({ day: 'Mardi' });
-    }
-    if (user.is_wednesday_preferred == true) {
-      dayPreference.push({ day: 'Mercredi' });
-    }
-    if (user.is_thursday_preferred == true) {
-      dayPreference.push({ day: 'Jeudi' });
-    }
-    if (user.is_friday_preferred == true) {
-      dayPreference.push({ day: 'Vendredi' });
-    }
-    if (user.is_saturday_preferred == true) {
-      dayPreference.push({ day: 'Samedi' });
-    }
-    if (user.is_sunday_preferred == true) {
-      dayPreference.push({ day: 'Dimanche' });
-    }
-
+  
     let badgeImage = '';
     if (user.status === 'active')
       badgeImage = require('../../../assets/images/Actif.png');
@@ -113,25 +144,57 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 />
                 <Text style={styles.phoneNumberText}>
                   {[
-                    user.phone.slice(0, 2),
+                    this.component.props.navigation.state.params.item.athlete
+                      ? user.athlete.phone.slice(0, 2)
+                      : user.phone.slice(0, 2),
                     ' ',
-                    user.phone.slice(2, 4),
+                    this.component.props.navigation.state.params.item.athlete
+                      ? user.athlete.phone.slice(2, 4)
+                      : user.phone.slice(2, 4),
                     ' ',
-                    user.phone.slice(4, 6),
+                    this.component.props.navigation.state.params.item.athlete
+                      ? user.athlete.phone.slice(4, 6)
+                      : user.phone.slice(4, 6),
                     ' ',
-                    user.phone.slice(6, 8),
+                    this.component.props.navigation.state.params.item.athlete
+                      ? user.athlete.phone.slice(6, 8)
+                      : user.phone.slice(6, 8),
                     ' ',
-                    user.phone.slice(8, 10),
+                    this.component.props.navigation.state.params.item.athlete
+                      ? user.athlete.phone.slice(8, 10)
+                      : user.phone.slice(8, 10),
                   ].join('')}
                 </Text>
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Adresse e-mail :</Text>
-                <Text style={styles.valueText}>{user.email}</Text>
+               { this.component.props.navigation.state.params.item.athlete
+                      ? <Text style={styles.valueText}>{user.athlete.email}</Text>
+                      :<Text style={styles.valueText}>{user.email}</Text>
+                    }
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Commercial référent :</Text>
-                <Text style={styles.valueText}> {user.commercial? user.commercial.first_name.concat(' ',  user.commercial.last_name)  : 'pas de recomendation'}</Text>
+                { this.component.props.navigation.state.params.item.athlete
+                ?
+                <Text style={styles.valueText}>
+                  {' '}
+                  {user.commercial
+                    ? user.commercial.first_name.concat(
+                        ' ',
+                        user.commercial.last_name,
+                      )
+                    : 'pas de recomendation'}
+                </Text>
+                :<Text style={styles.valueText}>
+                  {' '}
+                  {user.commercial
+                    ? user.commercial.first_name.concat(
+                        ' ',
+                        user.commercial.last_name,
+                      )
+                    : 'pas de recomendation'}
+                </Text>}
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Offre en cours :</Text>
@@ -212,23 +275,35 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 <View style={[styles.item, styles.itemRowLeft]}>
                   <View style={styles.row}>
                     <Text style={styles.infoText}>Taille :</Text>
+                    { this.component.props.navigation.state.params.item.athlete
+                ?
                     <Text style={styles.valueTextRow}>
+                      {`${user.athlete.size / 100}`.substring(0, 1)}m
+                      {`${user.athlete.size / 100}`.substring(2)}
+                    </Text>
+                   : <Text style={styles.valueTextRow}>
                       {`${user.size / 100}`.substring(0, 1)}m
                       {`${user.size / 100}`.substring(2)}
-                    </Text>
+                    </Text>}
                   </View>
                 </View>
                 <View style={[styles.item, styles.itemRowRight]}>
                   <View style={styles.row}>
                     <Text style={styles.infoText}>Poids :</Text>
-                    <Text style={styles.valueTextRow}>{user.weight}Kg</Text>
+                    { this.component.props.navigation.state.params.item.athlete
+                ?
+                    <Text style={styles.valueTextRow}>{user.athlete.weight}Kg</Text>
+                  :  <Text style={styles.valueTextRow}>{user.weight}Kg</Text>}
                   </View>
                 </View>
               </View>
               <View style={styles.item}>
                 <View style={styles.row}>
                   <Text style={styles.infoText}>Age :</Text>
-                  <Text style={styles.valueTextRow}>{user.age} ans</Text>
+                  { this.component.props.navigation.state.params.item.athlete
+                ?
+                  <Text style={styles.valueTextRow}>{user.athlete.age} ans</Text>
+                 : <Text style={styles.valueTextRow}>{user.age} ans</Text>}
                 </View>
               </View>
               <View style={styles.item}>
@@ -237,13 +312,24 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 </Text>
                 <Text style={styles.sportSlotText}>
                   Entre{' '}
+                  { this.component.props.navigation.state.params.item.athlete
+                ?
                   <Text style={styles.textColored}>
-                    {user.preferred_time_start}H
-                  </Text>{' '}
-                  et{' '}
-                  <Text style={styles.textColored}>
-                    {user.preferred_time_end}H
+                    {user.athlete.preferred_time_start}H
                   </Text>
+                  :<Text style={styles.textColored}>
+                    {user.preferred_time_start}H
+                  </Text>}
+                  {' '}
+                  et{' '}
+                  { this.component.props.navigation.state.params.item.athlete
+                ?
+                  <Text style={styles.textColored}>
+                    {user.athlete.preferred_time_end}H
+                  </Text>
+                  :<Text style={styles.textColored}>
+                    {user.preferred_time_end}H
+                  </Text>}
                 </Text>
                 <FlatList
                   style={styles.flatlist}
@@ -269,25 +355,42 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Experience(s) sportive(s) :</Text>
+                { this.component.props.navigation.state.params.item.athlete
+                ?
                 <Text style={styles.valueText}>
+                  {user.athlete.experience_years > 0
+                    ? ` Plus de ${user.athlete.experience_years} ans`
+                    : `Moins d'un an`}
+                </Text>
+              :  <Text style={styles.valueText}>
                   {user.experience_years > 0
                     ? ` Plus de ${user.experience_years} ans`
                     : `Moins d'un an`}
-                </Text>
+                </Text>}
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Santé :</Text>
+                { this.component.props.navigation.state.params.item.athlete
+                ?
                 <Text style={styles.valueText}>
-                  {user.health_issues || "Pas d'informations"}
+                  {user.athlete.health_issues || "Pas d'informations"}
                 </Text>
+                :<Text style={styles.valueText}>
+                  {user.health_issues || "Pas d'informations"}
+                </Text>}
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>
                   Informations complémentaires :
                 </Text>
+                { this.component.props.navigation.state.params.item.athlete
+                ?
                 <Text style={styles.valueText}>
-                  {user.health_problem_description || "Pas d'informations"}
+                  {user.athlete.health_problem_description || "Pas d'informations"}
                 </Text>
+               : <Text style={styles.valueText}>
+                  {user.health_problem_description || "Pas d'informations"}
+                </Text>}
               </View>
               {/* TODO NICOLAS DELETE SHEET */}
               {/* {!isProspect ? null : (
