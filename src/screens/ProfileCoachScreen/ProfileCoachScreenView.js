@@ -340,7 +340,7 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                             dropdownStyle={styles.dropdownBg}
                             rowStyle={styles.dropdownRow}
                             data={this.component.state.Gymdata}
-                            defaultButtonText={'Recherche le nom de ta salle'}
+                            defaultButtonText={this.component.state.User.gym.name}
                             onSelect={(selectedItem, index) => {
                               if (
                                 arrayhelper?.form?.values?.gymPlace?.length > 1

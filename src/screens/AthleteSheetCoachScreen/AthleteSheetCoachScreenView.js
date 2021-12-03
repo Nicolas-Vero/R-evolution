@@ -131,7 +131,11 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Commercial référent :</Text>
-                <Text style={styles.valueText}>blabla</Text>
+                <Text style={styles.valueText}>
+                  {user.commercial
+                    ? `${user.commercial.first_name} ${user.commercial.last_name}`
+                    : 'Aucun'}
+                </Text>
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Offre en cours :</Text>
@@ -154,8 +158,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   renderItem={({ item }) => (
                     <TouchableOpacity
                       onPress={() => {
-                        console.log(item);
-                        navigate('createPaymentScreen', { item: item });
+                        navigate('CreateSaleScreen', { item: item });
                       }}>
                       <View style={styles.paiementItem}>
                         <Text style={styles.paiementItemText}>
@@ -173,8 +176,9 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 />
                 <TouchableOpacity
                   onPress={() => {
-                    navigate('createPaymentScreen', {
-                      athlete:
+                    navigate('CreateSaleScreen', {
+                      isCreation: true,
+                      athleteId:
                         this.component.props.navigation.state.params.item.id,
                     });
                   }}

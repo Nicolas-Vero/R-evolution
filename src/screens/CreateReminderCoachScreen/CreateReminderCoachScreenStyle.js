@@ -29,6 +29,12 @@ module.exports = StyleSheet.create({
     fontFamily: 'RobotoBold',
     fontSize: 15,
   },
+  formRowTextColor: {
+    marginLeft:10,
+    color: '#fff',
+    fontFamily: 'RobotoBold',
+    fontSize: 15,
+  },
   inputContainer: {
     marginBottom: 20,
   },
@@ -70,7 +76,7 @@ module.exports = StyleSheet.create({
   },
   dropdownButton: {
     backgroundColor: '#000',
-    paddingHorizontal: 0,
+    paddingHorizontal: 10,
     marginHorizontal: 0,
     width: 48,
   },
@@ -78,6 +84,7 @@ module.exports = StyleSheet.create({
     backgroundColor: '#000',
   },
   dropdownRow: {
+    paddingHorizontal: 10,
     height: 45,
     borderBottomColor: '#000',
   },

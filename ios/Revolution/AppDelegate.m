@@ -108,4 +108,8 @@ static void InitializeFlipper(UIApplication *application) {
                      restorationHandler:restorationHandler];
 }
 
+if (@available(iOS 14, *)) {
+UIDatePicker *picker = [UIDatePicker appearance];
+picker.preferredDatePickerStyle = UIDatePickerStyleWheels;
+}
 @end

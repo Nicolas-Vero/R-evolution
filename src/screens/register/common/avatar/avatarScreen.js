@@ -28,14 +28,17 @@ import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
 import { Button } from '../../../../components/Button';
 import styles from './avatarStyle';
+import { athlete_login, get_athlete } from '../../../../api/Athlete';
+import AuthService from '../../../../services/AuthService';
 export default class avatarScreen extends React.Component {
   constructor(props) {
+    console.log(props.navigation.state.params);
     super(props);
     this.state = {
       isLoaded: false,
       image: {},
       isValid: true,
-      isCoach: props.navigation.state.params.isCoach,
+      isAthlete: props.navigation.state.params.item.userType === 'athlete',
     };
   }
   async componentDidMount() {
@@ -51,34 +54,75 @@ export default class avatarScreen extends React.Component {
   }
 
   onRegister = async (formData, item) => {
-    const { isCoach } = this.state;
-    try {
-      (isCoach? auth(item) : sign_up(item)).then(()=>{
-              this.props.navigation.popToTop();
-              this.props.navigation.push('loginScreen');
-      })
-      // upload_file(formData)
-      //   .then((res) => {
-      //     console.log(res);
-      //     item.profile_picture_url = res.data.location;
-      //   })
-      //   .then(() => {
-      //     console.log('item', item);
-      //     const register = isCoach ? auth(item) : sign_up(item);
-      //     console.log('register', register);
-      //   })
-      //   .then(() => {
-      //     //call login route item.email, item.pwd
-      //     // get token
-      //     // authservice.setAuth()
-      //     // redirect to correct stack
-      //     this.props.navigation.popToTop();
-      //     this.props.navigation.push('loginScreen');
-      //   });
-    } catch (error) {
-      console.log('error:', error, ' ', 'data:', item);
+    const { isAthlete } = this.state;
+    const req = isAthlete ? await sign_up(item) : await auth(item);
+    if (req.status === 200) {
+      if (isAthlete) {
+        await this.loginAthlete({ email: item.email, password: item.password });
+        return;
+      }
+
+      this.props.navigation.popToTop();
+      this.props.navigation.push('loginScreen');
     }
+    // try {
+    //   const req = isCoach === 'athlete' ? await sign_up(item) : await auth(item);
+    //   console.log(req.status)
+    //   if (req.status === 200) {
+    //     this.props.navigation.popToTop();
+    //     this.props.navigation.push('loginScreen');      }
+    //   // (isCoach !== 'athlete' ? auth(item) : sign_up(item)).then(() => {
+    //   //   console.log(DataTransfer)
+    //   //   this.props.navigation.popToTop();
+    //   //   this.props.navigation.push('loginScreen');
+    //   // });
+    //   // upload_file(formData)
+    //   //   .then((res) => {
+    //   //     console.log(res);
+    //   //     item.profile_picture_url = res.data.location;
+    //   //   })
+    //   //   .then(() => {
+    //   //     console.log('item', item);
+    //   //     const register = isCoach ? auth(item) : sign_up(item);
+    //   //     console.log('register', register);
+    //   //   })
+    //   //   .then(() => {
+    //   //     //call login route item.email, item.pwd
+    //   //     // get token
+    //   //     // authservice.setAuth()
+    //   //     // redirect to correct stack
+    //   //     this.props.navigation.popToTop();
+    //   //     this.props.navigation.push('loginScreen');
+    //   //   });
+    // } catch (error) {
+    // console.log('error:', error, ' ', 'data:', item);
+    // }
   };
+
+  async loginAthlete(body) {
+    const login = await athlete_login(body);
+    if (login.status === 200) {
+      await this.setAuth(login.data, 'athlete');
+      const user = await get_athlete();
+      if (user.status === 200) {
+        await AuthService.setUser(user.data);
+        console.log(await AuthService.getUser());
+
+        this.props.navigation.navigate('DashboardStackAtlhete');
+      }
+    }
+  }
+
+  async setAuth(data, type) {
+    const toStore = {
+      user: { id: data.user.id, type },
+      headers: {
+        Authorization: 'Bearer ' + data.token,
+      },
+    };
+
+    await AuthService.setAuth(toStore);
+  }
 
   onNavigate = () => {
     this.props.navigation.navigate('loginScreen');

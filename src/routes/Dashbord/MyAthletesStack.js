@@ -1,6 +1,6 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import ActivitiesCoachScreen from '../../screens/ActivitiesCoachScreen/ActivitiesCoachScreen';
-import createPaymentScreen from '../../screens/createPayment/createPaymentScreen';
+import CreateSaleScreen from '../../screens/CreateSaleScreen/CreateSaleScreen';
 import AthletesCoachScreen from '../../screens/AthletesCoachScreen/AthletesCoachScreen';
 import AthleteSheetCoachScreen from '../../screens/AthleteSheetCoachScreen/AthleteSheetCoachScreen';
 const MyAthletesStack = createStackNavigator(
@@ -26,8 +26,8 @@ const MyAthletesStack = createStackNavigator(
         headerShown: false,
       },
     },
-    createPaymentScreen: {
-      screen: createPaymentScreen,
+    CreateSaleScreen: {
+      screen: CreateSaleScreen,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
         headerShown: false,

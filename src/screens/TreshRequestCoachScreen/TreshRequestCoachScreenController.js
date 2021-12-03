@@ -5,7 +5,6 @@ export default class TreshRequestCoachScreenController extends AbstractScreenCon
   constructor(component) {
     super(component);
 
-    console.log(component.props.navigation.state.params.item);
     this.initialState = {
       Athlete: component.props.navigation.state.params.item,
       isLoaded: false,
@@ -44,7 +43,10 @@ export default class TreshRequestCoachScreenController extends AbstractScreenCon
     this.onDismissDialog();
     this.component.props.navigation.popToTop();
     this.component.props.navigation.navigate('AthleteSheetCoachScreen', {
-      item: { ...this.component.state.Athlete.athlete, status: 'prospect' },
+      item: {
+        ...this.component.state.Athlete.athlete,
+        status: 'prospect',
+      },
     });
   };
 }
