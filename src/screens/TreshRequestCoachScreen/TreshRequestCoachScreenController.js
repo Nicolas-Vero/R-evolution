@@ -5,7 +5,6 @@ export default class TreshRequestCoachScreenController extends AbstractScreenCon
   constructor(component) {
     super(component);
 
-    console.log(component.props.navigation.state.params.item);
     this.initialState = {
       Athlete: component.props.navigation.state.params.item,
       isLoaded: false,

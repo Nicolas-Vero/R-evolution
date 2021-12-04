@@ -1,5 +1,7 @@
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import { coach_reminder } from '../../api/CoachReminder';
+import * as Notifications from 'expo-notifications';
+
 export default class CreateReminderCoachScreenController extends AbstractScreenController {
   constructor(component) {
     super(component);

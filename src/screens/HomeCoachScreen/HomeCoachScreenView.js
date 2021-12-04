@@ -264,6 +264,24 @@ export default class HomeCoachScreenView extends AbstractScreenView {
       </View>
     );
   };
+
+  renderBadge = () => {
+    return (
+      <View style={{ position: 'absolute', top: -2, right: -2, zIndex: 1 }}>
+        <View
+          style={{
+            width: 13,
+            height: 13,
+            borderRadius: 6.5,
+            backgroundColor: '#FD7279',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={{ fontSize: 8, fontFamily: 'Roboto' }}>10</Text>
+        </View>
+      </View>
+    );
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -293,6 +311,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                   onPress={() => {
                     navigate('PendingRequestCoachScreen');
                   }}>
+                  {this.renderBadge()}
                   <Image
                     style={styles.headerRightImage}
                     source={require('../../../assets/images/Demande.png')}
@@ -304,6 +323,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                     navigate('ActivitiesCoachScreen');
                   }}
                   style={styles.headerRightActivities}>
+                  {this.renderBadge()}
                   <Image
                     style={styles.headerRightImage}
                     source={require('../../../assets/images/Notif.png')}

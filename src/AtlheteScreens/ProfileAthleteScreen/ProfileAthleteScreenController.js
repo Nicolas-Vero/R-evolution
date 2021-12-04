@@ -33,7 +33,6 @@ export default class ProfileAthleteScreenController extends AbstractScreenContro
   async componentDidMount() {
     // loadFonts();
     const User = await AuthService.getUser();
-    console.log(User);
     this.component.setState({ User });
     get_gym().then((res) => {
       const currentGymId = res.data.find(

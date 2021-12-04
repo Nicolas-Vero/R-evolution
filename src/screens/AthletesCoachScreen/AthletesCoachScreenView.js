@@ -37,7 +37,7 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
          // value={this.state.search}
                  /> */}
         <FlatList
-          contentContainerStyle={{ paddingBottom: 50 }}
+          contentContainerStyle={{ paddingBottom: 300 }}
           data={this.component.state.atlhetesActifs}
           refreshControl={
             <SidappRefreshControl
@@ -63,7 +63,7 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
                    value={this.state.search}
                  /> */}
         <FlatList
-          contentContainerStyle={{ paddingBottom: 50 }}
+          contentContainerStyle={{ paddingBottom: 300 }}
           data={this.component.state.atlhetesInactifs}
           refreshControl={
             <SidappRefreshControl
@@ -91,8 +91,11 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
          // value={this.state.search}
                  /> */}
         <FlatList
-          contentContainerStyle={{ marginBottom: 50 }}
-          data={this.component.state.atlhetesProspects}
+          contentContainerStyle={{ paddingBottom: 300 }}
+          data={[
+            ...this.component.state.atlhetesProspects,
+            ...this.component.state.atlhetesProspects,
+          ]}
           keyExtractor={(item) => item.id.toString()}
           refreshControl={
             <SidappRefreshControl

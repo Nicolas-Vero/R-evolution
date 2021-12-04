@@ -87,7 +87,7 @@ export default class CreateReminderCoachScreenView extends AbstractScreenView {
                               />
                             </View>
                             <View style={{ flex: 1 }}>
-                              <Text style={styles.formRowText}>Couleur</Text>
+                              <Text style={styles.formRowTextColor}>Couleur</Text>
                               <SelectDropdown
                                 buttonStyle={styles.dropdownButton}
                                 dropdownStyle={styles.dropdownBg}
@@ -98,7 +98,7 @@ export default class CreateReminderCoachScreenView extends AbstractScreenView {
                                 onSelect={(selectedItem, index) => {
                                   values.color = selectedItem;
                                 }}
-                                buttonTextAfterSelection={(
+                                renderCustomizedButtonChild={(
                                   selectedItem,
                                   index,
                                 ) => {
@@ -112,7 +112,7 @@ export default class CreateReminderCoachScreenView extends AbstractScreenView {
                                       }}></View>
                                   );
                                 }}
-                                rowTextForSelection={(item, index) => {
+                                renderCustomizedRowChild={(item, index) => {
                                   return (
                                     <View
                                       style={{
