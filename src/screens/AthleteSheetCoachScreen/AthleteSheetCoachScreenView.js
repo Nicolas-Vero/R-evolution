@@ -14,6 +14,7 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import CancelBookDialog from '../../components/dialogs/cancelBookDialog/cancelBookDialog';
 import DeleteSheetDialog from '../../components/dialogs/deleteSheetDialog/deleteSheetDialog';
+import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
 export default class AthleteSheetCoachScreenView extends AbstractScreenView {
   renderCancelBookDialog = () => {
     return (
@@ -58,14 +59,16 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
       dayPreference.push({ day: 'Dimanche' });
     }
 
+    let renderPayment = true;
     let badgeImage = '';
     if (user.status === 'active')
       badgeImage = require('../../../assets/images/Actif.png');
     else if (user.status === 'inactive')
       badgeImage = require('../../../assets/images/Inactif.png');
-    else if (user.status === 'prospect')
+    else if (user.status === 'prospect') {
       badgeImage = require('../../../assets/images/Prospect.png');
-
+      renderPayment = false;
+    }
     const isProspect = user.status === 'prospect';
     const isActif = user.status === 'active';
     const { isCanceled } = this.component.state;
@@ -89,8 +92,15 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
             </View>
           </View>
           <View style={styles.content}>
-            <ScrollView style={styles.scrollView}>
-              {!isActif || isCanceled ? null : (
+            <ScrollView
+              style={styles.scrollView}
+              refreshControl={
+                <SidappRefreshControl
+                  refreshing={this.component.state.refreshing}
+                  onRefresh={this.controller.fetchData}
+                />
+              }>
+              {isActif || isCanceled ? (
                 <View style={styles.cancelItem}>
                   <Text style={styles.infoText}>Séance :</Text>
                   <View style={styles.cancelBookContainer}>
@@ -105,7 +115,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   </View>
                   {this.renderCancelBookDialog()}
                 </View>
-              )}
+              ) : null}
               <View style={styles.phoneNumberContainer}>
                 <Image
                   style={styles.phoneImg}
@@ -146,49 +156,63 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   </Text>
                 </Text>
               </View>
-              <View style={styles.item}>
-                <Text style={styles.infoText}>Vente(s) effectuée(s) :</Text>
+              {renderPayment ? (
+                <View style={styles.item}>
+                  <Text style={styles.infoText}>Vente(s) effectuée(s) :</Text>
 
-                <FlatList
-                  style={styles.paiementList}
-                  data={this.component.state.Paiement}
-                  // onRefresh={onRefresh}
-                  // refreshing={this.state.refresh}
-                  keyExtractor={(item) => item.id.toString()}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity
-                      onPress={() => {
-                        navigate('CreateSaleScreen', { item: item });
-                      }}>
-                      <View style={styles.paiementItem}>
-                        <Text style={styles.paiementItemText}>
-                          {moment(item.created_at).format('L')}
-                        </Text>
-                        <Text style={styles.paiementItemText}>
-                          {item.title}
-                        </Text>
-                        <Text style={styles.paiementItemText}>
-                          {item.mode} - {item.amount}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                  )}
-                />
-                <TouchableOpacity
-                  onPress={() => {
-                    navigate('CreateSaleScreen', {
-                      isCreation: true,
-                      athleteId:
-                        this.component.props.navigation.state.params.item.id,
-                    });
-                  }}
-                  style={styles.addPaiementContainer}>
-                  <View style={styles.addPaiementIconMargin}>
-                    <Entypo name="squared-plus" size={27} color="#2CDEE4" />
-                  </View>
-                  <Text style={styles.infoText}>Ajouter une vente</Text>
-                </TouchableOpacity>
-              </View>
+                  <FlatList
+                    style={styles.paiementList}
+                    data={this.component.state.Paiement}
+                    // onRefresh={onRefresh}
+                    // refreshing={this.state.refresh}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => {
+                      const isDone =
+                        item.course_details.booked_session ===
+                        item.course_details.total_sessions;
+                      return (
+                        <TouchableOpacity
+                          disabled={isDone}
+                          onPress={() => {
+                            navigate('CreateSaleScreen', { item: item });
+                          }}>
+                          <View
+                            style={[
+                              styles.paiementItem,
+                              {
+                                backgroundColor: isDone ? '#979797' : '#2CDEE4',
+                              },
+                            ]}>
+                            <Text style={styles.paiementItemText}>
+                              {moment(item.created_at).format('L')}
+                            </Text>
+                            <Text style={styles.paiementItemText}>
+                              {item.offer.title}
+                            </Text>
+                            <Text style={styles.paiementItemText}>
+                              {`${item.amount}€`}
+                            </Text>
+                          </View>
+                        </TouchableOpacity>
+                      );
+                    }}
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigate('CreateSaleScreen', {
+                        isCreation: true,
+                        athleteId:
+                          this.component.props.navigation.state.params.item.id,
+                      });
+                    }}
+                    style={styles.addPaiementContainer}>
+                    <View style={styles.addPaiementIconMargin}>
+                      <Entypo name="squared-plus" size={27} color="#2CDEE4" />
+                    </View>
+                    <Text style={styles.infoText}>Ajouter une vente</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : null}
               <View style={styles.item}>
                 <Text style={styles.infoText}>Ses objectifs :</Text>
                 <FlatList

@@ -91,7 +91,6 @@ export const add_transaction = async (params) => {
     amount: amount,
   };
 
-  console.log(offer_id);
   const headers = await AuthService.getHeader();
   return axios({
     method: 'POST',
@@ -157,7 +156,6 @@ export const get_coach_me = async (navigation) => {
 export const updateCoach = async (params) => {
   const data = params;
   const headers = await AuthService.getHeader();
-  console.log(headers);
   return axios({
     method: 'POST',
     url: `${API_URL}/coach/me`,

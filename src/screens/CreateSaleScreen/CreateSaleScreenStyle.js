@@ -25,6 +25,19 @@ module.exports = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  offerInfo: {
+    flex: 1,
+    width: '100%',
+    borderRadius: 3,
+    height: 38,
+    backgroundColor: '#979797',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  offerInfoText: {
+    fontSize: 15,
+    fontFamily: 'RobotoBold',
+  },
   priceText: {
     fontSize: 15,
     fontFamily: 'RobotoBold',
@@ -148,14 +161,26 @@ module.exports = StyleSheet.create({
     color: '#fff',
   },
   paymentItem: {
-    marginHorizontal: 5,
+    marginRight: 5,
     alignContent: 'center',
     justifyContent: 'center',
     backgroundColor: '#979797',
     paddingLeft: 15,
     paddingRight: 40,
     paddingVertical: 7,
-    marginVertical: 5,
+    marginVertical: 8,
+    borderRadius: 3,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  nextPaymentItem: {
+    marginRight: 5,
+    alignContent: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#2CDEE4',
+    paddingLeft: 15,
+    paddingRight: 40,
+    paddingVertical: 7,
     borderRadius: 3,
     justifyContent: 'space-between',
     flexDirection: 'row',
@@ -166,7 +191,7 @@ module.exports = StyleSheet.create({
     fontFamily: 'Roboto',
   },
   flatlist: {
-    maxHeight: 100,
+    maxHeight: 150,
   },
   paiymentDelete: {
     position: 'absolute',
@@ -187,12 +212,7 @@ module.exports = StyleSheet.create({
     fontSize: 12,
     fontFamily: 'RobotoMedium',
   },
-  safeArea: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
-  buttonContainer: {
-    marginTop: 20,
-  },
+
   buttonText: {
     fontSize: 15,
     fontFamily: 'RobotoBold',

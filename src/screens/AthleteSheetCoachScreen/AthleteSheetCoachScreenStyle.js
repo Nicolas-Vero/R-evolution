@@ -102,10 +102,10 @@ module.exports = StyleSheet.create({
   paiementItem: {
     marginVertical: 5,
     paddingVertical: 8,
-    paddingHorizontal: 14,
+    paddingLeft: 14,
+    paddingRight: 28,
     alignContent: 'center',
     justifyContent: 'center',
-    backgroundColor: '#2CDEE4',
     borderRadius: 5,
     justifyContent: 'space-between',
     alignItems: 'center',

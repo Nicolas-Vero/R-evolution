@@ -35,7 +35,6 @@ export default class experience extends React.Component {
   render() {
     const passItem = this.props.navigation.state.params.item;
     const { navigation } = this.props;
-    console.log('passitem', passItem);
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <LinearGradient
@@ -66,7 +65,6 @@ export default class experience extends React.Component {
                   onSubmit={(values) => {
                     const item = { ...passItem, ...values };
                     navigation.navigate('specialities', { item: item });
-                    console.log(item);
                   }}>
                   {({
                     handleSubmit,

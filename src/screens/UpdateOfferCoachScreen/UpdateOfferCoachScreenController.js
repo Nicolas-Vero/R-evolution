@@ -10,7 +10,6 @@ export default class UpdateOfferCoachScreenController extends AbstractScreenCont
     };
   }
   onUpdatePress = async (values) => {
-    console.log(values);
     try {
       const update = await UpdateOffer(values);
       if (update.status === 200) {

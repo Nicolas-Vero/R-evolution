@@ -29,7 +29,6 @@ export default class CoachSheetScreenView extends AbstractScreenView {
     );
   }
   render() {
-    console.log(this.component.state.coach);
     return (
       <View style={styles.container}>
         <Header title="TON COACH" disableBackPress />

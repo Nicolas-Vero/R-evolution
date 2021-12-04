@@ -51,8 +51,6 @@ export default class PendingRequestCoachScreenView extends AbstractScreenView {
   };
   render() {
     const { isRefreshing, loaded } = this.component.state;
-
-    console.log(isRefreshing);
     if (!loaded) {
       return (
         <View>

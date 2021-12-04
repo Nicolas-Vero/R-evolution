@@ -7,7 +7,6 @@ export const coach_reminder = async (params) => {
   const { title, content, status, color, date, hour } = params;
 
   const formatDate = moment(date, 'YYYY-MM-DD');
-  console.log({ title, content, status, color, date, hour });
   const headers = await AuthService.getHeader();
   return axios({
     method: 'PUT',

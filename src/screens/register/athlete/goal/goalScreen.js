@@ -105,7 +105,6 @@ export default class goalScreen extends React.Component {
                                         <FlatList
                                           data={this.state.specData}
                                           renderItem={({ item }) => {
-                                            console.log(item);
                                             const backgroundColor =
                                               item.selected == 1
                                                 ? '#2CDEE4'

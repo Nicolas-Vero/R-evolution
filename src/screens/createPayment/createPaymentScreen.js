@@ -40,24 +40,6 @@ export default class createPaymentScreen extends React.Component {
     transaction_id: Math.floor(Math.random() * 1000),
   };
   componentDidMount() {
-    // if (this.props.navigation.state.params.item.id){
-    // get_payment_details(this.props.navigation.state.params.item.id).then((res)=>{
-    //   // let actifPaiement = []
-    //   // let awaitingPaiement =[]
-    //   res.data.forEach(element => {
-
-    //     console.log('rrrr',element.date, this.state.today);
-    //     // if(element.date>this.state.today){
-    //     //   actifPaiement.arrayPush(element)
-    //     // }else{
-    //     //   awaitingPaiement.arrayPush(element)
-    //     // }
-    //   });
-
-    //   this.setState({Paiement:res.data})
-    //  // this.setState({awaitingPaiement:awaitingPaiement})
-    // })
-    //}
     loadFonts(),
       get_coach_offers()
         .then((res) => {
@@ -335,7 +317,6 @@ export default class createPaymentScreen extends React.Component {
                                 </ScrollView>
                                 <TouchableOpacity
                                   onPress={() => {
-                                    console.log(Math.random() * 100);
                                     const paiementDate = moment(
                                       this.state.date,
                                     ).format('l');

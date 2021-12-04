@@ -378,7 +378,6 @@ export default class HomeAthleteView extends AbstractScreenView {
   renderReserve() {
     const curDate = moment().format('YYYY-MM-DD');
     const { coach } = this.component.state;
-    console.log(coach);
 
     return (
       <LinearGradient

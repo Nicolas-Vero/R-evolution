@@ -27,7 +27,6 @@ export const AddOffer = async (params) => {
 
 export const UpdateOffer = async (params) => {
   const data = params;
-  console.log(data);
   const headers = await AuthService.getHeader();
   return axios({
     method: 'POST',
@@ -60,7 +59,6 @@ export const delete_coach_offers = async (params) => {
 
 export const get_coach_offer_by_id = async (params) => {
   const data = params;
-  console.log(data);
   const headers = await AuthService.getHeader();
   return axios({
     method: 'GET',

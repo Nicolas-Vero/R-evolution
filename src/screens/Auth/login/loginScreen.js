@@ -51,7 +51,6 @@ export default class loginScreen extends React.Component {
       const user = await get_coach_me();
       if (user.status === 200) {
         await AuthService.setUser(user.data);
-        console.log(await AuthService.getUser());
         this.props.navigation.navigate('DashboardStack');
       }
 
@@ -68,8 +67,6 @@ export default class loginScreen extends React.Component {
       const user = await get_athlete();
       if (user.status === 200) {
         await AuthService.setUser(user.data);
-        console.log(await AuthService.getUser());
-
         this.props.navigation.navigate('DashboardStackAtlhete');
       }
 

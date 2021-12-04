@@ -52,7 +52,6 @@ export default class trainingPlace extends React.Component {
     } else {
       const passItem = this.props.navigation.state.params.item;
       const { navigation } = this.props;
-      console.log('passitem', passItem);
       return (
         <View style={{ flex: 1, backgroundColor: 'black' }}>
           <LinearGradient
@@ -84,7 +83,6 @@ export default class trainingPlace extends React.Component {
                   onSubmit={(values) => {
                     const item = { ...passItem, ...values };
                     navigation.navigate('avatar',{ item:item})
-                    console.log(item);
                   }}
                   validationSchema={Yup.object().shape({
                     gym_id: Yup.string().required('Requis'),
@@ -115,7 +113,6 @@ export default class trainingPlace extends React.Component {
                           },
                         }) => {
                           return (
-                            console.log('eee',errors),
                             <View style={{height:heightPercentageToDP(75)}}>
           
                               <View
@@ -157,12 +154,7 @@ export default class trainingPlace extends React.Component {
                                         'Recherche le nom de ta salle'
                                       }
                                       onSelect={(selectedItem, index) => {
-                                        //   if (arrayhelper.form.values.gym_id.length!='') {
-                                        //     console.log(arrayhelper.form.values.gym_id.length);
-                                        //      arrayhelper.pop()
-                                        //   }
-                                        //   arrayhelper.push(selectedItem.id)
-                                        // }
+                                     
                                         arrayhelper.form.values.gym_id =
                                           selectedItem.id;
                                       }}

@@ -26,7 +26,6 @@ export default class AthletesCoachScreenController extends AbstractScreenControl
     this.component.setState({ refreshing: true });
     const athletes = await get_coach_athlete();
     if (athletes.status === 200) {
-      console.log('data', athletes.data);
       await this.filterData(athletes.data.athletes);
       this.component.setState({
         refreshing: false,

@@ -1,5 +1,6 @@
 import { get_coach_offers } from '../../api/Offers';
 import { add_manual_payment, add_transaction } from '../../api/Coach';
+import { get_payment_details } from '../../api/Paiement';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import moment from 'moment';
 
@@ -8,7 +9,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
     super(component);
 
     this.initialState = {
-      today: moment().format('l'),
+      today: moment(),
       Offer: [],
       date: '',
       nextPayment: [],
@@ -16,8 +17,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
       loaded: false,
       offer_id: '',
       transaction_id: Math.floor(Math.random() * 1000),
-      isCreation:
-        this.component.props.navigation.state.params?.isCreation || true,
+      isCreation: this.component.props.navigation.state.params?.isCreation,
       selectedOffer: null,
       selectedItem: null,
       inputDate: new Date(),
@@ -26,27 +26,31 @@ export default class CreateSaleScreenController extends AbstractScreenController
       totalPrice: 0,
       isDeleteSaleVisible: false,
       isValidateSaleDialogVisible: false,
+      item: this.component.props.navigation.state.params.item,
     };
   }
-  componentDidMount() {
-    // if (this.props.navigation.state.params.item.id){
-    // get_payment_details(this.props.navigation.state.params.item.id).then((res)=>{
-    //   // let actifPaiement = []
-    //   // let awaitingPaiement =[]
-    //   res.data.forEach(element => {
+  componentDidMount = async () => {
+    const { item, today } = this.component.state;
+    if (item && item.id) {
+      const paymentDetail = await get_payment_details(item.id);
+      if (paymentDetail.status === 200) {
+        const oldPayment = [];
+        const nextPayment = [];
+        let totalPrice = 0;
+        paymentDetail.data.forEach((payment) => {
+          if (moment(payment.date).isAfter(moment())) nextPayment.push(payment);
+          else oldPayment.push(payment);
 
-    //     console.log('rrrr',element.date, this.state.today);
-    //     // if(element.date>this.state.today){
-    //     //   actifPaiement.arrayPush(element)
-    //     // }else{
-    //     //   awaitingPaiement.arrayPush(element)
-    //     // }
-    //   });
+          totalPrice += parseFloat(payment.amount);
+        });
 
-    //   this.setState({Paiement:res.data})
-    //  // this.setState({awaitingPaiement:awaitingPaiement})
-    // })
-    //}
+        this.component.setState({ totalPrice: totalPrice });
+        this.component.setState({ nextPayment, oldPayment });
+      }
+      this.component.setState({ loaded: true });
+
+      return;
+    }
     get_coach_offers()
       .then((res) => {
         this.component.setState({ Offer: res.data.offers });
@@ -54,17 +58,13 @@ export default class CreateSaleScreenController extends AbstractScreenController
       .then(() => {
         this.component.setState({ loaded: true });
       });
-    // get_paiement_for_coach().then((res) => {
-    //   this.setState({ Paiement: res.data });
-    // });
-  }
+  };
 
   onAddPaiement = () => {
     const {
       today,
       selectedSaleType,
       inputDate,
-      paiementList,
       addPrice,
       oldPayment,
       nextPayment,
@@ -78,13 +78,11 @@ export default class CreateSaleScreenController extends AbstractScreenController
       mode: selectedSaleType,
       date: inputDate,
     };
-    const date = moment(inputDate).format('l');
-
-    if (today >= date) {
+    if (moment(inputDate).isAfter(moment())) {
       this.component.setState({
-        oldPayment: [...oldPayment, newPaiement],
+        nextPayment: [...nextPayment, newPaiement],
         addPrice: null,
-        inputDate: new Date(moment(inputDate).add(1, 'months').calendar()),
+        inputDate: new Date(),
         totalPrice: totalPrice + parseFloat(addPrice),
       });
 
@@ -92,11 +90,13 @@ export default class CreateSaleScreenController extends AbstractScreenController
     }
 
     this.component.setState({
-      nextPayment: [...nextPayment, newPaiement],
+      oldPayment: [...oldPayment, newPaiement],
       addPrice: null,
-      inputDate: new Date(moment(inputDate).add(1, 'months').calendar()),
+      inputDate: new Date(),
       totalPrice: totalPrice + parseFloat(addPrice),
     });
+
+    return;
   };
 
   onChangeOffer = (item) => {
@@ -173,6 +173,43 @@ export default class CreateSaleScreenController extends AbstractScreenController
     this.component.setState({ inputDate: date });
   };
 
+  onUpdate = async () => {
+    const { item, oldPayment, nextPayment, totalPrice } = this.component.state;
+    const athleteId = item.athlete.id;
+    const transaction =
+      oldPayment[0].transaction_id ||
+      nextPayment[0].transaction_id ||
+      this.component.state.transaction_id;
+    try {
+      [...oldPayment, ...nextPayment].forEach(async (payment) => {
+        payment.athlete_id = athleteId;
+        payment.offer_id = item.offer.id;
+        payment.transaction_id = payment.transaction_id || transaction;
+
+        const res = await add_manual_payment(payment);
+        console.log('status', res.status);
+        console.log('data', res.data);
+      });
+
+      const installments = oldPayment.length + nextPayment.length;
+
+      // const toto = await add_transaction({
+      //   athlete_id: athleteId,
+      //   installments,
+      //   offer_id: item.offer.id,
+      //   transaction_id: transaction,
+      //   amount: parseInt(totalPrice),
+      // });
+
+      // console.log('status2', toto.status);
+      // console.log('data2', toto.data);
+      // this.component.props.navigation.goBack();
+    } catch (err) {
+      console.log(err);
+      this.component.setState({ loading: false });
+      console.warn(err.message);
+    }
+  };
   onSave = async () => {
     const {
       selectedOffer,
@@ -181,6 +218,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
       nextPayment,
       totalPrice,
     } = this.component.state;
+
     const { athleteId } = this.component.props.navigation.state.params;
 
     try {
@@ -193,14 +231,8 @@ export default class CreateSaleScreenController extends AbstractScreenController
       });
 
       const installments = oldPayment.length + nextPayment.length;
-      console.log({
-        athlete_id: athleteId,
-        installments,
-        offer_id: selectedOffer.id,
-        transaction_id: transaction_id,
-        amount: parseInt(totalPrice),
-      });
-      const addTransaction = await add_transaction({
+
+      await add_transaction({
         athlete_id: athleteId,
         installments,
         offer_id: selectedOffer.id,
@@ -208,9 +240,6 @@ export default class CreateSaleScreenController extends AbstractScreenController
         amount: parseInt(totalPrice),
       });
 
-      console.log(addTransaction.status);
-      console.log(addTransaction.data);
-      console.log(athleteId);
       this.component.props.navigation.goBack();
     } catch (err) {
       console.log(err);

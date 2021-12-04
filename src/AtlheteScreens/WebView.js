@@ -10,7 +10,6 @@ export default class MyWeb extends React.Component {
   webview = null;
 
   render() {
-      console.log(this.props.navigation.state.params.item.payment_url);
     return (
       <WebView
         ref={(ref) => (this.webview = ref)}
