@@ -16,7 +16,6 @@ export const authentification =  (params) => {
 
 export const userType = (params) => {
     const data = params;
-    console.log(data);
     return axios({
       method: 'GET',
       url: `${API_URL}/auth/userType/${params}`,

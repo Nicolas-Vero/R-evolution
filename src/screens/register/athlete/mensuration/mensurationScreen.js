@@ -35,7 +35,6 @@ export default class mensurationScreen extends React.Component {
 
   render() {
     const passItem = this.props.navigation.state.params;
-    console.log('passitem', passItem);
     return (
       <View style={styles.container}>
         <LinearGradient

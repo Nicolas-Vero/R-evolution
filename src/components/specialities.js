@@ -50,7 +50,6 @@ export default class specialities extends React.Component {
   render() {
     const passItem = this.props.navigation.state.params.item;
     const { navigation } = this.props;
-    console.log('passitem', passItem);
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <LinearGradient
@@ -66,7 +65,7 @@ export default class specialities extends React.Component {
           style={styles.background}>
           <ScrollView style={{ flex: 1 }}>
             <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <Header title="LET'S GO" />
+              <Header title="LET'S GO" />
               <View style={{ alignItems: 'center' }}>
                 <Image
                   source={require('../../assets/images/Group_3.png')}
@@ -81,7 +80,6 @@ export default class specialities extends React.Component {
                   onSubmit={(values) => {
                     const item = { ...passItem, ...values };
                     navigation.navigate('trainingPlace', { item: item });
-                    console.log(item);
                   }}
                   validationSchema={Yup.object().shape({
                     specialties: Yup.array().min(1).required('Requis'),
@@ -154,10 +152,6 @@ export default class specialities extends React.Component {
                                           data={this.state.specData}
                                           extraData={this.state}
                                           renderItem={({ item }) => {
-                                            console.log('item', item),
-                                              item.selected
-                                                ? console.log(item.selected)
-                                                : console.log('noclick');
                                             const backgroundColor =
                                               item.selected == 1
                                                 ? '#2CDEE4'

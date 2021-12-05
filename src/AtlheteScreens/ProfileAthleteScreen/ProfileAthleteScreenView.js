@@ -42,12 +42,6 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
   }
 
   render() {
-    // console.log({
-    //   gender: 'male',
-    //   time_preference: { start_time: 5, end_time: 6 },
-    //   profile_picture_url: '',
-    //   ...this.component.state.User,
-    // });
     if (!this.component.state.loaded) {
       return (
         <View>
@@ -234,7 +228,6 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                           defaultButtonText={this.component.state.gym}
                           onSelect={(selectedItem) => {
                             // TODO NICO FIX CRASH
-                            console.log(selectedItem);
                             if (
                               arrayhelper.form.values.prefered_gym.length > 1
                             ) {
@@ -443,7 +436,6 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                       customTextStyle={styles.validateButtonText}
                       onPress={(values) => {
                         // TODO NICO call api & set AuthService.setUser()
-                        console.log(values);
                       }}
                     />
                   </View>

@@ -37,7 +37,6 @@ export default class selectCoachScreen extends React.Component {
       this.props.navigation.state.params.item.preferred_gym_id,
     ).then((res) => {
       this.setState({ Commercial: res.data });
-      console.log(res.data);
       this.setState({ isLoaded: true });
     });
     get_coach_by_gym_place(
@@ -97,7 +96,6 @@ export default class selectCoachScreen extends React.Component {
                   commercial_id: '',
                 }}
                 onSubmit={(values) => {
-                  console.log(values);
                   const item = { ...passItem, ...values };
                   this.onNavigate(item);
                 }}

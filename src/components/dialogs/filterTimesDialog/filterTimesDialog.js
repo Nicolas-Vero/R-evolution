@@ -22,7 +22,6 @@ export default class FilterTimesDialog extends React.Component {
   };
 
   _keyboardDidShow = (e) => {
-    console.log(e);
     this.component.setState({ keyboardHeight: e.endCoordinates.height });
   };
 

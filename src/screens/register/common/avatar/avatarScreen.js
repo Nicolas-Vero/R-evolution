@@ -32,7 +32,6 @@ import { athlete_login, get_athlete } from '../../../../api/Athlete';
 import AuthService from '../../../../services/AuthService';
 export default class avatarScreen extends React.Component {
   constructor(props) {
-    console.log(props.navigation.state.params);
     super(props);
     this.state = {
       isLoaded: false,
@@ -65,38 +64,6 @@ export default class avatarScreen extends React.Component {
       this.props.navigation.popToTop();
       this.props.navigation.push('loginScreen');
     }
-    // try {
-    //   const req = isCoach === 'athlete' ? await sign_up(item) : await auth(item);
-    //   console.log(req.status)
-    //   if (req.status === 200) {
-    //     this.props.navigation.popToTop();
-    //     this.props.navigation.push('loginScreen');      }
-    //   // (isCoach !== 'athlete' ? auth(item) : sign_up(item)).then(() => {
-    //   //   console.log(DataTransfer)
-    //   //   this.props.navigation.popToTop();
-    //   //   this.props.navigation.push('loginScreen');
-    //   // });
-    //   // upload_file(formData)
-    //   //   .then((res) => {
-    //   //     console.log(res);
-    //   //     item.profile_picture_url = res.data.location;
-    //   //   })
-    //   //   .then(() => {
-    //   //     console.log('item', item);
-    //   //     const register = isCoach ? auth(item) : sign_up(item);
-    //   //     console.log('register', register);
-    //   //   })
-    //   //   .then(() => {
-    //   //     //call login route item.email, item.pwd
-    //   //     // get token
-    //   //     // authservice.setAuth()
-    //   //     // redirect to correct stack
-    //   //     this.props.navigation.popToTop();
-    //   //     this.props.navigation.push('loginScreen');
-    //   //   });
-    // } catch (error) {
-    // console.log('error:', error, ' ', 'data:', item);
-    // }
   };
 
   async loginAthlete(body) {
@@ -106,8 +73,6 @@ export default class avatarScreen extends React.Component {
       const user = await get_athlete();
       if (user.status === 200) {
         await AuthService.setUser(user.data);
-        console.log(await AuthService.getUser());
-
         this.props.navigation.navigate('DashboardStackAtlhete');
       }
     }
@@ -172,7 +137,6 @@ export default class avatarScreen extends React.Component {
                     type: this.state.image.type,
                     name: this.state.image.uri,
                   });
-                  console.log(formData);
                   this.onRegister(formData, item);
                 }}>
                 {({ handleSubmit, validate, ref }) => (

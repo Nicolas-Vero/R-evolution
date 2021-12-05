@@ -6,7 +6,6 @@ import AuthService from '../services/AuthService';
 
 export const athlete_login = (params) => {
   const data = params;
-  console.log('[URL]', data, `${API_URL}/auth/athlete-login`);
   return axios({
     method: 'POST',
     url: `${API_URL}/auth/athlete-login`,
@@ -25,7 +24,6 @@ export const athlete_appointement = (params) => {
 
 export const athlete_booking = async (params) => {
   const { coach_id, date, athlete_course_id, slot } = params;
-  console.log(params);
   const data = {
     date: date,
     athlete_course_id: athlete_course_id,
@@ -70,7 +68,6 @@ export const cancel_booking_athlete = async (params) => {
 
 export const get_athlete_active_appointement = async (params) => {
   const data = params;
-  console.log(params);
   const headers = await AuthService.getHeader();
   return axios({
     method: 'GET',
@@ -109,7 +106,6 @@ export const get_athlete_appointement = async (params) => {
 export const get_book_athlete = async (params) => {
   const headers = await AuthService.getHeader();
   const date = params;
-  console.log(params);
   return axios({
     method: 'GET',
     url: `${API_URL}/athlete/appointments/day`,

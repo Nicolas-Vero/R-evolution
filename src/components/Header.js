@@ -15,7 +15,6 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 class Header extends React.Component {
   render() {
     const { title, navigation, disableBackPress } = this.props;
-    console.log(disableBackPress);
 
     if (disableBackPress) {
       return (

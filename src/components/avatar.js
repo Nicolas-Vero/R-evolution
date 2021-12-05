@@ -99,7 +99,6 @@ export default class trainingPlace extends React.Component {
                   } catch (error) {
                     console.log(error, 'data', item);
                   }
-                  console.log(item);
                 }}>
                 {({
                   handleChange,

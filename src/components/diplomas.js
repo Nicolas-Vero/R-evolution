@@ -38,7 +38,6 @@ export default class diplomas extends React.Component {
   render() {
     const passItem = this.props.navigation.state.params.item;
     const { navigation } = this.props;
-    console.log('passitem', passItem);
     return (
       <View style={{ flex: 1, backgroundColor: 'black' }}>
         <LinearGradient
@@ -52,188 +51,190 @@ export default class diplomas extends React.Component {
             y: 1,
           }}
           style={styles.background}>
-            <ScrollView>
-          <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-          <Header title="LET'S GO" />
-            <View style={{ alignItems: 'center' }}>
-              <Image
-                source={require('../../assets/images/Group_1.png')}
-                style={{ width: widthPercentageToDP(80) }}
-              />
-            </View>
+          <ScrollView>
+            <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
+              <Header title="LET'S GO" />
+              <View style={{ alignItems: 'center' }}>
+                <Image
+                  source={require('../../assets/images/Group_1.png')}
+                  style={{ width: widthPercentageToDP(80) }}
+                />
+              </View>
 
-            <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
-              <Formik
-                initialValues={{
-                  diplomas: [],
-                }}
-                onSubmit={(values) => {
-                  const item = { ...passItem, ...values };
-                  navigation.navigate('experience', { item:item})
-                  console.log(item);
-                }}
-                validationSchema={Yup.object().shape({
-                  diplomas: Yup.array().min(1).required('Requis'),
-                })}>
-                {({
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  setFieldValue,
-                  values,
-                  setFieldTouched,
-                  touched,
-                  errors,
-                  isValid,
-                  validate,
-                }) => (
-                  <View>
-                    <Field name="diplomas" id="diplomas" validate={validate}>
-                      {({
-                        field,
-                        meta,
-                        form: {
-                          touched,
-                          errors,
-                          isSubmitting,
-                          setFieldTouched,
-                        },
-                      }) => {
-                        return (
-                          console.log(errors),
-                          <View style={{ height: heightPercentageToDP(75) }}>
-                            <View
-                              style={{
-                                alignItems: 'center',
-                                marginTop: 135,
-                              }}>
-                              <Text
+              <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
+                <Formik
+                  initialValues={{
+                    diplomas: [],
+                  }}
+                  onSubmit={(values) => {
+                    const item = { ...passItem, ...values };
+                    navigation.navigate('experience', { item: item });
+                  }}
+                  validationSchema={Yup.object().shape({
+                    diplomas: Yup.array().min(1).required('Requis'),
+                  })}>
+                  {({
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    setFieldValue,
+                    values,
+                    setFieldTouched,
+                    touched,
+                    errors,
+                    isValid,
+                    validate,
+                  }) => (
+                    <View>
+                      <Field name="diplomas" id="diplomas" validate={validate}>
+                        {({
+                          field,
+                          meta,
+                          form: {
+                            touched,
+                            errors,
+                            isSubmitting,
+                            setFieldTouched,
+                          },
+                        }) => {
+                          return (
+                            <View style={{ height: heightPercentageToDP(75) }}>
+                              <View
                                 style={{
-                                  fontFamily: 'RobotoBold',
-                                  fontSize: 20,
-                                  color: '#FFFF',
+                                  alignItems: 'center',
+                                  marginTop: 135,
                                 }}>
-                                DIPLÔME(S)
-                              </Text>
-                            </View>
-                            <ScrollView>
-                              <View style={styles.container}>
-                                <FieldArray
-                                  name="diplomas"
-                                  render={(arrayhelper) => (
-                                    <View style={styles.container2}>
-                                      {field.value.map(
-                                        (fields, index) => (
-                                          console.log(field),
-                                          (
-                                              
-                                            <ScrollView>
-                                              <View
+                                <Text
+                                  style={{
+                                    fontFamily: 'RobotoBold',
+                                    fontSize: 20,
+                                    color: '#FFFF',
+                                  }}>
+                                  DIPLÔME(S)
+                                </Text>
+                              </View>
+                              <ScrollView>
+                                <View style={styles.container}>
+                                  <FieldArray
+                                    name="diplomas"
+                                    render={(arrayhelper) => (
+                                      <View style={styles.container2}>
+                                        {field.value.map((fields, index) => (
+                                          <ScrollView>
+                                            <View
+                                              style={{
+                                                alignContent: 'center',
+                                                maxHeight: 250,
+                                                backgroundColor: 'red',
+                                              }}
+                                              key={index}>
+                                              <TextInput
+                                                placeholder="Ajoute ton objectif"
+                                                onChangeText={(text) =>
+                                                  (field.value[index] = text)
+                                                }
                                                 style={{
-                                                  alignContent: 'center',
-                                                  maxHeight: 250,
-                                                  backgroundColor: 'red',
+                                                  backgroundColor: '#FFFFFF',
+                                                  width:
+                                                    widthPercentageToDP(90),
+                                                  paddingTop: 10,
+                                                  paddingBottom: 10,
+                                                  paddingLeft: 15,
+                                                  paddingRight: 15,
                                                 }}
-                                                key={index}>
-                                                <TextInput
-                                                  placeholder="Ajoute ton objectif"
-                                                  onChangeText={(text) =>
-                                                    (field.value[index] = text)
-                                                  }
+                                                name={`degrees.${index}`}
+                                              />
+                                            </View>
+                                            <View
+                                              style={{
+                                                alignItems: 'flex-end',
+                                                marginTop: 15,
+                                                marginBottom: 5,
+                                                color: '#2CDEE4',
+                                              }}>
+                                              <TouchableOpacity
+                                                onPress={() =>
+                                                  arrayhelper.remove(index)
+                                                }>
+                                                <Text
                                                   style={{
-                                                    backgroundColor: '#FFFFFF',
-                                                    width:
-                                                      widthPercentageToDP(90),
-                                                    paddingTop: 10,
-                                                    paddingBottom: 10,
-                                                    paddingLeft: 15,
-                                                    paddingRight: 15,
-                                                  }}
-                                                  name={`degrees.${index}`}
-                                                />
-                                              </View>
-                                              <View
-                                                style={{
-                                                  alignItems: 'flex-end',
-                                                  marginTop: 15,
-                                                  marginBottom: 5,
-                                                  color: '#2CDEE4',
-                                                }}>
-                                                <TouchableOpacity
-                                                  onPress={() =>
-                                                    arrayhelper.remove(index)
-                                                  }>
-                                                  <Text
-                                                    style={{
-                                                      color: '#2CDEE4',
-                                                    }}>
-                                                    Supprimer
-                                                  </Text>
-                                                </TouchableOpacity>
-                                              </View>
-                                            </ScrollView>
-                                          )
-                                        ),
-                                                  )}
-                                      
-                                      <View style={{borderWidth:errors.diplomas?2:0,borderColor:errors.diplomas?'red':'transparent'}} >
-                                      <TouchableOpacity
-                                        onPress={() => arrayhelper.push('')}>
+                                                    color: '#2CDEE4',
+                                                  }}>
+                                                  Supprimer
+                                                </Text>
+                                              </TouchableOpacity>
+                                            </View>
+                                          </ScrollView>
+                                        ))}
+
                                         <View
                                           style={{
-                                            flexDirection: 'row',
-                                            alignItems: 'baseline',
-                                            marginRight:
-                                              widthPercentageToDP(49),
+                                            borderWidth: errors.diplomas
+                                              ? 2
+                                              : 0,
+                                            borderColor: errors.diplomas
+                                              ? 'red'
+                                              : 'transparent',
                                           }}>
-                                          <FontAwesome
-                                            name="plus-square"
-                                            size={24}
-                                            color="#2CDEE4"
-                                          />
-                                          <Text
-                                            style={{
-                                              fontFamily: 'RobotoBold',
-                                              marginLeft: 10,
-                                              padding: 5,
-                                              color: '#FFFFFF',
-                                            }}>
+                                          <TouchableOpacity
+                                            onPress={() =>
+                                              arrayhelper.push('')
+                                            }>
+                                            <View
+                                              style={{
+                                                flexDirection: 'row',
+                                                alignItems: 'baseline',
+                                                marginRight:
+                                                  widthPercentageToDP(49),
+                                              }}>
+                                              <FontAwesome
+                                                name="plus-square"
+                                                size={24}
+                                                color="#2CDEE4"
+                                              />
+                                              <Text
+                                                style={{
+                                                  fontFamily: 'RobotoBold',
+                                                  marginLeft: 10,
+                                                  padding: 5,
+                                                  color: '#FFFFFF',
+                                                }}>
+                                                Ajouter un diplôme
+                                              </Text>
+                                            </View>
+                                          </TouchableOpacity>
+                                        </View>
+                                        {errors.diplomas ? (
+                                          <Text style={{ color: 'red' }}>
                                             Ajouter un diplôme
                                           </Text>
-                                        </View>
-                                      </TouchableOpacity>
-                                    </View>
-                                   { errors.diplomas?<Text style={{color:'red'}}>Ajouter un diplôme</Text>:null
-                                   }
-                                    </View>
-                                          
-                                  )}
-                                />
-                              </View>
-                            </ScrollView>
+                                        ) : null}
+                                      </View>
+                                    )}
+                                  />
+                                </View>
+                              </ScrollView>
 
-                            <View style={{ alignItems: 'center' }}></View>
-                          </View>
-                        );
-                      }}
-                    </Field>
-                    <Button
-                      loading={false}
-                      disabled={!isValid}
-                      title="Suivant"
-                      customTextStyle={{
-                        fontFamily: 'RobotoBold',
-                        fontSize: 17,
-                      }}
-                      onPress={handleSubmit}
-                    />
-                  </View>
-                  
-                )}
-                
-              </Formik>
-            </View>
-          </SafeAreaView>
+                              <View style={{ alignItems: 'center' }}></View>
+                            </View>
+                          );
+                        }}
+                      </Field>
+                      <Button
+                        loading={false}
+                        disabled={!isValid}
+                        title="Suivant"
+                        customTextStyle={{
+                          fontFamily: 'RobotoBold',
+                          fontSize: 17,
+                        }}
+                        onPress={handleSubmit}
+                      />
+                    </View>
+                  )}
+                </Formik>
+              </View>
+            </SafeAreaView>
           </ScrollView>
         </LinearGradient>
       </View>

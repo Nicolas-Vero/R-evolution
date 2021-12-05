@@ -19,7 +19,6 @@ export default class ActivitiesCoachScreenController extends AbstractScreenContr
     this.component.setState({ refreshing: true });
     const reminders = await get_coach_reminder();
     if (reminders.status === 200) {
-      console.log('toto');
       this.component.setState({
         reminders: reminders.data.reminders,
         isLoaded: true,
@@ -33,7 +32,6 @@ export default class ActivitiesCoachScreenController extends AbstractScreenContr
 
   onDeleteReminder = async (item) => {
     const deleteReminder = await delete_reminder({ reminder_id: item.id });
-    console.log(deleteReminder.status);
     if (deleteReminder.status === 200) {
       await this.fetchData();
     }

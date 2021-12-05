@@ -14,19 +14,32 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
       isDeleteSheetModalVisible: false,
       isCancelBookModalVisible: false,
       isCanceled: false,
+      refreshing: false,
     };
   }
-  componentDidMount() {
-    console.log(this.component.props.navigation.state.params.item)
+  componentDidMount = async () => {
     get_athlete_active_courses_with_param(
       this.component.props.navigation.state.params.item.id,
     ).then((res) => {
       this.component.setState({ ActiveCourses: res.data });
     });
-    get_paiement_for_coach().then((res) => {
-      this.component.setState({ Paiement: res.data });
-    });
-  }
+    await this.fetchData();
+
+    getUserAppoinement(
+      this.component.props.navigation.state.params.item.id,
+    ).then((res) => {});
+  };
+
+  fetchData = async () => {
+    this.component.setState({ refreshing: true });
+    const sales = await get_paiement_for_coach();
+
+    if (sales.status === 200) {
+      this.component.setState({ Paiement: sales.data });
+    }
+
+    this.component.setState({ refreshing: false });
+  };
 
   onDeleteSheet = () => {
     this.component.setState({ isDeleteSheetModalVisible: true });
@@ -40,7 +53,6 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
   };
 
   onValidateDeleteSheet = () => {
-    console.log('deleteSheet');
     //TODO DELETE SHEET
     this.onDismissDeleteSheetDialog();
   };
@@ -56,7 +68,6 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
   };
 
   onValidateCancelBook = () => {
-    console.log('cancelBook');
     //TODO NICOLAS CANCEL BOOK
     this.onDismissCancelSheetDialog();
   };

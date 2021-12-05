@@ -2,15 +2,11 @@ import React from 'react';
 import {
   View,
   TextInput,
-  SafeAreaView,
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
-  Platform,
+  ScrollView,
 } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
-import { Field, FieldArray, Formik } from 'formik';
 import moment from 'moment';
 import { AntDesign } from '@expo/vector-icons';
 import { Text } from 'react-native-elements';
@@ -19,13 +15,14 @@ import Header from '../../components/Header';
 import { LinearGradient } from 'expo-linear-gradient';
 import SelectDropdown from 'react-native-select-dropdown';
 import styles from './CreateSaleScreenStyle';
-import { ScrollView } from 'react-native-gesture-handler';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Entypo } from '@expo/vector-icons';
 import DeleteSaleDialog from '../../components/dialogs/deleteSaleDialog/deleteSaleDialog';
 import ValidateSaleDialog from '../../components/dialogs/validateSaleDialog/validateSaleDialog';
+import { TextInputMask } from 'react-native-masked-text';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
+
 export default class CreateSaleScreenView extends AbstractScreenView {
   renderValidateSaleDialog = () => {
     const { isValidateSaleDialogVisible } = this.component.state;
@@ -49,35 +46,45 @@ export default class CreateSaleScreenView extends AbstractScreenView {
     );
   };
   renderCreation = () => {
-    const { selectedOffer, totalPrice } = this.component.state;
+    const { isCreation, item, totalPrice } = this.component.state;
     return (
       <View style={styles.offerTop}>
         <View style={{ flex: 1 }}>
           <Text style={styles.text}>Nom de l'offre</Text>
-          <SelectDropdown
-            buttonStyle={styles.dropdownButton}
-            buttonTextStyle={styles.dropdownButtonText}
-            rowTextStyle={styles.dropdownRowText}
-            dropdownStyle={styles.dropdownBg}
-            rowStyle={styles.dropdownRow}
-            data={this.component.state.Offer}
-            defaultButtonText={'Recherche ton offre'}
-            onSelect={(selectedOffer, index) => {
-              this.controller.onChangeOffer(selectedOffer);
-              // values.offer_id = selectedItem.id;
-              return selectedOffer;
-            }}
-            renderDropdownIcon={() => {
-              return <AntDesign name="down" size={18} color="black" />;
-            }}
-            dropdownIconPosition={'right'}
-            buttonTextAfterSelection={(selectedItem, index) => {
-              return `${selectedItem.title} - ${selectedItem.price}€`;
-            }}
-            rowTextForSelection={(item, index) => {
-              return `${item.title} - ${item.price}€`;
-            }}
-          />
+          <View></View>
+          {isCreation ? (
+            <SelectDropdown
+              buttonStyle={styles.dropdownButton}
+              buttonTextStyle={styles.dropdownButtonText}
+              rowTextStyle={styles.dropdownRowText}
+              dropdownStyle={styles.dropdownBg}
+              rowStyle={styles.dropdownRow}
+              data={this.component.state.Offer}
+              defaultButtonText={'Recherche ton offre'}
+              onSelect={(selectedOffer, index) => {
+                this.controller.onChangeOffer(selectedOffer);
+                // values.offer_id = selectedItem.id;
+                return selectedOffer;
+              }}
+              renderDropdownIcon={() => {
+                return <AntDesign name="down" size={18} color="black" />;
+              }}
+              dropdownIconPosition={'right'}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return `${selectedItem.title} - ${selectedItem.price}€`;
+              }}
+              rowTextForSelection={(item, index) => {
+                return `${item.title} - ${item.price}€`;
+              }}
+            />
+          ) : (
+            <View style={styles.offerInfo}>
+              <Text
+                style={
+                  styles.offerInfoText
+                }>{`${item.offer.title} - ${item.offer.price}€`}</Text>
+            </View>
+          )}
         </View>
         <View style={{ marginLeft: 24 }}>
           <Text style={styles.text}>Prix total</Text>
@@ -94,10 +101,51 @@ export default class CreateSaleScreenView extends AbstractScreenView {
     );
   };
 
-  renderOfferInfo = () => {};
+  renderOfferInfo = () => {
+    <View style={styles.offerTop}>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.text}>Nom de l'offre</Text>
+        <SelectDropdown
+          buttonStyle={styles.dropdownButton}
+          buttonTextStyle={styles.dropdownButtonText}
+          rowTextStyle={styles.dropdownRowText}
+          dropdownStyle={styles.dropdownBg}
+          rowStyle={styles.dropdownRow}
+          data={this.component.state.Offer}
+          defaultButtonText={'Recherche ton offre'}
+          onSelect={(selectedOffer, index) => {
+            this.controller.onChangeOffer(selectedOffer);
+            // values.offer_id = selectedItem.id;
+            return selectedOffer;
+          }}
+          renderDropdownIcon={() => {
+            return <AntDesign name="down" size={18} color="black" />;
+          }}
+          dropdownIconPosition={'right'}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            return `${selectedItem.title} - ${selectedItem.price}€`;
+          }}
+          rowTextForSelection={(item, index) => {
+            return `${item.title} - ${item.price}€`;
+          }}
+        />
+      </View>
+      <View style={{ marginLeft: 24 }}>
+        <Text style={styles.text}>Prix total</Text>
+        <View style={styles.row}>
+          <View style={styles.priceInfo}>
+            <Text style={styles.priceText}>
+              {totalPrice > 0 ? totalPrice : null}
+            </Text>
+          </View>
+          <Text style={styles.priceCurrency}>€</Text>
+        </View>
+      </View>
+    </View>;
+  };
 
   renderAddSale = () => {
-    const paiementMode = ['Virement', 'Espece'];
+    const paiementMode = ['Espèce', 'CB', 'Chèque', 'Virement'];
 
     const { selectedSaleType, inputDate, addPrice } = this.component.state;
 
@@ -113,10 +161,36 @@ export default class CreateSaleScreenView extends AbstractScreenView {
               backgroundColor: '#fff',
               height: 30,
               justifyContent: 'center',
+              alignItems: 'center',
             }}>
-            <DateTimePicker
+            <TextInputMask
+              type={'datetime'}
+              options={{
+                format: 'DD/MM/YYYY',
+              }}
+              // dont forget to set the "value" and "onChangeText" props
+              value={inputDate.toString()}
+              onChangeText={(text) => {
+                console.log(text);
+                this.component.setState({
+                  inputDate: text,
+                });
+              }}
+            />
+            {/* <DatePicker
+              modal
+              open={true}
+              date={new Date()}
+              onConfirm={(date) => {
+                // setOpen(false);
+                // setDate(date);
+              }}
+              onCancel={() => {
+                // setOpen(false);
+              }}
+            /> */}
+            {/* <DateTimePicker
               textColor="dark"
-              display={'default'}
               minimumDate={new Date()}
               testID="dateTimePicker"
               value={inputDate}
@@ -126,7 +200,7 @@ export default class CreateSaleScreenView extends AbstractScreenView {
               is24Hour={true}
               display="default"
               onChange={this.controller.onDateChange}
-            />
+            /> */}
           </View>
           <SelectDropdown
             buttonStyle={styles.dropdownButtonSmall}
@@ -152,6 +226,7 @@ export default class CreateSaleScreenView extends AbstractScreenView {
           />
           <View style={[styles.row]}>
             <TextInput
+              returnKeyType="done"
               keyboardType="numeric"
               style={styles.priceInput}
               placeholder="Prix"
@@ -221,67 +296,64 @@ export default class CreateSaleScreenView extends AbstractScreenView {
     return (
       <View style={styles.paymentContainer}>
         <Text style={styles.paymentTitle}>Paiement(s) en attente :</Text>
-        <View style={styles.paymentContent}>
-          {!nextPayment.length ? (
-            <Text style={styles.noPaymentText}>Aucun</Text>
-          ) : (
-            <FlatList
-              style={styles.flatlist}
-              data={this.component.state.nextPayment}
-              keyExtractor={() => Math.random()}
-              renderItem={({ item, index }) => (
-                <View>
-                  <View
-                    style={[
-                      styles.paymentItem,
-                      { backgroundColor: '#2CDEE4' },
-                    ]}>
-                    <TouchableOpacity
-                      onPress={() => this.controller.openDeleteSaleDialog(item)}
-                      style={styles.paiymentDelete}>
-                      <Entypo name="cross" size={15} />
-                    </TouchableOpacity>
-                    <Text style={styles.paymentItemText}>
-                      {moment(item.date).format('L')}
-                    </Text>
-                    <Text style={styles.paymentItemText}>{item.mode}</Text>
-                    <Text style={styles.paymentItemText}>{item.amount}€</Text>
-                  </View>
+        {!nextPayment.length ? (
+          <Text style={styles.noPaymentText}>Aucun</Text>
+        ) : (
+          <FlatList
+            style={styles.flatlist}
+            data={this.component.state.nextPayment}
+            keyExtractor={() => Math.random()}
+            renderItem={({ item, index }) => (
+              <View style={{ marginTop: 22 }}>
+                <View style={styles.nextPaymentItem}>
                   <TouchableOpacity
-                    onPress={() => this.controller.openValidateSaleDialog(item)}
-                    style={{ alignItems: 'flex-end' }}>
-                    <Text
-                      style={{
-                        color: '#fff',
-                        fontSize: 10,
-                        fontFamily: 'RobotoBold',
-                      }}>
-                      Valider le paiement
-                    </Text>
+                    onPress={() => this.controller.openDeleteSaleDialog(item)}
+                    style={styles.paiymentDelete}>
+                    <Entypo name="cross" size={15} />
                   </TouchableOpacity>
+                  <Text style={styles.paymentItemText}>
+                    {moment(item.date).format('L')}
+                  </Text>
+                  <Text style={styles.paymentItemText}>{item.mode}</Text>
+                  <Text style={styles.paymentItemText}>{item.amount}€</Text>
                 </View>
-              )}
-            />
-          )}
-        </View>
+                <TouchableOpacity
+                  onPress={() => this.controller.openValidateSaleDialog(item)}
+                  style={{ alignItems: 'flex-end', marginTop: 12 }}>
+                  <Text
+                    style={{
+                      color: '#fff',
+                      fontSize: 10,
+                      fontFamily: 'RobotoBold',
+                    }}>
+                    Valider le paiement
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        )}
       </View>
     );
   }
   renderSaveButton = () => {
-    const { oldPayment, nextPayment } = this.component.state;
+    const { oldPayment, nextPayment, isCreation } = this.component.state;
     const isValid = oldPayment.length > 0 || nextPayment.length > 0;
     return (
-      <Button
-        loading={false}
-        disabled={!isValid}
-        title="Enregistrer"
-        customTextStyle={styles.nextButtonText}
-        onPress={this.controller.onSave}
-      />
+      <View style={{ marginBottom: 100 }}>
+        <Button
+          loading={false}
+          disabled={!isValid}
+          title="Enregistrer"
+          customTextStyle={styles.nextButtonText}
+          onPress={
+            isCreation ? this.controller.onSave : this.controller.onUpdate
+          }
+        />
+      </View>
     );
   };
   render() {
-    const { isCreation, selectedOffer } = this.component.state;
     if (!this.component.state.loaded) {
       return (
         <View>
@@ -289,6 +361,9 @@ export default class CreateSaleScreenView extends AbstractScreenView {
         </View>
       );
     }
+
+    const { item, selectedOffer } = this.component.state;
+
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -303,13 +378,18 @@ export default class CreateSaleScreenView extends AbstractScreenView {
           }}
           style={styles.content}>
           <Header title="VENTE" />
-          {isCreation ? this.renderCreation() : null}
-          {!selectedOffer ? null : this.renderAddSale()}
-          {!selectedOffer ? null : this.renderOldSales()}
-          {!selectedOffer ? null : this.renderNextSales()}
-          {!selectedOffer ? null : this.renderSaveButton()}
-          {this.renderValidateSaleDialog()}
-          {this.renderDeleteSaleDialog()}
+          <ScrollView keyboardShouldPersistTaps="handled">
+            {this.renderCreation()}
+            <View style={{ flex: 1 }}>
+              {!selectedOffer && !item ? null : this.renderAddSale()}
+              {!selectedOffer && !item ? null : this.renderOldSales()}
+              {!selectedOffer && !item ? null : this.renderNextSales()}
+            </View>
+            {!selectedOffer && !item ? null : this.renderSaveButton()}
+            {this.renderValidateSaleDialog()}
+            {this.renderDeleteSaleDialog()}
+            <KeyboardSpacer />
+          </ScrollView>
         </LinearGradient>
       </View>
     );

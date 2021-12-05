@@ -89,7 +89,6 @@ const AppTabsNavigator = createBottomTabNavigator(
 
 const getTabBarVisiblility = (navigation) => {
   const route = navigation.state.routes[navigation.state.routes.length - 1];
-  console.log(route);
   return [
     'homeCoachScreen',
     'OffersTrainingsCoachScreen',
