@@ -1,6 +1,6 @@
 import { get_coach_offers } from '../../api/Offers';
 import { add_manual_payment, add_transaction } from '../../api/Coach';
-import { get_payment_details } from '../../api/Paiement';
+import { get_payment_details, remove_paiement, update_paiement } from '../../api/Paiement';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import moment from 'moment';
 
@@ -124,7 +124,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
   onDismissValidateSaleDialog = () => {
     this.component.setState({
       isValidateSaleDialogVisible:
-        !this.component.state.isValidateSaleDialogVisible,
+      !this.component.state.isValidateSaleDialogVisible,
       selectedItem: null,
     });
   };
@@ -150,6 +150,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
   };
 
   onDismissDeleteSaleDialog = () => {
+    remove_paiement(this.component.state.selectedItem);
     this.component.setState({
       isDeleteSaleVisible: !this.component.state.isDeleteSaleVisible,
       selectedItem: null,
@@ -186,13 +187,12 @@ export default class CreateSaleScreenController extends AbstractScreenController
         payment.offer_id = item.offer.id;
         payment.transaction_id = payment.transaction_id || transaction;
 
-        const res = await add_manual_payment(payment);
+        const res = await update_paiement(payment);
         console.log('status', res.status);
         console.log('data', res.data);
       });
 
       const installments = oldPayment.length + nextPayment.length;
-
       // const toto = await add_transaction({
       //   athlete_id: athleteId,
       //   installments,
