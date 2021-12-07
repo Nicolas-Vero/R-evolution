@@ -38,7 +38,6 @@ export default class HomeCoachScreenController extends AbstractScreenController 
   };
 
   async componentDidMount() {
-    console.log('ojoojojoj', this.month(this.component.state.currentMonth));
     this.component.listRef = null;
     const user = await AuthService.getUser();
     this.component.setState({ user });

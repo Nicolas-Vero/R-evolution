@@ -45,30 +45,36 @@ export default class HomeCoachScreenView extends AbstractScreenView {
     return (
       <TouchableOpacity
         style={{ margin: 7, height: 30, width: 30 }}
-        onPress={() => this.controller.changeTaskList(date)}>
-        <View
-          style={{
-            zIndex: 1,
-            position: 'absolute',
-            right: -8,
-            width: 13,
-            height: 13,
-            borderRadius: 10,
-            backgroundColor: badgeBg,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <View>
-            <Text
-              style={{
-                fontSize: 8,
-                color: badgeTextColor,
-                fontFamily: 'Montserrat',
-              }}>
-              2
-            </Text>
+        onPress={() => {
+          this.controller.changeTaskList(date);
+        }}>
+        {this.component.state.MonthBookingNumberPerDay[date.day - 1] > 0 &&
+        new Date(this.component.state.currentMonth).getMonth() + 1 ===
+          date.month ? (
+          <View
+            style={{
+              zIndex: 1,
+              position: 'absolute',
+              right: -8,
+              width: 13,
+              height: 13,
+              borderRadius: 10,
+              backgroundColor: badgeBg,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <View>
+              <Text
+                style={{
+                  fontSize: 8,
+                  color: badgeTextColor,
+                  fontFamily: 'Montserrat',
+                }}>
+                {this.component.state.MonthBookingNumberPerDay[date.day - 1]}
+              </Text>
+            </View>
           </View>
-        </View>
+        ) : null}
         <View
           style={{
             borderWidth: isToday ? 1 : 0,
