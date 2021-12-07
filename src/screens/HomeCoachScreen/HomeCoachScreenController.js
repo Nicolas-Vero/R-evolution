@@ -3,8 +3,8 @@ import moment from 'moment';
 import { get_availabilities } from '../../api/Availabilities';
 import { get_appointement } from '../../api/Coach';
 import * as Notifications from 'expo-notifications';
-import { options, LocaleConfig } from './homeCoachConfig';
 import AuthService from '../../services/AuthService';
+import XDate from 'xdate';
 
 export default class HomeCoachScreenController extends AbstractScreenController {
   constructor(component) {
@@ -13,6 +13,8 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     this.initialState = {
       refresh: false,
       carousselLoad: false,
+      currentMonth: new XDate(),
+      MonthBookingNumberPerDay:[],
       user: {},
       screen: 'Planning',
       currentDate: '',
@@ -36,6 +38,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
   };
 
   async componentDidMount() {
+    console.log('ojoojojoj', this.month(this.component.state.currentMonth));
     this.component.listRef = null;
     const user = await AuthService.getUser();
     this.component.setState({ user });
@@ -72,6 +75,25 @@ export default class HomeCoachScreenController extends AbstractScreenController 
 
   getDate(date = new Date()) {
     return moment(date).format('YYYY-MM-DD');
+  }
+  month(xd) {
+    const year = xd.getFullYear(),
+      month = xd.getMonth();
+    const days = new Date(year, month + 1, 0).getDate();
+
+    const firstDay = new XDate(year, month, 1, 0, 0, 0, true);
+    const lastDay = new XDate(year, month, days, 0, 0, 0, true);
+    return this.fromTo(firstDay, lastDay);
+  }
+
+  fromTo(a, b) {
+    const days = [];
+    let from = +a,
+      to = +b;
+    for (; from <= to; from = new XDate(from, true).addDays(1).getTime()) {
+      days.push(new XDate(from, true));
+    }
+    return days;
   }
 
   handleRefresh = () => {

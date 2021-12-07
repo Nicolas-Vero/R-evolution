@@ -55,6 +55,16 @@ export const get_appointement = async (params) => {
     params: { date: date.date },
   });
 };
+export const get_appointement_calendar = async (params) => {
+  const date = params;
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/coach/appointment`,
+    headers: headers,
+    params: { date: date },
+  });
+};
 
 export const add_manual_payment = async (params) => {
   const {

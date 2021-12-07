@@ -23,6 +23,7 @@ import { options } from './homeCoachConfig';
 import styles from './HomeCoachScreenStyle';
 import { update } from 'lodash-es';
 import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
+import { get_appointement_calendar } from '../../api/Coach';
 export default class HomeCoachScreenView extends AbstractScreenView {
   renderDialog() {
     return (
@@ -137,6 +138,40 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                   textDayFontSize: 16,
                   textMonthFontSize: 22,
                   textDayHeaderFontSize: 16,
+                }}
+                onPressArrowLeft={(subtractMonth) => {
+                  const bookingPerday = [];
+                  subtractMonth();
+                  const dayOfMonth = this.controller.month(
+                    this.component.state.currentMonth.addMonths(-1, true),
+                  );
+                  dayOfMonth.forEach((element) => {
+                    get_appointement_calendar(
+                      moment(new Date(element)).format('YYYY-MM-DD'),
+                    ).then((res) => {
+                      bookingPerday.push(res.data.length);
+                    });
+                  });
+                  this.component.setState({
+                    MonthBookingNumberPerDay: bookingPerday,
+                  });
+                }}
+                onPressArrowRight={(addMonth) => {
+                  const bookingPerday = [];
+                  addMonth();
+                  const dayOfMonth = this.controller.month(
+                    this.component.state.currentMonth.addMonths(1, true),
+                  );
+                  dayOfMonth.forEach((element) => {
+                    get_appointement_calendar(
+                      moment(new Date(element)).format('YYYY-MM-DD'),
+                    ).then((res) => {
+                      bookingPerday.push(res.data.length);
+                    });
+                  });
+                  this.component.setState({
+                    MonthBookingNumberPerDay: bookingPerday,
+                  });
                 }}
                 enableSwipeMonths={true}
                 firstDay={1}
