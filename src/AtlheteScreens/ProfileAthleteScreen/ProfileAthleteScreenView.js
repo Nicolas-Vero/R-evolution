@@ -2,7 +2,6 @@ import React from 'react';
 import { ScrollView, ActivityIndicator, Text, TextInput } from 'react-native';
 import {
   View,
-  Image,
   Dimensions,
   FlatList,
   TouchableOpacity,
@@ -12,8 +11,8 @@ import HeaderLight from '../../components/HeaderLight';
 import styles from './ProfileAthleteScreenStyle';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import { Avatar, CheckBox } from 'react-native-elements';
-import { FieldArray, Field, Formik } from 'formik';
-import { Button, DeleteButton, ModifyButton } from '../../components/Button';
+import { FieldArray, Formik } from 'formik';
+import { Button, DeleteButton } from '../../components/Button';
 import SelectDropdown from 'react-native-select-dropdown';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { AntDesign } from '@expo/vector-icons';
@@ -57,9 +56,28 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
             <Formik
               initialValues={{
                 gender: 'male',
-                time_preference: { start_time: 5, end_time: 6 },
-                profile_picture_url: '',
-                ...this.component.state.User,
+                first_name: this.component.state.User.first_name,
+                last_name: this.component.state.User.last_name,
+                email: this.component.state.User.email,
+                phone: this.component.state.User.phone,
+                profile_picture_url:this.component.state.User.profile_picture_url,
+                health_issues: this.component.state.User.health_issues,
+                health_problem_description:this.component.state.User.health_problem_description,
+                days_preference: {
+                  is_monday_preferred: this.component.state.User.is_monday_preferred ,
+                  is_tuesday_preferred: this.component.state.User.is_tuesday_preferred,
+                  is_wednesday_preferred: this.component.state.User.is_wednesday_preferred,
+                  is_thursday_preferred: this.component.state.User.is_thursday_preferred,
+                  is_friday_preferred: this.component.state.User.is_friday_preferred,
+                  is_saturday_preferred: this.component.state.User.is_saturday_preferred,
+                  is_sunday_preferred: this.component.state.User.is_sunday_preferred,
+                },
+                preferred_gym_id:this.component.state.User.preferred_gym_id,
+                time_preference: {
+                  start_time: this.component.state.User.preferred_time_start,
+                  end_time: this.component.state.User.preferred_time_end,
+                },
+
               }}
               onSubmit={(values) => onContinuePress(values)}>
               {({ handleChange, handleBlur, setFieldValue, values }) => (
@@ -91,61 +109,45 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                   <Text style={styles.text}>Prénom</Text>
                   <View style={styles.inputContainer}>
                     <TextInput
-                      placeholder="Prénom"
-                      placeholderTextColor="#979797"
-                      style={styles.input}
-                      onChangeText={handleChange('first_name')}
-                      onBlur={handleBlur('first_name')}
-                      value={values.first_name}
-                      onSubmitEditing={() =>
-                        this.firstnameInput && this.firstnameInput.focus()
-                      }
-                      returnKeyType="next"
+                     placeholder="Prénom"
+                     placeholderTextColor="#979797"
+                     style={styles.input}
+                     onChangeText={handleChange('first_name')}
+                     onBlur={handleBlur('first_name')}
+                     value={values.first_name}
                     />
                   </View>
                   <Text style={styles.text}>Nom</Text>
                   <View style={styles.inputContainer}>
                     <TextInput
-                      ref={(ref) => (this.firstnameInput = ref)}
-                      placeholder="Prénom"
-                      placeholderTextColor="#979797"
-                      style={styles.input}
-                      onChangeText={handleChange('last_name')}
-                      onBlur={handleBlur('last_name')}
-                      value={values.last_name}
-                      onSubmitEditing={() =>
-                        this.emailInput && this.emailInput.focus()
-                      }
-                      returnKeyType="next"
+                        placeholder="Nom"
+                        placeholderTextColor="#979797"
+                        style={styles.input}
+                        onChangeText={handleChange('last_name')}
+                        onBlur={handleBlur('last_name')}
+                        value={values.last_name}
                     />
                   </View>
                   <Text style={styles.text}>Adresse e-mail</Text>
                   <View style={styles.inputContainer}>
                     <TextInput
-                      ref={(ref) => (this.emailInput = ref)}
                       placeholder="Email"
                       placeholderTextColor="#979797"
                       style={styles.input}
                       onChangeText={handleChange('email')}
                       onBlur={handleBlur('email')}
                       value={values.email}
-                      onSubmitEditing={() =>
-                        this.phoneInput && this.phoneInput.focus()
-                      }
-                      returnKeyType="next"
                     />
                   </View>
                   <Text style={styles.text}>Téléphone</Text>
                   <View style={styles.inputContainer}>
                     <TextInput
-                      ref={(ref) => (this.phoneInput = ref)}
-                      placeholder="Téléphone"
-                      placeholderTextColor="#979797"
-                      style={styles.input}
-                      onChangeText={handleChange('phone')}
-                      onBlur={handleBlur('phone')}
-                      value={values.phone}
-                      returnKeyType="done"
+                       placeholder="Téléphone"
+                       placeholderTextColor="#979797"
+                       style={styles.input}
+                       onChangeText={handleChange('phone')}
+                       onBlur={handleBlur('phone')}
+                       value={values.phone}
                     />
                   </View>
                   <View style={styles.changePasswordContainer}>
@@ -201,17 +203,13 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                   <View style={styles.inputContainer}>
                     <TextInput
                       multiline
-                      onChangeText={(text) =>
-                        (arrayhelper.form.values.information = text)
-                      }
+                      onChangeText={handleChange('health_problem_description')}       
                       value={values.health_problem_description}
-                      ref={(ref) => (this.descriptionInput = ref)}
-                      blurOnSubmit={false}
                       returnKeyType="done"
                       placeholder="Description"
                       placeholderTextColor="#979797"
                       style={styles.textArea}
-                      onBlur={handleBlur('content')}
+                      onBlur={handleBlur('health_problem_description')}
                     />
                   </View>
                   <Text style={styles.text}>Où souhaites-tu t’entraîner ?</Text>
@@ -226,23 +224,15 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                           rowStyle={styles.dropdownRow}
                           data={this.component.state.Gymdata}
                           defaultButtonText={this.component.state.gym}
-                          onSelect={(selectedItem) => {
-                            // TODO NICO FIX CRASH
-                            if (
-                              arrayhelper.form.values.prefered_gym.length > 1
-                            ) {
-                              arrayhelper.push(selectedItem);
-                              arrayhelper.pop();
-                            } else {
-                            }
-                            arrayhelper.push(selectedItem);
+                          onSelect={(selectedItem) => {         
+                              arrayhelper.form.values.preferred_gym_id = selectedItem.id   
                           }}
                           renderDropdownIcon={() => (
                             <AntDesign name="down" size={18} color="black" />
                           )}
                           dropdownIconPosition={'right'}
                           buttonTextAfterSelection={(selectedItem) => {
-                            return selectedItem;
+                            return selectedItem.name;
                           }}
                           rowTextForSelection={(item) => {
                             return item.name;
@@ -252,6 +242,18 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                     />
                   </View>
                   <Text style={styles.text}>A quel moment de la journée ?</Text>
+                  <View  style={styles.center}>
+                  <Text style={styles.text}>
+                              ENTRE{' '}
+                              <Text style={styles.subTitleColored}>
+                                {this.component.state.multi[0]}H
+                              </Text>{' '}
+                              ET{' '}
+                              <Text style={styles.subTitleColored}>
+                                {this.component.state.multi[1]}H
+                              </Text>
+                              </Text>
+                              </View>
                   <FieldArray
                     render={(arrayhelper) => (
                       <MultiSlider
@@ -261,6 +263,7 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                         ]}
                         sliderLength={widthPercentageToDP(92)}
                         onValuesChange={(values) => {
+                          console.log(values);
                           this.component.setState({ multi: values });
                           arrayhelper.form.values.time_preference.start_time =
                             values[0];
@@ -295,11 +298,11 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                                 onPress={() => {
                                   switch (item.day) {
                                     case 'L':
+                                      console.log(arrayhelper.form.values.is_monday_preferred);
                                       arrayhelper.form.values.days_preference.is_monday_preferred =
-                                        !arrayhelper.form.values.days_preference
-                                          .is_monday_preferred;
-                                      setSelectedDay(
-                                        SelectedDay.map((item) =>
+                                        !arrayhelper.form.values.days_preference.is_monday_preferred;
+                                      this.component.setState({SelectedDay:
+                                        this.component.state.SelectedDay.map((item) =>
                                           item.day === 'L'
                                             ? {
                                                 ...item,
@@ -307,97 +310,91 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                                               }
                                             : item,
                                         ),
-                                      );
+                                            });
                                       break;
                                     case 'M':
                                       arrayhelper.form.values.days_preference.is_tuesday_preferred =
-                                        !arrayhelper.form.values.days_preference
-                                          .is_tuesday_preferred;
-                                      setSelectedDay(
-                                        SelectedDay.map((item) =>
-                                          item.day === 'M'
-                                            ? {
-                                                ...item,
-                                                selected: !item.selected,
-                                              }
-                                            : item,
-                                        ),
-                                      );
+                                        !arrayhelper.form.values.is_tuesday_preferred;
+                                          this.component.setState({SelectedDay:
+                                            this.component.state.SelectedDay.map((item) =>
+                                              item.day === 'M'
+                                                ? {
+                                                    ...item,
+                                                    selected: !item.selected,
+                                                  }
+                                                : item,
+                                            ),
+                                                });
                                       break;
-                                    case 'ME':
-                                      arrayhelper.form.values.days_preference.is_wednesday_preferred =
-                                        !arrayhelper.form.values.days_preference
-                                          .is_wednesday_preferred;
-                                      setSelectedDay(
-                                        SelectedDay.map((item) =>
-                                          item.day === 'ME'
-                                            ? {
-                                                ...item,
-                                                selected: !item.selected,
-                                              }
-                                            : item,
-                                        ),
-                                      );
+                                    case 'ME': console.log(arrayhelper.form.values.days_preference.is_wednesday_preferred);
+                                      arrayhelper.form.values.days_preference.days_preference.is_wednesday_preferred =
+                                        !arrayhelper.form.values.is_wednesday_preferred;
+                                          this.component.setState({SelectedDay:
+                                            this.component.state.SelectedDay.map((item) =>
+                                              item.day === 'ME'
+                                                ? {
+                                                    ...item,
+                                                    selected: !item.selected,
+                                                  }
+                                                : item,
+                                            ),
+                                                });
                                       break;
                                     case 'J':
                                       arrayhelper.form.values.days_preference.is_thursday_preferred =
-                                        !arrayhelper.form.values.days_preference
-                                          .is_thursday_preferred;
-                                      setSelectedDay(
-                                        SelectedDay.map((item) =>
-                                          item.day === 'J'
-                                            ? {
-                                                ...item,
-                                                selected: !item.selected,
-                                              }
-                                            : item,
-                                        ),
-                                      );
+                                        !arrayhelper.form.values.is_thursday_preferred;
+                                          this.component.setState({SelectedDay:
+                                            this.component.state.SelectedDay.map((item) =>
+                                              item.day === 'J'
+                                                ? {
+                                                    ...item,
+                                                    selected: !item.selected,
+                                                  }
+                                                : item,
+                                            ),
+                                                });
                                       break;
                                     case 'V':
                                       arrayhelper.form.values.days_preference.is_friday_preferred =
-                                        !arrayhelper.form.values.days_preference
-                                          .is_friday_preferred;
-                                      setSelectedDay(
-                                        SelectedDay.map((item) =>
-                                          item.day === 'V'
-                                            ? {
-                                                ...item,
-                                                selected: !item.selected,
-                                              }
-                                            : item,
-                                        ),
-                                      );
+                                        !arrayhelper.form.values.is_friday_preferred;
+                                          this.component.setState({SelectedDay:
+                                            this.component.state.SelectedDay.map((item) =>
+                                              item.day === 'V'
+                                                ? {
+                                                    ...item,
+                                                    selected: !item.selected,
+                                                  }
+                                                : item,
+                                            ),
+                                                });
                                       break;
                                     case 'S':
                                       arrayhelper.form.values.days_preference.is_saturday_preferred =
-                                        !arrayhelper.form.values.days_preference
-                                          .is_saturday_preferred;
-                                      setSelectedDay(
-                                        SelectedDay.map((item) =>
-                                          item.day === 'S'
-                                            ? {
-                                                ...item,
-                                                selected: !item.selected,
-                                              }
-                                            : item,
-                                        ),
-                                      );
+                                        !arrayhelper.form.values.is_saturday_preferred;
+                                          this.component.setState({SelectedDay:
+                                            this.component.state.SelectedDay.map((item) =>
+                                              item.day === 'S'
+                                                ? {
+                                                    ...item,
+                                                    selected: !item.selected,
+                                                  }
+                                                : item,
+                                            ),
+                                                });
                                       break;
                                     case 'D':
                                       arrayhelper.form.values.days_preference.is_sunday_preferred =
-                                        !arrayhelper.form.values.days_preference
-                                          .is_sunday_preferred;
-                                      setSelectedDay(
-                                        SelectedDay.map((item) =>
-                                          item.day === 'D'
-                                            ? {
-                                                ...item,
-                                                selected: !item.selected,
-                                              }
-                                            : item,
-                                        ),
-                                      );
+                                        !arrayhelper.form.values.is_sunday_preferred;
+                                          this.component.setState({SelectedDay:
+                                            this.component.state.SelectedDay.map((item) =>
+                                              item.day === 'D'
+                                                ? {
+                                                    ...item,
+                                                    selected: !item.selected,
+                                                  }
+                                                : item,
+                                            ),
+                                                });
                                       break;
                                     default:
                                       break;
@@ -434,8 +431,8 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                       loading={false}
                       title="Valider les changements"
                       customTextStyle={styles.validateButtonText}
-                      onPress={(values) => {
-                        // TODO NICO call api & set AuthService.setUser()
+                      onPress={() => {   
+                        this.controller.onSave(values);
                       }}
                     />
                   </View>

@@ -151,7 +151,7 @@ export const get_athlete_by_id = async (params) => {
   });
 };
 
-export const get_athlete = async () => {
+export const get_athlete_me = async () => {
   const headers = await AuthService.getHeader();
   return axios({
     method: 'GET',
@@ -203,12 +203,7 @@ export const athlete_accept_invitation = async (params) => {
 
 export const update_current_athlete = async (params) => {
   const headers = await AuthService.getHeader();
-  let user = await AsyncStorage.getItem(STORAGE.USER);
-  user = JSON.parse(user);
-
-  const data = new FormData();
-  const attributes = Object.keys(params);
-  attributes.forEach((attr) => data.append(`athlete[${attr}]`, params[attr]));
+  const data = params
   return axios({
     method: 'POST',
     url: `${API_URL}/athlete/me/`,

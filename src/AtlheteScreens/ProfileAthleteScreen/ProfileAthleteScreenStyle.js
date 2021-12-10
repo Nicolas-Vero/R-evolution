@@ -57,6 +57,9 @@ module.exports = StyleSheet.create({
   inputContainer: {
     marginBottom: 15,
   },
+  subTitleColored: {
+    color: '#2CDEE4',
+  },
   input: {
     backgroundColor: '#FFFFFF',
     paddingVertical: 10,
@@ -209,4 +212,8 @@ module.exports = StyleSheet.create({
     fontFamily: 'RobotoBold',
     fontSize: 15,
   },
+  center:{
+    alignItems:'center',
+    width:'100%'
+  }
 });

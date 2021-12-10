@@ -20,7 +20,7 @@ import Header from '../../../components/Header';
 import { Button } from '../../../components/Button';
 import styles from './loginStyle';
 import { coach_login, get_coach_me } from '../../../api/Coach';
-import { athlete_login, get_athlete } from '../../../api/Athlete';
+import { athlete_login, get_athlete_me } from '../../../api/Athlete';
 import { userType } from '../../../api/Auth';
 export default class loginScreen extends React.Component {
   constructor(props) {
@@ -64,7 +64,7 @@ export default class loginScreen extends React.Component {
     const login = await athlete_login(body);
     if (login.status === 200) {
       await this.setAuth(login.data, 'athlete');
-      const user = await get_athlete();
+      const user = await get_athlete_me();
       if (user.status === 200) {
         await AuthService.setUser(user.data);
         this.props.navigation.navigate('DashboardStackAtlhete');

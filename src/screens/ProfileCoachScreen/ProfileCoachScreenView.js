@@ -115,7 +115,7 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                     <Text style={styles.text}>Prénom</Text>
                     <View style={styles.inputContainer}>
                       <TextInput
-                        placeholder="Nom"
+                        placeholder="Prénom"
                         placeholderTextColor="#979797"
                         style={styles.input}
                         onChangeText={handleChange('first_name')}
@@ -126,7 +126,7 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                     <Text style={styles.text}>Nom</Text>
                     <View style={styles.inputContainer}>
                       <TextInput
-                        placeholder="Prénom"
+                        placeholder="Nom"
                         placeholderTextColor="#979797"
                         style={styles.input}
                         onChangeText={handleChange('last_name')}
