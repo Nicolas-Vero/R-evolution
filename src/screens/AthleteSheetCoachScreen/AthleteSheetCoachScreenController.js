@@ -25,9 +25,6 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
     });
     await this.fetchData();
 
-    getUserAppoinement(
-      this.component.props.navigation.state.params.item.id,
-    ).then((res) => {});
   };
 
   fetchData = async () => {

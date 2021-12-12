@@ -10,6 +10,14 @@ export const get_public_request = async () => {
     headers: headers,
   });
 };
+export const get_assigned_request_by_month = async () => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/requests/assigned_by_month`,
+    headers: headers,
+  });
+};
 
 export const assign_request = async (params) => {
   const headers = await AuthService.getHeader();

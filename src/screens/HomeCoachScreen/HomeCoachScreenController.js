@@ -5,6 +5,7 @@ import { get_appointement } from '../../api/Coach';
 import * as Notifications from 'expo-notifications';
 import AuthService from '../../services/AuthService';
 import XDate from 'xdate';
+import { get_public_request } from '../../api/Request';
 
 export default class HomeCoachScreenController extends AbstractScreenController {
   constructor(component) {
@@ -23,6 +24,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       currentAvailabilities: [],
       availabilities: [],
       page: [],
+      publicRequest:0,
       dialogVisible: false,
       todayIndex: null,
       refrehing: false,
@@ -45,6 +47,9 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     this.component.setState({ today: curDate });
     this.changeTaskList(curDate);
     this.onMonthChange(curDate, true);
+    get_public_request().then((res) => {
+      this.component.setState({ publicRequest: res.data.requests.length });
+    });
     this.getAvailabilities(curDate);
     this.component.notificationListener =
       Notifications.addNotificationReceivedListener((notification) => {
@@ -57,6 +62,21 @@ export default class HomeCoachScreenController extends AbstractScreenController 
         this.sendNotificationImmediately(response);
         this.component.props.navigation.push('activitiesCoachScreen');
       });
+  }
+  componentDidUpdate(prevProps) {
+    if (
+      this.component.props.isFocused &&
+      prevProps.isFocused !== this.component.props.isFocused
+    ) {
+     
+      get_public_request()
+        .then((res) => {
+          this.component.setState({ publicRequest: res.data.requests.length });
+        })
+        .then(() => {
+          this.component.setState({ loaded: true });
+        });
+    }
   }
 
   componentWillUnmount() {

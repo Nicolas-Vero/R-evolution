@@ -101,7 +101,7 @@ export default class PendingRequestCoachScreenView extends AbstractScreenView {
                 />
               </View>
               <View style={styles.processedRequestContainer}>
-                <Text style={styles.textColored}>{this.component.state.publicRequest.length} </Text>
+                <Text style={styles.textColored}>{this.component.state.assignedRequest} </Text>
                 <Text style={styles.processedRequestText}>
                   demandes ont été traitées ce mois-ci
                 </Text>

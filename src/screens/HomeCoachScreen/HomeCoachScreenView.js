@@ -318,7 +318,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{ fontSize: 8, fontFamily: 'Roboto' }}>10</Text>
+          <Text style={{ fontSize: 8, fontFamily: 'Roboto' }}>{this.component.state.publicRequest}</Text>
         </View>
       </View>
     );
