@@ -42,7 +42,6 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
     }
     const dayPreference = [];
     if (this.component.props.navigation.state.params.item.athlete) {
-  
       if (user.athlete.is_monday_preferred == true) {
         dayPreference.push({ day: 'Lundi' });
       }
@@ -64,7 +63,6 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
       if (user.athlete.is_sunday_preferred == true) {
         dayPreference.push({ day: 'Dimanche' });
       }
-      
     } else {
       if (user.is_monday_preferred == true) {
         dayPreference.push({ day: 'Lundi' });
@@ -87,7 +85,6 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
       if (user.is_sunday_preferred == true) {
         dayPreference.push({ day: 'Dimanche' });
       }
-   
     }
 
     let renderPayment = true;
@@ -98,7 +95,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
       badgeImage = require('../../../assets/images/Inactif.png');
     else if (user.status === 'prospect') {
       badgeImage = require('../../../assets/images/Prospect.png');
-      renderPayment = false;
+      // renderPayment = false;
     }
     const isProspect = user.status === 'prospect';
     const isActif = user.status === 'active';
@@ -178,33 +175,35 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Adresse e-mail :</Text>
-               { this.component.props.navigation.state.params.item.athlete
-                      ? <Text style={styles.valueText}>{user.athlete.email}</Text>
-                      :<Text style={styles.valueText}>{user.email}</Text>
-                    }
+                {this.component.props.navigation.state.params.item.athlete ? (
+                  <Text style={styles.valueText}>{user.athlete.email}</Text>
+                ) : (
+                  <Text style={styles.valueText}>{user.email}</Text>
+                )}
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Commercial référent :</Text>
-                { this.component.props.navigation.state.params.item.athlete
-                ?
-                <Text style={styles.valueText}>
-                  {' '}
-                  {user.commercial
-                    ? user.commercial.first_name.concat(
-                        ' ',
-                        user.commercial.last_name,
-                      )
-                    : 'pas de recomendation'}
-                </Text>
-                :<Text style={styles.valueText}>
-                  {' '}
-                  {user.commercial
-                    ? user.commercial.first_name.concat(
-                        ' ',
-                        user.commercial.last_name,
-                      )
-                    : 'pas de recomendation'}
-                </Text>}
+                {this.component.props.navigation.state.params.item.athlete ? (
+                  <Text style={styles.valueText}>
+                    {' '}
+                    {user.commercial
+                      ? user.commercial.first_name.concat(
+                          ' ',
+                          user.commercial.last_name,
+                        )
+                      : 'pas de recomendation'}
+                  </Text>
+                ) : (
+                  <Text style={styles.valueText}>
+                    {' '}
+                    {user.commercial
+                      ? user.commercial.first_name.concat(
+                          ' ',
+                          user.commercial.last_name,
+                        )
+                      : 'pas de recomendation'}
+                  </Text>
+                )}
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Offre en cours :</Text>
@@ -299,35 +298,44 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 <View style={[styles.item, styles.itemRowLeft]}>
                   <View style={styles.row}>
                     <Text style={styles.infoText}>Taille :</Text>
-                    { this.component.props.navigation.state.params.item.athlete
-                ?
-                    <Text style={styles.valueTextRow}>
-                      {`${user.athlete.size / 100}`.substring(0, 1)}m
-                      {`${user.athlete.size / 100}`.substring(2)}
-                    </Text>
-                   : <Text style={styles.valueTextRow}>
-                      {`${user.size / 100}`.substring(0, 1)}m
-                      {`${user.size / 100}`.substring(2)}
-                    </Text>}
+                    {this.component.props.navigation.state.params.item
+                      .athlete ? (
+                      <Text style={styles.valueTextRow}>
+                        {`${user.athlete.size / 100}`.substring(0, 1)}m
+                        {`${user.athlete.size / 100}`.substring(2)}
+                      </Text>
+                    ) : (
+                      <Text style={styles.valueTextRow}>
+                        {`${user.size / 100}`.substring(0, 1)}m
+                        {`${user.size / 100}`.substring(2)}
+                      </Text>
+                    )}
                   </View>
                 </View>
                 <View style={[styles.item, styles.itemRowRight]}>
                   <View style={styles.row}>
                     <Text style={styles.infoText}>Poids :</Text>
-                    { this.component.props.navigation.state.params.item.athlete
-                ?
-                    <Text style={styles.valueTextRow}>{user.athlete.weight}Kg</Text>
-                  :  <Text style={styles.valueTextRow}>{user.weight}Kg</Text>}
+                    {this.component.props.navigation.state.params.item
+                      .athlete ? (
+                      <Text style={styles.valueTextRow}>
+                        {user.athlete.weight}Kg
+                      </Text>
+                    ) : (
+                      <Text style={styles.valueTextRow}>{user.weight}Kg</Text>
+                    )}
                   </View>
                 </View>
               </View>
               <View style={styles.item}>
                 <View style={styles.row}>
                   <Text style={styles.infoText}>Age :</Text>
-                  { this.component.props.navigation.state.params.item.athlete
-                ?
-                  <Text style={styles.valueTextRow}>{user.athlete.age} ans</Text>
-                 : <Text style={styles.valueTextRow}>{user.age} ans</Text>}
+                  {this.component.props.navigation.state.params.item.athlete ? (
+                    <Text style={styles.valueTextRow}>
+                      {user.athlete.age} ans
+                    </Text>
+                  ) : (
+                    <Text style={styles.valueTextRow}>{user.age} ans</Text>
+                  )}
                 </View>
               </View>
               <View style={styles.item}>
@@ -336,24 +344,25 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 </Text>
                 <Text style={styles.sportSlotText}>
                   Entre{' '}
-                  { this.component.props.navigation.state.params.item.athlete
-                ?
-                  <Text style={styles.textColored}>
-                    {user.athlete.preferred_time_start}H
-                  </Text>
-                  :<Text style={styles.textColored}>
-                    {user.preferred_time_start}H
-                  </Text>}
-                  {' '}
+                  {this.component.props.navigation.state.params.item.athlete ? (
+                    <Text style={styles.textColored}>
+                      {user.athlete.preferred_time_start}H
+                    </Text>
+                  ) : (
+                    <Text style={styles.textColored}>
+                      {user.preferred_time_start}H
+                    </Text>
+                  )}{' '}
                   et{' '}
-                  { this.component.props.navigation.state.params.item.athlete
-                ?
-                  <Text style={styles.textColored}>
-                    {user.athlete.preferred_time_end}H
-                  </Text>
-                  :<Text style={styles.textColored}>
-                    {user.preferred_time_end}H
-                  </Text>}
+                  {this.component.props.navigation.state.params.item.athlete ? (
+                    <Text style={styles.textColored}>
+                      {user.athlete.preferred_time_end}H
+                    </Text>
+                  ) : (
+                    <Text style={styles.textColored}>
+                      {user.preferred_time_end}H
+                    </Text>
+                  )}
                 </Text>
                 <FlatList
                   style={styles.flatlist}
@@ -379,42 +388,46 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Experience(s) sportive(s) :</Text>
-                { this.component.props.navigation.state.params.item.athlete
-                ?
-                <Text style={styles.valueText}>
-                  {user.athlete.experience_years > 0
-                    ? ` Plus de ${user.athlete.experience_years} ans`
-                    : `Moins d'un an`}
-                </Text>
-              :  <Text style={styles.valueText}>
-                  {user.experience_years > 0
-                    ? ` Plus de ${user.experience_years} ans`
-                    : `Moins d'un an`}
-                </Text>}
+                {this.component.props.navigation.state.params.item.athlete ? (
+                  <Text style={styles.valueText}>
+                    {user.athlete.experience_years > 0
+                      ? ` Plus de ${user.athlete.experience_years} ans`
+                      : `Moins d'un an`}
+                  </Text>
+                ) : (
+                  <Text style={styles.valueText}>
+                    {user.experience_years > 0
+                      ? ` Plus de ${user.experience_years} ans`
+                      : `Moins d'un an`}
+                  </Text>
+                )}
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>Santé :</Text>
-                { this.component.props.navigation.state.params.item.athlete
-                ?
-                <Text style={styles.valueText}>
-                  {user.athlete.health_issues || "Pas d'informations"}
-                </Text>
-                :<Text style={styles.valueText}>
-                  {user.health_issues || "Pas d'informations"}
-                </Text>}
+                {this.component.props.navigation.state.params.item.athlete ? (
+                  <Text style={styles.valueText}>
+                    {user.athlete.health_issues || "Pas d'informations"}
+                  </Text>
+                ) : (
+                  <Text style={styles.valueText}>
+                    {user.health_issues || "Pas d'informations"}
+                  </Text>
+                )}
               </View>
               <View style={styles.item}>
                 <Text style={styles.infoText}>
                   Informations complémentaires :
                 </Text>
-                { this.component.props.navigation.state.params.item.athlete
-                ?
-                <Text style={styles.valueText}>
-                  {user.athlete.health_problem_description || "Pas d'informations"}
-                </Text>
-               : <Text style={styles.valueText}>
-                  {user.health_problem_description || "Pas d'informations"}
-                </Text>}
+                {this.component.props.navigation.state.params.item.athlete ? (
+                  <Text style={styles.valueText}>
+                    {user.athlete.health_problem_description ||
+                      "Pas d'informations"}
+                  </Text>
+                ) : (
+                  <Text style={styles.valueText}>
+                    {user.health_problem_description || "Pas d'informations"}
+                  </Text>
+                )}
               </View>
               {/* TODO NICOLAS DELETE SHEET */}
               {/* {!isProspect ? null : (
