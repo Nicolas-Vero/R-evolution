@@ -42,11 +42,12 @@ export const remove_paiement = async (params) => {
   });
 };
 
-export const get_paiement_for_coach = async () => {
+export const get_paiement_for_coach = async (params) => {
+  
   const headers = await AuthService.getHeader();
   return axios({
     method: 'GET',
-    url: `${API_URL}/transaction/made-for-coach`,
+    url: `${API_URL}/transaction/made-for-coach/${params}`,
     headers: headers,
   });
 };

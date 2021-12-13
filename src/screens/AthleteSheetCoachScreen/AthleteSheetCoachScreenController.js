@@ -29,7 +29,7 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
 
   fetchData = async () => {
     this.component.setState({ refreshing: true });
-    const sales = await get_paiement_for_coach();
+    const sales = await get_paiement_for_coach(this.component.props.navigation.state.params.item.id);
 
     if (sales.status === 200) {
       this.component.setState({ Paiement: sales.data });
