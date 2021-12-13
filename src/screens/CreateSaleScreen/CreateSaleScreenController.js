@@ -1,6 +1,10 @@
 import { get_coach_offers } from '../../api/Offers';
 import { add_manual_payment, add_transaction } from '../../api/Coach';
-import { get_payment_details, remove_paiement, update_paiement } from '../../api/Paiement';
+import {
+  get_payment_details,
+  remove_paiement,
+  update_paiement,
+} from '../../api/Paiement';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import moment from 'moment';
 
@@ -20,7 +24,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
       isCreation: this.component.props.navigation.state.params?.isCreation,
       selectedOffer: null,
       selectedItem: null,
-      inputDate: new Date(),
+      inputDate: '',
       selectedSaleType: null,
       addPrice: null,
       totalPrice: 0,
@@ -82,7 +86,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
       this.component.setState({
         nextPayment: [...nextPayment, newPaiement],
         addPrice: null,
-        inputDate: new Date(),
+        inputDate: '',
         totalPrice: totalPrice + parseFloat(addPrice),
       });
 
@@ -92,7 +96,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
     this.component.setState({
       oldPayment: [...oldPayment, newPaiement],
       addPrice: null,
-      inputDate: new Date(),
+      inputDate: '',
       totalPrice: totalPrice + parseFloat(addPrice),
     });
 
@@ -124,7 +128,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
   onDismissValidateSaleDialog = () => {
     this.component.setState({
       isValidateSaleDialogVisible:
-      !this.component.state.isValidateSaleDialogVisible,
+        !this.component.state.isValidateSaleDialogVisible,
       selectedItem: null,
     });
   };

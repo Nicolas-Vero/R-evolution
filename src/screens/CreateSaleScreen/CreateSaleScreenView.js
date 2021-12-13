@@ -168,39 +168,14 @@ export default class CreateSaleScreenView extends AbstractScreenView {
               options={{
                 format: 'DD/MM/YYYY',
               }}
-              // dont forget to set the "value" and "onChangeText" props
+              placeholder={moment().format('DD/MM/YYYY')}
               value={inputDate.toString()}
               onChangeText={(text) => {
-                console.log(text);
                 this.component.setState({
                   inputDate: text,
                 });
               }}
             />
-            {/* <DatePicker
-              modal
-              open={true}
-              date={new Date()}
-              onConfirm={(date) => {
-                // setOpen(false);
-                // setDate(date);
-              }}
-              onCancel={() => {
-                // setOpen(false);
-              }}
-            /> */}
-            {/* <DateTimePicker
-              textColor="dark"
-              minimumDate={new Date()}
-              testID="dateTimePicker"
-              value={inputDate}
-              mode={'date'}
-              is24Hour={true}
-              locale="fr-FR"
-              is24Hour={true}
-              display="default"
-              onChange={this.controller.onDateChange}
-            /> */}
           </View>
           <SelectDropdown
             buttonStyle={styles.dropdownButtonSmall}
