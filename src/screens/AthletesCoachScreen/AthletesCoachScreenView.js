@@ -94,7 +94,6 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
           contentContainerStyle={{ paddingBottom: 300 }}
           data={[
             ...this.component.state.atlhetesProspects,
-            ...this.component.state.atlhetesProspects,
           ]}
           keyExtractor={(item) => item.id.toString()}
           refreshControl={
