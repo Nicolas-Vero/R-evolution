@@ -171,7 +171,7 @@ export default class CreateSaleScreenView extends AbstractScreenView {
                 format: 'DD/MM/YYYY',
               }}
               placeholder={moment().format('DD/MM/YYYY')}
-              value={inputDate.toString()}
+              value={inputDate}
               onChangeText={(text) => {
                 this.component.setState({
                   inputDate: text,
@@ -254,7 +254,7 @@ export default class CreateSaleScreenView extends AbstractScreenView {
                     <Entypo name="cross" size={15} />
                   </TouchableOpacity>
                   <Text style={styles.paymentItemText}>
-                    {moment(item.date).format('L')}
+                    {item.date.toString()}
                   </Text>
                   <Text style={styles.paymentItemText}>{item.mode}</Text>
                   <Text style={styles.paymentItemText}>{item.amount}€</Text>
@@ -289,7 +289,7 @@ export default class CreateSaleScreenView extends AbstractScreenView {
                     <Entypo name="cross" size={15} />
                   </TouchableOpacity>
                   <Text style={styles.paymentItemText}>
-                    {moment(item.date).format('L')}
+                    {item.date.toString()}
                   </Text>
                   <Text style={styles.paymentItemText}>{item.mode}</Text>
                   <Text style={styles.paymentItemText}>{item.amount}€</Text>
