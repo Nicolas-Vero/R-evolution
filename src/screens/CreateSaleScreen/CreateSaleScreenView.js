@@ -22,6 +22,8 @@ import DeleteSaleDialog from '../../components/dialogs/deleteSaleDialog/deleteSa
 import ValidateSaleDialog from '../../components/dialogs/validateSaleDialog/validateSaleDialog';
 import { TextInputMask } from 'react-native-masked-text';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { isIphoneX } from 'react-native-iphone-x-helper';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
 
 export default class CreateSaleScreenView extends AbstractScreenView {
   renderValidateSaleDialog = () => {
@@ -315,7 +317,10 @@ export default class CreateSaleScreenView extends AbstractScreenView {
     const { oldPayment, nextPayment, isCreation } = this.component.state;
     const isValid = oldPayment.length > 0 || nextPayment.length > 0;
     return (
-      <View style={{ marginBottom: 100 }}>
+      <View
+        style={{
+          bottom: isIphoneX() ? 100 : 50,
+        }}>
         <Button
           loading={false}
           disabled={!isValid}
@@ -353,16 +358,20 @@ export default class CreateSaleScreenView extends AbstractScreenView {
           }}
           style={styles.content}>
           <Header title="VENTE" />
-          <ScrollView keyboardShouldPersistTaps="handled">
+          <ScrollView keyboardShouldPersistTaps="handled" style={{ flex: 1 }}>
             {this.renderCreation()}
-            <View style={{ flex: 1 }}>
+            <View
+              style={{
+                flex: 1,
+                height: heightPercentageToDP(isIphoneX() ? 80 : 70),
+              }}>
               {!selectedOffer && !item ? null : this.renderAddSale()}
               {!selectedOffer && !item ? null : this.renderOldSales()}
               {!selectedOffer && !item ? null : this.renderNextSales()}
             </View>
-            {!selectedOffer && !item ? null : this.renderSaveButton()}
             {this.renderValidateSaleDialog()}
             {this.renderDeleteSaleDialog()}
+            {!selectedOffer && !item ? null : this.renderSaveButton()}
             <KeyboardSpacer />
           </ScrollView>
         </LinearGradient>
