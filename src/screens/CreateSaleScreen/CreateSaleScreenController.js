@@ -74,13 +74,14 @@ export default class CreateSaleScreenController extends AbstractScreenController
       nextPayment,
       totalPrice,
     } = this.component.state;
-
+    const timestamp = Date.parse(inputDate);
+    var dateObject = new Date(timestamp);
     const installments = oldPayment.length + nextPayment.length;
     const newPaiement = {
       amount: addPrice,
       installments: installments + 1,
       mode: selectedSaleType,
-      date: inputDate,
+      date: dateObject,
     };
     if (moment(inputDate).isAfter(moment())) {
       this.component.setState({
