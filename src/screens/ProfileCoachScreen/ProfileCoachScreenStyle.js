@@ -1,0 +1,177 @@
+import { StyleSheet, Platform, StatusBar, Dimensions } from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+const { width } = Dimensions.get('window');
+
+module.exports = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000',
+  },
+  header: {
+    marginHorizontal: 16,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  headerLeft: {
+    flex: 1,
+  },
+  headerMidle: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  headerRight: {
+    flex: 1,
+  },
+  content: {
+    marginHorizontal: 16,
+  },
+  safeArea: {
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
+  checkBox: {
+    paddingLeft: 0,
+    marginLeft: 0,
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+  },
+  inputContainer: {
+    marginBottom: 15,
+  },
+  input: {
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    width: 'auto',
+    height: 38,
+    borderRadius: 3,
+    fontFamily: 'Roboto',
+    fontSize: 15,
+  },
+  inputWithButtonContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: 'auto',
+  },
+  inputWithButton: {
+    borderRadius: 3,
+    backgroundColor: '#FFFFFF',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
+    width: wp(85),
+    height: 38,
+  },
+  addButton: {
+    marginLeft: 5,
+  },
+  dropdownButton: {
+    width: wp(90),
+    borderRadius: 3,
+    height: 38,
+  },
+  previewImage: {
+    width: 105,
+    height: 105,
+    resizeMode: 'contain',
+  },
+  dropdownButtonText: {
+    fontSize: 15,
+    textAlign: 'left',
+    fontFamily: 'Roboto',
+  },
+  dropdownRowText: {
+    fontFamily: 'Roboto',
+    color: '#DFDFDF',
+    fontSize: 15,
+    textAlign: 'left',
+    marginLeft: 20,
+  },
+  dropdownBg: {
+    backgroundColor: '#282C3A',
+  },
+  dropdownRow: {
+    height: 40,
+    borderBottomColor: '#50525B',
+  },
+  changePasswordButton: {
+    borderColor: 'black',
+    backgroundColor: '#1E2026',
+    height: 38,
+    width: wp(92),
+    borderRadius: 3,
+    marginBottom: 7,
+  },
+  changePasswordText: {
+    fontFamily: 'Roboto',
+    fontSize: 15,
+  },
+  text: {
+    fontFamily: 'Roboto',
+    fontSize: 15,
+    color: '#FFFFFF',
+    marginBottom: 12,
+  },
+  validateButton: {
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  validateButtonText: {
+    fontFamily: 'RobotoBold',
+    fontSize: 15,
+  },
+  flatlist: {
+    maxHeight: 150,
+  },
+  item: {
+    width: wp(25),
+    borderRadius: 25,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 7.5,
+    backgroundColor: '#2CDEE4',
+  },
+  itemDiplomas: {
+    width: 'auto',
+    borderRadius: 25,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    backgroundColor: '#2CDEE4',
+  },
+  itemText: {
+    fontFamily: 'RobotoBold',
+    fontSize: 15,
+    textAlign: 'center',
+  },
+  deleteContainer: {
+    position: 'absolute',
+    width: 20,
+    height: 20,
+    backgroundColor: '#FD7279',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 0,
+  },
+  deleteContainerDiplomas: {
+    position: 'absolute',
+    width: 20,
+    height: 20,
+    backgroundColor: '#FD7279',
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 0,
+  },
+});
