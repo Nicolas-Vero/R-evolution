@@ -128,7 +128,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   onRefresh={this.controller.fetchData}
                 />
               }>
-              {isActif || isCanceled ? (
+              {/* {isActif || isCanceled ? (
                 <View style={styles.cancelItem}>
                   <Text style={styles.infoText}>Séance :</Text>
                   <View style={styles.cancelBookContainer}>
@@ -143,7 +143,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   </View>
                   {this.renderCancelBookDialog()}
                 </View>
-              ) : null}
+              ) : null} */}
               <View style={styles.phoneNumberContainer}>
                 <Image
                   style={styles.phoneImg}
