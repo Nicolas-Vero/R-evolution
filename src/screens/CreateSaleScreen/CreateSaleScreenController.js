@@ -83,7 +83,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
       mode: selectedSaleType,
       date: date,
     };
-    if (moment(date).isAfter(new Date())) {
+    if (date > moment().format('DD/MM/YYYY')) {
       this.component.setState({
         nextPayment: [...nextPayment, newPaiement],
         addPrice: null,

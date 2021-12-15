@@ -151,7 +151,8 @@ export default class CreateSaleScreenView extends AbstractScreenView {
 
     const { selectedSaleType, inputDate, addPrice } = this.component.state;
 
-    const canAddSale = inputDate && addPrice && selectedSaleType;
+    let isValid = moment(inputDate, 'DD/MM/YYYY', true).isValid();
+    const canAddSale = isValid && addPrice && selectedSaleType;
     return (
       <View style={{ marginTop: 20 }}>
         <Text style={styles.text}>Ajouter un paiement :</Text>

@@ -318,7 +318,9 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{ fontSize: 8, fontFamily: 'Roboto' }}>{this.component.state.publicRequest}</Text>
+          <Text style={{ fontSize: 8, fontFamily: 'Roboto' }}>
+            {this.component.state.publicRequest}
+          </Text>
         </View>
       </View>
     );
@@ -352,7 +354,9 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                   onPress={() => {
                     navigate('PendingRequestCoachScreen');
                   }}>
-                  {this.renderBadge()}
+                  {this.component.state.publicRequest > 0
+                    ? this.renderBadge()
+                    : null}
                   <Image
                     style={styles.headerRightImage}
                     source={require('../../../assets/images/Demande.png')}
@@ -364,7 +368,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                     navigate('ActivitiesCoachScreen');
                   }}
                   style={styles.headerRightActivities}>
-                  {this.renderBadge()}
+                  {/* {this.renderBadge()} */}
                   <Image
                     style={styles.headerRightImage}
                     source={require('../../../assets/images/Notif.png')}
@@ -405,7 +409,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             {this.component.state.screen == 'Planning' ? (
               <View>
                 {this.renderPlanning()}
-                <View style={styles.addBookContainer}>
+                {/* <View style={styles.addBookContainer}>
                   <TouchableOpacity
                     style={{ zIndex: 1 }}
                     hitSlop={{
@@ -422,7 +426,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                       style={styles.addBookImage}
                     />
                   </TouchableOpacity>
-                </View>
+                </View> */}
               </View>
             ) : (
               this.renderAvailability()
