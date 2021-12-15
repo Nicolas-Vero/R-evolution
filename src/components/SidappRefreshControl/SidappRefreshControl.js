@@ -6,7 +6,7 @@ const SidappRefreshControl = (props) => {
     <RefreshControl
       colors={['#fff']}
       {...props}
-      progressBackgroundColor="red"
+      progressBackgroundColor="#2CDEE4"
     />
   );
 };

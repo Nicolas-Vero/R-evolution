@@ -52,8 +52,8 @@ export default class CreateSaleScreenView extends AbstractScreenView {
     return (
       <SaveSaleDialog
         dialogVisible={isSaveSaleVisible}
-        onValidate={
-          isCreation ? this.controller.onSave : this.controller.onUpdate
+        onValidate={() => 
+          isCreation ? this.controller.onSave() : this.controller.onUpdate()
         }
         onClose={this.controller.onDismissSaveSaleDialog}
         update={!isCreation}

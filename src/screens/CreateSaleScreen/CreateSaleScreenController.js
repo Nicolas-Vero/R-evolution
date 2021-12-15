@@ -84,7 +84,8 @@ export default class CreateSaleScreenController extends AbstractScreenController
       mode: selectedSaleType,
       date: date,
     };
-    if (date > moment().format('DD/MM/YYYY')) {
+
+    if (moment(inputDate, 'DD/MM/YYYY').toDate() > moment().toDate()) {
       this.component.setState({
         nextPayment: [...nextPayment, newPaiement],
         addPrice: null,
@@ -126,7 +127,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
       isValidateSaleDialogVisible: true,
     });
   };
-  
+
   onDismissValidateSaleDialog = () => {
     this.component.setState({
       isValidateSaleDialogVisible:
