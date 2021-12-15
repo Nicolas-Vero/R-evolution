@@ -31,6 +31,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
       totalPrice: 0,
       isDeleteSaleVisible: false,
       isValidateSaleDialogVisible: false,
+      isSaveSaleVisible: false,
       item: this.component.props.navigation.state.params.item,
     };
   }
@@ -125,12 +126,23 @@ export default class CreateSaleScreenController extends AbstractScreenController
       isValidateSaleDialogVisible: true,
     });
   };
-
+  
   onDismissValidateSaleDialog = () => {
     this.component.setState({
       isValidateSaleDialogVisible:
         !this.component.state.isValidateSaleDialogVisible,
       selectedItem: null,
+    });
+  };
+  openSaveSaleDialog = () => {
+    this.component.setState({
+      isSaveSaleVisible: true,
+    });
+  };
+
+  onDismissSaveSaleDialog = () => {
+    this.component.setState({
+      isSaveSaleVisible: !this.component.state.isSaveSaleVisible,
     });
   };
 
@@ -228,7 +240,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
 
       const installments = oldPayment.length + nextPayment.length;
 
-      await add_transaction({
+      const transaction = await add_transaction({
         athlete_id: athleteId,
         installments,
         offer_id: selectedOffer.id,
@@ -237,7 +249,10 @@ export default class CreateSaleScreenController extends AbstractScreenController
       });
 
       //TODO ADD CONFIRM DIALOG
-      if (transaction.status === 200) this.component.props.navigation.goBack();
+      this.onDismissSaveSaleDialog();
+      if (transaction.status === 200) {
+        this.component.props.navigation.goBack();
+      }
     } catch (err) {
       console.log(err);
       this.component.setState({ loading: false });

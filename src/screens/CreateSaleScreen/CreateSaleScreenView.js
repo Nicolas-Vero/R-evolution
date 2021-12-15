@@ -24,6 +24,7 @@ import { TextInputMask } from 'react-native-masked-text';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
+import SaveSaleDialog from '../../components/dialogs/saveSaleDialog/SaveSaleDialog';
 
 export default class CreateSaleScreenView extends AbstractScreenView {
   renderValidateSaleDialog = () => {
@@ -36,7 +37,6 @@ export default class CreateSaleScreenView extends AbstractScreenView {
       />
     );
   };
-
   renderDeleteSaleDialog = () => {
     const { isDeleteSaleVisible } = this.component.state;
     return (
@@ -44,6 +44,19 @@ export default class CreateSaleScreenView extends AbstractScreenView {
         dialogVisible={isDeleteSaleVisible}
         onValidate={this.controller.onDeleteSale}
         onClose={this.controller.onDismissDeleteSaleDialog}
+      />
+    );
+  };
+  renderSaveSaleDialog = () => {
+    const { isSaveSaleVisible, isCreation } = this.component.state;
+    return (
+      <SaveSaleDialog
+        dialogVisible={isSaveSaleVisible}
+        onValidate={
+          isCreation ? this.controller.onSave : this.controller.onUpdate
+        }
+        onClose={this.controller.onDismissSaveSaleDialog}
+        update={!isCreation}
       />
     );
   };
@@ -322,15 +335,20 @@ export default class CreateSaleScreenView extends AbstractScreenView {
         style={{
           bottom: isIphoneX() ? 100 : 50,
         }}>
-        <Button
-          loading={false}
+        <TouchableOpacity
           disabled={!isValid}
-          title="Enregistrer"
-          customTextStyle={styles.nextButtonText}
-          onPress={
-            isCreation ? this.controller.onSave : this.controller.onUpdate
-          }
-        />
+          onPress={this.controller.openSaveSaleDialog}
+          style={{
+            paddingVertical: 15,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: '#2CDEE4',
+            borderRadius: 3,
+          }}>
+          <Text style={{ fontSize: 15, fontFamily: 'RobotoBold' }}>
+            Enregistrer
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -372,6 +390,7 @@ export default class CreateSaleScreenView extends AbstractScreenView {
             </View>
             {this.renderValidateSaleDialog()}
             {this.renderDeleteSaleDialog()}
+            {this.renderSaveSaleDialog()}
             {!selectedOffer && !item ? null : this.renderSaveButton()}
             <KeyboardSpacer />
           </ScrollView>

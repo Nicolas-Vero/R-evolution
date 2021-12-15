@@ -191,7 +191,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                           ' ',
                           user.commercial.last_name,
                         )
-                      : 'pas de recomendation'}
+                      : 'pas de recommandation'}
                   </Text>
                 ) : (
                   <Text style={styles.valueText}>
@@ -201,7 +201,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                           ' ',
                           user.commercial.last_name,
                         )
-                      : 'pas de recomendation'}
+                      : 'pas de recommandation'}
                   </Text>
                 )}
               </View>

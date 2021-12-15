@@ -85,7 +85,7 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                 </View>
                 <View style={styles.item}>
                   <Text style={styles.infoText}>Commercial référent :</Text>
-                  <Text style={styles.valueText}>{this.component.state.Athlete?.commercial? this.component.state.Athlete.commercial.first_name.concat(' ',  this.component.state.Athlete.commercial.last_name)  : 'pas de recomendation'}</Text>
+                  <Text style={styles.valueText}>{this.component.state.Athlete?.commercial? this.component.state.Athlete.commercial.first_name.concat(' ',  this.component.state.Athlete.commercial.last_name)  : 'pas de recommandation'}</Text>
                 </View>
                 <View style={styles.item}>
                   <Text style={styles.infoText}>Ses objectifs :</Text>
