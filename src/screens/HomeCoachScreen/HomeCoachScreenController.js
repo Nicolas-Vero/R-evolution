@@ -15,7 +15,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       refresh: false,
       carousselLoad: false,
       currentMonth: new XDate(),
-      MonthBookingNumberPerDay:[],
+      MonthBookingNumberPerDay: [],
       user: {},
       screen: 'Planning',
       currentDate: '',
@@ -24,7 +24,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       currentAvailabilities: [],
       availabilities: [],
       page: [],
-      publicRequest:0,
+      publicRequest: 0,
       dialogVisible: false,
       todayIndex: null,
       refrehing: false,
@@ -68,7 +68,6 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       this.component.props.isFocused &&
       prevProps.isFocused !== this.component.props.isFocused
     ) {
-     
       get_public_request()
         .then((res) => {
           this.component.setState({ publicRequest: res.data.requests.length });
@@ -232,5 +231,14 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       this.component.listRef &&
         this.component.listRef.scrollToIndex({ animated, index });
     }, 3000);
+  };
+
+  onLinePress = (time) => {
+    console.log('time', time);
+    console.log('date', this.component.state.selectedDate);
+    this.component.props.navigation.navigate('CreateBookCoachScreen', {
+      time,
+      date: this.component.state.selectedDate,
+    });
   };
 }

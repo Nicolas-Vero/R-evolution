@@ -30,16 +30,18 @@ export const invite_prospect = (params) => {
 };
 
 export const coach_booking = async (params) => {
-  const { coach_id, date, coach_course_id, currentSlot } = params;
+  const { coach_id, date, athlete_course_id, currentSlot, athlete_id } = params;
   const data = {
-    date: date,
-    coach_course_id: coach_course_id,
-    slot: currentSlot,
+    date,
+    athlete_course_id,
+    slot: currentSlot.trim(),
+    athlete_id,
+    coach_id,
   };
   const headers = await AuthService.getHeader();
-  return axios({
+  return await axios({
     method: 'POST',
-    url: `${API_URL}/coach/book-slot/`,
+    url: `${API_URL}/coach/book-slot`,
     headers: headers,
     data: data,
   });
@@ -109,7 +111,6 @@ export const add_transaction = async (params) => {
     data: data,
   });
 };
-
 
 export const get_coach_by_gym_place = (params) => {
   const gym_id = params;

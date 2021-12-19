@@ -10,6 +10,7 @@ const { store } = configureStore();
 import AuthService from '../../services/AuthService';
 import ContextService from '../../services/ContextService';
 import styles from './AppLauncherStyle';
+import LoggerService from '../../services/LoggerService';
 
 export default class AppLauncher extends React.Component {
   constructor(props) {
@@ -31,6 +32,7 @@ export default class AppLauncher extends React.Component {
   initApp = async () => {
     // eslint-disable-next-line no-console
     console.info('--- Init App ---');
+    LoggerService.init();
 
     // await AuthService.init();
     // await AuthService.removeAuth();

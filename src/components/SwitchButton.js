@@ -59,36 +59,55 @@ export default class SwitchButton extends Component {
     // update_availabilities(onChangeParams).then(get_availabilities())
   }
   getSlot(time, status, item, slots) {
-    const { disabled } = this.props;
     var handler = this.props.handler;
     const currentBook = this.daybooked(
       parseInt(Object.keys(slots)[0].substring(5)),
     );
+    const { disable } = this.state;
     return (
-      <View style={styles.container}>
-        <Text style={styles.text}>{time}</Text>
-        {status == false ? (
-          isEmpty(currentBook) ? (
-            <Text style={styles.text}>Indisponible</Text>
+      <View>
+        <TouchableOpacity
+          disabled={disable}
+          onLongPress={() => this.props.onLinePress(time)}
+          style={styles.container}>
+          <Text style={[styles.text, { color: disable ? '#979797' : '#FFF' }]}>
+            {time}
+          </Text>
+          {status == false ? (
+            isEmpty(currentBook) ? (
+              <Text
+                style={[styles.text, { color: disable ? '#979797' : '#FFF' }]}>
+                Indisponible
+              </Text>
+            ) : (
+              <View>
+                <TouchableOpacity style={styles.button}>
+                  <Text style={styles.text}>{currentBook.first_name}</Text>
+                </TouchableOpacity>
+              </View>
+            )
           ) : (
-            <View >
-           <TouchableOpacity style={styles.button}><Text style={styles.text}>{currentBook.first_name}</Text></TouchableOpacity>
-           </View>
-          )
-        ) : (
-          <Text style={styles.textColored}>Disponible</Text>
-        )}
-        <CheckBox
-          disabled={this.state.disable}
-          size={22}
-          containerStyle={styles.checkBox}
-          checkedColor="#2CDEE4"
-          checkedIcon="dot-circle-o"
-          uncheckedIcon="dot-circle-o"
-          checked={status === true}
-          value={status}
-          onPress={() => this.test(slots, item)}
-        />
+            <Text
+              style={[
+                styles.textColored,
+                { color: disable ? '#979797' : '#FFF' },
+              ]}>
+              Disponible
+            </Text>
+          )}
+          <CheckBox
+            disabled={this.state.disable}
+            size={22}
+            containerStyle={styles.checkBox}
+            checkedColor="#2CDEE4"
+            checkedIcon="dot-circle-o"
+            uncheckedIcon="dot-circle-o"
+            checked={status === true}
+            uncheckedColor={disable ? '#979797' : '#fff'}
+            value={status}
+            onPress={() => this.test(slots, item)}
+          />
+        </TouchableOpacity>
       </View>
     );
   }
@@ -153,8 +172,7 @@ export default class SwitchButton extends Component {
 }
 
 const styles = {
-  
-  button:{
+  button: {
     backgroundColor: '#2CDEE4',
   },
   container: {

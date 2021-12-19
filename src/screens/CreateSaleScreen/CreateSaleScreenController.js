@@ -40,12 +40,23 @@ export default class CreateSaleScreenController extends AbstractScreenController
     if (item && item.id) {
       const paymentDetail = await get_payment_details(item.id);
       if (paymentDetail.status === 200) {
+        this.component.setState({
+          transaction_id: paymentDetail.data[0].transaction_id,
+        });
         const oldPayment = [];
         const nextPayment = [];
         let totalPrice = 0;
         paymentDetail.data.forEach((payment) => {
-          if (moment(payment.date).isAfter(moment())) nextPayment.push(payment);
-          else oldPayment.push(payment);
+          if (moment(payment.date).isAfter(moment()))
+            nextPayment.push({
+              ...payment,
+              date: moment(payment.date).format('DD/MM/YYYY'),
+            });
+          else
+            oldPayment.push({
+              ...payment,
+              date: moment(payment.date).format('DD/MM/YYYY'),
+            });
 
           totalPrice += parseFloat(payment.amount);
         });
@@ -188,28 +199,18 @@ export default class CreateSaleScreenController extends AbstractScreenController
   };
 
   onUpdate = async () => {
-    const { item, oldPayment, nextPayment, totalPrice } = this.component.state;
+    const { item, oldPayment, nextPayment, totalPrice, transaction_id } =
+      this.component.state;
+
     const athleteId = item.athlete.id;
-    const transaction =
-      oldPayment[0].transaction_id ||
-      nextPayment[0].transaction_id ||
-      this.component.state.transaction_id;
+
     try {
       [...oldPayment, ...nextPayment].forEach(async (payment) => {
         payment.athlete_id = athleteId;
         payment.offer_id = item.offer.id;
-        payment.transaction_id = payment.transaction_id || transaction;
+        payment.transaction_id = transaction_id;
 
         await update_paiement(payment);
-      });
-
-      const installments = oldPayment.length + nextPayment.length;
-      await add_transaction({
-        athlete_id: athleteId,
-        installments,
-        offer_id: item.offer.id,
-        transaction_id: transaction,
-        amount: parseInt(totalPrice),
       });
 
       this.component.props.navigation.goBack();

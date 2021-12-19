@@ -54,14 +54,22 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
   filterDAta(data) {
     const actifs = data
       .filter((user) => user.status === 'active')
-      .map((user) => `${user.first_name} ${user.last_name}`);
+      .map((user) => ({
+        id: user.id,
+        full_name: `${user.first_name} ${user.last_name}`,
+      }));
     const inactifs = data
       .filter((user) => user.status === 'inactive')
-      .map((user) => `${user.first_name} ${user.last_name}`);
+      .map((user) => ({
+        id: user.id,
+        full_name: `${user.first_name} ${user.last_name}`,
+      }));
     const prospects = data
       .filter((user) => user.status === 'prospect')
-      .map((user) => `${user.first_name} ${user.last_name}`);
-
+      .map((user) => ({
+        id: user.id,
+        full_name: `${user.first_name} ${user.last_name}`,
+      }));
     this.component.setState({
       atlhetesActifs: actifs,
       atlhetesInactifs: inactifs,
@@ -82,15 +90,18 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
       this.component.props.navigation.goBack();
     }
   };
+
   onCreateBookPress = async (values) => {
     const createBook = await coach_booking({
-      slot: values.slot,
+      slot: values.slot.trim(),
       coach_id: this.component.state.coach.id,
       date: values.date,
-      coach_course_id: 0,
+      athlete_course_id: 0,
       currentSlot: values.slot,
+      athlete_id: values.athlete_id,
     });
-
+    console.log('status', createBook.status);
+    console.log('data', createBook.data);
     if (createBook.status === 200) {
       this.component.props.navigation.goBack();
     }

@@ -34,11 +34,36 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
           <Header title="AJOUTER UN RDV" />
           <View style={styles.content}>
             <Formik
-              initialValues={formConfig}
+              initialValues={{
+                type: 'Coaching',
+                athlete_id: '',
+                slot: this.component.props.time,
+                coach_notes: 'rendez-vous créer par le coach',
+                coach_course_id: '',
+                gender: 'male',
+                date: this.component.props.date,
+                first_name: '',
+                last_name: '',
+                email: '',
+                phone: '',
+                description: '',
+              }}
               onSubmit={(values, { onLoginPress }) => onLoginPress(values)}>
               {({ handleChange, handleBlur, setFieldValue, values }) => (
                 <View>
                   <View style={{ flexDirection: 'column', marginBottom: 15 }}>
+                    <View style={{ marginVertical: 5 }}>
+                      <Text
+                        style={{
+                          color: '#fff',
+                          fontFamily: 'Roboto',
+                          textAlign: 'center',
+                        }}>
+                        {`Le ${moment(this.component.props.date).format(
+                          'dddd D MMMM ',
+                        )} à ${this.component.props.time}`}
+                      </Text>
+                    </View>
                     <CheckBox
                       containerStyle={styles.checkBoxContainer}
                       title="Mes athlètes actifs"
@@ -62,10 +87,10 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                           rowTextStyle={styles.dropdownRowText}
                           dropdownStyle={styles.dropdownBg}
                           rowStyle={styles.dropdownRow}
-                          data={[this.component.state.atlhetesActifs]}
+                          data={this.component.state.atlhetesActifs}
                           defaultButtonText={'Choisir'}
                           onSelect={(selectedItem, index) => {
-                            // console.log(selectedItem, index);
+                            values.athlete_id = selectedItem.id;
                           }}
                           renderDropdownIcon={() => {
                             return (
@@ -74,10 +99,10 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                           }}
                           dropdownIconPosition={'right'}
                           buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem;
+                            return selectedItem.full_name;
                           }}
                           rowTextForSelection={(item, index) => {
-                            return item;
+                            return item.full_name;
                           }}
                         />
                       </View>
@@ -108,7 +133,7 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                           data={this.component.state.atlhetesInactifs}
                           defaultButtonText={'Choisir'}
                           onSelect={(selectedItem, index) => {
-                            // console.log(selectedItem, index);
+                            values.athlete_id = selectedItem.id;
                           }}
                           renderDropdownIcon={() => {
                             return (
@@ -117,10 +142,10 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                           }}
                           dropdownIconPosition={'right'}
                           buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem;
+                            return selectedItem.full_name;
                           }}
                           rowTextForSelection={(item, index) => {
-                            return item;
+                            return item.full_name;
                           }}
                         />
                       </View>
@@ -152,7 +177,7 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                           data={this.component.state.atlhetesProspects}
                           defaultButtonText={'Choisir un prospect existant'}
                           onSelect={(selectedItem, index) => {
-                            // console.log(selectedItem, index);
+                            values.athlete_id = selectedItem.id;
                           }}
                           renderDropdownIcon={() => {
                             return (
@@ -161,10 +186,10 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                           }}
                           dropdownIconPosition={'right'}
                           buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem;
+                            return selectedItem.full_name;
                           }}
                           rowTextForSelection={(item, index) => {
-                            return item;
+                            return item.full_name;
                           }}
                         />
                         <ScrollView style={styles.scrollView}>
@@ -272,56 +297,7 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                                   returnKeyType="next"
                                 />
                               </View>
-                              <View style={styles.inputContainer}>
-                                <View>
-                                  <SelectDropdown
-                                    buttonStyle={styles.dropdownButton}
-                                    buttonTextStyle={styles.dropdownButtonText}
-                                    rowTextStyle={styles.dropdownRowText}
-                                    dropdownStyle={styles.dropdownBg}
-                                    rowStyle={styles.dropdownRow}
-                                    data={slots}
-                                    defaultButtonText={'choisir un créneau'}
-                                    onSelect={(selectedItem, index) => {
-                                      // console.log(selectedItem, index);
-                                    }}
-                                    renderDropdownIcon={() => {
-                                      return (
-                                        <AntDesign
-                                          name="down"
-                                          size={24}
-                                          color="black"
-                                        />
-                                      );
-                                    }}
-                                    dropdownIconPosition={'right'}
-                                    buttonTextAfterSelection={(
-                                      selectedItem,
-                                      index,
-                                    ) => {
-                                      return (
-                                        moment(selectedItem.date).format(
-                                          'dddd D MMMM ',
-                                        ) +
-                                        '   ' +
-                                        slots[selectedItem.slot]
-                                      );
-                                    }}
-                                    rowTextForSelection={(item, index) => {
-                                      values.slot = item.slot;
-                                      values.date = item.date;
 
-                                      return (
-                                        moment(item.date).format(
-                                          'dddd D MMMM ',
-                                        ) +
-                                        '   ' +
-                                        slots[index]
-                                      );
-                                    }}
-                                  />
-                                </View>
-                              </View>
                               <View style={styles.inputContainer}>
                                 <TextInput
                                   placeholder="Description"
@@ -364,52 +340,7 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                         </ScrollView>
                       </View>
                     ) : (
-                      <View>
-                        <View>
-                          <SelectDropdown
-                            buttonStyle={styles.dropdownButton}
-                            buttonTextStyle={styles.dropdownButtonText}
-                            rowTextStyle={styles.dropdownRowText}
-                            dropdownStyle={styles.dropdownBg}
-                            rowStyle={styles.dropdownRow}
-                            data={slots}
-                            defaultButtonText={'choisir un créneau'}
-                            onSelect={(selectedItem, index) => {
-                              // console.log(selectedItem, index);
-                            }}
-                            renderDropdownIcon={() => {
-                              return (
-                                <AntDesign
-                                  name="down"
-                                  size={24}
-                                  color="black"
-                                />
-                              );
-                            }}
-                            dropdownIconPosition={'right'}
-                            buttonTextAfterSelection={(selectedItem, index) => {
-                              // text represented after item is selected
-                              // if data array is an array of objects then return selectedItem.property to render after item is selected
-                              return (
-                                moment(selectedItem.date).format(
-                                  'dddd D MMMM ',
-                                ) +
-                                '   ' +
-                                slots[index]
-                              );
-                            }}
-                            rowTextForSelection={(item, index) => {
-                              values.date = item.date;
-                              values.slot = item.slot;
-                              return (
-                                moment(item.date).format('dddd D MMMM ') +
-                                '   ' +
-                                slots[index]
-                              );
-                            }}
-                          />
-                        </View>
-                      </View>
+                      <View></View>
                     )}
                   </View>
                   {this.component.state.type === 'Prospect' ? null : (

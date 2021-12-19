@@ -290,6 +290,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               renderItem={({ item }) => {
                 return (
                   <SwitchButton
+                    onLinePress={this.controller.onLinePress}
                     day={this.component.state.currentAvailabilities.day}
                     today={this.component.state.today}
                     item={item}
@@ -407,27 +408,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             </View>
             <View>{/*TO DO: passe les jours en francais  */}</View>
             {this.component.state.screen == 'Planning' ? (
-              <View>
-                {this.renderPlanning()}
-                {/* <View style={styles.addBookContainer}>
-                  <TouchableOpacity
-                    style={{ zIndex: 1 }}
-                    hitSlop={{
-                      top: 10,
-                      bottom: 15,
-                      left: 10,
-                      right: 10,
-                    }}
-                    onPress={() => {
-                      navigate('CreateBookCoachScreen');
-                    }}>
-                    <Image
-                      source={require('../../../assets/images/Group_8766.png')}
-                      style={styles.addBookImage}
-                    />
-                  </TouchableOpacity>
-                </View> */}
-              </View>
+              <View>{this.renderPlanning()}</View>
             ) : (
               this.renderAvailability()
             )}

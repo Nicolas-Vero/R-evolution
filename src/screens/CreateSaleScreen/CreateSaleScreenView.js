@@ -52,7 +52,7 @@ export default class CreateSaleScreenView extends AbstractScreenView {
     return (
       <SaveSaleDialog
         dialogVisible={isSaveSaleVisible}
-        onValidate={() => 
+        onValidate={() =>
           isCreation ? this.controller.onSave() : this.controller.onUpdate()
         }
         onClose={this.controller.onDismissSaveSaleDialog}
@@ -259,7 +259,7 @@ export default class CreateSaleScreenView extends AbstractScreenView {
             <FlatList
               style={styles.flatlist}
               data={this.component.state.oldPayment}
-              keyExtractor={() => Math.random()}
+              keyExtractor={() => Math.random().toString()}
               renderItem={({ item, index }) => (
                 <View style={styles.paymentItem}>
                   <TouchableOpacity
@@ -293,7 +293,7 @@ export default class CreateSaleScreenView extends AbstractScreenView {
           <FlatList
             style={styles.flatlist}
             data={this.component.state.nextPayment}
-            keyExtractor={() => Math.random()}
+            keyExtractor={() => Math.random().toString()}
             renderItem={({ item, index }) => (
               <View style={{ marginTop: 22 }}>
                 <View style={styles.nextPaymentItem}>
