@@ -77,4 +77,72 @@ module.exports = StyleSheet.create({
     height: 60,
     width: '100%',
   },
+  noCourContainer: {
+    alignItems: 'center',
+    marginTop: hp(25),
+  },
+  noCourText: {
+    fontFamily: 'RobotoBold',
+    fontSize: 20,
+    color: '#FFFF',
+  },
+  currentOffer: {
+    flexDirection: 'column',
+    backgroundColor: 'grey',
+    marginVertical: 10,
+    borderRadius: 10,
+    paddingVertical: 11,
+    paddingHorizontal: 25,
+  },
+  currentOfferCoach: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  currentOfferCoachName: {
+    fontSize: 18,
+    marginLeft: 12,
+    fontFamily: 'RobotoMedium',
+    color: '#FFFFFF',
+  },
+  currentOfferTitle: {
+    marginTop: 13,
+    fontFamily: 'MontserratBold',
+    fontSize: 16,
+    color: '#FFFFFF',
+  },
+  currentOfferContent: {
+    fontFamily: 'MontserratMedium',
+    marginTop: 15,
+    color: '#FFFFFF',
+    fontSize: 10,
+  },
+  currentOfferInfos: {
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  currentOfferSessions: {
+    color: '#2CDEE4',
+    fontFamily: 'Roboto',
+    fontSize: 12,
+  },
+  currentOfferPrice: {
+    fontFamily: 'MontserratBoldItalic',
+    fontSize: 20,
+    color: '#2CDEE4',
+  },
+  currentOfferSessionsLeftContainer: {
+    backgroundColor: '#2CDEE4',
+    paddingVertical: 10,
+    paddingHorizontal: 40,
+    marginTop: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+  },
+  currentOfferSessionsLeftText: {
+    fontFamily: 'Roboto',
+    fontSize: 13,
+  },
 });

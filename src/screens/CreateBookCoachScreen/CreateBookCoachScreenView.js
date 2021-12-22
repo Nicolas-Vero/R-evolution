@@ -37,6 +37,7 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
               initialValues={{
                 type: 'Coaching',
                 athlete_id: '',
+                offer_id: '',
                 slot: this.component.props.time,
                 coach_notes: 'rendez-vous créer par le coach',
                 coach_course_id: '',
@@ -90,7 +91,9 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                           data={this.component.state.atlhetesActifs}
                           defaultButtonText={'Choisir'}
                           onSelect={(selectedItem, index) => {
+                            console.log(selectedItem);
                             values.athlete_id = selectedItem.id;
+                            values.offer_id = selectedItem.offer_id;
                           }}
                           renderDropdownIcon={() => {
                             return (
@@ -107,50 +110,6 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                         />
                       </View>
                     ) : null}
-                    <CheckBox
-                      containerStyle={styles.checkBoxContainer}
-                      title="Mes athlètes inactifs"
-                      checkedIcon="dot-circle-o"
-                      uncheckedIcon="dot-circle-o"
-                      checkedColor="#2CDEE4"
-                      textStyle={styles.checkBoxText}
-                      checked={values.type.toString() === 'Inactifs'}
-                      value={values.type}
-                      onPress={() => {
-                        setFieldValue('type', 'Inactifs'),
-                          this.component.setState({ type: 'Inactifs' });
-                        this.component.setState({ isProspect: false });
-                      }}
-                    />
-                    {this.component.state.type == 'Inactifs' ? (
-                      <View>
-                        <SelectDropdown
-                          buttonStyle={styles.dropdownButton}
-                          buttonTextStyle={styles.dropdownButtonText}
-                          rowTextStyle={styles.dropdownRowText}
-                          dropdownStyle={styles.dropdownBg}
-                          rowStyle={styles.dropdownRow}
-                          data={this.component.state.atlhetesInactifs}
-                          defaultButtonText={'Choisir'}
-                          onSelect={(selectedItem, index) => {
-                            values.athlete_id = selectedItem.id;
-                          }}
-                          renderDropdownIcon={() => {
-                            return (
-                              <AntDesign name="down" size={18} color="black" />
-                            );
-                          }}
-                          dropdownIconPosition={'right'}
-                          buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem.full_name;
-                          }}
-                          rowTextForSelection={(item, index) => {
-                            return item.full_name;
-                          }}
-                        />
-                      </View>
-                    ) : null}
-
                     <CheckBox
                       containerStyle={styles.checkBoxContainer}
                       title="Prospects"

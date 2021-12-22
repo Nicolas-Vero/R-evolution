@@ -27,6 +27,7 @@ import RenewOfferDialog from '../../components/dialogs/renewOfferDialog/renewOff
 import BookOfferDialog from '../../components/dialogs/bookSessionDialog/bookOfferDialog';
 import UnBookOfferDialog from '../../components/dialogs/unBookSessionDialog/unBookOfferDialog';
 import { isIphoneX } from 'react-native-iphone-x-helper';
+import { date } from 'yup';
 export default class HomeAthleteView extends AbstractScreenView {
   renderHeader() {
     return (
@@ -430,15 +431,20 @@ export default class HomeAthleteView extends AbstractScreenView {
             refreshing={this.component.state.refresh}
             keyExtractor={(item) => item?.date}
             renderItem={({ item }) => {
+              const date = moment(item.availability).format('DD/MM/YYYY');
+              const isBefore = moment().format('DD/MM/YYYY') > date;
+              const backgroundColor = isBefore
+                ? '#393637'
+                : item.availability === this.component.state.selectedDate
+                ? '#2CDEE4'
+                : '#1E2026';
+              const textColor = isBefore
+                ? '#979797'
+                : item.availability === this.component.state.selectedDate
+                ? 'black'
+                : 'white';
               const borderWidth = item?.availability === curDate ? 2 : 0;
-              const backgroundColor =
-                item?.availability === this.component.state.selectedDate
-                  ? '#2CDEE4'
-                  : '#1E2026';
-              const textColor =
-                item?.availability === this.component.state.selectedDate
-                  ? 'black'
-                  : 'white';
+
               return (
                 <TouchableOpacity
                   onPress={() => this.controller.onDayPress(item)}>

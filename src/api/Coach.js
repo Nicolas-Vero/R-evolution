@@ -30,20 +30,21 @@ export const invite_prospect = (params) => {
 };
 
 export const coach_booking = async (params) => {
-  const { coach_id, date, athlete_course_id, currentSlot, athlete_id } = params;
+  const { coach_id, date, athlete_course_id, slot, athlete_id } = params;
   const data = {
     date,
     athlete_course_id,
-    slot: currentSlot.trim(),
+    slot,
     athlete_id,
     coach_id,
   };
+  console.log(data);
   const headers = await AuthService.getHeader();
   return await axios({
     method: 'POST',
     url: `${API_URL}/coach/book-slot`,
     headers: headers,
-    data: data,
+    data,
   });
 };
 

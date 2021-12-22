@@ -7,6 +7,8 @@ import AuthService from '../../services/AuthService';
 import XDate from 'xdate';
 import { get_public_request } from '../../api/Request';
 
+import { slots } from '../../helpers/dateHelper';
+
 export default class HomeCoachScreenController extends AbstractScreenController {
   constructor(component) {
     super(component);
@@ -236,8 +238,12 @@ export default class HomeCoachScreenController extends AbstractScreenController 
   onLinePress = (time) => {
     console.log('time', time);
     console.log('date', this.component.state.selectedDate);
+    console.log(slots[time]);
+    const values = Object.values(slots);
+    const slot = values.indexOf(time);
     this.component.props.navigation.navigate('CreateBookCoachScreen', {
       time,
+      slot,
       date: this.component.state.selectedDate,
     });
   };
