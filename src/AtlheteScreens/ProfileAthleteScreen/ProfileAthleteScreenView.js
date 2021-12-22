@@ -263,7 +263,6 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                         ]}
                         sliderLength={widthPercentageToDP(92)}
                         onValuesChange={(values) => {
-                          console.log(values);
                           this.component.setState({ multi: values });
                           arrayhelper.form.values.time_preference.start_time =
                             values[0];

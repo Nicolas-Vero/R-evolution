@@ -24,6 +24,8 @@ import styles from './HomeCoachScreenStyle';
 import { update } from 'lodash-es';
 import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
 import { get_appointement_calendar } from '../../api/Coach';
+import { LinearGradient } from 'expo-linear-gradient';
+
 export default class HomeCoachScreenView extends AbstractScreenView {
   renderDialog() {
     return (
@@ -38,25 +40,34 @@ export default class HomeCoachScreenView extends AbstractScreenView {
   renderDay = (date, state, marking) => {
     const isSelected = marking;
     const isToday = state === 'today';
-    // console.log(date);
-    // console.log(state);
-    // console.log(marking);
-    // console.log('///');
-    const isBefore =
-      moment().format('YYYY-DD-MM') >
-      moment(date.dateString).format('YYYY-DD-MM');
-    // console.log(isBefore);
-    const textColor = isBefore
+    const isBefore = moment().toDate() >= moment(date.dateString).toDate();
+
+    let textColor = isBefore
       ? '#979797'
       : isToday || !marking
       ? '#fff'
       : '#000';
-    const bg = isToday ? '#393637' : marking ? '#2CDEE4' : '#393637';
+
+    let bg = marking && !isToday ? '#2CDEE4' : '';
+    bg = marking && isToday ? '#2CDEE4' : bg;
+
     const badgeTextColor = isToday ? '#000' : marking ? '#fff' : '#000';
     const badgeBg = isToday ? '#2CDEE4' : isSelected ? '#393637' : '#2CDEE4';
+
+    textColor = isToday ? '#2CDEE4' : textColor;
+    textColor = isToday && marking ? '#000' : textColor;
+    let renderBadge = false;
+    // console.log(this.component.state.MonthBookingNumberPerDay);
+    if (
+      this.component.state.MonthBookingNumberPerDay[date.day - 1] > 0 &&
+      new Date(this.component.state.currentMonth).getMonth() + 1 === date.month
+    ) {
+      bg = marking ? '#2CDEE4' : '#393637';
+      renderBadge = true;
+    }
     return (
       <TouchableOpacity
-        style={{ margin: 7, height: 30, width: 30 }}
+        style={{ height: 30, width: 30 }}
         onPress={() => {
           this.controller.changeTaskList(date);
         }}>
@@ -89,8 +100,8 @@ export default class HomeCoachScreenView extends AbstractScreenView {
         ) : null}
         <View
           style={{
-            borderWidth: isToday ? 1 : 0,
-            borderColor: isToday ? '#2CDEE4' : '#393637',
+            // borderWidth: isToday ? 1 : 0,
+            // borderColor: isToday ? '#2CDEE4' : '#393637',
             alignItems: 'center',
             justifyContent: 'center',
             width: 36,
@@ -135,79 +146,98 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               </View>
             )}
           </View>
-          <View style={styles.calendarContainer}>
-            <ScrollView style={{ flex: 1, maxHeight: 500 }}>
-              <Calendar
-                theme={{
-                  calendarBackground: '#1E2026',
-                  textSectionTitleColor: 'white',
-                  textSectionTitleWeight: 'bold',
-                  textSectionTitleDisabledColor: '#d9e1e8',
-                  selectedDayBackgroundColor: '#2CDEE4',
-                  todayTextColor: '#2CDEE4',
-                  dayTextColor: 'white',
-                  textDisabledColor: 'grey',
-                  arrowColor: 'white',
-                  monthTextColor: 'white',
-                  indicatorColor: '#2CDEE4',
-                  textDayFontFamily: 'Montserrat',
-                  textMonthFontFamily: 'MontserratBoldItalic',
-                  textDayHeaderFontFamily: 'MontserratMedium',
-                  textDayFontSize: 16,
-                  textMonthFontSize: 22,
-                  textDayHeaderFontSize: 16,
-                }}
-                onPressArrowLeft={(subtractMonth) => {
-                  const bookingPerday = [];
-                  subtractMonth();
-                  const dayOfMonth = this.controller.month(
-                    this.component.state.currentMonth.addMonths(-1, true),
-                  );
-                  dayOfMonth.forEach((element) => {
-                    get_appointement_calendar(
-                      moment(new Date(element)).format('YYYY-MM-DD'),
-                    ).then((res) => {
-                      bookingPerday.push(res.data.length);
+          <View
+            style={[
+              styles.calendarContainer,
+              {
+                marginTop: this.component.state.page.length == 0 ? 25 : 0,
+                width: 'auto',
+              },
+            ]}>
+            <LinearGradient
+              colors={['#2D333C', '#101010']}
+              start={{
+                x: 0,
+                y: 0,
+              }}
+              end={{
+                x: 1,
+                y: 1,
+              }}
+              style={{ maxHeight: 400, borderRadius: 8 }}>
+              <ScrollView style={{ maxHeight: 500, height: 320 }}>
+                <Calendar
+                  theme={{
+                    calendarBackground: 'transparent',
+                    textSectionTitleColor: 'white',
+                    textSectionTitleWeight: 'bold',
+                    textSectionTitleDisabledColor: '#d9e1e8',
+                    selectedDayBackgroundColor: '#2CDEE4',
+                    todayTextColor: '#2CDEE4',
+                    dayTextColor: 'white',
+                    textDisabledColor: 'grey',
+                    arrowColor: 'white',
+                    monthTextColor: 'white',
+                    indicatorColor: '#2CDEE4',
+                    textDayFontFamily: 'Montserrat',
+                    textMonthFontFamily: 'MontserratBoldItalic',
+                    textDayHeaderFontFamily: 'MontserratMedium',
+                    textDayFontSize: 16,
+                    textMonthFontSize: 22,
+                    textDayHeaderFontSize: 16,
+                  }}
+                  onPressArrowLeft={(subtractMonth) => {
+                    const bookingPerday = [];
+                    subtractMonth();
+                    const dayOfMonth = this.controller.month(
+                      this.component.state.currentMonth.addMonths(-1, true),
+                    );
+                    dayOfMonth.forEach((element) => {
+                      get_appointement_calendar(
+                        moment(new Date(element)).format('YYYY-MM-DD'),
+                      ).then((res) => {
+                        bookingPerday.push(res.data.length);
+                      });
                     });
-                  });
-                  this.component.setState({
-                    MonthBookingNumberPerDay: bookingPerday,
-                  });
-                }}
-                onPressArrowRight={(addMonth) => {
-                  const bookingPerday = [];
-                  addMonth();
-                  const dayOfMonth = this.controller.month(
-                    this.component.state.currentMonth.addMonths(1, true),
-                  );
-                  dayOfMonth.forEach((element) => {
-                    get_appointement_calendar(
-                      moment(new Date(element)).format('YYYY-MM-DD'),
-                    ).then((res) => {
-                      bookingPerday.push(res.data.length);
+                    this.component.setState({
+                      MonthBookingNumberPerDay: bookingPerday,
                     });
-                  });
-                  this.component.setState({
-                    MonthBookingNumberPerDay: bookingPerday,
-                  });
-                }}
-                enableSwipeMonths={true}
-                firstDay={1}
-                markingType={'custom'}
-                markedDates={{
-                  [selected]: {
-                    selected: true,
-                    selectedColor: '#2CDEE4',
-                    selectedTextColor: 'black',
-                  },
-                }}
-                dayComponent={({ date, state, marking }) =>
-                  this.renderDay(date, state, marking)
-                }
-                onDayPress={(day) => this.controller.changeTaskList(day)}
-                style={styles.calendar}
-              />
-            </ScrollView>
+                  }}
+                  onPressArrowRight={(addMonth) => {
+                    const bookingPerday = [];
+                    addMonth();
+                    const dayOfMonth = this.controller.month(
+                      this.component.state.currentMonth.addMonths(1, true),
+                    );
+                    dayOfMonth.forEach((element) => {
+                      get_appointement_calendar(
+                        moment(new Date(element)).format('YYYY-MM-DD'),
+                      ).then((res) => {
+                        bookingPerday.push(res.data.length);
+                      });
+                    });
+                    this.component.setState({
+                      MonthBookingNumberPerDay: bookingPerday,
+                    });
+                  }}
+                  enableSwipeMonths={true}
+                  firstDay={1}
+                  markingType={'custom'}
+                  markedDates={{
+                    [selected]: {
+                      selected: true,
+                      selectedColor: '#2CDEE4',
+                      selectedTextColor: 'black',
+                    },
+                  }}
+                  dayComponent={({ date, state, marking }) =>
+                    this.renderDay(date, state, marking)
+                  }
+                  onDayPress={(day) => this.controller.changeTaskList(day)}
+                  style={styles.calendar}
+                />
+              </ScrollView>
+            </LinearGradient>
           </View>
         </View>
       </View>
@@ -407,7 +437,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 selectedColor="#1E2026"
                 textColor="white"
                 borderRadius={10}
-                height={38}
+                height={45}
                 style={{ width: 'auto' }}
                 hasPadding
                 fontSize={13}

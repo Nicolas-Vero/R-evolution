@@ -236,9 +236,6 @@ export default class HomeCoachScreenController extends AbstractScreenController 
   };
 
   onLinePress = (time) => {
-    console.log('time', time);
-    console.log('date', this.component.state.selectedDate);
-    console.log(slots[time]);
     const values = Object.values(slots);
     const slot = values.indexOf(time);
     this.component.props.navigation.navigate('CreateBookCoachScreen', {

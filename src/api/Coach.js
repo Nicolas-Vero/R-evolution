@@ -38,7 +38,6 @@ export const coach_booking = async (params) => {
     athlete_id,
     coach_id,
   };
-  console.log(data);
   const headers = await AuthService.getHeader();
   return await axios({
     method: 'POST',

@@ -39,7 +39,11 @@ module.exports = StyleSheet.create({
     borderBottomWidth: 0.3,
     marginBottom: 20,
   },
-  tabContainer: { alignItems: 'center', marginTop: 25 },
+  tabContainer: {
+    alignItems: 'center',
+    marginTop: 25,
+    width: 'auto',
+  },
   currentDateText: {
     fontFamily: 'MontserratBoldItalic',
     fontSize: 15,
@@ -70,19 +74,14 @@ module.exports = StyleSheet.create({
     alignItems: 'center',
   },
   calendarContainer: {
-    marginTop: 25,
     flexDirection: 'row',
     justifyContent: 'center',
   },
   calendar: {
-    borderRadius: 13,
     paddingLeft: 30,
     justifyContent: 'center',
     alignSelf: 'center',
     paddingRight: 30,
-    width: wp(90),
-    // height: heightPercentageToDP(40),
-    marginBottom: 300,
   },
   addBookContainer: {
     position: 'absolute',
