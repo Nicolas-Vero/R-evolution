@@ -137,6 +137,7 @@ module.exports = StyleSheet.create({
   reserveItem: {
     marginBottom: 9,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   reserveItemText: {
     color: '#FFFFFF',

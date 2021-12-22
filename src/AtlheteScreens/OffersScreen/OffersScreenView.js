@@ -125,19 +125,8 @@ export default class OffersScreenView extends AbstractScreenView {
           {this.renderSwitchSelector()}
           {this.component.state.screen == 'EN COURS' ? (
             this.component.state.ActiveCourses.offer == null ? (
-              <View
-                style={{
-                  alignItems: 'center',
-                  marginTop: heightPercentageToDP(25),
-                }}>
-                <Text
-                  style={{
-                    fontFamily: 'RobotoBold',
-                    fontSize: 20,
-                    color: '#FFFF',
-                  }}>
-                  Pas de cours actif
-                </Text>
+              <View style={styles.noCourContainer}>
+                <Text style={styles.noCourText}>Pas de cours actif</Text>
               </View>
             ) : (
               <LinearGradient
@@ -150,103 +139,49 @@ export default class OffersScreenView extends AbstractScreenView {
                   x: 0,
                   y: 0,
                 }}
-                style={{
-                  flexDirection: 'column',
-                  backgroundColor: 'grey',
-                  marginVertical: 10,
-                  borderRadius: 10,
-                  padding: 20,
-                }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                style={styles.currentOffer}>
+                <View style={styles.currentOfferCoach}>
                   <Avatar
-                    size="medium"
+                    size={44}
                     rounded
                     source={{
                       uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
                     }}
                   />
-                  <Text
-                    style={{
-                      fontWeight: 'bold',
-                      fontSize: 20,
-                      marginLeft: 10,
-                      fontFamily: 'RobotoBold',
-                      color: '#FFFFFF',
-                      lineHeight: 24,
-                    }}>
+                  <Text style={styles.currentOfferCoachName}>
                     {this.component.state.ActiveCourses.coach.first_name}{' '}
                     {this.component.state.ActiveCourses.coach.last_name}
                   </Text>
                 </View>
                 <View>
-                  <Text
-                    style={{
-                      marginTop: 30,
-                      fontFamily: 'MontserratBold',
-                      fontSize: 20,
-                      color: '#FFFFFF',
-                      lineHeight: 24,
-                    }}>
+                  <Text style={styles.currentOfferTitle}>
                     {this.component.state.ActiveCourses.offer.title}
                   </Text>
                 </View>
                 <View>
-                  <Text
-                    style={{
-                      marginTop: 10,
-                      color: '#FFFFFF',
-                      fontSize: 10,
-                    }}>
+                  <Text style={styles.currentOfferContent}>
                     {this.component.state.ActiveCourses.offer.content}
                   </Text>
                 </View>
-                <View
-                  style={{
-                    width: widthPercentageToDP(90),
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}>
-                  <Text style={{ marginTop: 10, color: '#2CDEE4' }}>
-                    {this.component.state.ActiveCourses.total_sessions}{' '}
-                    coachings
+                <View style={styles.currentOfferInfos}>
+                  <Text style={styles.currentOfferSessions}>
+                    {`${this.component.state.ActiveCourses.total_sessions} ${
+                      this.component.state.ActiveCourses.total_sessions > 1
+                        ? 'coachings'
+                        : 'coaching'
+                    }`}
                   </Text>
-                  <Text
-                    style={{
-                      fontStyle: 'italic',
-                      fontWeight: 'bold',
-                      fontSize: 20,
-                      color: '#2CDEE4',
-                    }}>
+                  <Text style={styles.currentOfferPrice}>
                     {this.component.state.ActiveCourses.offer.price}€
                   </Text>
                 </View>
-                <View
-                  style={{
-                    alignItems: 'center',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    marginTop: 20,
-                  }}>
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      flexDirection: 'row',
-                    }}>
-                    <View
-                      style={{
-                        backgroundColor: '#2CDEE4',
-                        alignItems: 'center',
-                        padding: 10,
-                        paddingHorizontal: 30,
-                        borderRadius: 10,
-                        width: widthPercentageToDP(90),
-                      }}>
-                      <Text style={{ fontFamily: 'Roboto' }}>
-                        Nombre de séances restantes:{' '}
-                        {this.component.state.ActiveCourses.total_sessions -  this.component.state.ActiveCourses.booked_session}
-                      </Text>
-                    </View>
-                  </View>
+                <View style={styles.currentOfferSessionsLeftContainer}>
+                  <Text style={styles.currentOfferSessionsLefText}>
+                    {`Nombre de séances restantes: ${
+                      this.component.state.ActiveCourses.total_sessions -
+                      this.component.state.ActiveCourses.booked_session
+                    }`}
+                  </Text>
                 </View>
               </LinearGradient>
             )

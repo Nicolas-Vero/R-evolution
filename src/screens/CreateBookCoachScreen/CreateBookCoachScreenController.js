@@ -16,7 +16,6 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
       isLoaded: false,
       atlhetesActifs: [],
       atlhetesProspects: [],
-      atlhetesInactifs: [],
       slots: [],
       availabilities: [],
       isProspect: false,
@@ -56,12 +55,7 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
       .filter((user) => user.status === 'active')
       .map((user) => ({
         id: user.id,
-        full_name: `${user.first_name} ${user.last_name}`,
-      }));
-    const inactifs = data
-      .filter((user) => user.status === 'inactive')
-      .map((user) => ({
-        id: user.id,
+        offer_id: user.course.id,
         full_name: `${user.first_name} ${user.last_name}`,
       }));
     const prospects = data
@@ -72,7 +66,6 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
       }));
     this.component.setState({
       atlhetesActifs: actifs,
-      atlhetesInactifs: inactifs,
       atlhetesProspects: prospects,
     });
   }
@@ -92,12 +85,12 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
   };
 
   onCreateBookPress = async (values) => {
+    console.log(values);
     const createBook = await coach_booking({
-      slot: values.slot.trim(),
       coach_id: this.component.state.coach.id,
       date: values.date,
-      athlete_course_id: 0,
-      currentSlot: values.slot,
+      athlete_course_id: values.offer_id,
+      slot: this.component.props.slot,
       athlete_id: values.athlete_id,
     });
     console.log('status', createBook.status);

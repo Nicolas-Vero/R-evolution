@@ -38,7 +38,19 @@ export default class HomeCoachScreenView extends AbstractScreenView {
   renderDay = (date, state, marking) => {
     const isSelected = marking;
     const isToday = state === 'today';
-    const textColor = isToday || !marking ? '#fff' : '#000';
+    // console.log(date);
+    // console.log(state);
+    // console.log(marking);
+    // console.log('///');
+    const isBefore =
+      moment().format('YYYY-DD-MM') >
+      moment(date.dateString).format('YYYY-DD-MM');
+    // console.log(isBefore);
+    const textColor = isBefore
+      ? '#979797'
+      : isToday || !marking
+      ? '#fff'
+      : '#000';
     const bg = isToday ? '#393637' : marking ? '#2CDEE4' : '#393637';
     const badgeTextColor = isToday ? '#000' : marking ? '#fff' : '#000';
     const badgeBg = isToday ? '#2CDEE4' : isSelected ? '#393637' : '#2CDEE4';
@@ -218,14 +230,19 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               keyExtractor={(item) => Math.random(10)}
               renderItem={({ item }) => {
                 const borderWidth = item?.availability === curDate ? 2 : 0;
-                const backgroundColor =
-                  item.availability === this.component.state.selectedDate
-                    ? '#2CDEE4'
-                    : '#1E2026';
-                const textColor =
-                  item.availability === this.component.state.selectedDate
-                    ? 'black'
-                    : 'white';
+                const date = moment(item.availability).format('DD/MM/YYYY');
+                const isBefore = moment().format('DD/MM/YYYY') > date;
+
+                const backgroundColor = isBefore
+                  ? '#393637'
+                  : item.availability === this.component.state.selectedDate
+                  ? '#2CDEE4'
+                  : '#1E2026';
+                const textColor = isBefore
+                  ? '#979797'
+                  : item.availability === this.component.state.selectedDate
+                  ? 'black'
+                  : 'white';
                 return (
                   <TouchableOpacity
                     onPress={() => {
