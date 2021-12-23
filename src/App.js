@@ -58,7 +58,7 @@ export class App extends Component {
       this.setState({ loaded: true });
     });
     //  this.registerForPushNotification();
-    this.lockScreenOrientation();
+    // this.lockScreenOrientation();
     this.notificationListener = Notifications.addNotificationReceivedListener(
       (notification) => {
         console.log('[Notification]', notification);

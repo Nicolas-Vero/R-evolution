@@ -23,7 +23,6 @@ export default class offerPaimentModeScreen extends React.Component {
 
   render() {
     const offerPurchase = this.props.navigation.state.params.item;
-    console.log('offer', offerPurchase);
     list = () => {
       return this.state.items.map((element) => {});
     };

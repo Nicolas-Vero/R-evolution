@@ -85,7 +85,6 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
   };
 
   onCreateBookPress = async (values) => {
-    console.log(values);
     const createBook = await coach_booking({
       coach_id: this.component.state.coach.id,
       date: values.date,
@@ -93,8 +92,6 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
       slot: this.component.props.slot,
       athlete_id: values.athlete_id,
     });
-    console.log('status', createBook.status);
-    console.log('data', createBook.data);
     if (createBook.status === 200) {
       this.component.props.navigation.goBack();
     }

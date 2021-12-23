@@ -48,7 +48,6 @@ export const get_coach_offers = async () => {
 export const delete_coach_offers = async (params) => {
   const data = params;
   const headers = await AuthService.getHeader();
-  console.log(data);
   return axios({
     method: 'DELETE',
     url: `${API_URL}/coach-offer`,
