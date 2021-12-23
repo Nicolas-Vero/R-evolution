@@ -13,7 +13,7 @@ module.exports = StyleSheet.create({
     marginHorizontal: 16,
   },
   scrollView: {
-    maxHeight: 300,
+    maxHeight: 450,
   },
   dropdownButton: {
     marginVertical: 10,
