@@ -62,7 +62,7 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                         }}>
                         {`Le ${moment(this.component.props.date).format(
                           'dddd D MMMM ',
-                        )} à ${this.component.props.time}`}
+                        )} ${this.component.props.time}`}
                       </Text>
                     </View>
                     <CheckBox
@@ -194,8 +194,7 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                                   onBlur={handleBlur('last_name')}
                                   value={values.last_name}
                                   onSubmitEditing={() =>
-                                    this.lastNameInput &&
-                                    this.lastNameInput.focus()
+                                    this.firstName && this.firstName.focus()
                                   }
                                   blurOnSubmit={false}
                                   returnKeyType="next"
@@ -206,11 +205,11 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                                   name="last_name"
                                   placeholder="Nom"
                                   placeholderTextColor="#979797"
-                                  ref={(ref) => (this.lastNameInput = ref)}
+                                  ref={(ref) => (this.firstName = ref)}
                                   style={styles.input}
                                   onChangeText={handleChange('first_name')}
                                   onBlur={handleBlur('first_name')}
-                                  value={values.last_name}
+                                  value={values.first_name}
                                   onSubmitEditing={() =>
                                     this.emailInput && this.emailInput.focus()
                                   }
@@ -269,8 +268,8 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                                     paddingRight: 15,
                                     height: 100,
                                   }}
-                                  onChangeText={handleChange('Description')}
-                                  onBlur={handleBlur('Description')}
+                                  onChangeText={handleChange('description')}
+                                  onBlur={handleBlur('description')}
                                   value={values.description}
                                 />
                               </View>
