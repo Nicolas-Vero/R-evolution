@@ -87,7 +87,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
       nextPayment,
       totalPrice,
     } = this.component.state;
-    const date = moment(inputDate, 'DD/MM/YYYY').format('DD/MM/YYYY');
+    const date = moment(inputDate, 'DD/MM/YYYY').format('YYYY/MM/DD');
     const installments = oldPayment.length + nextPayment.length;
     const newPaiement = {
       amount: addPrice,
@@ -199,7 +199,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
   };
 
   onUpdate = async () => {
-    const { item, oldPayment, nextPayment, totalPrice, transaction_id } =
+    const { item, oldPayment, nextPayment, totalPrice, transaction_id, selectedSaleType } =
       this.component.state;
 
     const athleteId = item.athlete.id;
@@ -209,7 +209,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
         payment.athlete_id = athleteId;
         payment.offer_id = item.offer.id;
         payment.transaction_id = transaction_id;
-
+        payment.mode = selectedSaleType;
         await update_paiement(payment);
       });
 
@@ -248,6 +248,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
         offer_id: selectedOffer.id,
         transaction_id: transaction_id,
         amount: parseInt(totalPrice),
+        mode: selectedSaleType
       });
 
       //TODO ADD CONFIRM DIALOG

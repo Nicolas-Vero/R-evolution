@@ -25,6 +25,8 @@ import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import SaveSaleDialog from '../../components/dialogs/saveSaleDialog/SaveSaleDialog';
+import 'moment/locale/fr';
+moment.locale('fr');
 
 export default class CreateSaleScreenView extends AbstractScreenView {
   renderValidateSaleDialog = () => {

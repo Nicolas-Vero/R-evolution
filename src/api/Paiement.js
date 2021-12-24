@@ -29,6 +29,7 @@ export const update_paiement = async (params) => {
     status,
     id,
     date,
+    mode
   } = params;
   const data = {
     offer_id: offer_id,
@@ -38,6 +39,7 @@ export const update_paiement = async (params) => {
     transaction_id: transaction_id,
     date: date,
     athlete_id: athlete_id,
+    mode: mode
   };
   if (id) {
     data.id = id;
