@@ -227,6 +227,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
       oldPayment,
       nextPayment,
       totalPrice,
+      selectedSaleType,
     } = this.component.state;
 
     const { athleteId } = this.component.props.navigation.state.params;
