@@ -21,7 +21,6 @@ import SwitchButton from '../../components/SwitchButton';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { options } from './homeCoachConfig';
 import styles from './HomeCoachScreenStyle';
-import { update } from 'lodash-es';
 import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
 import { get_appointement_calendar } from '../../api/Coach';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -124,7 +123,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
   renderPlanning = () => {
     const selected = this.component.state.selectedDate;
     return (
-      <View>
+      <ScrollView style={{ marginTop: 15 }} contentInset={{ bottom: 80 }}>
         <View style={styles.tabContainer}>
           <Text style={styles.currentDateText}>
             {this.component.state.currentDate.toUpperCase()}
@@ -151,7 +150,6 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               styles.calendarContainer,
               {
                 marginTop: this.component.state.page.length == 0 ? 25 : 0,
-                width: 'auto',
               },
             ]}>
             <LinearGradient
@@ -164,83 +162,86 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 x: 1,
                 y: 1,
               }}
-              style={{ maxHeight: 400, borderRadius: 8 }}>
-              <ScrollView style={{ maxHeight: 500, height: 320 }}>
-                <Calendar
-                  theme={{
-                    calendarBackground: 'transparent',
-                    textSectionTitleColor: 'white',
-                    textSectionTitleWeight: 'bold',
-                    textSectionTitleDisabledColor: '#d9e1e8',
-                    selectedDayBackgroundColor: '#2CDEE4',
-                    todayTextColor: '#2CDEE4',
-                    dayTextColor: 'white',
-                    textDisabledColor: 'grey',
-                    arrowColor: 'white',
-                    monthTextColor: 'white',
-                    indicatorColor: '#2CDEE4',
-                    textDayFontFamily: 'Montserrat',
-                    textMonthFontFamily: 'MontserratBoldItalic',
-                    textDayHeaderFontFamily: 'MontserratMedium',
-                    textDayFontSize: 16,
-                    textMonthFontSize: 22,
-                    textDayHeaderFontSize: 16,
-                  }}
-                  onPressArrowLeft={(subtractMonth) => {
-                    const bookingPerday = [];
-                    subtractMonth();
-                    const dayOfMonth = this.controller.month(
-                      this.component.state.currentMonth.addMonths(-1, true),
-                    );
-                    dayOfMonth.forEach((element) => {
-                      get_appointement_calendar(
-                        moment(new Date(element)).format('YYYY-MM-DD'),
-                      ).then((res) => {
-                        bookingPerday.push(res.data.length);
-                      });
+              style={{
+                maxHeight: 400,
+                borderRadius: 8,
+                marginHorizontal: 16,
+                alignItems: 'center',
+              }}>
+              <Calendar
+                theme={{
+                  calendarBackground: 'transparent',
+                  textSectionTitleColor: 'white',
+                  textSectionTitleWeight: 'bold',
+                  textSectionTitleDisabledColor: '#d9e1e8',
+                  selectedDayBackgroundColor: '#2CDEE4',
+                  todayTextColor: '#2CDEE4',
+                  dayTextColor: 'white',
+                  textDisabledColor: 'grey',
+                  arrowColor: 'white',
+                  monthTextColor: 'white',
+                  indicatorColor: '#2CDEE4',
+                  textDayFontFamily: 'Montserrat',
+                  textMonthFontFamily: 'MontserratBoldItalic',
+                  textDayHeaderFontFamily: 'MontserratMedium',
+                  textDayFontSize: 16,
+                  textMonthFontSize: 16,
+                  textDayHeaderFontSize: 16,
+                }}
+                onPressArrowLeft={(subtractMonth) => {
+                  const bookingPerday = [];
+                  subtractMonth();
+                  const dayOfMonth = this.controller.month(
+                    this.component.state.currentMonth.addMonths(-1, true),
+                  );
+                  dayOfMonth.forEach((element) => {
+                    get_appointement_calendar(
+                      moment(new Date(element)).format('YYYY-MM-DD'),
+                    ).then((res) => {
+                      bookingPerday.push(res.data.length);
                     });
-                    this.component.setState({
-                      MonthBookingNumberPerDay: bookingPerday,
+                  });
+                  this.component.setState({
+                    MonthBookingNumberPerDay: bookingPerday,
+                  });
+                }}
+                onPressArrowRight={(addMonth) => {
+                  const bookingPerday = [];
+                  addMonth();
+                  const dayOfMonth = this.controller.month(
+                    this.component.state.currentMonth.addMonths(1, true),
+                  );
+                  dayOfMonth.forEach((element) => {
+                    get_appointement_calendar(
+                      moment(new Date(element)).format('YYYY-MM-DD'),
+                    ).then((res) => {
+                      bookingPerday.push(res.data.length);
                     });
-                  }}
-                  onPressArrowRight={(addMonth) => {
-                    const bookingPerday = [];
-                    addMonth();
-                    const dayOfMonth = this.controller.month(
-                      this.component.state.currentMonth.addMonths(1, true),
-                    );
-                    dayOfMonth.forEach((element) => {
-                      get_appointement_calendar(
-                        moment(new Date(element)).format('YYYY-MM-DD'),
-                      ).then((res) => {
-                        bookingPerday.push(res.data.length);
-                      });
-                    });
-                    this.component.setState({
-                      MonthBookingNumberPerDay: bookingPerday,
-                    });
-                  }}
-                  enableSwipeMonths={true}
-                  firstDay={1}
-                  markingType={'custom'}
-                  markedDates={{
-                    [selected]: {
-                      selected: true,
-                      selectedColor: '#2CDEE4',
-                      selectedTextColor: 'black',
-                    },
-                  }}
-                  dayComponent={({ date, state, marking }) =>
-                    this.renderDay(date, state, marking)
-                  }
-                  onDayPress={(day) => this.controller.changeTaskList(day)}
-                  style={styles.calendar}
-                />
-              </ScrollView>
+                  });
+                  this.component.setState({
+                    MonthBookingNumberPerDay: bookingPerday,
+                  });
+                }}
+                enableSwipeMonths={true}
+                firstDay={1}
+                markingType={'custom'}
+                markedDates={{
+                  [selected]: {
+                    selected: true,
+                    selectedColor: '#2CDEE4',
+                    selectedTextColor: 'black',
+                  },
+                }}
+                dayComponent={({ date, state, marking }) =>
+                  this.renderDay(date, state, marking)
+                }
+                onDayPress={(day) => this.controller.changeTaskList(day)}
+                style={styles.calendar}
+              />
             </LinearGradient>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   };
 

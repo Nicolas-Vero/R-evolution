@@ -41,8 +41,6 @@ module.exports = StyleSheet.create({
   },
   tabContainer: {
     alignItems: 'center',
-    marginTop: 25,
-    width: 'auto',
   },
   currentDateText: {
     fontFamily: 'MontserratBoldItalic',
@@ -78,10 +76,11 @@ module.exports = StyleSheet.create({
     justifyContent: 'center',
   },
   calendar: {
-    paddingLeft: 30,
+    paddingVertical: 5,
+    paddingHorizontal: 38,
     justifyContent: 'center',
     alignSelf: 'center',
-    paddingRight: 30,
+    width: wp(90),
   },
   addBookContainer: {
     position: 'absolute',
