@@ -63,6 +63,7 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
       .map((user) => ({
         id: user.id,
         full_name: `${user.first_name} ${user.last_name}`,
+        email: user.email,
       }));
     this.component.setState({
       atlhetesActifs: actifs,
@@ -77,7 +78,8 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
       last_name: values.last_name,
       gender: values.gender,
       phone: values.phone,
-      slot: values.slot,
+      date: values.date,
+      slot: this.component.props.slot,
     });
     if (addProspect.status === 200) {
       this.component.props.navigation.goBack();

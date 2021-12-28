@@ -20,11 +20,13 @@ export const coach_login = (params) => {
   });
 };
 
-export const invite_prospect = (params) => {
+export const invite_prospect = async (params) => {
   const data = params;
+  const headers = await AuthService.getHeader();
   return axios({
     method: 'POST',
     url: `${API_URL}/coach/invite-athlete`,
+    headers: headers,
     data: data,
   });
 };
@@ -38,6 +40,7 @@ export const coach_booking = async (params) => {
     athlete_id,
     coach_id,
   };
+  console.log(data);
   const headers = await AuthService.getHeader();
   return await axios({
     method: 'POST',

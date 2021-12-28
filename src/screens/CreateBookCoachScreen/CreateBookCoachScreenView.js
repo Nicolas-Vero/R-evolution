@@ -136,6 +136,7 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                           defaultButtonText={'Choisir un prospect existant'}
                           onSelect={(selectedItem, index) => {
                             values.athlete_id = selectedItem.id;
+                            values.email = selectedItem.email
                           }}
                           renderDropdownIcon={() => {
                             return (
