@@ -14,7 +14,6 @@ import { athlete_booking } from '../../api/Athlete';
 import SwitchSelector from 'react-native-switch-selector';
 import { Avatar } from 'react-native-elements';
 import MonthsSlider from '../../components/MonthsSlider';
-import {} from '../../api/Availabilities';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
@@ -252,9 +251,9 @@ export default class HomeAthleteView extends AbstractScreenView {
       <View style={styles.renewContainer}>
         {this.renderRenewOfferDialog()}
         <Text style={styles.renewText}>
-          IL NE TE RESTE QUE <Text style={styles.textColored}>"X"</Text>
+          IL NE TE RESTE QUE <Text style={styles.textColored}>{this.component.state.athleteCourse.total_sessions - this.component.state.athleteCourse.booked_session} </Text>
           SÉANCES SUR TON
-          <Text style={styles.textColored}> "PACK X"</Text>
+          <Text style={styles.textColored}> {this.component.state.athleteCourse.offer?.title}</Text>
         </Text>
         <TouchableOpacity
           onPress={this.controller.onRenewOfferPress}
@@ -277,7 +276,7 @@ export default class HomeAthleteView extends AbstractScreenView {
         {this.renderInfos()}
         <Text style={styles.appointmentText}>AUJOURD'HUI</Text>
         {this.component.state.dayApointement &&
-        this.component.state.dayApointement.length ? (
+          this.component.state.dayApointement.length ? (
           <FlatList
             data={this.component.state.dayApointement}
             refreshing={this.component.state.refresh}
@@ -318,7 +317,7 @@ export default class HomeAthleteView extends AbstractScreenView {
         <Text style={styles.appointmentText}>À VENIR</Text>
 
         {this.component.state.upcomingApointement &&
-        this.component.state.upcomingApointement.length ? (
+          this.component.state.upcomingApointement.length ? (
           <FlatList
             style={{ maxHeight: heightPercentageToDP(45) }}
             data={this.component.state.upcomingApointement}
@@ -436,13 +435,13 @@ export default class HomeAthleteView extends AbstractScreenView {
               const backgroundColor = isBefore
                 ? '#393637'
                 : item.availability === this.component.state.selectedDate
-                ? '#2CDEE4'
-                : '#1E2026';
+                  ? '#2CDEE4'
+                  : '#1E2026';
               const textColor = isBefore
                 ? '#979797'
                 : item.availability === this.component.state.selectedDate
-                ? 'black'
-                : 'white';
+                  ? 'black'
+                  : 'white';
               const borderWidth = item?.availability === curDate ? 2 : 0;
 
               return (
