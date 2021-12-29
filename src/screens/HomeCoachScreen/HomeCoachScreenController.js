@@ -1,7 +1,7 @@
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import moment from 'moment';
 import { get_availabilities } from '../../api/Availabilities';
-import { get_appointement } from '../../api/Coach';
+import { get_appointement, get_appointement_calendar } from '../../api/Coach';
 import * as Notifications from 'expo-notifications';
 import AuthService from '../../services/AuthService';
 import XDate from 'xdate';
@@ -64,6 +64,20 @@ export default class HomeCoachScreenController extends AbstractScreenController 
         this.sendNotificationImmediately(response);
         this.component.props.navigation.push('activitiesCoachScreen');
       });
+    const bookingPerday = [];
+    const dayOfMonth = this.month(
+      this.component.state.currentMonth
+    );
+    dayOfMonth.forEach((element) => {
+      get_appointement_calendar(
+        moment(new Date(element)).format('YYYY-MM-DD'),
+      ).then((res) => {
+        bookingPerday.push(res.data.length);
+      });
+    });
+    this.component.setState({
+      MonthBookingNumberPerDay: bookingPerday,
+    });
   }
   componentDidUpdate(prevProps) {
     if (
