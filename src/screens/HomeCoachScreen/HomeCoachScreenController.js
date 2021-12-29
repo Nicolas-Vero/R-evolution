@@ -134,10 +134,10 @@ export default class HomeCoachScreenController extends AbstractScreenController 
   };
 
   getDaysArrayByMonth(date) {
-    var daysInMonth = moment(date, 'DD-MM-YYYY').daysInMonth();
+    var daysInMonth = moment(date).daysInMonth();
     var arrDays = [];
     while (daysInMonth && daysInMonth >= 1) {
-      var current = moment(date, 'DD-MM-YYYY').date(daysInMonth);
+      var current = moment(date).date(daysInMonth);
       arrDays.push(current);
       daysInMonth--;
     }
