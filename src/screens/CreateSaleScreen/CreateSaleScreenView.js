@@ -264,11 +264,11 @@ export default class CreateSaleScreenView extends AbstractScreenView {
               keyExtractor={() => Math.random().toString()}
               renderItem={({ item, index }) => (
                 <View style={styles.paymentItem}>
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     onPress={() => this.controller.openDeleteSaleDialog(item)}
                     style={styles.paiymentDelete}>
                     <Entypo name="cross" size={15} />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                   <Text style={styles.paymentItemText}>
                     {item.date.toString()}
                   </Text>
