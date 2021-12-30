@@ -261,8 +261,10 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               keyExtractor={(item) => Math.random(10)}
               renderItem={({ item }) => {
                 const borderWidth = item?.availability === curDate ? 2 : 0;
-                const date = moment(item.availability).format('DD/MM/YYYY');
-                const isBefore = moment().format('DD/MM/YYYY') > date;
+                const date = moment(item.availability).format('YYYY-MM-DD');
+                const isBefore =
+                  curDate > date ||
+                  moment().toDate() >= moment(item.availability).toDate();
 
                 const backgroundColor = isBefore
                   ? '#393637'
@@ -339,6 +341,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 return (
                   <SwitchButton
                     onLinePress={this.controller.onLinePress}
+                    onAthletePress={this.controller.onAthletePress}
                     day={this.component.state.currentAvailabilities.day}
                     today={this.component.state.today}
                     item={item}
@@ -450,7 +453,6 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                   fontFamily: 'MontserratBoldItalic',
                   lineHeight: 15,
                 }}
-                valuePadding={3}
                 borderColor="#1E2026"
               />
             </View>

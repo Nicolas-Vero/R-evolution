@@ -102,33 +102,32 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
     const { isCanceled } = this.component.state;
     return (
       <View style={styles.container}>
-        <SafeAreaView>
-          <View style={{ marginTop: isIphoneX() ? 30 : 0 }}>
-            <View style={styles.header}>
-              <HeaderLight />
-              <View style={styles.headerLeft}>
-                <Avatar
-                  size={82}
-                  rounded
-                  source={require('../../../assets/images/avatar.png')}
-                />
-                <Text style={styles.username}>
-                  {user.first_name} {user.last_name}
-                </Text>
-              </View>
-              <Image style={styles.userStatusImage} source={badgeImage} />
+        <View style={{ marginTop: isIphoneX() ? 40 : 0 }}>
+          <View style={styles.header}>
+            <HeaderLight />
+            <View style={styles.headerLeft}>
+              <Avatar
+                size={82}
+                rounded
+                source={require('../../../assets/images/avatar.png')}
+              />
+              <Text style={styles.username}>
+                {user.first_name} {user.last_name}
+              </Text>
             </View>
+            <Image style={styles.userStatusImage} source={badgeImage} />
           </View>
-          <View style={styles.content}>
-            <ScrollView
-              style={styles.scrollView}
-              refreshControl={
-                <SidappRefreshControl
-                  refreshing={this.component.state.refreshing}
-                  onRefresh={this.controller.fetchData}
-                />
-              }>
-              {/* {isActif || isCanceled ? (
+        </View>
+        <View style={styles.content}>
+          <ScrollView
+            style={styles.scrollView}
+            refreshControl={
+              <SidappRefreshControl
+                refreshing={this.component.state.refreshing}
+                onRefresh={this.controller.fetchData}
+              />
+            }>
+            {/* {isActif || isCanceled ? (
                 <View style={styles.cancelItem}>
                   <Text style={styles.infoText}>Séance :</Text>
                   <View style={styles.cancelBookContainer}>
@@ -144,293 +143,292 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   {this.renderCancelBookDialog()}
                 </View>
               ) : null} */}
-              <View style={styles.phoneNumberContainer}>
-                <Image
-                  style={styles.phoneImg}
-                  source={require('../../../assets/images/phone.png')}
-                />
-                <Text style={styles.phoneNumberText}>
-                  {[
-                    this.component.props.navigation.state.params.item.athlete
-                      ? user.athlete.phone.slice(0, 2)
-                      : user.phone.slice(0, 2),
-                    ' ',
-                    this.component.props.navigation.state.params.item.athlete
-                      ? user.athlete.phone.slice(2, 4)
-                      : user.phone.slice(2, 4),
-                    ' ',
-                    this.component.props.navigation.state.params.item.athlete
-                      ? user.athlete.phone.slice(4, 6)
-                      : user.phone.slice(4, 6),
-                    ' ',
-                    this.component.props.navigation.state.params.item.athlete
-                      ? user.athlete.phone.slice(6, 8)
-                      : user.phone.slice(6, 8),
-                    ' ',
-                    this.component.props.navigation.state.params.item.athlete
-                      ? user.athlete.phone.slice(8, 10)
-                      : user.phone.slice(8, 10),
-                  ].join('')}
-                </Text>
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.infoText}>Adresse e-mail :</Text>
-                {this.component.props.navigation.state.params.item.athlete ? (
-                  <Text style={styles.valueText}>{user.athlete.email}</Text>
-                ) : (
-                  <Text style={styles.valueText}>{user.email}</Text>
-                )}
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.infoText}>Commercial référent :</Text>
-                {this.component.props.navigation.state.params.item.athlete ? (
-                  <Text style={styles.valueText}>
-                    {' '}
-                    {user.commercial
-                      ? user.commercial.first_name.concat(
-                          ' ',
-                          user.commercial.last_name,
-                        )
-                      : 'Pas de recommandation'}
-                  </Text>
-                ) : (
-                  <Text style={styles.valueText}>
-                    {' '}
-                    {user.commercial
-                      ? user.commercial.first_name.concat(
-                          ' ',
-                          user.commercial.last_name,
-                        )
-                      : 'Pas de recommandation'}
-                  </Text>
-                )}
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.infoText}>Offre en cours :</Text>
+            <View style={styles.phoneNumberContainer}>
+              <Image
+                style={styles.phoneImg}
+                source={require('../../../assets/images/phone.png')}
+              />
+              <Text style={styles.phoneNumberText}>
+                {[
+                  this.component.props.navigation.state.params.item.athlete
+                    ? user.athlete.phone.slice(0, 2)
+                    : user.phone.slice(0, 2),
+                  ' ',
+                  this.component.props.navigation.state.params.item.athlete
+                    ? user.athlete.phone.slice(2, 4)
+                    : user.phone.slice(2, 4),
+                  ' ',
+                  this.component.props.navigation.state.params.item.athlete
+                    ? user.athlete.phone.slice(4, 6)
+                    : user.phone.slice(4, 6),
+                  ' ',
+                  this.component.props.navigation.state.params.item.athlete
+                    ? user.athlete.phone.slice(6, 8)
+                    : user.phone.slice(6, 8),
+                  ' ',
+                  this.component.props.navigation.state.params.item.athlete
+                    ? user.athlete.phone.slice(8, 10)
+                    : user.phone.slice(8, 10),
+                ].join('')}
+              </Text>
+            </View>
+            <View style={styles.item}>
+              <Text style={styles.infoText}>Adresse e-mail :</Text>
+              {this.component.props.navigation.state.params.item.athlete ? (
+                <Text style={styles.valueText}>{user.athlete.email}</Text>
+              ) : (
+                <Text style={styles.valueText}>{user.email}</Text>
+              )}
+            </View>
+            <View style={styles.item}>
+              <Text style={styles.infoText}>Commercial référent :</Text>
+              {this.component.props.navigation.state.params.item.athlete ? (
                 <Text style={styles.valueText}>
-                  <Text style={styles.valueText}>
-                    {this.component.state.ActiveCourses.offer?.title ||
-                      'Aucune offre'}
-                  </Text>
+                  {' '}
+                  {user.commercial
+                    ? user.commercial.first_name.concat(
+                        ' ',
+                        user.commercial.last_name,
+                      )
+                    : 'Pas de recommandation'}
                 </Text>
-              </View>
-              {renderPayment ? (
-                <View style={styles.item}>
-                  <Text style={styles.infoText}>Vente(s) effectuée(s) :</Text>
-
-                  <FlatList
-                    style={styles.paiementList}
-                    data={this.component.state.Paiement}
-                    // onRefresh={onRefresh}
-                    // refreshing={this.state.refresh}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={({ item }) => {
-                      const isDone =
-                        item.course_details.booked_session ===
-                        item.course_details.total_sessions;
-                      return (
-                        <TouchableOpacity
-                          disabled={isDone}
-                          onPress={() => {
-                            navigate('CreateSaleScreen', { item: item });
-                          }}>
-                          <View
-                            style={[
-                              styles.paiementItem,
-                              {
-                                backgroundColor: isDone ? '#979797' : '#2CDEE4',
-                              },
-                            ]}>
-                            <Text style={styles.paiementItemText}>
-                              {moment(item.created_at).format('L')}
-                            </Text>
-                            <Text style={styles.paiementItemText}>
-                              {item.offer.title}
-                            </Text>
-                            <Text style={styles.paiementItemText}>
-                              {`${item.amount}€`}
-                            </Text>
-                          </View>
-                        </TouchableOpacity>
-                      );
-                    }}
-                  />
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigate('CreateSaleScreen', {
-                        isCreation: true,
-                        athleteId:
-                          this.component.props.navigation.state.params.item.id,
-                      });
-                    }}
-                    style={styles.addPaiementContainer}>
-                    <View style={styles.addPaiementIconMargin}>
-                      <Entypo name="squared-plus" size={27} color="#2CDEE4" />
-                    </View>
-                    <Text style={styles.infoText}>Ajouter une vente</Text>
-                  </TouchableOpacity>
-                </View>
-              ) : null}
+              ) : (
+                <Text style={styles.valueText}>
+                  {' '}
+                  {user.commercial
+                    ? user.commercial.first_name.concat(
+                        ' ',
+                        user.commercial.last_name,
+                      )
+                    : 'Pas de recommandation'}
+                </Text>
+              )}
+            </View>
+            <View style={styles.item}>
+              <Text style={styles.infoText}>Offre en cours :</Text>
+              <Text style={styles.valueText}>
+                <Text style={styles.valueText}>
+                  {this.component.state.ActiveCourses.offer?.title ||
+                    'Aucune offre'}
+                </Text>
+              </Text>
+            </View>
+            {renderPayment ? (
               <View style={styles.item}>
-                <Text style={styles.infoText}>Ses objectifs :</Text>
+                <Text style={styles.infoText}>Vente(s) effectuée(s) :</Text>
+
                 <FlatList
-                  style={styles.flatlist}
-                  horizontal={true}
-                  data={user.goals}
+                  style={styles.paiementList}
+                  data={this.component.state.Paiement}
                   // onRefresh={onRefresh}
                   // refreshing={this.state.refresh}
                   keyExtractor={(item) => item.id.toString()}
-                  renderItem={({ item, index }) => (
-                    <View
-                      style={[
-                        styles.flatlistItem,
-                        {
-                          marginLeft: index === 0 ? 0 : 5,
-                          marginRight: index === user.goals.length - 1 ? 0 : 5,
-                        },
-                      ]}>
-                      <Text style={styles.flatlistItemText}>{item.name}</Text>
-                    </View>
-                  )}
+                  renderItem={({ item }) => {
+                    const isDone =
+                      item.course_details.booked_session ===
+                      item.course_details.total_sessions;
+                    return (
+                      <TouchableOpacity
+                        disabled={isDone}
+                        onPress={() => {
+                          navigate('CreateSaleScreen', { item: item });
+                        }}>
+                        <View
+                          style={[
+                            styles.paiementItem,
+                            {
+                              backgroundColor: isDone ? '#979797' : '#2CDEE4',
+                            },
+                          ]}>
+                          <Text style={styles.paiementItemText}>
+                            {moment(item.created_at).format('L')}
+                          </Text>
+                          <Text style={styles.paiementItemText}>
+                            {item.offer.title}
+                          </Text>
+                          <Text style={styles.paiementItemText}>
+                            {`${item.amount}€`}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  }}
                 />
-              </View>
-              <View style={styles.row}>
-                <View style={[styles.item, styles.itemRowLeft]}>
-                  <View style={styles.row}>
-                    <Text style={styles.infoText}>Taille :</Text>
-                    {this.component.props.navigation.state.params.item
-                      .athlete ? (
-                      <Text style={styles.valueTextRow}>
-                        {`${user.athlete.size / 100}`.substring(0, 1)}m
-                        {`${user.athlete.size / 100}`.substring(2)}
-                      </Text>
-                    ) : (
-                      <Text style={styles.valueTextRow}>
-                        {`${user.size / 100}`.substring(0, 1)}m
-                        {`${user.size / 100}`.substring(2)}
-                      </Text>
-                    )}
+                <TouchableOpacity
+                  onPress={() => {
+                    navigate('CreateSaleScreen', {
+                      isCreation: true,
+                      athleteId:
+                        this.component.props.navigation.state.params.item.id,
+                    });
+                  }}
+                  style={styles.addPaiementContainer}>
+                  <View style={styles.addPaiementIconMargin}>
+                    <Entypo name="squared-plus" size={27} color="#2CDEE4" />
                   </View>
-                </View>
-                <View style={[styles.item, styles.itemRowRight]}>
-                  <View style={styles.row}>
-                    <Text style={styles.infoText}>Poids :</Text>
-                    {this.component.props.navigation.state.params.item
-                      .athlete ? (
-                      <Text style={styles.valueTextRow}>
-                        {user.athlete.weight}Kg
-                      </Text>
-                    ) : (
-                      <Text style={styles.valueTextRow}>{user.weight}Kg</Text>
-                    )}
-                  </View>
-                </View>
+                  <Text style={styles.infoText}>Ajouter une vente</Text>
+                </TouchableOpacity>
               </View>
-              <View style={styles.item}>
+            ) : null}
+            <View style={styles.item}>
+              <Text style={styles.infoText}>Ses objectifs :</Text>
+              <FlatList
+                style={styles.flatlist}
+                horizontal={true}
+                data={user.goals}
+                // onRefresh={onRefresh}
+                // refreshing={this.state.refresh}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item, index }) => (
+                  <View
+                    style={[
+                      styles.flatlistItem,
+                      {
+                        marginLeft: index === 0 ? 0 : 5,
+                        marginRight: index === user.goals.length - 1 ? 0 : 5,
+                      },
+                    ]}>
+                    <Text style={styles.flatlistItemText}>{item.name}</Text>
+                  </View>
+                )}
+              />
+            </View>
+            <View style={styles.row}>
+              <View style={[styles.item, styles.itemRowLeft]}>
                 <View style={styles.row}>
-                  <Text style={styles.infoText}>Age :</Text>
+                  <Text style={styles.infoText}>Taille :</Text>
                   {this.component.props.navigation.state.params.item.athlete ? (
                     <Text style={styles.valueTextRow}>
-                      {user.athlete.age} ans
+                      {`${user.athlete.size / 100}`.substring(0, 1)}m
+                      {`${user.athlete.size / 100}`.substring(2)}
                     </Text>
                   ) : (
-                    <Text style={styles.valueTextRow}>{user.age} ans</Text>
+                    <Text style={styles.valueTextRow}>
+                      {`${user.size / 100}`.substring(0, 1)}m
+                      {`${user.size / 100}`.substring(2)}
+                    </Text>
                   )}
                 </View>
               </View>
-              <View style={styles.item}>
-                <Text style={styles.infoText}>
-                  Créneaux de sport souhaités :
-                </Text>
-                <Text style={styles.sportSlotText}>
-                  Entre{' '}
+              <View style={[styles.item, styles.itemRowRight]}>
+                <View style={styles.row}>
+                  <Text style={styles.infoText}>Poids :</Text>
                   {this.component.props.navigation.state.params.item.athlete ? (
-                    <Text style={styles.textColored}>
-                      {user.athlete.preferred_time_start}H
+                    <Text style={styles.valueTextRow}>
+                      {user.athlete.weight}Kg
                     </Text>
                   ) : (
-                    <Text style={styles.textColored}>
-                      {user.preferred_time_start}H
-                    </Text>
-                  )}{' '}
-                  et{' '}
-                  {this.component.props.navigation.state.params.item.athlete ? (
-                    <Text style={styles.textColored}>
-                      {user.athlete.preferred_time_end}H
-                    </Text>
-                  ) : (
-                    <Text style={styles.textColored}>
-                      {user.preferred_time_end}H
-                    </Text>
+                    <Text style={styles.valueTextRow}>{user.weight}Kg</Text>
                   )}
+                </View>
+              </View>
+            </View>
+            <View style={styles.item}>
+              <View style={styles.row}>
+                <Text style={styles.infoText}>Age :</Text>
+                {this.component.props.navigation.state.params.item.athlete ? (
+                  <Text style={styles.valueTextRow}>
+                    {user.athlete.age} ans
+                  </Text>
+                ) : (
+                  <Text style={styles.valueTextRow}>{user.age} ans</Text>
+                )}
+              </View>
+            </View>
+            <View style={styles.item}>
+              <Text style={styles.infoText}>Créneaux de sport souhaités :</Text>
+              <Text style={styles.sportSlotText}>
+                Entre{' '}
+                {this.component.props.navigation.state.params.item.athlete ? (
+                  <Text style={styles.textColored}>
+                    {user.athlete.preferred_time_start}H
+                  </Text>
+                ) : (
+                  <Text style={styles.textColored}>
+                    {user.preferred_time_start}H
+                  </Text>
+                )}{' '}
+                et{' '}
+                {this.component.props.navigation.state.params.item.athlete ? (
+                  <Text style={styles.textColored}>
+                    {user.athlete.preferred_time_end}H
+                  </Text>
+                ) : (
+                  <Text style={styles.textColored}>
+                    {user.preferred_time_end}H
+                  </Text>
+                )}
+              </Text>
+              <FlatList
+                style={styles.flatlist}
+                horizontal={true}
+                data={dayPreference}
+                // onRefresh={onRefresh}
+                // refreshing={this.state.refresh}
+                keyExtractor={(item) => item.day}
+                renderItem={({ item, index }) => (
+                  <View
+                    style={[
+                      styles.flatlistItem,
+                      {
+                        marginLeft: index === 0 ? 0 : 5,
+                        marginRight: index === dayPreference.length - 1 ? 0 : 5,
+                      },
+                    ]}>
+                    <Text style={styles.flatlistItemText}>{item.day}</Text>
+                  </View>
+                )}
+              />
+            </View>
+            <View style={styles.item}>
+              <Text style={styles.infoText}>Experience(s) sportive(s) :</Text>
+              {this.component.props.navigation.state.params.item.athlete ? (
+                <Text style={styles.valueText}>
+                  {!user.athlete.experience_years
+                    ? "Pas d'informations"
+                    : user.athlete.experience_years > 0
+                    ? ` Plus de ${user.athlete.experience_years} ans`
+                    : `Moins d'un an`}
                 </Text>
-                <FlatList
-                  style={styles.flatlist}
-                  horizontal={true}
-                  data={dayPreference}
-                  // onRefresh={onRefresh}
-                  // refreshing={this.state.refresh}
-                  keyExtractor={(item) => item.day}
-                  renderItem={({ item, index }) => (
-                    <View
-                      style={[
-                        styles.flatlistItem,
-                        {
-                          marginLeft: index === 0 ? 0 : 5,
-                          marginRight:
-                            index === dayPreference.length - 1 ? 0 : 5,
-                        },
-                      ]}>
-                      <Text style={styles.flatlistItemText}>{item.day}</Text>
-                    </View>
-                  )}
-                />
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.infoText}>Experience(s) sportive(s) :</Text>
-                {this.component.props.navigation.state.params.item.athlete ? (
-                  <Text style={styles.valueText}>
-                    {user.athlete.experience_years > 0
-                      ? ` Plus de ${user.athlete.experience_years} ans`
-                      : `Moins d'un an`}
-                  </Text>
-                ) : (
-                  <Text style={styles.valueText}>
-                    {user.experience_years > 0
-                      ? ` Plus de ${user.experience_years} ans`
-                      : `Moins d'un an`}
-                  </Text>
-                )}
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.infoText}>Santé :</Text>
-                {this.component.props.navigation.state.params.item.athlete ? (
-                  <Text style={styles.valueText}>
-                    {user.athlete.health_issues || "Pas d'informations"}
-                  </Text>
-                ) : (
-                  <Text style={styles.valueText}>
-                    {user.health_issues || "Pas d'informations"}
-                  </Text>
-                )}
-              </View>
-              <View style={styles.item}>
-                <Text style={styles.infoText}>
-                  Informations complémentaires :
+              ) : (
+                <Text style={styles.valueText}>
+                  {!user.experience_years
+                    ? "Pas d'informations"
+                    : user.experience_years > 0
+                    ? ` Plus de ${user.experience_years} ans`
+                    : `Moins d'un an`}
                 </Text>
-                {this.component.props.navigation.state.params.item.athlete ? (
-                  <Text style={styles.valueText}>
-                    {user.athlete.health_problem_description ||
-                      "Pas d'informations"}
-                  </Text>
-                ) : (
-                  <Text style={styles.valueText}>
-                    {user.health_problem_description || "Pas d'informations"}
-                  </Text>
-                )}
-              </View>
-              {/* TODO NICOLAS DELETE SHEET */}
-              {/* {!isProspect ? null : (
+              )}
+            </View>
+            <View style={styles.item}>
+              <Text style={styles.infoText}>Santé :</Text>
+              {this.component.props.navigation.state.params.item.athlete ? (
+                <Text style={styles.valueText}>
+                  {user.athlete.health_issues || "Pas d'informations"}
+                </Text>
+              ) : (
+                <Text style={styles.valueText}>
+                  {user.health_issues || "Pas d'informations"}
+                </Text>
+              )}
+            </View>
+            <View style={styles.item}>
+              <Text style={styles.infoText}>
+                Informations complémentaires :
+              </Text>
+              {this.component.props.navigation.state.params.item.athlete ? (
+                <Text style={styles.valueText}>
+                  {user.athlete.health_problem_description ||
+                    "Pas d'informations"}
+                </Text>
+              ) : (
+                <Text style={styles.valueText}>
+                  {user.health_problem_description || "Pas d'informations"}
+                </Text>
+              )}
+            </View>
+            {/* TODO NICOLAS DELETE SHEET */}
+            {/* {!isProspect ? null : (
                 <View style={styles.deleteSHeetContainer}>
                   <Text
                     style={styles.deleteSheet}
@@ -440,9 +438,8 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   {this.renderDeleteSheetDialog()}
                 </View>
               )} */}
-            </ScrollView>
-          </View>
-        </SafeAreaView>
+          </ScrollView>
+        </View>
       </View>
     );
   }

@@ -7,6 +7,7 @@ import ProfileCoachScreen from '../../screens/ProfileCoachScreen/ProfileCoachScr
 import ActivitiesCoachScreen from '../../screens/ActivitiesCoachScreen/ActivitiesCoachScreen';
 import CreateReminderCoachScreen from '../../screens/CreateReminderCoachScreen/CreateReminderCoachScreen';
 import CreateBookCoachScreen from '../../screens/CreateBookCoachScreen/CreateBookCoachScreen';
+import AthleteSheetCoachScreen from '../../screens/AthleteSheetCoachScreen/AthleteSheetCoachScreen';
 const HomeStack = createStackNavigator(
   {
     homeCoachScreen: {
@@ -61,6 +62,13 @@ const HomeStack = createStackNavigator(
     },
     TreshRequestCoachScreen: {
       screen: TreshRequestCoachScreen,
+      navigationOptions: {
+        gestureEnabled: false,
+        headerShown: false,
+      },
+    },
+    AthleteSheetCoachScreen: {
+      screen: AthleteSheetCoachScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,

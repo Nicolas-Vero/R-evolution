@@ -5,8 +5,9 @@ import { get_book, update_availabilities } from '../api/Availabilities';
 import { isEmpty } from 'lodash-es';
 import moment from 'moment';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Avatar } from 'react-native-elements';
 
-export default class SwitchButton extends Component {
+export default class SwitchButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,8 +27,7 @@ export default class SwitchButton extends Component {
         res.data.forEach((element) => {
           filterarray.push({
             slot: element.slot,
-            first_name: element.athlete.first_name,
-            profile_picture_url: element.athlete.profile_picture_url,
+            athlete: element.athlete,
           });
         });
         this.setState({ bookOfDay: filterarray });
@@ -38,13 +38,10 @@ export default class SwitchButton extends Component {
   }
 
   daybooked(currentSlot) {
-    var currentBook = {};
+    let currentBook = {};
     this.state.bookOfDay.forEach((day) => {
       if (currentSlot === day.slot) {
-        currentBook = {
-          first_name: day.first_name,
-          profile_picture_url: day.profile_picture_url,
-        };
+        currentBook = day.athlete;
       }
     });
     return currentBook;
@@ -77,8 +74,20 @@ export default class SwitchButton extends Component {
             </Text>
           ) : (
             <View>
-              <TouchableOpacity style={styles.button}>
-                <Text style={styles.text}>{currentBook.first_name}</Text>
+              <TouchableOpacity
+                style={styles.userContainer}
+                onPress={() => this.props.onAthletePress(currentBook)}>
+                <Avatar
+                  size={22}
+                  rounded
+                  source={{
+                    uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                  }}
+                />
+                <Text
+                  style={
+                    styles.username
+                  }>{`${currentBook.first_name} ${currentBook.last_name}`}</Text>
               </TouchableOpacity>
             </View>
           )
@@ -102,7 +111,7 @@ export default class SwitchButton extends Component {
           checkedColor="#2CDEE4"
           checkedIcon="dot-circle-o"
           uncheckedIcon="dot-circle-o"
-          checked={status === true}
+          checked={status === true || !isEmpty(currentBook)}
           uncheckedColor={disable ? '#979797' : '#fff'}
           value={status}
           onPress={() => this.test(slots, item)}
@@ -200,8 +209,18 @@ const styles = {
     paddingLeft: 0,
     marginLeft: 0,
   },
-  background: {
-    backgroundColor: 'black',
-    flex: 1,
+  userContainer: {
+    backgroundColor: '#2CDEE4',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 14,
+    paddingVertical: 3,
+    borderRadius: 6,
+  },
+  username: {
+    fontSize: 11,
+    fontFamily: 'RobotoMedium',
+    marginLeft: 12,
   },
 };

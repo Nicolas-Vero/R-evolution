@@ -126,7 +126,6 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
               fontSize={13}
               selectedTextStyle={styles.switchSelectedText}
               textStyle={styles.switchSelectedText}
-              valuePadding={3}
               borderColor="#1E2026"
             />
           </View>

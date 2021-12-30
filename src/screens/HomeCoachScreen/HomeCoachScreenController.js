@@ -244,4 +244,10 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       date: this.component.state.selectedDate,
     });
   };
+
+  onAthletePress = (athlete) => {
+    this.component.props.navigation.navigate('AthleteSheetCoachScreen', {
+      item: athlete,
+    });
+  };
 }

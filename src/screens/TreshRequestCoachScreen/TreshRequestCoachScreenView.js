@@ -196,7 +196,10 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                     Experience(s) sportive(s) :
                   </Text>
                   <Text style={styles.valueText}>
-                    {this.component.state.Athlete.athlete?.experience_years > 0
+                    {!this.component.state.Athlete.athlete?.experience_years
+                      ? "Pas d'informations"
+                      : this.component.state.Athlete.athlete?.experience_years >
+                        0
                       ? `Plus de ${this.component.state.Athlete.athlete?.experience_years} ans`
                       : "Moins d'un an"}
                   </Text>
