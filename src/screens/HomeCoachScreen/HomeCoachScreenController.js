@@ -130,6 +130,11 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       });
     }
 
+    const requests = await get_public_request();
+    if (requests.status === 200) {
+      this.component.setState({ publicRequest: requests.data.requests.length });
+    }
+
     this.component.setState({ refreshing: false });
   };
 

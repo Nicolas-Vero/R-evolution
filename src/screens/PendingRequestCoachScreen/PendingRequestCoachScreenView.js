@@ -43,7 +43,7 @@ export default class PendingRequestCoachScreenView extends AbstractScreenView {
         <View style={styles.itemRight}>
           <Text
             style={[styles.timerText, { color: isMine ? '#000' : '#979797' }]}>
-            {moment(item?.athlete?.created_at).format('LT')}
+            {moment(item?.athlete?.created_at).format('DD/MM/YYYY - hh:mm')}
           </Text>
         </View>
       </TouchableOpacity>

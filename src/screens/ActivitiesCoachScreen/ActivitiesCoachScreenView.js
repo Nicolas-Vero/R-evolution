@@ -80,7 +80,9 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
                       <Text style={styles.itemTextDate}>
                         {moment(item.date).format('dddd D MMMM')}
                       </Text>
-                      <Text style={styles.itemTextDate}>{item.hour}</Text>
+                      <Text style={styles.itemTextDate}>
+                        {item.hour.slice(0, 5)}
+                      </Text>
                     </View>
                   </View>
                 </LinearGradient>

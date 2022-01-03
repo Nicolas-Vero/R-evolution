@@ -98,7 +98,7 @@ export default class SwitchButton extends React.Component {
             <Text
               style={[
                 styles.textColored,
-                { color: disable ? '#979797' : '#FFF' },
+                { color: disable ? '#979797' : '#2CDEE4' },
               ]}>
               Disponible
             </Text>

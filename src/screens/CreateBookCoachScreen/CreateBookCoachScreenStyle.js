@@ -23,9 +23,11 @@ module.exports = StyleSheet.create({
   },
   checkBoxContainer: {
     marginLeft: 0,
-    marginVertical: 5,
+    marginBottom: 0,
+    marginTop: 0,
     backgroundColor: 'transparent',
     borderWidth: 0,
+    paddingLeft:0
   },
   checkBoxText: {
     color: '#fff',
@@ -81,5 +83,8 @@ module.exports = StyleSheet.create({
   },
   addProspectCheckBoxContainer: {
     flexDirection: 'row',
+  },
+  buttonContainer: {
+    paddingBottom: 50,
   },
 });

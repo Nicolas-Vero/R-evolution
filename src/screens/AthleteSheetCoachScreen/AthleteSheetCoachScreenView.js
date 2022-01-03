@@ -99,7 +99,9 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
     }
     const isProspect = user.status === 'prospect';
     const isActif = user.status === 'active';
-    const { isCanceled } = this.component.state;
+    const { isCanceled, ActiveCourses } = this.component.state;
+    const sessionLeft =
+      ActiveCourses.total_sessions - ActiveCourses.booked_session;
     return (
       <View style={styles.container}>
         <View style={{ marginTop: isIphoneX() ? 40 : 0 }}>
@@ -208,8 +210,13 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
               <Text style={styles.infoText}>Offre en cours :</Text>
               <Text style={styles.valueText}>
                 <Text style={styles.valueText}>
-                  {this.component.state.ActiveCourses.offer?.title ||
-                    'Aucune offre'}
+                  {ActiveCourses.offer
+                    ? `${ActiveCourses.offer.title} - ${sessionLeft} ${
+                        sessionLeft > 1
+                          ? 'séances restantes'
+                          : 'séance restante'
+                      }  sur ${ActiveCourses.total_sessions}`
+                    : 'Aucune offre'}
                 </Text>
               </Text>
             </View>
