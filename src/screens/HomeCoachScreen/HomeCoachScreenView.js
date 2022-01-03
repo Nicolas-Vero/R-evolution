@@ -253,16 +253,17 @@ export default class HomeCoachScreenView extends AbstractScreenView {
           <MonthsSlider onChange={this.controller.onMonthChange.bind(this)} />
           <View style={{ marginBottom: 34 }}>
             <FlatList
-              // initialNumToRender={this.component.state.todayIndex}
               ref={(ref) => (this.component.listRef = ref)}
               horizontal={true}
               data={this.component.state.availabilities}
               refreshing={this.component.state.refreshing}
-              keyExtractor={(item) => Math.random(10)}
+              keyExtractor={() => String(Math.random(10))}
               renderItem={({ item }) => {
                 const borderWidth = item?.availability === curDate ? 2 : 0;
-                const date = moment(item.availability).format('DD/MM/YYYY');
-                const isBefore = moment().format('DD/MM/YYYY') > date;
+                const date = moment(item.availability).format('YYYY-MM-DD');
+                let isBefore =
+                  curDate !== date &&
+                  moment().toDate() >= moment(item.availability).toDate();
 
                 const backgroundColor = isBefore
                   ? '#393637'
@@ -328,7 +329,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               contentContainerStyle={{ paddingBottom: 60 }}
               style={{ maxHeight: heightPercentageToDP(50), marginTop: 25 }}
               data={[this.component.state.currentAvailabilities.avaibilities]}
-              keyExtractor={(item) => item.time}
+              keyExtractor={(item) => String(item.time)}
               refreshControl={
                 <SidappRefreshControl
                   refreshing={this.component.state.refreshing}
@@ -339,6 +340,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 return (
                   <SwitchButton
                     onLinePress={this.controller.onLinePress}
+                    onAthletePress={this.controller.onAthletePress}
                     day={this.component.state.currentAvailabilities.day}
                     today={this.component.state.today}
                     item={item}
@@ -450,7 +452,6 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                   fontFamily: 'MontserratBoldItalic',
                   lineHeight: 15,
                 }}
-                valuePadding={3}
                 borderColor="#1E2026"
               />
             </View>

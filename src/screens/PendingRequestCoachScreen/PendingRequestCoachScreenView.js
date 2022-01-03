@@ -43,7 +43,7 @@ export default class PendingRequestCoachScreenView extends AbstractScreenView {
         <View style={styles.itemRight}>
           <Text
             style={[styles.timerText, { color: isMine ? '#000' : '#979797' }]}>
-            {moment(item?.athlete?.created_at).format('LT')}
+            {moment(item?.athlete?.created_at).format('DD/MM/YYYY - hh:mm')}
           </Text>
         </View>
       </TouchableOpacity>
@@ -64,7 +64,7 @@ export default class PendingRequestCoachScreenView extends AbstractScreenView {
         <SafeAreaView>
           <Header title="DEMANDES EN ATTENTE" />
           <View style={styles.content}>
-            <ScrollView>
+            <ScrollView contentInset={{ bottom: 200 }}>
               <View>
                 <Text style={styles.textInfo}>
                   {!this.component.state.personalRequest.length
@@ -101,7 +101,9 @@ export default class PendingRequestCoachScreenView extends AbstractScreenView {
                 />
               </View>
               <View style={styles.processedRequestContainer}>
-                <Text style={styles.textColored}>{this.component.state.assignedRequest} </Text>
+                <Text style={styles.textColored}>
+                  {this.component.state.assignedRequest}{' '}
+                </Text>
                 <Text style={styles.processedRequestText}>
                   demandes ont été traitées ce mois-ci
                 </Text>

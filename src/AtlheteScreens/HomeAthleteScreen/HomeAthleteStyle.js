@@ -27,7 +27,6 @@ module.exports = StyleSheet.create({
     marginLeft: 16,
   },
   headerRight: {
-    marginLeft: 21,
     marginRight: 10,
   },
   headerRightActivities: {

@@ -56,7 +56,6 @@ export default class OffersScreenView extends AbstractScreenView {
             fontFamily: 'MontserratBoldItalic',
             lineHeight: 15,
           }}
-          valuePadding={3}
           borderColor="#1E2026"
         />
       </View>

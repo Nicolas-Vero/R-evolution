@@ -27,6 +27,7 @@ module.exports = StyleSheet.create({
     lineHeight: 24,
   },
   headerRight: {
+    alignItems: 'center',
     flexDirection: 'row',
   },
   headerRightActivities: {
@@ -77,7 +78,9 @@ module.exports = StyleSheet.create({
   },
   calendar: {
     paddingVertical: 5,
-    paddingHorizontal: 38,
+    paddingBottom: 15,
+    paddingLeft: 30,
+    paddingRight: 30,
     justifyContent: 'center',
     alignSelf: 'center',
     width: wp(90),

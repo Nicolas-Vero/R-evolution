@@ -297,7 +297,6 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                                 onPress={() => {
                                   switch (item.day) {
                                     case 'L':
-                                      console.log(arrayhelper.form.values.is_monday_preferred);
                                       arrayhelper.form.values.days_preference.is_monday_preferred =
                                         !arrayhelper.form.values.days_preference.is_monday_preferred;
                                       this.component.setState({SelectedDay:

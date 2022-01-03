@@ -9,11 +9,305 @@ import { LinearGradient } from 'expo-linear-gradient';
 import moment from 'moment';
 import { Button } from '../../components/Button';
 import Header from '../../components/Header';
-import { slots, formConfig } from './createBookCoachConfig';
 import styles from './CreateBookCoachScreenStyle';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 export default class CreateBookCoachScreenView extends AbstractScreenView {
   render() {
+    if (!this.component.state.isLoaded) {
+      return <View></View>;
+    }
+    return (
+      <View style={styles.container}>
+        <LinearGradient
+          colors={['black', '#2D333C']}
+          start={{
+            x: 0,
+            y: 0,
+          }}
+          end={{
+            x: 1,
+            y: 1,
+          }}
+          style={{ flex: 1 }}>
+          <SafeAreaView style={styles.safeArea} />
+          <Header title="AJOUTER UN RDV" />
+          <View style={{ marginVertical: 5 }}>
+            <Text
+              style={{
+                color: '#2CDEE4',
+                fontFamily: 'Roboto',
+                textAlign: 'center',
+              }}>
+              {`Le ${moment(this.component.props.date).format(
+                'dddd D MMMM ',
+              )} ${this.component.props.time}`}
+            </Text>
+          </View>
+          <Formik
+            initialValues={{
+              type: 'Coaching',
+              athlete_id: '',
+              offer_id: '',
+              slot: this.component.props.time,
+              coach_notes: 'rendez-vous créer par le coach',
+              coach_course_id: '',
+              gender: 'male',
+              date: this.component.props.date,
+              first_name: '',
+              last_name: '',
+              email: '',
+              phone: '',
+              description: '',
+            }}
+            onSubmit={(values, { onLoginPress }) => onLoginPress(values)}>
+            {({ handleChange, handleBlur, setFieldValue, values }) => (
+              <ScrollView
+                contentContainerStyle={{
+                  flexGrow: 1,
+                  justifyContent: 'space-between',
+                  flexDirection: 'column',
+                  marginHorizontal: 16,
+                }}>
+                <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+                  <CheckBox
+                    containerStyle={styles.checkBoxContainer}
+                    title="Mes athlètes actifs"
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="dot-circle-o"
+                    checkedColor="#2CDEE4"
+                    textStyle={styles.checkBoxText}
+                    checked={values.type === 'Actifs'}
+                    value={values.type}
+                    onPress={() => {
+                      setFieldValue('type', 'Actifs'),
+                        this.component.setState({ type: 'Actifs' });
+                      this.component.setState({ isProspect: false });
+                    }}
+                  />
+                  {this.component.state.type == 'Actifs' ? (
+                    <View>
+                      <SelectDropdown
+                        buttonStyle={styles.dropdownButton}
+                        buttonTextStyle={styles.dropdownButtonText}
+                        rowTextStyle={styles.dropdownRowText}
+                        dropdownStyle={styles.dropdownBg}
+                        rowStyle={styles.dropdownRow}
+                        data={this.component.state.atlhetesActifs}
+                        defaultButtonText={'Choisir'}
+                        onSelect={(selectedItem, index) => {
+                          values.athlete_id = selectedItem.id;
+                          values.offer_id = selectedItem.offer_id;
+                        }}
+                        renderDropdownIcon={() => {
+                          return (
+                            <AntDesign name="down" size={18} color="black" />
+                          );
+                        }}
+                        dropdownIconPosition={'right'}
+                        buttonTextAfterSelection={(selectedItem, index) => {
+                          return selectedItem.full_name;
+                        }}
+                        rowTextForSelection={(item, index) => {
+                          return item.full_name;
+                        }}
+                      />
+                    </View>
+                  ) : null}
+                  <CheckBox
+                    containerStyle={styles.checkBoxContainer}
+                    title="Prospects"
+                    checkedColor="#2CDEE4"
+                    checkedIcon="dot-circle-o"
+                    textStyle={styles.checkBoxText}
+                    uncheckedIcon="dot-circle-o"
+                    checked={values.type.toString() === 'Prospect'}
+                    value={values.type}
+                    onPress={() => {
+                      setFieldValue('type', 'Prospect'),
+                        this.component.setState({ type: 'Prospect' });
+                      this.component.setState({ isProspect: true });
+                    }}
+                  />
+                  {this.component.state.type == 'Prospect' ? (
+                    <View>
+                      <SelectDropdown
+                        buttonStyle={styles.dropdownButton}
+                        buttonTextStyle={styles.dropdownButtonText}
+                        rowTextStyle={styles.dropdownRowText}
+                        dropdownStyle={styles.dropdownBg}
+                        rowStyle={styles.dropdownRow}
+                        data={this.component.state.atlhetesProspects}
+                        defaultButtonText={'Choisir un prospect existant'}
+                        onSelect={(selectedItem, index) => {
+                          values.athlete_id = selectedItem.id;
+                          values.email = selectedItem.email;
+                        }}
+                        renderDropdownIcon={() => {
+                          return (
+                            <AntDesign name="down" size={18} color="black" />
+                          );
+                        }}
+                        dropdownIconPosition={'right'}
+                        buttonTextAfterSelection={(selectedItem, index) => {
+                          return selectedItem.full_name;
+                        }}
+                        rowTextForSelection={(item, index) => {
+                          return item.full_name;
+                        }}
+                      />
+                      <View>
+                        <Text style={styles.addProspectText}>
+                          Ou ajouter un Prospect
+                        </Text>
+                        <View>
+                          <View style={styles.addProspectCheckBoxContainer}>
+                            <CheckBox
+                              containerStyle={styles.checkBoxContainer}
+                              title="M"
+                              checkedColor="#2CDEE4"
+                              checkedIcon="dot-circle-o"
+                              textStyle={styles.checkBoxText}
+                              uncheckedIcon="dot-circle-o"
+                              checked={values.gender.toString() === 'male'}
+                              value={values.gender}
+                              onPress={() => setFieldValue('gender', 'male')}
+                            />
+                            <CheckBox
+                              containerStyle={styles.checkBoxContainer}
+                              title="Mme"
+                              checkedColor="#2CDEE4"
+                              checkedIcon="dot-circle-o"
+                              textStyle={styles.checkBoxText}
+                              uncheckedIcon="dot-circle-o"
+                              checked={values.gender === 'female'}
+                              value={values.gender}
+                              onPress={() => setFieldValue('gender', 'female')}
+                            />
+                          </View>
+                          <View style={styles.inputContainer}>
+                            <TextInput
+                              name="first_name"
+                              placeholder="Prénom"
+                              placeholderTextColor="#979797"
+                              style={styles.input}
+                              onChangeText={handleChange('last_name')}
+                              onBlur={handleBlur('last_name')}
+                              value={values.last_name}
+                              onSubmitEditing={() =>
+                                this.firstName && this.firstName.focus()
+                              }
+                              blurOnSubmit={false}
+                              returnKeyType="next"
+                            />
+                          </View>
+                          <View style={styles.inputContainer}>
+                            <TextInput
+                              name="last_name"
+                              placeholder="Nom"
+                              placeholderTextColor="#979797"
+                              ref={(ref) => (this.firstName = ref)}
+                              style={styles.input}
+                              onChangeText={handleChange('first_name')}
+                              onBlur={handleBlur('first_name')}
+                              value={values.first_name}
+                              onSubmitEditing={() =>
+                                this.emailInput && this.emailInput.focus()
+                              }
+                              blurOnSubmit={false}
+                              returnKeyType="next"
+                            />
+                          </View>
+
+                          <View style={styles.inputContainer}>
+                            <TextInput
+                              name="email"
+                              placeholder="Email"
+                              placeholderTextColor="#979797"
+                              ref={(ref) => (this.emailInput = ref)}
+                              style={styles.input}
+                              onChangeText={handleChange('email')}
+                              onBlur={handleBlur('email')}
+                              value={values.email}
+                              onSubmitEditing={() =>
+                                this.phoneInput && this.phoneInput.focus()
+                              }
+                              blurOnSubmit={false}
+                              autoCapitalize="none"
+                              returnKeyType="next"
+                            />
+                          </View>
+                          <View style={styles.inputContainer}>
+                            <TextInput
+                              name="phone"
+                              placeholder="Téléphone"
+                              placeholderTextColor="#979797"
+                              ref={(ref) => (this.phoneInput = ref)}
+                              style={styles.input}
+                              onChangeText={handleChange('phone')}
+                              onBlur={handleBlur('phone')}
+                              value={values.phone}
+                              onSubmitEditing={() =>
+                                this.descriptionInput &&
+                                this.descriptionInput.focus()
+                              }
+                              blurOnSubmit={false}
+                              returnKeyType="next"
+                            />
+                          </View>
+
+                          <View style={styles.inputContainer}>
+                            <TextInput
+                              placeholder="Description"
+                              multiline={true}
+                              ref={(ref) => (this.descriptionInput = ref)}
+                              style={{
+                                backgroundColor: '#FFFFFF',
+                                paddingTop: 10,
+                                paddingBottom: 10,
+                                paddingLeft: 15,
+                                paddingRight: 15,
+                                height: 100,
+                              }}
+                              onChangeText={handleChange('description')}
+                              onBlur={handleBlur('description')}
+                              value={values.description}
+                            />
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                  ) : (
+                    <View></View>
+                  )}
+                </View>
+                <View
+                  style={{
+                    justifyContent: 'flex-end',
+                    marginBottom: 50,
+                    alignItems: 'center',
+                  }}>
+                  <Button
+                    style={styles.buttonContainer}
+                    customTextStyle={styles.buttonText}
+                    loading={false}
+                    title="Valider"
+                    onPress={() => {
+                      this.component.state.type === 'prospect'
+                        ? this.controller.onInviteProspectPress(values)
+                        : this.controller.onCreateBookPress(values);
+                    }}
+                  />
+                </View>
+                <KeyboardSpacer />
+              </ScrollView>
+            )}
+          </Formik>
+        </LinearGradient>
+      </View>
+    );
+  }
+  render2() {
     if (!this.component.state.isLoaded) {
       return <View></View>;
     }
@@ -51,257 +345,90 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
               }}
               onSubmit={(values, { onLoginPress }) => onLoginPress(values)}>
               {({ handleChange, handleBlur, setFieldValue, values }) => (
-                <View>
-                  <View style={{ flexDirection: 'column', marginBottom: 15 }}>
-                    <View style={{ marginVertical: 5 }}>
-                      <Text
-                        style={{
-                          color: '#fff',
-                          fontFamily: 'Roboto',
-                          textAlign: 'center',
-                        }}>
-                        {`Le ${moment(this.component.props.date).format(
-                          'dddd D MMMM ',
-                        )} ${this.component.props.time}`}
-                      </Text>
-                    </View>
-                    <CheckBox
-                      containerStyle={styles.checkBoxContainer}
-                      title="Mes athlètes actifs"
-                      checkedIcon="dot-circle-o"
-                      uncheckedIcon="dot-circle-o"
-                      checkedColor="#2CDEE4"
-                      textStyle={styles.checkBoxText}
-                      checked={values.type === 'Actifs'}
-                      value={values.type}
-                      onPress={() => {
-                        setFieldValue('type', 'Actifs'),
-                          this.component.setState({ type: 'Actifs' });
-                        this.component.setState({ isProspect: false });
-                      }}
-                    />
-                    {this.component.state.type == 'Actifs' ? (
-                      <View>
-                        <SelectDropdown
-                          buttonStyle={styles.dropdownButton}
-                          buttonTextStyle={styles.dropdownButtonText}
-                          rowTextStyle={styles.dropdownRowText}
-                          dropdownStyle={styles.dropdownBg}
-                          rowStyle={styles.dropdownRow}
-                          data={this.component.state.atlhetesActifs}
-                          defaultButtonText={'Choisir'}
-                          onSelect={(selectedItem, index) => {
-                            values.athlete_id = selectedItem.id;
-                            values.offer_id = selectedItem.offer_id;
-                          }}
-                          renderDropdownIcon={() => {
-                            return (
-                              <AntDesign name="down" size={18} color="black" />
-                            );
-                          }}
-                          dropdownIconPosition={'right'}
-                          buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem.full_name;
-                          }}
-                          rowTextForSelection={(item, index) => {
-                            return item.full_name;
-                          }}
-                        />
+                <View style={{}}>
+                  <ScrollView style={{}}>
+                    <View
+                      style={{
+                        flexDirection: 'column',
+                        marginBottom: 15,
+                        flex: 1,
+                      }}>
+                      <View style={{ marginVertical: 5 }}>
+                        <Text
+                          style={{
+                            color: '#fff',
+                            fontFamily: 'Roboto',
+                            textAlign: 'center',
+                          }}>
+                          {`Le ${moment(this.component.props.date).format(
+                            'dddd D MMMM ',
+                          )} ${this.component.props.time}`}
+                        </Text>
                       </View>
-                    ) : null}
-                    <CheckBox
-                      containerStyle={styles.checkBoxContainer}
-                      title="Prospects"
-                      checkedColor="#2CDEE4"
-                      checkedIcon="dot-circle-o"
-                      textStyle={styles.checkBoxText}
-                      uncheckedIcon="dot-circle-o"
-                      checked={values.type.toString() === 'Prospect'}
-                      value={values.type}
-                      onPress={() => {
-                        setFieldValue('type', 'Prospect'),
-                          this.component.setState({ type: 'Prospect' });
-                        this.component.setState({ isProspect: true });
-                      }}
-                    />
-                    {this.component.state.type == 'Prospect' ? (
-                      <View>
-                        <SelectDropdown
-                          buttonStyle={styles.dropdownButton}
-                          buttonTextStyle={styles.dropdownButtonText}
-                          rowTextStyle={styles.dropdownRowText}
-                          dropdownStyle={styles.dropdownBg}
-                          rowStyle={styles.dropdownRow}
-                          data={this.component.state.atlhetesProspects}
-                          defaultButtonText={'Choisir un prospect existant'}
-                          onSelect={(selectedItem, index) => {
-                            values.athlete_id = selectedItem.id;
-                            values.email = selectedItem.email
-                          }}
-                          renderDropdownIcon={() => {
-                            return (
-                              <AntDesign name="down" size={18} color="black" />
-                            );
-                          }}
-                          dropdownIconPosition={'right'}
-                          buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem.full_name;
-                          }}
-                          rowTextForSelection={(item, index) => {
-                            return item.full_name;
-                          }}
-                        />
-                        <ScrollView style={styles.scrollView}>
-                          <View>
-                            <Text style={styles.addProspectText}>
-                              Ou ajouter un Prospect
-                            </Text>
-                            <View>
-                              <View style={styles.addProspectCheckBoxContainer}>
-                                <CheckBox
-                                  containerStyle={styles.checkBoxContainer}
-                                  title="M"
-                                  checkedColor="#2CDEE4"
-                                  checkedIcon="dot-circle-o"
-                                  textStyle={styles.checkBoxText}
-                                  uncheckedIcon="dot-circle-o"
-                                  checked={values.gender.toString() === 'male'}
-                                  value={values.gender}
-                                  onPress={() =>
-                                    setFieldValue('gender', 'male')
-                                  }
-                                />
-                                <CheckBox
-                                  containerStyle={styles.checkBoxContainer}
-                                  title="Mme"
-                                  checkedColor="#2CDEE4"
-                                  checkedIcon="dot-circle-o"
-                                  textStyle={styles.checkBoxText}
-                                  uncheckedIcon="dot-circle-o"
-                                  checked={values.gender === 'female'}
-                                  value={values.gender}
-                                  onPress={() =>
-                                    setFieldValue('gender', 'female')
-                                  }
-                                />
-                              </View>
-                              <View style={styles.inputContainer}>
-                                <TextInput
-                                  name="first_name"
-                                  placeholder="Prénom"
-                                  placeholderTextColor="#979797"
-                                  style={styles.input}
-                                  onChangeText={handleChange('last_name')}
-                                  onBlur={handleBlur('last_name')}
-                                  value={values.last_name}
-                                  onSubmitEditing={() =>
-                                    this.firstName && this.firstName.focus()
-                                  }
-                                  blurOnSubmit={false}
-                                  returnKeyType="next"
-                                />
-                              </View>
-                              <View style={styles.inputContainer}>
-                                <TextInput
-                                  name="last_name"
-                                  placeholder="Nom"
-                                  placeholderTextColor="#979797"
-                                  ref={(ref) => (this.firstName = ref)}
-                                  style={styles.input}
-                                  onChangeText={handleChange('first_name')}
-                                  onBlur={handleBlur('first_name')}
-                                  value={values.first_name}
-                                  onSubmitEditing={() =>
-                                    this.emailInput && this.emailInput.focus()
-                                  }
-                                  blurOnSubmit={false}
-                                  returnKeyType="next"
-                                />
-                              </View>
-
-                              <View style={styles.inputContainer}>
-                                <TextInput
-                                  name="email"
-                                  placeholder="Email"
-                                  placeholderTextColor="#979797"
-                                  ref={(ref) => (this.emailInput = ref)}
-                                  style={styles.input}
-                                  onChangeText={handleChange('email')}
-                                  onBlur={handleBlur('email')}
-                                  value={values.email}
-                                  onSubmitEditing={() =>
-                                    this.phoneInput && this.phoneInput.focus()
-                                  }
-                                  blurOnSubmit={false}
-                                  autoCapitalize="none"
-                                  returnKeyType="next"
-                                />
-                              </View>
-                              <View style={styles.inputContainer}>
-                                <TextInput
-                                  name="phone"
-                                  placeholder="Téléphone"
-                                  placeholderTextColor="#979797"
-                                  ref={(ref) => (this.phoneInput = ref)}
-                                  style={styles.input}
-                                  onChangeText={handleChange('phone')}
-                                  onBlur={handleBlur('phone')}
-                                  value={values.phone}
-                                  onSubmitEditing={() =>
-                                    this.descriptionInput &&
-                                    this.descriptionInput.focus()
-                                  }
-                                  blurOnSubmit={false}
-                                  returnKeyType="next"
-                                />
-                              </View>
-
-                              <View style={styles.inputContainer}>
-                                <TextInput
-                                  placeholder="Description"
-                                  multiline={true}
-                                  ref={(ref) => (this.descriptionInput = ref)}
-                                  style={{
-                                    backgroundColor: '#FFFFFF',
-                                    paddingTop: 10,
-                                    paddingBottom: 10,
-                                    paddingLeft: 15,
-                                    paddingRight: 15,
-                                    height: 100,
-                                  }}
-                                  onChangeText={handleChange('description')}
-                                  onBlur={handleBlur('description')}
-                                  value={values.description}
-                                />
-                              </View>
-                            </View>
-                          </View>
-                          <Button
-                            style={{
-                              paddingTop: 10,
-                              paddingBottom: 10,
-                              paddingLeft: 15,
-                              paddingRight: 15,
+                      <CheckBox
+                        containerStyle={styles.checkBoxContainer}
+                        title="Mes athlètes actifs"
+                        checkedIcon="dot-circle-o"
+                        uncheckedIcon="dot-circle-o"
+                        checkedColor="#2CDEE4"
+                        textStyle={styles.checkBoxText}
+                        checked={values.type === 'Actifs'}
+                        value={values.type}
+                        onPress={() => {
+                          setFieldValue('type', 'Actifs'),
+                            this.component.setState({ type: 'Actifs' });
+                          this.component.setState({ isProspect: false });
+                        }}
+                      />
+                      {this.component.state.type == 'Actifs' ? (
+                        <View style={{ flex: 1 }}>
+                          <SelectDropdown
+                            buttonStyle={styles.dropdownButton}
+                            buttonTextStyle={styles.dropdownButtonText}
+                            rowTextStyle={styles.dropdownRowText}
+                            dropdownStyle={styles.dropdownBg}
+                            rowStyle={styles.dropdownRow}
+                            data={this.component.state.atlhetesActifs}
+                            defaultButtonText={'Choisir'}
+                            onSelect={(selectedItem, index) => {
+                              values.athlete_id = selectedItem.id;
+                              values.offer_id = selectedItem.offer_id;
                             }}
-                            loading={false}
-                            customTextStyle={{
-                              color: 'black',
-                              fontFamily: 'RobotoBold',
-                              fontWeight: 'bold',
-                              fontSize: 15,
+                            renderDropdownIcon={() => {
+                              return (
+                                <AntDesign
+                                  name="down"
+                                  size={18}
+                                  color="black"
+                                />
+                              );
                             }}
-                            title="Valider"
-                            onPress={() => {
-                              this.controller.onInviteProspectPress(values);
+                            dropdownIconPosition={'right'}
+                            buttonTextAfterSelection={(selectedItem, index) => {
+                              return selectedItem.full_name;
+                            }}
+                            rowTextForSelection={(item, index) => {
+                              return item.full_name;
                             }}
                           />
-                        </ScrollView>
-                      </View>
-                    ) : (
-                      <View></View>
-                    )}
-                  </View>
-                  {this.component.state.type === 'Prospect' ? null : (
+                        </View>
+                      ) : null}
+                      <CheckBox
+                        containerStyle={styles.checkBoxContainer}
+                        title="Prospects"
+                        checkedColor="#2CDEE4"
+                        checkedIcon="dot-circle-o"
+                        textStyle={styles.checkBoxText}
+                        uncheckedIcon="dot-circle-o"
+                        checked={values.type.toString() === 'Prospect'}
+                        value={values.type}
+                        onPress={() => {
+                          setFieldValue('type', 'Prospect'),
+                            this.component.setState({ type: 'Prospect' });
+                          this.component.setState({ isProspect: true });
+                        }}
+                      />
+                    </View>
                     <View style={styles.buttonContainer}>
                       <Button
                         style={styles.button}
@@ -309,11 +436,14 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                         loading={false}
                         title="Valider"
                         onPress={() => {
-                          this.controller.onCreateBookPress(values);
+                          this.component.state.type === 'prospect'
+                            ? this.controller.onInviteProspectPress(values)
+                            : this.controller.onCreateBookPress(values);
                         }}
                       />
                     </View>
-                  )}
+                    <KeyboardSpacer />
+                  </ScrollView>
                 </View>
               )}
             </Formik>
