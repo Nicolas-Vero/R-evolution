@@ -16,7 +16,7 @@ module.exports = StyleSheet.create({
   },
   content: {
     alignItems: 'center',
-    marginTop: 64,
+    flex: 1,
   },
   title: {
     textAlign: 'center',
@@ -24,10 +24,7 @@ module.exports = StyleSheet.create({
     fontSize: 16,
     color: '#FFFF',
   },
-  form: {
-    height: heightPercentageToDP(55),
-  },
-  commercialTitle: {},
+
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },

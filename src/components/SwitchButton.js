@@ -18,25 +18,30 @@ export default class SwitchButton extends React.Component {
     };
   }
   componentDidMount() {
-    this.setState({ day: moment().format('YYYY-MM-DD') });
+    this.reload();
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.day !== prevProps.item.date) {
-      get_book(this.props.item.date).then((res) => {
-        var filterarray = [];
-        res.data.forEach((element) => {
-          filterarray.push({
-            slot: element.slot,
-            athlete: element.athlete,
-          });
-        });
-        this.setState({ bookOfDay: filterarray });
+      this.reload();
+      this.setState({
+        disable: prevProps.day < prevProps.today,
       });
-      this.setState({ day: this.props.item.date });
-      this.setState({ disable: prevProps.day < prevProps.today });
     }
   }
 
+  reload = () => {
+    this.setState({ day: this.props.item.date });
+    get_book(this.props.item.date).then((res) => {
+      var filterarray = [];
+      res.data.forEach((element) => {
+        filterarray.push({
+          slot: element.slot,
+          athlete: element.athlete,
+        });
+      });
+      this.setState({ bookOfDay: filterarray });
+    });
+  };
   daybooked(currentSlot) {
     let currentBook = {};
     this.state.bookOfDay.forEach((day) => {
@@ -105,7 +110,7 @@ export default class SwitchButton extends React.Component {
           </TouchableOpacity>
         )}
         <CheckBox
-          disabled={this.state.disable}
+          disabled={this.state.disable || currentBook.first_name}
           size={22}
           containerStyle={styles.checkBox}
           checkedColor="#2CDEE4"
@@ -212,11 +217,11 @@ const styles = {
   userContainer: {
     backgroundColor: '#2CDEE4',
     alignItems: 'center',
-    justifyContent: 'center',
     flexDirection: 'row',
     paddingHorizontal: 14,
     paddingVertical: 3,
     borderRadius: 6,
+    width: 150,
   },
   username: {
     fontSize: 11,

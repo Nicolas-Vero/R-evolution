@@ -44,7 +44,7 @@ export default class OffersScreenView extends AbstractScreenView {
           selectedColor="#1E2026"
           textColor="white"
           borderRadius={10}
-          height={38}
+          height={45}
           style={{ width: 'auto' }}
           hasPadding
           fontSize={13}

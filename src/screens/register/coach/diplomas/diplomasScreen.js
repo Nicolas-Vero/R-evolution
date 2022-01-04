@@ -6,12 +6,9 @@ import {
   Keyboard,
   TouchableOpacity,
   TextInput,
-  ScrollView,
 } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import * as Yup from 'yup';
-import { Formik, FieldArray, Field } from 'formik';
 import { FontAwesome } from '@expo/vector-icons';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 
@@ -20,6 +17,8 @@ import { Button } from '../../../../components/Button';
 import Header from '../../../../components/Header';
 import styles from './diplomasStyle';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { FlatList } from 'react-native-gesture-handler';
+import { Entypo } from '@expo/vector-icons';
 
 export default class diplomasScreen extends React.Component {
   constructor(props) {
@@ -27,17 +26,98 @@ export default class diplomasScreen extends React.Component {
 
     this.state = {
       step: 'initial',
-      // passItem: this.props.navigation.state.params.item,
-      arrayofdiplomas: [],
+      diplomas: [],
+      diplomasInput: '',
+      error: '',
     };
   }
 
-  onNavigate = (item) => {
-    this.props.navigation.navigate('experienceCoachScreen', { item: item });
+  onAddDiplomas = () => {
+    const { diplomas, diplomasInput } = this.state;
+    if (diplomasInput === '') {
+      return;
+    }
+    diplomas.push(diplomasInput);
+    this.setState({ diplomas, diplomasInput: '', error: '' });
   };
 
-  render() {
+  onRemoveDiplomas = (index) => {
+    const { diplomas } = this.state;
+    if (index > -1) {
+      diplomas.splice(index, 1);
+    }
+    if (diplomas.length === 0) {
+      this.setState({ error: 'Veuillez ajouter un diplôme' });
+    }
+    this.setState({ diplomas });
+  };
+
+  onChangeText = (val) => {
+    this.setState({ diplomasInput: val });
+  };
+
+  onNavigate = () => {
+    if (this.state.diplomas.length === 0) {
+      this.setState({ error: 'Veuillez ajouter un diplome' });
+      return;
+    }
     const passItem = this.props.navigation.state.params;
+    console.log({ ...passItem, diplomas: this.state.diplomas });
+    this.props.navigation.navigate('experienceCoachScreen', {
+      item: { ...passItem, diplomas: this.state.diplomas },
+    });
+  };
+
+  renderDiplomasInput = () => {
+    const { diplomasInput } = this.state;
+
+    return (
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <TextInput
+          placeholderTextColor="#979797"
+          placeholder="Entre le nom de ton diplôme"
+          value={diplomasInput}
+          onChangeText={(text) => this.onChangeText(text)}
+          style={styles.input}
+        />
+        <TouchableOpacity onPress={this.onAddDiplomas}>
+          <View style={styles.addDiplomasContainer}>
+            <FontAwesome name="plus-square" size={24} color="#2CDEE4" />
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  renderDiplomas = () => {
+    const { diplomas } = this.state;
+    return (
+      <FlatList
+        style={{ marginBottom: 50, paddingTop: 10 }}
+        data={diplomas}
+        contentContainerStyle={{
+          paddingBottom: 50,
+        }}
+        keyExtractor={(item) => item.toString()}
+        renderItem={({ item, index }) => {
+          return (
+            <View>
+              <View style={styles.itemDiplomas}>
+                <Text style={styles.diplomasText}>{item}</Text>
+              </View>
+              <View style={styles.removeDiplomas}>
+                <TouchableOpacity onPress={() => this.onRemoveDiplomas(index)}>
+                  <Entypo name="cross" size={18} />
+                </TouchableOpacity>
+              </View>
+            </View>
+          );
+        }}
+      />
+    );
+  };
+  render() {
+    const { error } = this.state;
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -55,125 +135,29 @@ export default class diplomasScreen extends React.Component {
           <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
             <RegisterStepImageView step={9} />
             <View style={styles.content}>
-              <Formik
-                initialValues={{
-                  diplomas: [''],
-                }}
-                onSubmit={(values) => {
-                  const item = { ...passItem, ...values };
-                  this.onNavigate(item);
-                }}
-                validationSchema={Yup.object().shape({
-                  diplomas: Yup.array().min(1).required('Requis'),
-                })}>
-                {({ handleSubmit, isValid, validate }) => (
-                  <View style={styles.alignCenter}>
-                    <Field name="diplomas" id="diplomas" validate={validate}>
-                      {({ field, form: { errors } }) => {
-                        return (
-                          <View
-                            style={{
-                              height: heightPercentageToDP(72),
-                            }}>
-                            <Text style={styles.title}>DIPLÔME(S)</Text>
-                            <View style={styles.container}>
-                              <FieldArray
-                                name="diplomas"
-                                render={(arrayhelper) => (
-                                  <View style={styles.diplomasContainer}>
-                                    <ScrollView
-                                      ref={(ref) => (this.scrollView = ref)}
-                                      style={styles.scrollView}
-                                      onContentSizeChange={(width, height) =>
-                                        this.scrollView.scrollTo({
-                                          y: height,
-                                        })
-                                      }>
-                                      {/* onContentSizeChange={(width, height) =>
-                                        this.refs.scrollView.scrollTo({
-                                          y: height,
-                                        })
-                                      }>
-                                      > */}
-                                      <View style={styles.alignCenter}>
-                                        {field.value.map((fields, index) => (
-                                          <View
-                                            key={index}
-                                            style={{
-                                              marginBottom: 25,
-                                            }}>
-                                            <TextInput
-                                              placeholderTextColor="#979797"
-                                              placeholder="Entre le nom de ton diplôme"
-                                              onChangeText={(text) =>
-                                                (field.value[index] = text)
-                                              }
-                                              style={styles.input}
-                                              name={`degrees.${index}`}
-                                            />
-                                            {
-                                              <View
-                                                style={
-                                                  styles.diplomasDeleteContainer
-                                                }>
-                                                <TouchableOpacity
-                                                  onPress={() =>
-                                                    arrayhelper.remove(index)
-                                                  }>
-                                                  <Text
-                                                    style={{
-                                                      color: '#2CDEE4',
-                                                    }}>
-                                                    Supprimer
-                                                  </Text>
-                                                </TouchableOpacity>
-                                              </View>
-                                            }
-                                          </View>
-                                        ))}
-                                      </View>
-                                      <TouchableOpacity
-                                        onPress={() => arrayhelper.push('')}>
-                                        <View
-                                          style={styles.addDiplomasContainer}>
-                                          <FontAwesome
-                                            name="plus-square"
-                                            size={24}
-                                            color="#2CDEE4"
-                                          />
-                                          <Text style={styles.addDiplomasText}>
-                                            Ajouter un diplôme
-                                          </Text>
-                                        </View>
-                                      </TouchableOpacity>
-                                      <KeyboardSpacer />
-                                    </ScrollView>
-
-                                    {errors.diplomas ? (
-                                      <View style={styles.errorContainer}>
-                                        <Text style={styles.errorText}>
-                                          Ajouter un diplôme
-                                        </Text>
-                                      </View>
-                                    ) : null}
-                                  </View>
-                                )}
-                              />
-                            </View>
-                          </View>
-                        );
-                      }}
-                    </Field>
-                    <Button
-                      loading={false}
-                      disabled={!isValid}
-                      title="Suivant"
-                      customTextStyle={styles.nextButtonText}
-                      onPress={handleSubmit}
-                    />
+              <View style={styles.alignCenter}>
+                <View
+                  style={{
+                    height: heightPercentageToDP(72),
+                  }}>
+                  <Text style={styles.title}>DIPLÔME(S)</Text>
+                  <View style={styles.container}>
+                    <View style={styles.diplomasContainerr}>
+                      {this.renderDiplomasInput()}
+                      {error !== '' ? (
+                        <Text style={styles.errorText}>{error}</Text>
+                      ) : null}
+                      {this.renderDiplomas()}
+                    </View>
                   </View>
-                )}
-              </Formik>
+                  <Button
+                    loading={false}
+                    title="Suivant"
+                    customTextStyle={styles.nextButtonText}
+                    onPress={this.onNavigate}
+                  />
+                </View>
+              </View>
             </View>
           </SafeAreaView>
         </LinearGradient>

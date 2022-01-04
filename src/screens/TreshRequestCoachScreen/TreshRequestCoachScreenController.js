@@ -19,6 +19,8 @@ export default class TreshRequestCoachScreenController extends AbstractScreenCon
   }
 
   onOpenDialog = () => {
+    const { athlete, goals } = this.component.state.Athlete;
+    console.log({ ...athlete, status: 'prospect', goals });
     this.component.setState({ dialogVisible: true });
   };
 
@@ -40,11 +42,11 @@ export default class TreshRequestCoachScreenController extends AbstractScreenCon
   };
 
   onNavigateToUserSheet = () => {
-    const { athlete } = this.component.state.Athlete;
+    const { athlete, goals } = this.component.state.Athlete;
     this.onDismissDialog();
     this.component.props.navigation.popToTop();
     this.component.props.navigation.navigate('AthleteSheetCoachScreen', {
-      item: { ...athlete, status: 'prospect' },
+      item: { ...athlete, status: 'prospect', goals },
     });
   };
 }

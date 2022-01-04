@@ -77,7 +77,7 @@ export default class HomeAthleteView extends AbstractScreenView {
           selectedColor="#1E2026"
           textColor="white"
           borderRadius={10}
-          height={38}
+          height={45}
           style={{ width: widthPercentageToDP(91.5) }}
           hasPadding
           fontSize={13}
@@ -404,7 +404,7 @@ export default class HomeAthleteView extends AbstractScreenView {
                 marginTop: 24,
                 marginBottom: 5,
               }}>
-              IL TE RESTE 2 SÉANCES À PLACER
+              Cet Athlète n'a aucune séance pour le moment
             </Text>
           </View>
         ) : null}

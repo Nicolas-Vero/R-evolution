@@ -124,13 +124,14 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                     <View style={styles.row}>
                       <Text style={styles.infoText}>Taille :</Text>
                       <Text style={styles.valueTextRow}>
-                        {`${
-                          this.component.state.Athlete.athlete?.size / 100
-                        }`.substring(0, 1)}
-                        m
-                        {`${
-                          this.component.state.Athlete.athlete?.size / 100
-                        }`.substring(2)}
+                        {!this.component.state.Athlete.athlete?.size
+                          ? 'Non renseigné'
+                          : `${
+                             ( this.component.state.Athlete.athlete?.size / 100).substring(0, 1)
+                            } m ${
+                              (this.component.state.Athlete.athlete?.size / 100).substring(2)
+                            }`}
+                        
                       </Text>
                     </View>
                   </View>
@@ -138,8 +139,12 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                     <View style={styles.row}>
                       <Text style={styles.infoText}>Poids :</Text>
                       <Text style={styles.valueTextRow}>
-                        {' '}
-                        {this.component.state.Athlete.athlete?.weight}Kg
+                        {`${
+                          this.component.state.Athlete.athlete?.weight
+                            ? this.component.state.Athlete.athlete?.weight +
+                              'Kg'
+                            : 'Non renseigné'
+                        }`}
                       </Text>
                     </View>
                   </View>
@@ -148,7 +153,11 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                   <View style={styles.row}>
                     <Text style={styles.infoText}>Age :</Text>
                     <Text style={styles.valueTextRow}>
-                      {this.component.state.Athlete.athlete?.age}ans
+                      {`${
+                        this.component.state.Athlete.athlete?.age
+                          ? this.component.state.Athlete.athlete?.age + 'ans'
+                          : 'Non renseigné'
+                      }`}
                     </Text>
                   </View>
                 </View>
@@ -205,10 +214,10 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                   </Text>
                 </View>
                 <View style={styles.item}>
-                  <Text style={styles.infoText}>Santé :</Text>
+                  <Text style={styles.infoText}>Problème(s) de santé :</Text>
                   <Text style={styles.valueText}>
                     {this.component.state.Athlete.athlete?.health_issues ||
-                      "Pas d'informations"}
+                      'Non'}
                   </Text>
                 </View>
                 <View style={styles.item}>

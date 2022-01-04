@@ -30,6 +30,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       dialogVisible: false,
       todayIndex: null,
       refrehing: false,
+      reload: false,
     };
   }
 
@@ -40,12 +41,18 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       body: notification?.request?.content?.body,
     });
   };
-
   async componentDidMount() {
+    const curDate = moment().format('YYYY-MM-DD');
+    // this.component.props.navigation.addListener('didFocus', () => {
+    //   this.fetchData();
+    //   this.component.setState({ reload: true });
+    //   setTimeout(() => {
+    //     this.component.setState({ reload: false });
+    //   }, 300);
+    // });
     this.component.listRef = null;
     const user = await AuthService.getUser();
     this.component.setState({ user });
-    const curDate = moment().format('YYYY-MM-DD');
     this.component.setState({ today: curDate });
     this.changeTaskList(curDate);
     this.onMonthChange(curDate, true);

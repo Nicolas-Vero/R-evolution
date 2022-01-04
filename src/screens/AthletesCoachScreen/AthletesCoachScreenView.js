@@ -151,7 +151,7 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
             selectedColor="#1E2026"
             textColor="white"
             borderRadius={10}
-            height={50}
+            height={45}
             style={{ width: widthPercentageToDP(92) }}
             hasPadding
             fontSize={15}
@@ -176,7 +176,7 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
                 selectedColor="#1E2026"
                 textColor="white"
                 borderRadius={10}
-                height={38}
+                height={45}
                 hasPadding
                 fontSize={13}
                 selectedTextStyle={styles.switchSelectedText}
