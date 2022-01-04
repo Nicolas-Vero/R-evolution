@@ -87,36 +87,36 @@ export default class selectCoachScreen extends React.Component {
           }}
           style={styles.background}>
           <Header title="LET'S GO" />
-          <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <RegisterStepImageView step={7} />
-            <View style={styles.content}>
-              <Formik
-                initialValues={{
-                  coach_preference: '',
-                  commercial_id: '',
-                }}
-                onSubmit={(values) => {
-                  const item = { ...passItem, ...values };
-                  this.onNavigate(item);
-                }}
-                validationSchema={Yup.object().shape({
-                  coach_preference: Yup.object().required(
-                    "Si vous n'avez pas de preférence selectionner : Peu importe",
-                  ),
-                  commercial_id: Yup.string().required(
-                    "Si vous n'avez pas été recommandé selectionner : Je n'ai pas été recommandé",
-                  ),
-                })}>
-                {({ handleSubmit, isValid, validate }) => (
-                  <View style={{ alignItems: 'center' }}>
+          <RegisterStepImageView step={7} />
+          <View style={styles.content}>
+            <Formik
+              initialValues={{
+                coach_preference: '',
+                commercial_id: '',
+              }}
+              onSubmit={(values) => {
+                const item = { ...passItem, ...values };
+                this.onNavigate(item);
+              }}
+              validationSchema={Yup.object().shape({
+                coach_preference: Yup.object().required(
+                  "Si vous n'avez pas de preférence selectionner : Peu importe",
+                ),
+                commercial_id: Yup.string().required(
+                  "Si vous n'avez pas été recommandé selectionner : Je n'ai pas été recommandé",
+                ),
+              })}>
+              {({ handleSubmit, isValid, validate }) => (
+                <View style={styles.content}>
+                  <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                     <Field
                       name="coach_preference"
                       id="coach_preference"
                       validate={validate}>
                       {({ form: { errors } }) => {
                         return (
-                          <View style={styles.form}>
-                            <Text style={styles.title}>
+                          <View>
+                            <Text style={[styles.title, { marginTop: 64 }]}>
                               À QUEL COACH VEUX-TU ADRESSER TA DEMANDE ?
                             </Text>
                             <View style={styles.dropdownContainer}>
@@ -308,6 +308,13 @@ export default class selectCoachScreen extends React.Component {
                         );
                       }}
                     </Field>
+                  </View>
+                  <View
+                    style={{
+                      justifyContent: 'flex-end',
+                      marginBottom: 50,
+                      alignItems: 'center',
+                    }}>
                     <Button
                       loading={false}
                       disabled={!isValid}
@@ -316,10 +323,10 @@ export default class selectCoachScreen extends React.Component {
                       onPress={handleSubmit}
                     />
                   </View>
-                )}
-              </Formik>
-            </View>
-          </SafeAreaView>
+                </View>
+              )}
+            </Formik>
+          </View>
         </LinearGradient>
       </View>
     );

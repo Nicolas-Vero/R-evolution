@@ -16,7 +16,7 @@ module.exports = StyleSheet.create({
   },
   content: {
     alignItems: 'center',
-    height: heightPercentageToDP(75),
+    height: heightPercentageToDP(72),
   },
   title: {
     textAlign: 'center',

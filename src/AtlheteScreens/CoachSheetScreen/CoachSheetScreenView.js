@@ -22,7 +22,7 @@ export default class CoachSheetScreenView extends AbstractScreenView {
           alignItems: 'center',
         }}>
         <Text
-          style={{ fontFamily: 'Roboto', fontSize: 20, color: '#FFFF' }}>
+          style={{ fontFamily: 'RobotoBold', fontSize: 20, color: '#FFFF' }}>
           Pas de coach associé
         </Text>
       </View>

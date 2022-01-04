@@ -82,7 +82,7 @@ export default class goalScreen extends React.Component {
                         return (
                           <View
                             style={{
-                              height: heightPercentageToDP(65),
+                              height: heightPercentageToDP(72),
                             }}>
                             <Text style={styles.title}>
                               QUEL EST TON OBJECTIF ?
