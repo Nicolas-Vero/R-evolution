@@ -8,6 +8,7 @@ import XDate from 'xdate';
 import { get_public_request } from '../../api/Request';
 
 import { slots } from '../../helpers/dateHelper';
+import { get_commercial_by_id } from '../../api/Commercial';
 
 export default class HomeCoachScreenController extends AbstractScreenController {
   constructor(component) {
@@ -271,7 +272,9 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     });
   };
 
-  onAthletePress = (athlete) => {
+  onAthletePress = async (athlete) => {
+    const commercial = await get_commercial_by_id(athlete.commercial_id)
+    athlete.commercial = { first_name: commercial.data.commercial.first_name, last_name: commercial.data.commercial.last_name }
     this.component.props.navigation.navigate('AthleteSheetCoachScreen', {
       item: athlete,
     });
