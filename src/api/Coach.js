@@ -70,6 +70,15 @@ export const get_appointement_calendar = async (params) => {
     params: { date: date },
   });
 };
+export const get_coachAthlete_status = async (params) => {
+  const athlete_id = params;
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/coach_athlete/status/${athlete_id}`,
+    headers: headers,
+  });
+};
 
 export const add_manual_payment = async (params) => {
   const {
