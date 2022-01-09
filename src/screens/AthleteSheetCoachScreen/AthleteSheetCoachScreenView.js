@@ -15,6 +15,7 @@ import AbstractScreenView from '../../components/abstracts/AbstractScreen/Abstra
 import CancelBookDialog from '../../components/dialogs/cancelBookDialog/cancelBookDialog';
 import DeleteSheetDialog from '../../components/dialogs/deleteSheetDialog/deleteSheetDialog';
 import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
+import { convertSlotToDate } from '../../helpers/dateHelper';
 export default class AthleteSheetCoachScreenView extends AbstractScreenView {
   renderCancelBookDialog = () => {
     return (
@@ -129,22 +130,23 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 onRefresh={this.controller.fetchData}
               />
             }>
-            {/* {isActif || isCanceled ? (
-                <View style={styles.cancelItem}>
-                  <Text style={styles.infoText}>Séance :</Text>
-                  <View style={styles.cancelBookContainer}>
-                    <Text style={styles.cancelBookValue}>
-                      6 Avril 2020 - 03:00 - 04:00
-                    </Text>
-                    <Text
-                      style={styles.cancelBook}
-                      onPress={this.controller.onCancelBook}>
-                      Annuler
-                    </Text>
-                  </View>
-                  {this.renderCancelBookDialog()}
+            {user.book.length > 0 ? (
+              <View style={styles.cancelItem}>
+                <Text style={styles.infoText}>Séance :</Text>
+                <View style={styles.cancelBookContainer}>
+                  <Text style={styles.cancelBookValue}>
+                    {user.book[0]?.date} - {convertSlotToDate(user.book[0].slot)}
+                  </Text>
+                  <Text
+                    style={styles.cancelBook}
+                    // TO DO finir l'intégration et appeler la fonction avev user.book[0].id puis rafraichir les données
+                    onPress={this.controller.onCancelBook}>
+                    Annuler
+                  </Text>
                 </View>
-              ) : null} */}
+                {this.renderCancelBookDialog()}
+              </View>
+            ) : null}
             <View style={styles.phoneNumberContainer}>
               <Image
                 style={styles.phoneImg}

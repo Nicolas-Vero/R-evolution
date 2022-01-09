@@ -79,6 +79,24 @@ export const get_coachAthlete_status = async (params) => {
     headers: headers,
   });
 };
+export const get_appointment_by_athlete_id = async (params) => {
+  const athlete_id = params;
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/coach/appointment_by_user/${athlete_id}`,
+    headers: headers,
+  });
+};
+export const get_appointment_by_id = async (params) => {
+  const booking_id = params;
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/coach/appointment_by_id/${booking_id}`,
+    headers: headers,
+  });
+};
 
 export const add_manual_payment = async (params) => {
   const {
@@ -149,7 +167,7 @@ export const get_coach_athlete = async () => {
   });
 };
 
-export const cancel_booking = async (params, navigation) => {
+export const cancel_booking = async (params) => {
   const headers = await AuthService.getHeader();
   return axios({
     method: 'POST',
