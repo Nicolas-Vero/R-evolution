@@ -77,6 +77,7 @@ export default class HomeAhleteController extends AbstractScreenController {
             id: res.data.id,
             first_name: res.data.first_name,
             last_name: res.data.last_name,
+            profile_picture_url: res.data.profile_picture_url,
           },
         });
       });

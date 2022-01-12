@@ -1,7 +1,13 @@
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import moment from 'moment';
 import { get_availabilities } from '../../api/Availabilities';
-import { get_appointement, get_appointement_calendar, get_appointment_by_athlete_id, get_appointment_by_id, get_coachAthlete_status } from '../../api/Coach';
+import {
+  get_appointement,
+  get_appointement_calendar,
+  get_appointment_by_athlete_id,
+  get_appointment_by_id,
+  get_coachAthlete_status,
+} from '../../api/Coach';
 import * as Notifications from 'expo-notifications';
 import AuthService from '../../services/AuthService';
 import XDate from 'xdate';
@@ -73,9 +79,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
         this.component.props.navigation.push('activitiesCoachScreen');
       });
     const bookingPerday = [];
-    const dayOfMonth = this.month(
-      this.component.state.currentMonth
-    );
+    const dayOfMonth = this.month(this.component.state.currentMonth);
     dayOfMonth.forEach((element) => {
       get_appointement_calendar(
         moment(new Date(element)).format('YYYY-MM-DD'),
@@ -231,6 +235,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
         arrayOfPage.push({
           firstname: rdv?.athlete?.first_name,
           Avatar:
+            rdv.athlete.profile_picture_url ||
             '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
           lastname: rdv.athlete.last_name,
           session_number: rdv?.session_number,
@@ -274,13 +279,16 @@ export default class HomeCoachScreenController extends AbstractScreenController 
 
   onAthletePress = async (athlete) => {
     // TODO recuperer également le slot et la date et l'ajouter a l'objet athlete
-    const book = await get_appointment_by_athlete_id(athlete.id)
-    const data = await get_coachAthlete_status(athlete.id)
-    athlete.status = data.data.status
-    athlete.book = book.data
+    const book = await get_appointment_by_athlete_id(athlete.id);
+    const data = await get_coachAthlete_status(athlete.id);
+    athlete.status = data.data.status;
+    athlete.book = book.data;
     if (athlete.commercial_id) {
-      const commercial = await get_commercial_by_id(athlete.commercial_id)
-      athlete.commercial = { first_name: commercial.data.commercial.first_name, last_name: commercial.data.commercial.last_name }
+      const commercial = await get_commercial_by_id(athlete.commercial_id);
+      athlete.commercial = {
+        first_name: commercial.data.commercial.first_name,
+        last_name: commercial.data.commercial.last_name,
+      };
     }
     this.component.props.navigation.navigate('AthleteSheetCoachScreen', {
       item: athlete,

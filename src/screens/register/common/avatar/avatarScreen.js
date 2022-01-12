@@ -2,34 +2,28 @@ import React from 'react';
 import {
   View,
   TouchableOpacity,
-  StyleSheet,
   Dimensions,
   Keyboard,
   Image,
   SafeAreaView,
   Text,
-  StatusBar,
-  ScrollView,
 } from 'react-native';
 const { width } = Dimensions.get('window');
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
 import * as ImagePicker from 'expo-image-picker';
 import { Avatar } from 'react-native-elements';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import { Formik, FieldArray, Field } from 'formik';
 import { sign_up } from '../../../../api/Athlete';
 import { auth } from '../../../../api/Coach';
-import { upload_file } from '../../../../api/File';
 import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
 import { Button } from '../../../../components/Button';
 import styles from './avatarStyle';
 import { athlete_login, get_athlete_me } from '../../../../api/Athlete';
 import AuthService from '../../../../services/AuthService';
+import { upload_profile_picture } from '../../../../api/File';
+
 export default class avatarScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -38,6 +32,7 @@ export default class avatarScreen extends React.Component {
       image: {},
       isValid: true,
       isAthlete: props.navigation.state.params.item.userType === 'athlete',
+      base64Image: '',
     };
   }
   async componentDidMount() {
@@ -52,12 +47,24 @@ export default class avatarScreen extends React.Component {
     }
   }
 
-  onRegister = async (formData, item) => {
+  onRegister = async (item) => {
+    const passItem = this.props.navigation.state.params.item;
+
     const { isAthlete } = this.state;
-    const req = isAthlete ? await sign_up(item) : await auth(item);
-    if (req.status === 200) {
+    const res = isAthlete ? await sign_up(passItem) : await auth(passItem);
+    if (res.status === 200) {
+      if (this.state.base64Image !== '') {
+        await upload_profile_picture(
+          res.data.userId,
+          isAthlete ? 'athlete' : 'coach',
+          this.state.base64Image,
+        );
+      }
       if (isAthlete) {
-        await this.loginAthlete({ email: item.email, password: item.password });
+        await this.loginAthlete({
+          email: passItem.email,
+          password: passItem.password,
+        });
         return;
       }
 
@@ -93,21 +100,26 @@ export default class avatarScreen extends React.Component {
     this.props.navigation.navigate('loginScreen');
   };
 
-  render() {
-    const passItem = this.props.navigation.state.params.item;
-    const pickImage = async (arrayhelper) => {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
+  pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      base64: true,
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
 
-      if (!result.cancelled) {
-        this.setState({ image: result });
-        arrayhelper.form.values.profile_picture_url = result.uri;
-      }
-    };
+    if (!result.cancelled) {
+      let fileExtension = result.uri.substr(result.uri.lastIndexOf('.') + 1);
+
+      this.setState({
+        image: result,
+        base64Image: `data:image/${fileExtension};base64,${result.base64}`,
+      });
+    }
+  };
+
+  render() {
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -125,88 +137,49 @@ export default class avatarScreen extends React.Component {
           <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
             <RegisterStepImageView step={this.state.isCoach ? 13 : 8} />
             <View style={styles.content}>
-              <Formik
-                initialValues={{
-                  profile_picture_url: '',
-                }}
-                onSubmit={(values) => {
-                  var item = { ...passItem, ...values };
-                  const formData = new FormData();
-                  formData.append('file', {
-                    uri: this.state.image.uri,
-                    type: this.state.image.type,
-                    name: this.state.image.uri,
-                  });
-                  this.onRegister(formData, item);
+              <View
+                style={{
+                  height: heightPercentageToDP(72),
                 }}>
-                {({ handleSubmit, validate, ref }) => (
-                  <View style={styles.content}>
-                    <Field
-                      name="profile_picture_url"
-                      id="profile_picture_url"
-                      validate={validate}>
-                      {({ form: {} }) => {
-                        return (
-                          <View
-                            style={{
-                              height: heightPercentageToDP(72),
-                            }}>
-                            <Text style={styles.title}>PHOTO DE PROFIL</Text>
-                            <View
-                              style={{
-                                marginTop: 56,
-                              }}>
-                              {this.state.image.uri ? (
-                                <Text style={styles.subTitle}>
-                                  Superbe photo !
-                                </Text>
-                              ) : (
-                                <Text style={styles.subTitle}>
-                                  C'est toujours plus sympa avec {'\n'}une photo
-                                  de profil
-                                </Text>
-                              )}
-                            </View>
-                            <View style={styles.photoPickerContainer}>
-                              <FieldArray
-                                name="profile_picture_url"
-                                render={(arrayhelper) => (
-                                  <TouchableOpacity
-                                    onPress={(item) => {
-                                      pickImage(arrayhelper, item);
-                                    }}>
-                                    {this.state.image.uri ? (
-                                      <View>
-                                        <Avatar
-                                          size="xlarge"
-                                          rounded
-                                          source={{ uri: this.state.image.uri }}
-                                        />
-                                      </View>
-                                    ) : (
-                                      <Image
-                                        style={styles.previewImage}
-                                        source={require('../../../../../assets/images/AddPhoto.png')}
-                                      />
-                                    )}
-                                  </TouchableOpacity>
-                                )}
-                              />
-                            </View>
-                          </View>
-                        );
-                      }}
-                    </Field>
-                    <Button
-                      loading={!this.state.isValid}
-                      disabled={this.state.isValid}
-                      title="Créer ton compte"
-                      customTextStyle={styles.buttonText}
-                      onPress={handleSubmit}
-                    />
-                  </View>
-                )}
-              </Formik>
+                <Text style={styles.title}>PHOTO DE PROFIL</Text>
+                <View
+                  style={{
+                    marginTop: 56,
+                  }}>
+                  {this.state.image.uri ? (
+                    <Text style={styles.subTitle}>Superbe photo !</Text>
+                  ) : (
+                    <Text style={styles.subTitle}>
+                      C'est toujours plus sympa avec {'\n'}une photo de profil
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.photoPickerContainer}>
+                  <TouchableOpacity onPress={this.pickImage}>
+                    {this.state.image.uri ? (
+                      <View>
+                        <Avatar
+                          size="xlarge"
+                          rounded
+                          source={{ uri: this.state.image.uri }}
+                        />
+                      </View>
+                    ) : (
+                      <Image
+                        style={styles.previewImage}
+                        source={require('../../../../../assets/images/AddPhoto.png')}
+                      />
+                    )}
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <Button
+                loading={!this.state.isValid}
+                disabled={this.state.isValid}
+                title="Créer ton compte"
+                customTextStyle={styles.buttonText}
+                onPress={this.onRegister}
+              />
             </View>
           </SafeAreaView>
         </LinearGradient>
@@ -214,66 +187,3 @@ export default class avatarScreen extends React.Component {
     );
   }
 }
-
-// const styles = StyleSheet.create({
-//   safeArea: {
-//     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-//   },
-//   container1: {
-//     height: 300,
-//     alignItems: 'center',
-//     alignContent: 'center',
-//     justifyContent: 'center',
-//   },
-//   container2: {
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: 'red',
-//   },
-
-//   item: {
-//     backgroundColor: '#393637',
-//     borderRadius: 25,
-//     marginVertical: 8,
-//     padding: 10,
-//     justifyContent: 'center',
-//   },
-//   title: {
-//     fontFamily: 'RobotoBold',
-//     fontSize: 20,
-//     color: '#FFFFFF',
-//     lineHeight: 24,
-//   },
-//   text: {
-//     fontFamily: 'RobotoBold',
-//     fontSize: 15,
-//     color: '#FFFFFF',
-//     marginBottom: 30,
-//     width: widthPercentageToDP(90),
-//   },
-
-//   header: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     justifyContent: 'space-between',
-//     width: width,
-//     height: 49,
-//     marginTop: 29,
-//     marginBottom: 49,
-//     paddingLeft: 16,
-//     paddingRight: 16,
-//   },
-//   background: {
-//     position: 'absolute',
-//     left: 0,
-//     right: 0,
-//     top: 0,
-//     bottom: 0,
-//   },
-//   title: {
-//     fontFamily: 'RobotoBold',
-//     fontSize: 20,
-//     color: '#FFFFFF',
-//     lineHeight: 24,
-//   },
-// });

@@ -30,7 +30,9 @@ export default class PendingRequestCoachScreenView extends AbstractScreenView {
               style={styles.avatarImage}
               rounded
               source={{
-                uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                uri:
+                  item.athlete.profile_picture_url ||
+                  '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
               }}
             />
             <Text

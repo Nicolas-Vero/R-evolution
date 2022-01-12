@@ -86,7 +86,7 @@ export default class SwitchButton extends React.Component {
                   size={22}
                   rounded
                   source={{
-                    uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                    uri: currentBook.profile_picture_url || '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                   }}
                 />
                 <Text

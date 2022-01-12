@@ -43,7 +43,9 @@ export default class CoachSheetScreenView extends AbstractScreenView {
                 size={82}
                 rounded
                 source={{
-                  uri: '../../../assets/images/avatar.png',
+                  uri:
+                    this.component.state.coach.profile_picture_url ||
+                    '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                 }}
               />
               <Text style={styles.username}>

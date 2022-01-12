@@ -391,7 +391,9 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                     size={37}
                     rounded
                     source={{
-                      uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
+                      uri:
+                        this.component.state.user.profile_picture_url ||
+                        '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                     }}
                   />
                   <Text style={styles.username}>

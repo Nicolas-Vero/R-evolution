@@ -92,9 +92,7 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
                  /> */}
         <FlatList
           contentContainerStyle={{ paddingBottom: 300 }}
-          data={[
-            ...this.component.state.atlhetesProspects,
-          ]}
+          data={[...this.component.state.atlhetesProspects]}
           keyExtractor={(item) => item.id.toString()}
           refreshControl={
             <SidappRefreshControl
@@ -120,7 +118,7 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
               style={styles.avatarImage}
               rounded
               source={{
-                uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                uri: item.profile_picture_url || '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
               }}
             />
             <Text style={styles.username}>

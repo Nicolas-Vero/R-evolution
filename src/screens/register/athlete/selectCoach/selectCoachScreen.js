@@ -252,13 +252,13 @@ export default class selectCoachScreen extends React.Component {
                                           let show = '';
                                           this.state.checkedCommercial
                                             ? null
-                                            : (show = `${selectedItem.first_name}  ${selectedItem.last_name}`);
+                                            : (show = `${selectedItem.first_name} ${selectedItem.last_name}`);
                                           return show;
                                         }}
                                         rowTextForSelection={(item, index) => {
                                           // text represented for each item in dropdown
                                           // if data array is an array of objects then return item.property to represent item in dropdown
-                                          return item.first_name;
+                                          return `${item.first_name} ${item.last_name}`;
                                         }}
                                       />
                                       <View

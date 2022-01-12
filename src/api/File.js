@@ -23,3 +23,14 @@ export const get_file = async(params) => {
       headers:headers
     });
   };
+
+  export const upload_profile_picture = (userId, userType, image) => {
+    return axios({
+      method: 'POST',
+      url: `${API_URL}/file/profilePicture/${userId}`,
+      data: {
+        userType,
+        image
+      },
+    });
+  };

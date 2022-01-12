@@ -112,7 +112,11 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
               <Avatar
                 size={82}
                 rounded
-                source={require('../../../assets/images/avatar.png')}
+                source={{
+                  uri:
+                    user.profile_picture_url ||
+                    '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                }}
               />
               <Text style={styles.username}>
                 {user.first_name} {user.last_name}
@@ -130,12 +134,13 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 onRefresh={this.controller.fetchData}
               />
             }>
-            {user.book.length > 0 ? (
+            {user.book ? (
               <View style={styles.cancelItem}>
                 <Text style={styles.infoText}>Séance :</Text>
                 <View style={styles.cancelBookContainer}>
                   <Text style={styles.cancelBookValue}>
-                    {user.book[0]?.date} - {convertSlotToDate(user.book[0].slot)}
+                    {user.book[0]?.date} -{' '}
+                    {convertSlotToDate(user.book[0].slot)}
                   </Text>
                   <Text
                     style={styles.cancelBook}
@@ -191,9 +196,9 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   {' '}
                   {user.commercial
                     ? user.commercial.first_name.concat(
-                      ' ',
-                      user.commercial.last_name,
-                    )
+                        ' ',
+                        user.commercial.last_name,
+                      )
                     : 'Pas de recommandation'}
                 </Text>
               ) : (
@@ -201,9 +206,9 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   {' '}
                   {user.commercial
                     ? user.commercial.first_name.concat(
-                      ' ',
-                      user.commercial.last_name,
-                    )
+                        ' ',
+                        user.commercial.last_name,
+                      )
                     : 'Pas de recommandation'}
                 </Text>
               )}
@@ -213,10 +218,11 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
               <Text style={styles.valueText}>
                 <Text style={styles.valueText}>
                   {ActiveCourses.offer
-                    ? `${ActiveCourses.offer.title} - ${sessionLeft} ${sessionLeft > 1
-                      ? 'séances restantes'
-                      : 'séance restante'
-                    } sur ${ActiveCourses.total_sessions}`
+                    ? `${ActiveCourses.offer.title} - ${sessionLeft} ${
+                        sessionLeft > 1
+                          ? 'séances restantes'
+                          : 'séance restante'
+                      } sur ${ActiveCourses.total_sessions}`
                     : 'Aucune offre'}
                 </Text>
               </Text>
@@ -401,16 +407,16 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   {!user.athlete.experience_years
                     ? "Pas d'informations"
                     : user.athlete.experience_years > 0
-                      ? ` Plus de ${user.athlete.experience_years} ans`
-                      : `Moins d'un an`}
+                    ? ` Plus de ${user.athlete.experience_years} ans`
+                    : `Moins d'un an`}
                 </Text>
               ) : (
                 <Text style={styles.valueText}>
                   {!user.experience_years
                     ? "Pas d'informations"
                     : user.experience_years > 0
-                      ? ` Plus de ${user.experience_years} ans`
-                      : `Moins d'un an`}
+                    ? ` Plus de ${user.experience_years} ans`
+                    : `Moins d'un an`}
                 </Text>
               )}
             </View>

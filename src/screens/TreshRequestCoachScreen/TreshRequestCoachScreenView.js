@@ -63,7 +63,12 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                 <Avatar
                   size={82}
                   rounded
-                  source={require('../../../assets/images/avatar.png')}
+                  source={{
+                    uri:
+                      this.component.state.Athlete.athlete
+                        .profile_picture_url ||
+                      '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                  }}
                 />
                 <Text style={styles.username}>
                   {this.component.state.Athlete.athlete?.first_name}{' '}
@@ -126,12 +131,11 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                       <Text style={styles.valueTextRow}>
                         {!this.component.state.Athlete.athlete?.size
                           ? 'Non renseigné'
-                          : `${
-                             ( this.component.state.Athlete.athlete?.size / 100).substring(0, 1)
-                            } m ${
-                              (this.component.state.Athlete.athlete?.size / 100).substring(2)
-                            }`}
-                        
+                          : `${(
+                              this.component.state.Athlete.athlete?.size / 100
+                            ).substring(0, 1)} m ${(
+                              this.component.state.Athlete.athlete?.size / 100
+                            ).substring(2)}`}
                       </Text>
                     </View>
                   </View>

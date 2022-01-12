@@ -22,8 +22,6 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { Entypo } from '@expo/vector-icons';
 
-import { upload_file } from '../../api/File';
-import { updateCoach } from '../../api/Coach';
 export default class ProfileCoachScreenView extends AbstractScreenView {
   render() {
     // const { navigation } = this.compoment.props;
@@ -47,8 +45,6 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                 phone: this.component.state.User.phone,
                 specialties: this.component.state.specData,
                 diplomas: this.component.state.arrayofdiplomas,
-                profile_picture_url:
-                  this.component.state.User.profile_picture_url,
               }}
               onSubmit={(values) => onContinuePress(values)}>
               {({ handleChange, handleBlur, setFieldValue, values }) => (
@@ -60,7 +56,6 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                       </View>
                       <View style={styles.headerMidle}>
                         <FieldArray
-                          name="profile_picture_url"
                           render={(arrayhelper) => (
                             <TouchableOpacity
                               onPress={(item) => {
@@ -71,7 +66,21 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                                   size={105}
                                   rounded
                                   source={{
-                                    uri: this.component.state.image.uri,
+                                    uri:
+                                      this.component.state.image.uri ||
+                                      '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                                  }}
+                                />
+                              ) : this.component.state.Coach
+                                  .profile_picture_url ? (
+                                <Avatar
+                                  size={105}
+                                  rounded
+                                  source={{
+                                    uri:
+                                      this.component.state.Coach
+                                        .profile_picture_url ||
+                                      '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                                   }}
                                 />
                               ) : (

@@ -14,17 +14,20 @@ module.exports = StyleSheet.create({
     backgroundColor: '#000',
   },
   header: {
+    marginHorizontal: 16,
+    flex: 1,
     flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   headerLeft: {
-    alignItems: 'flex-start',
+    flex: 1,
   },
   headerMidle: {
-    marginTop: isIphoneX() ? 50 : 50,
+    flex: 1,
     alignItems: 'center',
   },
   headerRight: {
-    alignItems: 'flex-end',
+    flex: 1,
   },
   content: {
     marginHorizontal: 16,
@@ -37,7 +40,7 @@ module.exports = StyleSheet.create({
     marginBottom: 5,
   },
   checkBox: {
-    paddingTop:0,
+    paddingTop: 0,
     paddingLeft: 0,
     marginLeft: 0,
     backgroundColor: 'transparent',
@@ -212,8 +215,8 @@ module.exports = StyleSheet.create({
     fontFamily: 'RobotoBold',
     fontSize: 15,
   },
-  center:{
-    alignItems:'center',
-    width:'100%'
-  }
+  center: {
+    alignItems: 'center',
+    width: '100%',
+  },
 });

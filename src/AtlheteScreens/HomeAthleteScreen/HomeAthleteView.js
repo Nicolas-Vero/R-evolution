@@ -41,7 +41,9 @@ export default class HomeAthleteView extends AbstractScreenView {
                 size={37}
                 rounded
                 source={{
-                  uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
+                  uri:
+                    this.component.state.user.profile_picture_url ||
+                    '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                 }}
               />
               <Text style={styles.username}>
@@ -250,9 +252,16 @@ export default class HomeAthleteView extends AbstractScreenView {
       <View style={styles.renewContainer}>
         {this.renderRenewOfferDialog()}
         <Text style={styles.renewText}>
-          IL NE TE RESTE QUE <Text style={styles.textColored}>{this.component.state.athleteCourse.total_sessions - this.component.state.athleteCourse.booked_session} </Text>
+          IL NE TE RESTE QUE{' '}
+          <Text style={styles.textColored}>
+            {this.component.state.athleteCourse.total_sessions -
+              this.component.state.athleteCourse.booked_session}{' '}
+          </Text>
           SÉANCES SUR TON
-          <Text style={styles.textColored}> {this.component.state.athleteCourse.offer?.title}</Text>
+          <Text style={styles.textColored}>
+            {' '}
+            {this.component.state.athleteCourse.offer?.title}
+          </Text>
         </Text>
         <TouchableOpacity
           onPress={this.controller.onRenewOfferPress}
@@ -275,7 +284,7 @@ export default class HomeAthleteView extends AbstractScreenView {
         {this.renderInfos()}
         <Text style={styles.appointmentText}>AUJOURD'HUI</Text>
         {this.component.state.dayApointement &&
-          this.component.state.dayApointement.length ? (
+        this.component.state.dayApointement.length ? (
           <FlatList
             data={this.component.state.dayApointement}
             refreshing={this.component.state.refresh}
@@ -288,7 +297,9 @@ export default class HomeAthleteView extends AbstractScreenView {
                       size={44}
                       rounded
                       source={{
-                        uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                        uri:
+                          this.component.state.coach.profile_picture_url ||
+                          '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                       }}
                     />
                     <View style={styles.appointmentTodayItemLeftTexts}>
@@ -316,7 +327,7 @@ export default class HomeAthleteView extends AbstractScreenView {
         <Text style={styles.appointmentText}>À VENIR</Text>
 
         {this.component.state.upcomingApointement &&
-          this.component.state.upcomingApointement.length ? (
+        this.component.state.upcomingApointement.length ? (
           <FlatList
             style={{ maxHeight: heightPercentageToDP(45) }}
             data={this.component.state.upcomingApointement}
@@ -344,12 +355,14 @@ export default class HomeAthleteView extends AbstractScreenView {
                         size={44}
                         rounded
                         source={{
-                          uri: '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                          uri:
+                            this.component.state.coach.profile_picture_url ||
+                            '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                         }}
                       />
                       <View style={styles.appointmentTodayItemLeftTexts}>
                         <Text style={styles.appointmentTodayItemLeftUsername}>
-                          {item?.athlete.first_name} {item?.athlete?.last_name}
+                          {`${this.component.state.coach.first_name} ${this.component.state.coach.last_name}`}
                         </Text>
                         <Text style={styles.appointmentTodayItemLeftSession}>
                           Séance: {item?.session_number}/
@@ -434,13 +447,13 @@ export default class HomeAthleteView extends AbstractScreenView {
               const backgroundColor = isBefore
                 ? '#393637'
                 : item.availability === this.component.state.selectedDate
-                  ? '#2CDEE4'
-                  : '#1E2026';
+                ? '#2CDEE4'
+                : '#1E2026';
               const textColor = isBefore
                 ? '#979797'
                 : item.availability === this.component.state.selectedDate
-                  ? 'black'
-                  : 'white';
+                ? 'black'
+                : 'white';
               const borderWidth = item?.availability === curDate ? 2 : 0;
 
               return (

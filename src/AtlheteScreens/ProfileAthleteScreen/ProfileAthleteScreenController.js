@@ -2,6 +2,8 @@ import AbstractScreenController from '../../components/abstracts/AbstractScreen/
 import AuthService from '../../services/AuthService';
 import { get_gym } from '../../api/ReferenceData';
 import { get_athlete_me, update_current_athlete } from '../../api/Athlete';
+import * as ImagePicker from 'expo-image-picker';
+import { upload_profile_picture } from '../../api/File';
 
 export default class ProfileAthleteScreenController extends AbstractScreenController {
   constructor(component) {
@@ -25,24 +27,28 @@ export default class ProfileAthleteScreenController extends AbstractScreenContro
   }
 
   async componentDidMount() {
-    // loadFonts();
-    const User = await AuthService.getUser();
-    this.component.setState({User});
+    const athlete = await get_athlete_me();
+    this.component.setState({ User: athlete.data });
     const arrayOfPreference = [
-      { day: 'L', selected: User.is_monday_preferred },
-      { day: 'M', selected: User.is_tuesday_preferred },
-      { day: 'ME', selected: User.is_wednesday_preferred },
-      { day: 'J', selected: User.is_thursday_preferred },
-      { day: 'V', selected: User.is_friday_preferred },
-      { day: 'S', selected: User.is_saturday_preferred },
-      { day: 'D', selected: User.is_sunday_preferred},
-    ]
-    this.component.setState({ SelectedDay:arrayOfPreference });
+      { day: 'L', selected: athlete.data.is_monday_preferred },
+      { day: 'M', selected: athlete.data.is_tuesday_preferred },
+      { day: 'ME', selected: athlete.data.is_wednesday_preferred },
+      { day: 'J', selected: athlete.data.is_thursday_preferred },
+      { day: 'V', selected: athlete.data.is_friday_preferred },
+      { day: 'S', selected: athlete.data.is_saturday_preferred },
+      { day: 'D', selected: athlete.data.is_sunday_preferred },
+    ];
+    this.component.setState({ SelectedDay: arrayOfPreference });
     get_gym().then((res) => {
       const currentGymId = res.data.find(
-        (gym) => gym.id === User.preferred_gym_id,
+        (gym) => gym.id === athlete.data.preferred_gym_id,
       );
-      this.component.setState({multi:[this.component.state.User.preferred_time_start, this.component.state.User.preferred_time_end]})
+      this.component.setState({
+        multi: [
+          athlete.data.preferred_time_start,
+          athlete.data.preferred_time_end,
+        ],
+      });
       this.component.setState({
         Gymdata: res.data,
         gym: currentGymId.name,
@@ -51,13 +57,29 @@ export default class ProfileAthleteScreenController extends AbstractScreenContro
     });
   }
 
-  onSave = async (values) => {
-    const formData = new FormData();
-    formData.append('file', {
-      uri: this.component.state.image.uri,
-      type: this.component.state.image.type,
-      name: this.component.state.image.uri,
+  pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      base64: true,
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
     });
+    if (!result.cancelled) {
+      let fileExtension = result.uri.substr(result.uri.lastIndexOf('.') + 1);
+
+      this.component.setState({
+        image: result,
+        base64Image: `data:image/${fileExtension};base64,${result.base64}`,
+      });
+    }
+  };
+
+  onSave = async (values) => {
+    const { base64Image, User } = this.component.state;
+    if (base64Image !== '') {
+      await upload_profile_picture(User.id, 'athlete', base64Image);
+    }
     const update = await update_current_athlete(values);
     if (update.status === 200) {
       const athlete = await get_athlete_me();
