@@ -103,6 +103,8 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
     const { isCanceled, ActiveCourses } = this.component.state;
     const sessionLeft =
       ActiveCourses.total_sessions - ActiveCourses.booked_session;
+
+    const { books } = this.component.state;
     return (
       <View style={styles.container}>
         <View style={{ marginTop: isIphoneX() ? 40 : 0 }}>
@@ -134,17 +136,15 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 onRefresh={this.controller.fetchData}
               />
             }>
-            {user.book ? (
+            {books && books.length ? (
               <View style={styles.cancelItem}>
                 <Text style={styles.infoText}>Séance :</Text>
                 <View style={styles.cancelBookContainer}>
                   <Text style={styles.cancelBookValue}>
-                    {user.book[0]?.date} -{' '}
-                    {convertSlotToDate(user.book[0].slot)}
+                    {books[0]?.date} - {convertSlotToDate(books[0].slot)}
                   </Text>
                   <Text
                     style={styles.cancelBook}
-                    // TO DO finir l'intégration et appeler la fonction avev user.book[0].id puis rafraichir les données
                     onPress={this.controller.onCancelBook}>
                     Annuler
                   </Text>

@@ -1,6 +1,7 @@
 import {
   get_athlete_active_courses_with_param,
   getUserAppoinement,
+  cancel_booking,
 } from '../../api/Coach';
 import { get_paiement_for_coach } from '../../api/Paiement';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
@@ -15,9 +16,15 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
       isCancelBookModalVisible: false,
       isCanceled: false,
       refreshing: false,
+      books: [],
     };
   }
   componentDidMount = async () => {
+    if (this.component.props.navigation.state.params.item.book.length) {
+      this.component.setState({
+        books: this.component.props.navigation.state.params.item.book,
+      });
+    }
     get_athlete_active_courses_with_param(
       this.component.props.navigation.state.params.item.id,
     ).then((res) => {
@@ -64,8 +71,17 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
     });
   };
 
-  onValidateCancelBook = () => {
-    //TODO NICOLAS CANCEL BOOK
+  onValidateCancelBook = async () => {
+    const { books } = this.component.state;
+    const res = await cancel_booking({
+      id: this.component.state.books[0].id,
+    });
+    if (res.status === 200) {
+      books.shift();
+      this.component.setState({
+        books: books,
+      });
+    }
     this.onDismissCancelSheetDialog();
   };
 }
