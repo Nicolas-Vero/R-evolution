@@ -52,9 +52,9 @@ export const get_availabilities = async (params) => {
 export const cancel_booking_athlete = async (params) => {
   const { coach_id, date, athlete_course_id, slot } = params;
   const data = {
-    athlete_course_id:athlete_course_id,
+    athlete_course_id: athlete_course_id,
     date: date,
-    coach_id:coach_id,
+    coach_id: coach_id,
     slot: slot,
   };
   const headers = await AuthService.getHeader();
@@ -128,6 +128,16 @@ export const get_coach_by_gym_place = async (params, navigation) => {
   return axios({
     method: 'POST',
     url: `${API_URL}/coach/exercise_place`,
+    headers: headers,
+    data: data,
+  });
+};
+export const renew_request = async (params) => {
+  const data = params;
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'POST',
+    url: `${API_URL}/athlete/renew_request`,
     headers: headers,
     data: data,
   });

@@ -175,6 +175,28 @@ export const cancel_booking = async (params) => {
     headers: headers,
   });
 };
+export const delete_prospect = async (params) => {
+  const data = params
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'POST',
+    url: `${API_URL}/coach/delete/athlete`,
+    headers: headers,
+    data: data,
+
+  });
+};
+export const unlink_prospect = async (params) => {
+  const data = params
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'POST',
+    url: `${API_URL}/coach/unlink/athlete`,
+    headers: headers,
+    data: data,
+
+  });
+};
 
 export const get_coach_by_id = async (params) => {
   const headers = await AuthService.getHeader();
