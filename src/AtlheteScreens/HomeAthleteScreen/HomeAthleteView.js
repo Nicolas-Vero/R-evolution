@@ -248,15 +248,18 @@ export default class HomeAthleteView extends AbstractScreenView {
   }
 
   renderInfos = () => {
-    return this.component.state.coach ? (
+    const sessionsLeft =
+      this.component.state.athleteCourse.total_sessions -
+      this.component.state.athleteCourse.booked_session;
+    const renderSessionLeft =
+      sessionsLeft <= this.component.state.athleteCourse.total_sessions / 3;
+
+    return sessionsLeft && renderSessionLeft ? (
       <View style={styles.renewContainer}>
         {this.renderRenewOfferDialog()}
         <Text style={styles.renewText}>
           IL NE TE RESTE QUE{' '}
-          <Text style={styles.textColored}>
-            {this.component.state.athleteCourse.total_sessions -
-              this.component.state.athleteCourse.booked_session}{' '}
-          </Text>
+          <Text style={styles.textColored}>{renderSessionLeft}</Text>
           SÉANCES SUR TON
           <Text style={styles.textColored}>
             {' '}
@@ -269,7 +272,7 @@ export default class HomeAthleteView extends AbstractScreenView {
           <Text style={styles.renewButtonText}>Renouveler l'offre</Text>
         </TouchableOpacity>
       </View>
-    ) : (
+    ) : this.component.state.coach ? null : (
       <View style={styles.noCoachContainer}>
         <Text style={styles.noCoachText}>
           Ta demande est en cours de traitement. Un coach te contactera
@@ -390,7 +393,9 @@ export default class HomeAthleteView extends AbstractScreenView {
   renderReserve() {
     const curDate = moment().format('YYYY-MM-DD');
     const { coach } = this.component.state;
-
+    const sessionsLeft =
+      this.component.state.athleteCourse.total_sessions -
+      this.component.state.athleteCourse.booked_session;
     return (
       <LinearGradient
         colors={['black', '#2D333C']}
@@ -405,7 +410,7 @@ export default class HomeAthleteView extends AbstractScreenView {
         style={styles.reserveContainer}>
         {coach ? this.renderBookDialog() : null}
         {coach ? this.renderUnbookDialog() : null}
-        {coach ? (
+        {coach && this.component.state.athleteCourse.total_sessions ? (
           <View>
             <Text
               style={{
@@ -416,7 +421,9 @@ export default class HomeAthleteView extends AbstractScreenView {
                 marginTop: 24,
                 marginBottom: 5,
               }}>
-              Cet Athlète n'a aucune séance pour le moment
+              IL TE RESTE
+              <Text style={{ color: '#2CDEE4' }}>{` ${sessionsLeft} `}</Text>
+              {`SÉANCE${sessionsLeft > 1 ? 'S' : ''}`} À PLACER
             </Text>
           </View>
         ) : null}

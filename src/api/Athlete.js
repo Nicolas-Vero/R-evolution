@@ -52,9 +52,9 @@ export const get_availabilities = async (params) => {
 export const cancel_booking_athlete = async (params) => {
   const { coach_id, date, athlete_course_id, slot } = params;
   const data = {
-    athlete_course_id:athlete_course_id,
+    athlete_course_id: athlete_course_id,
     date: date,
-    coach_id:coach_id,
+    coach_id: coach_id,
     slot: slot,
   };
   const headers = await AuthService.getHeader();
@@ -203,7 +203,7 @@ export const athlete_accept_invitation = async (params) => {
 
 export const update_current_athlete = async (params) => {
   const headers = await AuthService.getHeader();
-  const data = params
+  const data = params;
   return axios({
     method: 'POST',
     url: `${API_URL}/athlete/me/`,
@@ -255,6 +255,15 @@ export const reset_password_mail_link = async (params, navigation) => {
     method: 'POST',
     url: `${API_URL}/auth/reset-password-athlete`,
     data: data,
+    headers: headers,
+  });
+};
+
+export const renew_request = async () => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'POST',
+    url: `${API_URL}/athlete/renew_request`,
     headers: headers,
   });
 };

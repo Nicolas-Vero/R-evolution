@@ -141,7 +141,7 @@ export default class loginScreen extends React.Component {
                       autoCapitalize="none"
                       onBlur={handleBlur('password')}
                       value={values.password}
-                      returnKeyType="end"
+                      returnKeyType="done"
                     />
 
                     {/* TODO <View>

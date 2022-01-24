@@ -358,10 +358,6 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                                       });
                                       break;
                                     case 'ME':
-                                      console.log(
-                                        arrayhelper.form.values.days_preference
-                                          .is_wednesday_preferred,
-                                      );
                                       arrayhelper.form.values.days_preference.days_preference.is_wednesday_preferred =
                                         !arrayhelper.form.values
                                           .is_wednesday_preferred;

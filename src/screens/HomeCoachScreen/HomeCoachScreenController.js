@@ -69,12 +69,12 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     this.getAvailabilities(curDate);
     this.component.notificationListener =
       Notifications.addNotificationReceivedListener((notification) => {
-        console.log('[Notification-C-Dashboard]', notification);
+        // console.log('[Notification-C-Dashboard]', notification);
         this.sendNotificationImmediately(notification);
       });
     this.component.responseListener =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log('[Response-C-Dashboard]', response);
+        // console.log('[Response-C-Dashboard]', response);
         this.sendNotificationImmediately(response);
         this.component.props.navigation.push('activitiesCoachScreen');
       });

@@ -9,8 +9,27 @@ module.exports = StyleSheet.create({
   content: {
     marginHorizontal: 16,
   },
-  imageContainer: {
+  item: {
+    backgroundColor: '#1E2026',
+    paddingVertical: 15,
+    paddingHorizontal: 18,
     marginVertical: 8,
+    borderRadius:3
+  },
+  itemRow: {
+    flexDirection: 'row',
+    alignItems:'center'
+  },
+  icon: {
+    width: 20,
+    height: 20,
+    resizeMode: 'contain',
+    marginRight: 20,
+  },
+  itemText: {
+    color: '#fff',
+    fontSize: 14,
+    fontFamily: 'Roboto',
   },
   image: {
     resizeMode: 'contain',

@@ -11,6 +11,18 @@ export const auth = (params) => {
   });
 };
 
+export const set_expo_token = async (token) => {
+  console.log(`${API_URL}/coach/expo-token`);
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'POST',
+    url: `${API_URL}/coach/expo-token`,
+    headers: headers,
+    data: {
+      expo_token: token,
+    },
+  });
+};
 export const coach_login = (params) => {
   const data = params;
   return axios({
@@ -40,7 +52,6 @@ export const coach_booking = async (params) => {
     athlete_id,
     coach_id,
   };
-  console.log(data);
   const headers = await AuthService.getHeader();
   return await axios({
     method: 'POST',
@@ -280,5 +291,30 @@ export const getUserAppoinement = async (userId) => {
     method: 'GET',
     url: `${API_URL}/athlete/appointments/user/${userId}?upcoming=true`,
     headers: headers,
+  });
+};
+
+export const delete_athlete = async (athleteId) => {
+  console.log(athleteId);
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'POST',
+    url: `${API_URL}/coach/delete/athlete`,
+    headers: headers,
+    data: {
+      athlete_id: athleteId,
+    },
+  });
+};
+
+export const unlink_athlete = async (athleteId) => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'POST',
+    url: `${API_URL}/coach/unlink/athlete`,
+    headers: headers,
+    data: {
+      athlete_id: athleteId,
+    },
   });
 };
