@@ -40,12 +40,11 @@ export default class HomeCoachScreenView extends AbstractScreenView {
     const isSelected = marking;
     const isToday = state === 'today';
     const isBefore = moment().toDate() >= moment(date.dateString).toDate();
-
     let textColor = isBefore
       ? '#979797'
       : isToday || !marking
-      ? '#fff'
-      : '#000';
+        ? '#fff'
+        : '#000';
 
     let bg = marking && !isToday ? '#2CDEE4' : '';
     bg = marking && isToday ? '#2CDEE4' : bg;
@@ -71,7 +70,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
           this.controller.changeTaskList(date);
         }}>
         {this.component.state.MonthBookingNumberPerDay[date.day - 1] > 0 &&
-        new Date(this.component.state.currentMonth).getMonth() + 1 ===
+          new Date(this.component.state.currentMonth).getMonth() + 1 ===
           date.month ? (
           <View
             style={{
@@ -189,38 +188,16 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                   textDayHeaderFontSize: 16,
                 }}
                 onPressArrowLeft={(subtractMonth) => {
-                  const bookingPerday = [];
+
                   subtractMonth();
-                  const dayOfMonth = this.controller.month(
-                    this.component.state.currentMonth.addMonths(-1, true),
-                  );
-                  dayOfMonth.forEach((element) => {
-                    get_appointement_calendar(
-                      moment(new Date(element)).format('YYYY-MM-DD'),
-                    ).then((res) => {
-                      bookingPerday.push(res.data.length);
-                    });
-                  });
-                  this.component.setState({
-                    MonthBookingNumberPerDay: bookingPerday,
-                  });
+                  this.controller.bookingInMonth(-1)
+
                 }}
                 onPressArrowRight={(addMonth) => {
-                  const bookingPerday = [];
+
                   addMonth();
-                  const dayOfMonth = this.controller.month(
-                    this.component.state.currentMonth.addMonths(1, true),
-                  );
-                  dayOfMonth.forEach((element) => {
-                    get_appointement_calendar(
-                      moment(new Date(element)).format('YYYY-MM-DD'),
-                    ).then((res) => {
-                      bookingPerday.push(res.data.length);
-                    });
-                  });
-                  this.component.setState({
-                    MonthBookingNumberPerDay: bookingPerday,
-                  });
+                  this.controller.bookingInMonth(1)
+
                 }}
                 enableSwipeMonths={true}
                 firstDay={1}
@@ -268,13 +245,13 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 const backgroundColor = isBefore
                   ? '#393637'
                   : item.availability === this.component.state.selectedDate
-                  ? '#2CDEE4'
-                  : '#1E2026';
+                    ? '#2CDEE4'
+                    : '#1E2026';
                 const textColor = isBefore
                   ? '#979797'
                   : item.availability === this.component.state.selectedDate
-                  ? 'black'
-                  : 'white';
+                    ? 'black'
+                    : 'white';
                 return (
                   <TouchableOpacity
                     onPress={() => {

@@ -79,14 +79,17 @@ export default class HomeCoachScreenController extends AbstractScreenController 
         this.component.props.navigation.push('activitiesCoachScreen');
       });
     const bookingPerday = [];
-    const dayOfMonth = this.month(this.component.state.currentMonth);
-    dayOfMonth.forEach((element) => {
-      get_appointement_calendar(
+    const dayOfMonth = this.month(
+      this.component.state.currentMonth
+    );
+    for (let element of dayOfMonth) {
+      const appointement = await get_appointement_calendar(
         moment(new Date(element)).format('YYYY-MM-DD'),
-      ).then((res) => {
-        bookingPerday.push(res.data.length);
-      });
-    });
+      )
+      bookingPerday.push(appointement.data.length);
+
+    }
+
     this.component.setState({
       MonthBookingNumberPerDay: bookingPerday,
     });
@@ -294,4 +297,20 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       item: athlete,
     });
   };
+  bookingInMonth = async (addSubMonth) => {
+    const bookingPerday = [];
+    const dayOfMonth = this.month(
+      this.component.state.currentMonth.addMonths(addSubMonth, true),
+    );
+    for (let element of dayOfMonth) {
+      const appointement = await get_appointement_calendar(
+        moment(new Date(element)).format('YYYY-MM-DD'),
+      )
+      bookingPerday.push(appointement.data.length);
+
+    }
+    this.component.setState({
+      MonthBookingNumberPerDay: bookingPerday,
+    });
+  }
 }

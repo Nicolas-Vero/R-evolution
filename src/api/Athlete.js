@@ -268,12 +268,3 @@ export const reset_password_mail_link = async (params, navigation) => {
     headers: headers,
   });
 };
-
-export const renew_request = async () => {
-  const headers = await AuthService.getHeader();
-  return axios({
-    method: 'POST',
-    url: `${API_URL}/athlete/renew_request`,
-    headers: headers,
-  });
-};
