@@ -82,7 +82,6 @@ export default class HomeAhleteController extends AbstractScreenController {
         });
       });
 
-
       get_athlete_active_appointement({ today: true }).then((res) => {
         this.component.setState({ dayApointement: res.data });
       });
@@ -104,7 +103,6 @@ export default class HomeAhleteController extends AbstractScreenController {
 
     this.component.setState({ user: user });
   }
-  
 
   componentWillUnmount() {
     Notifications.removeNotificationSubscription(this.notificationListener);
@@ -265,6 +263,9 @@ export default class HomeAhleteController extends AbstractScreenController {
     const res = await athlete_booking(this.component.state.book);
     if (res.status === 200) {
       this.getAvailabilities(this.component.state.currentItem);
+      get_athlete_active_courses().then((res) => {
+        this.component.setState({ athleteCourse: res.data });
+      });
     }
 
     this.onDismissBookDialog();
@@ -297,6 +298,9 @@ export default class HomeAhleteController extends AbstractScreenController {
     const res = await cancel_booking_athlete(this.component.state.book);
     if (res.status === 200) {
       this.getAvailabilities(this.component.state.currentItem);
+      get_athlete_active_courses().then((res) => {
+        this.component.setState({ athleteCourse: res.data });
+      });
     }
 
     this.onDismissUnBookDialog();

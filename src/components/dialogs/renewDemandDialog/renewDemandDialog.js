@@ -1,13 +1,13 @@
 import React from 'react';
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 import { Dialog } from 'react-native-simple-dialogs';
-import styles from './deleteOfferDialogStyle';
+import styles from './renewDemandDialogStyle';
 import { Button } from '../../Button';
-export default class DeleteSheetDialog extends React.Component {
+export default class RenewDemandDialog extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
   }
+
   render() {
     return (
       <Dialog
@@ -16,22 +16,24 @@ export default class DeleteSheetDialog extends React.Component {
         contentStyle={styles.contentDialog}
         dialogStyle={styles.dialog}
         titleStyle={styles.title}
-        title="Es-tu sûr(e) de vouloir supprimer cette fiche ?"
+        title={
+          'As-tu bien vérifié tes informations avant de renouveler ta demande ?'
+        }
         onTouchOutside={this.props.onClose}>
         <View style={styles.buttonContainer}>
           <Button
             loading={false}
-            title="Confirmer"
+            title="Vérifier"
             customContainerStyles={styles.button}
             customTextStyle={styles.buttonText}
-            onPress={this.props.onDelete}
+            onPress={this.props.onCheckInfoPress}
           />
           <Button
             loading={false}
-            title="Annuler"
+            title="Renouveler"
             customContainerStyles={styles.button}
             customTextStyle={styles.buttonText}
-            onPress={this.props.onClose}
+            onPress={this.props.onRenewPress}
           />
         </View>
       </Dialog>

@@ -9,12 +9,12 @@ import * as Font from 'expo-font';
 import * as Notifications from 'expo-notifications';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as Updates from 'expo-updates';
-
+import Constants from 'expo-constants';
 const { store } = configureStore();
-
+import AuthService from './services/AuthService';
 const Navigation = createAppContainer(Router);
 import AppNavigation from './routes/navigationService';
-
+import { set_expo_token } from './api/Coach';
 export class App extends Component {
   constructor(props) {
     super(props);
@@ -57,7 +57,9 @@ export class App extends Component {
     }).then(() => {
       this.setState({ loaded: true });
     });
-    //  this.registerForPushNotification();
+
+    await AuthService.checkExpoToken();
+
     // this.lockScreenOrientation();
     this.notificationListener = Notifications.addNotificationReceivedListener(
       (notification) => {

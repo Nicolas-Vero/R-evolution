@@ -1,4 +1,4 @@
-import { get_coach_athlete } from '../../api/Coach';
+import { get_coach_athlete, delete_athlete } from '../../api/Coach';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 export default class AthletesCoachScreenController extends AbstractScreenController {
   constructor(component) {
@@ -14,6 +14,8 @@ export default class AthletesCoachScreenController extends AbstractScreenControl
       search: '',
       loaded: false,
       refreshing: false,
+      isDeleteSheetModalVisible: false,
+      selectedAthleteToDelete: null,
     };
   }
   componentDidMount = async () => {
@@ -57,6 +59,30 @@ export default class AthletesCoachScreenController extends AbstractScreenControl
 
   updateSearch = (search) => {
     this.component.setState({ search });
+  };
+
+  onDeleteSheetPress = (athleteId) => {
+    this.component.setState({
+      isDeleteSheetModalVisible: true,
+      selectedAthleteToDelete: athleteId,
+    });
+  };
+
+  onDismissDeleteSheetDialog = () => {
+    this.component.setState({
+      isDeleteSheetModalVisible:
+        !this.component.state.isDeleteSheetModalVisible,
+    });
+  };
+
+  onValidateDeleteSheet = async () => {
+    const { selectedAthleteToDelete } = this.component.state;
+    const deleteAthlete = await delete_athlete(selectedAthleteToDelete);
+    this.onDismissDeleteSheetDialog();
+    this.component.setState({ selectedAthleteToDelete: null });
+    if (deleteAthlete.status === 200) {
+      await this.fetchData();
+    }
   };
 
   onNavigate = (item) => {

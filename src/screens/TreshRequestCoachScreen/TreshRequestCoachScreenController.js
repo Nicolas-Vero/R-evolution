@@ -20,7 +20,6 @@ export default class TreshRequestCoachScreenController extends AbstractScreenCon
 
   onOpenDialog = () => {
     const { athlete, goals } = this.component.state.Athlete;
-    console.log({ ...athlete, status: 'prospect', goals });
     this.component.setState({ dialogVisible: true });
   };
 

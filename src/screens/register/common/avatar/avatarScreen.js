@@ -47,29 +47,37 @@ export default class avatarScreen extends React.Component {
     }
   }
 
-  onRegister = async (item) => {
+  onRegister = async () => {
     const passItem = this.props.navigation.state.params.item;
-
+    const expo_token = await AuthService.registerForPushNotificationsAsync();
+    if (expo_token) {
+      passItem.expo_token = expo_token;
+    }
     const { isAthlete } = this.state;
     const res = isAthlete ? await sign_up(passItem) : await auth(passItem);
     if (res.status === 200) {
-      if (this.state.base64Image !== '') {
-        await upload_profile_picture(
-          res.data.userId,
-          isAthlete ? 'athlete' : 'coach',
-          this.state.base64Image,
-        );
-      }
       if (isAthlete) {
         await this.loginAthlete({
           email: passItem.email,
           password: passItem.password,
         });
+        await this.upload(res.data.userId, true);
         return;
       }
 
       this.props.navigation.popToTop();
       this.props.navigation.push('loginScreen');
+      await this.upload(res.data.userId, false);
+    }
+  };
+
+  upload = async (userId, isAthlete) => {
+    if (this.state.base64Image !== '') {
+      await upload_profile_picture(
+        userId,
+        isAthlete ? 'athlete' : 'coach',
+        this.state.base64Image,
+      );
     }
   };
 
@@ -135,7 +143,7 @@ export default class avatarScreen extends React.Component {
           style={styles.background}>
           <Header title="LET'S GO" />
           <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <RegisterStepImageView step={this.state.isCoach ? 13 : 8} />
+            <RegisterStepImageView step={this.state.isAthlete ? 8 : 13} />
             <View style={styles.content}>
               <View
                 style={{

@@ -1,7 +1,7 @@
 import {
   get_athlete_active_courses_with_param,
-  getUserAppoinement,
   cancel_booking,
+  unlink_athlete,
 } from '../../api/Coach';
 import { get_paiement_for_coach } from '../../api/Paiement';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
@@ -12,11 +12,11 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
     this.initialState = {
       ActiveCourses: {},
       Paiement: [],
-      isDeleteSheetModalVisible: false,
       isCancelBookModalVisible: false,
       isCanceled: false,
       refreshing: false,
       books: [],
+      isRemoveAthleteDialogVisible: false,
     };
   }
   componentDidMount = async () => {
@@ -45,22 +45,6 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
     this.component.setState({ refreshing: false });
   };
 
-  onDeleteSheet = () => {
-    this.component.setState({ isDeleteSheetModalVisible: true });
-  };
-
-  onDismissDeleteSheetDialog = () => {
-    this.component.setState({
-      isDeleteSheetModalVisible:
-        !this.component.state.isDeleteSheetModalVisible,
-    });
-  };
-
-  onValidateDeleteSheet = () => {
-    //TODO DELETE SHEET
-    this.onDismissDeleteSheetDialog();
-  };
-
   onCancelBook = () => {
     this.component.setState({ isCancelBookModalVisible: true });
   };
@@ -83,5 +67,28 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
       });
     }
     this.onDismissCancelSheetDialog();
+  };
+
+  onRemoveAthletePress = () => {
+    this.component.setState({
+      isRemoveAthleteDialogVisible: true,
+    });
+  };
+
+  onDismissRemoveAthleteDialog = () => {
+    this.component.setState({
+      isRemoveAthleteDialogVisible:
+        !this.component.state.isRemoveAthleteDialogVisible,
+    });
+  };
+
+  onValidateRemoveAthlete = async () => {
+    const res = await unlink_athlete(
+      this.component.props.navigation.state.params.item.id,
+    );
+    if (res.status === 200) {
+      this.onDismissRemoveAthleteDialog();
+      this.component.props.navigation.goBack();
+    }
   };
 }
