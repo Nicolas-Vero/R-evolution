@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import moment from 'moment';
-
+import CarouselPager from 'react-native-carousel-pager';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import Pager from '../../common/Carrousel';
 import SwitchSelector from 'react-native-switch-selector';
@@ -122,7 +122,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
   renderPlanning = () => {
     const selected = this.component.state.selectedDate;
     return (
-      <ScrollView style={{ marginTop: 15 }} contentInset={{ bottom: 80 }}>
+      <View style={{ marginTop: 15 }} contentInset={{ bottom: 80 }}>
         <View style={styles.tabContainer}>
           <Text style={styles.currentDateText}>
             {this.component.state.currentDate.toUpperCase()}
@@ -218,7 +218,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             </LinearGradient>
           </View>
         </View>
-      </ScrollView>
+      </View>
     );
   };
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { forEach, indexOf } from 'lodash';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'react-native';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 import { Avatar } from 'react-native-elements';
 import { loadFonts } from '../configs/design/font';
 export default class CarouselPager extends Component {
@@ -151,8 +151,10 @@ export default class CarouselPager extends Component {
   _runAfterMeasurements(width, height) {
     // Set box and box interval size
     let length = this.props.vertical ? height : width;
-    this._boxSize = length - 2 * this.props.containerPadding;
-    this._boxSizeInterval = this._boxSize + this.props.pageSpacing;
+    this._boxSize = (length/3.5);
+    this._boxSizeInterval =(this._boxSize + (this.props.pageSpacing));
+    console.log(this._boxSize,'toto',this._boxSizeInterval);
+
     // Get initial page
     let initialPage = this.props.initialPage || 0;
     if (initialPage < 0) {
@@ -345,11 +347,16 @@ export default class CarouselPager extends Component {
     let boxStyle = {};
     if (this.props.vertical) {
       containerStyle = {
+        top: this.state.pos,
+        paddingTop: this.props.containerPadding,
         paddingBottom: this.props.containerPadding,
+        flexDirection: 'column'
       };
       boxStyle = {
-        // height: this._boxSize,
-        // marginBottom: this.props.pageSpacing,
+       borderRadius:20,
+        height: this._boxSize,
+        marginBottom: this.props.pageSpacing,
+        alignItems:'center'
       };
     } else {
       containerStyle = {
@@ -381,8 +388,7 @@ export default class CarouselPager extends Component {
                 style={[
                   {
                     backgroundColor: this.state.backgroundColor[index],
-                    alignItems: 'center',
-                    borderRadius: 5,
+                    justifyContent: 'center',
                     opacity: this.state.viewsOpacity[index],
                     transform: [
                       this.props.vertical
@@ -397,57 +403,63 @@ export default class CarouselPager extends Component {
                   boxStyle,
                   this.props.pageStyle,
                 ]}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    width: widthPercentageToDP(78),
+                <TouchableOpacity
+                  onPress={() => {
+                    navigate('');
                   }}
-                  key={page.id}>
+                  style={{justifyContent: 'center', alignItems: 'center' }}>
                   <View
-                    style={{
+                    style={{ 
+        
                       flexDirection: 'row',
-                      flex: 1,
-                      alignItems: 'flex-start',
-                    }}>
-                    <Avatar
-                      size={44}
-                      rounded
-                      source={{
-                        uri: page.Avatar,
-                      }}
-                    />
-                    <View style={{ marginLeft: 23 }}>
+                      justifyContent: 'space-around',
+                      width: widthPercentageToDP(94),
+                      alignContent: 'center',
+                    }}
+                    key={page.id}>
+                    <View style={{ marginTop: 2 }}>
+                      <Avatar
+                        size="small"
+                        rounded
+                        source={{
+                          uri: page.Avatar,
+                        }}
+                      />
+                    </View>
+                    <View style={{flexDirection: 'column', marginRight: 23 }}>
+                      <View style={{ flexDirection: 'row' }}>
+                        <Text
+                          style={{
+                          
+                            fontFamily: 'RobotoMedium',
+                            fontSize: 15,
+                            color: this.state.textColor[index],
+                          }}>
+                          {page.firstname} {page.lastname}
+                        </Text>
+                      </View>
+                      <Text
+                        style={{
+                          fontFamily: 'MontserratMedium',
+                          fontSize: 10,
+                          color: this.state.textColor[index],
+                        }}>
+                        Séance: {page.session_number}/{page.total_sessions}
+                      </Text>
+                    </View>
+                    <View style={{ justifyContent: 'center' }}>
                       <Text
                         style={{
                           fontFamily: 'RobotoMedium',
-                          fontSize: 18,
+                          fontSize: 15,
+                          marginTop: 1.2,
                           color: this.state.textColor[index],
                         }}>
-                        {page.firstname} {page.lastname}
+                        {this.convertSlotToDate(page.slot)}
                       </Text>
-                      {!this.state.textColor[index] ? null : (
-                        <Text
-                          style={{
-                            fontFamily: 'MontserratMedium',
-                            fontSize: 10,
-                            marginTop: 5,
-                            color: this.state.textColor[index],
-                          }}>
-                          Séance: {page.session_number}/{page.total_sessions}
-                        </Text>
-                      )}
                     </View>
                   </View>
-                  <Text
-                    style={{
-                      fontFamily: 'RobotoMedium',
-                      fontSize: 15,
-                      color: this.state.textColor[index],
-                    }}>
-                    {this.convertSlotToDate(page.slot)}
-                  </Text>
-                </View>
+                </TouchableOpacity>
               </Animated.View>
             );
           })}
