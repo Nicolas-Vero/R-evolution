@@ -153,7 +153,6 @@ export default class CarouselPager extends Component {
     let length = this.props.vertical ? height : width;
     this._boxSize = (length/3.5);
     this._boxSizeInterval =(this._boxSize + (this.props.pageSpacing));
-    console.log(this._boxSize,'toto',this._boxSizeInterval);
 
     // Get initial page
     let initialPage = this.props.initialPage || 0;
@@ -353,7 +352,7 @@ export default class CarouselPager extends Component {
         flexDirection: 'column'
       };
       boxStyle = {
-       borderRadius:20,
+       borderRadius:10,
         height: this._boxSize,
         marginBottom: this.props.pageSpacing,
         alignItems:'center'
