@@ -44,7 +44,7 @@ export default class Pager extends Component {
         }}>
         <CarouselPager
           ref={(ref) => (this.carousel = ref)}
-          blurredZoom={0.94}
+          blurredZoom={0.90}
           initialPage={0}
           blurredOpacity={0.2}
           vertical={true}

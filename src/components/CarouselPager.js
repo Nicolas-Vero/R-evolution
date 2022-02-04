@@ -7,6 +7,7 @@ import { Text } from 'react-native';
 import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
 import { Avatar } from 'react-native-elements';
 import { loadFonts } from '../configs/design/font';
+import { get_appointment_by_athlete_id, get_coachAthlete_status } from '../api/Coach';
 export default class CarouselPager extends Component {
   static propTypes = {
     initialPage: PropTypes.number,
@@ -125,6 +126,22 @@ export default class CarouselPager extends Component {
   _getPosForPage(pageNb) {
     return -pageNb * this._boxSizeInterval;
   }
+  onAthletePress = async (athlete) => {
+    const book = await get_appointment_by_athlete_id(athlete.id);
+    const data = await get_coachAthlete_status(athlete.id);
+    athlete.status = data.data.status;
+    athlete.book = book.data;
+    if (athlete.commercial_id) {
+      const commercial = await get_commercial_by_id(athlete.commercial_id);
+      athlete.commercial = {
+        first_name: commercial.data.commercial.first_name,
+        last_name: commercial.data.commercial.last_name,
+      };
+    }
+    navigate('AthleteSheetCoachScreen', {
+      item: athlete,
+    });
+  };
 
   _getPageForOffset(offset, diff) {
     let boxPos = Math.abs(offset / this._boxSizeInterval);
@@ -404,7 +421,7 @@ export default class CarouselPager extends Component {
                 ]}>
                 <TouchableOpacity
                   onPress={() => {
-                    navigate('');
+                    this.onAthletePress(page.rdv.athlete)
                   }}
                   style={{justifyContent: 'center', alignItems: 'center' }}>
                   <View
@@ -412,7 +429,7 @@ export default class CarouselPager extends Component {
         
                       flexDirection: 'row',
                       justifyContent: 'space-around',
-                      width: widthPercentageToDP(94),
+                      width: widthPercentageToDP(92),
                       alignContent: 'center',
                     }}
                     key={page.id}>
@@ -421,7 +438,7 @@ export default class CarouselPager extends Component {
                         size="small"
                         rounded
                         source={{
-                          uri: page.Avatar,
+                          uri: page.rdv.athlete.profile_picture_url||'/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                         }}
                       />
                     </View>
@@ -434,7 +451,7 @@ export default class CarouselPager extends Component {
                             fontSize: 15,
                             color: this.state.textColor[index],
                           }}>
-                          {page.firstname} {page.lastname}
+                          {page.rdv.athlete.first_name} {page.rdv.athlete.last_name}
                         </Text>
                       </View>
                       <Text
@@ -443,7 +460,7 @@ export default class CarouselPager extends Component {
                           fontSize: 10,
                           color: this.state.textColor[index],
                         }}>
-                        Séance: {page.session_number}/{page.total_sessions}
+                        Séance: {page.rdv.session_number}/{page.rdv.athleteCourse?.total_sessions}
                       </Text>
                     </View>
                     <View style={{ justifyContent: 'center' }}>
@@ -454,7 +471,7 @@ export default class CarouselPager extends Component {
                           marginTop: 1.2,
                           color: this.state.textColor[index],
                         }}>
-                        {this.convertSlotToDate(page.slot)}
+                        {this.convertSlotToDate(page.rdv.slot)}
                       </Text>
                     </View>
                   </View>

@@ -235,16 +235,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       const arrayOfAppointment = res.data;
       const arrayOfPage = [];
       arrayOfAppointment.forEach((rdv) => {
-        arrayOfPage.push({
-          firstname: rdv?.athlete?.first_name,
-          Avatar:
-            rdv.athlete.profile_picture_url ||
-            '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-          lastname: rdv.athlete.last_name,
-          session_number: rdv?.session_number,
-          total_sessions: rdv?.athleteCourse?.total_sessions,
-          slot: rdv?.slot,
-        });
+        arrayOfPage.push({rdv});
       });
       this.component.setState({ page: arrayOfPage });
       this.component.setState({ carousselLoad: true });
