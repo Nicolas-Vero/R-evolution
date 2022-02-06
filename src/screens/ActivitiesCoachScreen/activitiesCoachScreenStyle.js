@@ -70,7 +70,14 @@ module.exports = StyleSheet.create({
     fontSize: 12,
     color: '#fff',
   },
+  itemTextContentNotification: {
+    marginRight: 6,
+    fontFamily: 'MontserratMedium',
+    fontSize: 10,
+    color: '#fff',
+  },
   itemTextContent: {
+    marginRight: 6,
     marginTop: 8,
     fontFamily: 'MontserratMedium',
     fontSize: 10,

@@ -130,12 +130,14 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                       <Text style={styles.infoText}>Taille :</Text>
                       <Text style={styles.valueTextRow}>
                         {!this.component.state.Athlete.athlete?.size
-                          ? 'Non renseigné'
-                          : `${(
+                          ? 'N.C.'
+                          : `${
                               this.component.state.Athlete.athlete?.size / 100
-                            ).substring(0, 1)} m ${(
-                              this.component.state.Athlete.athlete?.size / 100
-                            ).substring(2)}`}
+                            }`.substring(0, 1)}
+                        m
+                        {`${
+                          this.component.state.Athlete.athlete?.size / 100
+                        }`.substring(2)}
                       </Text>
                     </View>
                   </View>
@@ -147,7 +149,7 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                           this.component.state.Athlete.athlete?.weight
                             ? this.component.state.Athlete.athlete?.weight +
                               'Kg'
-                            : 'Non renseigné'
+                            : 'N.C.'
                         }`}
                       </Text>
                     </View>
@@ -160,7 +162,7 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                       {`${
                         this.component.state.Athlete.athlete?.age
                           ? this.component.state.Athlete.athlete?.age + 'ans'
-                          : 'Non renseigné'
+                          : 'N.C.'
                       }`}
                     </Text>
                   </View>
@@ -206,7 +208,7 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                 </View>
                 <View style={styles.item}>
                   <Text style={styles.infoText}>
-                    Experience(s) sportive(s) :
+                    Expérience(s) sportive(s) :
                   </Text>
                   <Text style={styles.valueText}>
                     {!this.component.state.Athlete.athlete?.experience_years

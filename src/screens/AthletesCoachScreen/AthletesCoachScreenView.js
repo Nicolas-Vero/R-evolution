@@ -20,6 +20,10 @@ import HeaderSimple from '../../components/HeaderSimple';
 import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
 import styles from './AthletesCoachScreenStyle';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
+import { Swipeable } from 'react-native-gesture-handler';
+import { FontAwesome } from '@expo/vector-icons';
+import DeleteSheetDialog from '../../components/dialogs/deleteSheetDialog/deleteSheetDialog';
+
 const options = [
   { label: 'ACTIFS', value: 'ACTIFS' },
   { label: 'INACTIFS', value: 'INACTIFS' },
@@ -80,6 +84,24 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
     );
   };
 
+  rightSwipe(athleteId) {
+    return (
+      <TouchableOpacity
+        style={styles.rightSwip}
+        onPress={() => this.controller.onDeleteSheetPress(athleteId)}>
+        <FontAwesome name="trash" size={22} color="#fff" />
+      </TouchableOpacity>
+    );
+  }
+  renderDeleteSheetDialog = () => {
+    return (
+      <DeleteSheetDialog
+        dialogVisible={this.component.state.isDeleteSheetModalVisible}
+        onClose={this.controller.onDismissDeleteSheetDialog}
+        onDelete={this.controller.onValidateDeleteSheet}
+      />
+    );
+  };
   renderProspectList = () => {
     return (
       <View>
@@ -90,6 +112,7 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
          // onChangeText={this.updateSearch}
          // value={this.state.search}
                  /> */}
+        {this.renderDeleteSheetDialog()}
         <FlatList
           contentContainerStyle={{ paddingBottom: 300 }}
           data={[...this.component.state.atlhetesProspects]}
@@ -100,7 +123,15 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
               onRefresh={this.controller.fetchData}
             />
           }
-          renderItem={({ item }) => this.renderItem(item)}
+          renderItem={({ item, index }) => {
+            return (
+              <Swipeable
+                key={index}
+                renderRightActions={() => this.rightSwipe(item.id)}>
+                {this.renderItem(item)}
+              </Swipeable>
+            );
+          }}
         />
       </View>
     );
@@ -112,25 +143,29 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
           this.controller.onNavigate({ item });
         }}
         style={styles.item}>
-        <View style={styles.avatarContainer}>
-          <View style={styles.alignCenter}>
-            <Avatar
-              style={styles.avatarImage}
-              rounded
-              source={{
-                uri: item.profile_picture_url || '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-              }}
-            />
-            <Text style={styles.username}>
-              {item.first_name} {item.last_name}{' '}
+        <View style={styles.itemContent}>
+          <View style={styles.avatarContainer}>
+            <View style={styles.alignCenter}>
+              <Avatar
+                style={styles.avatarImage}
+                rounded
+                source={{
+                  uri:
+                    item.profile_picture_url ||
+                    '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                }}
+              />
+              <Text style={styles.username}>
+                {item.first_name} {item.last_name}{' '}
+              </Text>
+            </View>
+          </View>
+          {}
+          <View style={styles.itemRight}>
+            <Text style={styles.timerText}>
+              Depuis le {moment(item.created_at).format('DD/MM/YYYY')}
             </Text>
           </View>
-        </View>
-        {}
-        <View style={styles.itemRight}>
-          <Text style={styles.timerText}>
-            Depuis le {moment(item.created_at).format('DD/MM/YYYY')}
-          </Text>
         </View>
       </TouchableOpacity>
     );

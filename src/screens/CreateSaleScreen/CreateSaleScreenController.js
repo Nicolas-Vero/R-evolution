@@ -220,6 +220,8 @@ export default class CreateSaleScreenController extends AbstractScreenController
       console.warn(err.message);
     }
   };
+
+  
   onSave = async () => {
     const {
       selectedOffer,
@@ -252,7 +254,6 @@ export default class CreateSaleScreenController extends AbstractScreenController
         mode: selectedSaleType
       });
 
-      //TODO ADD CONFIRM DIALOG
       this.onDismissSaveSaleDialog();
       if (transaction.status === 200) {
         this.component.props.navigation.goBack();

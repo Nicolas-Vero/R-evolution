@@ -1,9 +1,9 @@
 import React from 'react';
-import { Platform, View } from 'react-native';
+import { View } from 'react-native';
 import { Dialog } from 'react-native-simple-dialogs';
-import styles from './deleteOfferDialogStyle';
+import styles from './unlinkAthleteDialogStyle';
 import { Button } from '../../Button';
-export default class DeleteSheetDialog extends React.Component {
+export default class UnlinkAthleteDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -16,7 +16,7 @@ export default class DeleteSheetDialog extends React.Component {
         contentStyle={styles.contentDialog}
         dialogStyle={styles.dialog}
         titleStyle={styles.title}
-        title="Es-tu sûr(e) de vouloir supprimer cette fiche ?"
+        title="Ce prospect sera redirigé vers les demandes en attente."
         onTouchOutside={this.props.onClose}>
         <View style={styles.buttonContainer}>
           <Button

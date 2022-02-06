@@ -1,7 +1,7 @@
 import {
   get_athlete_active_courses_with_param,
-  getUserAppoinement,
   cancel_booking,
+  unlink_athlete,
 } from '../../api/Coach';
 import { get_paiement_for_coach } from '../../api/Paiement';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
@@ -12,29 +12,30 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
     this.initialState = {
       ActiveCourses: {},
       Paiement: [],
-      isDeleteSheetModalVisible: false,
       isCancelBookModalVisible: false,
       isCanceled: false,
       refreshing: false,
       books: [],
+      isRemoveAthleteDialogVisible: false,
     };
   }
   componentDidMount = async () => {
+    await this.fetchData();
     if (this.component.props.navigation.state.params.item.book.length) {
       this.component.setState({
         books: this.component.props.navigation.state.params.item.book,
       });
     }
-    get_athlete_active_courses_with_param(
-      this.component.props.navigation.state.params.item.id,
-    ).then((res) => {
-      this.component.setState({ ActiveCourses: res.data });
-    });
-    await this.fetchData();
   };
 
   fetchData = async () => {
     this.component.setState({ refreshing: true });
+    const courses = await get_athlete_active_courses_with_param(
+      this.component.props.navigation.state.params.item.id,
+    );
+    if (courses.status === 200) {
+      this.component.setState({ ActiveCourses: courses.data });
+    }
     const sales = await get_paiement_for_coach(
       this.component.props.navigation.state.params.item.id,
     );
@@ -43,22 +44,6 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
     }
 
     this.component.setState({ refreshing: false });
-  };
-
-  onDeleteSheet = () => {
-    this.component.setState({ isDeleteSheetModalVisible: true });
-  };
-
-  onDismissDeleteSheetDialog = () => {
-    this.component.setState({
-      isDeleteSheetModalVisible:
-        !this.component.state.isDeleteSheetModalVisible,
-    });
-  };
-
-  onValidateDeleteSheet = () => {
-    //TODO DELETE SHEET
-    this.onDismissDeleteSheetDialog();
   };
 
   onCancelBook = () => {
@@ -83,5 +68,28 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
       });
     }
     this.onDismissCancelSheetDialog();
+  };
+
+  onRemoveAthletePress = () => {
+    this.component.setState({
+      isRemoveAthleteDialogVisible: true,
+    });
+  };
+
+  onDismissRemoveAthleteDialog = () => {
+    this.component.setState({
+      isRemoveAthleteDialogVisible:
+        !this.component.state.isRemoveAthleteDialogVisible,
+    });
+  };
+
+  onValidateRemoveAthlete = async () => {
+    const res = await unlink_athlete(
+      this.component.props.navigation.state.params.item.id,
+    );
+    if (res.status === 200) {
+      this.onDismissRemoveAthleteDialog();
+      this.component.props.navigation.goBack();
+    }
   };
 }

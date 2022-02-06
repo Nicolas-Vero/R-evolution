@@ -32,6 +32,24 @@ export const get_coach_reminder = async () => {
   });
 };
 
+export const get_coach_notifications = async () => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/notifications/coach`,
+    headers: headers,
+  });
+};
+
+export const delete_coach_notification = async (notificationId) => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'DELETE',
+    url: `${API_URL}/notifications/coach/${notificationId}`,
+    headers: headers,
+  });
+};
+
 export const reminder_status_update = (params) => {
   const data = params;
   return axios({

@@ -20,7 +20,7 @@ export default class OffersTrainingsCoachScreenView extends AbstractScreenView {
                 <View style={styles.imageTextContainer}>
                   <Text style={styles.title}>MES OFFRES</Text>
                   <Text style={styles.subTitle}>
-                    Créer et modifie tes offres sur-mesure
+                    Crée et modifie tes offres sur-mesure
                   </Text>
                 </View>
                 <View style={styles.buttonContainer}></View>

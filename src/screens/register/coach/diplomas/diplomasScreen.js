@@ -62,7 +62,6 @@ export default class diplomasScreen extends React.Component {
       return;
     }
     const passItem = this.props.navigation.state.params;
-    console.log({ ...passItem, diplomas: this.state.diplomas });
     this.props.navigation.navigate('experienceCoachScreen', {
       item: { ...passItem, diplomas: this.state.diplomas },
     });

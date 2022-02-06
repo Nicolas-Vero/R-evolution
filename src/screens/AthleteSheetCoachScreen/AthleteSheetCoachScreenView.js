@@ -3,7 +3,6 @@ import moment from 'moment';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-navigation';
 import HeaderLight from '../../components/HeaderLight';
 import { Image } from 'react-native';
 import { ScrollView } from 'react-native';
@@ -13,9 +12,9 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import CancelBookDialog from '../../components/dialogs/cancelBookDialog/cancelBookDialog';
-import DeleteSheetDialog from '../../components/dialogs/deleteSheetDialog/deleteSheetDialog';
 import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
 import { convertSlotToDate } from '../../helpers/dateHelper';
+import UnlinkAthleteDialog from '../../components/dialogs/unlinkAthleteDialog/unlinkAthleteDialog';
 export default class AthleteSheetCoachScreenView extends AbstractScreenView {
   renderCancelBookDialog = () => {
     return (
@@ -26,15 +25,17 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
       />
     );
   };
-  renderDeleteSheetDialog = () => {
+
+  renderUnlinkAthleteDialog = () => {
     return (
-      <DeleteSheetDialog
-        dialogVisible={this.component.state.isDeleteSheetModalVisible}
-        onClose={this.controller.onDismissDeleteSheetDialog}
-        onDelete={this.controller.onValidateDeleteSheet}
+      <UnlinkAthleteDialog
+        dialogVisible={this.component.state.isRemoveAthleteDialogVisible}
+        onClose={this.controller.onDismissRemoveAthleteDialog}
+        onDelete={this.controller.onValidateRemoveAthlete}
       />
     );
   };
+
   render() {
     if (this.component.props.navigation.state.params.item.athlete) {
       var user = this.component.props.navigation.state.params.item.athlete;
@@ -103,11 +104,10 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
     const { isCanceled, ActiveCourses } = this.component.state;
     const sessionLeft =
       ActiveCourses.total_sessions - ActiveCourses.booked_session;
-
     const { books } = this.component.state;
     return (
       <View style={styles.container}>
-        <View style={{ marginTop: isIphoneX() ? 40 : 0 }}>
+        <View style={{ marginTop: isIphoneX() ? 20 : 0 }}>
           <View style={styles.header}>
             <HeaderLight />
             <View style={styles.headerLeft}>
@@ -141,7 +141,8 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 <Text style={styles.infoText}>Séance :</Text>
                 <View style={styles.cancelBookContainer}>
                   <Text style={styles.cancelBookValue}>
-                    {books[0]?.date} - {convertSlotToDate(books[0].slot)}
+                    {moment(books[0]?.date).format('DD/MM/YYYY')} -{' '}
+                    {convertSlotToDate(books[0].slot)}
                   </Text>
                   <Text
                     style={styles.cancelBook}
@@ -317,7 +318,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                       {`${user.athlete.size / 100}`.substring(2)}
                     </Text>
                   ) : !user.size ? (
-                    <Text style={styles.valueTextRow}>Non renseigné</Text>
+                    <Text style={styles.valueTextRow}>N.C.</Text>
                   ) : (
                     <Text style={styles.valueTextRow}>
                       {`${user.size / 100}`.substring(0, 1)}m
@@ -335,7 +336,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                     </Text>
                   ) : (
                     <Text style={styles.valueTextRow}>
-                      {user.weight ? `${user.weight} Kg` : 'Non renseigné'}
+                      {user.weight ? `${user.weight} Kg` : 'N.C.'}
                     </Text>
                   )}
                 </View>
@@ -350,7 +351,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   </Text>
                 ) : (
                   <Text style={styles.valueTextRow}>
-                    {user.age ? `${user.age} ans` : 'Non renseigné'}
+                    {user.age ? `${user.age} ans` : 'N.C.'}
                   </Text>
                 )}
               </View>
@@ -379,35 +380,38 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   </Text>
                 )}
               </Text>
-              <FlatList
-                style={styles.flatlist}
-                horizontal={true}
-                data={dayPreference}
-                // onRefresh={onRefresh}
-                // refreshing={this.state.refresh}
-                keyExtractor={(item) => item.day}
-                renderItem={({ item, index }) => (
-                  <View
-                    style={[
-                      styles.flatlistItem,
-                      {
-                        marginLeft: index === 0 ? 0 : 5,
-                        marginRight: index === dayPreference.length - 1 ? 0 : 5,
-                      },
-                    ]}>
-                    <Text style={styles.flatlistItemText}>{item.day}</Text>
-                  </View>
-                )}
-              />
+              {dayPreference && dayPreference.length ? (
+                <FlatList
+                  style={styles.flatlist}
+                  horizontal={true}
+                  data={dayPreference}
+                  keyExtractor={(item) => item.day}
+                  renderItem={({ item, index }) => (
+                    <View
+                      style={[
+                        styles.flatlistItem,
+                        {
+                          marginLeft: index === 0 ? 0 : 5,
+                          marginRight:
+                            index === dayPreference.length - 1 ? 0 : 5,
+                        },
+                      ]}>
+                      <Text style={styles.flatlistItemText}>{item.day}</Text>
+                    </View>
+                  )}
+                />
+              ) : null}
             </View>
             <View style={styles.item}>
-              <Text style={styles.infoText}>Experience(s) sportive(s) :</Text>
+              <Text style={styles.infoText}>Expérience(s) sportive(s) :</Text>
               {this.component.props.navigation.state.params.item.athlete ? (
                 <Text style={styles.valueText}>
                   {!user.athlete.experience_years
                     ? "Pas d'informations"
                     : user.athlete.experience_years > 0
-                    ? ` Plus de ${user.athlete.experience_years} ans`
+                    ? ` Plus de ${user.athlete.experience_years} an${
+                        user.athlete.experience_years === 1 ? '' : 's'
+                      }`
                     : `Moins d'un an`}
                 </Text>
               ) : (
@@ -428,7 +432,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 </Text>
               ) : (
                 <Text style={styles.valueText}>
-                  {user.health_issues ? 'oui' : 'Non'}
+                  {user.health_issues ? 'Oui' : 'Non'}
                 </Text>
               )}
             </View>
@@ -447,17 +451,16 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 </Text>
               )}
             </View>
-            {/* TODO NICOLAS DELETE SHEET */}
-            {/* {!isProspect ? null : (
-                <View style={styles.deleteSHeetContainer}>
-                  <Text
-                    style={styles.deleteSheet}
-                    onPress={this.controller.onDeleteSheet}>
-                    Supprimer la fiche
-                  </Text>
-                  {this.renderDeleteSheetDialog()}
-                </View>
-              )} */}
+            {!isProspect ? null : (
+              <TouchableOpacity
+                style={styles.deleteSHeetContainer}
+                onPress={this.controller.onRemoveAthletePress}>
+                {this.renderUnlinkAthleteDialog()}
+                <Text style={styles.deleteSheet}>
+                  Renvoyer dans la liste d'attente
+                </Text>
+              </TouchableOpacity>
+            )}
           </ScrollView>
         </View>
       </View>

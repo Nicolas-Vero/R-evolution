@@ -29,6 +29,11 @@ module.exports = StyleSheet.create({
   headerRight: {
     flex: 1,
   },
+  previewImage: {
+    width: 105,
+    height: 105,
+    resizeMode: 'contain',
+  },
   content: {
     marginHorizontal: 16,
   },

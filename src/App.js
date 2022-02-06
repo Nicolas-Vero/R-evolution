@@ -9,11 +9,13 @@ import * as Font from 'expo-font';
 import * as Notifications from 'expo-notifications';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import * as Updates from 'expo-updates';
-
+import Constants from 'expo-constants';
 const { store } = configureStore();
-
+import AuthService from './services/AuthService';
 const Navigation = createAppContainer(Router);
 import AppNavigation from './routes/navigationService';
+import { set_expo_token, get_coach_me } from './api/Coach';
+import { get_athlete_me } from './api/Athlete';
 
 export class App extends Component {
   constructor(props) {
@@ -57,21 +59,61 @@ export class App extends Component {
     }).then(() => {
       this.setState({ loaded: true });
     });
-    //  this.registerForPushNotification();
-    // this.lockScreenOrientation();
-    this.notificationListener = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        console.log('[Notification]', notification);
-        this.sendNotificationImmediately();
-      },
-    );
 
-    this.responseListener =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log('[Notification-Response]', response);
-        this.sendNotificationImmediately();
-      });
+    const auth = await AuthService.getAuth();
+    if (auth) {
+      console.log('toto', auth);
+      await this.scheduleNotification();
+
+      const { type } = auth.user;
+      let user;
+      if (type === 'coach') {
+        console.log('isCoach');
+        user = await get_coach_me();
+        console.log(user);
+      } else if (type === 'athlete') {
+        user = await get_athlete_me();
+      }
+
+      if (user) {
+        await AuthService.setUser(user.data);
+        await AuthService.checkExpoToken();
+      }
+    }
+
+    // // this.lockScreenOrientation();
+    // this.notificationListener = Notifications.addNotificationReceivedListener(
+    //   (notification) => {
+    //     console.log('[Notification]', notification);
+    //     this.sendNotificationImmediately();
+    //   },
+    // );
+
+    // this.responseListener =
+    //   Notifications.addNotificationResponseReceivedListener((response) => {
+    //     console.log('[Notification-Response]', response);
+    //     this.sendNotificationImmediately();
+    //   });
   }
+
+  scheduleNotification = async (value) => {
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+      }),
+    });
+    // let date = value.date.split('/').reverse().join('-');
+    // Notifications.scheduleNotificationAsync({
+    //   content: {
+    //     title: value?.title,
+    //     body: value?.content,
+    //   },
+    //   trigger:
+    //     new Date(date).getTime() - 60000 * 60 * 5 + 60000 * 60 * value.hour,
+    // });
+  };
 
   componentWillUnmount() {
     Notifications.removeNotificationSubscription(this.notificationListener);
