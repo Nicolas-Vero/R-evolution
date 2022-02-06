@@ -95,122 +95,6 @@ export default class HomeAthleteView extends AbstractScreenView {
       </View>
     );
   }
-  renderModal() {
-    return (
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={this.component.state.modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!this.component.state.modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <View style={{ marginTop: 30 }}>
-              <Text
-                style={{
-                  fontFamily: 'Roboto',
-                  color: 'white',
-                }}>
-                Es-tu sûr(e) de vouloir annuler la séance avec{' '}
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-evenly',
-                }}>
-                <Text
-                  style={{
-                    fontFamily: 'Roboto',
-                    color: '#2CDEE4',
-                  }}>
-                  {this.component.state.coach.first_name}{' '}
-                  {this.component.state.coach.last_name}
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: 'Roboto',
-                    color: 'white',
-                  }}>
-                  de
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: 'Roboto',
-                    color: '#2CDEE4',
-                  }}>
-                  {this.component.state.currentSlot.substring(0, 5)}
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: 'Roboto',
-                    color: 'white',
-                  }}>
-                  a
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: 'Roboto',
-                    color: '#2CDEE4',
-                  }}>
-                  {this.component.state.currentSlot.substring(8)}
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: 'Roboto',
-                    color: 'white',
-                  }}>
-                  ?
-                </Text>
-              </View>
-            </View>
-            <View style={{ flexDirection: 'row', marginTop: 40 }}>
-              <Button
-                title="Oui"
-                customContainerStyles={{
-                  backgroundColor: 'white',
-                  height: 30,
-                  width: 100,
-                  margin: 5,
-                }}
-                customTextStyle={{
-                  color: 'black',
-                  fontFamily: 'RobotoBold',
-                  fontWeight: 'bold',
-                  fontSize: 10,
-                }}
-                onPress={() => {
-                  athlete_booking(this.component.state.book).then(() => {
-                    this.controller.getAvailabilities(
-                      this.component.state.currentItem,
-                    );
-                  });
-                  this.component.setState({ modalVisible: false });
-                }}
-              />
-              <Button
-                title="Non"
-                customContainerStyles={{
-                  backgroundColor: 'white',
-                  height: 30,
-                  width: 100,
-                  margin: 5,
-                }}
-                customTextStyle={{
-                  color: 'black',
-                  fontFamily: 'RobotoBold',
-                  fontWeight: 'bold',
-                  fontSize: 10,
-                }}
-                onPress={() => this.component.setState({ modalVisible: false })}
-              />
-            </View>
-          </View>
-        </View>
-      </Modal>
-    );
-  }
-
   renderRenewOfferDialog() {
     return (
       <RenewOfferDialog
@@ -307,7 +191,7 @@ export default class HomeAthleteView extends AbstractScreenView {
                     />
                     <View style={styles.appointmentTodayItemLeftTexts}>
                       <Text style={styles.appointmentTodayItemLeftUsername}>
-                        {`${this.component.state.coach.first_name} ${this.component.state.coach.last_name}`}
+                        {`${moment(item.date).format('dddd DD MMMM')}`}
                       </Text>
                       <Text style={styles.appointmentTodayItemLeftSession}>
                         Séance: {item?.session_number}/
@@ -337,6 +221,7 @@ export default class HomeAthleteView extends AbstractScreenView {
             refreshing={this.component.state.refresh}
             keyExtractor={(item) => item?.id.toString()}
             renderItem={({ item }) => {
+              console.log(item);
               return (
                 <View>
                   {item?.show == 1 ? (
@@ -365,7 +250,7 @@ export default class HomeAthleteView extends AbstractScreenView {
                       />
                       <View style={styles.appointmentTodayItemLeftTexts}>
                         <Text style={styles.appointmentTodayItemLeftUsername}>
-                          {`${this.component.state.coach.first_name} ${this.component.state.coach.last_name}`}
+                          {`${moment(item.date).format('dddd DD MMMM')}`}
                         </Text>
                         <Text style={styles.appointmentTodayItemLeftSession}>
                           Séance: {item?.session_number}/
@@ -509,11 +394,9 @@ export default class HomeAthleteView extends AbstractScreenView {
           style={{ marginHorizontal: 50 }}
           contentContainerStyle={{ paddingBottom: 50 }}
           data={this.component.state.currentAvailabilities}
-          extraData={this.component.state}
-          //onRefresh={onRefresh}
           refreshing={this.component.state.refresh}
           keyExtractor={(item) => {
-            item?.slot;
+            Math.random().toString();
           }}
           renderItem={({ item, index }) => {
             const { disableAction } = this.component.state;

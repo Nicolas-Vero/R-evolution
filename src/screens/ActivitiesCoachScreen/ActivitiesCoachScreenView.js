@@ -16,6 +16,7 @@ import AbstractScreenView from '../../components/abstracts/AbstractScreen/Abstra
 import styles from './activitiesCoachScreenStyle';
 import moment from 'moment';
 import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
+import { Avatar } from 'react-native-elements';
 const options = [
   { label: 'NOTIFICATIONS', value: 'NOTIFICATIONS' },
   { label: 'RAPPELS', value: 'RAPPELS' },
@@ -82,8 +83,21 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
                     ]}
                   />
                   <View style={styles.itemContent}>
-                    <View style={styles.itemLeft}>
-                      <Text style={styles.itemTextContent}>{item.content}</Text>
+                    <View style={[styles.itemLeft, { flexDirection: 'row' }]}>
+                      <View style={{ marginRight: 10 }}>
+                        <Avatar
+                          size={27}
+                          rounded
+                          source={{
+                            uri:
+                              item.picture ||
+                              '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                          }}
+                        />
+                      </View>
+                      <Text style={styles.itemTextContentNotification}>
+                        {item.content}
+                      </Text>
                     </View>
                     <View style={styles.itemRight}>
                       <Text style={styles.itemTextDate}>

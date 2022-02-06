@@ -19,7 +19,6 @@ export default class TreshRequestCoachScreenController extends AbstractScreenCon
   }
 
   onOpenDialog = () => {
-    const { athlete, goals } = this.component.state.Athlete;
     this.component.setState({ dialogVisible: true });
   };
 
@@ -29,14 +28,12 @@ export default class TreshRequestCoachScreenController extends AbstractScreenCon
     });
   };
 
-  onValidate = () => {
+  onValidate = async () => {
     if (!this.component.state.requestId) return;
-    try {
-      assign_request(this.component.state.requestId).then(() => {
-        this.component.setState({ isValidate: true });
-      });
-    } catch (error) {
-      console.log(error);
+
+    const res = await assign_request(this.component.state.requestId);
+    if (res.status === 200) {
+      this.component.setState({ isValidate: true });
     }
   };
 

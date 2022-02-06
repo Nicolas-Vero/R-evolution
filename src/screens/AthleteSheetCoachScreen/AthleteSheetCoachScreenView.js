@@ -318,7 +318,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                       {`${user.athlete.size / 100}`.substring(2)}
                     </Text>
                   ) : !user.size ? (
-                    <Text style={styles.valueTextRow}>Non renseigné</Text>
+                    <Text style={styles.valueTextRow}>N.C.</Text>
                   ) : (
                     <Text style={styles.valueTextRow}>
                       {`${user.size / 100}`.substring(0, 1)}m
@@ -336,7 +336,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                     </Text>
                   ) : (
                     <Text style={styles.valueTextRow}>
-                      {user.weight ? `${user.weight} Kg` : 'Non renseigné'}
+                      {user.weight ? `${user.weight} Kg` : 'N.C.'}
                     </Text>
                   )}
                 </View>
@@ -351,7 +351,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   </Text>
                 ) : (
                   <Text style={styles.valueTextRow}>
-                    {user.age ? `${user.age} ans` : 'Non renseigné'}
+                    {user.age ? `${user.age} ans` : 'N.C.'}
                   </Text>
                 )}
               </View>
@@ -403,13 +403,15 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
               ) : null}
             </View>
             <View style={styles.item}>
-              <Text style={styles.infoText}>Experience(s) sportive(s) :</Text>
+              <Text style={styles.infoText}>Expérience(s) sportive(s) :</Text>
               {this.component.props.navigation.state.params.item.athlete ? (
                 <Text style={styles.valueText}>
                   {!user.athlete.experience_years
                     ? "Pas d'informations"
                     : user.athlete.experience_years > 0
-                    ? ` Plus de ${user.athlete.experience_years} ans`
+                    ? ` Plus de ${user.athlete.experience_years} an${
+                        user.athlete.experience_years === 1 ? '' : 's'
+                      }`
                     : `Moins d'un an`}
                 </Text>
               ) : (
@@ -430,7 +432,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 </Text>
               ) : (
                 <Text style={styles.valueText}>
-                  {user.health_issues ? 'oui' : 'Non'}
+                  {user.health_issues ? 'Oui' : 'Non'}
                 </Text>
               )}
             </View>

@@ -127,7 +127,7 @@ export default class trainingPlace extends React.Component {
                                     fontSize: 20,
                                     color: '#FFFF',
                                   }}>
-                                  LIEU D'EXPERIENCE
+                                  LIEU D'EXPÉRIENCE
                                 </Text>
                               </View>
                               <View style={{ marginTop: 30 }}>

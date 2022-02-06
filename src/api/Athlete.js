@@ -23,6 +23,8 @@ export const athlete_appointement = (params) => {
 };
 
 export const athlete_booking = async (params) => {
+  console.log(API_URL);
+
   const { coach_id, date, athlete_course_id, slot } = params;
   const data = {
     date: date,
@@ -265,6 +267,35 @@ export const reset_password_mail_link = async (params, navigation) => {
     method: 'POST',
     url: `${API_URL}/auth/reset-password-athlete`,
     data: data,
+    headers: headers,
+  });
+};
+
+export const renew_request = async () => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'POST',
+    url: `${API_URL}/athlete/renew_request`,
+    headers: headers,
+  });
+};
+
+export const set_athlete_expo_token = async (token) => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'POST',
+    url: `${API_URL}/athlete/expo-token`,
+    headers: headers,
+    data: {
+      expo_token: token,
+    },
+  });
+};
+export const logout = async () => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'DELETE',
+    url: `${API_URL}/athlete/expo-token`,
     headers: headers,
   });
 };

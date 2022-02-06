@@ -127,6 +127,7 @@ export const add_manual_payment = async (params) => {
     amount: amount,
     mode: mode,
   };
+  console.log(data);
   const headers = await AuthService.getHeader();
   return axios({
     method: 'POST',
@@ -338,5 +339,14 @@ export const unlink_athlete = async (athleteId) => {
     data: {
       athlete_id: athleteId,
     },
+  });
+};
+
+export const logout = async () => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'DELETE',
+    url: `${API_URL}/coach/expo-token`,
+    headers: headers,
   });
 };

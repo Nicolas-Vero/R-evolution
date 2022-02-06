@@ -1,6 +1,5 @@
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import { coach_reminder } from '../../api/CoachReminder';
-import * as Notifications from 'expo-notifications';
 
 export default class CreateReminderCoachScreenController extends AbstractScreenController {
   constructor(component) {
@@ -12,28 +11,6 @@ export default class CreateReminderCoachScreenController extends AbstractScreenC
       isLoaded: false,
     };
   }
-  componentDidMount() {
-    this.scheduleNotification();
-  }
-
-  scheduleNotification = async (value) => {
-    Notifications.setNotificationHandler({
-      handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: true,
-        shouldSetBadge: false,
-      }),
-    });
-    let date = value.date.split('/').reverse().join('-');
-    Notifications.scheduleNotificationAsync({
-      content: {
-        title: value?.title,
-        body: value?.content,
-      },
-      trigger:
-        new Date(date).getTime() - 60000 * 60 * 5 + 60000 * 60 * value.hour,
-    });
-  };
 
   onAddReminderPress = (values) => {
     try {

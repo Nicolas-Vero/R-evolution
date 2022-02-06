@@ -20,21 +20,22 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
     };
   }
   componentDidMount = async () => {
+    await this.fetchData();
     if (this.component.props.navigation.state.params.item.book.length) {
       this.component.setState({
         books: this.component.props.navigation.state.params.item.book,
       });
     }
-    get_athlete_active_courses_with_param(
-      this.component.props.navigation.state.params.item.id,
-    ).then((res) => {
-      this.component.setState({ ActiveCourses: res.data });
-    });
-    await this.fetchData();
   };
 
   fetchData = async () => {
     this.component.setState({ refreshing: true });
+    const courses = await get_athlete_active_courses_with_param(
+      this.component.props.navigation.state.params.item.id,
+    );
+    if (courses.status === 200) {
+      this.component.setState({ ActiveCourses: courses.data });
+    }
     const sales = await get_paiement_for_coach(
       this.component.props.navigation.state.params.item.id,
     );

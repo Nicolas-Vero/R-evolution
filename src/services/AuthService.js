@@ -1,7 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { set_expo_token } from '../api/Coach';
+import { set_athlete_expo_token } from '../api/Athlete';
 import * as Notifications from 'expo-notifications';
 import * as Updates from 'expo-updates';
+import { Platform } from 'react-native';
+import Constants from 'expo-constants';
 
 let isTokenRefreshing = false;
 
@@ -52,10 +55,12 @@ export default class AuthService {
     if (user) {
       const token = await this.registerForPushNotificationsAsync();
       if (token && user.expo_token !== token) {
-        console.log('toto', token);
-        const req = await set_expo_token(token);
-        console.log(req);
-        if (req.status === 200) {
+        const auth = await this.getAuth();
+        const res =
+          auth.user.type === 'coach'
+            ? await set_expo_token(token)
+            : await set_athlete_expo_token(token);
+        if (res.status === 200) {
           await this.setUser({ ...user, expo_token: token });
         }
       }
@@ -64,6 +69,9 @@ export default class AuthService {
 
   static registerForPushNotificationsAsync = async () => {
     let token;
+    if (Platform.OS === 'ios' && !Constants.isDevice) {
+      return null;
+    }
     // if (Constants.isDevice) {
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();
@@ -93,7 +101,6 @@ export default class AuthService {
 
     return token;
   };
-  
   static getUserId = async () => {
     const auth = await AuthService.getAuth();
     return !auth ? null : auth.userId;
@@ -157,7 +164,7 @@ export default class AuthService {
   static logout = async () => {
     //TODO Create logout API request and call it
     await AuthService.removeAuth();
-
+    await AuthService.removeUser();
     // TODO redirect to entry
     return true;
   };

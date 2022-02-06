@@ -41,13 +41,13 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     };
   }
 
-  sendNotificationImmediately = async (notification) => {
-    // alert(JSON.parse(notification))
-    let notificationId = await Notifications.presentLocalNotificationAsync({
-      title: notification?.request?.content?.title,
-      body: notification?.request?.content?.body,
-    });
-  };
+  // sendNotificationImmediately = async (notification) => {
+  //   // alert(JSON.parse(notification))
+  //   let notificationId = await Notifications.presentLocalNotificationAsync({
+  //     title: notification?.request?.content?.title,
+  //     body: notification?.request?.content?.body,
+  //   });
+  // };
   async componentDidMount() {
     const curDate = moment().format('YYYY-MM-DD');
     // this.component.props.navigation.addListener('didFocus', () => {
@@ -67,17 +67,17 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       this.component.setState({ publicRequest: res.data.requests.length });
     });
     this.getAvailabilities(curDate);
-    this.component.notificationListener =
-      Notifications.addNotificationReceivedListener((notification) => {
-        // console.log('[Notification-C-Dashboard]', notification);
-        this.sendNotificationImmediately(notification);
-      });
-    this.component.responseListener =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        // console.log('[Response-C-Dashboard]', response);
-        this.sendNotificationImmediately(response);
-        this.component.props.navigation.push('activitiesCoachScreen');
-      });
+    // this.component.notificationListener =
+    //   Notifications.addNotificationReceivedListener((notification) => {
+    //     // console.log('[Notification-C-Dashboard]', notification);
+    //     this.sendNotificationImmediately(notification);
+    //   });
+    // this.component.responseListener =
+    //   Notifications.addNotificationResponseReceivedListener((response) => {
+    //     // console.log('[Response-C-Dashboard]', response);
+    //     this.sendNotificationImmediately(response);
+    //     this.component.props.navigation.push('activitiesCoachScreen');
+    //   });
     const bookingPerday = [];
     const dayOfMonth = this.month(
       this.component.state.currentMonth

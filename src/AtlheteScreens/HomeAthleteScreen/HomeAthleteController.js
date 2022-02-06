@@ -44,20 +44,20 @@ export default class HomeAhleteController extends AbstractScreenController {
   }
 
   async componentDidMount() {
-    try {
-      this.notificationListener = Notifications.addNotificationReceivedListener(
-        (notification) => {
-          this.sendNotificationImmediately(notification);
-        },
-      );
-      this.responseListener =
-        Notifications.addNotificationResponseReceivedListener((response) => {
-          this.sendNotificationImmediately(response);
-          this.props.navigation.push('Activitie');
-        });
-    } catch (error) {
-      // console.log('[Error]', error);
-    }
+    // try {
+    //   this.notificationListener = Notifications.addNotificationReceivedListener(
+    //     (notification) => {
+    //       this.sendNotificationImmediately(notification);
+    //     },
+    //   );
+    //   this.responseListener =
+    //     Notifications.addNotificationResponseReceivedListener((response) => {
+    //       this.sendNotificationImmediately(response);
+    //       this.props.navigation.push('Activitie');
+    //     });
+    // } catch (error) {
+    //   // console.log('[Error]', error);
+    // }
 
     let user = await AuthService.getUser();
     try {
@@ -205,12 +205,12 @@ export default class HomeAhleteController extends AbstractScreenController {
     this.component.setState({ availabilities: item });
   };
 
-  sendNotificationImmediately = async (notification) => {
-    let notificationId = await Notifications.presentLocalNotificationAsync({
-      title: notification?.request?.content?.title,
-      body: notification?.request?.content?.body,
-    });
-  };
+  // sendNotificationImmediately = async (notification) => {
+  //   let notificationId = await Notifications.presentLocalNotificationAsync({
+  //     title: notification?.request?.content?.title,
+  //     body: notification?.request?.content?.body,
+  //   });
+  // };
 
   onDayPress = (item) => {
     this.component.setState({
