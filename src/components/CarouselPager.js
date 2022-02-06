@@ -438,7 +438,7 @@ export default class CarouselPager extends Component {
                         size="small"
                         rounded
                         source={{
-                          uri: page.rdv.athlete.profile_picture_url||'/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                          uri: page.rdv.athlete?.profile_picture_url||'/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                         }}
                       />
                     </View>
@@ -451,7 +451,7 @@ export default class CarouselPager extends Component {
                             fontSize: 15,
                             color: this.state.textColor[index],
                           }}>
-                          {page.rdv.athlete.first_name} {page.rdv.athlete.last_name}
+                          {page.rdv.athlete?.first_name} {page.rdv.athlete?.last_name}
                         </Text>
                       </View>
                       <Text

@@ -55,7 +55,6 @@ export default class HomeCoachScreenView extends AbstractScreenView {
     textColor = isToday ? '#2CDEE4' : textColor;
     textColor = isToday && marking ? '#000' : textColor;
     let renderBadge = false;
-    // console.log(this.component.state.MonthBookingNumberPerDay);
     if (
       this.component.state.MonthBookingNumberPerDay[date.day - 1] > 0 &&
       new Date(this.component.state.currentMonth).getMonth() + 1 === date.month

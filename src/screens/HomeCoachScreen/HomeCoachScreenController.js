@@ -235,7 +235,9 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       const arrayOfAppointment = res.data;
       const arrayOfPage = [];
       arrayOfAppointment.forEach((rdv) => {
-        arrayOfPage.push({rdv});
+        if(rdv.athlete){
+          arrayOfPage.push({rdv});
+        }
       });
       this.component.setState({ page: arrayOfPage });
       this.component.setState({ carousselLoad: true });
