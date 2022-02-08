@@ -1,20 +1,6 @@
-// import Events from 'react-native-simple-events';
-
 export default class ContextService {
   static appNavInit = async () => {
     LoggerService.info('Init AppNav ContextService');
-
-    // const res = await RequestHelper.getMeCheckUpdate();
-
-    // if (res && res.status === 200) {
-    //     if (!ContextService.get('profilePicture_uri')) {
-    //         // -- on ne set pas la pp si elle à déjà été set ds register
-    //         ContextService.updateProfilePictureUri(
-    //             !res.content.profilePictureLink ? null : `${res.content.profilePictureLink}/128-0.jpg`,
-    //         );
-    //     }
-    //     ContextService.updateNotificationCount(res.content.notificationCount);
-    // }
   };
 
   static appNavDestroy = async () => {

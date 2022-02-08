@@ -43,8 +43,8 @@ export default class HomeCoachScreenView extends AbstractScreenView {
     let textColor = isBefore
       ? '#979797'
       : isToday || !marking
-        ? '#fff'
-        : '#000';
+      ? '#fff'
+      : '#000';
 
     let bg = marking && !isToday ? '#2CDEE4' : '';
     bg = marking && isToday ? '#2CDEE4' : bg;
@@ -69,7 +69,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
           this.controller.changeTaskList(date);
         }}>
         {this.component.state.MonthBookingNumberPerDay[date.day - 1] > 0 &&
-          new Date(this.component.state.currentMonth).getMonth() + 1 ===
+        new Date(this.component.state.currentMonth).getMonth() + 1 ===
           date.month ? (
           <View
             style={{
@@ -121,7 +121,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
   renderPlanning = () => {
     const selected = this.component.state.selectedDate;
     return (
-      <View style={{ marginTop: 15 }} contentInset={{ bottom: 80 }}>
+      <ScrollView style={{ marginTop: 15 }} contentInset={{ bottom: 80 }}>
         <View style={styles.tabContainer}>
           <Text style={styles.currentDateText}>
             {this.component.state.currentDate.toUpperCase()}
@@ -187,16 +187,12 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                   textDayHeaderFontSize: 16,
                 }}
                 onPressArrowLeft={(subtractMonth) => {
-
                   subtractMonth();
-                  this.controller.bookingInMonth(-1)
-
+                  this.controller.bookingInMonth(-1);
                 }}
                 onPressArrowRight={(addMonth) => {
-
                   addMonth();
-                  this.controller.bookingInMonth(1)
-
+                  this.controller.bookingInMonth(1);
                 }}
                 enableSwipeMonths={true}
                 firstDay={1}
@@ -217,7 +213,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             </LinearGradient>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   };
 
@@ -244,13 +240,13 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 const backgroundColor = isBefore
                   ? '#393637'
                   : item.availability === this.component.state.selectedDate
-                    ? '#2CDEE4'
-                    : '#1E2026';
+                  ? '#2CDEE4'
+                  : '#1E2026';
                 const textColor = isBefore
                   ? '#979797'
                   : item.availability === this.component.state.selectedDate
-                    ? 'black'
-                    : 'white';
+                  ? 'black'
+                  : 'white';
                 return (
                   <TouchableOpacity
                     onPress={() => {

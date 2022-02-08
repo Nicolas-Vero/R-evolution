@@ -38,3 +38,12 @@ export const get_personnal_request = async () => {
     headers: headers,
   });
 };
+
+export const get_request_by_athlete_id = async (athleteId) => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/requests/${athleteId}`,
+    headers: headers,
+  });
+};

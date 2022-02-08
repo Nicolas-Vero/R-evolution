@@ -1,15 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Button } from '../../components/Button';
-import {
-  TouchableOpacity,
-  View,
-  Text,
-  FlatList,
-  Modal,
-  Image,
-} from 'react-native';
+import { TouchableOpacity, View, Text, FlatList, Image } from 'react-native';
 import { athlete_booking } from '../../api/Athlete';
 import SwitchSelector from 'react-native-switch-selector';
 import { Avatar } from 'react-native-elements';
@@ -26,7 +18,6 @@ import RenewOfferDialog from '../../components/dialogs/renewOfferDialog/renewOff
 import BookOfferDialog from '../../components/dialogs/bookSessionDialog/bookOfferDialog';
 import UnBookOfferDialog from '../../components/dialogs/unBookSessionDialog/unBookOfferDialog';
 import { isIphoneX } from 'react-native-iphone-x-helper';
-import { date } from 'yup';
 export default class HomeAthleteView extends AbstractScreenView {
   renderHeader() {
     return (
@@ -110,6 +101,8 @@ export default class HomeAthleteView extends AbstractScreenView {
     return (
       <BookOfferDialog
         coachName={coachName}
+        haveCourse={this.component.state.athleteCourse}
+        onCatalogPress={this.controller.onCatalogPress}
         slot={this.component.state.currentSlot}
         dialogVisible={this.component.state.isBookOfferDialogVisible}
         onClose={this.controller.onDismissBookDialog}

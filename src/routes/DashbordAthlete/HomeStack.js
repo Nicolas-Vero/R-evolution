@@ -3,6 +3,7 @@ import HomeAthleteScreen from '../../AtlheteScreens/HomeAthleteScreen/HomeAthlet
 import AccountScreen from '../../AtlheteScreens/AccountScreen/AccountScreen';
 import ProfileAthleteScreen from '../../AtlheteScreens/ProfileAthleteScreen/ProfileAthleteScreen';
 import NotificationsScreen from '../../AtlheteScreens/NotificationsScreen/NotificationsScreen';
+import CoachSheetScreen from '../../AtlheteScreens/CoachSheetScreen/CoachSheetScreen';
 
 const HomeStack = createStackNavigator(
   {
@@ -33,6 +34,15 @@ const HomeStack = createStackNavigator(
     },
     AccountScreen: {
       screen: AccountScreen,
+      navigationOptions: {
+        headerShown: false,
+        tabBarVisible: false,
+        headerVisible: false,
+        animationEnabled: true,
+      },
+    },
+    CoachSheetScreen: {
+      screen: CoachSheetScreen,
       navigationOptions: {
         headerShown: false,
         tabBarVisible: false,

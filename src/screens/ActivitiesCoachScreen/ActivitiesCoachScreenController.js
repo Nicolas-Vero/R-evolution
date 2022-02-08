@@ -45,17 +45,29 @@ export default class ActivitiesCoachScreenController extends AbstractScreenContr
     this.component.props.navigation.navigate('CreateReminderCoachScreen');
   }
 
-  onDeleteReminder = async (itemId) => {
+  onDeleteReminder = async (itemId, findIndex) => {
+    const { reminders } = this.component.state;
     const deleteReminder = await delete_reminder({ reminder_id: itemId });
     if (deleteReminder.status === 200) {
-      await this.fetchData();
+      if (findIndex > -1) {
+        this.component.setState({
+          reminders: reminders.filter((value, index) => index !== findIndex),
+        });
+      }
     }
   };
 
-  onDeleteNotification = async (itemId) => {
+  onDeleteNotification = async (itemId, findIndex) => {
+    const { notifications } = this.component.state;
     const deleteNotification = await delete_coach_notification(itemId);
     if (deleteNotification.status === 200) {
-      await this.fetchData();
+      if (findIndex > -1) {
+        this.component.setState({
+          notifications: notifications.filter(
+            (value, index) => index !== findIndex,
+          ),
+        });
+      }
     }
   };
 }

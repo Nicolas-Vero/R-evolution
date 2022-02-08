@@ -44,21 +44,6 @@ export default class HomeAhleteController extends AbstractScreenController {
   }
 
   async componentDidMount() {
-    // try {
-    //   this.notificationListener = Notifications.addNotificationReceivedListener(
-    //     (notification) => {
-    //       this.sendNotificationImmediately(notification);
-    //     },
-    //   );
-    //   this.responseListener =
-    //     Notifications.addNotificationResponseReceivedListener((response) => {
-    //       this.sendNotificationImmediately(response);
-    //       this.props.navigation.push('Activitie');
-    //     });
-    // } catch (error) {
-    //   // console.log('[Error]', error);
-    // }
-
     let user = await AuthService.getUser();
     try {
       this.component.setState({ coach_id: user.coach?.coach_id });
@@ -205,13 +190,6 @@ export default class HomeAhleteController extends AbstractScreenController {
     this.component.setState({ availabilities: item });
   };
 
-  // sendNotificationImmediately = async (notification) => {
-  //   let notificationId = await Notifications.presentLocalNotificationAsync({
-  //     title: notification?.request?.content?.title,
-  //     body: notification?.request?.content?.body,
-  //   });
-  // };
-
   onDayPress = (item) => {
     this.component.setState({
       selectedDate: item?.availability,
@@ -253,6 +231,13 @@ export default class HomeAhleteController extends AbstractScreenController {
       slot: slot,
       athlete_course_id: this.component.state.athleteCourse.id,
     };
+    if (!this.component.state.athleteCourse.id) {
+      this.component.setState({
+        isBookOfferDialogVisible: true,
+      });
+      return;
+    }
+
     this.component.setState({ book: bookInformation });
     this.component.setState({
       isBookOfferDialogVisible: true,
@@ -311,5 +296,11 @@ export default class HomeAhleteController extends AbstractScreenController {
       this.component.listRef &&
         this.component.listRef.scrollToIndex({ animated, index });
     }, 3000);
+  };
+
+  onCatalogPress = () => {
+    this.component.props.navigation.navigate('OffersScreen', {
+      tab: 1,
+    });
   };
 }

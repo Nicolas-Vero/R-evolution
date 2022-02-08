@@ -9,7 +9,7 @@ export default class OffersScreenController extends AbstractScreenController {
 
     this.initialState = {
       offers: [],
-      screen: 'EN COURS',
+      screen: component.props.tab === 1 ? 'CATALOGUE' : 'EN COURS',
       ActiveCourses: [],
       isLoaded: true,
       isDialogVisible: false,

@@ -11,6 +11,7 @@ export default class BookOfferDialog extends React.Component {
 
   onClose = () => this.props.onClose();
   render() {
+    const { haveCourse } = this.props;
     return (
       <Dialog
         animationType="slide"
@@ -19,35 +20,54 @@ export default class BookOfferDialog extends React.Component {
         dialogStyle={styles.dialog}
         titleStyle={styles.title}
         onTouchOutside={this.props.onClose}>
-        <Text style={styles.title}>
-          Veux-tu confirmer la séance avec
-          <Text style={styles.textColored}>{` ${this.props.coachName} `}</Text>
-          de
-          <Text style={styles.textColored}>
-            {` ${this.props.slot.slice(0, 5)} `}
+        {!haveCourse ? (
+          <Text style={styles.title}>
+            Pour réserver cette séance tu dois avoir une offre
           </Text>
-          à{' '}
-          <Text style={styles.textColored}>
-            {` ${this.props.slot.slice(8, 14)} `}
+        ) : (
+          <Text style={styles.title}>
+            Veux-tu confirmer la séance avec
+            <Text
+              style={styles.textColored}>{` ${this.props.coachName} `}</Text>
+            de
+            <Text style={styles.textColored}>
+              {` ${this.props.slot.slice(0, 5)} `}
+            </Text>
+            à{' '}
+            <Text style={styles.textColored}>
+              {` ${this.props.slot.slice(8, 14)} `}
+            </Text>
+            ?
           </Text>
-          ?
-        </Text>
-        <View style={styles.buttonContainer}>
-          <Button
-            loading={false}
-            title="Oui"
-            customContainerStyles={styles.button}
-            customTextStyle={styles.buttonText}
-            onPress={this.props.onValidate}
-          />
-          <Button
-            loading={false}
-            title="Non"
-            customContainerStyles={styles.button}
-            customTextStyle={styles.buttonText}
-            onPress={this.props.onClose}
-          />
-        </View>
+        )}
+        {haveCourse ? (
+          <View style={styles.buttonContainer}>
+            <Button
+              loading={false}
+              title="Oui"
+              customContainerStyles={styles.button}
+              customTextStyle={styles.buttonText}
+              onPress={this.props.onValidate}
+            />
+            <Button
+              loading={false}
+              title="Non"
+              customContainerStyles={styles.button}
+              customTextStyle={styles.buttonText}
+              onPress={this.props.onClose}
+            />
+          </View>
+        ) : (
+          <View style={styles.buttonContainer}>
+            <Button
+              loading={false}
+              title="Voir le catalogue"
+              customContainerStyles={styles.button}
+              customTextStyle={styles.buttonText}
+              onPress={this.props.onCatalogPress}
+            />
+          </View>
+        )}
       </Dialog>
     );
   }

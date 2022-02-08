@@ -37,7 +37,7 @@ export default class OffersScreenView extends AbstractScreenView {
       <View style={{ alignItems: 'center' }}>
         <SwitchSelector
           options={options}
-          initial={0}
+          initial={this.component.props.tab || 0}
           onPress={(value) => this.component.setState({ screen: value })}
           backgroundColor="#1E2026"
           buttonColor="#2CDEE4"

@@ -134,16 +134,18 @@ export const get_coach_by_gym_place = async (params, navigation) => {
     data: data,
   });
 };
-export const renew_request = async (params) => {
-  const data = params;
-  const headers = await AuthService.getHeader();
-  return axios({
-    method: 'POST',
-    url: `${API_URL}/athlete/renew_request`,
-    headers: headers,
-    data: data,
-  });
-};
+
+//TODO CHECK IF USEFULL (params)
+// export const renew_request = async (params) => {
+//   const data = params;
+//   const headers = await AuthService.getHeader();
+//   return axios({
+//     method: 'POST',
+//     url: `${API_URL}/athlete/renew_request`,
+//     headers: headers,
+//     data: data,
+//   });
+// };
 
 export const cancel_booking = async (params, navigation) => {
   const headers = await AuthService.getHeader();
@@ -296,6 +298,24 @@ export const logout = async () => {
   return axios({
     method: 'DELETE',
     url: `${API_URL}/athlete/expo-token`,
+    headers: headers,
+  });
+};
+
+export const get_athlete_notifications = async () => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/notifications/athlete`,
+    headers: headers,
+  });
+};
+
+export const delete_athlete_notification = async (notificationId) => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'DELETE',
+    url: `${API_URL}/notifications/athlete/${notificationId}`,
     headers: headers,
   });
 };

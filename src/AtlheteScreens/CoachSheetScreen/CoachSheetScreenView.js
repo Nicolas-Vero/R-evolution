@@ -4,10 +4,6 @@ import { Avatar } from 'react-native-elements';
 import { FlatList } from 'react-native-gesture-handler';
 import { Image } from 'react-native';
 import { ScrollView } from 'react-native';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
 import Header from '../../components/Header';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import styles from './CoachSheetScreenStyle';

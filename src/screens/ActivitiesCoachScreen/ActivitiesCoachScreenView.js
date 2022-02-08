@@ -22,21 +22,21 @@ const options = [
   { label: 'RAPPELS', value: 'RAPPELS' },
 ];
 export default class ActivitiesCoachScreenView extends AbstractScreenView {
-  rightSwipe(itemId) {
+  rightSwipe(itemId, index) {
     return (
       <TouchableOpacity
         style={styles.rightSwip}
-        onPress={() => this.controller.onDeleteReminder(itemId)}>
+        onPress={() => this.controller.onDeleteReminder(itemId, index)}>
         <FontAwesome name="trash" size={22} color="#fff" />
       </TouchableOpacity>
     );
   }
 
-  rightSwipeNotification(itemId) {
+  rightSwipeNotification(itemId, index) {
     return (
       <TouchableOpacity
         style={styles.rightSwip}
-        onPress={() => this.controller.onDeleteNotification(itemId)}>
+        onPress={() => this.controller.onDeleteNotification(itemId, index)}>
         <FontAwesome name="trash" size={22} color="#fff" />
       </TouchableOpacity>
     );
@@ -64,7 +64,9 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
             return (
               <Swipeable
                 key={index}
-                renderRightActions={() => this.rightSwipeNotification(item.id)}>
+                renderRightActions={() =>
+                  this.rightSwipeNotification(item.id, index)
+                }>
                 <LinearGradient
                   colors={['#101010', '#2D333C']}
                   start={{
@@ -138,7 +140,7 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
             return (
               <Swipeable
                 key={index}
-                renderRightActions={() => this.rightSwipe(item.id)}>
+                renderRightActions={() => this.rightSwipe(item.id, index)}>
                 <LinearGradient
                   colors={['#101010', '#2D333C']}
                   start={{

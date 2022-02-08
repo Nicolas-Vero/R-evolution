@@ -318,7 +318,6 @@ export const getUserAppoinement = async (userId) => {
 };
 
 export const delete_athlete = async (athleteId) => {
-  console.log(athleteId);
   const headers = await AuthService.getHeader();
   return axios({
     method: 'POST',

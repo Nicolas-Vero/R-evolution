@@ -12,10 +12,13 @@ import * as Updates from 'expo-updates';
 import Constants from 'expo-constants';
 const { store } = configureStore();
 import AuthService from './services/AuthService';
-const Navigation = createAppContainer(Router);
 import AppNavigation from './routes/navigationService';
 import { set_expo_token, get_coach_me } from './api/Coach';
 import { get_athlete_me } from './api/Athlete';
+import ContextService from './services/ContextService';
+import { get_request_by_athlete_id } from './api/Request';
+
+const Navigation = createAppContainer(Router);
 
 export class App extends Component {
   constructor(props) {
@@ -62,15 +65,12 @@ export class App extends Component {
 
     const auth = await AuthService.getAuth();
     if (auth) {
-      console.log('toto', auth);
       await this.scheduleNotification();
 
       const { type } = auth.user;
       let user;
       if (type === 'coach') {
-        console.log('isCoach');
         user = await get_coach_me();
-        console.log(user);
       } else if (type === 'athlete') {
         user = await get_athlete_me();
       }
@@ -82,19 +82,61 @@ export class App extends Component {
     }
 
     // // this.lockScreenOrientation();
-    // this.notificationListener = Notifications.addNotificationReceivedListener(
-    //   (notification) => {
-    //     console.log('[Notification]', notification);
-    //     this.sendNotificationImmediately();
-    //   },
-    // );
+    this.notificationListener = Notifications.addNotificationReceivedListener(
+      async (notification) => {
+        const { type } = notification.request.content.data;
+        if (type === 'ATHLETE_REQUEST_PROCESS') {
+          const user = await get_athlete_me();
+          if (user) {
+            await AuthService.setUser(user.data);
+          }
+        }
+      },
+    );
 
-    // this.responseListener =
-    //   Notifications.addNotificationResponseReceivedListener((response) => {
-    //     console.log('[Notification-Response]', response);
-    //     this.sendNotificationImmediately();
-    //   });
+    this.responseListener =
+      Notifications.addNotificationResponseReceivedListener(
+        async (response) => {
+          await this.processNotification(response);
+        },
+      );
   }
+
+  processNotification = async (data) => {
+    const navigation = ContextService.get('current_navigation');
+    const { type } = data.notification.request.content.data;
+
+    let screen;
+    let item;
+    switch (type) {
+      case 'COACH_NEW_REQUEST':
+        const { athleteId } = data.notification.request.content.data;
+        if (athleteId) {
+          screen = 'TreshRequestCoachScreen';
+          const res = await get_request_by_athlete_id(athleteId);
+          if (res.status === 200) {
+            item = res.data.request;
+          }
+        }
+        break;
+      case 'COACH_GOAL_HIT':
+        screen = 'DashboardCoachScreen';
+        break;
+      case 'ATHLETE_REQUEST_PROCESS':
+        const user = await AuthService.getUser();
+        if (user.coach) {
+          screen = 'CoachSheetScreen';
+          item = {};
+        }
+        break;
+      default:
+        return;
+        break;
+    }
+    if (screen) {
+      await navigation.navigate(screen, { item });
+    }
+  };
 
   scheduleNotification = async (value) => {
     Notifications.setNotificationHandler({
@@ -104,15 +146,6 @@ export class App extends Component {
         shouldSetBadge: true,
       }),
     });
-    // let date = value.date.split('/').reverse().join('-');
-    // Notifications.scheduleNotificationAsync({
-    //   content: {
-    //     title: value?.title,
-    //     body: value?.content,
-    //   },
-    //   trigger:
-    //     new Date(date).getTime() - 60000 * 60 * 5 + 60000 * 60 * value.hour,
-    // });
   };
 
   componentWillUnmount() {
@@ -130,15 +163,3 @@ export class App extends Component {
 }
 
 export default App;
-// import { Sentry } from 'react-native-sentry';
-
-// Sentry.config('https://98def6268ecd4527885aa1358d0ec0d0@sentry.io/1434821').install();
-
-// export default class App extends Component {
-
-//   render() {
-//     return (
-//       <AppContainer/>
-//     );
-//   }
-// }
