@@ -29,21 +29,24 @@ export const update_paiement = async (params) => {
     status,
     id,
     date,
-    mode
+    mode,
+    is_validate,
   } = params;
   const data = {
-    offer_id: offer_id,
-    amount: amount,
-    status: status,
-    installments: installments,
-    transaction_id: transaction_id,
-    date: date,
-    athlete_id: athlete_id,
-    mode: mode
+    offer_id,
+    amount,
+    status,
+    installments,
+    transaction_id,
+    date,
+    athlete_id,
+    mode,
+    is_validate,
   };
   if (id) {
     data.id = id;
   }
+
   const headers = await AuthService.getHeader();
   return axios({
     method: 'POST',

@@ -21,7 +21,9 @@ export default class CreateSaleScreenController extends AbstractScreenController
       oldPayment: [],
       loaded: false,
       offer_id: '',
-      transaction_id: Math.floor(Math.random() * 1000),
+      transaction_id: this.component.props.navigation.state.params?.isCreation
+        ? Math.floor(Math.random() * 1000)
+        : null,
       isCreation: this.component.props.navigation.state.params?.isCreation,
       selectedOffer: null,
       selectedItem: null,
@@ -36,7 +38,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
     };
   }
   componentDidMount = async () => {
-    const { item, today } = this.component.state;
+    const { item } = this.component.state;
     if (item && item.id) {
       const paymentDetail = await get_payment_details(item.id);
       if (paymentDetail.status === 200) {
@@ -47,16 +49,15 @@ export default class CreateSaleScreenController extends AbstractScreenController
         const nextPayment = [];
         let totalPrice = 0;
         paymentDetail.data.forEach((payment) => {
-          if (moment(payment.date).isAfter(moment()))
-            nextPayment.push({
-              ...payment,
-              date: moment(payment.date).format('DD/MM/YYYY'),
-            });
-          else
+          if (payment.is_validate) {
             oldPayment.push({
               ...payment,
-              date: moment(payment.date).format('DD/MM/YYYY'),
             });
+          } else {
+            nextPayment.push({
+              ...payment,
+            });
+          }
 
           totalPrice += parseFloat(payment.amount);
         });
@@ -68,18 +69,17 @@ export default class CreateSaleScreenController extends AbstractScreenController
 
       return;
     }
-    get_coach_offers()
-      .then((res) => {
-        this.component.setState({ Offer: res.data.offers });
-      })
-      .then(() => {
-        this.component.setState({ loaded: true });
-      });
+
+    const offers = await get_coach_offers();
+    if (offers.status === 200) {
+      this.component.setState({ Offer: offers.data.offers });
+    }
+
+    this.component.setState({ loaded: true });
   };
 
   onAddPaiement = () => {
     const {
-      today,
       selectedSaleType,
       inputDate,
       addPrice,
@@ -87,34 +87,22 @@ export default class CreateSaleScreenController extends AbstractScreenController
       nextPayment,
       totalPrice,
     } = this.component.state;
-    const date = moment(inputDate, 'DD/MM/YYYY').format('YYYY/MM/DD');
-    const installments = oldPayment.length + nextPayment.length;
-    const newPaiement = {
-      amount: addPrice,
-      installments: installments + 1,
-      mode: selectedSaleType,
-      date: date,
-    };
-
-    if (moment(inputDate, 'DD/MM/YYYY').toDate() > moment().toDate()) {
-      this.component.setState({
-        nextPayment: [...nextPayment, newPaiement],
-        addPrice: null,
-        inputDate: '',
-        totalPrice: totalPrice + parseFloat(addPrice),
-      });
-
-      return;
-    }
 
     this.component.setState({
-      oldPayment: [...oldPayment, newPaiement],
+      nextPayment: [
+        ...nextPayment,
+        {
+          amount: addPrice,
+          installments: oldPayment.length + nextPayment.length + 1,
+          mode: selectedSaleType,
+          date: moment(inputDate).format('DD/MM/YYYY'),
+          is_validate: false,
+        },
+      ],
       addPrice: null,
       inputDate: '',
       totalPrice: totalPrice + parseFloat(addPrice),
     });
-
-    return;
   };
 
   onChangeOffer = (item) => {
@@ -162,6 +150,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
     const { oldPayment, selectedItem, nextPayment } = this.component.state;
     const othersSale = nextPayment.filter((item) => item !== selectedItem);
     selectedItem.date = moment().format('DD/MM/YYYY');
+    selectedItem.is_validate = true;
 
     this.component.setState({
       oldPayment: [...oldPayment, selectedItem],
@@ -199,7 +188,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
   };
 
   onUpdate = async () => {
-    const { item, oldPayment, nextPayment, totalPrice, transaction_id, selectedSaleType } =
+    const { item, oldPayment, nextPayment, transaction_id } =
       this.component.state;
 
     const athleteId = item.athlete.id;
@@ -209,10 +198,9 @@ export default class CreateSaleScreenController extends AbstractScreenController
         payment.athlete_id = athleteId;
         payment.offer_id = item.offer.id;
         payment.transaction_id = transaction_id;
-        payment.mode = selectedSaleType;
+        // payment.mode = selectedSaleType;
         await update_paiement(payment);
       });
-
       this.component.props.navigation.goBack();
     } catch (err) {
       console.log(err);
@@ -221,7 +209,6 @@ export default class CreateSaleScreenController extends AbstractScreenController
     }
   };
 
-  
   onSave = async () => {
     const {
       selectedOffer,
@@ -229,11 +216,8 @@ export default class CreateSaleScreenController extends AbstractScreenController
       oldPayment,
       nextPayment,
       totalPrice,
-      selectedSaleType,
     } = this.component.state;
-
     const { athleteId } = this.component.props.navigation.state.params;
-
     try {
       [...oldPayment, ...nextPayment].forEach(async (payment) => {
         payment.athlete_id = athleteId;
@@ -251,7 +235,6 @@ export default class CreateSaleScreenController extends AbstractScreenController
         offer_id: selectedOffer.id,
         transaction_id: transaction_id,
         amount: parseInt(totalPrice),
-        mode: selectedSaleType
       });
 
       this.onDismissSaveSaleDialog();

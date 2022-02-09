@@ -43,7 +43,7 @@ export const get_request_by_athlete_id = async (athleteId) => {
   const headers = await AuthService.getHeader();
   return axios({
     method: 'GET',
-    url: `${API_URL}/requests/${athleteId}`,
+    url: `${API_URL}/requests/athlete/${athleteId}`,
     headers: headers,
   });
 };

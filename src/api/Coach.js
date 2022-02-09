@@ -109,31 +109,13 @@ export const get_appointment_by_id = async (params) => {
   });
 };
 
-export const add_manual_payment = async (params) => {
-  const {
-    athlete_id,
-    installments,
-    offer_id,
-    date,
-    transaction_id,
-    amount,
-    mode,
-  } = params;
-  const data = {
-    athlete_id: athlete_id,
-    installments: installments,
-    date: date,
-    transaction_id: transaction_id,
-    amount: amount,
-    mode: mode,
-  };
-  console.log(data);
+export const add_manual_payment = async (data) => {
   const headers = await AuthService.getHeader();
   return axios({
     method: 'POST',
-    url: `${API_URL}/payment/coach/${offer_id}`,
+    url: `${API_URL}/payment/coach/${data.offer_id}`,
     headers: headers,
-    data: data,
+    data,
   });
 };
 export const add_transaction = async (params) => {
@@ -188,25 +170,23 @@ export const cancel_booking = async (params) => {
   });
 };
 export const delete_prospect = async (params) => {
-  const data = params
+  const data = params;
   const headers = await AuthService.getHeader();
   return axios({
     method: 'POST',
     url: `${API_URL}/coach/delete/athlete`,
     headers: headers,
     data: data,
-
   });
 };
 export const unlink_prospect = async (params) => {
-  const data = params
+  const data = params;
   const headers = await AuthService.getHeader();
   return axios({
     method: 'POST',
     url: `${API_URL}/coach/unlink/athlete`,
     headers: headers,
     data: data,
-
   });
 };
 

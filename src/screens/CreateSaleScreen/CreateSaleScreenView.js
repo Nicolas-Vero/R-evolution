@@ -264,13 +264,8 @@ export default class CreateSaleScreenView extends AbstractScreenView {
               keyExtractor={() => Math.random().toString()}
               renderItem={({ item, index }) => (
                 <View style={styles.paymentItem}>
-                  {/* <TouchableOpacity
-                    onPress={() => this.controller.openDeleteSaleDialog(item)}
-                    style={styles.paiymentDelete}>
-                    <Entypo name="cross" size={15} />
-                  </TouchableOpacity> */}
                   <Text style={styles.paymentItemText}>
-                    {item.date.toString()}
+                    {moment(item.date).format('DD/MM/YYYY')}
                   </Text>
                   <Text style={styles.paymentItemText}>{item.mode}</Text>
                   <Text style={styles.paymentItemText}>{item.amount}€</Text>
@@ -305,7 +300,7 @@ export default class CreateSaleScreenView extends AbstractScreenView {
                     <Entypo name="cross" size={15} />
                   </TouchableOpacity>
                   <Text style={styles.paymentItemText}>
-                    {item.date.toString()}
+                    {moment(item.date).format('DD/MM/YYYY')}
                   </Text>
                   <Text style={styles.paymentItemText}>{item.mode}</Text>
                   <Text style={styles.paymentItemText}>{item.amount}€</Text>
