@@ -43,7 +43,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
       const paymentDetail = await get_payment_details(item.id);
       if (paymentDetail.status === 200) {
         this.component.setState({
-          transaction_id: paymentDetail.data[0]?.transaction_id,
+          transaction_id: item.id,
         });
         const oldPayment = [];
         const nextPayment = [];
