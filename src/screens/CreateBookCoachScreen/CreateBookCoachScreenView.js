@@ -294,7 +294,7 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                     loading={false}
                     title="Valider"
                     onPress={() => {
-                      this.component.state.type === 'prospect'
+                      this.component.state.type === 'Prospect'
                         ? this.controller.onInviteProspectPress(values)
                         : this.controller.onCreateBookPress(values);
                     }}
