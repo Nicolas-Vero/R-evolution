@@ -21,9 +21,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
       oldPayment: [],
       loaded: false,
       offer_id: '',
-      transaction_id: this.component.props.navigation.state.params?.isCreation
-        ? Math.floor(Math.random() * 1000)
-        : null,
+      transaction_id: Math.floor(Math.random() * 1000),
       isCreation: this.component.props.navigation.state.params?.isCreation,
       selectedOffer: null,
       selectedItem: null,
