@@ -6542,6 +6542,11 @@ react-native-carousel-pager@^1.5.0:
   resolved "https://registry.yarnpkg.com/react-native-carousel-pager/-/react-native-carousel-pager-1.5.0.tgz#d1bcffbea0ad2153098c1077fa24477e8b67f12a"
   integrity sha512-tijpGdXFA/DZHxtBTbVUxRJy+oklU4BuBE+CgrwUGDrhYsVm1nSTh6h4VBJCtMPw3gTgcXtt63PK08Os6tmA3g==
 
+react-native-compressor@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/react-native-compressor/-/react-native-compressor-1.5.1.tgz#6031152ab9571a300b412a15afce373fa8764999"
+  integrity sha512-hljt8iCyyAVUiejZUQOEnOIQ38xgj8W+Pu710yVpEsfK4xZJFFxSjdwjK810i32qYXBV+y+4MJWqfBk7SPYMAg==
+
 react-native-date-picker@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-4.1.2.tgz#10360c3eca4b05617f6592d9246638fa4c2a82ae"
