@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   Text,
 } from 'react-native';
-const { width } = Dimensions.get('window');
+import { manipulateAsync } from 'expo-image-manipulator';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import * as ImagePicker from 'expo-image-picker';
 import { Avatar } from 'react-native-elements';
@@ -33,6 +33,7 @@ export default class avatarScreen extends React.Component {
       isValid: true,
       isAthlete: props.navigation.state.params.item.userType === 'athlete',
       base64Image: '',
+      isWorking: false,
     };
   }
   async componentDidMount() {
@@ -48,6 +49,9 @@ export default class avatarScreen extends React.Component {
   }
 
   onRegister = async () => {
+    if (this.state.isWorking) return;
+
+    this.setState({ isWorking: true });
     const passItem = this.props.navigation.state.params.item;
     const expo_token = await AuthService.registerForPushNotificationsAsync();
     if (expo_token) {
@@ -62,6 +66,8 @@ export default class avatarScreen extends React.Component {
           password: passItem.password,
         });
         await this.upload(res.data.userId, true);
+        this.setState({ isWorking: false });
+
         return;
       }
 
@@ -69,6 +75,8 @@ export default class avatarScreen extends React.Component {
       this.props.navigation.push('loginScreen');
       await this.upload(res.data.userId, false);
     }
+
+    this.setState({ isWorking: false });
   };
 
   upload = async (userId, isAthlete) => {
@@ -118,11 +126,16 @@ export default class avatarScreen extends React.Component {
     });
 
     if (!result.cancelled) {
+      const compressedImage = await manipulateAsync(
+        result.uri,
+        [{ resize: { width: 200, height: 200 } }],
+        { compress: 0.7, base64: true },
+      );
       let fileExtension = result.uri.substr(result.uri.lastIndexOf('.') + 1);
 
       this.setState({
         image: result,
-        base64Image: `data:image/${fileExtension};base64,${result.base64}`,
+        base64Image: `data:image/${fileExtension};base64,${compressedImage.base64}`,
       });
     }
   };

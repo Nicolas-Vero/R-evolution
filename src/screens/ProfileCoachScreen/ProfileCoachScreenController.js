@@ -4,6 +4,7 @@ import { get_gym } from '../../api/ReferenceData';
 import * as ImagePicker from 'expo-image-picker';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import AuthService from '../../services/AuthService';
+import { manipulateAsync } from 'expo-image-manipulator';
 
 export default class ProfileCoachScreenController extends AbstractScreenController {
   constructor(component) {
@@ -58,11 +59,16 @@ export default class ProfileCoachScreenController extends AbstractScreenControll
       quality: 1,
     });
     if (!result.cancelled) {
+      const compressedImage = await manipulateAsync(
+        result.uri,
+        [{ resize: { width: 200, height: 200 } }],
+        { compress: 0.7, base64: true },
+      );
       let fileExtension = result.uri.substr(result.uri.lastIndexOf('.') + 1);
 
       this.component.setState({
         image: result,
-        base64Image: `data:image/${fileExtension};base64,${result.base64}`,
+        base64Image: `data:image/${fileExtension};base64,${compressedImage.base64}`,
       });
     }
   };

@@ -19,6 +19,7 @@
     "expo-camera": "~11.0.2",
     "expo-dev-client": "^0.6.3",
     "expo-font": "~9.1.0",
+    "expo-image-manipulator": "~9.1.0",
     "expo-image-picker": "~10.1.4",
     "expo-linear-gradient": "~9.1.0",
     "expo-linking": "~2.2.3",
