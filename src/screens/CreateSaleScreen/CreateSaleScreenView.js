@@ -251,6 +251,7 @@ export default class CreateSaleScreenView extends AbstractScreenView {
 
   renderOldSales() {
     const { oldPayment } = this.component.state;
+
     return (
       <View style={styles.paymentContainer}>
         <Text style={styles.paymentTitle}>Paiement(s) encaissé(s) :</Text>
@@ -262,15 +263,18 @@ export default class CreateSaleScreenView extends AbstractScreenView {
               style={styles.flatlist}
               data={this.component.state.oldPayment}
               keyExtractor={() => Math.random().toString()}
-              renderItem={({ item, index }) => (
-                <View style={styles.paymentItem}>
-                  <Text style={styles.paymentItemText}>
-                    {moment(item.date).format('DD/MM/YYYY')}
-                  </Text>
-                  <Text style={styles.paymentItemText}>{item.mode}</Text>
-                  <Text style={styles.paymentItemText}>{item.amount}€</Text>
-                </View>
-              )}
+              renderItem={({ item, index }) => {
+                const date = moment(item.date).isValid()
+                  ? moment(item.date).format('DD/MM/YYYY')
+                  : item.date;
+                return (
+                  <View style={styles.paymentItem}>
+                    <Text style={styles.paymentItemText}>{date}</Text>
+                    <Text style={styles.paymentItemText}>{item.mode}</Text>
+                    <Text style={styles.paymentItemText}>{item.amount}€</Text>
+                  </View>
+                );
+              }}
             />
           )}
         </View>
@@ -291,34 +295,37 @@ export default class CreateSaleScreenView extends AbstractScreenView {
             style={styles.flatlist}
             data={this.component.state.nextPayment}
             keyExtractor={() => Math.random().toString()}
-            renderItem={({ item, index }) => (
-              <View style={{ marginTop: 22 }}>
-                <View style={styles.nextPaymentItem}>
+            renderItem={({ item, index }) => {
+              const date = moment(item.date).isValid()
+                ? moment(item.date).format('DD/MM/YYYY')
+                : item.date;
+              return (
+                <View style={{ marginTop: 22 }}>
+                  <View style={styles.nextPaymentItem}>
+                    <TouchableOpacity
+                      onPress={() => this.controller.openDeleteSaleDialog(item)}
+                      style={styles.paiymentDelete}>
+                      <Entypo name="cross" size={15} />
+                    </TouchableOpacity>
+                    <Text style={styles.paymentItemText}>{date}</Text>
+                    <Text style={styles.paymentItemText}>{item.mode}</Text>
+                    <Text style={styles.paymentItemText}>{item.amount}€</Text>
+                  </View>
                   <TouchableOpacity
-                    onPress={() => this.controller.openDeleteSaleDialog(item)}
-                    style={styles.paiymentDelete}>
-                    <Entypo name="cross" size={15} />
+                    onPress={() => this.controller.openValidateSaleDialog(item)}
+                    style={{ alignItems: 'flex-end', marginTop: 12 }}>
+                    <Text
+                      style={{
+                        color: '#fff',
+                        fontSize: 10,
+                        fontFamily: 'RobotoBold',
+                      }}>
+                      Valider le paiement
+                    </Text>
                   </TouchableOpacity>
-                  <Text style={styles.paymentItemText}>
-                    {moment(item.date).format('DD/MM/YYYY')}
-                  </Text>
-                  <Text style={styles.paymentItemText}>{item.mode}</Text>
-                  <Text style={styles.paymentItemText}>{item.amount}€</Text>
                 </View>
-                <TouchableOpacity
-                  onPress={() => this.controller.openValidateSaleDialog(item)}
-                  style={{ alignItems: 'flex-end', marginTop: 12 }}>
-                  <Text
-                    style={{
-                      color: '#fff',
-                      fontSize: 10,
-                      fontFamily: 'RobotoBold',
-                    }}>
-                    Valider le paiement
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )}
+              );
+            }}
           />
         )}
       </View>

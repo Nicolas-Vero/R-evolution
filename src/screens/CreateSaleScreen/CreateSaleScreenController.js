@@ -21,9 +21,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
       oldPayment: [],
       loaded: false,
       offer_id: '',
-      transaction_id: this.component.props.navigation.state.params?.isCreation
-        ? Math.floor(Math.random() * 1000)
-        : null,
+      transaction_id: Math.floor(Math.random() * 1000),
       isCreation: this.component.props.navigation.state.params?.isCreation,
       selectedOffer: null,
       selectedItem: null,
@@ -40,6 +38,9 @@ export default class CreateSaleScreenController extends AbstractScreenController
   componentDidMount = async () => {
     const { item } = this.component.state;
     if (item && item.id) {
+      this.component.setState({
+        transaction_id: item.id,
+      });
       const paymentDetail = await get_payment_details(item.id);
       if (paymentDetail.status === 200) {
         this.component.setState({
@@ -49,6 +50,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
         const nextPayment = [];
         let totalPrice = 0;
         paymentDetail.data.forEach((payment) => {
+          payment.date = moment(payment.date).format('DD/MM/YYYY');
           if (payment.is_validate) {
             oldPayment.push({
               ...payment,
@@ -87,7 +89,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
       nextPayment,
       totalPrice,
     } = this.component.state;
-
+    const date = moment(inputDate, 'DD/MM/YYYY').format('YYYY/MM/DD');
     this.component.setState({
       nextPayment: [
         ...nextPayment,
@@ -95,7 +97,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
           amount: addPrice,
           installments: oldPayment.length + nextPayment.length + 1,
           mode: selectedSaleType,
-          date: moment(inputDate).format('DD/MM/YYYY'),
+          date,
           is_validate: false,
         },
       ],
@@ -149,7 +151,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
   onValidateSale = () => {
     const { oldPayment, selectedItem, nextPayment } = this.component.state;
     const othersSale = nextPayment.filter((item) => item !== selectedItem);
-    selectedItem.date = moment().format('DD/MM/YYYY');
+    selectedItem.date = moment();
     selectedItem.is_validate = true;
 
     this.component.setState({
@@ -198,6 +200,8 @@ export default class CreateSaleScreenController extends AbstractScreenController
         payment.athlete_id = athleteId;
         payment.offer_id = item.offer.id;
         payment.transaction_id = transaction_id;
+        payment.date = new Date(payment.date);
+
         // payment.mode = selectedSaleType;
         await update_paiement(payment);
       });
@@ -223,7 +227,6 @@ export default class CreateSaleScreenController extends AbstractScreenController
         payment.athlete_id = athleteId;
         payment.offer_id = selectedOffer.id;
         payment.transaction_id = transaction_id;
-
         await add_manual_payment(payment);
       });
 
