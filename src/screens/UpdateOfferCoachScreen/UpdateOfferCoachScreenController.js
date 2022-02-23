@@ -5,9 +5,7 @@ export default class UpdateOfferCoachScreenController extends AbstractScreenCont
   constructor(component) {
     super(component);
 
-    this.initialState = {
-      type: 'Coaching',
-    };
+    this.initialState = {};
   }
   onUpdatePress = async (values) => {
     try {

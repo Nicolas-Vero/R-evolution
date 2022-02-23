@@ -3,14 +3,12 @@ import {
   TouchableOpacity,
   View,
   SafeAreaView,
-  ScrollView,
   Image,
   Text,
   FlatList,
   ActivityIndicator,
 } from 'react-native';
 import moment from 'moment';
-import CarouselPager from 'react-native-carousel-pager';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import Pager from '../../common/Carrousel';
 import SwitchSelector from 'react-native-switch-selector';
@@ -22,8 +20,8 @@ import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { options } from './homeCoachConfig';
 import styles from './HomeCoachScreenStyle';
 import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
-import { get_appointement_calendar } from '../../api/Coach';
 import { LinearGradient } from 'expo-linear-gradient';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class HomeCoachScreenView extends AbstractScreenView {
   renderDialog() {
@@ -64,7 +62,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
     }
     return (
       <TouchableOpacity
-        style={{ height: 30, width: 30 }}
+        style={{ height: 25, width: 30 }}
         onPress={() => {
           this.controller.changeTaskList(date);
         }}>
@@ -75,7 +73,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             style={{
               zIndex: 1,
               position: 'absolute',
-              right: -8,
+              right: -7,
               width: 13,
               height: 13,
               borderRadius: 10,
@@ -101,15 +99,15 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             // borderColor: isToday ? '#2CDEE4' : '#393637',
             alignItems: 'center',
             justifyContent: 'center',
-            width: 36,
-            height: 36,
-            borderRadius: 18,
+            width: 30,
+            height: 30,
+            borderRadius: 15,
             backgroundColor: bg,
           }}>
           <Text
             style={{
               color: textColor,
-              fontSize: 16,
+              fontSize: 15,
               fontFamily: 'MontserratMedium',
             }}>
             {date.day}
@@ -120,36 +118,40 @@ export default class HomeCoachScreenView extends AbstractScreenView {
   };
   renderPlanning = () => {
     const selected = this.component.state.selectedDate;
+    const pageLength = this.component.state.page.length;
     return (
-      <ScrollView style={{ marginTop: 15 }} contentInset={{ bottom: 80 }}>
+      <View style={{ marginTop: 15 }}>
         <View style={styles.tabContainer}>
-          <Text style={styles.currentDateText}>
+          <Text
+            style={[
+              styles.currentDateText,
+              {
+                marginBottom: pageLength === 0 ? 25 : 0,
+              },
+            ]}>
             {this.component.state.currentDate.toUpperCase()}
           </Text>
         </View>
-        <View>
-          <View style={styles.alignCenter}>
-            {this.component.state.page.length == 0 ? (
-              <View style={styles.noAppointmentContainer}>
-                <Text style={styles.noAppointmentText}>
-                  Aucun rendez-vous prévu ce jour-là
-                </Text>
-              </View>
-            ) : this.component.state.carousselLoad ? (
-              <Pager pager={this.component.state.page} />
-            ) : (
-              <View style={styles.appointmentLoader}>
-                <ActivityIndicator />
-              </View>
-            )}
-          </View>
+        <View style={styles.alignCenter}>
+          {this.component.state.page.length == 0 ? (
+            <View style={styles.noAppointmentContainer}>
+              <Text style={styles.noAppointmentText}>
+                Aucun rendez-vous prévu ce jour-là
+              </Text>
+            </View>
+          ) : this.component.state.carousselLoad ? (
+            <Pager pager={this.component.state.page} />
+          ) : (
+            <View style={styles.appointmentLoader}>
+              <ActivityIndicator />
+            </View>
+          )}
+        </View>
+        <ScrollView>
           <View
-            style={[
-              styles.calendarContainer,
-              {
-                marginTop: this.component.state.page.length == 0 ? 25 : 0,
-              },
-            ]}>
+            style={{
+              marginTop: pageLength == 0 ? 25 : 0,
+            }}>
             <LinearGradient
               colors={['#2D333C', '#101010']}
               start={{
@@ -161,6 +163,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 y: 1,
               }}
               style={{
+                flex: 1,
                 maxHeight: 400,
                 borderRadius: 8,
                 marginHorizontal: 16,
@@ -196,7 +199,9 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 }}
                 enableSwipeMonths={true}
                 firstDay={1}
+                disableMonthChange={true}
                 markingType={'custom'}
+                disabledByDefault
                 markedDates={{
                   [selected]: {
                     selected: true,
@@ -212,8 +217,8 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               />
             </LinearGradient>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   };
 

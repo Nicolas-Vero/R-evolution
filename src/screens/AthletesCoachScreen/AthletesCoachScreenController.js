@@ -8,6 +8,8 @@ export default class AthletesCoachScreenController extends AbstractScreenControl
       refresh: false,
       user: { name: 'toto', avatar: 'string avatar' },
       screen: 'ACTIFS',
+      initialData: null,
+      athletes: [],
       atlhetesActifs: [],
       atlhetesInactifs: [],
       atlhetesProspects: [],
@@ -16,6 +18,7 @@ export default class AthletesCoachScreenController extends AbstractScreenControl
       refreshing: false,
       isDeleteSheetModalVisible: false,
       selectedAthleteToDelete: null,
+      search: null,
     };
   }
   componentDidMount = async () => {
@@ -24,38 +27,76 @@ export default class AthletesCoachScreenController extends AbstractScreenControl
     });
   };
 
+  onChangeTab = (screen) => {
+    this.component.setState({ screen, search: null, athletes: [] });
+  };
+
   fetchData = async () => {
     this.component.setState({ refreshing: true });
     const athletes = await get_coach_athlete();
     if (athletes.status === 200) {
-      await this.filterData(athletes.data.athletes);
+      this.component.setState({
+        initialData: athletes.data.athletes,
+        search: null,
+      });
+
+      await this.filterData();
+
       this.component.setState({
         refreshing: false,
       });
     }
   };
 
-  async filterData(data) {
-    const actifs = [];
-    const inactifs = [];
-    const prospects = [];
-    data.forEach((element) => {
+  async filterData() {
+    const { initialData } = this.component.state;
+    let atlhetesActifs = [];
+    let atlhetesInactifs = [];
+    let atlhetesProspects = [];
+    initialData.forEach((element, val) => {
       switch (element.status) {
         case 'active':
-          actifs.push(element);
+          atlhetesActifs.push(element);
           break;
         case 'inactive':
-          inactifs.push(element);
+          atlhetesInactifs.push(element);
           break;
         case 'prospect':
-          prospects.push(element);
+          atlhetesProspects.push(element);
           break;
-
         default:
           break;
       }
-    }, this.component.setState({ atlhetesActifs: actifs, atlhetesInactifs: inactifs, atlhetesProspects: prospects }));
+    }, this.component.setState({ atlhetesActifs, atlhetesInactifs, atlhetesProspects, search: null }));
   }
+
+  filterSearch = async (search) => {
+    this.component.setState({ search });
+
+    let { screen, atlhetesActifs, atlhetesInactifs, atlhetesProspects } =
+      this.component.state;
+
+    let newList = [];
+    if (screen === 'ACTIFS') {
+      newList = this.filterAthletes(atlhetesActifs, search);
+    } else if (screen === 'INACTIFS') {
+      newList = this.filterAthletes(atlhetesInactifs, search);
+      this.component.setState({ athletes: newList.length ? newList : [] });
+    } else {
+      newList = this.filterAthletes(atlhetesProspects, search);
+      this.component.setState({ atlhetesProspects });
+    }
+
+    this.component.setState({ athletes: newList.length ? newList : [] });
+  };
+
+  filterAthletes = (list, search) => {
+    return list.filter((athlete) => {
+      const full_name =
+        `${athlete.first_name} ${athlete.last_name}`.toLowerCase();
+      return full_name.includes(search.toLowerCase());
+    });
+  };
 
   updateSearch = (search) => {
     this.component.setState({ search });

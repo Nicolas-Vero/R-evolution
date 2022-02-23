@@ -48,6 +48,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
   //     body: notification?.request?.content?.body,
   //   });
   // };
+
   async componentDidMount() {
     const curDate = moment().format('YYYY-MM-DD');
     // this.component.props.navigation.addListener('didFocus', () => {
@@ -79,15 +80,12 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     //     this.component.props.navigation.push('activitiesCoachScreen');
     //   });
     const bookingPerday = [];
-    const dayOfMonth = this.month(
-      this.component.state.currentMonth
-    );
+    const dayOfMonth = this.month(this.component.state.currentMonth);
     for (let element of dayOfMonth) {
       const appointement = await get_appointement_calendar(
         moment(new Date(element)).format('YYYY-MM-DD'),
-      )
+      );
       bookingPerday.push(appointement.data.length);
-
     }
 
     this.component.setState({
@@ -235,8 +233,8 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       const arrayOfAppointment = res.data;
       const arrayOfPage = [];
       arrayOfAppointment.forEach((rdv) => {
-        if(rdv.athlete){
-          arrayOfPage.push({rdv});
+        if (rdv.athlete) {
+          arrayOfPage.push({ rdv });
         }
       });
       this.component.setState({ page: arrayOfPage });
@@ -298,12 +296,11 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     for (let element of dayOfMonth) {
       const appointement = await get_appointement_calendar(
         moment(new Date(element)).format('YYYY-MM-DD'),
-      )
+      );
       bookingPerday.push(appointement.data.length);
-
     }
     this.component.setState({
       MonthBookingNumberPerDay: bookingPerday,
     });
-  }
+  };
 }

@@ -48,13 +48,13 @@ export default class UpdateOfferCoachScreenView extends AbstractScreenView {
                 title: initialValues.title,
                 content: initialValues.content,
                 nb_credits: initialValues.nb_credits.toString(),
-                price: (initialValues.price).toString(),
+                price: initialValues.price.toString(),
               }}
               onSubmit={(values, { onLoginPress }) => onLoginPress(values)}>
               {({ handleChange, handleBlur, setFieldValue, values }) => (
                 <View>
                   <View style={styles.inputContainer}>
-                    <CheckBox
+                    {/* <CheckBox
                       containerStyle={styles.checkbox}
                       title="Coaching"
                       textStyle={styles.checkBoxText}
@@ -81,7 +81,7 @@ export default class UpdateOfferCoachScreenView extends AbstractScreenView {
                         setFieldValue('type', 'Autre'),
                           this.component.setState({ type: 'Autre' });
                       }}
-                    />
+                    /> */}
                   </View>
                   <View style={styles.inputContainer}>
                     <TextInput
@@ -114,7 +114,7 @@ export default class UpdateOfferCoachScreenView extends AbstractScreenView {
                     />
                   </View>
                   <View style={styles.bottomInputContainer}>
-                    {this.component.state.type == 'Coaching' ? (
+                    {values.type == 'Coaching' ? (
                       <View style={styles.seanceContainer}>
                         <Text style={styles.text}>Nombre de séances</Text>
                         <TextInput

@@ -47,7 +47,6 @@ module.exports = StyleSheet.create({
     fontFamily: 'MontserratBoldItalic',
     fontSize: 15,
     color: '#FFFFFF',
-    paddingBottom: 25,
   },
   headerRightImage: {
     height: 32,

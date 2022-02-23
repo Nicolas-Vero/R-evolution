@@ -14,7 +14,7 @@ module.exports = StyleSheet.create({
     paddingHorizontal: 20,
   },
   listContainer: {
-    marginTop: 25,
+    marginTop: 15,
   },
   switchSelectedText: {
     fontFamily: 'MontserratBoldItalic',
@@ -98,5 +98,16 @@ module.exports = StyleSheet.create({
   },
   rightSwipText: {
     color: '#fff',
+  },
+  input: {
+    backgroundColor: '#FFFFFF',
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderRadius: 3,
+    height: 45,
+    paddingLeft: 15,
+    paddingRight: 15,
+    fontSize: 15,
+    marginBottom: 25,
   },
 });
