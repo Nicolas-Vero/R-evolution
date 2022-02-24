@@ -12,7 +12,6 @@ export default class Pager extends Component {
   state = {
     backgroundColor: '#2CDEE4',
   };
-
   onClickSomething() {
     this.carousel.goToPage(2);
   }
@@ -39,19 +38,16 @@ export default class Pager extends Component {
     return (
       <View
         style={{
-          marginBottom: 10,
-          maxHeight: heightPercentageToDP(20),
+          marginBottom: 15,
+          maxHeight: 135,
         }}>
         <CarouselPager
           ref={(ref) => (this.carousel = ref)}
-          blurredZoom={0.90}
+          blurredZoom={0.9}
           initialPage={0}
           blurredOpacity={0.2}
           vertical={true}
-          pageStyle={{ 
-             marginTop:30,
-             marginBottom:-20 
-          }}>
+          animationDuration={300}>
           {data}
         </CarouselPager>
       </View>

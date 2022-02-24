@@ -12,8 +12,10 @@ module.exports = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 20,
+    flex: 1,
   },
   listContainer: {
+    flex: 1,
     marginTop: 15,
   },
   switchSelectedText: {
@@ -40,6 +42,7 @@ module.exports = StyleSheet.create({
   //   backgroundColor: '#1E2026',
   // },
   item: {
+    flex: 1,
     borderRadius: 3,
     flexDirection: 'row',
     backgroundColor: '#1E2026',

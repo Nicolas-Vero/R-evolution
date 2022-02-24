@@ -2,12 +2,12 @@ import React from 'react';
 import {
   TouchableOpacity,
   View,
-  SafeAreaView,
   Keyboard,
   Text,
+  FlatList,
+  TextInput,
 } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
-import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { Avatar } from 'react-native-elements';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import moment from 'moment';
@@ -29,9 +29,10 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
     const { athletes, atlhetesActifs } = this.component.state;
     const list = athletes.length ? athletes : atlhetesActifs;
     return (
-      <View>
+      <View style={styles.container}>
         <FlatList
-          contentContainerStyle={{ paddingBottom: 300 }}
+          contentContainerStyle={{ paddingBottom: 50 }}
+          style={styles.container}
           data={list}
           refreshControl={
             <SidappRefreshControl
@@ -50,9 +51,10 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
     const { athletes, atlhetesInactifs } = this.component.state;
     const list = athletes.length ? athletes : atlhetesInactifs;
     return (
-      <View>
+      <View style={styles.container}>
         <FlatList
-          contentContainerStyle={{ paddingBottom: 300 }}
+          style={styles.container}
+          contentContainerStyle={{ paddingBottom: 50 }}
           data={list}
           refreshControl={
             <SidappRefreshControl
@@ -91,10 +93,11 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
     const { athletes, atlhetesProspects } = this.component.state;
     const list = athletes.length ? athletes : atlhetesProspects;
     return (
-      <View>
+      <View style={styles.container}>
         {this.renderDeleteSheetDialog()}
         <FlatList
-          contentContainerStyle={{ paddingBottom: 300 }}
+          style={styles.container}
+          contentContainerStyle={{ paddingBottom: 50 }}
           data={list}
           keyExtractor={(item) => item.id.toString()}
           refreshControl={
@@ -177,51 +180,48 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
     } else {
       return (
         <View style={styles.container}>
-          <SafeAreaView>
-            <HeaderSimple title="MES ATHLÈTES" />
-            <View style={styles.content}>
-              <SwitchSelector
-                options={options}
-                initial={0}
-                onPress={this.controller.onChangeTab}
-                backgroundColor="#1E2026"
-                buttonColor="#2CDEE4"
-                selectedColor="#1E2026"
-                textColor="white"
-                borderRadius={10}
-                height={45}
-                hasPadding
-                fontSize={13}
-                selectedTextStyle={styles.switchSelectedText}
-                textStyle={styles.switchSelectedText}
-                valuePadding={0}
-                borderColor="#000"
+          <HeaderSimple title="MES ATHLÈTES" />
+          <View style={styles.content}>
+            <SwitchSelector
+              options={options}
+              initial={0}
+              onPress={this.controller.onChangeTab}
+              backgroundColor="#1E2026"
+              buttonColor="#2CDEE4"
+              selectedColor="#1E2026"
+              textColor="white"
+              borderRadius={10}
+              height={45}
+              hasPadding
+              fontSize={13}
+              selectedTextStyle={styles.switchSelectedText}
+              textStyle={styles.switchSelectedText}
+              valuePadding={0}
+              borderColor="#000"
+            />
+            <View style={styles.listContainer}>
+              <TextInput
+                placeholder="Rechercher"
+                placeholderTextColor="#979797"
+                blurOnSubmit={false}
+                autoCapitalize="none"
+                onSubmitEditing={() => Keyboard.dismiss()}
+                returnKeyType="done"
+                style={styles.input}
+                onChangeText={this.controller.filterSearch}
+                value={this.component.state.search}
               />
-              <View style={styles.listContainer}>
-                <TextInput
-                  placeholder="Rechercher"
-                  placeholderTextColor="#979797"
-                  blurOnSubmit={false}
-                  autoCapitalize="none"
-                  onSubmitEditing={() => Keyboard.dismiss()}
-                  returnKeyType="done"
-                  style={styles.input}
-                  onChangeText={this.controller.filterSearch}
-                  // onBlur={handleBlur('email')}
-                  value={this.component.state.search}
-                />
-                {this.component.state.screen == 'ACTIFS'
-                  ? this.renderActifList()
-                  : null}
-                {this.component.state.screen == 'INACTIFS'
-                  ? this.renderInactifList()
-                  : null}
-                {this.component.state.screen == 'PROSPECTS'
-                  ? this.renderProspectList()
-                  : null}
-              </View>
+              {this.component.state.screen == 'ACTIFS'
+                ? this.renderActifList()
+                : null}
+              {this.component.state.screen == 'INACTIFS'
+                ? this.renderInactifList()
+                : null}
+              {this.component.state.screen == 'PROSPECTS'
+                ? this.renderProspectList()
+                : null}
             </View>
-          </SafeAreaView>
+          </View>
         </View>
       );
     }
