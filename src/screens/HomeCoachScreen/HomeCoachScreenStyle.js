@@ -204,4 +204,33 @@ module.exports = StyleSheet.create({
     fontFamily: 'Roboto',
     color: '#2CDEE4',
   },
+  dayContainer: {
+    height: 30,
+    width: 30,
+  },
+  dateMonth: {
+    zIndex: 1,
+    position: 'absolute',
+    right: -8,
+    width: 13,
+    height: 13,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  dateMonthText: {
+    fontSize: 8,
+    fontFamily: 'Montserrat',
+  },
+  day: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+  },
+  dayText: {
+    fontSize: 16,
+    fontFamily: 'MontserratMedium',
+  },
 });

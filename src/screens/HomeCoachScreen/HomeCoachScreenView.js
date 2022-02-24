@@ -62,56 +62,31 @@ export default class HomeCoachScreenView extends AbstractScreenView {
     }
     return (
       <TouchableOpacity
-        style={{ height: 25, width: 30 }}
+        style={styles.dayContainer}
         onPress={() => {
           this.controller.changeTaskList(date);
         }}>
         {this.component.state.MonthBookingNumberPerDay[date.day - 1] > 0 &&
         new Date(this.component.state.currentMonth).getMonth() + 1 ===
           date.month ? (
-          <View
-            style={{
-              zIndex: 1,
-              position: 'absolute',
-              right: -7,
-              width: 13,
-              height: 13,
-              borderRadius: 10,
-              backgroundColor: badgeBg,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
+          <View style={[styles.dateMonth, { backgroundColor: badgeBg }]}>
             <View>
-              <Text
-                style={{
-                  fontSize: 8,
-                  color: badgeTextColor,
-                  fontFamily: 'Montserrat',
-                }}>
+              <Text style={[styles.dateMonthText, { color: badgeTextColor }]}>
                 {this.component.state.MonthBookingNumberPerDay[date.day - 1]}
               </Text>
             </View>
           </View>
         ) : null}
         <View
-          style={{
-            // borderWidth: isToday ? 1 : 0,
-            // borderColor: isToday ? '#2CDEE4' : '#393637',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 30,
-            height: 30,
-            borderRadius: 15,
-            backgroundColor: bg,
-          }}>
-          <Text
-            style={{
-              color: textColor,
-              fontSize: 15,
-              fontFamily: 'MontserratMedium',
-            }}>
-            {date.day}
-          </Text>
+          style={[
+            styles.day,
+            {
+              backgroundColor: bg,
+              // borderWidth: isToday ? 1 : 0,
+              // borderColor: isToday ? '#2CDEE4' : '#393637',
+            },
+          ]}>
+          <Text style={[styles.dayText, { color: textColor }]}>{date.day}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -126,7 +101,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             style={[
               styles.currentDateText,
               {
-                marginBottom: pageLength === 0 ? 25 : 0,
+                marginBottom: 15,
               },
             ]}>
             {this.component.state.currentDate.toUpperCase()}
@@ -147,76 +122,75 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             </View>
           )}
         </View>
-        <ScrollView>
-          <View
+        <ScrollView
+          style={{
+            marginTop: pageLength == 0 ? 15 : 0,
+          }}
+          contentInset={{ bottom: 80 }}>
+          <LinearGradient
+            colors={['#2D333C', '#101010']}
+            start={{
+              x: 0,
+              y: 0,
+            }}
+            end={{
+              x: 1,
+              y: 1,
+            }}
             style={{
-              marginTop: pageLength == 0 ? 25 : 0,
+              flex: 1,
+              maxHeight: 400,
+              borderRadius: 8,
+              marginHorizontal: 16,
+              alignItems: 'center',
             }}>
-            <LinearGradient
-              colors={['#2D333C', '#101010']}
-              start={{
-                x: 0,
-                y: 0,
+            <Calendar
+              theme={{
+                calendarBackground: 'transparent',
+                textSectionTitleColor: 'white',
+                textSectionTitleWeight: 'bold',
+                textSectionTitleDisabledColor: '#d9e1e8',
+                selectedDayBackgroundColor: '#2CDEE4',
+                todayTextColor: '#2CDEE4',
+                dayTextColor: 'white',
+                textDisabledColor: 'grey',
+                arrowColor: 'white',
+                monthTextColor: 'white',
+                indicatorColor: '#2CDEE4',
+                textDayFontFamily: 'Montserrat',
+                textMonthFontFamily: 'MontserratBoldItalic',
+                textDayHeaderFontFamily: 'MontserratMedium',
+                textDayFontSize: 16,
+                textMonthFontSize: 16,
+                textDayHeaderFontSize: 16,
               }}
-              end={{
-                x: 1,
-                y: 1,
+              onPressArrowLeft={(subtractMonth) => {
+                subtractMonth();
+                this.controller.bookingInMonth(-1);
               }}
-              style={{
-                flex: 1,
-                maxHeight: 400,
-                borderRadius: 8,
-                marginHorizontal: 16,
-                alignItems: 'center',
-              }}>
-              <Calendar
-                theme={{
-                  calendarBackground: 'transparent',
-                  textSectionTitleColor: 'white',
-                  textSectionTitleWeight: 'bold',
-                  textSectionTitleDisabledColor: '#d9e1e8',
-                  selectedDayBackgroundColor: '#2CDEE4',
-                  todayTextColor: '#2CDEE4',
-                  dayTextColor: 'white',
-                  textDisabledColor: 'grey',
-                  arrowColor: 'white',
-                  monthTextColor: 'white',
-                  indicatorColor: '#2CDEE4',
-                  textDayFontFamily: 'Montserrat',
-                  textMonthFontFamily: 'MontserratBoldItalic',
-                  textDayHeaderFontFamily: 'MontserratMedium',
-                  textDayFontSize: 16,
-                  textMonthFontSize: 16,
-                  textDayHeaderFontSize: 16,
-                }}
-                onPressArrowLeft={(subtractMonth) => {
-                  subtractMonth();
-                  this.controller.bookingInMonth(-1);
-                }}
-                onPressArrowRight={(addMonth) => {
-                  addMonth();
-                  this.controller.bookingInMonth(1);
-                }}
-                enableSwipeMonths={true}
-                firstDay={1}
-                disableMonthChange={true}
-                markingType={'custom'}
-                disabledByDefault
-                markedDates={{
-                  [selected]: {
-                    selected: true,
-                    selectedColor: '#2CDEE4',
-                    selectedTextColor: 'black',
-                  },
-                }}
-                dayComponent={({ date, state, marking }) =>
-                  this.renderDay(date, state, marking)
-                }
-                onDayPress={(day) => this.controller.changeTaskList(day)}
-                style={styles.calendar}
-              />
-            </LinearGradient>
-          </View>
+              onPressArrowRight={(addMonth) => {
+                addMonth();
+                this.controller.bookingInMonth(1);
+              }}
+              enableSwipeMonths={true}
+              firstDay={1}
+              disableMonthChange={true}
+              markingType={'custom'}
+              disabledByDefault
+              markedDates={{
+                [selected]: {
+                  selected: true,
+                  selectedColor: '#2CDEE4',
+                  selectedTextColor: 'black',
+                },
+              }}
+              dayComponent={({ date, state, marking }) =>
+                this.renderDay(date, state, marking)
+              }
+              onDayPress={(day) => this.controller.changeTaskList(day)}
+              style={styles.calendar}
+            />
+          </LinearGradient>
         </ScrollView>
       </View>
     );

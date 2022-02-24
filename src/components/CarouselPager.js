@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { View, PanResponder, Animated, StyleSheet } from 'react-native';
+import { View, PanResponder, Animated } from 'react-native';
 import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { Avatar } from 'react-native-elements';
-import { loadFonts } from '../configs/design/font';
 import { get_appointment_by_athlete_id, get_coachAthlete_status } from '../api/Coach';
 import { get_commercial_by_id } from '../api/Commercial';
+import { slots } from '../helpers/dateHelper';
 export default class CarouselPager extends Component {
   static propTypes = {
     initialPage: PropTypes.number,
@@ -16,25 +16,21 @@ export default class CarouselPager extends Component {
     blurredOpacity: PropTypes.number,
     animationDuration: PropTypes.number,
     containerPadding: PropTypes.number,
+
     pageSpacing: PropTypes.number,
     pageStyle: PropTypes.object,
-    blurredbackgroundColor: PropTypes.string,
     onPageChange: PropTypes.func,
     deltaDelay: PropTypes.number,
     children: PropTypes.array.isRequired,
   };
-  componentDidMount() {
-    loadFonts;
-  }
 
   static defaultProps = {
     initialPage: 0,
     blurredZoom: 0.8,
     blurredOpacity: 0.8,
-    blurredbackgroundColor: 'blue',
+    containerPadding: 38,
     animationDuration: 150,
-    containerPadding: 30,
-    pageSpacing: 10,
+    pageSpacing: 0,
     vertical: false,
     deltaDelay: 0,
     onPageChange: () => {},
@@ -44,84 +40,6 @@ export default class CarouselPager extends Component {
     width: 0,
     height: 0,
   };
-  convertSlotToDate(slot) {
-    switch (slot) {
-      case 0:
-        return '00:00 - 01:00';
-        break;
-      case 1:
-        return '01:00 - 02:00';
-        break;
-      case 2:
-        return '02:00 - 03:00';
-        break;
-      case 3:
-        return '03:00 - 04:00';
-        break;
-      case 4:
-        return '04:00 - 05:00';
-        break;
-      case 5:
-        return '05:00 - 06:00';
-        break;
-      case 6:
-        return '06:00 - 07:00';
-        break;
-      case 7:
-        return '07:00 - 08:00';
-        break;
-      case 8:
-        return '08:00 - 09:00';
-        break;
-      case 9:
-        return '09:00 - 10:00';
-        break;
-      case 10:
-        return '10:00 - 11:00';
-        break;
-      case 11:
-        return '11:00 - 12:00';
-        break;
-      case 12:
-        return '12:00 - 13:00';
-        break;
-      case 13:
-        return '13:00 - 14:00';
-        break;
-      case 14:
-        return '14:00 - 15:00';
-        break;
-      case 15:
-        return '15:00 - 16:00';
-        break;
-      case 16:
-        return '16:00 - 17:00';
-        break;
-      case 17:
-        return '17:00 - 18:00';
-        break;
-      case 18:
-        return '18:00 - 19:00';
-        break;
-      case 19:
-        return '19:00 - 20:00';
-        break;
-      case 20:
-        return '20:00 - 21:00';
-        break;
-      case 21:
-        return '21:00 - 22:00';
-        break;
-      case 22:
-        return '22:00 - 23:00';
-        break;
-      case 23:
-        return '23:00 - 00:00';
-        break;
-      default:
-        break;
-    }
-  }
 
   _getPosForPage(pageNb) {
     return -pageNb * this._boxSizeInterval;
@@ -167,9 +85,8 @@ export default class CarouselPager extends Component {
 
   _runAfterMeasurements(width, height) {
     // Set box and box interval size
-    let length = this.props.vertical ? height : width;
-    this._boxSize = (length/3.5);
-    this._boxSizeInterval =(this._boxSize + (this.props.pageSpacing));
+    this._boxSize = 50;
+    this._boxSizeInterval = height / 3;
 
     // Get initial page
     let initialPage = this.props.initialPage || 0;
@@ -184,8 +101,7 @@ export default class CarouselPager extends Component {
 
     let viewsScale = [];
     let viewsOpacity = [];
-    let backgroundColor = [];
-    let textColor = [];
+
     for (let i = 0; i < this.props.children.length; ++i) {
       viewsScale.push(
         new Animated.Value(
@@ -198,30 +114,22 @@ export default class CarouselPager extends Component {
         ),
       );
     }
-    for (let i = 0; i < this.props.children.length; ++i) {
-      if (i == 0) {
-        backgroundColor.push('#2CDEE4');
-        textColor.push('black');
-      } else {
-        backgroundColor.push('transparent');
-        textColor.push('white');
-      }
-    }
+
     this.setState({
       width,
       height,
       pos: new Animated.Value(this._getPosForPage(this._currentPage)),
       viewsScale,
       viewsOpacity,
-      backgroundColor,
-      textColor,
     });
   }
 
   animateToPage(page) {
     let animations = [];
-    let arrayofcolor = [];
-    let arrayofTextColor = [];
+    let backgroundColor = [];
+    let textColor = [];
+    let textSize = [];
+    let imageSize = [];
     var i = 0;
     if (this._currentPage !== page) {
       // New page needs to be shown (adjust opacity and scale)
@@ -259,15 +167,18 @@ export default class CarouselPager extends Component {
     }
     for (let i = 0; i < this.props.children.length; ++i) {
       if (page == i) {
-        arrayofcolor.push('#2CDEE4');
-        arrayofTextColor.push('black');
+        backgroundColor.push('#2CDEE4');
+        textColor.push('black');
+        textSize.push(16);
+        imageSize.push(40);
       } else {
-        arrayofcolor.push('transparent');
-        arrayofTextColor.push('white');
+        backgroundColor.push('transparent');
+        textColor.push('white');
+        textSize.push(12);
+        imageSize.push(30);
       }
     }
-    this.setState({ backgroundColor: arrayofcolor });
-    this.setState({ textColor: arrayofTextColor });
+    this.setState({ backgroundColor, textColor, textSize, imageSize });
     // Move to proper position for selected page
     let toValue = this._getPosForPage(page);
 
@@ -283,16 +194,8 @@ export default class CarouselPager extends Component {
 
     this._lastPos = toValue;
     this._currentPage = page;
+
     this.props.onPageChange(page);
-  }
-
-  goToPage(index) {
-    if (index < 0 || index > this.props.children.length - 1) {
-      // Out of bounds, don't go anywhere
-      return;
-    }
-
-    this.animateToPage(index);
   }
 
   componentDidMount() {
@@ -328,6 +231,7 @@ export default class CarouselPager extends Component {
           this._lastPos,
           gestureState['d' + suffix],
         );
+
         this.animateToPage(page);
       },
       onPanResponderTerminate: (evt, gestureState) => {},
@@ -358,120 +262,107 @@ export default class CarouselPager extends Component {
         </View>
       );
     }
-
     let containerStyle = {};
     let boxStyle = {};
-    if (this.props.vertical) {
-      containerStyle = {
-        top: this.state.pos,
-        paddingTop: this.props.containerPadding,
-        paddingBottom: this.props.containerPadding,
-        flexDirection: 'column'
-      };
-      boxStyle = {
-       borderRadius:10,
-        height: this._boxSize,
-        marginBottom: this.props.pageSpacing,
-        alignItems:'center'
-      };
-    } else {
-      containerStyle = {
-        left: this.state.pos,
-        paddingLeft: this.props.containerPadding,
-        paddingRight: this.props.containerPadding,
-        flexDirection: 'row',
-      };
-      boxStyle = {
-        width: this._boxSize,
-        marginRight: this.props.pageSpacing,
-      };
-    }
+    containerStyle = {
+      flex: 1,
+      top: this.state.pos,
+      // paddingTop: this._currentPage === 0 ? 0 : this.props.containerPadding,
+      paddingTop: this.props.containerPadding,
+      paddingBottom: this.props.containerPadding,
+      flexDirection: 'column',
+    };
+    boxStyle = {
+      marginBottom: this.props.pageSpacing,
+      borderRadius: 5,
+      height: this._boxSize,
+      alignItems: 'center',
+      justifyContent: 'center',
+    };
 
     return (
       <View
         style={{
           flex: 1,
-          flexDirection: this.props.vertical ? 'column' : 'row',
           overflow: 'hidden',
         }}>
         <Animated.View
           style={[{ flex: 1 }, containerStyle]}
           {...this._panResponder.panHandlers}>
           {this.props.children.map((page, index) => {
+            const isCurrentPage = index === this._currentPage;
+            const fontSize = isCurrentPage ? 16 : 12;
+            const color = isCurrentPage ? '#000' : '#fff';
             return (
               <Animated.View
                 key={index}
                 style={[
                   {
-                    backgroundColor: this.state.backgroundColor[index],
-                    justifyContent: 'center',
+                    backgroundColor: isCurrentPage ? '#2CDEE4' : 'transparent',
                     opacity: this.state.viewsOpacity[index],
                     transform: [
-                      this.props.vertical
-                        ? {
-                            scaleX: this.state.viewsScale[index],
-                          }
-                        : {
-                            scaleY: this.state.viewsScale[index],
-                          },
+                      {
+                        scaleY: this.state.viewsScale[index],
+                      },
                     ],
                   },
                   boxStyle,
-                  this.props.pageStyle,
                 ]}>
                 <TouchableOpacity
-                  onPress={() => {
-                    this.onAthletePress(page.rdv.athlete)
-                  }}
-                  style={{justifyContent: 'center', alignItems: 'center' }}>
+                  onLongPress={() => {
+                    this.onAthletePress(page.rdv.athlete);
+                  }}>
                   <View
-                    style={{ 
-        
+                    style={{
                       flexDirection: 'row',
-                      justifyContent: 'space-around',
                       width: widthPercentageToDP(92),
-                      alignContent: 'center',
+                      alignItems: 'center',
                     }}
                     key={page.id}>
-                    <View style={{ marginTop: 2 }}>
+                    <View style={{ marginLeft: 5, marginRight: 20 }}>
                       <Avatar
-                        size="small"
+                        size={isCurrentPage ? 40 : 30}
                         rounded
                         source={{
-                          uri: page.rdv.athlete?.profile_picture_url||'/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                          uri:
+                            page.rdv.athlete?.profile_picture_url ||
+                            '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
                         }}
                       />
                     </View>
-                    <View style={{flexDirection: 'column', marginRight: 23 }}>
-                      <View style={{ flexDirection: 'row' }}>
-                        <Text
-                          style={{
-                          
-                            fontFamily: 'RobotoMedium',
-                            fontSize: 15,
-                            color: this.state.textColor[index],
-                          }}>
-                          {page.rdv.athlete?.first_name} {page.rdv.athlete?.last_name}
-                        </Text>
-                      </View>
-                      <Text
-                        style={{
-                          fontFamily: 'MontserratMedium',
-                          fontSize: 10,
-                          color: this.state.textColor[index],
-                        }}>
-                        Séance: {page.rdv.session_number}/{page.rdv.athleteCourse?.total_sessions}
-                      </Text>
-                    </View>
-                    <View style={{ justifyContent: 'center' }}>
+                    <View style={{ alignItems: 'flex-start', flex: 1 }}>
                       <Text
                         style={{
                           fontFamily: 'RobotoMedium',
-                          fontSize: 15,
-                          marginTop: 1.2,
-                          color: this.state.textColor[index],
+                          fontSize,
+                          color,
                         }}>
-                        {this.convertSlotToDate(page.rdv.slot)}
+                        {page.rdv.athlete?.first_name}{' '}
+                        {page.rdv.athlete?.last_name}
+                      </Text>
+                      {isCurrentPage ? (
+                        <Text
+                          style={{
+                            fontFamily: 'MontserratMedium',
+                            fontSize: 10,
+                            color: '#000',
+                          }}>
+                          Séance: {page.rdv.session_number}/
+                          {page.rdv.athleteCourse?.total_sessions}
+                        </Text>
+                      ) : null}
+                    </View>
+                    <View stlye={{ alignItems: 'flex-end' }}>
+                      <Text
+                        style={{
+                          paddingRight: !isCurrentPage ? 15 : 0,
+                          textAlign: 'center',
+                          marginRight: 29,
+                          fontFamily: 'RobotoMedium',
+                          fontSize,
+                          color,
+                        }}>
+                        {slots[page.rdv.slot]}
                       </Text>
                     </View>
                   </View>
