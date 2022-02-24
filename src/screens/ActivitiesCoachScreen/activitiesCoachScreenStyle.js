@@ -75,6 +75,8 @@ module.exports = StyleSheet.create({
     fontFamily: 'MontserratMedium',
     fontSize: 10,
     color: '#fff',
+    flex: 1,
+    flexWrap: 'wrap',
   },
   itemTextContent: {
     marginRight: 6,

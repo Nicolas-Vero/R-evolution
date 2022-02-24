@@ -3,18 +3,13 @@ import {
   TouchableOpacity,
   View,
   SafeAreaView,
-  StyleSheet,
-  Dimensions,
+  Keyboard,
   Text,
 } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
-import { FlatList } from 'react-native-gesture-handler';
-import { get_coach_athlete } from '../../api/Coach';
+import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { Avatar } from 'react-native-elements';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 import moment from 'moment';
 import HeaderSimple from '../../components/HeaderSimple';
 import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
@@ -31,18 +26,13 @@ const options = [
 ];
 export default class AthletesCoachScreenView extends AbstractScreenView {
   renderActifList = () => {
+    const { athletes, atlhetesActifs } = this.component.state;
+    const list = athletes.length ? athletes : atlhetesActifs;
     return (
       <View>
-        {/* <SearchBar
-         //        size={50}
-         //         clearIcon={false}
-         //         placeholder="Type Here..."
-         // onChangeText={this.updateSearch}
-         // value={this.state.search}
-                 /> */}
         <FlatList
           contentContainerStyle={{ paddingBottom: 300 }}
-          data={this.component.state.atlhetesActifs}
+          data={list}
           refreshControl={
             <SidappRefreshControl
               refreshing={this.component.state.refreshing}
@@ -57,18 +47,13 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
   };
 
   renderInactifList = () => {
+    const { athletes, atlhetesInactifs } = this.component.state;
+    const list = athletes.length ? athletes : atlhetesInactifs;
     return (
       <View>
-        {/* <SearchBar
-                   size={50}
-                   clearIcon={false}
-                   placeholder="Type Here..."
-                   onChangeText={this.updateSearch}
-                   value={this.state.search}
-                 /> */}
         <FlatList
           contentContainerStyle={{ paddingBottom: 300 }}
-          data={this.component.state.atlhetesInactifs}
+          data={list}
           refreshControl={
             <SidappRefreshControl
               refreshing={this.component.state.refreshing}
@@ -103,19 +88,14 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
     );
   };
   renderProspectList = () => {
+    const { athletes, atlhetesProspects } = this.component.state;
+    const list = athletes.length ? athletes : atlhetesProspects;
     return (
       <View>
-        {/* <SearchBar
-         //        size={50}
-         //         clearIcon={false}
-         //         placeholder="Type Here..."
-         // onChangeText={this.updateSearch}
-         // value={this.state.search}
-                 /> */}
         {this.renderDeleteSheetDialog()}
         <FlatList
           contentContainerStyle={{ paddingBottom: 300 }}
-          data={[...this.component.state.atlhetesProspects]}
+          data={list}
           keyExtractor={(item) => item.id.toString()}
           refreshControl={
             <SidappRefreshControl
@@ -178,7 +158,7 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
           <SwitchSelector
             options={options}
             initial={0}
-            onPress={(value) => this.component.setState({ screen: value })}
+            onPress={this.controller.onChangeTab}
             backgroundColor="#1E2026"
             buttonColor="#2CDEE4"
             selectedColor="#1E2026"
@@ -203,7 +183,7 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
               <SwitchSelector
                 options={options}
                 initial={0}
-                onPress={(value) => this.component.setState({ screen: value })}
+                onPress={this.controller.onChangeTab}
                 backgroundColor="#1E2026"
                 buttonColor="#2CDEE4"
                 selectedColor="#1E2026"
@@ -218,6 +198,18 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
                 borderColor="#000"
               />
               <View style={styles.listContainer}>
+                <TextInput
+                  placeholder="Rechercher"
+                  placeholderTextColor="#979797"
+                  blurOnSubmit={false}
+                  autoCapitalize="none"
+                  onSubmitEditing={() => Keyboard.dismiss()}
+                  returnKeyType="done"
+                  style={styles.input}
+                  onChangeText={this.controller.filterSearch}
+                  // onBlur={handleBlur('email')}
+                  value={this.component.state.search}
+                />
                 {this.component.state.screen == 'ACTIFS'
                   ? this.renderActifList()
                   : null}

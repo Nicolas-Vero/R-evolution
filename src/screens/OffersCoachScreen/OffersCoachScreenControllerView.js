@@ -58,7 +58,9 @@ export default class OffersCoachScreenView extends AbstractScreenView {
                   style={styles.item}>
                   <Text style={styles.itemTitle}>{item.title}</Text>
                   <Text style={styles.itemContent}>{item.content}</Text>
-                  {!(item.nb_credits || item.nb_credits < 1) ? null : (
+                  {!item.nb_credits ||
+                  item.nb_credits < 1 ||
+                  item.type === 'Autre' ? null : (
                     <Text style={styles.itemNbCredits}>
                       {`${item.nb_credits} coaching${
                         item.nb_credits > 1 ? 's' : ''
