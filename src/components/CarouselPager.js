@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { View, PanResponder, Animated, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { forEach, indexOf } from 'lodash';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'react-native';
-import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { Avatar } from 'react-native-elements';
 import { loadFonts } from '../configs/design/font';
 import { get_appointment_by_athlete_id, get_coachAthlete_status } from '../api/Coach';
+import { get_commercial_by_id } from '../api/Commercial';
 export default class CarouselPager extends Component {
   static propTypes = {
     initialPage: PropTypes.number,

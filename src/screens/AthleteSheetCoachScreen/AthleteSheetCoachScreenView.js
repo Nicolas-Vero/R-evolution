@@ -258,7 +258,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                             {moment(item.created_at).format('L')}
                           </Text>
                           <Text style={styles.paiementItemText}>
-                            {item.offer.title}
+                            {item.offer?.title}
                           </Text>
                           <Text style={styles.paiementItemText}>
                             {`${item.amount}€`}
