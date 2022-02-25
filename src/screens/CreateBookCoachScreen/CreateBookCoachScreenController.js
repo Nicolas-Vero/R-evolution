@@ -95,6 +95,7 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
       athlete_id: values.athlete_id,
     });
     if (createBook.status === 200) {
+      // this.props.cb && this.props.cb();
       this.component.props.navigation.goBack();
     }
   };

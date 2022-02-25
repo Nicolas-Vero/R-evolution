@@ -1,40 +1,31 @@
 import React, { Component } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Provider } from 'react-redux';
-import configureStore from './store/configureStore';
+import { PersistGate } from 'redux-persist/integration/react';
+// import configureStore from './store/configureStore';
+// const { store } = configureStore();
 import Router from './routes/index';
 import './config/logger';
 import { createAppContainer } from 'react-navigation';
 import * as Font from 'expo-font';
 import * as Notifications from 'expo-notifications';
-import * as ScreenOrientation from 'expo-screen-orientation';
 import * as Updates from 'expo-updates';
-import Constants from 'expo-constants';
-const { store } = configureStore();
 import AuthService from './services/AuthService';
-import AppNavigation from './routes/navigationService';
-import { set_expo_token, get_coach_me } from './api/Coach';
+import { get_coach_me } from './api/Coach';
 import { get_athlete_me } from './api/Athlete';
 import ContextService from './services/ContextService';
 import { get_request_by_athlete_id } from './api/Request';
-
+import { store, persistor } from './redux/store';
+import { loadFonts } from './configs/design/font';
 const Navigation = createAppContainer(Router);
 
 export class App extends Component {
   constructor(props) {
     super(props);
-
-    if (store === null) {
-      store = configureStore();
-    }
-
-    this.state = {
-      store,
-    };
   }
 
   state = {
-    loaded: true,
+    loaded: false,
   };
 
   async componentDidMount() {
@@ -48,20 +39,7 @@ export class App extends Component {
     } catch (e) {
       // handle or log error
     }
-    await Font.loadAsync({
-      MontserratBold: require('../assets/fonts/Montserrat-ExtraBold.ttf'),
-      MontserratBoldItalic: require('../assets/fonts/Montserrat-ExtraBoldItalic.ttf'),
-      MontserratItalic: require('../assets/fonts/Montserrat-Italic.ttf'),
-      MontserratMedium: require('../assets/fonts/Montserrat-Medium.ttf'),
-      MontserratSemiBold: require('../assets/fonts/Montserrat-SemiBold.ttf'),
-      Montserrat: require('../assets/fonts/Montserrat-Regular.ttf'),
-      Roboto: require('../assets/fonts/Roboto-Regular.ttf'),
-      RobotoItalic: require('../assets/fonts/Roboto-LightItalic.ttf'),
-      RobotoBold: require('../assets/fonts/Roboto-Bold.ttf'),
-      RobotoMedium: require('../assets/fonts/Roboto-Medium.ttf'),
-    }).then(() => {
-      this.setState({ loaded: true });
-    });
+    await loadFonts();
 
     const auth = await AuthService.getAuth();
     if (auth) {
@@ -80,6 +58,8 @@ export class App extends Component {
         await AuthService.checkExpoToken();
       }
     }
+
+    this.setState({ loaded: true });
 
     // // this.lockScreenOrientation();
     this.notificationListener = Notifications.addNotificationReceivedListener(
@@ -154,9 +134,14 @@ export class App extends Component {
   }
 
   render() {
-    return (
-      <Provider store={this.state.store}>
-        {!this.state.loaded ? <ActivityIndicator /> : <Navigation />}
+    const { loaded } = this.state;
+    return !loaded ? (
+      <ActivityIndicator />
+    ) : (
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Navigation />
+        </PersistGate>
       </Provider>
     );
   }

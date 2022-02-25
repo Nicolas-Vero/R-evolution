@@ -62,7 +62,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
     }
     return (
       <TouchableOpacity
-        style={styles.dayContainer}
+        style={styles.dayContainerCalendar}
         onPress={() => {
           this.controller.changeTaskList(date);
         }}>
@@ -86,7 +86,9 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               // borderColor: isToday ? '#2CDEE4' : '#393637',
             },
           ]}>
-          <Text style={[styles.dayText, { color: textColor }]}>{date.day}</Text>
+          <Text style={[styles.dayTextCalendar, { color: textColor }]}>
+            {date.day}
+          </Text>
         </View>
       </TouchableOpacity>
     );
@@ -287,7 +289,8 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                   onRefresh={this.controller.fetchData}
                 />
               }
-              renderItem={({ item }) => {
+              renderItem={({ item, index }) => {
+                console.log(index, item);
                 return (
                   <SwitchButton
                     onLinePress={this.controller.onLinePress}

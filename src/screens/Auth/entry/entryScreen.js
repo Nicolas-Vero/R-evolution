@@ -1,5 +1,4 @@
 import React from 'react';
-import * as Font from 'expo-font';
 import { View, Text, SafeAreaView, ImageBackground, Image } from 'react-native';
 import { Button } from '../../../components/Button';
 import styles from './entryStyle';
@@ -12,18 +11,6 @@ export default class entryScreen extends React.Component {
     fontsLoaded: false,
   };
 
-  async loadFonts() {
-    await Font.loadAsync({
-      MontserratItalic: require('../../../../assets/fonts/Montserrat-Italic.ttf'),
-      Montserrat: require('../../../../assets/fonts/Montserrat-Regular.ttf'),
-      RobotoBold: require('../../../../assets/fonts/Roboto-Bold.ttf'),
-    });
-    this.setState({ fontsLoaded: true });
-  }
-
-  componentDidMount() {
-    this.loadFonts();
-  }
   render() {
     const { navigate } = this.props.navigation;
     return (

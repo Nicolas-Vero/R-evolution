@@ -2,20 +2,17 @@ import React from 'react';
 import {
   View,
   SafeAreaView,
-  Dimensions,
   Image,
   TextInput,
   Keyboard,
   Text,
   KeyboardAvoidingView,
-  ScrollView,
   TouchableOpacity,
 } from 'react-native';
 
 import { Formik } from 'formik';
 import { LinearGradient } from 'expo-linear-gradient';
 import AuthService from '../../../services/AuthService';
-import { loadFonts } from '../../../configs/design/font';
 import Header from '../../../components/Header';
 import { Button } from '../../../components/Button';
 import styles from './loginStyle';
@@ -25,9 +22,6 @@ import { userType } from '../../../api/Auth';
 export default class loginScreen extends React.Component {
   constructor(props) {
     super(props);
-  }
-  componentDidMount() {
-    loadFonts;
   }
 
   async onLoginPress(values) {

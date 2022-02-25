@@ -5,6 +5,7 @@ export const loadFonts = async () => {
     MontserratBold: require('../../../assets/fonts/Montserrat-ExtraBold.ttf'),
     MontserratBoldItalic: require('../../../assets/fonts/Montserrat-ExtraBoldItalic.ttf'),
     MontserratMedium: require('../../../assets/fonts/Montserrat-Medium.ttf'),
+    MontserratItalic: require('../../../assets/fonts/Montserrat-Italic.ttf'),
     MontserratSemiBold: require('../../../assets/fonts/Montserrat-SemiBold.ttf'),
     Montserrat: require('../../../assets/fonts/Montserrat-Regular.ttf'),
     Roboto: require('../../../assets/fonts/Roboto-Regular.ttf'),

@@ -279,10 +279,12 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     athlete.book = book.data;
     if (athlete.commercial_id) {
       const commercial = await get_commercial_by_id(athlete.commercial_id);
-      athlete.commercial = {
-        first_name: commercial.data.commercial.first_name,
-        last_name: commercial.data.commercial.last_name,
-      };
+      if (commercial.status === 200) {
+        athlete.commercial = {
+          first_name: commercial.data.commercial.first_name,
+          last_name: commercial.data.commercial.last_name,
+        };
+      }
     }
     this.component.props.navigation.navigate('AthleteSheetCoachScreen', {
       item: athlete,
