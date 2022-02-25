@@ -5,9 +5,13 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'react-native';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { Avatar } from 'react-native-elements';
-import { get_appointment_by_athlete_id, get_coachAthlete_status } from '../api/Coach';
+import {
+  get_appointment_by_athlete_id,
+  get_coachAthlete_status,
+} from '../api/Coach';
 import { get_commercial_by_id } from '../api/Commercial';
 import { slots } from '../helpers/dateHelper';
+import ContextService from '../services/ContextService';
 export default class CarouselPager extends Component {
   static propTypes = {
     initialPage: PropTypes.number,
@@ -56,7 +60,9 @@ export default class CarouselPager extends Component {
         last_name: commercial.data.commercial.last_name,
       };
     }
-    navigate('AthleteSheetCoachScreen', {
+    const navigation = ContextService.get('current_navigation');
+
+    navigation.navigate('AthleteSheetCoachScreen', {
       item: athlete,
     });
   };
