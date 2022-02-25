@@ -15,7 +15,6 @@ import { Button } from '../../../components/Button';
 import Header from '../../../components/Header';
 const { width } = Dimensions.get('window');
 import { LinearGradient } from 'expo-linear-gradient';
-import { loadFonts } from '../../../configs/design/font';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import * as Yup from 'yup';
 import styles from './RegisterInfoStyle';
@@ -31,9 +30,6 @@ export default class RegisterInfoAthlete extends React.Component {
     };
   }
 
-  componentDidMount() {
-    loadFonts();
-  }
   render() {
     const { navigation } = this.props;
     const phoneRegExp =
@@ -71,7 +67,9 @@ export default class RegisterInfoAthlete extends React.Component {
                   onSubmit={(values) => {
                     this.state.termsCondition
                       ? navigation.navigate('mensuration', { item: values })
-                      : alert(' Alerte Accepter les termes des conditions pour continuer.');
+                      : alert(
+                          ' Alerte Accepter les termes des conditions pour continuer.',
+                        );
                   }}
                   validationSchema={Yup.object().shape({
                     first_name: Yup.string().required('Requis'),

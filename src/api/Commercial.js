@@ -2,8 +2,6 @@ import axios from 'axios';
 import { API_URL } from '../configs/Constants';
 import AuthService from '../services/AuthService';
 
-
-
 export const get_commercial_by_place = (params) => {
   const gym_place_id = params;
   return axios({

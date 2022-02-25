@@ -16,18 +16,16 @@ import { Text } from 'react-native-elements';
 import { Button } from '../../components/Button';
 import Header from '../../components/Header';
 import { LinearGradient } from 'expo-linear-gradient';
-import { AddOffer, get_coach_offers } from '../../api/Offers';
+import { get_coach_offers } from '../../api/Offers';
 import SelectDropdown from 'react-native-select-dropdown';
 import {
   get_paiement_for_coach,
   get_payment_details,
 } from '../../api/Paiement';
-import { loadFonts } from '../../configs/design/font';
 import styles from './createPayementStyle';
 import { add_manual_payment, add_transaction } from '../../api/Coach';
 import { ScrollView } from 'react-native-gesture-handler';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
-import { arrayPush } from 'redux-form';
 export default class createPaymentScreen extends React.Component {
   state = {
     today: moment().format('l'),
@@ -40,14 +38,13 @@ export default class createPaymentScreen extends React.Component {
     transaction_id: Math.floor(Math.random() * 1000),
   };
   componentDidMount() {
-    loadFonts(),
-      get_coach_offers()
-        .then((res) => {
-          this.setState({ Offer: res.data.offers });
-        })
-        .then(() => {
-          this.setState({ loaded: true });
-        });
+    get_coach_offers()
+      .then((res) => {
+        this.setState({ Offer: res.data.offers });
+      })
+      .then(() => {
+        this.setState({ loaded: true });
+      });
     // get_paiement_for_coach().then((res) => {
     //   this.setState({ Paiement: res.data });
     // });

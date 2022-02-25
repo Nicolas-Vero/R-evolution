@@ -14,7 +14,6 @@ import { CheckBox } from 'react-native-elements';
 import { Button } from '../../../../components/Button';
 import Header from '../../../../components/Header';
 import { LinearGradient } from 'expo-linear-gradient';
-import { loadFonts } from '../../../../configs/design/font';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import * as Yup from 'yup';
 import styles from './registerStyle';
@@ -29,10 +28,6 @@ export default class registerScreen extends React.Component {
       progress: 0,
       termsCondition: false,
     };
-  }
-
-  componentDidMount() {
-    loadFonts();
   }
 
   onNavigate = (item) => {
@@ -79,7 +74,9 @@ export default class registerScreen extends React.Component {
                   onSubmit={(values) => {
                     this.state.termsCondition
                       ? this.onNavigate(values)
-                      : alert('Accepter les termes des conditions pour continuer.');
+                      : alert(
+                          'Accepter les termes des conditions pour continuer.',
+                        );
                   }}
                   validationSchema={Yup.object().shape({
                     first_name: Yup.string().required('Requis'),

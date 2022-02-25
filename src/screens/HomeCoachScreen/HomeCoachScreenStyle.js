@@ -204,7 +204,7 @@ module.exports = StyleSheet.create({
     fontFamily: 'Roboto',
     color: '#2CDEE4',
   },
-  dayContainer: {
+  dayContainerCalendar: {
     height: 30,
     width: 30,
   },
@@ -229,7 +229,7 @@ module.exports = StyleSheet.create({
     height: 36,
     borderRadius: 18,
   },
-  dayText: {
+  dayTextCalendar: {
     fontSize: 16,
     fontFamily: 'MontserratMedium',
   },
