@@ -99,7 +99,7 @@ export default class CreateSaleScreenView extends AbstractScreenView {
               <Text
                 style={
                   styles.offerInfoText
-                }>{`${item.offer.title} - ${item.offer.price}€`}</Text>
+                }>{`${item.offer?.title} - ${item.offer?.price}€`}</Text>
             </View>
           )}
         </View>
