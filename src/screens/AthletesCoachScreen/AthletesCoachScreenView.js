@@ -40,8 +40,8 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
               onRefresh={this.controller.fetchData}
             />
           }
-          keyExtractor={(item) => toString(item.id)}
-          renderItem={({ item }) => this.renderItem(item)}
+          keyExtractor={(item, index) => toString(index)}
+          renderItem={({ item, index }) => this.renderItem(item, index)}
         />
       </View>
     );
@@ -65,7 +65,7 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
           // onRefresh={onRefresh}
           // refreshing={this.state.refresh}
           keyExtractor={(item) => toString(item.id)}
-          renderItem={({ item }) => this.renderItem(item)}
+          renderItem={({ item, index }) => this.renderItem(item, index)}
         />
       </View>
     );
@@ -111,7 +111,7 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
               <Swipeable
                 key={index}
                 renderRightActions={() => this.rightSwipe(item.id)}>
-                {this.renderItem(item)}
+                {this.renderItem(item, index)}
               </Swipeable>
             );
           }}
@@ -119,9 +119,10 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
       </View>
     );
   };
-  renderItem = (item) => {
+  renderItem = (item, index) => {
     return (
       <TouchableOpacity
+        key={index}
         onPress={() => {
           this.controller.onNavigate({ item });
         }}
@@ -168,12 +169,12 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
             textColor="white"
             borderRadius={10}
             height={45}
-            style={{ width: widthPercentageToDP(92) }}
             hasPadding
-            fontSize={15}
+            fontSize={13}
             selectedTextStyle={styles.switchSelectedText}
             textStyle={styles.switchSelectedText}
             valuePadding={0}
+            borderColor="#000"
           />
         </View>
       );

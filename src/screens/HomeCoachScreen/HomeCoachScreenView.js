@@ -15,21 +15,22 @@ import SwitchSelector from 'react-native-switch-selector';
 import { Avatar } from 'react-native-elements';
 import { Calendar } from 'react-native-calendars';
 import MonthsSlider from '../../components/MonthsSlider';
-import SwitchButton from '../../components/SwitchButton';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { options } from './homeCoachConfig';
 import styles from './HomeCoachScreenStyle';
 import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView } from 'react-native-gesture-handler';
-
+import CoachAvaibility from '../../components/CoachAvaibility/CoachAvaibility';
+import { slots } from '../../helpers/dateHelper';
+import FilterTimesDialog from '../../components/dialogs/filterTimesDialog/filterTimesDialog';
+import { store } from '../../redux/store';
 export default class HomeCoachScreenView extends AbstractScreenView {
   renderDialog() {
     return (
-      <TreshRequestDialog
-        dialogVisible={this.state.dialogVisible}
-        onClose={this.controller.onCloseonDismissDialog}
-        onValidate={this.controller.onValidate}
+      <FilterTimesDialog
+        dialogVisible={this.component.state.dialogVisible}
+        onClose={this.controller.onDismissDialog}
       />
     );
   }
@@ -167,12 +168,12 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 textDayHeaderFontSize: 16,
               }}
               onPressArrowLeft={(subtractMonth) => {
-                subtractMonth();
                 this.controller.bookingInMonth(-1);
+                subtractMonth();
               }}
               onPressArrowRight={(addMonth) => {
-                addMonth();
                 this.controller.bookingInMonth(1);
+                addMonth();
               }}
               enableSwipeMonths={true}
               firstDay={1}
@@ -199,10 +200,12 @@ export default class HomeCoachScreenView extends AbstractScreenView {
   };
 
   renderAvailability = () => {
+    const { coachFilteredTime } = store.getState();
     const curDate = moment().format('YYYY-MM-DD');
     return (
       <View style={{ height: heightPercentageToDP(50) }}>
         <View>
+          {this.renderDialog()}
           <MonthsSlider onChange={this.controller.onMonthChange.bind(this)} />
           <View style={{ marginBottom: 34 }}>
             <FlatList
@@ -267,7 +270,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 );
               }}
             />
-            {/* <View style={styles.filterContainer}>
+            <View style={styles.filterContainer}>
               <TouchableOpacity
                 onPress={() => {
                   this.controller.openDialog();
@@ -277,12 +280,29 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                   source={require('../../../assets/images/filtre.png')}
                 />
               </TouchableOpacity>
-            </View> */}
+              <Text style={styles.filterInfoText}>
+                <Text>de</Text>
+                <Text style={styles.textColor}>
+                  {` ${(slots[coachFilteredTime.start] || slots[0]).substring(
+                    0,
+                    5,
+                  )} `}
+                </Text>
+                <Text>à</Text>
+                <Text style={styles.textColor}>
+                  {` ${slots[coachFilteredTime.end].substring(8, 13)}`}
+                </Text>
+              </Text>
+            </View>
             <FlatList
               contentContainerStyle={{ paddingBottom: 60 }}
-              style={{ maxHeight: heightPercentageToDP(50), marginTop: 25 }}
-              data={[this.component.state.currentAvailabilities.avaibilities]}
-              keyExtractor={(item) => String(item.time)}
+              style={{
+                maxHeight: heightPercentageToDP(50),
+                marginTop: 5,
+                marginHorizontal: 16,
+              }}
+              data={this.component.state.currentAvailabilitie2.slots}
+              keyExtractor={(item, index) => String(index)}
               refreshControl={
                 <SidappRefreshControl
                   refreshing={this.component.state.refreshing}
@@ -290,17 +310,44 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 />
               }
               renderItem={({ item, index }) => {
-                console.log(index, item);
+                const { day } = this.component.state.currentAvailabilitie2;
+                if (coachFilteredTime) {
+                  if (coachFilteredTime.start && coachFilteredTime.end) {
+                    if (
+                      index < coachFilteredTime.start ||
+                      index > coachFilteredTime.end
+                    ) {
+                      return;
+                    }
+                  } else if (
+                    coachFilteredTime.end &&
+                    index > coachFilteredTime.end
+                  ) {
+                    return;
+                  }
+                }
+
+                let disable = false;
+
+                if (day < moment().format('YYYY-MM-DD')) {
+                  disable = true;
+                } else if (
+                  day === moment().format('YYYY-MM-DD') &&
+                  parseInt(slots[index].substring(0, 2)) <=
+                    moment().format('HH')
+                ) {
+                  disable = true;
+                }
+
                 return (
-                  <SwitchButton
-                    onLinePress={this.controller.onLinePress}
-                    onAthletePress={this.controller.onAthletePress}
-                    day={this.component.state.currentAvailabilities.day}
-                    today={this.component.state.today}
+                  <CoachAvaibility
+                    disable={disable}
+                    index={index}
                     item={item}
-                    handler={() => {
-                      this.controller.handler(item);
-                    }}
+                    onLinePress={this.controller.onLinePress}
+                    day={day}
+                    handler={() => this.controller.handler(day)}
+                    onAthletePress={this.controller.onAthletePress}
                   />
                 );
               }}
@@ -331,6 +378,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
     );
   };
   render() {
+    const { navigate } = this.component.props.navigation;
     return (
       <View style={styles.container}>
         <SafeAreaView>

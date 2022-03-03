@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-// import configureStore from './store/configureStore';
-// const { store } = configureStore();
+import * as ScreenOrientation from 'expo-screen-orientation';
+// import { PersistGate } from 'redux-persist/integration/react';
+import { store } from './redux/store';
+
 import Router from './routes/index';
 import './config/logger';
 import { createAppContainer } from 'react-navigation';
-import * as Font from 'expo-font';
 import * as Notifications from 'expo-notifications';
 import * as Updates from 'expo-updates';
 import AuthService from './services/AuthService';
@@ -15,18 +15,24 @@ import { get_coach_me } from './api/Coach';
 import { get_athlete_me } from './api/Athlete';
 import ContextService from './services/ContextService';
 import { get_request_by_athlete_id } from './api/Request';
-import { store, persistor } from './redux/store';
 import { loadFonts } from './configs/design/font';
+
+// import configureStore from './store/configureStore';
+// const { store } = configureStore();
 const Navigation = createAppContainer(Router);
 
 export class App extends Component {
   constructor(props) {
     super(props);
-  }
 
-  state = {
-    loaded: false,
-  };
+    // if (store === null) {
+    //   store = configureStore();
+    // }
+
+    this.state = {
+      store,
+    };
+  }
 
   async componentDidMount() {
     try {
@@ -40,6 +46,8 @@ export class App extends Component {
       // handle or log error
     }
     await loadFonts();
+    this.lockScreenOrientation();
+    this.setState({ loaded: true });
 
     const auth = await AuthService.getAuth();
     if (auth) {
@@ -59,9 +67,6 @@ export class App extends Component {
       }
     }
 
-    this.setState({ loaded: true });
-
-    // // this.lockScreenOrientation();
     this.notificationListener = Notifications.addNotificationReceivedListener(
       async (notification) => {
         const { type } = notification.request.content.data;
@@ -82,6 +87,11 @@ export class App extends Component {
       );
   }
 
+  async lockScreenOrientation() {
+    await ScreenOrientation.lockAsync(
+      ScreenOrientation.OrientationLock.PORTRAIT_UP,
+    );
+  }
   processNotification = async (data) => {
     const navigation = ContextService.get('current_navigation');
     const { type } = data.notification.request.content.data;
@@ -134,14 +144,9 @@ export class App extends Component {
   }
 
   render() {
-    const { loaded } = this.state;
-    return !loaded ? (
-      <ActivityIndicator />
-    ) : (
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <Navigation />
-        </PersistGate>
+    return (
+      <Provider store={this.state.store}>
+        {!this.state.loaded ? <ActivityIndicator /> : <Navigation />}
       </Provider>
     );
   }

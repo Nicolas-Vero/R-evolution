@@ -20,6 +20,7 @@ import UnBookOfferDialog from '../../components/dialogs/unBookSessionDialog/unBo
 import { isIphoneX } from 'react-native-iphone-x-helper';
 export default class HomeAthleteView extends AbstractScreenView {
   renderHeader() {
+    const { navigate } = this.component.props.navigation;
     return (
       <View style={{ paddingTop: isIphoneX() ? 30 : 20 }}>
         <View style={styles.header}>
@@ -327,8 +328,11 @@ export default class HomeAthleteView extends AbstractScreenView {
             refreshing={this.component.state.refresh}
             keyExtractor={(item) => item?.date}
             renderItem={({ item }) => {
-              const date = moment(item.availability).format('DD/MM/YYYY');
-              const isBefore = moment().format('DD/MM/YYYY') > date;
+              const date = moment(item.availability).format('YYYY-MM-DD');
+
+              let isBefore =
+                curDate !== date &&
+                moment().toDate() >= moment(item.availability).toDate();
               const backgroundColor = isBefore
                 ? '#393637'
                 : item.availability === this.component.state.selectedDate

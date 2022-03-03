@@ -50,18 +50,23 @@ export default class CarouselPager extends Component {
   }
   onAthletePress = async (athlete) => {
     const book = await get_appointment_by_athlete_id(athlete.id);
+    if (book.status === 200) {
+      athlete.book = book.data;
+    }
     const data = await get_coachAthlete_status(athlete.id);
-    athlete.status = data.data.status;
-    athlete.book = book.data;
+    if (data.status === 200) {
+      athlete.status = data.data.status;
+    }
     if (athlete.commercial_id) {
       const commercial = await get_commercial_by_id(athlete.commercial_id);
-      athlete.commercial = {
-        first_name: commercial.data.commercial.first_name,
-        last_name: commercial.data.commercial.last_name,
-      };
+      if (commercial.status === 200) {
+        athlete.commercial = {
+          first_name: commercial.data.commercial.first_name,
+          last_name: commercial.data.commercial.last_name,
+        };
+      }
     }
     const navigation = ContextService.get('current_navigation');
-
     navigation.navigate('AthleteSheetCoachScreen', {
       item: athlete,
     });

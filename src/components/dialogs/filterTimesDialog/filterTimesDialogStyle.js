@@ -16,19 +16,62 @@ module.exports = StyleSheet.create({
     padding: 0,
     marginVertical: 30,
   },
+  content: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   buttonContainer: {
+    marginTop: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'row',
+  },
+
+  andText: {
+    fontFamily: 'Roboto',
+    color: '#fff',
+    fontSize: 16,
+  },
+  dropdownButton: {
+    marginVertical: 10,
+    width: 100,
+    borderRadius: 3,
+    height: 38,
+  },
+  dropdownButtonText: {
+    fontSize: 15,
+    textAlign: 'left',
+    fontFamily: 'Roboto',
+  },
+  dropdownRowText: {
+    fontFamily: 'Roboto',
+    color: '#DFDFDF',
+    fontSize: 15,
+    textAlign: 'left',
+    marginLeft: 20,
+  },
+  dropdownBg: {
+    backgroundColor: '#282C3A',
+  },
+  dropdownRow: {
+    height: 40,
+    borderBottomColor: '#50525B',
+  },
+  error: {
+    fontSize: 11,
+    color: '#FD7279',
+    textAlign: 'center',
   },
   button: {
-    marginHorizontal: 5,
-    width: 120,
-    height: 36,
-    backgroundColor: '#fff',
+    backgroundColor: '#2CDEE4',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 11,
+    paddingHorizontal: 35,
+    borderRadius: 3,
   },
   buttonText: {
     fontFamily: 'Roboto',
-    fontSize: 11,
+    fontSize: 12,
   },
 });

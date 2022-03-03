@@ -1,12 +1,5 @@
-import React, { Component } from 'react';
-import { ActivityIndicator, View, Platform, StatusBar } from 'react-native';
-import * as Font from 'expo-font';
-import configureStore from '../../store/configureStore';
-// import './config/logger';
-import * as Notifications from 'expo-notifications';
-import * as ScreenOrientation from 'expo-screen-orientation';
-import * as Updates from 'expo-updates';
-const { store } = configureStore();
+import React from 'react';
+import { ActivityIndicator, View, StatusBar } from 'react-native';
 import AuthService from '../../services/AuthService';
 import ContextService from '../../services/ContextService';
 import styles from './AppLauncherStyle';
@@ -15,13 +8,6 @@ import LoggerService from '../../services/LoggerService';
 export default class AppLauncher extends React.Component {
   constructor(props) {
     super(props);
-
-    if (store === null) {
-      store = configureStore();
-    }
-    this.state = {
-      store,
-    };
     this.initApp();
   }
 

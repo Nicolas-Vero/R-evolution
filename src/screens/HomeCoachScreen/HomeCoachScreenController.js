@@ -1,11 +1,10 @@
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import moment from 'moment';
-import { get_availabilities } from '../../api/Availabilities';
+import { get_availabilities_v2 } from '../../api/Availabilities';
 import {
   get_appointement,
   get_appointement_calendar,
   get_appointment_by_athlete_id,
-  get_appointment_by_id,
   get_coachAthlete_status,
 } from '../../api/Coach';
 import * as Notifications from 'expo-notifications';
@@ -29,8 +28,11 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       screen: 'Planning',
       currentDate: '',
       selectedDate: moment(new Date()).format('YYYY-MM-DD'),
-      today: '',
+      today: moment().format('YYYY-MM-DD'),
       currentAvailabilities: [],
+      currentAvailabilitie2: null,
+      currentAvailabilities: [],
+      slots: [],
       availabilities: [],
       page: [],
       publicRequest: 0,
@@ -41,44 +43,19 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     };
   }
 
-  // sendNotificationImmediately = async (notification) => {
-  //   // alert(JSON.parse(notification))
-  //   let notificationId = await Notifications.presentLocalNotificationAsync({
-  //     title: notification?.request?.content?.title,
-  //     body: notification?.request?.content?.body,
-  //   });
-  // };
-
   async componentDidMount() {
     const curDate = moment().format('YYYY-MM-DD');
-    // this.component.props.navigation.addListener('didFocus', () => {
-    //   this.fetchData();
-    //   this.component.setState({ reload: true });
-    //   setTimeout(() => {
-    //     this.component.setState({ reload: false });
-    //   }, 300);
-    // });
     this.component.listRef = null;
     const user = await AuthService.getUser();
     this.component.setState({ user });
-    this.component.setState({ today: curDate });
     this.changeTaskList(curDate);
     this.onMonthChange(curDate, true);
-    get_public_request().then((res) => {
+    const res = await get_public_request();
+    if (res.status === 200) {
       this.component.setState({ publicRequest: res.data.requests.length });
-    });
-    this.getAvailabilities(curDate);
-    // this.component.notificationListener =
-    //   Notifications.addNotificationReceivedListener((notification) => {
-    //     // console.log('[Notification-C-Dashboard]', notification);
-    //     this.sendNotificationImmediately(notification);
-    //   });
-    // this.component.responseListener =
-    //   Notifications.addNotificationResponseReceivedListener((response) => {
-    //     // console.log('[Response-C-Dashboard]', response);
-    //     this.sendNotificationImmediately(response);
-    //     this.component.props.navigation.push('activitiesCoachScreen');
-    //   });
+    }
+    await this.getAvailabilities(curDate);
+
     const bookingPerday = [];
     const dayOfMonth = this.month(this.component.state.currentMonth);
     for (let element of dayOfMonth) {
@@ -116,14 +93,14 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     );
   }
 
-  handler = (param) => {
-    this.getAvailabilities(param.date);
+  handler = async (date) => {
+    await this.getAvailabilities(date);
   };
 
   getDate(date = new Date()) {
     return moment(date).format('YYYY-MM-DD');
   }
-  month(xd) {
+  month = (xd) => {
     const year = xd.getFullYear(),
       month = xd.getMonth();
     const days = new Date(year, month + 1, 0).getDate();
@@ -131,9 +108,9 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     const firstDay = new XDate(year, month, 1, 0, 0, 0, true);
     const lastDay = new XDate(year, month, days, 0, 0, 0, true);
     return this.fromTo(firstDay, lastDay);
-  }
+  };
 
-  fromTo(a, b) {
+  fromTo = (a, b) => {
     const days = [];
     let from = +a,
       to = +b;
@@ -141,7 +118,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       days.push(new XDate(from, true));
     }
     return days;
-  }
+  };
 
   handleRefresh = () => {
     this.component.setState({ refreshing: true });
@@ -150,12 +127,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
   fetchData = async () => {
     this.component.setState({ refreshing: true });
     const date = moment(this.component.state.selectedDate).format('YYYY-MM-DD');
-    const avaibilities = await get_availabilities(date);
-    if (avaibilities.status === 200) {
-      this.component.setState({
-        currentAvailabilities: { avaibilities: avaibilities.data, day: date },
-      });
-    }
+    await this.getAvailabilities(date);
 
     const requests = await get_public_request();
     if (requests.status === 200) {
@@ -165,95 +137,88 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     this.component.setState({ refreshing: false });
   };
 
-  getDaysArrayByMonth(date) {
-    var daysInMonth = moment(date).daysInMonth();
-    var arrDays = [];
+  getDaysArrayByMonth = (date) => {
+    let daysInMonth = moment(date).daysInMonth();
+    const arrDays = [];
     while (daysInMonth && daysInMonth >= 1) {
-      var current = moment(date).date(daysInMonth);
+      const current = moment(date).date(daysInMonth);
       arrDays.push(current);
       daysInMonth--;
     }
     return arrDays.reverse();
-  }
+  };
 
-  getAvailabilities(item) {
+  getAvailabilities = async (item) => {
     const date = moment(item).format('YYYY-MM-DD');
-    get_availabilities(date).then((res) => {
+    const res = await get_availabilities_v2(date);
+    if (res.status == 200) {
       this.component.setState({
-        currentAvailabilities: { avaibilities: res.data, day: date },
+        currentAvailabilitie2: {
+          slots: res.data.slots,
+          day: date,
+          refresh: !this.component.state.refresh,
+        },
       });
-      this.component.setState({ refresh: !this.component.state.refresh });
-    });
-  }
+    }
+  };
 
   onMonthChange = (date, isMount) => {
-    var item = [];
-    var ArrayOfday = this.getDaysArrayByMonth(
+    const item = [];
+    const ArrayOfday = this.getDaysArrayByMonth(
       moment(date).format('YYYY-MM-DD'),
     );
-    let todayIndex = 0;
+    let todayIndex = null;
     ArrayOfday.forEach((element, index) => {
-      if (this.component.state.today === moment(element).format('YYYY-MM-DD'))
+      if (this.component.state.today === moment(element).format('YYYY-MM-DD')) {
         todayIndex = index;
-      const elementdaynum = moment(element).format('dd');
-      const elementday = moment(element).format('D');
-      element = moment(element).format('YYYY-MM-DD');
-      var Object = {
-        availability_day: elementdaynum,
-        availability_day_num: elementday,
-        availability: element,
-      };
-      item?.push(Object);
+      }
+
+      item?.push({
+        availability_day: moment(element).format('dd'),
+        availability_day_num: moment(element).format('D'),
+        availability: moment(element).format('YYYY-MM-DD'),
+      });
     });
     this.component.setState({ availabilities: item });
-    if (isMount) {
+    if (isMount && todayIndex) {
       this.scrollToIndex(todayIndex, true);
     }
   };
 
   async changeTaskList(date) {
-    let formatdata = {};
-    if (date.dateString == undefined) {
-      formatdata = {
-        date: date,
-      };
-    } else {
-      formatdata = {
-        date: date.dateString,
-      };
-    }
+    const formatdata = {
+      date: date.dateString || date,
+    };
+
     this.component.setState({
       selectedDate: moment(date.dateString).format('YYYY-MM-DD'),
     });
-    const curDate = moment(date.dateString).format('dddd D MMMM ');
-    this.component.setState({ currentDate: curDate });
+    this.component.setState({
+      currentDate: moment(date.dateString).format('dddd D MMMM '),
+    });
 
-    get_appointement(formatdata).then((res) => {
+    const res = await get_appointement(formatdata);
+    if (res.status === 200) {
       this.component.setState({ carousselLoad: false });
-      const arrayOfAppointment = res.data;
       const arrayOfPage = [];
-      arrayOfAppointment.forEach((rdv) => {
+      res.data.forEach((rdv) => {
         if (rdv.athlete) {
           arrayOfPage.push({ rdv });
         }
       });
-      this.component.setState({ page: arrayOfPage });
-      this.component.setState({ carousselLoad: true });
-    });
+      this.component.setState({ page: arrayOfPage, carousselLoad: true });
+    }
   }
 
-  onOpenDialog = () => {
+  openDialog = () => {
     this.component.setState({ dialogVisible: true });
   };
 
   onDismissDialog = () => {
-    this.component.setState({ dialogVisible: !this.state.dialogVisible });
+    this.component.setState({
+      dialogVisible: !this.component.state.dialogVisible,
+    });
   };
-
-  onFilterTimes = () => {
-    this.onDismissDialog();
-  };
-
   scrollToIndex = (index, animated) => {
     setTimeout(() => {
       this.component.listRef &&
@@ -268,15 +233,20 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       time,
       slot,
       date: this.component.state.selectedDate,
+      cb: this.getAvailabilities,
     });
   };
 
   onAthletePress = async (athlete) => {
     // TODO recuperer également le slot et la date et l'ajouter a l'objet athlete
     const book = await get_appointment_by_athlete_id(athlete.id);
+    if (book.status === 200) {
+      athlete.book = book.data;
+    }
     const data = await get_coachAthlete_status(athlete.id);
-    athlete.status = data.data.status;
-    athlete.book = book.data;
+    if (data.status === 200) {
+      athlete.status = data.data.status;
+    }
     if (athlete.commercial_id) {
       const commercial = await get_commercial_by_id(athlete.commercial_id);
       if (commercial.status === 200) {
