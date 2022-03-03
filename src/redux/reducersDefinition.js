@@ -28,6 +28,14 @@ const reducersDefinition = [
       isDefaultPaymentMethodLoaded: false,
     },
   },
+  {
+    type: 'coachFilteredTime',
+    isPersistent: true,
+    initialState: {
+      start: parseInt(0),
+      end: 23,
+    },
+  },
 ];
 
 export default reducersDefinition;

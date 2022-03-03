@@ -22,8 +22,16 @@ export default class AthletesCoachScreenController extends AbstractScreenControl
     };
   }
   componentDidMount = async () => {
-    await this.fetchData().then(() => {
-      this.component.setState({ loaded: true });
+    await this.fetchData();
+    this.component.setState({
+      loaded: true,
+    });
+  };
+
+  screenDidFocus = async () => {
+    await this.fetchData();
+    this.component.setState({
+      loaded: true,
     });
   };
 

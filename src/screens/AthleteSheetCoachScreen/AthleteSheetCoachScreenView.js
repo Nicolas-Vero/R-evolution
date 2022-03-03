@@ -37,6 +37,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
   };
 
   render() {
+    const { navigate } = this.component.props.navigation;
     if (this.component.props.navigation.state.params.item.athlete) {
       var user = this.component.props.navigation.state.params.item.athlete;
     } else {
@@ -98,6 +99,11 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
     else if (user.status === 'prospect') {
       badgeImage = require('../../../assets/images/Prospect.png');
       // renderPayment = false;
+    } else if (
+      user.status === 'prospect' &&
+      this.component.state.Paiement.length
+    ) {
+      badgeImage = require('../../../assets/images/Actif.png');
     }
     const isProspect = user.status === 'prospect';
     const isActif = user.status === 'active';
@@ -197,9 +203,9 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   {' '}
                   {user.commercial
                     ? user.commercial.first_name.concat(
-                      ' ',
-                      user.commercial.last_name,
-                    )
+                        ' ',
+                        user.commercial.last_name,
+                      )
                     : 'Pas de recommandation'}
                 </Text>
               ) : (
@@ -207,9 +213,9 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   {' '}
                   {user.commercial
                     ? user.commercial.first_name.concat(
-                      ' ',
-                      user.commercial.last_name,
-                    )
+                        ' ',
+                        user.commercial.last_name,
+                      )
                     : 'Pas de recommandation'}
                 </Text>
               )}
@@ -219,10 +225,11 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
               <Text style={styles.valueText}>
                 <Text style={styles.valueText}>
                   {ActiveCourses.offer
-                    ? `${ActiveCourses.offer.title} - ${sessionLeft} ${sessionLeft > 1
-                      ? 'séances restantes'
-                      : 'séance restante'
-                    } sur ${ActiveCourses.total_sessions}`
+                    ? `${ActiveCourses.offer.title} - ${sessionLeft} ${
+                        sessionLeft > 1
+                          ? 'séances restantes'
+                          : 'séance restante'
+                      } sur ${ActiveCourses.total_sessions}`
                     : 'Aucune offre'}
                 </Text>
               </Text>
@@ -408,17 +415,18 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   {!user.athlete.experience_years
                     ? "Pas d'informations"
                     : user.athlete.experience_years > 0
-                      ? ` Plus de ${user.athlete.experience_years} an${user.athlete.experience_years === 1 ? '' : 's'
+                    ? ` Plus de ${user.athlete.experience_years} an${
+                        user.athlete.experience_years === 1 ? '' : 's'
                       }`
-                      : `Moins d'un an`}
+                    : `Moins d'un an`}
                 </Text>
               ) : (
                 <Text style={styles.valueText}>
                   {!user.experience_years
                     ? "Pas d'informations"
                     : user.experience_years > 0
-                      ? ` Plus de ${user.experience_years} ans`
-                      : `Moins d'un an`}
+                    ? ` Plus de ${user.experience_years} ans`
+                    : `Moins d'un an`}
                 </Text>
               )}
             </View>

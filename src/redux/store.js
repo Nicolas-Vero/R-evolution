@@ -1,5 +1,5 @@
-import {createStore, combineReducers} from 'redux';
-import {persistStore, persistReducer} from 'redux-persist';
+import { createStore, combineReducers } from 'redux';
+import { persistStore, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import reducersDefinition from './reducersDefinition';
@@ -31,7 +31,9 @@ const reducers = reducersDefinition.reduce((acc, item) => {
 const rootPersistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: reducersDefinition.filter(o => o.isPersistent).map(o => o.type),
+  whitelist: reducersDefinition
+    .filter((o) => o.isPersistent)
+    .map((o) => o.type),
 };
 
 const rootReducer = combineReducers(reducers);
@@ -46,4 +48,4 @@ const dispatch = (type, state) => {
   });
 };
 
-export {store, persistor, dispatch};
+export { store, persistor, dispatch };

@@ -10,6 +10,16 @@ export const get_availabilities = async (date) => {
     headers: headers,
   });
 };
+
+export const get_availabilities_v2 = async (date) => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/coach/availability/v2?date=${date}`,
+    headers: headers,
+  });
+};
+
 export const get_book = async (param) => {
   const date = param;
   const headers = await AuthService.getHeader();

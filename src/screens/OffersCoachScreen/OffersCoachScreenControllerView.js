@@ -19,6 +19,7 @@ export default class OffersCoachScreenView extends AbstractScreenView {
     );
   }
   render() {
+    const { navigate } = this.component.props.navigation;
     return (
       <View style={styles.container}>
         <Header title="MES OFFRES" />

@@ -127,14 +127,25 @@ module.exports = StyleSheet.create({
     alignContent: 'center',
   },
   filterContainer: {
-    marginTop: 15,
+    alignItems: 'center',
+    marginTop: 10,
+    flexDirection: 'row',
+  },
+
+  filterInfoText: {
+    marginLeft: 20,
+    color: '#fff',
+    fontFamily: 'Roboto',
+    fontSize: 15,
+  },
+  textColor: {
+    color: '#2CDEE4',
   },
   filterImage: {
     resizeMode: 'contain',
     width: wp(40),
     height: 50,
-    marginLeft: 18,
-    marginTop: 8,
+    marginLeft: 13,
   },
   availabilityContainer: {},
   background: {

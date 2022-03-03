@@ -16,8 +16,6 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
       isLoaded: false,
       atlhetesActifs: [],
       atlhetesProspects: [],
-      slots: [],
-      availabilities: [],
       isProspect: false,
     };
   }
@@ -25,21 +23,6 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
     const user = await AuthService.getUser();
 
     this.component.setState({ coach: user });
-    get_availabilities().then((res) => {
-      let arrayOfAvailabilities = [];
-      res.data.map((item) => {
-        for (const property in item) {
-          if (item[property] == true && property.match(/slot/g)) {
-            arrayOfAvailabilities.push({
-              [property]: item[property],
-              date: item.date,
-              slot: parseInt(property.slice(5)),
-            });
-          }
-        }
-      });
-      this.component.setState({ availabilities: arrayOfAvailabilities });
-    });
 
     get_coach_athlete()
       .then((res) => {
@@ -82,6 +65,8 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
       slot: this.component.props.slot,
     });
     if (addProspect.status === 200) {
+      this.component.props.cb &&
+        this.component.props.cb(this.component.props.date);
       this.component.props.navigation.goBack();
     }
   };
@@ -95,7 +80,8 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
       athlete_id: values.athlete_id,
     });
     if (createBook.status === 200) {
-      // this.props.cb && this.props.cb();
+      this.component.props.cb &&
+        this.component.props.cb(this.component.props.date);
       this.component.props.navigation.goBack();
     }
   };

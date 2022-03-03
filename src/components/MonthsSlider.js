@@ -1,6 +1,5 @@
 import React from 'react';
 import { Dimensions, View, TouchableOpacity, Text } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import 'moment/min/moment-with-locales';
 import moment from 'moment';
 import { AntDesign } from '@expo/vector-icons';

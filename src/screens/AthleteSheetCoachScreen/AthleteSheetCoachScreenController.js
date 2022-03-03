@@ -21,13 +21,24 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
   }
   componentDidMount = async () => {
     await this.fetchData();
-    if (this.component.props.navigation.state.params.item.book.length) {
+    console.log(this.component.props.navigation.state.params.item);
+    if (this.component.props.navigation.state.params.item.book) {
       this.component.setState({
         books: this.component.props.navigation.state.params.item.book,
       });
     }
   };
 
+  screenDidFocus = async () => {
+    this.component.setState({ refreshing: true });
+    const sales = await get_paiement_for_coach(
+      this.component.props.navigation.state.params.item.id,
+    );
+    if (sales.status === 200) {
+      this.component.setState({ Paiement: sales.data });
+    }
+    this.component.setState({ refreshing: false });
+  };
   fetchData = async () => {
     this.component.setState({ refreshing: true });
     const courses = await get_athlete_active_courses_with_param(

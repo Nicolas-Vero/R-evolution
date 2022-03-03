@@ -12,7 +12,6 @@ export const auth = (params) => {
 };
 
 export const set_expo_token = async (token) => {
-  console.log(`${API_URL}/coach/expo-token`);
   const headers = await AuthService.getHeader();
   return axios({
     method: 'POST',
