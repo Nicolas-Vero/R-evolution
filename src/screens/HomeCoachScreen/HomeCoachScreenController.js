@@ -206,6 +206,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
           arrayOfPage.push({ rdv });
         }
       });
+      arrayOfPage.sort((a, b) => (a.rdv?.slot > b.rdv?.slot) ? 1 : ((b.rdv?.slot > a.rdv?.slot) ? -1 : 0))
       this.component.setState({ page: arrayOfPage, carousselLoad: true });
     }
   }
