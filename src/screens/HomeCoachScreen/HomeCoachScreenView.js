@@ -133,7 +133,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
           <LinearGradient
             colors={['#2D333C', '#101010']}
             start={{
-              x: 0,
+              x: 1,
               y: 0,
             }}
             end={{
@@ -167,12 +167,13 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 textMonthFontSize: 16,
                 textDayHeaderFontSize: 16,
               }}
-              onPressArrowLeft={(subtractMonth) => {
-                this.controller.bookingInMonth(-1);
+              onPressArrowLeft={async (subtractMonth) => {
+                await this.controller.bookingInMonth(-1);
+
                 subtractMonth();
               }}
-              onPressArrowRight={(addMonth) => {
-                this.controller.bookingInMonth(1);
+              onPressArrowRight={async (addMonth) => {
+                await this.controller.bookingInMonth(1);
                 addMonth();
               }}
               enableSwipeMonths={true}
@@ -214,7 +215,8 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               data={this.component.state.availabilities}
               refreshing={this.component.state.refreshing}
               keyExtractor={() => String(Math.random(10))}
-              renderItem={({ item }) => {
+              style={{ marginLeft: 16 }}
+              renderItem={({ item, index }) => {
                 const borderWidth = item?.availability === curDate ? 2 : 0;
                 const date = moment(item.availability).format('YYYY-MM-DD');
                 let isBefore =
@@ -225,12 +227,23 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                   ? '#393637'
                   : item.availability === this.component.state.selectedDate
                   ? '#2CDEE4'
-                  : '#1E2026';
+                  : ['#2D333C', '#101010'];
                 const textColor = isBefore
                   ? '#979797'
                   : item.availability === this.component.state.selectedDate
                   ? 'black'
                   : 'white';
+
+                const colors = [];
+                if (isBefore) {
+                  colors.push('#393637', '#393637');
+                } else if (
+                  item.availability === this.component.state.selectedDate
+                ) {
+                  colors.push('#2CDEE4', '#2CDEE4');
+                } else {
+                  colors.push('#2D333C', '#101010');
+                }
                 return (
                   <TouchableOpacity
                     onPress={() => {
@@ -239,11 +252,26 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                       });
                       this.controller.getAvailabilities(item?.availability);
                     }}>
-                    <View
+                    <LinearGradient
+                      disable
+                      colors={colors}
+                      start={{
+                        x: 1,
+                        y: 0,
+                      }}
+                      end={{
+                        x: 1,
+                        y: 1,
+                      }}
                       style={[
                         styles.dayContainer,
-                        { backgroundColor: backgroundColor },
-                        { borderWidth: borderWidth },
+                        {
+                          backgroundColor,
+                          borderWidth,
+                          marginLeft: index === 0 ? 0 : 4,
+                          marginRight: 4,
+                        },
+                        ,
                       ]}>
                       <View style={styles.dayTextContainer}>
                         <Text
@@ -265,7 +293,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                           {item?.availability_day_num}
                         </Text>
                       </View>
-                    </View>
+                    </LinearGradient>
                   </TouchableOpacity>
                 );
               }}
@@ -294,64 +322,69 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 </Text>
               </Text>
             </View>
-            <FlatList
-              contentContainerStyle={{ paddingBottom: 60 }}
-              style={{
-                maxHeight: heightPercentageToDP(50),
-                marginTop: 5,
-                marginHorizontal: 16,
-              }}
-              data={this.component.state.currentAvailabilitie2.slots}
-              keyExtractor={(item, index) => String(index)}
-              refreshControl={
-                <SidappRefreshControl
-                  refreshing={this.component.state.refreshing}
-                  onRefresh={this.controller.fetchData}
-                />
-              }
-              renderItem={({ item, index }) => {
-                const { day } = this.component.state.currentAvailabilitie2;
-                if (coachFilteredTime) {
-                  if (coachFilteredTime.start && coachFilteredTime.end) {
-                    if (
-                      index < coachFilteredTime.start ||
+            <LinearGradient
+              colors={['#060606', '#2D333C']}
+              start={{ x: 1, y: 0 }}
+              end={{ x: 1, y: 1 }}>
+              <FlatList
+                contentContainerStyle={{ paddingBottom: 80 }}
+                style={{
+                  maxHeight: heightPercentageToDP(60),
+                  marginTop: 15,
+                  marginHorizontal: 16,
+                }}
+                data={this.component.state.currentAvailabilitie2.slots}
+                keyExtractor={(item, index) => String(index)}
+                refreshControl={
+                  <SidappRefreshControl
+                    refreshing={this.component.state.refreshing}
+                    onRefresh={this.controller.fetchData}
+                  />
+                }
+                renderItem={({ item, index }) => {
+                  const { day } = this.component.state.currentAvailabilitie2;
+                  if (coachFilteredTime) {
+                    if (coachFilteredTime.start && coachFilteredTime.end) {
+                      if (
+                        index < coachFilteredTime.start ||
+                        index > coachFilteredTime.end
+                      ) {
+                        return;
+                      }
+                    } else if (
+                      coachFilteredTime.end &&
                       index > coachFilteredTime.end
                     ) {
                       return;
                     }
-                  } else if (
-                    coachFilteredTime.end &&
-                    index > coachFilteredTime.end
-                  ) {
-                    return;
                   }
-                }
 
-                let disable = false;
+                  let disable = false;
 
-                if (day < moment().format('YYYY-MM-DD')) {
-                  disable = true;
-                } else if (
-                  day === moment().format('YYYY-MM-DD') &&
-                  parseInt(slots[index].substring(0, 2)) <=
-                    moment().format('HH')
-                ) {
-                  disable = true;
-                }
+                  if (day < moment().format('YYYY-MM-DD')) {
+                    disable = true;
+                  } else if (
+                    day === moment().format('YYYY-MM-DD') &&
+                    parseInt(slots[index].substring(0, 2)) <=
+                      moment().format('HH')
+                  ) {
+                    disable = true;
+                  }
 
-                return (
-                  <CoachAvaibility
-                    disable={disable}
-                    index={index}
-                    item={item}
-                    onLinePress={this.controller.onLinePress}
-                    day={day}
-                    handler={() => this.controller.handler(day)}
-                    onAthletePress={this.controller.onAthletePress}
-                  />
-                );
-              }}
-            />
+                  return (
+                    <CoachAvaibility
+                      disable={disable}
+                      index={index}
+                      item={item}
+                      onLinePress={this.controller.onLinePress}
+                      day={day}
+                      handler={() => this.controller.handler(day)}
+                      onAthletePress={this.controller.onAthletePress}
+                    />
+                  );
+                }}
+              />
+            </LinearGradient>
           </View>
         </View>
       </View>

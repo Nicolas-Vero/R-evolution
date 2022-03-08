@@ -23,7 +23,7 @@ import styles from './avatarStyle';
 import { athlete_login, get_athlete_me } from '../../../../api/Athlete';
 import AuthService from '../../../../services/AuthService';
 import { upload_profile_picture } from '../../../../api/File';
-
+import SystemHelper from '../../../../helpers/SystemHelper';
 export default class avatarScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -58,24 +58,33 @@ export default class avatarScreen extends React.Component {
       passItem.expo_token = expo_token;
     }
     const { isAthlete } = this.state;
-    const res = isAthlete ? await sign_up(passItem) : await auth(passItem);
-    if (res.status === 200) {
-      if (isAthlete) {
+
+    if (isAthlete) {
+      const res = await sign_up(passItem);
+
+      if (res.status === 200) {
+        await SystemHelper.sleep(200);
+        await this.upload(res.data.userId, true);
+        await SystemHelper.sleep(200);
+
         await this.loginAthlete({
           email: passItem.email,
           password: passItem.password,
         });
-        await this.upload(res.data.userId, true);
-        this.setState({ isWorking: false });
 
         return;
       }
+    } else {
+      const res = await auth(passItem);
+      if (res.status === 200) {
+        await SystemHelper.sleep(200);
+        this.props.navigation.popToTop();
+        this.props.navigation.push('loginScreen');
+        await this.upload(res.data.userId, false);
 
-      this.props.navigation.popToTop();
-      this.props.navigation.push('loginScreen');
-      await this.upload(res.data.userId, false);
+        return;
+      }
     }
-
     this.setState({ isWorking: false });
   };
 
@@ -99,6 +108,8 @@ export default class avatarScreen extends React.Component {
         this.props.navigation.navigate('DashboardStackAtlhete');
       }
     }
+
+    this.setState({ isWorking: false });
   }
 
   async setAuth(data, type) {
@@ -112,11 +123,11 @@ export default class avatarScreen extends React.Component {
     await AuthService.setAuth(toStore);
   }
 
-  onNavigate = () => {
-    this.props.navigation.navigate('loginScreen');
-  };
-
   pickImage = async () => {
+    this.setState({
+      image: {},
+      base64Image: '',
+    });
     let result = await ImagePicker.launchImageLibraryAsync({
       base64: true,
       mediaTypes: ImagePicker.MediaTypeOptions.All,

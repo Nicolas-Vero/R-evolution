@@ -41,12 +41,7 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
   };
   fetchData = async () => {
     this.component.setState({ refreshing: true });
-    const courses = await get_athlete_active_courses_with_param(
-      this.component.props.navigation.state.params.item.id,
-    );
-    if (courses.status === 200) {
-      this.component.setState({ ActiveCourses: courses.data });
-    }
+    await this.getCourse();
     const sales = await get_paiement_for_coach(
       this.component.props.navigation.state.params.item.id,
     );
@@ -55,6 +50,15 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
     }
 
     this.component.setState({ refreshing: false });
+  };
+
+  getCourse = async () => {
+    const courses = await get_athlete_active_courses_with_param(
+      this.component.props.navigation.state.params.item.id,
+    );
+    if (courses.status === 200) {
+      this.component.setState({ ActiveCourses: courses.data });
+    }
   };
 
   onCancelBook = () => {
@@ -77,6 +81,8 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
       this.component.setState({
         books: books,
       });
+
+      await this.getCourse();
     }
     this.onDismissCancelSheetDialog();
   };
