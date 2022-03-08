@@ -10,6 +10,7 @@ module.exports = StyleSheet.create({
     backgroundColor: '#000',
   },
   headerLeft: {
+    marginHorizontal: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -17,7 +18,6 @@ module.exports = StyleSheet.create({
   userInfoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: 16,
   },
   username: {
     marginLeft: 12,
@@ -32,7 +32,6 @@ module.exports = StyleSheet.create({
   },
   headerRightActivities: {
     marginLeft: 21,
-    marginRight: 10,
   },
   headerBorder: {
     marginTop: 14,
@@ -103,7 +102,6 @@ module.exports = StyleSheet.create({
   dayContainer: {
     height: 56,
     width: 39,
-    marginHorizontal: 5,
     borderColor: '#2CDEE4',
     justifyContent: 'center',
     alignItems: 'center',
@@ -127,8 +125,9 @@ module.exports = StyleSheet.create({
     alignContent: 'center',
   },
   filterContainer: {
+    marginLeft: 16,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 28,
     flexDirection: 'row',
   },
 
@@ -145,7 +144,6 @@ module.exports = StyleSheet.create({
     resizeMode: 'contain',
     width: wp(40),
     height: 50,
-    marginLeft: 13,
   },
   availabilityContainer: {},
   background: {

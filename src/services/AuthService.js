@@ -72,6 +72,7 @@ export default class AuthService {
     if (Platform.OS === 'ios' && !Constants.isDevice) {
       return null;
     }
+    // TODO TO UNCOM
     // if (Constants.isDevice) {
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();

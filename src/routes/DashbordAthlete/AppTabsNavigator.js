@@ -1,10 +1,12 @@
 import React from 'react';
 import { Image } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { LinearGradient } from 'expo-linear-gradient';
+import { BottomTabBar } from 'react-navigation-tabs';
 import OffresStack from './OffresStack';
 import HomeStack from './HomeStack';
 import CoachSheetScreen from '../../AtlheteScreens/CoachSheetScreen/CoachSheetScreen';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
+
 // Auth import
 
 const AppTabsNavigator = createBottomTabNavigator(
@@ -49,6 +51,30 @@ const AppTabsNavigator = createBottomTabNavigator(
     },
   },
   {
+    tabBarComponent: (props) => {
+      return (
+        <LinearGradient
+          colors={['#2D333C', '#101010']}
+          start={{
+            x: 0,
+            y: 0,
+          }}
+          end={{
+            x: 1,
+            y: 1,
+          }}
+          style={{ height: 70 }}>
+          <BottomTabBar
+            {...props}
+            style={{
+              backgroundColor: 'transparent',
+              borderTopColor: '#2CDEE4',
+              borderTopWidth: 0.5,
+            }}
+          />
+        </LinearGradient>
+      );
+    },
     lazy: true,
     initialRouteName: 'HomeStack',
     swipeEnabled: true,

@@ -1,10 +1,13 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 //import Stats from '../../screens/Stats';
 import OffresStack from './OffresStack';
 import HomeStack from './HomeStack';
 import MyAthletesStack from './MyAthletesStack';
+import DashboardCoachStack from './DashboardStack';
+import { LinearGradient } from 'expo-linear-gradient';
+import { BottomTabBar } from 'react-navigation-tabs';
 // Auth import
 
 const AppTabsNavigator = createBottomTabNavigator(
@@ -48,19 +51,45 @@ const AppTabsNavigator = createBottomTabNavigator(
         ),
       }),
     },
-    // stat: {
-    //   screen: Stats,
-    //   navigationOptions: {
-
-    //     tabBarIcon: ({tintColor}) => (
-    //       <Image source={require('../../../assets/images/Chart.png')}
-    //             style={{height: 24, resizeMode: 'contain', tintColor}}
-    //      />
+    // DashboardCoachStack: {
+    //   screen: DashboardCoachStack,
+    //   navigationOptions: ({ navigation }) => ({
+    //     tabBarLabel: 'Dashboard',
+    //     tabBarVisible: getTabBarVisiblility(navigation),
+    //     tabBarIcon: ({ tintColor }) => (
+    //       <Image
+    //         source={require('../../../assets/images/Chart.png')}
+    //         style={{ height: 20, width: 20, resizeMode: 'contain', tintColor }}
+    //       />
     //     ),
-    //   },
+    //   }),
     // },
   },
   {
+    tabBarComponent: (props) => {
+      return (
+        <LinearGradient
+          colors={['#2D333C', '#101010']}
+          start={{
+            x: 0,
+            y: 0,
+          }}
+          end={{
+            x: 1,
+            y: 1,
+          }}
+          style={{ height: 70 }}>
+          <BottomTabBar
+            {...props}
+            style={{
+              backgroundColor: 'transparent',
+              borderTopColor: '#2CDEE4',
+              borderTopWidth: 0.5,
+            }}
+          />
+        </LinearGradient>
+      );
+    },
     lazy: true,
     initialRouteName: 'HomeStack',
     swipeEnabled: true,
@@ -93,6 +122,7 @@ const getTabBarVisiblility = (navigation) => {
     'homeCoachScreen',
     'OffersTrainingsCoachScreen',
     'AthletesCoachScreen',
+    'DashboardScreen'
   ].includes(route.routeName);
 };
 

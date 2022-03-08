@@ -41,7 +41,10 @@ export default class CoachAvaibility extends React.Component {
               disabled={disable}
               onLongPress={() => this.props.onLinePress(slots[index])}>
               <Text
-                style={[styles.text, { color: disable ? '#979797' : '#FFF' }]}>
+                style={[
+                  styles.text,
+                  { color: disable ? '#979797' : '#2CDEE4' },
+                ]}>
                 disponible
               </Text>
             </TouchableOpacity>

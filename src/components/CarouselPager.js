@@ -358,8 +358,13 @@ export default class CarouselPager extends Component {
                             fontSize: 10,
                             color: '#000',
                           }}>
-                          Séance: {page.rdv.session_number}/
-                          {page.rdv.athleteCourse?.total_sessions}
+                          {`Séance ${
+                            page.rdv.athleteCourse
+                              ? page.rdv.session_number +
+                                '/' +
+                                page.rdv.athleteCourse?.total_sessions
+                              : 'gratuite'
+                          }`}
                         </Text>
                       ) : null}
                     </View>
