@@ -98,7 +98,6 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                         defaultButtonText={'Athlète'}
                         onSelect={async (selectedItem, index) => {
                           const course = await get_athlete_active_courses(selectedItem.id)
-                          console.log(course.data);
                           values.athlete_id = selectedItem.id;
                           this.component.setState({ athlete_course: course.data })
                         }}
