@@ -12,7 +12,7 @@ import Header from '../../components/Header';
 import styles from './CreateBookCoachScreenStyle';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
-import { get_athlete_course } from '../../api/Coach';
+import { get_athlete_active_courses } from '../../api/Coach';
 export default class CreateBookCoachScreenView extends AbstractScreenView {
   render() {
     if (!this.component.state.isLoaded) {
@@ -96,9 +96,11 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                         rowStyle={styles.dropdownRow}
                         data={this.component.state.atlhetesActifs}
                         defaultButtonText={'Athlète'}
-                        onSelect={async(selectedItem, index) => {
+                        onSelect={async (selectedItem, index) => {
+                          const course = await get_athlete_active_courses(selectedItem.id)
+                          console.log(course.data);
                           values.athlete_id = selectedItem.id;
-                         await get_athlete_course(selectedItem.id).then((res)=>{this.component.setState({athlete_course:res.data})})
+                          this.component.setState({ athlete_course: course.data })
                         }}
                         renderDropdownIcon={() => {
                           return (
@@ -113,33 +115,33 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                           return item.full_name;
                         }}
                       />
-                      {this.component.state.athlete_id?
-                      <SelectDropdown
-                        buttonStyle={styles.dropdownButton}
-                        buttonTextStyle={styles.dropdownButtonText}
-                        rowTextStyle={styles.dropdownRowText}
-                        dropdownStyle={styles.dropdownBg}
-                        rowStyle={styles.dropdownRow}
-                        data={this.component.state.athlete_course}
-                        defaultButtonText={'offre'}
-                        onSelect={(selectedItem, index) => {
+                      {this.component.state.athlete_course ?
+                        <SelectDropdown
+                          buttonStyle={styles.dropdownButton}
+                          buttonTextStyle={styles.dropdownButtonText}
+                          rowTextStyle={styles.dropdownRowText}
+                          dropdownStyle={styles.dropdownBg}
+                          rowStyle={styles.dropdownRow}
+                          data={this.component.state.athlete_course}
+                          defaultButtonText={'offre'}
+                          onSelect={(selectedItem, index) => {
 
-                          values.offer_id = selectedItem.offer_id;
+                            values.offer_id = selectedItem.id;
 
-                        }}
-                        renderDropdownIcon={() => {
-                          return (
-                            <AntDesign name="down" size={18} color="black" />
-                          );
-                        }}
-                        dropdownIconPosition={'right'}
-                        buttonTextAfterSelection={(selectedItem, index) => {
-                          return selectedItem.full_name;
-                        }}
-                        rowTextForSelection={(item, index) => {
-                          return item.full_name;
-                        }}
-                      />:null}
+                          }}
+                          renderDropdownIcon={() => {
+                            return (
+                              <AntDesign name="down" size={18} color="black" />
+                            );
+                          }}
+                          dropdownIconPosition={'right'}
+                          buttonTextAfterSelection={(selectedItem, index) => {
+                            return selectedItem.offer.title;
+                          }}
+                          rowTextForSelection={(item, index) => {
+                            return `${item.offer.title} session(s) prise(s): ${item.booked_session}/${item.total_sessions}`;
+                          }}
+                        /> : null}
                     </View>
                   ) : null}
                   <CheckBox
