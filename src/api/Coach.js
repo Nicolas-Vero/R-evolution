@@ -159,6 +159,14 @@ export const get_coach_athlete = async () => {
     headers: headers,
   });
 };
+export const get_athlete_active_courses = async (param) => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/coach/athlete-active-courses/${param}`,
+    headers: headers,
+  });
+};
 
 export const cancel_booking = async (params) => {
   const headers = await AuthService.getHeader();

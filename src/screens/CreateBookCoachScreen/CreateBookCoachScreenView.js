@@ -12,6 +12,7 @@ import Header from '../../components/Header';
 import styles from './CreateBookCoachScreenStyle';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { get_athlete_course } from '../../api/Coach';
 export default class CreateBookCoachScreenView extends AbstractScreenView {
   render() {
     if (!this.component.state.isLoaded) {
@@ -94,10 +95,10 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                         dropdownStyle={styles.dropdownBg}
                         rowStyle={styles.dropdownRow}
                         data={this.component.state.atlhetesActifs}
-                        defaultButtonText={'Choisir'}
-                        onSelect={(selectedItem, index) => {
+                        defaultButtonText={'Athlète'}
+                        onSelect={async(selectedItem, index) => {
                           values.athlete_id = selectedItem.id;
-                          values.offer_id = selectedItem.offer_id;
+                         await get_athlete_course(selectedItem.id).then((res)=>{this.component.setState({athlete_course:res.data})})
                         }}
                         renderDropdownIcon={() => {
                           return (
@@ -112,6 +113,33 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                           return item.full_name;
                         }}
                       />
+                      {this.component.state.athlete_id?
+                      <SelectDropdown
+                        buttonStyle={styles.dropdownButton}
+                        buttonTextStyle={styles.dropdownButtonText}
+                        rowTextStyle={styles.dropdownRowText}
+                        dropdownStyle={styles.dropdownBg}
+                        rowStyle={styles.dropdownRow}
+                        data={this.component.state.athlete_course}
+                        defaultButtonText={'offre'}
+                        onSelect={(selectedItem, index) => {
+
+                          values.offer_id = selectedItem.offer_id;
+
+                        }}
+                        renderDropdownIcon={() => {
+                          return (
+                            <AntDesign name="down" size={18} color="black" />
+                          );
+                        }}
+                        dropdownIconPosition={'right'}
+                        buttonTextAfterSelection={(selectedItem, index) => {
+                          return selectedItem.full_name;
+                        }}
+                        rowTextForSelection={(item, index) => {
+                          return item.full_name;
+                        }}
+                      />:null}
                     </View>
                   ) : null}
                   <CheckBox
