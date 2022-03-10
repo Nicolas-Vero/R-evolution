@@ -206,7 +206,9 @@ export default class HomeCoachScreenController extends AbstractScreenController 
           arrayOfPage.push({ rdv });
         }
       });
-      arrayOfPage.sort((a, b) => (a.rdv?.slot > b.rdv?.slot) ? 1 : ((b.rdv?.slot > a.rdv?.slot) ? -1 : 0))
+      arrayOfPage.sort((a, b) =>
+        a.rdv?.slot > b.rdv?.slot ? 1 : b.rdv?.slot > a.rdv?.slot ? -1 : 0,
+      );
       this.component.setState({ page: arrayOfPage, carousselLoad: true });
     }
   }
@@ -259,6 +261,8 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     }
     this.component.props.navigation.navigate('AthleteSheetCoachScreen', {
       item: athlete,
+      date: this.component.state.selectedDate,
+      cb: this.getAvailabilities,
     });
   };
   bookingInMonth = async (addSubMonth) => {

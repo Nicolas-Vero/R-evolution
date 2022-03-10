@@ -9,7 +9,8 @@ module.exports = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
   },
-  headerLeft: {
+  header: {
+    marginTop:20,
     marginHorizontal: 16,
     flexDirection: 'row',
     alignItems: 'center',
@@ -37,7 +38,6 @@ module.exports = StyleSheet.create({
     marginTop: 14,
     borderBottomColor: '#2CDEE4',
     borderBottomWidth: 0.3,
-    marginBottom: 20,
   },
   tabContainer: {
     alignItems: 'center',

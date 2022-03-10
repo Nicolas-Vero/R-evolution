@@ -1,5 +1,7 @@
 import { View } from 'react-native';
 import React, { Component } from 'react';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
+
 import CarouselPager from '../components/CarouselPager';
 
 export default class Pager extends Component {
@@ -14,11 +16,12 @@ export default class Pager extends Component {
   }
   render() {
     const data = this.props.pager;
+
     return (
       <View
         style={{
           marginBottom: 15,
-          maxHeight: 135,
+          maxHeight: heightPercentageToDP(15),
         }}>
         <CarouselPager
           ref={(ref) => (this.carousel = ref)}

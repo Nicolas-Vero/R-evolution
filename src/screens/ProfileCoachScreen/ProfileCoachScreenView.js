@@ -66,9 +66,7 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                                   size={105}
                                   rounded
                                   source={{
-                                    uri:
-                                      this.component.state.image.uri ||
-                                      '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                                    uri: this.component.state.image.uri,
                                   }}
                                 />
                               ) : this.component.state.Coach
@@ -77,16 +75,14 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                                   size={105}
                                   rounded
                                   source={{
-                                    uri:
-                                      this.component.state.Coach
-                                        .profile_picture_url ||
-                                      '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
+                                    uri: this.component.state.Coach
+                                      .profile_picture_url,
                                   }}
                                 />
                               ) : (
                                 <Image
                                   style={styles.previewImage}
-                                  source={require('../../../assets/images/AddPhoto.png')}
+                                  source={require('../../../assets/images/no_pp.jpg')}
                                 />
                               )}
                             </TouchableOpacity>

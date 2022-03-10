@@ -32,11 +32,13 @@ export default class HomeAthleteView extends AbstractScreenView {
               <Avatar
                 size={37}
                 rounded
-                source={{
-                  uri:
-                    this.component.state.user.profile_picture_url ||
-                    '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                }}
+                source={
+                  this.component.state.user.profile_picture_url
+                    ? {
+                        uri: this.component.state.user.profile_picture_url,
+                      }
+                    : require('../../../assets/images/no_pp.jpg')
+                }
               />
               <Text style={styles.username}>
                 {this.component.state.user.first_name}{' '}
@@ -177,11 +179,14 @@ export default class HomeAthleteView extends AbstractScreenView {
                     <Avatar
                       size={44}
                       rounded
-                      source={{
-                        uri:
-                          this.component.state.coach.profile_picture_url ||
-                          '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                      }}
+                      source={
+                        this.component.state.coach.profile_picture_url
+                          ? {
+                              uri: this.component.state.coach
+                                .profile_picture_url,
+                            }
+                          : require('../../../assets/images/no_pp.jpg')
+                      }
                     />
                     <View style={styles.appointmentTodayItemLeftTexts}>
                       <Text style={styles.appointmentTodayItemLeftUsername}>
@@ -236,11 +241,14 @@ export default class HomeAthleteView extends AbstractScreenView {
                       <Avatar
                         size={44}
                         rounded
-                        source={{
-                          uri:
-                            this.component.state.coach.profile_picture_url ||
-                            '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                        }}
+                        source={
+                          this.component.state.coach.profile_picture_url
+                            ? {
+                                uri: this.component.state.coach
+                                  .profile_picture_url,
+                              }
+                            : require('../../../assets/images/no_pp.jpg')
+                        }
                       />
                       <View style={styles.appointmentTodayItemLeftTexts}>
                         <Text style={styles.appointmentTodayItemLeftUsername}>

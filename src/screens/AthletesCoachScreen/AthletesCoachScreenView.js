@@ -133,11 +133,13 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
               <Avatar
                 style={styles.avatarImage}
                 rounded
-                source={{
-                  uri:
-                    item.profile_picture_url ||
-                    '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                }}
+                source={
+                  item.profile_picture_url
+                    ? {
+                        uri: item.profile_picture_url,
+                      }
+                    : require('../../../assets/images/no_pp.jpg')
+                }
               />
               <Text style={styles.username}>
                 {item.first_name} {item.last_name}{' '}

@@ -85,6 +85,10 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
       await this.getCourse();
     }
     this.onDismissCancelSheetDialog();
+
+    this.component.props.cb &&
+      this.component.props.cb(this.component.props.date);
+    this.component.props.navigation.goBack();
   };
 
   onRemoveAthletePress = () => {
