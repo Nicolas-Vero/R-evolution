@@ -70,11 +70,13 @@ export default class NotificationsScreenView extends AbstractScreenView {
                           <Avatar
                             size={27}
                             rounded
-                            source={{
-                              uri:
-                                item.picture ||
-                                '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                            }}
+                            source={
+                              item.picture
+                                ? {
+                                    uri: item.picture,
+                                  }
+                                : require('../../../assets/images/no_pp.jpg')
+                            }
                           />
                         </View>
                         <Text style={styles.itemTextContentNotification}>

@@ -96,7 +96,7 @@ export default class CarouselPager extends Component {
 
   _runAfterMeasurements(width, height) {
     // Set box and box interval size
-    this._boxSize = 50;
+    this._boxSize = height / 3;
     this._boxSizeInterval = height / 3;
 
     // Get initial page
@@ -332,13 +332,15 @@ export default class CarouselPager extends Component {
                     key={page.id}>
                     <View style={{ marginLeft: 5, marginRight: 20 }}>
                       <Avatar
-                        size={isCurrentPage ? 40 : 30}
+                        size={isCurrentPage ? 35 : 30}
                         rounded
-                        source={{
-                          uri:
-                            page.rdv.athlete?.profile_picture_url ||
-                            '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                        }}
+                        source={
+                          page.rdv.athlete.profile_picture_url
+                            ? {
+                                uri: page.rdv.athlete.profile_picture_url,
+                              }
+                            : require('../../assets/images/no_pp.jpg')
+                        }
                       />
                     </View>
                     <View style={{ alignItems: 'flex-start', flex: 1 }}>

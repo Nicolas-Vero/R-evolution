@@ -38,11 +38,13 @@ export default class CoachSheetScreenView extends AbstractScreenView {
               <Avatar
                 size={82}
                 rounded
-                source={{
-                  uri:
-                    this.component.state.coach.profile_picture_url ||
-                    '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                }}
+                source={
+                  this.component.state.coach.profile_picture_url
+                    ? {
+                        uri: this.component.state.coach.profile_picture_url,
+                      }
+                    : require('../../../assets/images/no_pp.jpg')
+                }
               />
               <Text style={styles.username}>
                 {`${this.component.state.coach?.first_name} ${this.component.state.coach?.last_name}`}

@@ -25,6 +25,7 @@ import CoachAvaibility from '../../components/CoachAvaibility/CoachAvaibility';
 import { slots } from '../../helpers/dateHelper';
 import FilterTimesDialog from '../../components/dialogs/filterTimesDialog/filterTimesDialog';
 import { store } from '../../redux/store';
+import SystemHelper from '../../helpers/SystemHelper';
 export default class HomeCoachScreenView extends AbstractScreenView {
   renderDialog() {
     return (
@@ -38,6 +39,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
   renderDay = (date, state, marking) => {
     const isSelected = marking;
     const isToday = state === 'today';
+
     const isBefore = moment().toDate() >= moment(date.dateString).toDate();
     let textColor = isBefore
       ? '#979797'
@@ -45,7 +47,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
       ? '#fff'
       : '#000';
 
-    let bg = marking && !isToday ? '#2CDEE4' : '';
+    let bg = marking && !isToday ? '#2CDEE4' : 'transparent';
     bg = marking && isToday ? '#2CDEE4' : bg;
 
     const badgeTextColor = isToday ? '#000' : marking ? '#fff' : '#000';
@@ -67,9 +69,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
         onPress={() => {
           this.controller.changeTaskList(date);
         }}>
-        {this.component.state.MonthBookingNumberPerDay[date.day - 1] > 0 &&
-        new Date(this.component.state.currentMonth).getMonth() + 1 ===
-          date.month ? (
+        {renderBadge ? (
           <View style={[styles.dateMonth, { backgroundColor: badgeBg }]}>
             <View>
               <Text style={[styles.dateMonthText, { color: badgeTextColor }]}>
@@ -98,7 +98,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
     const selected = this.component.state.selectedDate;
     const pageLength = this.component.state.page.length;
     return (
-      <View style={{ marginTop: 15 }}>
+      <View style={{ marginTop: 25 }}>
         <View style={styles.tabContainer}>
           <Text
             style={[
@@ -131,7 +131,8 @@ export default class HomeCoachScreenView extends AbstractScreenView {
           }}
           contentInset={{ bottom: 80 }}>
           <LinearGradient
-            colors={['#2D333C', '#101010']}
+            colors={['#23282E', '#141517']}
+            // locations={[-0.25, 1]}
             start={{
               x: 1,
               y: 0,
@@ -169,7 +170,6 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               }}
               onPressArrowLeft={async (subtractMonth) => {
                 await this.controller.bookingInMonth(-1);
-
                 subtractMonth();
               }}
               onPressArrowRight={async (addMonth) => {
@@ -207,7 +207,9 @@ export default class HomeCoachScreenView extends AbstractScreenView {
       <View style={{ height: heightPercentageToDP(50) }}>
         <View>
           {this.renderDialog()}
-          <MonthsSlider onChange={this.controller.onMonthChange.bind(this)} />
+          <View style={{ marginVertical: 10 }}>
+            <MonthsSlider onChange={this.controller.onMonthChange.bind(this)} />
+          </View>
           <View style={{ marginBottom: 34 }}>
             <FlatList
               ref={(ref) => (this.component.listRef = ref)}
@@ -217,7 +219,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               keyExtractor={() => String(Math.random(10))}
               style={{ marginLeft: 16 }}
               renderItem={({ item, index }) => {
-                const borderWidth = item?.availability === curDate ? 2 : 0;
+                const borderWidth = item?.availability === curDate ? 1 : 0;
                 const date = moment(item.availability).format('YYYY-MM-DD');
                 let isBefore =
                   curDate !== date &&
@@ -242,7 +244,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 ) {
                   colors.push('#2CDEE4', '#2CDEE4');
                 } else {
-                  colors.push('#2D333C', '#101010');
+                  colors.push('#252A30', '#1C1E22');
                 }
                 return (
                   <TouchableOpacity
@@ -256,8 +258,8 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                       disable
                       colors={colors}
                       start={{
-                        x: 1,
-                        y: 0,
+                        x: 0,
+                        y: 1,
                       }}
                       end={{
                         x: 1,
@@ -322,12 +324,13 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 </Text>
               </Text>
             </View>
+
             <LinearGradient
               colors={['#060606', '#2D333C']}
               start={{ x: 1, y: 0 }}
               end={{ x: 1, y: 1 }}>
               <FlatList
-                contentContainerStyle={{ paddingBottom: 80 }}
+                contentContainerStyle={{ paddingBottom: 120 }}
                 style={{
                   maxHeight: heightPercentageToDP(60),
                   marginTop: 15,
@@ -414,92 +417,89 @@ export default class HomeCoachScreenView extends AbstractScreenView {
     const { navigate } = this.component.props.navigation;
     return (
       <View style={styles.container}>
-        <SafeAreaView>
-          <View style={{ marginTop: 20 }}>
-            <View style={styles.headerLeft}>
+        <View style={{ backgroundColor: '#000', marginBottom: 20 }}>
+          <View style={styles.header}>
+            <TouchableOpacity
+              onPress={() => {
+                navigate('AccountScreen');
+              }}>
+              <View style={styles.userInfoContainer}>
+                <Avatar
+                  size={37}
+                  rounded
+                  source={
+                    this.component.state.user.profile_picture_url
+                      ? {
+                          uri: this.component.state.user.profile_picture_url,
+                        }
+                      : require('../../../assets/images/no_pp.jpg')
+                  }
+                />
+                <Text style={styles.username}>
+                  {this.component.state.user.first_name}{' '}
+                  {this.component.state.user.last_name}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            <View style={styles.headerRight}>
               <TouchableOpacity
                 onPress={() => {
-                  navigate('AccountScreen');
+                  navigate('PendingRequestCoachScreen');
                 }}>
-                <View style={styles.userInfoContainer}>
-                  <Avatar
-                    size={37}
-                    rounded
-                    source={{
-                      uri:
-                        this.component.state.user.profile_picture_url ||
-                        '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                    }}
-                  />
-                  <Text style={styles.username}>
-                    {this.component.state.user.first_name}{' '}
-                    {this.component.state.user.last_name}
-                  </Text>
-                </View>
+                {this.component.state.publicRequest > 0
+                  ? this.renderBadge()
+                  : null}
+                <Image
+                  style={styles.headerRightImage}
+                  source={require('../../../assets/images/Demande.png')}
+                />
               </TouchableOpacity>
-              <View style={styles.headerRight}>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigate('PendingRequestCoachScreen');
-                  }}>
-                  {this.component.state.publicRequest > 0
-                    ? this.renderBadge()
-                    : null}
-                  <Image
-                    style={styles.headerRightImage}
-                    source={require('../../../assets/images/Demande.png')}
-                  />
-                </TouchableOpacity>
 
-                <TouchableOpacity
-                  onPress={() => {
-                    navigate('ActivitiesCoachScreen');
-                  }}
-                  style={styles.headerRightActivities}>
-                  {/* {this.renderBadge()} */}
-                  <Image
-                    style={styles.headerRightImage}
-                    source={require('../../../assets/images/Notif.png')}
-                  />
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  navigate('ActivitiesCoachScreen');
+                }}
+                style={styles.headerRightActivities}>
+                {/* {this.renderBadge()} */}
+                <Image
+                  style={styles.headerRightImage}
+                  source={require('../../../assets/images/Notif.png')}
+                />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.headerBorder}></View>
-          <View>
-            <View style={styles.alignCenter}>
-              <SwitchSelector
-                options={options}
-                initial={0}
-                onPress={(value) => this.component.setState({ screen: value })}
-                backgroundColor="#1E2026"
-                buttonColor="#2CDEE4"
-                selectedColor="#1E2026"
-                textColor="white"
-                borderRadius={10}
-                height={45}
-                style={{ width: 'auto' }}
-                hasPadding
-                fontSize={13}
-                selectedTextStyle={{
-                  fontFamily: 'MontserratBoldItalic',
-                  lineHeight: 15,
-                }}
-                textStyle={{
-                  fontFamily: 'MontserratBoldItalic',
-                  lineHeight: 15,
-                }}
-                borderColor="#1E2026"
-              />
-            </View>
-            <View>{/*TO DO: passe les jours en francais  */}</View>
-            {this.component.state.screen == 'Planning' ? (
-              <View>{this.renderPlanning()}</View>
-            ) : (
-              this.renderAvailability()
-            )}
+        </View>
+        <View>
+          <View style={styles.alignCenter}>
+            <SwitchSelector
+              options={options}
+              initial={0}
+              onPress={(value) => this.component.setState({ screen: value })}
+              backgroundColor="#1E2025"
+              buttonColor="#2CDEE4"
+              selectedColor="#1E2025"
+              textColor="white"
+              borderRadius={10}
+              height={45}
+              style={{ width: 'auto' }}
+              hasPadding
+              fontSize={13}
+              selectedTextStyle={{
+                fontFamily: 'MontserratBoldItalic',
+                lineHeight: 15,
+              }}
+              textStyle={{
+                fontFamily: 'MontserratBoldItalic',
+                lineHeight: 15,
+              }}
+              borderColor="#1E2026"
+            />
           </View>
-        </SafeAreaView>
+          {this.component.state.screen == 'Planning'
+            ? this.renderPlanning()
+            : this.renderAvailability()}
+        </View>
       </View>
     );
   }

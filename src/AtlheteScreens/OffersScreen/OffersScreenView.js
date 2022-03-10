@@ -143,12 +143,15 @@ export default class OffersScreenView extends AbstractScreenView {
                   <Avatar
                     size={44}
                     rounded
-                    source={{
-                      uri:
-                        this.component.state.ActiveCourses.coach
-                          .profile_picture_url ||
-                        '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/photo_florian_coach.png',
-                    }}
+                    source={
+                      this.component.state.ActiveCourses.coach
+                        .profile_picture_url
+                        ? {
+                            uri: this.component.state.ActiveCourses.coach
+                              .profile_picture_url,
+                          }
+                        : require('../../../assets/images/no_pp.jpg')
+                    }
                   />
                   <Text style={styles.currentOfferCoachName}>
                     {this.component.state.ActiveCourses.coach.first_name}{' '}

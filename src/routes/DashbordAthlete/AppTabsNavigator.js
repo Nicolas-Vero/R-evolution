@@ -54,7 +54,7 @@ const AppTabsNavigator = createBottomTabNavigator(
     tabBarComponent: (props) => {
       return (
         <LinearGradient
-          colors={['#2D333C', '#101010']}
+          colors={['#1A1E21', '#101010']}
           start={{
             x: 0,
             y: 0,

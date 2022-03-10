@@ -57,11 +57,13 @@ export default class CoachAvaibility extends React.Component {
               <Avatar
                 size={22}
                 rounded
-                source={{
-                  uri:
-                    item.athlete.profile_picture_url ||
-                    '/Users/nicolas/ReactNative/Revolution/R_evolution/assets/images/avatar.png',
-                }}
+                source={
+                  item.athlete.profile_picture_url
+                    ? {
+                        uri: item.athlete.profile_picture_url,
+                      }
+                    : require('../../../assets/images/no_pp.jpg')
+                }
               />
               <Text
                 style={

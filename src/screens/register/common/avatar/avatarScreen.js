@@ -199,7 +199,7 @@ export default class avatarScreen extends React.Component {
                     ) : (
                       <Image
                         style={styles.previewImage}
-                        source={require('../../../../../assets/images/AddPhoto.png')}
+                        source={require('../../../../../assets/images/no_pp.jpg')}
                       />
                     )}
                   </TouchableOpacity>
