@@ -2,6 +2,7 @@ import {
   get_athlete_active_courses_with_param,
   cancel_booking,
   unlink_athlete,
+  updateAthleteSheet,
 } from '../../api/Coach';
 import { get_paiement_for_coach } from '../../api/Paiement';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
@@ -17,11 +18,13 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
       refreshing: false,
       books: [],
       isRemoveAthleteDialogVisible: false,
+      is_validate:
+        this.component.props.navigation.state.params.item.coach.is_validate || false,
+      note: this.component.props.navigation.state.params.item.coach.note,
     };
   }
   componentDidMount = async () => {
     await this.fetchData();
-    console.log(this.component.props.navigation.state.params.item);
     if (this.component.props.navigation.state.params.item.book) {
       this.component.setState({
         books: this.component.props.navigation.state.params.item.book,
@@ -39,6 +42,7 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
     }
     this.component.setState({ refreshing: false });
   };
+
   fetchData = async () => {
     this.component.setState({ refreshing: true });
     await this.getCourse();
@@ -112,5 +116,40 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
       this.onDismissRemoveAthleteDialog();
       this.component.props.navigation.goBack();
     }
+  };
+
+  setIsValidate = (is_validate) => {
+    this.component.setState({
+      is_validate,
+    });
+  };
+
+  onChangeNote = (note) => {
+    this.component.setState({
+      note,
+    });
+  };
+  onBackPress = async () => {
+    const { is_validate, note } = this.component.state;
+    let needUpdate = false;
+    if (
+      this.component.props.navigation.state.params.item.coach.is_validate !==
+        is_validate ||
+      this.component.props.navigation.state.params.item.coach.note !== note
+    ) {
+      needUpdate = true;
+    }
+
+    if (needUpdate) {
+      await updateAthleteSheet(
+        {
+          is_validate,
+          note,
+        },
+        this.component.props.navigation.state.params.item.id,
+      );
+    }
+
+    this.component.props.navigation.goBack();
   };
 }

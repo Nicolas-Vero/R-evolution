@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 import { Avatar } from 'react-native-elements';
-import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { Entypo, AntDesign } from '@expo/vector-icons';
 import moment from 'moment';
 import HeaderSimple from '../../components/HeaderSimple';
 import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
@@ -111,7 +111,7 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
               <Swipeable
                 key={index}
                 renderRightActions={() => this.rightSwipe(item.id)}>
-                {this.renderItem(item, index)}
+                {this.renderItem(item, index, true)}
               </Swipeable>
             );
           }}
@@ -119,7 +119,7 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
       </View>
     );
   };
-  renderItem = (item, index) => {
+  renderItem = (item, index, isProspect) => {
     return (
       <TouchableOpacity
         key={index}
@@ -146,11 +146,17 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
               </Text>
             </View>
           </View>
-          {}
           <View style={styles.itemRight}>
             <Text style={styles.timerText}>
               Depuis le {moment(item.created_at).format('DD/MM/YYYY')}
             </Text>
+            <View style={{ alignSelf: 'center' }}>
+              {!isProspect ? null : !item.coach.is_validate ? (
+                <AntDesign name="ellipsis1" size={26} color="#fff" />
+              ) : (
+                <Entypo name={'check'} size={20} color="#fff" />
+              )}
+            </View>
           </View>
         </View>
       </TouchableOpacity>

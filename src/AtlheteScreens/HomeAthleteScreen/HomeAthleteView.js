@@ -220,7 +220,6 @@ export default class HomeAthleteView extends AbstractScreenView {
             refreshing={this.component.state.refresh}
             keyExtractor={(item) => item?.id.toString()}
             renderItem={({ item }) => {
-              console.log(item);
               return (
                 <View>
                   {item?.show == 1 ? (

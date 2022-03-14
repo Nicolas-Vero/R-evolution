@@ -20,18 +20,23 @@ export default class Pager extends Component {
     return (
       <View
         style={{
-          marginBottom: 15,
-          maxHeight: heightPercentageToDP(15),
+          alignItems: 'center',
         }}>
-        <CarouselPager
-          ref={(ref) => (this.carousel = ref)}
-          blurredZoom={0.9}
-          initialPage={0}
-          blurredOpacity={0.2}
-          vertical={true}
-          animationDuration={300}>
-          {data}
-        </CarouselPager>
+        <View
+          style={{
+            marginBottom: 15,
+            height: heightPercentageToDP(18),
+          }}>
+          <CarouselPager
+            ref={(ref) => (this.carousel = ref)}
+            blurredZoom={0.9}
+            initialPage={0}
+            blurredOpacity={0.2}
+            vertical={true}
+            animationDuration={300}>
+            {data}
+          </CarouselPager>
+        </View>
       </View>
     );
   }

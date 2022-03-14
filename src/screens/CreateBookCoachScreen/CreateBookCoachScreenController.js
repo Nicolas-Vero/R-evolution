@@ -35,12 +35,14 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
 
   filterDAta(data) {
     const actifs = data
-      .filter((user) => user.status === 'active')
-      .map((user) => ({
-        id: user.id,
-        offer_id: user.course[0]?.id || user.course.id,
-        full_name: `${user.first_name} ${user.last_name}`,
-      }));
+      .filter((user) => user.status === 'active' && user.course)
+      .map((user) => {
+        return {
+          id: user.id,
+          offer_id: user.course.length ? user.course[0].id : user.course.id,
+          full_name: `${user.first_name} ${user.last_name}`,
+        };
+      });
     const prospects = data
       .filter((user) => user.status === 'prospect')
       .map((user) => ({

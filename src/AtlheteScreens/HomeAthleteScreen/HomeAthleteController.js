@@ -159,7 +159,6 @@ export default class HomeAhleteController extends AbstractScreenController {
       });
       this.component.setState({ currentAvailabilities: availabilitiesArray });
       this.component.setState({ refresh: !this.component.state.refresh });
-      // console.log(this.component.state.currentAvailabilities);
     });
   };
 

@@ -18,6 +18,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Montserrat',
   },
+  goalText: {
+    textAlign: 'center',
+    color: '#fff',
+    fontFamily: 'Montserrat',
+    fontSize: 11,
+    alignSelf: 'flex-end',
+  },
 });
 
 export default styles;

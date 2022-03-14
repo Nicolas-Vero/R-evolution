@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   caSaleContainer: {
-    marginTop: 35,
+    marginTop: 22,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -12,12 +12,13 @@ const styles = StyleSheet.create({
   },
   caSaleValueText: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: 19,
     fontFamily: 'MontserratBoldItalic',
+    marginBottom: 3,
   },
   caSaleIndexText: {
     color: '#fff',
-    fontSize: 10,
+    fontSize: 7,
     fontFamily: 'MontserratBoldItalic',
   },
   caInfosRow: {
@@ -26,24 +27,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   caSale1InfoColor: {
-    width: 5,
-    height: 25,
+    width: 4,
+    height: 20,
     backgroundColor: '#4FE470',
   },
   caValueText: {
-    fontFamily: 'MontserratBoldItalic',
+    fontFamily: 'MontserratBold',
     color: '#fff',
-    fontSize: 16,
-    marginHorizontal: 10,
+    fontSize: 15,
+    marginLeft: 10,
+    marginRight: 6,
   },
   caSaleText: {
     fontFamily: 'MontserratBoldItalic',
     color: '#fff',
-    fontSize: 13,
+    fontSize: 8,
   },
   caSale2InfoColor: {
-    width: 5,
-    height: 25,
+    width: 4,
+    height: 20,
     backgroundColor: '#165424',
   },
 });

@@ -27,7 +27,7 @@ export default class TurnOverProspectGraph extends React.Component {
           </View>
         </View>
         <AnimatedCircularProgress
-          size={110}
+          size={95}
           width={10}
           backgroundWidth={6}
           fill={prospects.percentage}
@@ -40,7 +40,7 @@ export default class TurnOverProspectGraph extends React.Component {
               <Text
                 style={
                   styles.caConvertGraphValueText
-                }>{`${prospects.percentage} %`}</Text>
+                }>{`${prospects.percentage}%`}</Text>
               <Text style={styles.caConvertGraphInfoText}>
                 SUR {`${prospects.total}`} PROSPECTS
               </Text>

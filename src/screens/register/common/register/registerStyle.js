@@ -50,6 +50,12 @@ module.exports = StyleSheet.create({
     fontSize: 12,
     color: '#FD7279',
   },
+  errorEmailExist: {
+    fontSize: 12,
+    color: '#FD7279',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
   acceptContainer: {
     paddingLeft: 0,
     marginLeft: 0,

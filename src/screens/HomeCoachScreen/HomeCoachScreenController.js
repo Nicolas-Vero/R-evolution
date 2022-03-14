@@ -29,9 +29,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       currentDate: '',
       selectedDate: moment(new Date()).format('YYYY-MM-DD'),
       today: moment().format('YYYY-MM-DD'),
-      currentAvailabilities: [],
-      currentAvailabilitie2: null,
-      currentAvailabilities: [],
+      currentAvailabilities: null,
       slots: [],
       availabilities: [],
       page: [],
@@ -153,7 +151,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     const res = await get_availabilities_v2(date);
     if (res.status == 200) {
       this.component.setState({
-        currentAvailabilitie2: {
+        currentAvailabilities: {
           slots: res.data.slots,
           day: date,
           refresh: !this.component.state.refresh,

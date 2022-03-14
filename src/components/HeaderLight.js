@@ -12,11 +12,20 @@ import { withNavigation } from 'react-navigation';
 const { width } = Dimensions.get('window');
 
 class HeaderLight extends React.Component {
+  onBackPress = () => {
+    const { navigation, goBack } = this.props;
+    if (goBack) {
+      goBack();
+
+      return;
+    }
+
+    navigation.goBack();
+  };
   render() {
-    const { title, navigation } = this.props;
     return (
       <View style={defaultStyle.container}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={this.onBackPress}>
           <Image
             source={require('../../assets/icons/header-back.png')}
             style={defaultStyle.image}

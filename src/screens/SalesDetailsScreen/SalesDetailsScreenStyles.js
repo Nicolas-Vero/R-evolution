@@ -9,11 +9,26 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 16,
   },
+  infoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 9,
+  },
+  infoIndexText: {
+    color: '#fff',
+    fontFamily: 'MontserratBoldItalic',
+    fontSize: 9,
+  },
+  infoValueText: {
+    color: '#2CDEE4',
+    fontFamily: 'MontserratBoldItalic',
+    fontSize: 12,
+  },
   page: {
     marginTop: 25,
   },
   scrollView: {
-    marginBottom: 50,
+    marginBottom: 150,
   },
   caHeader: {
     marginTop: 28,

@@ -5,7 +5,6 @@ import {
   TextInput,
   SafeAreaView,
   Keyboard,
-  Dimensions,
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native';
@@ -18,6 +17,7 @@ import KeyboardSpacer from 'react-native-keyboard-spacer';
 import * as Yup from 'yup';
 import styles from './registerStyle';
 
+import { isEmailExist } from '../../../../api/Auth';
 export default class registerScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -27,10 +27,24 @@ export default class registerScreen extends React.Component {
       stepperStep: 0,
       progress: 0,
       termsCondition: false,
+      error: null,
     };
   }
 
-  onNavigate = (item) => {
+  onNavigate = async (item) => {
+    const res = await isEmailExist(item.email);
+    if (res.data.userExist) {
+      this.setState({
+        error: 'Email déjà utilisé',
+      });
+
+      return;
+    }
+
+    this.setState({
+      error: null,
+    });
+
     this.props.navigation.navigate(
       item.userType === 'coach' ? 'diplomasScreen' : 'mensurationScreen',
       item,
@@ -227,6 +241,13 @@ export default class registerScreen extends React.Component {
                             <View style={styles.errorInputContainer}>
                               <Text style={styles.errorInputText}>
                                 {errors.email}
+                              </Text>
+                            </View>
+                          )}
+                          {this.state.error && (
+                            <View style={styles.errorInputContainer}>
+                              <Text style={styles.errorInputText}>
+                                {this.state.error}
                               </Text>
                             </View>
                           )}
