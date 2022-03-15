@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 import { View, Image, Dimensions } from 'react-native';
 const { width } = Dimensions.get('window');
 import Header from '../../components/Header';
@@ -26,6 +26,9 @@ export default class AccountScreenView extends AbstractScreenView {
               />
             </TouchableOpacity>
           </View>
+          <View><Text style={[styles.itemText, { color: '#ffff' }]}>
+            Version : 1.0.2
+          </Text></View>
         </View>
       </View>
     );
