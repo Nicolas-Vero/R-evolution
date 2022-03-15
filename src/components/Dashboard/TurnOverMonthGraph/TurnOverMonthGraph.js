@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Dimensions, Text, View } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 import styles from './TurnOverMonthGraphStyles';
@@ -12,14 +12,15 @@ export default class TurnOverMonthGraph extends React.Component {
 
   render() {
     const { turnOver } = this.props;
+    const width = Dimensions.get('window').width - 100;
     return (
       <View style={styles.caGraphContainer}>
         <AnimatedCircularProgress
           childrenContainerStyle={{ height: 150 }}
-          size={300}
+          size={width}
           width={25}
           fill={turnOver.percentage}
-          style={{ height: 150 }}
+          style={{ height: 165 }}
           rotation={270}
           arcSweepAngle={180}
           // lineCap={'round'}
@@ -36,6 +37,7 @@ export default class TurnOverMonthGraph extends React.Component {
             </View>
           )}
         </AnimatedCircularProgress>
+        <Text style={styles.goalText}>{`${turnOver.goal}€`}</Text>
       </View>
     );
   }

@@ -48,6 +48,7 @@ module.exports = StyleSheet.create({
     backgroundColor: '#1E2026',
     width: 'auto',
     marginBottom: 10,
+    justifyContent: 'space-between',
   },
   itemColor: {
     borderRadius: 3,
@@ -62,7 +63,7 @@ module.exports = StyleSheet.create({
     flexDirection: 'row',
   },
   avatarContainer: {
-    alignItems: 'flex-start',
+    flex:1,
     flexDirection: 'row',
   },
   avatarImage: {
@@ -76,8 +77,6 @@ module.exports = StyleSheet.create({
     color: '#FFF',
   },
   itemRight: {
-    flex: 1,
-    alignItems: 'flex-end',
   },
   timerText: {
     fontFamily: 'MontserratMedium',

@@ -14,7 +14,7 @@ export default class TurnOverSaleGraph extends React.Component {
     return (
       <View style={styles.caSaleContainer}>
       <AnimatedCircularProgress
-        size={110}
+        size={93}
         width={20}
         backgroundWidth={15}
         fill={sales.percentage}

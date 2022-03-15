@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, PanResponder, Animated } from 'react-native';
+import { View, PanResponder, Animated, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'react-native';
@@ -12,6 +12,9 @@ import {
 import { get_commercial_by_id } from '../api/Commercial';
 import { slots } from '../helpers/dateHelper';
 import ContextService from '../services/ContextService';
+
+const isBigPhone = Dimensions.get('window').height >= 896;
+
 export default class CarouselPager extends Component {
   static propTypes = {
     initialPage: PropTypes.number,
@@ -96,8 +99,8 @@ export default class CarouselPager extends Component {
 
   _runAfterMeasurements(width, height) {
     // Set box and box interval size
-    this._boxSize = height / 3;
-    this._boxSizeInterval = height / 3;
+    this._boxSize = height / 2.7;
+    this._boxSizeInterval = height / 2.7;
 
     // Get initial page
     let initialPage = this.props.initialPage || 0;
@@ -285,7 +288,7 @@ export default class CarouselPager extends Component {
     };
     boxStyle = {
       marginBottom: this.props.pageSpacing,
-      borderRadius: 5,
+      borderRadius: isBigPhone ? 10 : 5,
       height: this._boxSize,
       alignItems: 'center',
       justifyContent: 'center',
@@ -302,7 +305,7 @@ export default class CarouselPager extends Component {
           {...this._panResponder.panHandlers}>
           {this.props.children.map((page, index) => {
             const isCurrentPage = index === this._currentPage;
-            const fontSize = isCurrentPage ? 16 : 12;
+            const fontSize = isCurrentPage ? (isBigPhone ? 18 : 16) : 12;
             const color = isCurrentPage ? '#000' : '#fff';
             return (
               <Animated.View
@@ -332,7 +335,7 @@ export default class CarouselPager extends Component {
                     key={page.id}>
                     <View style={{ marginLeft: 5, marginRight: 20 }}>
                       <Avatar
-                        size={isCurrentPage ? 35 : 30}
+                        size={isCurrentPage ? (isBigPhone ? 45 : 35) : 30}
                         rounded
                         source={
                           page.rdv.athlete.profile_picture_url

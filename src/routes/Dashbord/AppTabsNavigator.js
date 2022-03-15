@@ -1,7 +1,8 @@
 import React from 'react';
 import { Image, View } from 'react-native';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-//import Stats from '../../screens/Stats';
+import { isIphoneX } from 'react-native-iphone-x-helper';
+
 import OffresStack from './OffresStack';
 import HomeStack from './HomeStack';
 import MyAthletesStack from './MyAthletesStack';
@@ -78,7 +79,7 @@ const AppTabsNavigator = createBottomTabNavigator(
             x: 1,
             y: 1,
           }}
-          style={{ height: 70 }}>
+          style={{ height: isIphoneX() ? 65 : 50 }}>
           <BottomTabBar
             {...props}
             style={{

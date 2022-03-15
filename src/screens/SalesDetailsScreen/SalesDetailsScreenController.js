@@ -1,6 +1,6 @@
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import moment from 'moment';
-export default class DashboardScreenController extends AbstractScreenController {
+export default class SalesDetailsScreenController extends AbstractScreenController {
   constructor(component) {
     super(component);
 
@@ -57,7 +57,7 @@ export default class DashboardScreenController extends AbstractScreenController 
   };
 
   goToSaleDetail = () => {
-    this.component.props.navigation.navigate('SalesDetailsScreen', {
+    this.component.props.navigation.navigate('SalesDetailScreen', {
       month: this.component.state.selectedMonth,
     });
   };

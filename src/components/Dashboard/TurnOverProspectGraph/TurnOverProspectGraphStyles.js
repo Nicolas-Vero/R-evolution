@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   caSaleContainer: {
-    marginTop: 35,
+    marginTop: 22,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -25,35 +25,37 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     alignItems: 'center',
   },
-  caSale1InfoColor: {
-    width: 5,
-    height: 25,
-    backgroundColor: '#4FE470',
+  caConverti1InfoColor: {
+    width: 4,
+    height: 20,
+    backgroundColor: '#FED32C',
   },
   caValueText: {
-    fontFamily: 'MontserratBoldItalic',
+    fontFamily: 'MontserratBold',
     color: '#fff',
-    fontSize: 16,
-    marginHorizontal: 10,
+    fontSize: 15,
+    marginLeft: 10,
+    marginRight: 8,
   },
   caSaleText: {
     fontFamily: 'MontserratBoldItalic',
     color: '#fff',
-    fontSize: 13,
+    fontSize: 8,
   },
-  caSale2InfoColor: {
-    width: 5,
-    height: 25,
-    backgroundColor: '#165424',
+  caConverti2InfoColor: {
+    width: 4,
+    height: 20,
+    backgroundColor: '#393637',
   },
   caConvertGraphValueText: {
     color: '#FED32C',
-    fontSize: 20,
+    fontSize: 16,
     fontFamily: 'MontserratBoldItalic',
+    marginBottom: 1,
   },
   caConvertGraphInfoText: {
     color: '#fff',
-    fontSize: 7,
+    fontSize: 6,
     fontFamily: 'MontserratBoldItalic',
   },
 });

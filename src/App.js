@@ -110,7 +110,7 @@ export class App extends Component {
         }
         break;
       case 'COACH_GOAL_HIT':
-        screen = 'DashboardCoachScreen';
+        screen = 'DashboardScreen';
         break;
       case 'ATHLETE_REQUEST_PROCESS':
         const user = await AuthService.getUser();

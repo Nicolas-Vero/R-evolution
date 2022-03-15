@@ -29,6 +29,17 @@ module.exports = StyleSheet.create({
     width: 70,
     height: 37,
   },
+  validateProspectRow: {
+    marginTop: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  validateProspectSwitch: { transform: [{ scaleX: 0.5 }, { scaleY: 0.5 }] },
+  validateProspectText: {
+    color: '#fff',
+    fontFamily: 'Roboto',
+    fontSize: 12,
+  },
   scrollView: {
     marginTop: 10,
     height: hp(65),
@@ -196,6 +207,17 @@ module.exports = StyleSheet.create({
   cancelBook: {
     color: '#FD7279',
     fontSize: 14,
+    fontFamily: 'Roboto',
+  },
+  textArea: {
+    backgroundColor: '#FFFFFF',
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    height: 150,
+    borderRadius: 3,
+    fontSize: 15,
     fontFamily: 'Roboto',
   },
 });

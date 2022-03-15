@@ -2,30 +2,30 @@ import React from 'react';
 import {
   TouchableOpacity,
   View,
-  SafeAreaView,
   Image,
   Text,
   FlatList,
   ActivityIndicator,
+  ScrollView,
+  Dimensions,
+  Platform,
 } from 'react-native';
 import moment from 'moment';
-import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
-import Pager from '../../common/Carrousel';
+import { heightPercentageToDP } from 'react-native-responsive-screen';
 import SwitchSelector from 'react-native-switch-selector';
 import { Avatar } from 'react-native-elements';
+import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
+import Pager from '../../common/Carrousel';
 import { Calendar } from 'react-native-calendars';
 import MonthsSlider from '../../components/MonthsSlider';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { options } from './homeCoachConfig';
 import styles from './HomeCoachScreenStyle';
 import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ScrollView } from 'react-native-gesture-handler';
 import CoachAvaibility from '../../components/CoachAvaibility/CoachAvaibility';
 import { slots } from '../../helpers/dateHelper';
 import FilterTimesDialog from '../../components/dialogs/filterTimesDialog/filterTimesDialog';
 import { store } from '../../redux/store';
-import SystemHelper from '../../helpers/SystemHelper';
 export default class HomeCoachScreenView extends AbstractScreenView {
   renderDialog() {
     return (
@@ -94,9 +94,128 @@ export default class HomeCoachScreenView extends AbstractScreenView {
       </TouchableOpacity>
     );
   };
-  renderPlanning = () => {
-    const selected = this.component.state.selectedDate;
+
+  renderCalendarAndroid = () => {
     const pageLength = this.component.state.page.length;
+    const isBigPhone = Dimensions.get('window').height >= 896;
+
+    return (
+      <View
+        style={{
+          minHeight: '100%',
+          flex: 1,
+          marginTop: pageLength == 0 ? 15 : isBigPhone ? -20 : 0,
+        }}>
+        <ScrollView style={{ flex: 1, height: 800 }}>
+          <LinearGradient
+            colors={['#23282E', '#141517']}
+            // locations={[-0.25, 1]}
+            start={{
+              x: 1,
+              y: 0,
+            }}
+            end={{
+              x: 1,
+              y: 1,
+            }}
+            style={{
+              maxHeight: 700,
+              borderRadius: 8,
+              marginHorizontal: 16,
+              flex: 1,
+            }}>
+            {this.renderCalendar()}
+          </LinearGradient>
+        </ScrollView>
+      </View>
+    );
+  };
+  renderCalendarIos = () => {
+    const pageLength = this.component.state.page.length;
+    const isBigPhone = Dimensions.get('window').height >= 896;
+
+    return (
+      <ScrollView
+        style={{
+          marginTop: pageLength == 0 ? 15 : isBigPhone ? -20 : 0,
+        }}
+        contentInset={{ bottom: 80 }}>
+        <LinearGradient
+          colors={['#23282E', '#141517']}
+          // locations={[-0.25, 1]}
+          start={{
+            x: 1,
+            y: 0,
+          }}
+          end={{
+            x: 1,
+            y: 1,
+          }}
+          style={{
+            flex: 1,
+            maxHeight: 400,
+            borderRadius: 8,
+            marginHorizontal: 16,
+            alignItems: 'center',
+          }}>
+          {this.renderCalendar()}
+        </LinearGradient>
+      </ScrollView>
+    );
+  };
+
+  renderCalendar = () => {
+    const selected = this.component.state.selectedDate;
+    return (
+      <Calendar
+        theme={{
+          calendarBackground: 'transparent',
+          textSectionTitleColor: 'white',
+          textSectionTitleWeight: 'bold',
+          textSectionTitleDisabledColor: '#d9e1e8',
+          selectedDayBackgroundColor: '#2CDEE4',
+          todayTextColor: '#2CDEE4',
+          dayTextColor: 'white',
+          textDisabledColor: 'grey',
+          arrowColor: 'white',
+          monthTextColor: 'white',
+          indicatorColor: '#2CDEE4',
+          textDayFontFamily: 'Montserrat',
+          textMonthFontFamily: 'MontserratBoldItalic',
+          textDayHeaderFontFamily: 'MontserratMedium',
+          textDayFontSize: 16,
+          textMonthFontSize: 16,
+          textDayHeaderFontSize: 16,
+        }}
+        onPressArrowLeft={async (subtractMonth) => {
+          await this.controller.bookingInMonth(-1);
+          subtractMonth();
+        }}
+        onPressArrowRight={async (addMonth) => {
+          await this.controller.bookingInMonth(1);
+          addMonth();
+        }}
+        enableSwipeMonths={true}
+        firstDay={1}
+        disableMonthChange={true}
+        markingType={'custom'}
+        disabledByDefault
+        markedDates={{
+          [selected]: {
+            selected: true,
+            selectedColor: '#2CDEE4',
+            selectedTextColor: 'black',
+          },
+        }}
+        dayComponent={({ date, state, marking }) =>
+          this.renderDay(date, state, marking)
+        }
+        onDayPress={(day) => this.controller.changeTaskList(day)}
+        style={styles.calendar}
+      />
+    );
+  };
+  renderPlanning = () => {
     return (
       <View style={{ marginTop: 25 }}>
         <View style={styles.tabContainer}>
@@ -125,77 +244,9 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             </View>
           )}
         </View>
-        <ScrollView
-          style={{
-            marginTop: pageLength == 0 ? 15 : 0,
-          }}
-          contentInset={{ bottom: 80 }}>
-          <LinearGradient
-            colors={['#23282E', '#141517']}
-            // locations={[-0.25, 1]}
-            start={{
-              x: 1,
-              y: 0,
-            }}
-            end={{
-              x: 1,
-              y: 1,
-            }}
-            style={{
-              flex: 1,
-              maxHeight: 400,
-              borderRadius: 8,
-              marginHorizontal: 16,
-              alignItems: 'center',
-            }}>
-            <Calendar
-              theme={{
-                calendarBackground: 'transparent',
-                textSectionTitleColor: 'white',
-                textSectionTitleWeight: 'bold',
-                textSectionTitleDisabledColor: '#d9e1e8',
-                selectedDayBackgroundColor: '#2CDEE4',
-                todayTextColor: '#2CDEE4',
-                dayTextColor: 'white',
-                textDisabledColor: 'grey',
-                arrowColor: 'white',
-                monthTextColor: 'white',
-                indicatorColor: '#2CDEE4',
-                textDayFontFamily: 'Montserrat',
-                textMonthFontFamily: 'MontserratBoldItalic',
-                textDayHeaderFontFamily: 'MontserratMedium',
-                textDayFontSize: 16,
-                textMonthFontSize: 16,
-                textDayHeaderFontSize: 16,
-              }}
-              onPressArrowLeft={async (subtractMonth) => {
-                await this.controller.bookingInMonth(-1);
-                subtractMonth();
-              }}
-              onPressArrowRight={async (addMonth) => {
-                await this.controller.bookingInMonth(1);
-                addMonth();
-              }}
-              enableSwipeMonths={true}
-              firstDay={1}
-              disableMonthChange={true}
-              markingType={'custom'}
-              disabledByDefault
-              markedDates={{
-                [selected]: {
-                  selected: true,
-                  selectedColor: '#2CDEE4',
-                  selectedTextColor: 'black',
-                },
-              }}
-              dayComponent={({ date, state, marking }) =>
-                this.renderDay(date, state, marking)
-              }
-              onDayPress={(day) => this.controller.changeTaskList(day)}
-              style={styles.calendar}
-            />
-          </LinearGradient>
-        </ScrollView>
+        {Platform.OS === 'android'
+          ? this.renderCalendarAndroid()
+          : this.renderCalendarIos()}
       </View>
     );
   };
@@ -336,7 +387,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                   marginTop: 15,
                   marginHorizontal: 16,
                 }}
-                data={this.component.state.currentAvailabilitie2.slots}
+                data={this.component.state.currentAvailabilities.slots}
                 keyExtractor={(item, index) => String(index)}
                 refreshControl={
                   <SidappRefreshControl
@@ -345,7 +396,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                   />
                 }
                 renderItem={({ item, index }) => {
-                  const { day } = this.component.state.currentAvailabilitie2;
+                  const { day } = this.component.state.currentAvailabilities;
                   if (coachFilteredTime) {
                     if (coachFilteredTime.start && coachFilteredTime.end) {
                       if (

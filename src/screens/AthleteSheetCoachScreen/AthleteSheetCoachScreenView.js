@@ -1,7 +1,9 @@
 import React from 'react';
 import moment from 'moment';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Avatar } from 'react-native-elements';
+import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { Avatar, Switch } from 'react-native-elements';
+import * as Linking from 'expo-linking';
+
 import { FlatList } from 'react-native-gesture-handler';
 import HeaderLight from '../../components/HeaderLight';
 import { Image } from 'react-native';
@@ -15,6 +17,7 @@ import CancelBookDialog from '../../components/dialogs/cancelBookDialog/cancelBo
 import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
 import { convertSlotToDate } from '../../helpers/dateHelper';
 import UnlinkAthleteDialog from '../../components/dialogs/unlinkAthleteDialog/unlinkAthleteDialog';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 export default class AthleteSheetCoachScreenView extends AbstractScreenView {
   renderCancelBookDialog = () => {
     return (
@@ -115,7 +118,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
       <View style={styles.container}>
         <View style={{ marginTop: isIphoneX() ? 20 : 0 }}>
           <View style={styles.header}>
-            <HeaderLight />
+            <HeaderLight goBack={this.controller.onBackPress} />
             <View style={styles.headerLeft}>
               <Avatar
                 size={82}
@@ -135,9 +138,25 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
             <Image style={styles.userStatusImage} source={badgeImage} />
           </View>
         </View>
+        {!isProspect ? null : (
+          <View style={styles.validateProspectRow}>
+            <Switch
+              ios_backgroundColor="#979797"
+              trackColor={{ true: '#2CDEE4', false: '#979797' }}
+              color={'#2CDEE4'}
+              style={styles.validateProspectSwitch}
+              value={this.component.state.is_validate}
+              onValueChange={(value) => this.controller.setIsValidate(value)}
+            />
+            <Text style={styles.validateProspectText}>Prospect contacté</Text>
+          </View>
+        )}
+
         <View style={styles.content}>
           <ScrollView
+            contentInset={{ bottom: 100 }}
             style={styles.scrollView}
+            keyboardShouldPersistTaps="handled"
             refreshControl={
               <SidappRefreshControl
                 refreshing={this.component.state.refreshing}
@@ -166,7 +185,11 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 style={styles.phoneImg}
                 source={require('../../../assets/images/phone.png')}
               />
-              <Text style={styles.phoneNumberText}>
+              <Text
+                style={styles.phoneNumberText}
+                onPress={() => {
+                  Linking.openURL(`tel:${user.phone}`);
+                }}>
                 {[
                   this.component.props.navigation.state.params.item.athlete
                     ? user.athlete.phone.slice(0, 2)
@@ -459,6 +482,17 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 </Text>
               )}
             </View>
+            <View style={{ marginVertical: 5 }}>
+              <TextInput
+                multiline
+                onChangeText={this.controller.onChangeNote}
+                value={this.component.state.note}
+                returnKeyType="done"
+                placeholder="Note(s)"
+                placeholderTextColor="#979797"
+                style={styles.textArea}
+              />
+            </View>
             {!isProspect ? null : (
               <TouchableOpacity
                 style={styles.deleteSHeetContainer}
@@ -469,6 +503,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 </Text>
               </TouchableOpacity>
             )}
+            <KeyboardSpacer />
           </ScrollView>
         </View>
       </View>

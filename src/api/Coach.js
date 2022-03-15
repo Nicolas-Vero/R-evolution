@@ -304,6 +304,16 @@ export const getUserAppoinement = async (userId) => {
   });
 };
 
+export const updateAthleteSheet = async (data, athlete_id) => {
+  const headers = await AuthService.getHeader();
+
+  return axios({
+    method: 'POST',
+    url: `${API_URL}/coach/athlete/sheet/${athlete_id}`,
+    headers: headers,
+    data,
+  });
+};
 export const delete_athlete = async (athleteId) => {
   const headers = await AuthService.getHeader();
   return axios({

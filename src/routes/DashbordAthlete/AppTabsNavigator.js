@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image } from 'react-native';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BottomTabBar } from 'react-navigation-tabs';
@@ -63,7 +64,7 @@ const AppTabsNavigator = createBottomTabNavigator(
             x: 1,
             y: 1,
           }}
-          style={{ height: 70 }}>
+          style={{ height: isIphoneX() ? 65 : 50 }}>
           <BottomTabBar
             {...props}
             style={{

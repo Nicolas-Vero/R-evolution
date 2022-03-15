@@ -10,7 +10,7 @@ module.exports = StyleSheet.create({
     backgroundColor: '#000',
   },
   header: {
-    marginTop:20,
+    marginTop: 20,
     marginHorizontal: 16,
     flexDirection: 'row',
     alignItems: 'center',
@@ -79,8 +79,6 @@ module.exports = StyleSheet.create({
     paddingBottom: 15,
     paddingLeft: 30,
     paddingRight: 30,
-    justifyContent: 'center',
-    alignSelf: 'center',
     width: wp(90),
   },
   addBookContainer: {

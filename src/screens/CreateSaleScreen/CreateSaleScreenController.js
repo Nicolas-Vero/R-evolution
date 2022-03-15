@@ -33,8 +33,16 @@ export default class CreateSaleScreenController extends AbstractScreenController
       isValidateSaleDialogVisible: false,
       isSaveSaleVisible: false,
       item: this.component.props.navigation.state.params.item,
+      isWorking: false,
     };
   }
+
+  screenDidFocus = async () => {
+    this.component.setState({
+      isWorking: false,
+    });
+  };
+
   componentDidMount = async () => {
     const { item } = this.component.state;
     if (item && item.id) {
@@ -214,6 +222,12 @@ export default class CreateSaleScreenController extends AbstractScreenController
   };
 
   onSave = async () => {
+    if (this.component.state.isWorking) return;
+
+    this.component.setState({
+      isWorking: true,
+    });
+
     const {
       selectedOffer,
       transaction_id,
@@ -242,12 +256,23 @@ export default class CreateSaleScreenController extends AbstractScreenController
 
       this.onDismissSaveSaleDialog();
       if (transaction.status === 200) {
+        this.component.setState({
+          isWorking: false,
+        });
         this.component.props.navigation.goBack();
+
+        return;
       }
+
+      this.component.setState({
+        isWorking: false,
+      });
     } catch (err) {
-      console.log(err);
-      this.component.setState({ loading: false });
-      console.warn(err.message);
+      this.component.setState({
+        loading: false,
+        isWorking: false,
+      });
+      console.warn(err);
     }
   };
 }
