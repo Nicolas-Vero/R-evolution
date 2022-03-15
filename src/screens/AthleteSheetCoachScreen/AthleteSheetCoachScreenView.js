@@ -138,21 +138,21 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
             <Image style={styles.userStatusImage} source={badgeImage} />
           </View>
         </View>
-        {!isProspect ? null : (
-          <View style={styles.validateProspectRow}>
-            <Switch
-              ios_backgroundColor="#979797"
-              trackColor={{ true: '#2CDEE4', false: '#979797' }}
-              color={'#2CDEE4'}
-              style={styles.validateProspectSwitch}
-              value={this.component.state.is_validate}
-              onValueChange={(value) => this.controller.setIsValidate(value)}
-            />
-            <Text style={styles.validateProspectText}>Prospect contacté</Text>
-          </View>
-        )}
 
         <View style={styles.content}>
+          {!isProspect ? null : (
+            <View style={styles.validateProspectRow}>
+              <Switch
+                ios_backgroundColor="#979797"
+                trackColor={{ true: '#2CDEE4', false: '#979797' }}
+                color={'#2CDEE4'}
+                style={styles.validateProspectSwitch}
+                value={this.component.state.is_validate}
+                onValueChange={(value) => this.controller.setIsValidate(value)}
+              />
+              <Text style={styles.validateProspectText}>Prospect contacté</Text>
+            </View>
+          )}
           <ScrollView
             contentInset={{ bottom: 100 }}
             style={styles.scrollView}
