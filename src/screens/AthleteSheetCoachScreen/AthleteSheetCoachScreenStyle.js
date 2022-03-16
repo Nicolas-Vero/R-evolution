@@ -33,12 +33,13 @@ module.exports = StyleSheet.create({
     marginTop: 15,
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft: -6,
   },
-  validateProspectSwitch: { transform: [{ scaleX: 0.5 }, { scaleY: 0.5 }] },
+  validateProspectSwitch: { transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] },
   validateProspectText: {
     color: '#fff',
     fontFamily: 'Roboto',
-    fontSize: 12,
+    fontSize: 13,
   },
   scrollView: {
     marginTop: 10,

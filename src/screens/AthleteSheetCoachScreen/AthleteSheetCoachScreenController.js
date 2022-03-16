@@ -19,8 +19,9 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
       books: [],
       isRemoveAthleteDialogVisible: false,
       is_validate:
-        this.component.props.navigation.state.params.item.coach.is_validate || false,
-      note: this.component.props.navigation.state.params.item.coach.note,
+        this.component.props.navigation.state.params.item.coach.is_validate ||
+        false,
+      note: this.component.props.navigation.state.params.item.coach.note || '',
     };
   }
   componentDidMount = async () => {
@@ -140,11 +141,13 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
       needUpdate = true;
     }
 
+    console.log(is_validate);
+    console.log(note);
     if (needUpdate) {
       await updateAthleteSheet(
         {
           is_validate,
-          note,
+          note: note ? note : '',
         },
         this.component.props.navigation.state.params.item.id,
       );

@@ -84,7 +84,7 @@ module.exports = StyleSheet.create({
     color: '#979797',
   },
   rightSwip: {
-    height: 49,
+    height: 54,
     borderTopRightRadius: 6,
     borderBottomRightRadius: 6,
     justifyContent: 'center',

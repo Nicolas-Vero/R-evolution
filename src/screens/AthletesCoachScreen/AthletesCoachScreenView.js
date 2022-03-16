@@ -6,6 +6,7 @@ import {
   Text,
   FlatList,
   TextInput,
+  Image,
 } from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 import { Avatar } from 'react-native-elements';
@@ -150,11 +151,17 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
             <Text style={styles.timerText}>
               Depuis le {moment(item.created_at).format('DD/MM/YYYY')}
             </Text>
-            <View style={{ alignSelf: 'center' }}>
+            <View style={{ alignSelf: 'center', marginTop: 2 }}>
               {!isProspect ? null : !item.coach.is_validate ? (
-                <AntDesign name="ellipsis1" size={26} color="#fff" />
+                <Image
+                  source={require('../../../assets/images/not_validate.png')}
+                  style={{ resizeMode: 'contain', width: 20, height: 18 }}
+                />
               ) : (
-                <Entypo name={'check'} size={20} color="#fff" />
+                <Image
+                  source={require('../../../assets/images/validate.png')}
+                  style={{ resizeMode: 'contain', width: 20, height: 18 }}
+                />
               )}
             </View>
           </View>
