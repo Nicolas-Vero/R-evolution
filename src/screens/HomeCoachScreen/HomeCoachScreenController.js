@@ -238,11 +238,10 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     });
   };
 
-  onAthletePress = async (athlete) => {
-    // TODO recuperer également le slot et la date et l'ajouter a l'objet athlete
+  onAthletePress = async (athlete, slot) => {
     const book = await get_appointment_by_athlete_id(athlete.id);
     if (book.status === 200) {
-      athlete.book = book.data;
+      athlete.book = book.data.find((obj) => obj.slot === slot);
     }
     const data = await get_coachAthlete_status(athlete.id);
     if (data.status === 200) {

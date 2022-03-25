@@ -2,6 +2,8 @@ import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import { API_URL, STORAGE } from '../configs/Constants';
 import AuthService from '../services/AuthService';
+import { request } from '../services/axiosService';
+
 export const auth = (params) => {
   const data = params;
   return axios({
@@ -22,13 +24,9 @@ export const set_expo_token = async (token) => {
     },
   });
 };
-export const coach_login = (params) => {
+export const coach_login = async (params) => {
   const data = params;
-  return axios({
-    method: 'POST',
-    url: `${API_URL}/auth/coach-login`,
-    data: data,
-  });
+  return await request('POST', false, `/auth/coach-login`, null, data);
 };
 
 export const invite_prospect = async (params) => {
