@@ -1,4 +1,3 @@
-import { Animated } from 'react-native';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import AuthService from '../../services/AuthService';
 import { logout } from '../../api/Coach';

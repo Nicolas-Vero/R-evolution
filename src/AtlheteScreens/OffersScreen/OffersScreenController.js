@@ -1,4 +1,3 @@
-import { Animated } from 'react-native';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import AuthService from '../../services/AuthService';
 import { get_athlete_active_courses } from '../../api/Athlete';

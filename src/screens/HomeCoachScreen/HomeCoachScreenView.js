@@ -377,7 +377,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             </View>
 
             <LinearGradient
-              colors={['#060606', '#2D333C']}
+              colors={['#000', '#24292F']}
               start={{ x: 1, y: 0 }}
               end={{ x: 1, y: 1 }}>
               <FlatList
