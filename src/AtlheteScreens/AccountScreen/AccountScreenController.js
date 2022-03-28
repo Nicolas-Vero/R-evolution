@@ -1,7 +1,7 @@
-import { Animated } from 'react-native';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import AuthService from '../../services/AuthService';
 import { renew_request, logout } from '../../api/Athlete';
+import ContextService from '../../services/ContextService';
 export default class AccountScreenController extends AbstractScreenController {
   constructor(component) {
     super(component);
@@ -20,7 +20,10 @@ export default class AccountScreenController extends AbstractScreenController {
   onLogoutPress = async () => {
     await logout();
     await AuthService.removeAuth();
-    this.component.props.navigation.navigate('Entry');
+    const navigation = ContextService.get('current_navigation');
+    const stack = 'Entry';
+
+    navigation.navigate(stack);
   };
 
   onProfilePress = async () => {

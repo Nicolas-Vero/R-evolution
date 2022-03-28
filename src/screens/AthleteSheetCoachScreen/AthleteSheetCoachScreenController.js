@@ -16,19 +16,24 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
       isCancelBookModalVisible: false,
       isCanceled: false,
       refreshing: false,
-      books: [],
+      book: null,
       isRemoveAthleteDialogVisible: false,
-      is_validate:
-        this.component.props.navigation.state.params.item.coach.is_validate ||
-        false,
-      note: this.component.props.navigation.state.params.item.coach.note || '',
+      is_validate: false,
+      note: '',
     };
   }
   componentDidMount = async () => {
+    if (this.component.props.navigation.state.params.item.coach) {
+      this.component.setState({
+        note: this.component.props.navigation.state.params.item.coach.note,
+        is_validate:
+          this.component.props.navigation.state.params.item.coach.is_validate,
+      });
+    }
     await this.fetchData();
     if (this.component.props.navigation.state.params.item.book) {
       this.component.setState({
-        books: this.component.props.navigation.state.params.item.book,
+        book: this.component.props.navigation.state.params.item.book,
       });
     }
   };
@@ -77,14 +82,12 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
   };
 
   onValidateCancelBook = async () => {
-    const { books } = this.component.state;
     const res = await cancel_booking({
-      id: this.component.state.books[0].id,
+      id: this.component.state.book.id,
     });
     if (res.status === 200) {
-      books.shift();
       this.component.setState({
-        books: books,
+        book: null,
       });
 
       await this.getCourse();
@@ -132,7 +135,14 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
   };
   onBackPress = async () => {
     const { is_validate, note } = this.component.state;
+    const { id } = this.component.props.navigation.state.params.item;
     let needUpdate = false;
+    if (!this.component.props.navigation.state.params.item.coach) {
+      this.updateCoachAthlete(note, is_validate, id);
+
+      this.component.props.navigation.goBack();
+      return;
+    }
     if (
       this.component.props.navigation.state.params.item.coach.is_validate !==
         is_validate ||
@@ -141,18 +151,20 @@ export default class AthleteSheetCoachScreenController extends AbstractScreenCon
       needUpdate = true;
     }
 
-    console.log(is_validate);
-    console.log(note);
     if (needUpdate) {
-      await updateAthleteSheet(
-        {
-          is_validate,
-          note: note ? note : '',
-        },
-        this.component.props.navigation.state.params.item.id,
-      );
+      this.updateCoachAthlete(note, is_validate, id);
     }
 
     this.component.props.navigation.goBack();
+  };
+
+  updateCoachAthlete = async (note, is_validate, id) => {
+    await updateAthleteSheet(
+      {
+        is_validate,
+        note: note ? note : '',
+      },
+      id,
+    );
   };
 }

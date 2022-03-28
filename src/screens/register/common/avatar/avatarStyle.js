@@ -37,6 +37,7 @@ module.exports = StyleSheet.create({
     alignItems: 'center',
   },
   previewImage: {
+    borderRadius:70,
     height: 141,
     width: 141,
     resizeMode: 'contain',

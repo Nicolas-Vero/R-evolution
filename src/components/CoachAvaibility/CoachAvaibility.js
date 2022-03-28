@@ -53,7 +53,7 @@ export default class CoachAvaibility extends React.Component {
           <View>
             <TouchableOpacity
               style={styles.userContainer}
-              onPress={() => onAthletePress(item.athlete)}>
+              onPress={() => onAthletePress(item.athlete, index, true)}>
               <Avatar
                 size={22}
                 rounded

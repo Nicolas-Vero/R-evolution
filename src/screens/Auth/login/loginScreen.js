@@ -22,26 +22,85 @@ import { userType } from '../../../api/Auth';
 export default class loginScreen extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      error: null,
+      passwordError: null,
+    };
   }
 
   async onLoginPress(values) {
     const { email, password } = values;
     const body = { email, password };
+
+    if (!this.isLoginCorrect(email, password)) {
+      return;
+    }
+
     const user = await userType(email);
-    if (user.data.type === 'coach') {
+    if (user.status !== 200) {
+      this.setState({
+        error: "Cet email n'existe pas",
+      });
+    }
+    if (user.content.type === 'coach') {
       await this.loginCoach(body);
       return;
     }
-    if (user.data.type === 'athlete') {
+    if (user.content.type === 'athlete') {
       await this.loginAthlete(body);
       return;
     }
-  }
 
+    // console.log('error')
+    // this.component.setState({
+    //   error: "Cet email n'existe pas",
+    // });
+  }
+  isLoginCorrect = (email, password) => {
+    if (!email || !password) {
+      this.setState({
+        error: email ? null : 'Veuillez renseigner votre email',
+        passwordError: password
+          ? null
+          : ' Veuillez renseigner votre mot de passe',
+      });
+
+      return false;
+    }
+
+    this.setState({
+      error: null,
+      passwordError: null,
+    });
+    return true;
+  };
+  isPasswordCorrect = (password) => {
+    if (!password) {
+      this.setState({
+        passwordError: 'Veuillez renseigner votre mot de passe',
+      });
+
+      return false;
+    }
+
+    this.setState({
+      passwordError: null,
+    });
+
+    return true;
+  };
   async loginCoach(body) {
     const login = await coach_login(body);
+    console.log(login);
+    if (login.status !== 200) {
+      this.setState({ passwordError: 'Mot de passe incorrect' });
+
+      return;
+    }
     if (login.status === 200) {
-      await this.setAuth(login.data, 'coach');
+      this.setState({ passwordError: null });
+      await this.setAuth(login.content, 'coach');
       const user = await get_coach_me();
       if (user.status === 200) {
         await AuthService.setUser(user.data);
@@ -57,8 +116,14 @@ export default class loginScreen extends React.Component {
 
   async loginAthlete(body) {
     const login = await athlete_login(body);
+    if (login.status !== 200) {
+      this.setState({ passwordError: 'Mot de passe incorrect' });
+
+      return;
+    }
     if (login.status === 200) {
-      await this.setAuth(login.data, 'athlete');
+      this.setState({ passwordError: null });
+      await this.setAuth(login.content, 'athlete');
       const user = await get_athlete_me();
       if (user.status === 200) {
         await AuthService.setUser(user.data);
@@ -83,6 +148,8 @@ export default class loginScreen extends React.Component {
     await AuthService.setAuth(toStore);
   }
   render() {
+    const { error, passwordError } = this.state;
+
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -126,6 +193,7 @@ export default class loginScreen extends React.Component {
                         }
                         returnKeyType="next"
                       />
+                      {error && <Text style={styles.error}>{error}</Text>}
                     </View>
                     <TextInput
                       placeholderTextColor="#979797"
@@ -139,7 +207,9 @@ export default class loginScreen extends React.Component {
                       value={values.password}
                       returnKeyType="done"
                     />
-
+                    {passwordError && (
+                      <Text style={styles.error}>{passwordError}</Text>
+                    )}
                     {/* TODO <View>
                       <TouchableOpacity>
                         <Text style={styles.forgetPasswordText}>
@@ -147,7 +217,6 @@ export default class loginScreen extends React.Component {
                         </Text>
                       </TouchableOpacity>
                     </View> */}
-
                     <View style={styles.buttonContainer}>
                       <Button
                         style={styles.button}

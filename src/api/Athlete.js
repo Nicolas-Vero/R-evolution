@@ -2,14 +2,11 @@ import axios from 'axios';
 import { AsyncStorage } from 'react-native';
 import { API_URL, STORAGE } from '../configs/Constants';
 import AuthService from '../services/AuthService';
+import { request } from '../services/axiosService';
 
-export const athlete_login = (params) => {
+export const athlete_login = async (params) => {
   const data = params;
-  return axios({
-    method: 'POST',
-    url: `${API_URL}/auth/athlete-login`,
-    data: data,
-  });
+  return await request('POST', false, `/auth/athlete-login`, null, data);
 };
 
 export const athlete_appointement = (params) => {
