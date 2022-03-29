@@ -63,21 +63,23 @@ export default class avatarScreen extends React.Component {
       const res = await sign_up(passItem);
 
       if (res.status === 200) {
-        await SystemHelper.sleep(200);
+        await SystemHelper.sleep(500);
+        this.props.navigation.popToTop();
+        this.props.navigation.push('loginScreen');
         await this.upload(res.data.userId, true);
-        await SystemHelper.sleep(200);
+        // await SystemHelper.sleep(500);
 
-        await this.loginAthlete({
-          email: passItem.email,
-          password: passItem.password,
-        });
+        // await this.loginAthlete({
+        //   email: passItem.email,
+        //   password: passItem.password,
+        // });
 
         return;
       }
     } else {
       const res = await auth(passItem);
       if (res.status === 200) {
-        await SystemHelper.sleep(200);
+        await SystemHelper.sleep(500);
         this.props.navigation.popToTop();
         this.props.navigation.push('loginScreen');
         await this.upload(res.data.userId, false);
@@ -102,7 +104,9 @@ export default class avatarScreen extends React.Component {
     const login = await athlete_login(body);
     if (login.status === 200) {
       await this.setAuth(login.data, 'athlete');
+      await SystemHelper.sleep(200);
       const user = await get_athlete_me();
+      
       if (user.status === 200) {
         await AuthService.setUser(user.data);
         this.props.navigation.navigate('DashboardStackAtlhete');
@@ -112,7 +116,7 @@ export default class avatarScreen extends React.Component {
     this.setState({ isWorking: false });
   }
 
-  async setAuth(data, type) {
+   setAuth = async (data, type) => {
     const toStore = {
       user: { id: data.user.id, type },
       headers: {

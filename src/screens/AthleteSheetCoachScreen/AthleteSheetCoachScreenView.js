@@ -113,7 +113,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
     const { isCanceled, ActiveCourses } = this.component.state;
     const sessionLeft =
       ActiveCourses.total_sessions - ActiveCourses.booked_session;
-    const { books } = this.component.state;
+    const { book } = this.component.state;
     return (
       <View style={styles.container}>
         <View style={{ marginTop: isIphoneX() ? 20 : 0 }}>
@@ -163,13 +163,13 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 onRefresh={this.controller.fetchData}
               />
             }>
-            {books && books.length ? (
+            {book ? (
               <View style={styles.cancelItem}>
                 <Text style={styles.infoText}>Séance :</Text>
                 <View style={styles.cancelBookContainer}>
                   <Text style={styles.cancelBookValue}>
-                    {moment(books[0]?.date).format('DD/MM/YYYY')} -{' '}
-                    {convertSlotToDate(books[0].slot)}
+                    {moment(book.date).format('DD/MM/YYYY')} -{' '}
+                    {convertSlotToDate(book.slot)}
                   </Text>
                   <Text
                     style={styles.cancelBook}

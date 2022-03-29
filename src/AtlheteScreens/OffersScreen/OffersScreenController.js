@@ -1,4 +1,3 @@
-import { Animated } from 'react-native';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import AuthService from '../../services/AuthService';
 import { get_athlete_active_courses } from '../../api/Athlete';
@@ -22,11 +21,13 @@ export default class OffersScreenController extends AbstractScreenController {
       // console.log('courses', courses.data);
       this.component.setState({ ActiveCourses: courses.data });
     }
-    const offers = await get_coach_offer_by_id(user.coach.coach_id);
-    if (offers.status === 200) {
-      // console.log('offers', offers.data);
-      this.component.setState({ offers: offers.data.offers });
+    if (user.coach) {
+      const offers = await get_coach_offer_by_id(user.coach.coach_id);
+      if (offers.status === 200) {
+        this.component.setState({ offers: offers.data.offers });
+      }
     }
+
     this.component.setState({ isLoaded: true });
   }
 

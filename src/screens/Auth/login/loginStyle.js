@@ -71,4 +71,10 @@ module.exports = StyleSheet.create({
     fontFamily: 'Roboto',
     color: '#2CDEE4',
   },
+  error: {
+    marginTop: 5,
+    fontSize: 11,
+    color: '#FD7279',
+    textAlign: 'right',
+  },
 });

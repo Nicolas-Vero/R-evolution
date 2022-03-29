@@ -46,26 +46,13 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     this.component.listRef = null;
     const user = await AuthService.getUser();
     this.component.setState({ user });
-    this.changeTaskList(curDate);
+    // this.changeTaskList(curDate);
     this.onMonthChange(curDate, true);
     const res = await get_public_request();
     if (res.status === 200) {
       this.component.setState({ publicRequest: res.data.requests.length });
     }
     await this.getAvailabilities(curDate);
-
-    const bookingPerday = [];
-    const dayOfMonth = this.month(this.component.state.currentMonth);
-    for (let element of dayOfMonth) {
-      const appointement = await get_appointement_calendar(
-        moment(new Date(element)).format('YYYY-MM-DD'),
-      );
-      bookingPerday.push(appointement.data.length);
-    }
-
-    this.component.setState({
-      MonthBookingNumberPerDay: bookingPerday,
-    });
   }
   componentDidUpdate(prevProps) {
     if (
@@ -82,14 +69,21 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     }
   }
 
-  componentWillUnmount() {
-    Notifications.removeNotificationSubscription(
-      this.component.notificationListener,
-    );
-    Notifications.removeNotificationSubscription(
-      this.component.responseListener,
-    );
-  }
+  screenDidFocus = async () => {
+    await this.changeTaskList(this.component.state.selectedDate);
+    const bookingPerday = [];
+    const dayOfMonth = this.month(this.component.state.currentMonth);
+    for (let element of dayOfMonth) {
+      const appointement = await get_appointement_calendar(
+        moment(new Date(element)).format('YYYY-MM-DD'),
+      );
+      bookingPerday.push(appointement.data.length);
+    }
+
+    this.component.setState({
+      MonthBookingNumberPerDay: bookingPerday,
+    });
+  };
 
   handler = async (date) => {
     await this.getAvailabilities(date);
@@ -238,11 +232,10 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     });
   };
 
-  onAthletePress = async (athlete) => {
-    // TODO recuperer également le slot et la date et l'ajouter a l'objet athlete
+  onAthletePress = async (athlete, slot) => {
     const book = await get_appointment_by_athlete_id(athlete.id);
     if (book.status === 200) {
-      athlete.book = book.data;
+      athlete.book = book.data.find((obj) => obj.slot === slot);
     }
     const data = await get_coachAthlete_status(athlete.id);
     if (data.status === 200) {

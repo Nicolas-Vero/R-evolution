@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import ProgressBarAnimated from 'react-native-progress-bar-animated';
 
 import styles from './AthleteCharacteristicStyles';

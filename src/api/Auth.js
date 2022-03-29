@@ -1,8 +1,6 @@
 import axios from 'axios';
-import { AsyncStorage } from 'react-native';
-import { API_URL, STORAGE } from '../configs/Constants';
-import { getHeaders } from './Global';
-import AuthService from '../services/AuthService';
+import { API_URL } from '../configs/Constants';
+import { request } from '../services/axiosService';
 
 export const authentification = (params) => {
   const data = params;
@@ -13,11 +11,8 @@ export const authentification = (params) => {
   });
 };
 
-export const userType = (params) => {
-  return axios({
-    method: 'GET',
-    url: `${API_URL}/auth/userType/${params}`,
-  });
+export const userType = async (params) => {
+  return await request('GET', false, `/auth/userType/${params}`);
 };
 
 export const isEmailExist = async (email) => {

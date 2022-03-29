@@ -51,10 +51,10 @@ export default class CarouselPager extends Component {
   _getPosForPage(pageNb) {
     return -pageNb * this._boxSizeInterval;
   }
-  onAthletePress = async (athlete) => {
+  onAthletePress = async (athlete, slot) => {
     const book = await get_appointment_by_athlete_id(athlete.id);
     if (book.status === 200) {
-      athlete.book = book.data;
+      athlete.book = book.data.find((obj) => obj.slot === slot);
     }
     const data = await get_coachAthlete_status(athlete.id);
     if (data.status === 200) {
@@ -99,8 +99,8 @@ export default class CarouselPager extends Component {
 
   _runAfterMeasurements(width, height) {
     // Set box and box interval size
-    this._boxSize = height / 2.7;
-    this._boxSizeInterval = height / 2.7;
+    this._boxSize = height / 3.2;
+    this._boxSizeInterval = height / 3.2;
 
     // Get initial page
     let initialPage = this.props.initialPage || 0;
@@ -324,7 +324,7 @@ export default class CarouselPager extends Component {
                 ]}>
                 <TouchableOpacity
                   onLongPress={() => {
-                    this.onAthletePress(page.rdv.athlete);
+                    this.onAthletePress(page.rdv.athlete, page.rdv.slot);
                   }}>
                   <View
                     style={{
