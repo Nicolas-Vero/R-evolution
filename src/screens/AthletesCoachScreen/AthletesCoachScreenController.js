@@ -1,4 +1,4 @@
-import { get_coach_athlete, delete_athlete } from '../../api/Coach';
+import { get_coach_athlete, delete_athlete, athletePendingPayment } from '../../api/Coach';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 export default class AthletesCoachScreenController extends AbstractScreenController {
   constructor(component) {
@@ -41,6 +41,7 @@ export default class AthletesCoachScreenController extends AbstractScreenControl
 
   fetchData = async () => {
     this.component.setState({ refreshing: true });
+
     const athletes = await get_coach_athlete();
     if (athletes.status === 200) {
       this.component.setState({
@@ -61,12 +62,15 @@ export default class AthletesCoachScreenController extends AbstractScreenControl
     let atlhetesActifs = [];
     let atlhetesInactifs = [];
     let atlhetesProspects = [];
-    initialData.forEach((element, val) => {
+    const pendingPayment = await athletePendingPayment()
+    initialData.forEach(async (element, val) => {
       switch (element.status) {
         case 'active':
+          element.pendingPayment = pendingPayment.data.includes(element.id) ? true : false
           atlhetesActifs.push(element);
           break;
         case 'inactive':
+          element.pendingPayment = pendingPayment.data.includes(element.id) ? true : false
           atlhetesInactifs.push(element);
           break;
         case 'prospect':

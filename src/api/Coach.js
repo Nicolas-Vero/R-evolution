@@ -301,6 +301,14 @@ export const getUserAppoinement = async (userId) => {
     headers: headers,
   });
 };
+export const athletePendingPayment = async () => {
+  const headers = await AuthService.getHeader();
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/coach/athlete/pendingPayment`,
+    headers: headers,
+  });
+};
 
 export const updateAthleteSheet = async (data, athlete_id) => {
   const headers = await AuthService.getHeader();

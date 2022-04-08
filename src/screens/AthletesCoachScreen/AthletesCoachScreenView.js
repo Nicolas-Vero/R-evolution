@@ -137,14 +137,22 @@ export default class AthletesCoachScreenView extends AbstractScreenView {
                 source={
                   item.profile_picture_url
                     ? {
-                        uri: item.profile_picture_url,
-                      }
+                      uri: item.profile_picture_url,
+                    }
                     : require('../../../assets/images/no_pp.jpg')
                 }
               />
               <Text style={styles.username}>
                 {item.first_name} {item.last_name}{' '}
               </Text>
+            </View>
+            <View style={{ alignSelf: 'center', marginTop: 2 }}>
+              {item.pendingPayment ? (
+                <Image
+                  source={require('../../../assets/images/€.png')}
+                  style={{ resizeMode: 'contain', width: 20, height: 18 }}
+                />
+              ) : null}
             </View>
           </View>
           <View style={styles.itemRight}>
