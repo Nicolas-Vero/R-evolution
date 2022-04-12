@@ -46,7 +46,7 @@ export default class goalScreen extends React.Component {
   };
 
   render() {
-    const passItem = this.props.navigation.state.params.item;
+    const passItem = {};
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -165,7 +165,7 @@ export default class goalScreen extends React.Component {
                                         </Text>
                                       ) : null}
                                     </View>
-                                    <View style={styles.inputContainer}>
+                                    {/* <View style={styles.inputContainer}>
                                       <TextInput
                                         placeholder="Ajouter un objectif"
                                         placeholderTextColor="#979797"
@@ -196,7 +196,7 @@ export default class goalScreen extends React.Component {
                                           />
                                         </View>
                                       </TouchableOpacity>
-                                    </View>
+                                    </View> */}
                                   </View>
                                 )}
                               />

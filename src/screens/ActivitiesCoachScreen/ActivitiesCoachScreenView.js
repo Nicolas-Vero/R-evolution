@@ -139,6 +139,7 @@ export default class ActivitiesCoachScreenView extends AbstractScreenView {
           data={this.component.state.reminders}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item, index }) => {
+            console.log(item.date)
             return (
               <Swipeable
                 key={index}

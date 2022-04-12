@@ -153,7 +153,10 @@ export default class OffersScreenView extends AbstractScreenView {
                         : require('../../../assets/images/no_pp.jpg')
                     }
                   />
-                  <Text style={styles.currentOfferCoachName}>
+                  <Text
+                    style={styles.currentOfferCoachName}
+                    numberOfLines={1}
+                    ellipsizeMode="tail">
                     {this.component.state.ActiveCourses.coach.first_name}{' '}
                     {this.component.state.ActiveCourses.coach.last_name}
                   </Text>

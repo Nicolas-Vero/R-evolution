@@ -1,11 +1,10 @@
 import React from 'react';
 import { View, Text, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { BarChart } from 'react-native-chart-kit';
-
+import { BarChart, XAxis, Grid } from 'react-native-svg-charts';
 import styles from './AthleteGoalsGraphStyles';
+import { G, Line, Text as SvgText } from 'react-native-svg';
 
-const agesIndex = ['13-17', '18-24', '25-34', '35-44', '45-54', '+55'];
 export default class AthleteGoalsGraph extends React.Component {
   constructor(props) {
     super(props);
@@ -16,17 +15,10 @@ export default class AthleteGoalsGraph extends React.Component {
     const barWidth = Dimensions.get('screen').width - 80;
 
     const data = {
-      labels: [
-        'PERTE DE POIDS',
-        'PRISE DE MASSE',
-        'RAFFERMISSEMENT',
-        'SANTE',
-        'PREPAP PHYSIQUE',
-        'AUTRE',
-      ],
+      labels: this.props.keys,
       datasets: [
         {
-          data: [12, 34, 12, 34, 12, 23],
+          data: this.props.values,
           colors: [
             () => '#F2CC60',
             () => '#7EE787',
@@ -38,11 +30,120 @@ export default class AthleteGoalsGraph extends React.Component {
         },
       ],
     };
+
+    const colors = [
+      '#F2CC60',
+      '#7EE787',
+      '#FFA657',
+      '#388BFD',
+      '#F85149',
+      '#8B939E',
+    ];
+    const data3 = this.props.values.map((item, index) => {
+      return {
+        value: item,
+        svg: {
+          fill: colors[index],
+        },
+        label: index === 3 ? 'PREPA PHYSIQUE' : this.props.keys[index],
+      };
+    });
+
+    const CUT_OFF = 10;
+    const Labels = ({ x, y, bandwidth, data }) =>
+      data.map((item, index) => (
+        <SvgText
+          key={index}
+          x={x(index) + bandwidth / 2}
+          y={y(item.value) - 10}
+          fontSize={14}
+          fill={item.value >= CUT_OFF ? 'white' : 'white'}
+          alignmentBaseline={'middle'}
+          textAnchor={'middle'}>
+          {item.value}
+        </SvgText>
+      ));
+
+    const CustomGrid = ({ x, y, data, ticks }) => (
+      <G>
+        {
+          // Horizontal grid
+          ticks.map((tick) => {
+            return (
+              <Line
+                key={tick}
+                x1={'0%'}
+                x2={'100%'}
+                y1={y(tick)}
+                y2={y(tick)}
+                stroke={tick === 0 ? '#717171' : '#fff'}
+                opacity={tick === 0 ? '1' : '0.2'}
+              />
+            );
+          })
+        }
+        {
+          // Vertical grid
+          data.map((_, index) => (
+            <Line
+              strockeWidth={10}
+              key={index}
+              y1={'10%'}
+              y2={'100%'}
+              x1={x(index)}
+              x2={x(index)}
+              stroke={_ === 0 ? '#717171' : '#fff'}
+              opacity={_ === 0 ? '1' : '0.2'}
+            />
+          ))
+        }
+      </G>
+    );
+
+    return (
+      <View style={{ height: 350 }}>
+        <BarChart
+          spacingInner={0.8}
+          yAccessor={({ item }) => item.value}
+          xAccessor={({ item }) => item.value}
+          gridMin={0}
+          style={{ flex: 1 }}
+          spacing={0.2}
+          data={data3}
+          numberOfTicks={6}
+          contentInset={{ top: 30, bottom: 10, left: 30, right: 30 }}>
+          <CustomGrid belowChart={true} />
+          <Labels />
+        </BarChart>
+        <XAxis
+          // xAccessor={({ item }) => {
+          //   console.log(item.label);
+          // }}
+          // formatLabel={(value) => {
+          //   console.log(value);
+          // }}
+          formatLabel={(value, index) => {
+            return data3[index].label;
+          }}
+          style={{ height: 100 }}
+          data={data3}
+          contentInset={{ left: 50, right: 30 }}
+          svg={{
+            rotation: -30,
+            marginTop: 50,
+            fontSize: 8,
+            padding: 10,
+            translateY: 30,
+            translateX: -10,
+          }}
+        />
+      </View>
+    );
     return (
       <View style={styles.linearContainer}>
         <Text style={styles.title}>OBJECTIFS</Text>
         <LinearGradient
-          colors={['#060606', '#181B1F', '#2D333C']}
+          colors={['#070707', '#121417', '#1B1F25']}
           start={{
             x: 1,
             y: 0,
@@ -53,34 +154,42 @@ export default class AthleteGoalsGraph extends React.Component {
           }}
           style={styles.linear}>
           <BarChart
+            height={250}
             bezier
             // style={graphStyle}
             data={data}
             width={barWidth}
-            height={330}
             fromZero={true}
             withHorizontalLabels={false}
-            verticalLabelRotation={30}
+            verticalLabelRotation={-30}
             showValuesOnTopOfBars={true}
             showBarTops={false}
+            withCustomBarColorFromData={true}
+            flatColor={true}
+            yLabelsOffset={25}
+            xLabelsOffset={40}
             chartConfig={{
+              style: {
+                padding: 40,
+              },
+              propsForVerticalLabels: {
+                translateX: -40,
+              },
               barPercentage: 0.5,
               propsForBackgroundLines: {
                 strokeDasharray: '',
               },
               backgroundGradientFromOpacity: 0,
               backgroundGradientToOpacity: 0,
-              propsForVerticalLabels: {
-                // textAnchor: 'end',
+
+              propsForLabels: {
                 fontSize: 8,
               },
-              verticalLabelsHeightPercentage: 55,
-              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              // verticalLabelsHeightPercentage: 55,
+              // labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
               color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             }}
-            style={{ paddingRight: 5 }}
-            withCustomBarColorFromData={true}
-            flatColor={true}
+            style={{ paddingRight: 10 }}
           />
         </LinearGradient>
       </View>

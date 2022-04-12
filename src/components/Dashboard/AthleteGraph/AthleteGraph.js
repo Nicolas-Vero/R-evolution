@@ -18,7 +18,7 @@ export default class AthleteGraph extends React.Component {
         <Text style={styles.title}>TOTAL</Text>
 
         <LinearGradient
-          colors={['#060606', '#181B1F', '#2D333C']}
+          colors={['#070707', '#121417', '#1B1F25']}
           start={{
             x: 1,
             y: 0,
@@ -32,13 +32,13 @@ export default class AthleteGraph extends React.Component {
             <View style={styles.athletesInfosRow}>
               <View style={styles.athleteInfoColor1} />
               <Text
-                style={styles.athletesValueText}>{`${athletes.actifs}`}</Text>
+                style={styles.athletesValueText}>{`${athletes.actives}`}</Text>
               <Text style={styles.athletesSaleText}>ACTIFS</Text>
             </View>
             <AnimatedCircularProgress
               size={150}
               width={15}
-              fill={athletes.percentage}
+              fill={athletes.percentage.toFixed() || 0}
               rotation={180}
               lineCap={'round'}
               tintColor="#2CDEE4"
@@ -56,21 +56,11 @@ export default class AthleteGraph extends React.Component {
             <View style={styles.athletesInfosRow}>
               <View style={styles.athleteInfoColor2} />
               <Text
-                style={styles.athletesValueText}>{`${athletes.inactifs}`}</Text>
+                style={
+                  styles.athletesValueText
+                }>{`${athletes.inactives}`}</Text>
               <Text style={styles.athletesSaleText}>INACTIFS</Text>
             </View>
-            {/* <View style={styles.caSalesInfoContainer}>
-              <View style={styles.caInfosRow}>
-                <View style={styles.caSale1InfoColor} />
-                <Text style={styles.caValueText}>{`${athletes.actifs}`}</Text>
-                <Text style={styles.caSaleText}>ACTIFS</Text>
-              </View>
-              <View style={styles.caInfosRow}>
-                <View style={styles.caSale2InfoColor} />
-                <Text style={styles.caValueText}>{`${athletes.inactifs}`}</Text>
-                <Text style={styles.caSaleText}>INACTIFS</Text>
-              </View>
-            </View> */}
           </View>
         </LinearGradient>
       </View>

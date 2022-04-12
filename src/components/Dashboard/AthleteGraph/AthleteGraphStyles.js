@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   title: {
+    marginBottom:9,
     fontSize: 9,
     color: '#fff',
     fontFamily: 'MontserratBoldItalic',
@@ -24,7 +25,6 @@ const styles = StyleSheet.create({
 
   athletesInfosRow: {
     flexDirection: 'row',
-    marginVertical: 10,
     alignItems: 'center',
   },
   athleteInfoColor1: {

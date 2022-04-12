@@ -38,6 +38,8 @@ export default class PendingRequestCoachScreenView extends AbstractScreenView {
               }
             />
             <Text
+              numberOfLines={1}
+              ellipsizeMode="tail"
               style={[styles.username, { color: isMine ? '#000' : '#FFF' }]}>
               {item?.athlete?.first_name} {item?.athlete?.last_name}
             </Text>

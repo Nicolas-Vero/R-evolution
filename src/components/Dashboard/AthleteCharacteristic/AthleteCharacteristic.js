@@ -17,7 +17,7 @@ export default class AthleteCharacteristic extends React.Component {
     return (
       <View key={index} style={{ marginBottom: index === 5 ? 0 : 20 }}>
         <View style={styles.ageLineContainer}>
-          <View style={{ alignItems: 'flex-start', flex: 1, marginRight:20 }}>
+          <View style={{ alignItems: 'flex-start', flex: 1, marginRight: 20 }}>
             <Text
               style={styles.ageLineLeftText}>{`${agesIndex[index]} ans`}</Text>
           </View>
@@ -31,18 +31,6 @@ export default class AthleteCharacteristic extends React.Component {
               height={10}
             />
           </View>
-          {/* <View style={styles.ageBar}>
-            <ProgressBarAnimated
-              backgroundColor={'#7B61FF'}
-              // underlyingColor={'#fff'}
-              borderRadius={10}
-              borderColor={'transparent'}
-              borderWidth={0}
-              width={barWidth - 100}
-              height={18}
-              value={value}
-            />
-          </View> */}
           <View style={{ alignItems: 'flex-end', flex: 1 }}>
             <Text style={styles.ageLineRightText}>{`${value}%`}</Text>
           </View>
@@ -54,11 +42,18 @@ export default class AthleteCharacteristic extends React.Component {
     const barWidth = Dimensions.get('screen').width - 60;
 
     const { athletes } = this.props;
+
+    const femalesPercentage = athletes.gender.females.percentage
+      ? athletes.gender.females.percentage.toFixed()
+      : 0;
+    const malesPercentage = athletes.gender.males.percentage
+      ? athletes.gender.males.percentage.toFixed()
+      : 0;
     return (
       <View style={styles.linearContainer}>
         <Text style={styles.title}>CARACTÉRISTIQUES</Text>
         <LinearGradient
-          colors={['#060606', '#181B1F', '#2D333C']}
+          colors={['#070707', '#121417', '#1B1F25']}
           start={{
             x: 1,
             y: 0,
@@ -75,7 +70,7 @@ export default class AthleteCharacteristic extends React.Component {
                 <Text
                   style={
                     styles.genderValueFemaleText
-                  }>{` ${athletes.gender.females.number}`}</Text>
+                  }>{` ${athletes.gender.females.count}`}</Text>
               </Text>
             </View>
             <View style={styles.row}>
@@ -84,7 +79,7 @@ export default class AthleteCharacteristic extends React.Component {
                 <Text
                   style={
                     styles.genderValueMaleText
-                  }>{` ${athletes.gender.males.number}`}</Text>
+                  }>{` ${athletes.gender.males.count}`}</Text>
               </Text>
             </View>
           </View>
@@ -93,7 +88,7 @@ export default class AthleteCharacteristic extends React.Component {
               <Text
                 style={
                   styles.gendarBarValueText
-                }>{`${athletes.gender.females.percentage}%`}</Text>
+                }>{`${femalesPercentage}%`}</Text>
             </View>
             <ProgressBarAnimated
               backgroundColor={'#9F294E'}
@@ -103,17 +98,16 @@ export default class AthleteCharacteristic extends React.Component {
               borderWidth={0}
               width={barWidth}
               height={18}
-              value={athletes.gender.females.percentage}
+              value={femalesPercentage}
             />
             <View style={styles.gendarBarMale}>
               <Text
-                style={
-                  styles.gendarBarValueText
-                }>{`${athletes.gender.males.percentage}%`}</Text>
+                style={styles.gendarBarValueText}>{`${malesPercentage}%`}</Text>
             </View>
           </View>
           {athletes.ages.map((val, index) => {
-            return this.renderAgeLine(val, index, barWidth);
+            const percentage = val ? val.toFixed() : 0;
+            return this.renderAgeLine(percentage, index, barWidth);
           })}
         </LinearGradient>
       </View>

@@ -15,6 +15,7 @@ import { isLoaded } from 'expo-font';
 import styles from './CreateReminderCoachScreenStyle';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
+import moment from 'moment';
 
 export default class CreateReminderCoachScreenView extends AbstractScreenView {
   render() {
@@ -53,9 +54,25 @@ export default class CreateReminderCoachScreenView extends AbstractScreenView {
                           <View style={styles.formRow}>
                             <View style={{ flex: 1.5 }}>
                               <Text style={styles.formRowText}>Date</Text>
+                              {/* <TextInputMask
+                                type={'datetime'}
+                                options={{
+                                  format: 'DD/MM/YYYY',
+                                }}
+                                placeholder={moment().format('DD/MM/YYYY')}
+                                value={values.date}
+                                onChangeText={handleChange('date')}
+                                onSubmitEditing={() =>
+                                  this.hourInput && this.hourInput.focus()
+                                }
+                                style={styles.inputTop}
+                                onBlur={handleBlur('date')}
+                                returnKeyType="next"
+
+                              /> */}
                               <TextInput
                                 placeholderTextColor="#979797"
-                                placeholder="29/05/2021"
+                                placeholder={moment().format('DD/MM/YYYY')}
                                 style={styles.inputTop}
                                 onChangeText={handleChange('date')}
                                 onBlur={handleBlur('date')}
@@ -87,7 +104,9 @@ export default class CreateReminderCoachScreenView extends AbstractScreenView {
                               />
                             </View>
                             <View style={{ flex: 1 }}>
-                              <Text style={styles.formRowTextColor}>Couleur</Text>
+                              <Text style={styles.formRowTextColor}>
+                                Couleur
+                              </Text>
                               <SelectDropdown
                                 buttonStyle={styles.dropdownButton}
                                 dropdownStyle={styles.dropdownBg}

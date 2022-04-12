@@ -28,6 +28,8 @@ export default class BookOfferDialog extends React.Component {
           <Text style={styles.title}>
             Veux-tu confirmer la séance avec
             <Text
+              numberOfLines={1}
+              ellipsizeMode="tail"
               style={styles.textColored}>{` ${this.props.coachName} `}</Text>
             de
             <Text style={styles.textColored}>

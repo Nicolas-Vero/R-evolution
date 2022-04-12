@@ -25,7 +25,7 @@ export default class Pager extends Component {
         <View
           style={{
             marginBottom: 15,
-            height: heightPercentageToDP(18),
+            height: heightPercentageToDP(17),
           }}>
           <CarouselPager
             ref={(ref) => (this.carousel = ref)}

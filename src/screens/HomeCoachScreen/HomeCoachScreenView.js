@@ -102,11 +102,9 @@ export default class HomeCoachScreenView extends AbstractScreenView {
     return (
       <View
         style={{
-          minHeight: '100%',
-          flex: 1,
           marginTop: pageLength == 0 ? 15 : isBigPhone ? -20 : 0,
         }}>
-        <ScrollView style={{ flex: 1, height: 800 }}>
+        <ScrollView>
           <LinearGradient
             colors={['#23282E', '#141517']}
             // locations={[-0.25, 1]}
@@ -119,10 +117,8 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               y: 1,
             }}
             style={{
-              maxHeight: 700,
               borderRadius: 8,
               marginHorizontal: 16,
-              flex: 1,
             }}>
             {this.renderCalendar()}
           </LinearGradient>
@@ -168,6 +164,7 @@ export default class HomeCoachScreenView extends AbstractScreenView {
     const selected = this.component.state.selectedDate;
     return (
       <Calendar
+        scrollEnabled={true}
         theme={{
           calendarBackground: 'transparent',
           textSectionTitleColor: 'white',
@@ -486,7 +483,10 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                       : require('../../../assets/images/no_pp.jpg')
                   }
                 />
-                <Text style={styles.username}>
+                <Text
+                  style={styles.username}
+                  numberOfLines={1}
+                  ellipsizeMode="tail">
                   {this.component.state.user.first_name}{' '}
                   {this.component.state.user.last_name}
                 </Text>

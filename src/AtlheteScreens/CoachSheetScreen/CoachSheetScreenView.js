@@ -46,7 +46,10 @@ export default class CoachSheetScreenView extends AbstractScreenView {
                     : require('../../../assets/images/no_pp.jpg')
                 }
               />
-              <Text style={styles.username}>
+              <Text
+                style={styles.username}
+                numberOfLines={1}
+                ellipsizeMode="tail">
                 {`${this.component.state.coach?.first_name} ${this.component.state.coach?.last_name}`}
               </Text>
               <Text style={styles.trainingPlace}>
