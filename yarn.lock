@@ -6794,6 +6794,11 @@ react-native-masked-text@^1.13.0:
     date-and-time "0.9.0"
     tinymask "1.0.2"
 
+react-native-multicolor-progress-bar@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-multicolor-progress-bar/-/react-native-multicolor-progress-bar-1.0.3.tgz#54a525d8c47a26fc9067ab8f5bf486c0b5eab832"
+  integrity sha512-Fbw16KZ3SytN6v9OihXf0aV3HibIAq1IkDj/WX2c73VZj51KjJMcwpZMZ00B8l5lkJnSe1pgR4e0Wd9CemTGWQ==
+
 react-native-progress-bar-animated@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/react-native-progress-bar-animated/-/react-native-progress-bar-animated-1.0.6.tgz#18de003ababb8222c84299ef2f20d0eab549dc19"

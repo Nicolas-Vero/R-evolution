@@ -5,7 +5,6 @@ export const getYearTurnover = async (date) => {
 };
 
 export const getMonthTurnover = async (date) => {
-  console.log(date);
   return await request('GET', true, `/dashboard/turnover/month`, { date });
 };
 

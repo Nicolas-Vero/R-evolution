@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 import SwitchSelector from 'react-native-switch-selector';
 import { AntDesign } from '@expo/vector-icons';
 
@@ -7,7 +13,6 @@ import AbstractScreenView from '../../components/abstracts/AbstractScreen/Abstra
 import HeaderSimple from '../../components/HeaderSimple';
 import MonthsSlider from '../../components/MonthsSlider';
 import { LinearGradient } from 'expo-linear-gradient';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import TurnOverYearGraph from '../../components/Dashboard/TurnOverYearGraph/TurnOverYearGraph';
 import TurnOverMonthGraph from '../../components/Dashboard/TurnOverMonthGraph/TurnOverMonthGraph';
 import TurnOverSaleGraph from '../../components/Dashboard/TurnOverSaleGraph/TurnOverSaleGraph';
@@ -47,6 +52,8 @@ export default class DashboardScreenView extends AbstractScreenView {
   };
 
   renderCA = () => {
+    const screenHeight = Dimensions.get('window').height;
+    console.log(screenHeight);
     const { year } = this.component.state;
     const { turnOver, sales, prospects, yearCA, selectedMonthIndex } =
       this.component.state;
@@ -58,55 +65,60 @@ export default class DashboardScreenView extends AbstractScreenView {
           onChange={this.controller.onMonthChange}
           withYear={true}
         />
-        <ScrollView style={styles.scrollView}>
-          <View style={styles.caHeader}>
-            <Text style={styles.caHeaderText}>CHIFFRE D'AFFAIRES</Text>
-            <View style={styles.caGoalContainer}>
-              <Text
-                style={styles.caHeaderText}
-                onPress={this.controller.setGoalModalVisible}>
-                OBJECTIF
-              </Text>
-              <AntDesign name="arrowright" size={12} color="white" />
-            </View>
-          </View>
-          <View style={styles.linearContainer}>
-            <LinearGradient
-              colors={['#070708', '#101214', '#1B1F25']}
-              start={{
-                x: 1,
-                y: 0,
-              }}
-              end={{
-                x: 1,
-                y: 1,
-              }}
-              style={styles.linear}>
-              <TouchableOpacity onPress={this.controller.goToSaleDetail}>
-                {turnOver && <TurnOverMonthGraph turnOver={turnOver} />}
-              </TouchableOpacity>
-              {sales && <TurnOverSaleGraph sales={sales} />}
-              {prospects && <TurnOverProspectGraph prospects={prospects} />}
-            </LinearGradient>
-          </View>
-          <View style={{ marginTop: 0 }}>
+        <View style={{ height: '100%', maxHeight: 'auto' }}>
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={{ flexGrow: 1 }}
+            enableOnAndroid={true}>
             <View style={styles.caHeader}>
-              <Text style={styles.caHeaderText}>HISTORIQUE</Text>
+              <Text style={styles.caHeaderText}>CHIFFRE D'AFFAIRES</Text>
               <View style={styles.caGoalContainer}>
                 <Text
                   style={styles.caHeaderText}
-                  onPress={this.controller.setYearModalVisible}>
-                  {year}
+                  onPress={this.controller.setGoalModalVisible}>
+                  OBJECTIF
                 </Text>
                 <AntDesign name="arrowright" size={12} color="white" />
               </View>
             </View>
-            <TurnOverYearGraph
-              data={yearCA}
-              selectedMonthIndex={selectedMonthIndex}
-            />
-          </View>
-        </ScrollView>
+            <View style={styles.linearContainer}>
+              <LinearGradient
+                colors={['#070708', '#101214', '#1B1F25']}
+                start={{
+                  x: 1,
+                  y: 0,
+                }}
+                end={{
+                  x: 1,
+                  y: 1,
+                }}
+                style={styles.linear}>
+                <TouchableOpacity onPress={this.controller.goToSaleDetail}>
+                  {turnOver && <TurnOverMonthGraph turnOver={turnOver} />}
+                </TouchableOpacity>
+                {sales && <TurnOverSaleGraph sales={sales} />}
+                {prospects && <TurnOverProspectGraph prospects={prospects} />}
+              </LinearGradient>
+            </View>
+            <View style={{ marginTop: 0 }}>
+              <View style={styles.caHeader}>
+                <Text style={styles.caHeaderText}>HISTORIQUE</Text>
+                <View style={styles.caGoalContainer}>
+                  <Text
+                    style={styles.caHeaderText}
+                    onPress={this.controller.setYearModalVisible}>
+                    {year}
+                  </Text>
+                  <AntDesign name="arrowright" size={12} color="white" />
+                </View>
+              </View>
+              <TurnOverYearGraph
+                data={yearCA}
+                selectedMonthIndex={selectedMonthIndex}
+              />
+            </View>
+          </ScrollView>
+        </View>
       </View>
     );
   };

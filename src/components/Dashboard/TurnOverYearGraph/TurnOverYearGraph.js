@@ -67,7 +67,6 @@ export default class TurnOverYearGraph extends React.Component {
               }}
               width={Dimensions.get('window').width + 200}
               height={250}
-              backgroundGradientFromOpacity={0}
               withHorizontalLabels={false}
               withInnerLines={true}
               withOuterLines={true}
@@ -118,7 +117,8 @@ export default class TurnOverYearGraph extends React.Component {
                   // stroke: '#fff',
                 },
               }}
-              style={{ paddingRight: 10, paddingTop:20 }}
+              segments={6}
+              style={{ paddingRight: 30, paddingTop: 25 }}
             />
           </LinearGradient>
         </ScrollView>
