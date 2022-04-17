@@ -72,8 +72,7 @@ export default class CreateSaleScreenController extends AbstractScreenController
           totalPrice += parseFloat(payment.amount);
         });
 
-        this.component.setState({ totalPrice: totalPrice });
-        this.component.setState({ nextPayment, oldPayment });
+        this.component.setState({ totalPrice, oldPayment, nextPayment });
       }
       this.component.setState({ loaded: true });
 

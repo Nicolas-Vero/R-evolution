@@ -13,10 +13,13 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   scrollView: {
-    marginBottom: 50,
+    marginBottom: 200,
+  },
+  scrollView2: {
+    marginBottom: 60,
   },
   caHeader: {
-    marginTop: 28,
+    marginTop: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

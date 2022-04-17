@@ -17,9 +17,10 @@ export default class ActivitiesCoachScreenController extends AbstractScreenContr
       isLoaded: false,
     };
   }
-  async componentDidMount() {
+
+  screenDidFocus = async () => {
     await this.fetchData();
-  }
+  };
 
   fetchData = async () => {
     this.component.setState({ refreshing: true });

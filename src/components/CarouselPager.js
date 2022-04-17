@@ -99,8 +99,8 @@ export default class CarouselPager extends Component {
 
   _runAfterMeasurements(width, height) {
     // Set box and box interval size
-    this._boxSize = height / 3.2;
-    this._boxSizeInterval = height / 3.2;
+    this._boxSize = height / 2.9;
+    this._boxSizeInterval = height / 2.9;
 
     // Get initial page
     let initialPage = this.props.initialPage || 0;
@@ -348,6 +348,8 @@ export default class CarouselPager extends Component {
                     </View>
                     <View style={{ alignItems: 'flex-start', flex: 1 }}>
                       <Text
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
                         style={{
                           fontFamily: 'RobotoMedium',
                           fontSize,
@@ -373,9 +375,10 @@ export default class CarouselPager extends Component {
                         </Text>
                       ) : null}
                     </View>
-                    <View stlye={{ alignItems: 'flex-end' }}>
+                    <View stlye={{ alignItems: 'flex-end', paddingLeft: 20 }}>
                       <Text
                         style={{
+                          paddingLeft: 15,
                           paddingRight: !isCurrentPage ? 15 : 0,
                           textAlign: 'center',
                           marginRight: 29,

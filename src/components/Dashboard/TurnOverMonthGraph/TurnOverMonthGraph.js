@@ -19,7 +19,7 @@ export default class TurnOverMonthGraph extends React.Component {
           childrenContainerStyle={{ height: 150 }}
           size={width}
           width={25}
-          fill={turnOver.percentage}
+          fill={turnOver.percentage.toFixed() || 0}
           style={{ height: 165 }}
           rotation={270}
           arcSweepAngle={180}
@@ -32,12 +32,17 @@ export default class TurnOverMonthGraph extends React.Component {
                 style={
                   styles.caCurrentValueText
                 }>{`${turnOver.current}€`}</Text>
-              <Text
-                style={styles.caTotalValueText}>{`SUR ${turnOver.goal}€`}</Text>
+              {turnOver.goal && (
+                <Text style={styles.caTotalValueText}>
+                  {`SUR ${turnOver.goal}€`}
+                </Text>
+              )}
             </View>
           )}
         </AnimatedCircularProgress>
-        <Text style={styles.goalText}>{`${turnOver.goal}€`}</Text>
+        {turnOver.goal && (
+          <Text style={styles.goalText}>{`${turnOver.goal}€`}</Text>
+        )}
       </View>
     );
   }

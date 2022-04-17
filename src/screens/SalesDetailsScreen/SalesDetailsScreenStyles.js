@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 9,
+    marginBottom: 10,
   },
   infoIndexText: {
     color: '#fff',
@@ -24,37 +24,43 @@ const styles = StyleSheet.create({
     fontFamily: 'MontserratBoldItalic',
     fontSize: 12,
   },
-  page: {
-    marginTop: 25,
+  flatList: {
+    maxHeight: 220,
   },
-  scrollView: {
-    marginBottom: 150,
+  item: {
+    marginBottom: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 22,
+    borderRadius: 8,
   },
-  caHeader: {
-    marginTop: 28,
+  itemTop: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  caGoalContainer: {
+  fullName: {
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: 'MontserratBold',
+  },
+  date: {
+    color: '#979797',
+    fontSize: 10,
+    fontFamily: 'Montserrat',
+  },
+  itemBottom: {
+    paddingTop: 15,
     flexDirection: 'row',
-    borderBottomColor: '#fff',
-    borderBottomWidth: 1,
+    justifyContent: 'space-between',
   },
-  caHeaderText: {
-    color: '#FFF',
-    fontFamily: 'MontserratBoldItalic',
-    fontSize: 9,
+  offerName: {
+    color: '#fff',
+    fontFamily: 'Montserrat',
+    fontSize: 10,
   },
-
-  linear: {
-    paddingHorizontal: 34,
-    paddingVertical: 22,
-  },
-  linearContainer: {
-    marginTop: 6,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    overflow: 'hidden',
+  amount: {
+    color: '#2CDEE4',
+    fontFamily: 'Roboto',
+    fontSize: 12,
   },
 });
 

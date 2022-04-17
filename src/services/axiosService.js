@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_URL, STORAGE } from '../configs/Constants';
+import AuthService from './AuthService';
 
 export const request = async (
   method,
@@ -20,6 +21,15 @@ export const request = async (
     ...headers,
   };
 
+  if (needAuth) {
+    const headers = await AuthService.getHeader();
+    if (headers && headers.Authorization) {
+      reqHeaders.Authorization = headers.Authorization;
+    } else {
+      return null;
+    }
+  }
+
   try {
     const res = await axios.request({
       method,
@@ -28,7 +38,7 @@ export const request = async (
       headers: reqHeaders,
       params: query,
       data: body,
-      validateStatus: status => {
+      validateStatus: (status) => {
         return status < 500;
       },
     });
@@ -48,4 +58,4 @@ export const request = async (
   }
 };
 
-export default {request};
+export default { request };

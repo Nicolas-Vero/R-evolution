@@ -66,6 +66,8 @@ export default class CoachAvaibility extends React.Component {
                 }
               />
               <Text
+                numberOfLines={1}
+                ellipsizeMode="tail"
                 style={
                   styles.username
                 }>{`${item.athlete.first_name} ${item.athlete.last_name}`}</Text>

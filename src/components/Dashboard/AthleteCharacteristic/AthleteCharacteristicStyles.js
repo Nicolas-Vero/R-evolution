@@ -36,9 +36,8 @@ const styles = StyleSheet.create({
   },
   genderBar: {
     marginBottom: 33,
-    marginTop: 15,
+    marginTop: 10,
     backgroundColor: '#2CA2E4',
-    width: 'auto',
     height: 18,
     borderRadius: 10,
   },
@@ -69,6 +68,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   ageLineContainer: {
+    justifyContent: 'space-around',
     flexDirection: 'row',
   },
   ageLineLeftText: {

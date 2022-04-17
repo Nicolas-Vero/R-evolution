@@ -131,7 +131,10 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                     : require('../../../assets/images/no_pp.jpg')
                 }
               />
-              <Text style={styles.username}>
+              <Text
+                style={styles.username}
+                numberOfLines={1}
+                ellipsizeMode="tail">
                 {user.first_name} {user.last_name}
               </Text>
             </View>
@@ -224,7 +227,10 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
             <View style={styles.item}>
               <Text style={styles.infoText}>Commercial référent :</Text>
               {this.component.props.navigation.state.params.item.athlete ? (
-                <Text style={styles.valueText}>
+                <Text
+                  style={styles.valueText}
+                  numberOfLines={1}
+                  ellipsizeMode="tail">
                   {' '}
                   {user.commercial
                     ? user.commercial.first_name.concat(
@@ -234,7 +240,10 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                     : 'Pas de recommandation'}
                 </Text>
               ) : (
-                <Text style={styles.valueText}>
+                <Text
+                  style={styles.valueText}
+                  numberOfLines={1}
+                  ellipsizeMode="tail">
                   {' '}
                   {user.commercial
                     ? user.commercial.first_name.concat(

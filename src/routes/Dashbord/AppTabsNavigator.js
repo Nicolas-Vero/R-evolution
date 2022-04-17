@@ -52,19 +52,19 @@ const AppTabsNavigator = createBottomTabNavigator(
         ),
       }),
     },
-    // DashboardCoachStack: {
-    //   screen: DashboardCoachStack,
-    //   navigationOptions: ({ navigation }) => ({
-    //     tabBarLabel: 'Dashboard',
-    //     tabBarVisible: getTabBarVisiblility(navigation),
-    //     tabBarIcon: ({ tintColor }) => (
-    //       <Image
-    //         source={require('../../../assets/images/Chart.png')}
-    //         style={{ height: 20, width: 20, resizeMode: 'contain', tintColor }}
-    //       />
-    //     ),
-    //   }),
-    // },
+    DashboardCoachStack: {
+      screen: DashboardCoachStack,
+      navigationOptions: ({ navigation }) => ({
+        tabBarLabel: 'Dashboard',
+        tabBarVisible: getTabBarVisiblility(navigation),
+        tabBarIcon: ({ tintColor }) => (
+          <Image
+            source={require('../../../assets/images/Chart.png')}
+            style={{ height: 20, width: 20, resizeMode: 'contain', tintColor }}
+          />
+        ),
+      }),
+    },
   },
   {
     tabBarComponent: (props) => {

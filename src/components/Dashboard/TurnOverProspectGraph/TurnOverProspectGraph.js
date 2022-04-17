@@ -11,6 +11,9 @@ export default class TurnOverProspectGraph extends React.Component {
 
   render() {
     const { prospects } = this.props;
+    const percentage = prospects.percentage
+      ? prospects.percentage.toFixed()
+      : 0;
     return (
       <View style={styles.caSaleContainer}>
         <View style={styles.caSalesInfoContainer}>
@@ -30,7 +33,7 @@ export default class TurnOverProspectGraph extends React.Component {
           size={95}
           width={10}
           backgroundWidth={6}
-          fill={prospects.percentage}
+          fill={percentage}
           rotation={180}
           lineCap={'round'}
           tintColor="#FED32C"
@@ -38,9 +41,7 @@ export default class TurnOverProspectGraph extends React.Component {
           {(fill) => (
             <View style={styles.caSalesTextContainer}>
               <Text
-                style={
-                  styles.caConvertGraphValueText
-                }>{`${prospects.percentage}%`}</Text>
+                style={styles.caConvertGraphValueText}>{`${percentage}%`}</Text>
               <Text style={styles.caConvertGraphInfoText}>
                 SUR {`${prospects.total}`} PROSPECTS
               </Text>

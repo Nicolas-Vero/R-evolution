@@ -94,6 +94,8 @@ export default class SwitchButton extends React.Component {
                   }
                 />
                 <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
                   style={
                     styles.username
                   }>{`${currentBook.first_name} ${currentBook.last_name}`}</Text>

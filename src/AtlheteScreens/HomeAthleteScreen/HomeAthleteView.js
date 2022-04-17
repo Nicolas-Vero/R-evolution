@@ -40,7 +40,10 @@ export default class HomeAthleteView extends AbstractScreenView {
                     : require('../../../assets/images/no_pp.jpg')
                 }
               />
-              <Text style={styles.username}>
+              <Text
+                style={styles.username}
+                numberOfLines={1}
+                ellipsizeMode="tail">
                 {this.component.state.user.first_name}{' '}
                 {this.component.state.user.last_name}
               </Text>
@@ -318,7 +321,10 @@ export default class HomeAthleteView extends AbstractScreenView {
         {coach ? (
           <Text style={styles.coachName}>
             Les diponibilités de{' '}
-            <Text style={styles.textColored}>
+            <Text
+              style={styles.textColored}
+              numberOfLines={1}
+              ellipsizeMode="tail">
               {`${this.component.state.coach.first_name} ${this.component.state.coach.last_name}`}
             </Text>
           </Text>

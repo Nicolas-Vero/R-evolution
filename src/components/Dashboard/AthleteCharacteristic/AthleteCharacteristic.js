@@ -5,6 +5,7 @@ import ProgressBarAnimated from 'react-native-progress-bar-animated';
 
 import styles from './AthleteCharacteristicStyles';
 import * as Progress from 'react-native-progress';
+import { ProgressBar } from 'react-native-multicolor-progress-bar';
 
 const agesIndex = ['13-17', '18-24', '25-34', '35-44', '45-54', '+55'];
 export default class AthleteCharacteristic extends React.Component {
@@ -14,36 +15,25 @@ export default class AthleteCharacteristic extends React.Component {
   }
 
   renderAgeLine = (value, index, barWidth) => {
+    console.log(value);
     return (
       <View key={index} style={{ marginBottom: index === 5 ? 0 : 20 }}>
         <View style={styles.ageLineContainer}>
-          <View style={{ alignItems: 'flex-start', flex: 1, marginRight:20 }}>
+          <View>
             <Text
               style={styles.ageLineLeftText}>{`${agesIndex[index]} ans`}</Text>
           </View>
-          <View style={{ alignItems: 'center', flex: 1 }}>
+          <View style={{ marginHorizontal: 20 }}>
             <Progress.Bar
               color={'#7B61FF'}
-              progress={value / 100}
+              progress={value > 0 ? value / 100 : 0}
               unfilledColor={'#1E2026'}
               borderWidth={0}
               width={260}
               height={10}
             />
           </View>
-          {/* <View style={styles.ageBar}>
-            <ProgressBarAnimated
-              backgroundColor={'#7B61FF'}
-              // underlyingColor={'#fff'}
-              borderRadius={10}
-              borderColor={'transparent'}
-              borderWidth={0}
-              width={barWidth - 100}
-              height={18}
-              value={value}
-            />
-          </View> */}
-          <View style={{ alignItems: 'flex-end', flex: 1 }}>
+          <View>
             <Text style={styles.ageLineRightText}>{`${value}%`}</Text>
           </View>
         </View>
@@ -52,13 +42,21 @@ export default class AthleteCharacteristic extends React.Component {
   };
   render() {
     const barWidth = Dimensions.get('screen').width - 60;
-
     const { athletes } = this.props;
+
+    const total = athletes.gender.males.count + athletes.gender.females.count;
+    const femalesPercentage = athletes.gender.females.percentage
+      ? athletes.gender.females.count / total
+      : 0;
+    const malesPercentage = athletes.gender.males.percentage
+      ? athletes.gender.males.count / total
+      : 0;
+
     return (
       <View style={styles.linearContainer}>
         <Text style={styles.title}>CARACTÉRISTIQUES</Text>
         <LinearGradient
-          colors={['#060606', '#181B1F', '#2D333C']}
+          colors={['#070707', '#121417', '#1B1F25']}
           start={{
             x: 1,
             y: 0,
@@ -75,7 +73,7 @@ export default class AthleteCharacteristic extends React.Component {
                 <Text
                   style={
                     styles.genderValueFemaleText
-                  }>{` ${athletes.gender.females.number}`}</Text>
+                  }>{` ${athletes.gender.females.count}`}</Text>
               </Text>
             </View>
             <View style={styles.row}>
@@ -84,18 +82,36 @@ export default class AthleteCharacteristic extends React.Component {
                 <Text
                   style={
                     styles.genderValueMaleText
-                  }>{` ${athletes.gender.males.number}`}</Text>
+                  }>{` ${athletes.gender.males.count}`}</Text>
               </Text>
             </View>
           </View>
-          <View style={styles.genderBar}>
+          <ProgressBar
+            textStyle={{ marginTop: 3 }}
+            parentViewStyle={{ alignItems: 'stretch' }}
+            backgroundBarStyle={styles.genderBar}
+            arrayOfProgressObjects={[
+              {
+                color: '#9F294E',
+                value: femalesPercentage,
+                nameToDisplay: `${(femalesPercentage * 100).toFixed()}%`,
+              },
+              {
+                color: '#2CA2E4',
+                value: malesPercentage,
+                nameToDisplay: `${(malesPercentage * 100).toFixed()}%`,
+              },
+            ]}
+          />
+          {/* <View style={styles.genderBar}>
             <View style={styles.genderBarWife}>
               <Text
                 style={
                   styles.gendarBarValueText
-                }>{`${athletes.gender.females.percentage}%`}</Text>
+                }>{`${femalesPercentage}%`}</Text>
             </View>
             <ProgressBarAnimated
+              useNativeDriver={false}
               backgroundColor={'#9F294E'}
               // underlyingColor={'#fff'}
               borderRadius={10}
@@ -103,17 +119,16 @@ export default class AthleteCharacteristic extends React.Component {
               borderWidth={0}
               width={barWidth}
               height={18}
-              value={athletes.gender.females.percentage}
+              value={femalesPercentage}
             />
             <View style={styles.gendarBarMale}>
               <Text
-                style={
-                  styles.gendarBarValueText
-                }>{`${athletes.gender.males.percentage}%`}</Text>
+                style={styles.gendarBarValueText}>{`${malesPercentage}%`}</Text>
             </View>
-          </View>
+          </View> */}
           {athletes.ages.map((val, index) => {
-            return this.renderAgeLine(val, index, barWidth);
+            const percentage = val ? val.toFixed() : 0;
+            return this.renderAgeLine(percentage, index, barWidth);
           })}
         </LinearGradient>
       </View>

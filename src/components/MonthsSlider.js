@@ -15,6 +15,9 @@ export default class MonthsSlider extends React.Component {
 
   onLeftPress() {
     let { date } = this.state;
+    if (this.props.date) {
+      date = moment(this.props.date);
+    }
     date.subtract(1, 'months');
     this.setState({ date });
     this.props.onChange(new Date(date.format('YYYY-MM-DD')));
@@ -23,6 +26,9 @@ export default class MonthsSlider extends React.Component {
 
   onRightPress() {
     let { date } = this.state;
+    if (this.props.date) {
+      date = moment(this.props.date);
+    }
     date.add(1, 'months');
     this.setState({ date });
     this.props.onChange(new Date(date.format('YYYY-MM-DD')));
@@ -30,8 +36,13 @@ export default class MonthsSlider extends React.Component {
   }
 
   getMonth() {
-    const date = new Date(this.state.date);
+    const date = this.props.date || new Date(this.state.date);
     return moment(date).format('MMMM');
+  }
+
+  getYear() {
+    const date = this.props.date || new Date(this.state.date);
+    return moment(date).format('YYYY');
   }
   getDaysArrayByMonth() {
     var daysInMonth = moment().daysInMonth();
@@ -48,7 +59,7 @@ export default class MonthsSlider extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.content}>
+        <View style={[styles.content, { width: this.props.width || 300 }]}>
           <TouchableOpacity onPress={this.onLeftPress.bind(this)}>
             <AntDesign name="left" size={15} color="white" />
           </TouchableOpacity>
@@ -58,6 +69,9 @@ export default class MonthsSlider extends React.Component {
           <TouchableOpacity onPress={this.onRightPress.bind(this)}>
             <AntDesign name="right" size={15} color="white" />
           </TouchableOpacity>
+          {this.props.withYear && (
+            <Text style={styles.text}>{this.getYear().toUpperCase()}</Text>
+          )}
         </View>
       </View>
     );
@@ -71,7 +85,6 @@ const styles = {
   content: {
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    width: 300,
     flexDirection: 'row',
   },
   text: {

@@ -13,11 +13,12 @@ export default class CreateReminderCoachScreenController extends AbstractScreenC
   }
 
   onAddReminderPress = (values) => {
+    console.log(values);
     try {
       coach_reminder(values).then(() => {
-        this.scheduleNotification(values);
-        this.component.props.navigation.popToTop();
-        this.component.props.navigation.navigate('ActivitiesCoachScreen');
+        // TODO create reminder notification
+        // this.scheduleNotification(values);
+        this.component.props.navigation.goBack();
       });
     } catch (error) {
       console.log(error);

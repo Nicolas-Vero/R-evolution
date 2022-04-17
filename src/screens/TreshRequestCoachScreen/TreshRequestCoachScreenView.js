@@ -72,7 +72,10 @@ export default class TreshRequestCoachScreenView extends AbstractScreenView {
                       : require('../../../assets/images/no_pp.jpg')
                   }
                 />
-                <Text style={styles.username}>
+                <Text
+                  style={styles.username}
+                  numberOfLines={1}
+                  ellipsizeMode="tail">
                   {this.component.state.Athlete.athlete?.first_name}{' '}
                   {this.component.state.Athlete.athlete?.last_name}
                 </Text>
