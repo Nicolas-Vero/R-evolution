@@ -12,16 +12,11 @@ export default class CreateReminderCoachScreenController extends AbstractScreenC
     };
   }
 
-  onAddReminderPress = (values) => {
-    console.log(values);
-    try {
-      coach_reminder(values).then(() => {
-        // TODO create reminder notification
-        // this.scheduleNotification(values);
-        this.component.props.navigation.goBack();
-      });
-    } catch (error) {
-      console.log(error);
+  onAddReminderPress = async (values) => {
+    const res = await coach_reminder(values);
+
+    if (res.status === 200) {
+      this.component.props.navigation.goBack();
     }
   };
 }

@@ -5,6 +5,8 @@ import * as Notifications from 'expo-notifications';
 import * as Updates from 'expo-updates';
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
+import { removeCoachExpoToken } from '../api/Coach';
+import { logout as logoutAthlete } from '../api/Athlete';
 
 let isTokenRefreshing = false;
 
@@ -54,15 +56,18 @@ export default class AuthService {
     const user = await this.getUser();
     if (user) {
       const token = await this.registerForPushNotificationsAsync();
-      if (token && user.expo_token !== token) {
-        const auth = await this.getAuth();
-        const res =
-          auth.user.type === 'coach'
-            ? await set_expo_token(token)
-            : await set_athlete_expo_token(token);
-        if (res.status === 200) {
-          await this.setUser({ ...user, expo_token: token });
+      if (user.expo_tokens && user.expo_tokens.length) {
+        if (user.expo_tokens.includes(token)) {
+          return;
         }
+      }
+      const auth = await this.getAuth();
+      const res =
+        auth.user.type === 'coach'
+          ? await set_expo_token(token)
+          : await set_athlete_expo_token(token);
+      if (res.status === 200) {
+        await this.setUser({ ...user, expo_token: token });
       }
     }
   };
@@ -162,11 +167,15 @@ export default class AuthService {
     await AuthService.setAuth(auth);
   };
 
-  static logout = async () => {
-    //TODO Create logout API request and call it
+  static logout = async (isCoach) => {
+    const token = (await Notifications.getExpoPushTokenAsync()).data;
+
+    if (token) {
+      isCoach ? await removeCoachExpoToken(token) : await logoutAthlete(token);
+    }
     await AuthService.removeAuth();
     await AuthService.removeUser();
-    // TODO redirect to entry
+
     return true;
   };
 

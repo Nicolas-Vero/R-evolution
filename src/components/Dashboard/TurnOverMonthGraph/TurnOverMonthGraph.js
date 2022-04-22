@@ -41,7 +41,9 @@ export default class TurnOverMonthGraph extends React.Component {
           )}
         </AnimatedCircularProgress>
         {turnOver.goal && (
-          <Text style={styles.goalText}>{`${turnOver.goal}€`}</Text>
+          <View style={{ position: 'absolute', bottom: -15, right: -8 }}>
+            <Text style={styles.goalText}>{`${turnOver.goal}€`}</Text>
+          </View>
         )}
       </View>
     );

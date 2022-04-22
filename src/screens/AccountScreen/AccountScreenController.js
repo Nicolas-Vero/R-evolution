@@ -1,6 +1,5 @@
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
 import AuthService from '../../services/AuthService';
-import { logout } from '../../api/Coach';
 export default class AccountScreenController extends AbstractScreenController {
   constructor(component) {
     super(component);
@@ -8,8 +7,7 @@ export default class AccountScreenController extends AbstractScreenController {
     this.initialState = {};
   }
   onLogoutPress = async () => {
-    await logout();
-    await AuthService.removeAuth();
+    await AuthService.logout(true);
     this.component.props.navigation.navigate('Entry');
   };
 

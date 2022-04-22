@@ -289,11 +289,11 @@ export const set_athlete_expo_token = async (token) => {
     },
   });
 };
-export const logout = async () => {
+export const logout = async (token) => {
   const headers = await AuthService.getHeader();
   return axios({
     method: 'DELETE',
-    url: `${API_URL}/athlete/expo-token`,
+    url: `${API_URL}/athlete/expo-token/${token}`,
     headers: headers,
   });
 };

@@ -56,6 +56,7 @@ export default class TurnOverYearGraph extends React.Component {
                   'JUIL',
                   'AOUT',
                   'SEP',
+                  'OCT',
                   'NOV',
                   'DEC',
                 ],

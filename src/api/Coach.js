@@ -14,14 +14,8 @@ export const auth = (params) => {
 };
 
 export const set_expo_token = async (token) => {
-  const headers = await AuthService.getHeader();
-  return axios({
-    method: 'POST',
-    url: `${API_URL}/coach/expo-token`,
-    headers: headers,
-    data: {
-      expo_token: token,
-    },
+  return await request('POST', true, '/coach/expo-token', null, {
+    expo_token: token,
   });
 };
 export const coach_login = async (params) => {
@@ -336,11 +330,6 @@ export const unlink_athlete = async (athleteId) => {
   });
 };
 
-export const logout = async () => {
-  const headers = await AuthService.getHeader();
-  return axios({
-    method: 'DELETE',
-    url: `${API_URL}/coach/expo-token`,
-    headers: headers,
-  });
+export const removeCoachExpoToken = async (token) => {
+  return await request('DELETE', true, `/coach/del-expo-token/${token}`);
 };

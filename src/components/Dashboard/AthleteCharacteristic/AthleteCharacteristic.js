@@ -15,33 +15,29 @@ export default class AthleteCharacteristic extends React.Component {
   }
 
   renderAgeLine = (value, index, barWidth) => {
-    console.log(value);
     return (
-      <View key={index} style={{ marginBottom: index === 5 ? 0 : 20 }}>
-        <View style={styles.ageLineContainer}>
-          <View>
-            <Text
-              style={styles.ageLineLeftText}>{`${agesIndex[index]} ans`}</Text>
-          </View>
-          <View style={{ marginHorizontal: 20 }}>
-            <Progress.Bar
-              color={'#7B61FF'}
-              progress={value > 0 ? value / 100 : 0}
-              unfilledColor={'#1E2026'}
-              borderWidth={0}
-              width={260}
-              height={10}
-            />
-          </View>
-          <View>
-            <Text style={styles.ageLineRightText}>{`${value}%`}</Text>
-          </View>
-        </View>
+      <View
+        key={index}
+        style={[
+          styles.ageLineContainer,
+          { marginBottom: index === 5 ? 0 : 20 },
+        ]}>
+        <Text style={styles.ageLineLeftText}>{`${agesIndex[index]} ans`}</Text>
+        <Progress.Bar
+          style={{ marginHorizontal: 20 }}
+          color={'#7B61FF'}
+          progress={value > 0 ? value / 100 : 0}
+          unfilledColor={'#1E2026'}
+          borderWidth={0}
+          width={barWidth}
+          height={10}
+        />
+        <Text style={styles.ageLineRightText}>{`${value}%`}</Text>
       </View>
     );
   };
   render() {
-    const barWidth = Dimensions.get('screen').width - 60;
+    const barWidth = Dimensions.get('screen').width - 140;
     const { athletes } = this.props;
 
     const total = athletes.gender.males.count + athletes.gender.females.count;

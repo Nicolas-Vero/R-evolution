@@ -55,12 +55,12 @@ export default class DashboardScreenController extends AbstractScreenController 
       selectedMonthIndex: parseInt(moment(selectedMonth).format('M')) - 1,
     });
 
-    await this.fetchMonthlyTurnover();
+    await this.fetchMonthlyTurnover(moment(date).format('YYYY-MM-DD'));
   };
 
-  fetchMonthlyTurnover = async () => {
+  fetchMonthlyTurnover = async (date) => {
     const { selectedMonth } = this.component.state;
-    const res = await getMonthTurnover(selectedMonth);
+    const res = await getMonthTurnover(date || selectedMonth);
     if (res.status === 200) {
       this.component.setState({
         prospects: res.content.prospects,

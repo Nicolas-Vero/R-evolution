@@ -3,24 +3,14 @@ import { AsyncStorage } from 'react-native';
 import { API_URL, STORAGE } from '../configs/Constants';
 import AuthService from '../services/AuthService';
 import moment from 'moment';
+import { request } from '../services/axiosService';
 export const coach_reminder = async (params) => {
-  const { title, content, status, color, date, hour } = params;
+  const data = {
+    ...params,
+    date: moment(params.date, 'DD/MM/YYYY').format('YYYY/MM/DD'),
+  };
 
-  const formatDate = moment(date, 'YYYY-MM-DD');
-  const headers = await AuthService.getHeader();
-  return axios({
-    method: 'PUT',
-    url: `${API_URL}/coach-reminder`,
-    data: {
-      title: title,
-      content: content,
-      status: status,
-      color: color,
-      date: formatDate,
-      hour: hour,
-    },
-    headers: headers,
-  });
+  return await request('PUT', true, '/coach-reminder', null, data);
 };
 
 export const get_coach_reminder = async () => {
@@ -69,13 +59,13 @@ export const reminder_update = (params) => {
 };
 
 export const delete_reminder = async (params) => {
-  const {reminder_id} = params;
-  const data ={reminder_id:reminder_id}
+  const { reminder_id } = params;
+  const data = { reminder_id: reminder_id };
   const headers = await AuthService.getHeader();
   return axios({
     method: 'DELETE',
     url: `${API_URL}/coach-reminder`,
-    headers:headers,
+    headers: headers,
     data: data,
   });
 };

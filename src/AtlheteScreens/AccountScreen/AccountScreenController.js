@@ -18,8 +18,7 @@ export default class AccountScreenController extends AbstractScreenController {
     }
   }
   onLogoutPress = async () => {
-    await logout();
-    await AuthService.removeAuth();
+    await AuthService.logout(false);
     const navigation = ContextService.get('current_navigation');
     const stack = 'Entry';
 
