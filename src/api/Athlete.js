@@ -112,13 +112,8 @@ export const get_book_athlete = async (params) => {
   });
 };
 
-export const sign_up = async (params) => {
-  const data = params;
-  return axios({
-    method: 'POST',
-    url: `${API_URL}/auth/athlete/sign-up/`,
-    data: data,
-  });
+export const sign_up = async (data) => {
+  return await request('POST', false, '/auth/athlete/sign-up/', null, data);
 };
 
 export const get_coach_by_gym_place = async (params, navigation) => {
