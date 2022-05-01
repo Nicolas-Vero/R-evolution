@@ -66,7 +66,7 @@ export default class avatarScreen extends React.Component {
         await SystemHelper.sleep(500);
         this.props.navigation.popToTop();
         this.props.navigation.push('loginScreen');
-        await this.upload(res.data.userId, true);
+        await this.upload(res.content.userId, true);
         // await SystemHelper.sleep(500);
 
         // await this.loginAthlete({
@@ -106,7 +106,7 @@ export default class avatarScreen extends React.Component {
       await this.setAuth(login.data, 'athlete');
       await SystemHelper.sleep(200);
       const user = await get_athlete_me();
-      
+
       if (user.status === 200) {
         await AuthService.setUser(user.data);
         this.props.navigation.navigate('DashboardStackAtlhete');
@@ -116,7 +116,7 @@ export default class avatarScreen extends React.Component {
     this.setState({ isWorking: false });
   }
 
-   setAuth = async (data, type) => {
+  setAuth = async (data, type) => {
     const toStore = {
       user: { id: data.user.id, type },
       headers: {
@@ -125,7 +125,7 @@ export default class avatarScreen extends React.Component {
     };
 
     await AuthService.setAuth(toStore);
-  }
+  };
 
   pickImage = async () => {
     this.setState({

@@ -46,7 +46,7 @@ export default class goalScreen extends React.Component {
   };
 
   render() {
-    const passItem = {};
+    const passItem = this.props.navigation.state.params.item;
     return (
       <View style={styles.container}>
         <LinearGradient

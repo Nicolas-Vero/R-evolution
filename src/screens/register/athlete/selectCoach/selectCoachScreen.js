@@ -71,8 +71,7 @@ export default class selectCoachScreen extends React.Component {
         </View>
       );
     }
-    const passItem = this.props.navigation.state.params?.item;
-
+    const passItem = this.props.navigation.state.params.item;
     return (
       <View style={styles.container}>
         <LinearGradient

@@ -12,24 +12,7 @@ export default class AthleteGoalsGraph extends React.Component {
   }
 
   render() {
-    const barWidth = Dimensions.get('screen').width - 80;
-
-    const data = {
-      labels: this.props.keys,
-      datasets: [
-        {
-          data: this.props.values,
-          colors: [
-            () => '#F2CC60',
-            () => '#7EE787',
-            () => '#FFA657',
-            () => '#388BFD',
-            () => '#F85149',
-            () => '#8B939E',
-          ],
-        },
-      ],
-    };
+    // const barWidth = Dimensions.get('screen').width - 80;
 
     const colors = [
       '#F2CC60',
@@ -39,7 +22,7 @@ export default class AthleteGoalsGraph extends React.Component {
       '#F85149',
       '#8B939E',
     ];
-    const data3 = this.props.values.map((item, index) => {
+    const data = this.props.values.map((item, index) => {
       return {
         value: item,
         svg: {
@@ -57,7 +40,7 @@ export default class AthleteGoalsGraph extends React.Component {
           x={x(index) + bandwidth / 2}
           y={y(item.value) - 10}
           fontSize={14}
-          fill={item.value >= CUT_OFF ? 'white' : 'white'}
+          fill={item.value >= CUT_OFF ? '#979797' : '#979797'}
           alignmentBaseline={'middle'}
           textAnchor={'middle'}>
           {item.value}
@@ -101,45 +84,6 @@ export default class AthleteGoalsGraph extends React.Component {
     );
 
     return (
-      <View style={{ height: 350 }}>
-        <BarChart
-          spacingInner={0.8}
-          yAccessor={({ item }) => item.value}
-          xAccessor={({ item }) => item.value}
-          gridMin={0}
-          style={{ flex: 1 }}
-          spacing={0.2}
-          data={data3}
-          numberOfTicks={6}
-          contentInset={{ top: 30, bottom: 10, left: 30, right: 30 }}>
-          <CustomGrid belowChart={true} />
-          <Labels />
-        </BarChart>
-        <XAxis
-          // xAccessor={({ item }) => {
-          //   console.log(item.label);
-          // }}
-          // formatLabel={(value) => {
-          //   console.log(value);
-          // }}
-          formatLabel={(value, index) => {
-            return data3[index].label;
-          }}
-          style={{ height: 100 }}
-          data={data3}
-          contentInset={{ left: 50, right: 30 }}
-          svg={{
-            rotation: -30,
-            marginTop: 50,
-            fontSize: 8,
-            padding: 10,
-            translateY: 30,
-            translateX: -10,
-          }}
-        />
-      </View>
-    );
-    return (
       <View style={styles.linearContainer}>
         <Text style={styles.title}>OBJECTIFS</Text>
         <LinearGradient
@@ -153,44 +97,43 @@ export default class AthleteGoalsGraph extends React.Component {
             y: 1,
           }}
           style={styles.linear}>
-          <BarChart
-            height={250}
-            bezier
-            // style={graphStyle}
-            data={data}
-            width={barWidth}
-            fromZero={true}
-            withHorizontalLabels={false}
-            verticalLabelRotation={-30}
-            showValuesOnTopOfBars={true}
-            showBarTops={false}
-            withCustomBarColorFromData={true}
-            flatColor={true}
-            yLabelsOffset={25}
-            xLabelsOffset={40}
-            chartConfig={{
-              style: {
-                padding: 40,
-              },
-              propsForVerticalLabels: {
-                translateX: -40,
-              },
-              barPercentage: 0.5,
-              propsForBackgroundLines: {
-                strokeDasharray: '',
-              },
-              backgroundGradientFromOpacity: 0,
-              backgroundGradientToOpacity: 0,
-
-              propsForLabels: {
+          <View style={{ height: 350 }}>
+            <BarChart
+              spacingInner={0.8}
+              yAccessor={({ item }) => item.value}
+              xAccessor={({ item }) => item.value}
+              gridMin={0}
+              style={{ flex: 1 }}
+              spacing={0.2}
+              data={data}
+              numberOfTicks={6}
+              contentInset={{ top: 30, bottom: 10, left: 30, right: 30 }}>
+              <CustomGrid belowChart={true} />
+              <Labels />
+            </BarChart>
+            <XAxis
+              // xAccessor={({ item }) => {
+              //   console.log(item.label);
+              // }}
+              // formatLabel={(value) => {
+              //   console.log(value);
+              // }}
+              formatLabel={(value, index) => {
+                return data[index].label;
+              }}
+              style={{ height: 100 }}
+              data={data}
+              contentInset={{ left: 50, right: 30 }}
+              svg={{
+                rotation: -30,
+                marginTop: 50,
                 fontSize: 8,
-              },
-              // verticalLabelsHeightPercentage: 55,
-              // labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            }}
-            style={{ paddingRight: 10 }}
-          />
+                padding: 10,
+                translateY: 30,
+                translateX: -10,
+              }}
+            />
+          </View>
         </LinearGradient>
       </View>
     );

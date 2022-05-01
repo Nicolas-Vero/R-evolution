@@ -8,9 +8,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   linear: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 50,
+    paddingHorizontal: 20,
   },
   title: {
     marginBottom: 6,

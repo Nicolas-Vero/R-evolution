@@ -6,6 +6,8 @@ import {
   Keyboard,
   ScrollView,
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
+
 import SelectDropdown from 'react-native-select-dropdown';
 import { Formik } from 'formik';
 import { Text } from 'react-native-elements';
@@ -54,54 +56,46 @@ export default class CreateReminderCoachScreenView extends AbstractScreenView {
                           <View style={styles.formRow}>
                             <View style={{ flex: 1.5 }}>
                               <Text style={styles.formRowText}>Date</Text>
-                              {/* <TextInputMask
-                                type={'datetime'}
-                                options={{
-                                  format: 'DD/MM/YYYY',
-                                }}
-                                placeholder={moment().format('DD/MM/YYYY')}
-                                value={values.date}
-                                onChangeText={handleChange('date')}
-                                onSubmitEditing={() =>
-                                  this.hourInput && this.hourInput.focus()
-                                }
-                                style={styles.inputTop}
-                                onBlur={handleBlur('date')}
-                                returnKeyType="next"
-
-                              /> */}
-                              <TextInput
-                                placeholderTextColor="#979797"
-                                placeholder={moment().format('DD/MM/YYYY')}
-                                style={styles.inputTop}
-                                onChangeText={handleChange('date')}
-                                onBlur={handleBlur('date')}
-                                value={values.date}
-                                blurOnSubmit={false}
-                                autoCapitalize="none"
-                                onSubmitEditing={() =>
-                                  this.hourInput && this.hourInput.focus()
-                                }
-                                returnKeyType="next"
-                              />
+                              <View style={styles.inputTop}>
+                                <TextInputMask
+                                  type={'datetime'}
+                                  options={{
+                                    format: 'DD/MM/YYYY',
+                                  }}
+                                  placeholderTextColor="#979797"
+                                  placeholder={moment().format('DD/MM/YYYY')}
+                                  value={values.date}
+                                  onChangeText={handleChange('date')}
+                                  onBlur={handleBlur('date')}
+                                  blurOnSubmit={false}
+                                  onSubmitEditing={() =>
+                                    this.hourInput && this.hourInput.focus()
+                                  }
+                                  returnKeyType="next"
+                                />
+                              </View>
                             </View>
                             <View style={{ flex: 1 }}>
                               <Text style={styles.formRowText}>Heure</Text>
-                              <TextInput
-                                ref={(ref) => (this.hourInput = ref)}
-                                placeholderTextColor="#979797"
-                                placeholder="12:00"
-                                style={styles.inputTop}
-                                onChangeText={handleChange('hour')}
-                                onBlur={handleBlur('hour')}
-                                value={values.hour}
-                                blurOnSubmit={false}
-                                autoCapitalize="none"
-                                onSubmitEditing={() =>
-                                  this.rappelInput && this.rappelInput.focus()
-                                }
-                                returnKeyType="next"
-                              />
+                              <View style={styles.inputTop}>
+                                <TextInputMask
+                                  type={'datetime'}
+                                  options={{
+                                    format: 'HH:mm',
+                                  }}
+                                  placeholderTextColor="#979797"
+                                  placeholder={'12:00'}
+                                  value={values.hour}
+                                  onChangeText={handleChange('hour')}
+                                  onBlur={handleBlur('hour')}
+                                  autoCapitalize="none"
+                                  blurOnSubmit={false}
+                                  onSubmitEditing={() =>
+                                    this.rappelInput && this.rappelInput.focus()
+                                  }
+                                  returnKeyType="next"
+                                />
+                              </View>
                             </View>
                             <View style={{ flex: 1 }}>
                               <Text style={styles.formRowTextColor}>
