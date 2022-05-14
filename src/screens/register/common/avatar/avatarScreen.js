@@ -1,15 +1,6 @@
 import React from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Dimensions,
-  Keyboard,
-  Image,
-  SafeAreaView,
-  Text,
-} from 'react-native';
+import { View, TouchableOpacity, Image, Text } from 'react-native';
 import { manipulateAsync } from 'expo-image-manipulator';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
 import * as ImagePicker from 'expo-image-picker';
 import { Avatar } from 'react-native-elements';
 
@@ -18,12 +9,13 @@ import { sign_up } from '../../../../api/Athlete';
 import { auth } from '../../../../api/Coach';
 import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
-import { Button } from '../../../../components/Button';
 import styles from './avatarStyle';
 import { athlete_login, get_athlete_me } from '../../../../api/Athlete';
 import AuthService from '../../../../services/AuthService';
 import { upload_profile_picture } from '../../../../api/File';
 import SystemHelper from '../../../../helpers/SystemHelper';
+import { Button } from '../../../../components/Button';
+
 export default class avatarScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -170,45 +162,42 @@ export default class avatarScreen extends React.Component {
           }}
           style={styles.background}>
           <Header title="LET'S GO" />
-          <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <RegisterStepImageView step={this.state.isAthlete ? 8 : 13} />
-            <View style={styles.content}>
+          <View style={styles.content}>
+            <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+              <RegisterStepImageView step={this.state.isAthlete ? 8 : 13} />
+              <Text style={styles.title}>PHOTO DE PROFIL</Text>
               <View
                 style={{
-                  height: heightPercentageToDP(72),
+                  marginTop: 56,
                 }}>
-                <Text style={styles.title}>PHOTO DE PROFIL</Text>
-                <View
-                  style={{
-                    marginTop: 56,
-                  }}>
-                  {this.state.image.uri ? (
-                    <Text style={styles.subTitle}>Superbe photo !</Text>
-                  ) : (
-                    <Text style={styles.subTitle}>
-                      C'est toujours plus sympa avec {'\n'}une photo de profil
-                    </Text>
-                  )}
-                </View>
-                <View style={styles.photoPickerContainer}>
-                  <TouchableOpacity onPress={this.pickImage}>
-                    {this.state.image.uri ? (
-                      <View>
-                        <Avatar
-                          size="xlarge"
-                          rounded
-                          source={{ uri: this.state.image.uri }}
-                        />
-                      </View>
-                    ) : (
-                      <Image
-                        style={styles.previewImage}
-                        source={require('../../../../../assets/images/no_pp.jpg')}
-                      />
-                    )}
-                  </TouchableOpacity>
-                </View>
+                {this.state.image.uri ? (
+                  <Text style={styles.subTitle}>Superbe photo !</Text>
+                ) : (
+                  <Text style={styles.subTitle}>
+                    C'est toujours plus sympa avec {'\n'}une photo de profil
+                  </Text>
+                )}
               </View>
+              <View style={styles.photoPickerContainer}>
+                <TouchableOpacity onPress={this.pickImage}>
+                  {this.state.image.uri ? (
+                    <View>
+                      <Avatar
+                        size="xlarge"
+                        rounded
+                        source={{ uri: this.state.image.uri }}
+                      />
+                    </View>
+                  ) : (
+                    <Image
+                      style={styles.previewImage}
+                      source={require('../../../../../assets/images/no_pp.jpg')}
+                    />
+                  )}
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.bottom}>
               <Button
                 loading={!this.state.isValid}
                 disabled={this.state.isValid}
@@ -217,7 +206,7 @@ export default class avatarScreen extends React.Component {
                 onPress={this.onRegister}
               />
             </View>
-          </SafeAreaView>
+          </View>
         </LinearGradient>
       </View>
     );

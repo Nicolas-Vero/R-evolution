@@ -61,22 +61,21 @@ export default class goalScreen extends React.Component {
           }}
           style={styles.background}>
           <Header title="LET'S GO" />
-          <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
             <RegisterStepImageView step={3} />
-            <View style={styles.content}>
-              <Formik
-                initialValues={{
-                  goals: [],
-                }}
-                onSubmit={(values) => {
-                  const item = { ...passItem, ...values };
-                  this.onNavigate(item);
-                }}
-                validationSchema={Yup.object().shape({
-                  goals: Yup.array().min(1).required('Requis'),
-                })}>
-                {({ handleSubmit, isValid, validate }) => (
-                  <View style={styles.content}>
+            <Formik
+              initialValues={{
+                goals: [],
+              }}
+              onSubmit={(values) => {
+                const item = { ...passItem, ...values };
+                this.onNavigate(item);
+              }}
+              validationSchema={Yup.object().shape({
+                goals: Yup.array().min(1).required('Requis'),
+              })}>
+              {({ handleSubmit, isValid, validate }) => (
+                <View style={styles.content}>
+                  <View style={styles.top}>
                     <Field name="goals" id="goals" validate={validate}>
                       {({ form: { errors } }) => {
                         return (
@@ -90,82 +89,79 @@ export default class goalScreen extends React.Component {
                             <Text style={styles.subTitle}>
                               Sélectionne ton ou tes objectifs(s)
                             </Text>
+                            <FieldArray
+                              name="goals"
+                              render={(arrayhelper) => (
+                                <View>
+                                  <View
+                                    style={{
+                                      marginBottom: 24,
+                                    }}>
+                                    <ScrollView style={styles.goalContainer}>
+                                      <FlatList
+                                        data={this.state.specData}
+                                        renderItem={({ item }) => {
+                                          const backgroundColor =
+                                            item.selected == 1
+                                              ? '#2CDEE4'
+                                              : 'transparent';
+                                          const borderColor =
+                                            item.selected == 1
+                                              ? 'transparent'
+                                              : 'white';
+                                          const color =
+                                            item.selected == 1
+                                              ? 'black'
+                                              : 'white';
 
-                            <ScrollView
-                              style={{ marginTop: 26, marginBottom: 26 }}>
-                              <FieldArray
-                                name="goals"
-                                render={(arrayhelper) => (
-                                  <View>
-                                    <View
-                                      style={{
-                                        marginBottom: 24,
-                                      }}>
-                                      <ScrollView style={styles.goalContainer}>
-                                        <FlatList
-                                          data={this.state.specData}
-                                          renderItem={({ item }) => {
-                                            const backgroundColor =
-                                              item.selected == 1
-                                                ? '#2CDEE4'
-                                                : 'transparent';
-                                            const borderColor =
-                                              item.selected == 1
-                                                ? 'transparent'
-                                                : 'white';
-                                            const color =
-                                              item.selected == 1
-                                                ? 'black'
-                                                : 'white';
-
-                                            return (
-                                              <TouchableOpacity
-                                                onPress={() => {
-                                                  item.selected !== 1
-                                                    ? (item.selected = 1)
-                                                    : (item.selected = 0);
-                                                  arrayhelper.form.values.goals.includes(
-                                                    item.value,
-                                                  )
-                                                    ? arrayhelper.remove(
-                                                        item.value,
-                                                      )
-                                                    : arrayhelper.push(
-                                                        item.value,
-                                                      );
+                                          return (
+                                            <TouchableOpacity
+                                              onPress={() => {
+                                                item.selected !== 1
+                                                  ? (item.selected = 1)
+                                                  : (item.selected = 0);
+                                                arrayhelper.form.values.goals.includes(
+                                                  item.value,
+                                                )
+                                                  ? arrayhelper.remove(
+                                                      item.value,
+                                                    )
+                                                  : arrayhelper.push(
+                                                      item.value,
+                                                    );
+                                              }}>
+                                              <View
+                                                style={{
+                                                  ...styles.goalItem,
+                                                  backgroundColor:
+                                                    backgroundColor,
+                                                  borderColor: borderColor,
                                                 }}>
-                                                <View
+                                                <Text
                                                   style={{
-                                                    ...styles.goalItem,
-                                                    backgroundColor:
-                                                      backgroundColor,
-                                                    borderColor: borderColor,
+                                                    ...styles.goalIemText,
+                                                    color: color,
                                                   }}>
-                                                  <Text
-                                                    style={{
-                                                      ...styles.goalIemText,
-                                                      color: color,
-                                                    }}>
-                                                    {item.value}
-                                                  </Text>
-                                                </View>
-                                              </TouchableOpacity>
-                                            );
-                                          }}
-                                          keyExtractor={(item) => item}
-                                          // extraData={selectedId}
-                                          numColumns={3}
-                                        />
-                                      </ScrollView>
-                                      {errors.goals &&
-                                      arrayhelper.form.values.goals.length ===
-                                        0 ? (
-                                        <Text style={styles.errorText}>
-                                          Selectionne ou ajoute un objectif
-                                        </Text>
-                                      ) : null}
-                                    </View>
-                                    {/* <View style={styles.inputContainer}>
+                                                  {item.value}
+                                                </Text>
+                                              </View>
+                                            </TouchableOpacity>
+                                          );
+                                        }}
+                                        keyExtractor={(item) => item}
+                                        // extraData={selectedId}
+                                        numColumns={3}
+                                      />
+                                    </ScrollView>
+                                    {errors.goals &&
+                                    arrayhelper.form.values.goals.length ===
+                                      0 ? (
+                                      <Text style={styles.errorText}>
+                                        Selectionne ou ajoute un objectif
+                                      </Text>
+                                    ) : null}
+                                  </View>
+                                  {/* <View style={styles.inputContainer}>
                                       <TextInput
                                         placeholder="Ajouter un objectif"
                                         placeholderTextColor="#979797"
@@ -197,15 +193,15 @@ export default class goalScreen extends React.Component {
                                         </View>
                                       </TouchableOpacity>
                                     </View> */}
-                                  </View>
-                                )}
-                              />
-                              <KeyboardSpacer />
-                            </ScrollView>
+                                </View>
+                              )}
+                            />
                           </View>
                         );
                       }}
                     </Field>
+                  </View>
+                  <View style={styles.bottom}>
                     <Button
                       loading={false}
                       disabled={!isValid}
@@ -217,10 +213,9 @@ export default class goalScreen extends React.Component {
                       onPress={handleSubmit}
                     />
                   </View>
-                )}
-              </Formik>
-            </View>
-          </SafeAreaView>
+                </View>
+              )}
+            </Formik>
         </LinearGradient>
       </View>
     );

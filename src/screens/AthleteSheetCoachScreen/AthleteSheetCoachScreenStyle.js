@@ -167,6 +167,8 @@ module.exports = StyleSheet.create({
     color: '#2CDEE4',
   },
   username: {
+    marginHorizontal: 16,
+    textAlign: 'center',
     fontFamily: 'MontserratSemiBold',
     fontSize: 20,
     marginTop: 20,

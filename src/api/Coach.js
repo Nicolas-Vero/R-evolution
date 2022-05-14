@@ -34,6 +34,18 @@ export const invite_prospect = async (params) => {
   });
 };
 
+export const coach_booking_other = async (data) => {
+  return await request('POST', true, '/coach/book-slot/other', null, data);
+};
+
+export const update_coach_booking_other = async (data, id) => {
+  return await request('PUT', true, `/coach/book-slot/other/${id}`, null, data);
+};
+
+export const delete_coach_booking_other = async (id) => {
+  return await request('DELETE', true, `/coach/book-slot/other/${id}`);
+};
+
 export const coach_booking = async (params) => {
   const { coach_id, date, athlete_course_id, slot, athlete_id } = params;
   const data = {

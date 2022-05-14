@@ -6,15 +6,12 @@ module.exports = StyleSheet.create({
     flex: 1,
   },
   background: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
+    flex: 1,
   },
   content: {
     alignItems: 'center',
     justifyContent: 'center',
+    flex: 1,
   },
   title: {
     textAlign: 'center',
@@ -24,6 +21,7 @@ module.exports = StyleSheet.create({
     color: '#FFFF',
   },
   safeArea: {
+    flex: 1,
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   subTitle: {
@@ -37,13 +35,29 @@ module.exports = StyleSheet.create({
     alignItems: 'center',
   },
   previewImage: {
-    borderRadius:70,
+    borderRadius: 70,
     height: 141,
     width: 141,
     resizeMode: 'contain',
   },
+  button: {
+    width: '100%',
+    backgroundColor: '#2CDEE4',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 11,
+    paddingHorizontal: 35,
+    borderRadius: 3,
+    marginLeft: 10,
+  },
   buttonText: {
     fontFamily: 'RobotoBold',
     fontSize: 17,
+  },
+  bottom: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginBottom: 50,
   },
 });

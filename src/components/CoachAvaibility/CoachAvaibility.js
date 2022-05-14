@@ -22,12 +22,13 @@ export default class CoachAvaibility extends React.Component {
     this.props.handler && this.props.handler();
   };
   render = () => {
-    const { index, item, onAthletePress, day, disable } = this.props;
-
+    const { index, item, onAthletePress, disable, slot } = this.props;
     return (
       <View style={styles.container}>
-        <Text style={[styles.text, { color: disable ? '#979797' : '#FFF' }]}>
-          {slots[index]}
+        <Text
+          onPress={() => !disable && this.props.onSlotPress(index)}
+          style={[styles.text, { color: disable ? '#979797' : '#FFF' }]}>
+          {slot}
         </Text>
 
         {isBoolean(item) ? (
@@ -39,7 +40,7 @@ export default class CoachAvaibility extends React.Component {
           ) : (
             <TouchableOpacity
               disabled={disable}
-              onLongPress={() => this.props.onLinePress(slots[index])}>
+              onLongPress={() => this.props.onLinePress(slot)}>
               <Text
                 style={[
                   styles.text,
@@ -51,27 +52,42 @@ export default class CoachAvaibility extends React.Component {
           )
         ) : (
           <View>
-            <TouchableOpacity
-              style={styles.userContainer}
-              onPress={() => onAthletePress(item.athlete, index, true)}>
-              <Avatar
-                size={22}
-                rounded
-                source={
-                  item.athlete.profile_picture_url
-                    ? {
-                        uri: item.athlete.profile_picture_url,
-                      }
-                    : require('../../../assets/images/no_pp.jpg')
-                }
-              />
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={
-                  styles.username
-                }>{`${item.athlete.first_name} ${item.athlete.last_name}`}</Text>
-            </TouchableOpacity>
+            {!item.athlete ? (
+              <TouchableOpacity
+                style={styles.userContainer}
+                onPress={() => {
+                  this.props.onOtherBookPress(item, slot);
+                }}>
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={styles.username}>
+                  {item.other_title}
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.userContainer}
+                onPress={() => onAthletePress(item.athlete, index, true)}>
+                <Avatar
+                  size={22}
+                  rounded
+                  source={
+                    item.athlete.profile_picture_url
+                      ? {
+                          uri: item.athlete.profile_picture_url,
+                        }
+                      : require('../../../assets/images/no_pp.jpg')
+                  }
+                />
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={
+                    styles.username
+                  }>{`${item.athlete.first_name} ${item.athlete.last_name}`}</Text>
+              </TouchableOpacity>
+            )}
           </View>
         )}
         <CheckBox

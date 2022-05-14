@@ -131,16 +131,16 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                     : require('../../../assets/images/no_pp.jpg')
                 }
               />
-              <Text
+            </View>
+            <Image style={styles.userStatusImage} source={badgeImage} />
+          </View>
+        </View>
+            <Text
                 style={styles.username}
                 numberOfLines={1}
                 ellipsizeMode="tail">
                 {user.first_name} {user.last_name}
               </Text>
-            </View>
-            <Image style={styles.userStatusImage} source={badgeImage} />
-          </View>
-        </View>
 
         <View style={styles.content}>
           {!isProspect ? null : (
@@ -193,7 +193,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 onPress={() => {
                   Linking.openURL(`tel:${user.phone}`);
                 }}>
-                {[
+                {user.phone.length > 10 ? user.phone : [
                   this.component.props.navigation.state.params.item.athlete
                     ? user.athlete.phone.slice(0, 2)
                     : user.phone.slice(0, 2),

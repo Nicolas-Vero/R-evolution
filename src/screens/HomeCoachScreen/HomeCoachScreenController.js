@@ -7,14 +7,13 @@ import {
   get_appointment_by_athlete_id,
   get_coachAthlete_status,
 } from '../../api/Coach';
-import * as Notifications from 'expo-notifications';
 import AuthService from '../../services/AuthService';
 import XDate from 'xdate';
 import { get_public_request } from '../../api/Request';
 
 import { slots } from '../../helpers/dateHelper';
 import { get_commercial_by_id } from '../../api/Commercial';
-
+import { store } from '../../redux/store';
 export default class HomeCoachScreenController extends AbstractScreenController {
   constructor(component) {
     super(component);
@@ -38,11 +37,16 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       todayIndex: null,
       refrehing: false,
       reload: false,
+      isChangeSLotDialogVisible: false,
+      selectedSlot: null,
+      slotsToUse: slots,
     };
   }
 
   async componentDidMount() {
     const curDate = moment().format('YYYY-MM-DD');
+    await this.getAvailabilities(curDate);
+
     this.component.listRef = null;
     const user = await AuthService.getUser();
     this.component.setState({ user });
@@ -52,7 +56,6 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     if (res.status === 200) {
       this.component.setState({ publicRequest: res.data.requests.length });
     }
-    await this.getAvailabilities(curDate);
   }
   componentDidUpdate(prevProps) {
     if (
@@ -141,6 +144,8 @@ export default class HomeCoachScreenController extends AbstractScreenController 
   };
 
   getAvailabilities = async (item) => {
+    const coachSlots = store.getState().coachSlots;
+
     const date = moment(item).format('YYYY-MM-DD');
     const res = await get_availabilities_v2(date);
     if (res.status == 200) {
@@ -150,6 +155,10 @@ export default class HomeCoachScreenController extends AbstractScreenController 
           day: date,
           refresh: !this.component.state.refresh,
         },
+        slotsToUse:
+          coachSlots.savedSlots && coachSlots.savedSlots[date]
+            ? coachSlots.savedSlots[date]
+            : slots,
       });
     }
   };
@@ -222,7 +231,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
   };
 
   onLinePress = (time) => {
-    const values = Object.values(slots);
+    const values = Object.values(this.component.state.slotsToUse);
     const slot = values.indexOf(time);
     this.component.props.navigation.navigate('CreateBookCoachScreen', {
       time,
@@ -243,7 +252,7 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     }
     if (athlete.commercial_id) {
       const commercial = await get_commercial_by_id(athlete.commercial_id);
-      if (commercial.status === 200) {
+      if (commercial.status === 200 && commercial.data.commercial) {
         athlete.commercial = {
           first_name: commercial.data.commercial.first_name,
           last_name: commercial.data.commercial.last_name,
@@ -256,6 +265,16 @@ export default class HomeCoachScreenController extends AbstractScreenController 
       cb: this.getAvailabilities,
     });
   };
+
+  onOtherBookPress = (item, slot) => {
+    this.component.props.navigation.navigate('UpdateBookCoachScreen', {
+      item,
+      date: this.component.state.selectedDate,
+      time: slot,
+      cb: this.getAvailabilities,
+    });
+  };
+
   bookingInMonth = async (addSubMonth) => {
     const bookingPerday = [];
     const dayOfMonth = this.month(
@@ -269,6 +288,20 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     }
     this.component.setState({
       MonthBookingNumberPerDay: bookingPerday,
+    });
+  };
+
+  onSlotPress = async (slot) => {
+    this.component.setState({
+      selectedSlot: slot,
+      isChangeSLotDialogVisible: true,
+    });
+  };
+
+  dismissChangeSlotDialog = async () => {
+    this.component.setState({
+      selectedSlot: null,
+      isChangeSLotDialogVisible: false,
     });
   };
 }

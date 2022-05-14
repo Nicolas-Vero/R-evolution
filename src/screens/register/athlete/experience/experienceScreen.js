@@ -43,64 +43,64 @@ export default class experienceScreen extends React.Component {
           }}
           style={styles.background}>
           <Header title="LET'S GO" />
-          <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <RegisterStepImageView step={2} />
-            <View style={styles.content}>
-              <Formik
-                initialValues={{
-                  experience_years: '0',
-                }}
-                onSubmit={(values) => {
-                  const item = { ...passItem, ...values };
-                  this.onNavigate(item);
-                }}>
-                {({ handleSubmit, isValid, validate, ref }) => (
-                  <View style={styles.content}>
-                    <Field
-                      name="experience_years"
-                      id="experience_years"
-                      validate={validate}>
-                      {({ field, form: {} }) => {
-                        return (
-                          <View
-                            style={{
-                              height: heightPercentageToDP(72),
-                            }}>
-                            <Text style={styles.title}>
-                              EXPÉRIENCES SPORTIVES
-                            </Text>
-                            <View style={styles.content}>
-                              <View style={styles.infoContainer}>
-                                <Text style={styles.textInfo}>
-                                  {field.value < 1
-                                    ? "MOINS D'UN AN"
-                                    : field.value == 1
-                                    ? `${field.value} AN`
-                                    : field.value > 9
-                                    ? `PLUS DE ${field.value} ANS`
-                                    : `${field.value} ANS`}
-                                </Text>
-                              </View>
-                              <Slider
-                                style={{ width: widthPercentageToDP(90) }}
-                                trackStyle={styles.track}
-                                thumbStyle={styles.thumb}
-                                minimumTrackTintColor="#2CDEE4"
-                                track
-                                ref={ref}
-                                name="experience_years"
-                                onSlidingComplete={(num) => {
-                                  field.onChange('experience_years')('' + num);
-                                }}
-                                maximumValue={10}
-                                minimumValue={0}
-                                step={1}
-                              />
+          <RegisterStepImageView step={2} />
+          <View style={styles.content}>
+            <Formik
+              initialValues={{
+                experience_years: '0',
+              }}
+              onSubmit={(values) => {
+                const item = { ...passItem, ...values };
+                this.onNavigate(item);
+              }}>
+              {({ handleSubmit, isValid, validate, ref }) => (
+                <View style={styles.content}>
+                  <Field
+                    name="experience_years"
+                    id="experience_years"
+                    validate={validate}>
+                    {({ field, form: {} }) => {
+                      return (
+                        <View
+                          style={{
+                            flex: 1, justifyContent: 'flex-start' 
+                          }}>
+                          <Text style={styles.title}>
+                            EXPÉRIENCES SPORTIVES
+                          </Text>
+                          <View style={styles.content}>
+                            <View style={styles.infoContainer}>
+                              <Text style={styles.textInfo}>
+                                {field.value < 1
+                                  ? "MOINS D'UN AN"
+                                  : field.value == 1
+                                  ? `${field.value} AN`
+                                  : field.value > 9
+                                  ? `PLUS DE ${field.value} ANS`
+                                  : `${field.value} ANS`}
+                              </Text>
                             </View>
+                            <Slider
+                              style={{ width: widthPercentageToDP(90) }}
+                              trackStyle={styles.track}
+                              thumbStyle={styles.thumb}
+                              minimumTrackTintColor="#2CDEE4"
+                              track
+                              ref={ref}
+                              name="experience_years"
+                              onSlidingComplete={(num) => {
+                                field.onChange('experience_years')('' + num);
+                              }}
+                              maximumValue={10}
+                              minimumValue={0}
+                              step={1}
+                            />
                           </View>
-                        );
-                      }}
-                    </Field>
+                        </View>
+                      );
+                    }}
+                  </Field>
+                  <View style={styles.bottom}>
                     <Button
                       loading={false}
                       disabled={!isValid}
@@ -109,10 +109,10 @@ export default class experienceScreen extends React.Component {
                       onPress={handleSubmit}
                     />
                   </View>
-                )}
-              </Formik>
-            </View>
-          </SafeAreaView>
+                </View>
+              )}
+            </Formik>
+          </View>
         </LinearGradient>
       </View>
     );

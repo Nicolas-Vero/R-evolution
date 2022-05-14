@@ -1,8 +1,8 @@
-import { get_availabilities } from '../../api/Availabilities';
 import {
   get_coach_athlete,
   coach_booking,
   invite_prospect,
+  coach_booking_other,
 } from '../../api/Coach';
 import AuthService from '../../services/AuthService';
 import AbstractScreenController from '../../components/abstracts/AbstractScreen/AbstractScreenController';
@@ -17,6 +17,9 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
       atlhetesActifs: [],
       atlhetesProspects: [],
       isProspect: false,
+      isOther: false,
+      title: null,
+      description: null,
     };
   }
   async componentDidMount() {
@@ -55,6 +58,34 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
       atlhetesProspects: prospects,
     });
   }
+
+  onChangeTitle = async (value) => {
+    this.component.setState({
+      title: value,
+    });
+  };
+
+  onChangeDescription = async (value) => {
+    this.component.setState({
+      description: value,
+    });
+  };
+
+  onCreateOtherPress = async () => {
+    const { title, description } = this.component.state;
+
+    const res = await coach_booking_other({
+      title,
+      description,
+      date: this.component.props.date,
+      slot: this.component.props.slot,
+    });
+    if (res.status === 200) {
+      this.component.props.cb &&
+        this.component.props.cb(this.component.props.date);
+      this.component.props.navigation.goBack();
+    }
+  };
 
   onInviteProspectPress = async (values) => {
     const addProspect = await invite_prospect({

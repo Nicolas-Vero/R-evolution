@@ -8,15 +8,12 @@ module.exports = StyleSheet.create({
     flex: 1,
   },
   background: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
+    flex: 1,
   },
   content: {
     alignItems: 'center',
-    height: heightPercentageToDP(72),
+    justifyContent: 'center',
+    flex: 1,
   },
   title: {
     textAlign: 'center',
@@ -24,6 +21,17 @@ module.exports = StyleSheet.create({
     fontFamily: 'RobotoBold',
     fontSize: 16,
     color: '#FFFF',
+  },
+  top: {
+    justifyContent: 'flex-start',
+    flex: 1,
+  },
+  bottom: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginTop: 50,
+    marginBottom: 50,
   },
   subTitleColored: {
     color: '#2CDEE4',
@@ -34,9 +42,6 @@ module.exports = StyleSheet.create({
     fontFamily: 'RobotoBold',
     fontSize: 17,
     color: '#FFFF',
-  },
-  safeArea: {
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   sliderContainer: {
     marginTop: 10,
@@ -69,7 +74,7 @@ module.exports = StyleSheet.create({
     marginTop: 30,
     width: 'auto',
     alignSelf: 'center',
-    },
+  },
   day: {
     height: 57,
     width: 40,

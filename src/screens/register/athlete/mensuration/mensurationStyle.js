@@ -13,20 +13,35 @@ module.exports = StyleSheet.create({
   title: {
     textAlign: 'center',
     marginTop: 64,
+    marginBottom: 30,
     fontFamily: 'RobotoBold',
     fontSize: 16,
     color: '#FFFF',
+  },
+  top: {
+    justifyContent: 'flex-start',
+    flex: 1,
+  },
+  bottom: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginTop: 50,
+    marginBottom: 50,
   },
   inputContainer: {
     marginBottom: 15,
   },
   input: {
     backgroundColor: '#FFFFFF',
-    width: widthPercentageToDP(50),
-    paddingHorizontal: 10,
-    paddingVertical: 15,
+    paddingTop: 10,
+    paddingBottom: 10,
     borderRadius: 3,
+    height: 45,
+    paddingLeft: 15,
+    paddingRight: 15,
     fontSize: 15,
+    width: widthPercentageToDP(50),
   },
   errorInputContainer: {
     marginTop: 2,
@@ -38,10 +53,6 @@ module.exports = StyleSheet.create({
   },
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-  },
-  buttonContainer: {
-    marginBottom: 27,
-    alignItems: 'center',
   },
   buttonText: {
     fontFamily: 'RobotoBold',

@@ -32,8 +32,15 @@ const reducersDefinition = [
     type: 'coachFilteredTime',
     isPersistent: true,
     initialState: {
-      start: parseInt(0),
+      start: Number('0'),
       end: 23,
+    },
+  },
+  {
+    type: 'coachSlots',
+    isPersistent: true,
+    initialState: {
+      savedSlots: [],
     },
   },
 ];

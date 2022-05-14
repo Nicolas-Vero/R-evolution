@@ -27,7 +27,7 @@ module.exports = StyleSheet.create({
     marginTop: 0,
     backgroundColor: 'transparent',
     borderWidth: 0,
-    paddingLeft:0
+    paddingLeft: 0,
   },
   checkBoxText: {
     color: '#fff',
@@ -74,6 +74,15 @@ module.exports = StyleSheet.create({
     paddingRight: 15,
     fontSize: 15,
     fontFamily: 'Roboto',
+  },
+  textArea: {
+    backgroundColor: '#FFFFFF',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
+    height: 100,
+    fontSize: 15,
   },
   addProspectText: {
     fontSize: 14,

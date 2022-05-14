@@ -19,7 +19,10 @@ import Header from './Header';
 const { width } = Dimensions.get('window');
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Yup from 'yup';
-import { heightPercentageToDP, widthPercentageToDP } from 'react-native-responsive-screen';
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from 'react-native-responsive-screen';
 import { Formik, FieldArray, Field } from 'formik';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -41,8 +44,6 @@ export default class trainingPlace extends React.Component {
     });
   }
   render() {
-    const passItem = this.props.navigation.state.params.item;
-    const { navigation } = this.props;
     if (!this.state.isLoaded) {
       return (
         <View>
@@ -65,157 +66,134 @@ export default class trainingPlace extends React.Component {
               y: 1,
             }}
             style={styles.background}>
-              <ScrollView>
-            <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <Header title="LET'S GO" />
-              <View style={{ alignItems: 'center' }}>
-                <Image
-                  source={require('../../assets/images/Group_4.png')}
-                  style={{ width: widthPercentageToDP(80) }}
-                />
-              </View>
+            <ScrollView>
+              <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
+                <Header title="LET'S GO" />
+                <View style={{ alignItems: 'center' }}>
+                  <Image
+                    source={require('../../assets/images/Group_4.png')}
+                    style={{ width: widthPercentageToDP(80) }}
+                  />
+                </View>
 
-              <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
-                <Formik
-                  initialValues={{
-                   gym_id:'',
-                  }}
-                  onSubmit={(values) => {
-                    const item = { ...passItem, ...values };
-                    navigation.navigate('avatar',{ item:item})
-                  }}
-                  validationSchema={Yup.object().shape({
-                    gym_id: Yup.string().required('Requis'),
-                  })}>
-                  {({
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    setFieldValue,
-                    values,
-                    setFieldTouched,
-                    touched,
-                    errors,
-                    isValid,
-                    validate,
-                    ref,
-                  }) => (
-                    <View >
-                      <Field name="gym_id" id="gym_id" validate={validate}>
-                        {({
-                          field,
-                          meta,
-                          form: {
-                            touched,
-                            errors,
-                            isSubmitting,
-                            setFieldTouched,
-                          },
-                        }) => {
-                          return (
-                            <View style={{height:heightPercentageToDP(75)}}>
-          
+                <View style={{ paddingLeft: 16, paddingRight: 16, flex: 1 }}>
+                  <Formik
+                    initialValues={{
+                      gym_id: '',
+                    }}
+                    onSubmit={(values) => {
+                      const item = { ...passItem, ...values };
+                      navigation.navigate('avatar', { item: item });
+                    }}
+                    validationSchema={Yup.object().shape({
+                      gym_id: Yup.string().required('Requis'),
+                    })}>
+                    {({ handleSubmit, isValid, validate, ref }) => (
+                      <View>
+                        <Field name="gym_id" id="gym_id" validate={validate}>
+                          {({ form: {} }) => {
+                            return (
                               <View
-                                style={{
-                                  alignItems: 'center',
-                                  marginTop: 75,
-                                  marginBottom: 100,
-                                }}>
-                                <Text
+                                style={{ height: heightPercentageToDP(75) }}>
+                                <View
                                   style={{
-                                    fontWeight: 'bold',
-                                    fontSize: 20,
-                                    color: '#FFFF',
+                                    alignItems: 'center',
+                                    marginTop: 75,
+                                    marginBottom: 100,
                                   }}>
-                                  LIEU D'EXPÉRIENCE
-                                </Text>
-                              </View>
-                              <View style={{ marginTop: 30 }}>
-                                <Text
-                                  style={{
-                                    fontWeight: 'bold',
-                                    fontSize: 20,
-                                    color: '#FFFF',
-                                  }}>
-                                  Dans quelle salle pratiques-tu?
-                                </Text>
-                              </View>
-                              <View style={styles.container}>
-                                <FieldArray
-                                  name='gym_id'
-                                  render={(arrayhelper) => (
-                                    <SelectDropdown
-                                      buttonStyle={{
-                                        width: widthPercentageToDP(90),
-                                        borderRadius: 5,
-                                      }}
-                                      data={this.state.Gymdata}
-                                      defaultButtonText={
-                                        'Recherche le nom de ta salle'
-                                      }
-                                      onSelect={(selectedItem, index) => {
-                                     
-                                        arrayhelper.form.values.gym_id =
-                                          selectedItem.id;
-                                      }}
-                                      renderDropdownIcon={() => {
-                                        return (
-                                          <AntDesign
-                                            name="down"
-                                            size={24}
-                                            color="black"
-                                          />
-                                        );
-                                      }}
-                                      dropdownIconPosition={'right'}
-                                      buttonTextAfterSelection={(
-                                        selectedItem,
-                                        index,
-                                      ) => {
-                                        // text represented after item is selected
-                                        // if data array is an array of objects then return selectedItem.property to render after item is selected
+                                  <Text
+                                    style={{
+                                      fontWeight: 'bold',
+                                      fontSize: 20,
+                                      color: '#FFFF',
+                                    }}>
+                                    LIEU D'EXPÉRIENCE
+                                  </Text>
+                                </View>
+                                <View style={{ marginTop: 30 }}>
+                                  <Text
+                                    style={{
+                                      fontWeight: 'bold',
+                                      fontSize: 20,
+                                      color: '#FFFF',
+                                    }}>
+                                    Dans quelle salle pratiques-tu?
+                                  </Text>
+                                </View>
+                                <View style={styles.container}>
+                                  <FieldArray
+                                    name="gym_id"
+                                    render={(arrayhelper) => (
+                                      <SelectDropdown
+                                        buttonStyle={{
+                                          width: widthPercentageToDP(90),
+                                          borderRadius: 5,
+                                        }}
+                                        data={this.state.Gymdata}
+                                        defaultButtonText={
+                                          'Recherche le nom de ta salle'
+                                        }
+                                        onSelect={(selectedItem, index) => {
+                                          arrayhelper.form.values.gym_id =
+                                            selectedItem.id;
+                                        }}
+                                        renderDropdownIcon={() => {
+                                          return (
+                                            <AntDesign
+                                              name="down"
+                                              size={24}
+                                              color="black"
+                                            />
+                                          );
+                                        }}
+                                        dropdownIconPosition={'right'}
+                                        buttonTextAfterSelection={(
+                                          selectedItem,
+                                          index,
+                                        ) => {
+                                          // text represented after item is selected
+                                          // if data array is an array of objects then return selectedItem.property to render after item is selected
 
-                                        return selectedItem.name;
-                                      }}
-                                      rowTextStyle={{
-                                        color: 'white',
-                                        fontSize: 15,
-                                        marginRight: 90,
-                                      }}
-                                      dropdownStyle={{
-                                        backgroundColor: '#282C3A',
-                                        borderRadius: 5,
-                                      }}
-                                      rowTextForSelection={(item, index) => {
-                                        // text represented for each item in dropdown
-                                        // if data array is an array of objects then return item.property to represent item in dropdown
-                                        return item.name;
-                                      }}
-                                    />
-                                  )}
-                                />
+                                          return selectedItem.name;
+                                        }}
+                                        rowTextStyle={{
+                                          color: 'white',
+                                          fontSize: 15,
+                                          marginRight: 90,
+                                        }}
+                                        dropdownStyle={{
+                                          backgroundColor: '#282C3A',
+                                          borderRadius: 5,
+                                        }}
+                                        rowTextForSelection={(item, index) => {
+                                          // text represented for each item in dropdown
+                                          // if data array is an array of objects then return item.property to represent item in dropdown
+                                          return item.name;
+                                        }}
+                                      />
+                                    )}
+                                  />
+                                </View>
                               </View>
-                      
-                            </View>
-                          );
-                        }}
-                      </Field>
+                            );
+                          }}
+                        </Field>
 
-                      <Button
-                        loading={false}
-                        disabled={!isValid}
-                        title="Suivant"
-                        customTextStyle={{
-                          fontFamily: 'RobotoBold',
-                          fontSize: 17,
-                        }}
-                        onPress={handleSubmit}
-                      />
-                    </View>
-                  )}
-                </Formik>
-              </View>
-            </SafeAreaView>
+                        <Button
+                          loading={false}
+                          disabled={!isValid}
+                          title="Suivant"
+                          customTextStyle={{
+                            fontFamily: 'RobotoBold',
+                            fontSize: 17,
+                          }}
+                          onPress={handleSubmit}
+                        />
+                      </View>
+                    )}
+                  </Formik>
+                </View>
+              </SafeAreaView>
             </ScrollView>
           </LinearGradient>
         </View>

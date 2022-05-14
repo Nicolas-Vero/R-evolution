@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, SafeAreaView } from 'react-native';
+import { View, TextInput, SafeAreaView, Keyboard } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import { Formik } from 'formik';
 import { CheckBox, Text } from 'react-native-elements';
@@ -97,9 +97,13 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                         data={this.component.state.atlhetesActifs}
                         defaultButtonText={'Athlète'}
                         onSelect={async (selectedItem, index) => {
-                          const course = await get_athlete_active_courses(selectedItem.id)
+                          const course = await get_athlete_active_courses(
+                            selectedItem.id,
+                          );
                           values.athlete_id = selectedItem.id;
-                          this.component.setState({ athlete_course: course.data })
+                          this.component.setState({
+                            athlete_course: course.data,
+                          });
                         }}
                         renderDropdownIcon={() => {
                           return (
@@ -114,7 +118,7 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                           return item.full_name;
                         }}
                       />
-                      {this.component.state.athlete_course ?
+                      {this.component.state.athlete_course ? (
                         <SelectDropdown
                           buttonStyle={styles.dropdownButton}
                           buttonTextStyle={styles.dropdownButtonText}
@@ -124,9 +128,7 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                           data={this.component.state.athlete_course}
                           defaultButtonText={'offre'}
                           onSelect={(selectedItem, index) => {
-
                             values.offer_id = selectedItem.id;
-
                           }}
                           renderDropdownIcon={() => {
                             return (
@@ -140,7 +142,8 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                           rowTextForSelection={(item, index) => {
                             return `${item.offer.title} session(s) prise(s): ${item.booked_session}/${item.total_sessions}`;
                           }}
-                        /> : null}
+                        />
+                      ) : null}
                     </View>
                   ) : null}
                   <CheckBox
@@ -288,17 +291,10 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                           <View style={styles.inputContainer}>
                             <TextInput
                               placeholder="Description"
+                              placeholderTextColor="#979797"
                               multiline={true}
                               ref={(ref) => (this.descriptionInput = ref)}
-                              style={{
-                                backgroundColor: '#FFFFFF',
-                                paddingTop: 10,
-                                paddingBottom: 10,
-                                paddingLeft: 15,
-                                paddingRight: 15,
-                                height: 100,
-                                fontSize: 15,
-                              }}
+                              style={styles.textArea}
                               onChangeText={handleChange('description')}
                               onBlur={handleBlur('description')}
                               value={values.description}
@@ -310,7 +306,60 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                   ) : (
                     <View></View>
                   )}
+                  <CheckBox
+                    containerStyle={styles.checkBoxContainer}
+                    title="Autre"
+                    checkedColor="#2CDEE4"
+                    checkedIcon="dot-circle-o"
+                    textStyle={styles.checkBoxText}
+                    uncheckedIcon="dot-circle-o"
+                    checked={values.type.toString() === 'Autre'}
+                    value={values.type}
+                    onPress={() => {
+                      setFieldValue('type', 'Autre'),
+                        this.component.setState({ type: 'Autre' });
+                      this.component.setState({ isOther: true });
+                    }}
+                  />
+                  {this.component.state.type === 'Autre' ? (
+                    <View>
+                      <View style={styles.inputContainer}>
+                        <TextInput
+                          name="title"
+                          placeholder="Titre"
+                          placeholderTextColor="#979797"
+                          ref={(ref) => (this.title = ref)}
+                          style={styles.input}
+                          onChangeText={this.controller.onChangeTitle}
+                          onBlur={handleBlur('title')}
+                          value={this.component.state.title}
+                          onSubmitEditing={() =>
+                            this.otherDescriptionInput &&
+                            this.otherDescriptionInput.focus()
+                          }
+                          blurOnSubmit={false}
+                          returnKeyType="next"
+                        />
+                      </View>
+
+                      <View style={styles.inputContainer}>
+                        <TextInput
+                          name="otherDescription"
+                          placeholder="Description"
+                          placeholderTextColor="#979797"
+                          multiline={true}
+                          ref={(ref) => (this.otherDescriptionInput = ref)}
+                          style={styles.textArea}
+                          onChangeText={this.controller.onChangeDescription}
+                          onBlur={handleBlur('otherDescription')}
+                          onSubmitEditing={() => Keyboard && Keyboard.dismiss()}
+                          value={this.component.state.description}
+                        />
+                      </View>
+                    </View>
+                  ) : null}
                 </View>
+
                 <View
                   style={{
                     justifyContent: 'flex-end',
@@ -323,7 +372,9 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                     loading={false}
                     title="Valider"
                     onPress={() => {
-                      this.component.state.type === 'Prospect'
+                      this.component.state.type === 'Autre'
+                        ? this.controller.onCreateOtherPress()
+                        : this.component.state.type === 'Prospect'
                         ? this.controller.onInviteProspectPress(values)
                         : this.controller.onCreateBookPress(values);
                     }}

@@ -26,6 +26,7 @@ import CoachAvaibility from '../../components/CoachAvaibility/CoachAvaibility';
 import { slots } from '../../helpers/dateHelper';
 import FilterTimesDialog from '../../components/dialogs/filterTimesDialog/filterTimesDialog';
 import { store } from '../../redux/store';
+import ChangeSlotDialog from '../../components/dialogs/changeSlotDialog/changeSlotDialog';
 export default class HomeCoachScreenView extends AbstractScreenView {
   renderDialog() {
     return (
@@ -34,6 +35,19 @@ export default class HomeCoachScreenView extends AbstractScreenView {
         onClose={this.controller.onDismissDialog}
       />
     );
+  }
+
+  renderSlotDialog() {
+    const { selectedSlot, selectedDate } = this.component.state;
+
+    return selectedSlot ? (
+      <ChangeSlotDialog
+        dialogVisible={this.component.state.isChangeSLotDialogVisible}
+        onClose={this.controller.dismissChangeSlotDialog}
+        date={selectedDate}
+        slot={this.component.state.selectedSlot}
+      />
+    ) : null;
   }
 
   renderDay = (date, state, marking) => {
@@ -249,12 +263,16 @@ export default class HomeCoachScreenView extends AbstractScreenView {
   };
 
   renderAvailability = () => {
-    const { coachFilteredTime } = store.getState();
+    const { slotsToUse } = this.component.state;
     const curDate = moment().format('YYYY-MM-DD');
-    return (
+    const { day } = this.component.state.currentAvailabilities;
+    const { coachFilteredTime } = store.getState();
+
+    return !slotsToUse.length ? null : (
       <View style={{ height: heightPercentageToDP(50) }}>
         <View>
           {this.renderDialog()}
+          {this.renderSlotDialog()}
           <View style={{ marginVertical: 10 }}>
             <MonthsSlider onChange={this.controller.onMonthChange.bind(this)} />
           </View>
@@ -361,14 +379,14 @@ export default class HomeCoachScreenView extends AbstractScreenView {
               <Text style={styles.filterInfoText}>
                 <Text>de</Text>
                 <Text style={styles.textColor}>
-                  {` ${(slots[coachFilteredTime.start] || slots[0]).substring(
+                  {` ${(slotsToUse[coachFilteredTime.start]).substring(
                     0,
                     5,
                   )} `}
                 </Text>
                 <Text>à</Text>
                 <Text style={styles.textColor}>
-                  {` ${slots[coachFilteredTime.end].substring(8, 13)}`}
+                  {` ${slotsToUse[coachFilteredTime.end].substring(8, 13)}`}
                 </Text>
               </Text>
             </View>
@@ -393,7 +411,6 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                   />
                 }
                 renderItem={({ item, index }) => {
-                  const { day } = this.component.state.currentAvailabilities;
                   if (coachFilteredTime) {
                     if (coachFilteredTime.start && coachFilteredTime.end) {
                       if (
@@ -426,11 +443,14 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                     <CoachAvaibility
                       disable={disable}
                       index={index}
+                      slot={slotsToUse[index]}
+                      onSlotPress={this.controller.onSlotPress}
                       item={item}
-                      onLinePress={this.controller.onLinePress}
                       day={day}
+                      onLinePress={this.controller.onLinePress}
                       handler={() => this.controller.handler(day)}
                       onAthletePress={this.controller.onAthletePress}
+                      onOtherBookPress={this.controller.onOtherBookPress}
                     />
                   );
                 }}

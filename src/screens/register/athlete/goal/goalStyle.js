@@ -6,15 +6,23 @@ module.exports = StyleSheet.create({
     flex: 1,
   },
   background: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
+flex:1,
   },
   content: {
+    flex:1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  top: {
+    justifyContent: 'flex-start',
+    flex: 1,
+  },
+  bottom: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginTop: 50,
+    marginBottom: 50,
   },
   title: {
     textAlign: 'center',

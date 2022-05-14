@@ -168,11 +168,14 @@ export default class AuthService {
   };
 
   static logout = async (isCoach) => {
-    const token = (await Notifications.getExpoPushTokenAsync()).data;
+    if (Constants.isDevice) {
+      const token = (await Notifications.getExpoPushTokenAsync()).data;
 
-    if (token) {
-      isCoach ? await removeCoachExpoToken(token) : await logoutAthlete(token);
+      if (token) {
+        isCoach ? await removeCoachExpoToken(token) : await logoutAthlete(token);
+      }
     }
+   
     await AuthService.removeAuth();
     await AuthService.removeUser();
 

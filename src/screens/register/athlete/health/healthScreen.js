@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { Formik, FieldArray, Field } from 'formik';
 
 import SelectDropdown from 'react-native-select-dropdown';
@@ -18,7 +17,6 @@ import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
 import { Button } from '../../../../components/Button';
 import styles from './healthStyle';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 export default class healthScreen extends React.Component {
@@ -52,32 +50,35 @@ export default class healthScreen extends React.Component {
           <Header title="LET'S GO" />
           <SafeAreaView style={styles.container} onPress={Keyboard.dismiss}>
             <RegisterStepImageView step={4} />
-            <ScrollView keyboardShouldPersistTaps="handled">
-              <View style={styles.content}>
-                <Formik
-                  initialValues={{
-                    health_issues: false,
-                    health_problem_description: '',
-                  }}
-                  onSubmit={(values) => {
-                    const item = { ...passItem, ...values };
-                    this.onNavigate(item);
-                  }}>
-                  {({ handleSubmit, isValid, validate, ref }) => (
-                    <View style={styles.content}>
+            <View style={styles.content}>
+              <Text style={styles.title}>
+                DES PROBLÈMES DE SANTÉ A SIGNALER ?
+              </Text>
+              <Formik
+                initialValues={{
+                  health_issues: false,
+                  health_problem_description: '',
+                }}
+                onSubmit={(values) => {
+                  const item = { ...passItem, ...values };
+                  this.onNavigate(item);
+                }}>
+                {({ handleSubmit, isValid, validate, ref }) => (
+                  <ScrollView
+                    contentContainerStyle={{
+                      flexGrow: 1,
+                      justifyContent: 'space-between',
+                      flexDirection: 'column',
+                      marginHorizontal: 16,
+                    }}>
+                    <View style={styles.top}>
                       <Field
                         name="health_issues"
                         id="health_issues"
                         validate={validate}>
                         {() => {
                           return (
-                            <View
-                              style={{
-                                height: heightPercentageToDP(72),
-                              }}>
-                              <Text style={styles.title}>
-                                DES PROBLÈMES DE SANTÉ A SIGNALER ?
-                              </Text>
+                            <View style={styles.top}>
                               <View style={styles.healthContainer}>
                                 <FieldArray
                                   name="health_issues"
@@ -163,6 +164,8 @@ export default class healthScreen extends React.Component {
                           );
                         }}
                       </Field>
+                    </View>
+                    <View style={styles.bottom}>
                       <Button
                         loading={false}
                         disabled={!isValid}
@@ -171,11 +174,11 @@ export default class healthScreen extends React.Component {
                         onPress={handleSubmit}
                       />
                     </View>
-                  )}
-                </Formik>
-              </View>
-              <KeyboardSpacer />
-            </ScrollView>
+                    <KeyboardSpacer />
+                  </ScrollView>
+                )}
+              </Formik>
+            </View>
           </SafeAreaView>
         </LinearGradient>
       </View>
