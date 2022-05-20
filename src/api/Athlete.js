@@ -232,19 +232,9 @@ export const update_athlete_password = async (params) => {
   });
 };
 
-export const athlete_forgot_password = async (params) => {
-  const headers = await AuthService.getHeader();
-  let user = await AsyncStorage.getItem(STORAGE.USER);
-  user = JSON.parse(user);
-
-  const data = new FormData();
-  const attributes = Object.keys(params);
-  attributes.forEach((attr) => data.append(`pro[${attr}]`, params[attr]));
-  return axios({
-    method: 'POST',
-    url: `${API_URL}/auth/forgot-password-athlete`,
-    data: data,
-    headers: headers,
+export const athlete_forgot_password = async (email) => {
+  return await request('POST', false, '/auth/forgot-password-coach', null, {
+    email,
   });
 };
 

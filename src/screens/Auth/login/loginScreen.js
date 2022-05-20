@@ -210,13 +210,16 @@ export default class loginScreen extends React.Component {
                     {passwordError && (
                       <Text style={styles.error}>{passwordError}</Text>
                     )}
-                    {/* TODO <View>
-                      <TouchableOpacity>
+                    <View>
+                      <TouchableOpacity
+                        onPress={() =>
+                          this.props.navigation.navigate('forgetPasswordScreen')
+                        }>
                         <Text style={styles.forgetPasswordText}>
                           Mot de passe oublié ?
                         </Text>
                       </TouchableOpacity>
-                    </View> */}
+                    </View>
                     <View style={styles.buttonContainer}>
                       <Button
                         style={styles.button}

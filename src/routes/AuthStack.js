@@ -5,6 +5,7 @@ import entryScreen from '../screens/Auth/entry/entryScreen';
 //common
 import registerScreen from '../screens/register/common/register/registerScreen';
 import loginScreen from '../screens/Auth/login/loginScreen';
+import forgetPasswordScreen from '../screens/Auth/forgetPassword/forgetPasswordScreen';
 import avatarScreen from '../screens/register/common/avatar/avatarScreen';
 
 //athlete
@@ -40,6 +41,14 @@ const AuthStack = createStackNavigator(
     },
     registerScreen: {
       screen: registerScreen,
+      navigationOptions: {
+        gestureEnabled: false,
+        headerShown: false,
+        swipeEnabled: false,
+      },
+    },
+    forgetPasswordScreen: {
+      screen: forgetPasswordScreen,
       navigationOptions: {
         gestureEnabled: false,
         headerShown: false,
