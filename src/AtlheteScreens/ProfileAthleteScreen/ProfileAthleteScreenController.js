@@ -29,28 +29,27 @@ export default class ProfileAthleteScreenController extends AbstractScreenContro
 
   async componentDidMount() {
     const athlete = await get_athlete_me();
-    this.component.setState({ User: athlete.data });
+    this.component.setState({ User: athlete.content });
     const arrayOfPreference = [
-      { day: 'L', selected: athlete.data.is_monday_preferred },
-      { day: 'M', selected: athlete.data.is_tuesday_preferred },
-      { day: 'ME', selected: athlete.data.is_wednesday_preferred },
-      { day: 'J', selected: athlete.data.is_thursday_preferred },
-      { day: 'V', selected: athlete.data.is_friday_preferred },
-      { day: 'S', selected: athlete.data.is_saturday_preferred },
-      { day: 'D', selected: athlete.data.is_sunday_preferred },
+      { day: 'L', selected: athlete.content.is_monday_preferred },
+      { day: 'M', selected: athlete.content.is_tuesday_preferred },
+      { day: 'ME', selected: athlete.content.is_wednesday_preferred },
+      { day: 'J', selected: athlete.content.is_thursday_preferred },
+      { day: 'V', selected: athlete.content.is_friday_preferred },
+      { day: 'S', selected: athlete.content.is_saturday_preferred },
+      { day: 'D', selected: athlete.content.is_sunday_preferred },
     ];
     this.component.setState({ SelectedDay: arrayOfPreference });
     get_gym().then((res) => {
       const currentGymId = res.data.find(
-        (gym) => gym.id === athlete.data.preferred_gym_id,
+        (gym) => gym.id === athlete.content.preferred_gym_id,
       );
+
       this.component.setState({
         multi: [
-          athlete.data.preferred_time_start,
-          athlete.data.preferred_time_end,
+          athlete.content.preferred_time_start,
+          athlete.content.preferred_time_end,
         ],
-      });
-      this.component.setState({
         Gymdata: res.data,
         gym: currentGymId.name,
         loaded: true,
@@ -90,7 +89,7 @@ export default class ProfileAthleteScreenController extends AbstractScreenContro
     const update = await update_current_athlete(values);
     if (update.status === 200) {
       const athlete = await get_athlete_me();
-      if (athlete.status === 200) await AuthService.setUser(athlete.data);
+      if (athlete.status === 200) await AuthService.setUser(athlete.content);
 
       this.component.props.navigation.goBack();
     }

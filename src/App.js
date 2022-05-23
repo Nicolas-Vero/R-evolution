@@ -62,7 +62,7 @@ export class App extends Component {
       }
 
       if (user) {
-        await AuthService.setUser(user.data);
+        await AuthService.setUser(user.content);
         await AuthService.checkExpoToken();
       }
     }
@@ -73,7 +73,7 @@ export class App extends Component {
         if (type === 'ATHLETE_REQUEST_PROCESS') {
           const user = await get_athlete_me();
           if (user) {
-            await AuthService.setUser(user.data);
+            await AuthService.setUser(user.content);
           }
         }
       },

@@ -456,7 +456,8 @@ export default class HomeAthleteView extends AbstractScreenView {
     );
   }
   render() {
-    return (
+    const { isLoad } = this.component.state;
+    return !isLoad ? null : (
       <View style={styles.container}>
         {this.renderHeader()}
         {this.renderSwitchSelector()}

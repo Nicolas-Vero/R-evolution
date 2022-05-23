@@ -157,13 +157,9 @@ export const get_athlete_by_id = async (params) => {
 };
 
 export const get_athlete_me = async () => {
-  const headers = await AuthService.getHeader();
-  return axios({
-    method: 'GET',
-    url: `${API_URL}/athlete/me`,
-    headers: headers,
-  });
+  return await request('GET', true, '/athlete/me');
 };
+
 export const get_personal_coach = async () => {
   const headers = await AuthService.getHeader();
   return axios({

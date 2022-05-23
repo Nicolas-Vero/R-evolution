@@ -56,6 +56,9 @@ export default class AuthService {
     const user = await this.getUser();
     if (user) {
       const token = await this.registerForPushNotificationsAsync();
+      if (!token) {
+        return;
+      }
       if (user.expo_tokens && user.expo_tokens.length) {
         if (user.expo_tokens.includes(token)) {
           return;
@@ -172,10 +175,11 @@ export default class AuthService {
       const token = (await Notifications.getExpoPushTokenAsync()).data;
 
       if (token) {
-        isCoach ? await removeCoachExpoToken(token) : await logoutAthlete(token);
+        isCoach
+          ? await removeCoachExpoToken(token)
+          : await logoutAthlete(token);
       }
     }
-   
     await AuthService.removeAuth();
     await AuthService.removeUser();
 

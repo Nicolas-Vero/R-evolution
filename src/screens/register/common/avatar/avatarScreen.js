@@ -100,7 +100,7 @@ export default class avatarScreen extends React.Component {
       const user = await get_athlete_me();
 
       if (user.status === 200) {
-        await AuthService.setUser(user.data);
+        await AuthService.setUser(user.content);
         this.props.navigation.navigate('DashboardStackAtlhete');
       }
     }

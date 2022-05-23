@@ -30,26 +30,26 @@ export default class ProfileCoachScreenController extends AbstractScreenControll
     const arrayOfSpec = [];
     const arrayOfDip = [];
     const user = await get_coach_me();
-    this.component.setState({ Coach: user.data });
+    this.component.setState({ Coach: user.content });
 
     get_gym().then((res) => {
       this.component.setState({ Gymdata: res.data });
     });
-    // get_file('0ace0f4b-614c-4820-8970-fae39aaf6b6d.jpeg').then((res) => {
-    //   this.component.setState({ image: res.data });
-    // });
 
-    user.data.specialties.forEach((element) => {
+    user.content.specialties.forEach((element) => {
       arrayOfSpec.push(element.specialty_name);
     });
-    user.data.diplomas.forEach((element) => {
+    user.content.diplomas.forEach((element) => {
       arrayOfDip.push(element.diploma_name);
     });
-    this.component.setState({ specData: arrayOfSpec });
-    this.component.setState({ arrayofdiplomas: arrayOfDip });
-    this.component.setState({ User: user.data });
-    this.component.setState({ loaded: true });
+    this.component.setState({
+      specData: arrayOfSpec,
+      arrayofdiplomas: arrayOfDip,
+      User: user.content,
+      loaded: true,
+    });
   }
+
   pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       base64: true,
@@ -110,7 +110,7 @@ export default class ProfileCoachScreenController extends AbstractScreenControll
     const update = await updateCoach(values);
     if (update.status === 200) {
       const coach = await get_coach_me();
-      if (coach.status === 200) await AuthService.setUser(coach.data);
+      if (coach.status === 200) await AuthService.setUser(coach.content);
 
       this.component.props.navigation.goBack();
     }

@@ -1,7 +1,7 @@
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { API_URL, STORAGE } from '../configs/Constants';
+import { API_URL } from '../configs/Constants';
 import AuthService from '../services/AuthService';
+import { request } from '../services/axiosService';
 
 export const create_paiement = async (params) => {
   const { coach_id, installments, offer_id, date, transaction_id } = params;
@@ -47,14 +47,9 @@ export const update_paiement = async (params) => {
     data.id = id;
   }
 
-  const headers = await AuthService.getHeader();
-  return axios({
-    method: 'POST',
-    url: `${API_URL}/transaction/update/coach`,
-    headers: headers,
-    data: data,
-  });
+  return await request('POST', true, '/transaction/update/coach', null, data);
 };
+
 export const remove_paiement = async (params) => {
   const { transaction_id, id } = params;
   const data = { id: id, transaction_id: transaction_id };

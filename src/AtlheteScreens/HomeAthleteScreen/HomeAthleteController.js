@@ -40,59 +40,62 @@ export default class HomeAhleteController extends AbstractScreenController {
       isUnbookOfferDialogVisible: false,
       today: '',
       disableAction: false,
+      isLoad: false,
     };
   }
 
   async componentDidMount() {
     let user = await AuthService.getUser();
-    try {
-      this.component.setState({ coach_id: user.coach?.coach_id });
-      this.component.setState({ user: user });
-      get_athlete_active_courses().then((res) => {
-        this.component.setState({ athleteCourse: res.data });
-      });
-      const curDate = moment().format('YYYY-MM-DD');
-      this.component.setState({ today: curDate });
+    this.component.setState({ user: user, coach_id: user.coach?.coach_id });
+    const res = await get_athlete_active_courses();
+    if (res.status === 200) {
+      this.component.setState({ athleteCourse: res.data });
+    }
+    const curDate = moment().format('YYYY-MM-DD');
+    this.component.setState({ today: curDate });
 
-      this.onMonthChange(curDate, true);
-
-      get_coach_by_id(this.component.state.coach_id).then((res) => {
+    this.onMonthChange(curDate, true);
+    if (user.coach?.coach_id) {
+      const coachRes = await get_coach_by_id(user.coach?.coach_id);
+      if (coachRes.status === 200) {
         this.component.setState({
           coach: {
-            id: res.data.id,
-            first_name: res.data.first_name,
-            last_name: res.data.last_name,
-            profile_picture_url: res.data.profile_picture_url,
+            id: coachRes.data.id,
+            first_name: coachRes.data.first_name,
+            last_name: coachRes.data.last_name,
+            profile_picture_url: coachRes.data.profile_picture_url,
           },
         });
-      });
-
-      get_athlete_active_appointement({ today: true }).then((res) => {
-        this.component.setState({ dayApointement: res.data });
-      });
-      get_athlete_active_appointement({ upcoming: true }).then((res) => {
-        const data = res.data.map((item, index) => {
-          if (index == 0) {
-            return { ...item, show: true };
-          } else {
-            return item?.date === res.data[index - 1].date
-              ? { ...item, show: false }
-              : { ...item, show: true };
-          }
-        });
-        this.component.setState({ upcomingApointement: data });
-      });
-    } catch (error) {
-      // console.log(error);
+        s;
+      }
     }
 
-    this.component.setState({ user: user });
+    const dayAppointmentRes = await get_athlete_active_appointement({
+      today: true,
+    });
+
+    if (dayAppointmentRes.status === 200) {
+      this.component.setState({ dayApointement: dayAppointmentRes.data });
+    }
+    const nextAppointmentRes = await get_athlete_active_appointement({
+      upcoming: true,
+    });
+    if (nextAppointmentRes.status === 200) {
+      const data = nextAppointmentRes.data.map((item, index) => {
+        if (index == 0) {
+          return { ...item, show: true };
+        } else {
+          return item?.date === res.data[index - 1].date
+            ? { ...item, show: false }
+            : { ...item, show: true };
+        }
+      });
+      this.component.setState({ upcomingApointement: data });
+    }
+
+    this.component.setState({ user: user, isLoad: true });
   }
 
-  componentWillUnmount() {
-    Notifications.removeNotificationSubscription(this.notificationListener);
-    Notifications.removeNotificationSubscription(this.responseListener);
-  }
   fetcHDataDdv = async () => {
     get_athlete_active_appointement({ today: true }).then((res) => {
       this.component.setState({ dayApointement: res.data });

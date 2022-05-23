@@ -51,12 +51,8 @@ export default class loginScreen extends React.Component {
       await this.loginAthlete(body);
       return;
     }
-
-    // console.log('error')
-    // this.component.setState({
-    //   error: "Cet email n'existe pas",
-    // });
   }
+
   isLoginCorrect = (email, password) => {
     if (!email || !password) {
       this.setState({
@@ -92,7 +88,6 @@ export default class loginScreen extends React.Component {
   };
   async loginCoach(body) {
     const login = await coach_login(body);
-    console.log(login);
     if (login.status !== 200) {
       this.setState({ passwordError: 'Mot de passe incorrect' });
 
@@ -103,7 +98,7 @@ export default class loginScreen extends React.Component {
       await this.setAuth(login.content, 'coach');
       const user = await get_coach_me();
       if (user.status === 200) {
-        await AuthService.setUser(user.data);
+        await AuthService.setUser(user.content);
         await AuthService.checkExpoToken();
         this.props.navigation.navigate('DashboardStack');
       }
@@ -126,7 +121,7 @@ export default class loginScreen extends React.Component {
       await this.setAuth(login.content, 'athlete');
       const user = await get_athlete_me();
       if (user.status === 200) {
-        await AuthService.setUser(user.data);
+        await AuthService.setUser(user.content);
         await AuthService.checkExpoToken();
         this.props.navigation.navigate('DashboardStackAtlhete');
       }
