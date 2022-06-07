@@ -5,12 +5,15 @@ import * as ImagePicker from 'expo-image-picker';
 import { Avatar } from 'react-native-elements';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import { sign_up } from '../../../../api/Athlete';
 import { auth } from '../../../../api/Coach';
 import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
 import styles from './avatarStyle';
-import { athlete_login, get_athlete_me } from '../../../../api/Athlete';
+import {
+  sign_up,
+  athlete_login,
+  get_athlete_me,
+} from '../../../../api/Athlete';
 import AuthService from '../../../../services/AuthService';
 import { upload_profile_picture } from '../../../../api/File';
 import SystemHelper from '../../../../helpers/SystemHelper';
@@ -20,9 +23,7 @@ export default class avatarScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoaded: false,
       image: {},
-      isValid: true,
       isAthlete: props.navigation.state.params.item.userType === 'athlete',
       base64Image: '',
       isWorking: false,
@@ -55,26 +56,18 @@ export default class avatarScreen extends React.Component {
       const res = await sign_up(passItem);
 
       if (res.status === 200) {
-        await SystemHelper.sleep(500);
         this.props.navigation.popToTop();
         this.props.navigation.push('loginScreen');
         await this.upload(res.content.userId, true);
-        // await SystemHelper.sleep(500);
-
-        // await this.loginAthlete({
-        //   email: passItem.email,
-        //   password: passItem.password,
-        // });
 
         return;
       }
     } else {
       const res = await auth(passItem);
       if (res.status === 200) {
-        await SystemHelper.sleep(500);
         this.props.navigation.popToTop();
         this.props.navigation.push('loginScreen');
-        await this.upload(res.data.userId, false);
+        await this.upload(res.content.userId, false);
 
         return;
       }
@@ -199,8 +192,6 @@ export default class avatarScreen extends React.Component {
             </View>
             <View style={styles.bottom}>
               <Button
-                loading={!this.state.isValid}
-                disabled={this.state.isValid}
                 title="Créer ton compte"
                 customTextStyle={styles.buttonText}
                 onPress={this.onRegister}

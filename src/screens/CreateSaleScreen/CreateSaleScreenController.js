@@ -235,14 +235,9 @@ export default class CreateSaleScreenController extends AbstractScreenController
       totalPrice,
     } = this.component.state;
     const { athleteId } = this.component.props.navigation.state.params;
-    try {
-      [...oldPayment, ...nextPayment].forEach(async (payment) => {
-        payment.athlete_id = athleteId;
-        payment.offer_id = selectedOffer.id;
-        payment.transaction_id = transaction_id;
-        await add_manual_payment(payment);
-      });
+    this.onDismissSaveSaleDialog();
 
+    try {
       const installments = oldPayment.length + nextPayment.length;
 
       const transaction = await add_transaction({
@@ -253,8 +248,13 @@ export default class CreateSaleScreenController extends AbstractScreenController
         amount: parseInt(totalPrice),
       });
 
-      this.onDismissSaveSaleDialog();
       if (transaction.status === 200) {
+        [...oldPayment, ...nextPayment].forEach(async (payment) => {
+          payment.athlete_id = athleteId;
+          payment.offer_id = selectedOffer.id;
+          payment.transaction_id = transaction_id;
+          await add_manual_payment(payment);
+        });
         this.component.setState({
           isWorking: false,
         });

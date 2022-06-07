@@ -4,13 +4,8 @@ import { API_URL, STORAGE } from '../configs/Constants';
 import AuthService from '../services/AuthService';
 import { request } from '../services/axiosService';
 
-export const auth = (params) => {
-  const data = params;
-  return axios({
-    method: 'POST',
-    url: `${API_URL}/auth/coach/sign-up`,
-    data: data,
-  });
+export const auth = async (data) => {
+  return await request('POST', false, '/auth/coach/sign-up', null, data);
 };
 
 export const set_expo_token = async (token) => {
@@ -113,7 +108,6 @@ export const get_appointment_by_id = async (params) => {
 };
 
 export const add_manual_payment = async (data) => {
-  // console.log("data", data);
   return await request(
     'POST',
     true,

@@ -66,7 +66,6 @@ export default class HomeAhleteController extends AbstractScreenController {
             profile_picture_url: coachRes.data.profile_picture_url,
           },
         });
-        s;
       }
     }
 
