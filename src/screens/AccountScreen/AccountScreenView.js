@@ -26,9 +26,11 @@ export default class AccountScreenView extends AbstractScreenView {
               />
             </TouchableOpacity>
           </View>
-          <View><Text style={[styles.itemText, { color: '#ffff' }]}>
-            Version : 1.0.2
-          </Text></View>
+          <View>
+            <Text style={[styles.itemText, { color: '#ffff' }]}>
+              Version : 1.0.3
+            </Text>
+          </View>
         </View>
       </View>
     );
