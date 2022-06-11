@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>EXUpdatesReleaseChannel</key>
-	<string>default</string>
+	<string>production</string>
 	<key>EXUpdatesSDKVersion</key>
-	<string>41.0.0</string>
+	<string>43.0.0</string>
 	<key>EXUpdatesURL</key>
 	<string>https://exp.host/@nicolasvero/R_evolution</string>
 </dict>
