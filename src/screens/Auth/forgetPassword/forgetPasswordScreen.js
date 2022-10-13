@@ -122,7 +122,7 @@ export default class forgotPasswordScreen extends React.Component {
                   placeholderTextColor="#979797"
                   placeholder="Adresse e-mail"
                   style={styles.input}
-                  onChangeText={(value) => this.setState({ email: value })}
+                  onChangeText={(value) => this.setState({ email: value.toLowerCase() })}
                   autoCapitalize="none"
                   value={email}
                   onSubmitEditing={() => Keyboard && Keyboard.dismiss()}

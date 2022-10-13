@@ -45,6 +45,7 @@ module.exports = StyleSheet.create({
     fontSize: 15,
   },
   input: {
+    color: '#fff',
     textAlign: 'center',
     backgroundColor: '#282C3A',
     paddingTop: 10,

@@ -86,6 +86,7 @@ export default class ProfileAthleteScreenController extends AbstractScreenContro
     if (base64Image !== '') {
       await upload_profile_picture(User.id, 'athlete', base64Image);
     }
+    values.email = values.email.toLowerCase();
     const update = await update_current_athlete(values);
     if (update.status === 200) {
       const athlete = await get_athlete_me();

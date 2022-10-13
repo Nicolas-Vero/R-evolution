@@ -13,7 +13,7 @@ import { get_public_request } from '../../api/Request';
 
 import { slots } from '../../helpers/dateHelper';
 import { get_commercial_by_id } from '../../api/Commercial';
-import { store } from '../../redux/store';
+import { store, dispatch } from '../../redux/store';
 export default class HomeCoachScreenController extends AbstractScreenController {
   constructor(component) {
     super(component);
@@ -73,6 +73,21 @@ export default class HomeCoachScreenController extends AbstractScreenController 
   }
 
   screenDidFocus = async () => {
+    const selectedDate = store.getState().selectedDate;
+    if (selectedDate.date) {
+      const date = moment(selectedDate.date).format('YYYY-MM-DD');
+      const ArrayOfday = this.getDaysArrayByMonth(date);
+      let dayIndex = null;
+      ArrayOfday.forEach((element, index) => {
+        if (date === moment(element).format('YYYY-MM-DD')) {
+          dayIndex = index;
+        }
+      });
+      if (dayIndex) {
+        this.scrollToIndex(dayIndex, true);
+      }
+    }
+
     await this.changeTaskList(this.component.state.selectedDate);
     const bookingPerday = [];
     const dayOfMonth = this.month(this.component.state.currentMonth);
@@ -145,7 +160,10 @@ export default class HomeCoachScreenController extends AbstractScreenController 
 
   getAvailabilities = async (item) => {
     const coachSlots = store.getState().coachSlots;
-
+    dispatch('selectedDate', {
+      date: this.component.state.selectedDate,
+    });
+    this.component.setState({ selectedDate: item });
     const date = moment(item).format('YYYY-MM-DD');
     const res = await get_availabilities_v2(date);
     if (res.status == 200) {
@@ -190,12 +208,11 @@ export default class HomeCoachScreenController extends AbstractScreenController 
     const formatdata = {
       date: date.dateString || date,
     };
-
     this.component.setState({
-      selectedDate: moment(date.dateString).format('YYYY-MM-DD'),
+      selectedDate: moment(date).format('YYYY-MM-DD'),
     });
     this.component.setState({
-      currentDate: moment(date.dateString).format('dddd D MMMM '),
+      currentDate: moment(date).format('dddd D MMMM '),
     });
 
     const res = await get_appointement(formatdata);

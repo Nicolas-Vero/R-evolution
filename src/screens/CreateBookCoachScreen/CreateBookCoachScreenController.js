@@ -89,7 +89,7 @@ export default class CreateBookCoachScreenController extends AbstractScreenContr
 
   onInviteProspectPress = async (values) => {
     const addProspect = await invite_prospect({
-      email: values.email,
+      email: values.email.toLowerCase(),
       first_name: values.first_name,
       last_name: values.last_name,
       gender: values.gender,

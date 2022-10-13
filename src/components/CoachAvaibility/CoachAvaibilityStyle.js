@@ -35,8 +35,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     paddingHorizontal: 14,
-    paddingVertical: 3,
+    // paddingVertical: 3,
     borderRadius: 6,
+    height: 25,
     width: 150,
   },
   username: {

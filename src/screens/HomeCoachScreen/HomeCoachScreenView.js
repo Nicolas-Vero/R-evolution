@@ -315,9 +315,6 @@ export default class HomeCoachScreenView extends AbstractScreenView {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      this.component.setState({
-                        selectedDate: item?.availability,
-                      });
                       this.controller.getAvailabilities(item?.availability);
                     }}>
                     <LinearGradient

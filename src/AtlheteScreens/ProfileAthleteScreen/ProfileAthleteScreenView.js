@@ -163,6 +163,7 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                       onChangeText={handleChange('email')}
                       onBlur={handleBlur('email')}
                       value={values.email}
+                      autoCapitalize="none"
                     />
                   </View>
                   <Text style={styles.text}>Téléphone</Text>

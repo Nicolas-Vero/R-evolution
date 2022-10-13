@@ -43,6 +43,13 @@ const reducersDefinition = [
       savedSlots: [],
     },
   },
+  {
+    type: 'selectedDate',
+    isPersistent: false,
+    initialState: {
+      date: null,
+    },
+  },
 ];
 
 export default reducersDefinition;

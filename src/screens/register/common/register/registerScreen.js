@@ -45,6 +45,8 @@ export default class registerScreen extends React.Component {
       error: null,
     });
 
+    item.email = item.email.toLowerCase();
+
     this.props.navigation.navigate(
       item.userType === 'coach' ? 'diplomasScreen' : 'mensurationScreen',
       item,

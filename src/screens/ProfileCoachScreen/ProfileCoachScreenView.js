@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Image,
   FlatList,
+  ScrollView,
 } from 'react-native';
 import { FieldArray, Formik } from 'formik';
 import { AntDesign } from '@expo/vector-icons';
@@ -14,7 +15,6 @@ import { Avatar, CheckBox } from 'react-native-elements';
 import { Button, DeleteButton } from '../../components/Button';
 import HeaderLight from '../../components/HeaderLight';
 import { FontAwesome } from '@expo/vector-icons';
-import { ScrollView } from 'react-native-gesture-handler';
 import SelectDropdown from 'react-native-select-dropdown';
 import styles from './ProfileCoachScreenStyle';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
@@ -36,9 +36,10 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
     } else {
       return (
         <View style={styles.container}>
-          <ScrollView>
+          <ScrollView scrollIndicatorInsets={{ right: 1 }}>
             <Formik
               initialValues={{
+                gender: this.component.state.User.gender,
                 first_name: this.component.state.User.first_name,
                 last_name: this.component.state.User.last_name,
                 email: this.component.state.User.email,
@@ -147,7 +148,7 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                         style={styles.input}
                         onChangeText={handleChange('email')}
                         onBlur={handleBlur('email')}
-                        value={values.email}
+                        autoCapitalize="none"
                       />
                     </View>
                     <Text style={styles.text}>Téléphone</Text>

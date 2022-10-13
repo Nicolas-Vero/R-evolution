@@ -280,6 +280,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   keyExtractor={(item) => item.id.toString()}
                   renderItem={({ item }) => {
                     const isDone =
+                    user.status === 'inactive' ? false :
                       item.course_details?.booked_session ===
                       item.course_details?.total_sessions;
                     return (

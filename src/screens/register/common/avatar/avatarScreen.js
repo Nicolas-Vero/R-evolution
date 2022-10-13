@@ -46,10 +46,10 @@ export default class avatarScreen extends React.Component {
 
     this.setState({ isWorking: true });
     const passItem = this.props.navigation.state.params.item;
-    const expo_token = await AuthService.registerForPushNotificationsAsync();
-    if (expo_token) {
-      passItem.expo_token = expo_token;
-    }
+    // const expo_token = await AuthService.registerForPushNotificationsAsync();
+    // if (expo_token) {
+    //   passItem.expo_token = expo_token;
+    // }
     const { isAthlete } = this.state;
 
     if (isAthlete) {

@@ -257,7 +257,7 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                               placeholder="Email"
                               placeholderTextColor="#979797"
                               ref={(ref) => (this.emailInput = ref)}
-                              style={styles.input}
+                              style={styles.input}                          
                               onChangeText={handleChange('email')}
                               onBlur={handleBlur('email')}
                               value={values.email}

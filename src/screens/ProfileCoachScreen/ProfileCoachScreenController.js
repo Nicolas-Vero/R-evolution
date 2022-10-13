@@ -106,7 +106,7 @@ export default class ProfileCoachScreenController extends AbstractScreenControll
     if (base64Image !== '') {
       await upload_profile_picture(Coach.id, 'coach', base64Image);
     }
-
+    values.email = values.email.toLowerCase();
     const update = await updateCoach(values);
     if (update.status === 200) {
       const coach = await get_coach_me();

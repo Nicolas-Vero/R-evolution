@@ -60,7 +60,7 @@ const AppTabsNavigator = createBottomTabNavigator(
         tabBarIcon: ({ tintColor }) => (
           <Image
             source={require('../../../assets/images/Chart.png')}
-            style={{ height: 20, width: 20, resizeMode: 'contain', tintColor }}
+            style={{ height: 26, width: 26, resizeMode: 'contain', tintColor }}
           />
         ),
       }),

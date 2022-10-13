@@ -63,7 +63,7 @@ export class App extends Component {
 
       if (user) {
         await AuthService.setUser(user.content);
-        await AuthService.checkExpoToken();
+        // await AuthService.checkExpoToken();
       }
     }
 
