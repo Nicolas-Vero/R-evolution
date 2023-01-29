@@ -23,6 +23,7 @@ export default class forgotPasswordScreen extends React.Component {
       email: null,
       error: null,
       timer: null,
+      editable: true,
     };
   }
 
@@ -58,6 +59,8 @@ export default class forgotPasswordScreen extends React.Component {
       this.setState({
         error: "Cet email n'existe pas",
       });
+
+      return;
     }
 
     if (user.content.type === 'coach') {
@@ -65,6 +68,7 @@ export default class forgotPasswordScreen extends React.Component {
     } else if (user.content.type === 'athlete') {
       await athlete_forgot_password(email);
     }
+    this.setState({ editable: false });
     this.startTimerInterval();
   };
 
@@ -85,7 +89,7 @@ export default class forgotPasswordScreen extends React.Component {
   };
 
   render() {
-    const { email, error, passwordError } = this.state;
+    const { email, error, editable } = this.state;
 
     return (
       <View style={styles.container}>
@@ -119,10 +123,11 @@ export default class forgotPasswordScreen extends React.Component {
                   Tu recevras un e-mail pour réinitialiser ton mot de passe
                 </Text>
                 <TextInput
+                  editable={editable}
                   placeholderTextColor="#979797"
                   placeholder="Adresse e-mail"
                   style={styles.input}
-                  onChangeText={(value) => this.setState({ email: value.toLowerCase() })}
+                  onChangeText={(value) => this.setState({ email: value })}
                   autoCapitalize="none"
                   value={email}
                   onSubmitEditing={() => Keyboard && Keyboard.dismiss()}
@@ -135,8 +140,9 @@ export default class forgotPasswordScreen extends React.Component {
                   <Text style={styles.h3}>
                     {`Envoi du mail de réinitialisation du mot de passe ${this.state.timer}`}
                   </Text>
-                ) : (
+                ) : !editable ? null : (
                   <Button
+                    disable={this.state.disable}
                     style={styles.button}
                     loading={false}
                     title="Envoyer"

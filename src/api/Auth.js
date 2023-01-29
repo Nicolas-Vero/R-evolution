@@ -21,3 +21,10 @@ export const isEmailExist = async (email) => {
     url: `${API_URL}/auth/userExist/${email}`,
   });
 };
+
+export const isPhoneExist = async (phone) => {
+  return axios({
+    method: 'GET',
+    url: `${API_URL}/auth/phone/${phone}`,
+  });
+};

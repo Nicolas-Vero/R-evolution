@@ -17,7 +17,7 @@ import KeyboardSpacer from 'react-native-keyboard-spacer';
 import * as Yup from 'yup';
 import styles from './registerStyle';
 
-import { isEmailExist } from '../../../../api/Auth';
+import { isEmailExist, isPhoneExist } from '../../../../api/Auth';
 export default class registerScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -28,6 +28,7 @@ export default class registerScreen extends React.Component {
       progress: 0,
       termsCondition: false,
       error: null,
+      phoneNumberError: null,
     };
   }
 
@@ -45,6 +46,17 @@ export default class registerScreen extends React.Component {
       error: null,
     });
 
+    const resPhone = await isPhoneExist(item.phone);
+    if (resPhone.data.exist) {
+      this.setState({
+        phoneNumberError: 'Numéro de téléphone déjà utilisé',
+      });
+
+      return;
+    }
+    this.setState({
+      phoneNumberError: null,
+    });
     item.email = item.email.toLowerCase();
 
     this.props.navigation.navigate(
@@ -285,6 +297,13 @@ export default class registerScreen extends React.Component {
                               </Text>
                             </View>
                           )}
+                          {this.state.phoneNumberError && (
+                            <View style={styles.errorInputContainer}>
+                              <Text style={styles.errorInputText}>
+                                {this.state.phoneNumberError}
+                              </Text>
+                            </View>
+                          )}
                         </View>
                         <View style={styles.inputContainer}>
                           <TextInput
@@ -435,7 +454,7 @@ export default class registerScreen extends React.Component {
                         </Text>
                         <Text
                           style={styles.alreadyMemberTextUnderline}
-                          onPress={() => navigate('loginScreen')}>
+                          onPress={() => this.props.navigation.navigate('loginScreen')}>
                           Se connecter.
                         </Text>
                       </View>
