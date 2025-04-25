@@ -1,17 +1,21 @@
-import { withMappedNavigationParams } from 'react-navigation-props-mapper';
+import React from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import AbstractScreen from '../../components/abstracts/AbstractScreen/AbstractScreen';
 import AccountScreenView from './AccountScreenView';
 import AccountScreenController from './AccountScreenController';
 
-class AccountScreen extends AbstractScreen {
-  constructor(props) {
-    super({
-      props,
-      screenName: 'AccountScreen',
-      viewClass: AccountScreenView,
-      controllerClass: AccountScreenController,
-    });
-  }
-}
+const AccountScreen = (props) => {
+  const navigation = useNavigation();
+  const route = useRoute();
 
-export default withMappedNavigationParams()(AccountScreen);
+  return (
+    <AbstractScreen
+      props={{ ...props, navigation, route }}
+      screenName="AccountScreen"
+      viewClass={AccountScreenView}
+      controllerClass={AccountScreenController}
+    />
+  );
+};
+
+export default AccountScreen;

@@ -11,7 +11,6 @@ import { Button } from '../../components/Button';
 import Header from '../../components/Header';
 import styles from './CreateBookCoachScreenStyle';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { get_athlete_active_courses } from '../../api/Coach';
 export default class CreateBookCoachScreenView extends AbstractScreenView {
   render() {
@@ -257,7 +256,7 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                               placeholder="Email"
                               placeholderTextColor="#979797"
                               ref={(ref) => (this.emailInput = ref)}
-                              style={styles.input}                          
+                              style={styles.input}
                               onChangeText={handleChange('email')}
                               onBlur={handleBlur('email')}
                               value={values.email}
@@ -375,12 +374,12 @@ export default class CreateBookCoachScreenView extends AbstractScreenView {
                       this.component.state.type === 'Autre'
                         ? this.controller.onCreateOtherPress()
                         : this.component.state.type === 'Prospect'
-                        ? this.controller.onInviteProspectPress(values)
-                        : this.controller.onCreateBookPress(values);
+                          ? this.controller.onInviteProspectPress(values)
+                          : this.controller.onCreateBookPress(values);
                     }}
                   />
                 </View>
-                <KeyboardSpacer />
+
               </ScrollView>
             )}
           </Formik>

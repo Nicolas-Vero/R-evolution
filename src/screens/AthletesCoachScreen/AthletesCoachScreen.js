@@ -1,17 +1,22 @@
-import { withMappedNavigationParams } from 'react-navigation-props-mapper';
+import React from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
 import AbstractScreen from '../../components/abstracts/AbstractScreen/AbstractScreen';
 import AthletesCoachScreenController from './AthletesCoachScreenController';
 import AthletesCoachScreenView from './AthletesCoachScreenView';
 
-class AthletesCoachScreen extends AbstractScreen {
-  constructor(props) {
-    super({
-      props,
-      screenName: 'AthletesCoachScreen',
-      viewClass: AthletesCoachScreenView,
-      controllerClass: AthletesCoachScreenController,
-    });
-  }
-}
+const AthletesCoachScreen = (props) => {
+  const navigation = useNavigation();
+  const route = useRoute();
 
-export default withMappedNavigationParams()(AthletesCoachScreen);
+  return (
+    <AbstractScreen
+      props={{ ...props, navigation, route }}
+      screenName="AthletesCoachScreen"
+      viewClass={AthletesCoachScreenView}
+      controllerClass={AthletesCoachScreenController}
+    />
+  );
+};
+
+export default AthletesCoachScreen;

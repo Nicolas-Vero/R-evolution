@@ -1,14 +1,13 @@
 import React from 'react';
 import { Image, View } from 'react-native';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { isIphoneX } from 'react-native-iphone-x-helper';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+//
 
 import OffresStack from './OffresStack';
 import HomeStack from './HomeStack';
 import MyAthletesStack from './MyAthletesStack';
 import DashboardCoachStack from './DashboardStack';
 import { LinearGradient } from 'expo-linear-gradient';
-import { BottomTabBar } from 'react-navigation-tabs';
 // Auth import
 
 const AppTabsNavigator = createBottomTabNavigator(
@@ -79,15 +78,15 @@ const AppTabsNavigator = createBottomTabNavigator(
             x: 1,
             y: 1,
           }}
-          style={{ height: isIphoneX() ? 65 : 50 }}>
-          <BottomTabBar
+          style={{ height: 65 }}>
+          {/* <BottomTabBar
             {...props}
             style={{
               backgroundColor: 'transparent',
               borderTopColor: '#2CDEE4',
               borderTopWidth: 0.5,
             }}
-          />
+          /> */}
         </LinearGradient>
       );
     },

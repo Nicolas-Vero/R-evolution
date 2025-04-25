@@ -7,48 +7,47 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
-import { isIphoneX } from 'react-native-iphone-x-helper';
 
-class Header extends React.Component {
-  render() {
-    const { title, navigation, disableBackPress } = this.props;
+const Header = ({ title, disableBackPress }) => {
+  const navigation = useNavigation(); // Utilisation du hook useNavigation
 
-    if (disableBackPress) {
-      return (
-        <View style={defaultStyle.containerWithTitle}>
-          <View style={defaultStyle.title}>
-            <Text style={defaultStyle.text}>{title}</Text>
-          </View>
-        </View>
-      );
-    }
+  if (disableBackPress) {
     return (
-      <View style={defaultStyle.container}>
-        <View style={{ flex: 1 }}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image
-              source={require('../../assets/icons/header-back.png')}
-              style={defaultStyle.image}
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={defaultStyle.textContainer}>
+      <View style={defaultStyle.containerWithTitle}>
+        <View style={defaultStyle.title}>
           <Text style={defaultStyle.text}>{title}</Text>
         </View>
-        <View style={{ flex: 1 }} />
       </View>
     );
   }
-}
-export default withNavigation(Header);
+
+  return (
+    <View style={defaultStyle.container}>
+      <View style={{ flex: 1 }}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            source={require('../../assets/icons/header-back.png')}
+            style={defaultStyle.image}
+          />
+        </TouchableOpacity>
+      </View>
+      <View style={defaultStyle.textContainer}>
+        <Text style={defaultStyle.text}>{title}</Text>
+      </View>
+      <View style={{ flex: 1 }} />
+    </View>
+  );
+};
+
+export default Header;
 
 const defaultStyle = StyleSheet.create({
   containerWithTitle: {
     alignItems: 'center',
-    marginTop: isIphoneX() ? 40 : 25,
+    marginTop: 40,
     marginBottom: 20,
   },
   title: { alignItems: 'center' },
@@ -56,7 +55,7 @@ const defaultStyle = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: isIphoneX() ? 40 : 25,
+    marginTop: 40,
     marginBottom: 20,
     marginLeft: 16,
   },

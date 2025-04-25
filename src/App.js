@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { Provider } from 'react-redux';
 import * as ScreenOrientation from 'expo-screen-orientation';
-// import { PersistGate } from 'redux-persist/integration/react';
 import { store } from './redux/store';
 
 import Router from './routes/index';
 import './config/logger';
-import { createAppContainer } from 'react-navigation';
+
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as Notifications from 'expo-notifications';
 import * as Updates from 'expo-updates';
 import AuthService from './services/AuthService';
@@ -17,82 +17,73 @@ import ContextService from './services/ContextService';
 import { get_request_by_athlete_id } from './api/Request';
 import { loadFonts } from './configs/design/font';
 
-// import configureStore from './store/configureStore';
-// const { store } = configureStore();
-const Navigation = createAppContainer(Router);
+export default function App() {
+  const [loaded, setLoaded] = useState(false);
 
-export class App extends Component {
-  constructor(props) {
-    super(props);
-
-    // if (store === null) {
-    //   store = configureStore();
-    // }
-
-    this.state = {
-      store,
-    };
-  }
-
-  async componentDidMount() {
-    try {
-      const update = await Updates.checkForUpdateAsync();
-      if (update.isAvailable) {
-        await Updates.fetchUpdateAsync();
-        // ... notify user of update ...
-        Updates.reloadAsync();
-      }
-    } catch (e) {
-      // handle or log error
-    }
-    await loadFonts();
-    this.lockScreenOrientation();
-    this.setState({ loaded: true });
-
-    const auth = await AuthService.getAuth();
-    if (auth) {
-      await this.scheduleNotification();
-
-      const { type } = auth.user;
-      let user;
-      if (type === 'coach') {
-        user = await get_coach_me();
-      } else if (type === 'athlete') {
-        user = await get_athlete_me();
+  useEffect(() => {
+    async function initializeApp() {
+      try {
+        // Check for updates
+        const update = await Updates.checkForUpdateAsync();
+        if (update.isAvailable) {
+          await Updates.fetchUpdateAsync();
+          await Updates.reloadAsync();
+        }
+      } catch (e) {
+        console.error("Update check failed:", e);
       }
 
-      if (user) {
-        await AuthService.setUser(user.content);
-        await AuthService.checkExpoToken(user.content);
-      }
-    }
+      await loadFonts();
+      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
 
-    this.notificationListener = Notifications.addNotificationReceivedListener(
-      async (notification) => {
-        const { type } = notification.request.content.data;
-        if (type === 'ATHLETE_REQUEST_PROCESS') {
-          const user = await get_athlete_me();
-          if (user) {
-            await AuthService.setUser(user.content);
+      const auth = await AuthService.getAuth();
+      if (auth) {
+        await scheduleNotification();
+
+        const { type } = auth.user;
+        let user;
+        if (type === 'coach') {
+          user = await get_coach_me();
+        } else if (type === 'athlete') {
+          user = await get_athlete_me();
+        }
+
+        if (user) {
+          await AuthService.setUser(user.content);
+          await AuthService.checkExpoToken(user.content);
+        }
+      }
+
+      // Gestion des notifications
+      const notificationListener = Notifications.addNotificationReceivedListener(
+        async (notification) => {
+          const { type } = notification.request.content.data;
+          if (type === 'ATHLETE_REQUEST_PROCESS') {
+            const user = await get_athlete_me();
+            if (user) {
+              await AuthService.setUser(user.content);
+            }
           }
         }
-      },
-    );
-
-    this.responseListener =
-      Notifications.addNotificationResponseReceivedListener(
-        async (response) => {
-          await this.processNotification(response);
-        },
       );
-  }
 
-  async lockScreenOrientation() {
-    await ScreenOrientation.lockAsync(
-      ScreenOrientation.OrientationLock.PORTRAIT_UP,
-    );
-  }
-  processNotification = async (data) => {
+      const responseListener = Notifications.addNotificationResponseReceivedListener(
+        async (response) => {
+          await processNotification(response);
+        }
+      );
+
+      // Cleanup des listeners à la fin
+      return () => {
+        Notifications.removeNotificationSubscription(notificationListener);
+        Notifications.removeNotificationSubscription(responseListener);
+      };
+    }
+
+    initializeApp().then(() => setLoaded(true));
+  }, []);
+
+  const processNotification = async (data) => {
     const navigation = ContextService.get('current_navigation');
     const { type } = data.notification.request.content.data;
 
@@ -121,14 +112,13 @@ export class App extends Component {
         break;
       default:
         return;
-        break;
     }
     if (screen) {
       await navigation.navigate(screen, { item });
     }
   };
 
-  scheduleNotification = async (value) => {
+  const scheduleNotification = async () => {
     Notifications.setNotificationHandler({
       handleNotification: async () => ({
         shouldShowAlert: true,
@@ -138,18 +128,13 @@ export class App extends Component {
     });
   };
 
-  componentWillUnmount() {
-    Notifications.removeNotificationSubscription(this.notificationListener);
-    Notifications.removeNotificationSubscription(this.responseListener);
-  }
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
 
-  render() {
-    return (
-      <Provider store={this.state.store}>
-        {!this.state.loaded ? <ActivityIndicator /> : <Navigation />}
+      <Provider store={store}>
+        {!loaded ? <ActivityIndicator /> : <Router />}
       </Provider>
-    );
-  }
-}
+    </GestureHandlerRootView>
 
-export default App;
+  );
+}

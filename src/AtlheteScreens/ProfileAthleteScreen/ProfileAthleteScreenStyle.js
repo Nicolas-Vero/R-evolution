@@ -4,7 +4,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import { isIphoneX } from 'react-native-iphone-x-helper';
+
 
 const { width } = Dimensions.get('window');
 

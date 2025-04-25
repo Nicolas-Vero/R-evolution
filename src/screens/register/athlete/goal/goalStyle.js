@@ -6,10 +6,10 @@ module.exports = StyleSheet.create({
     flex: 1,
   },
   background: {
-flex:1,
+    flex: 1,
   },
   content: {
-    flex:1,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -41,9 +41,11 @@ flex:1,
   },
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    flex: 1,
   },
   goalContainer: {
-    maxHeight: 150,
+    minHeight: 200,
+    maxHeight: 250,
   },
   goalItem: {
     maxWidth: widthPercentageToDP(25),
@@ -109,4 +111,5 @@ flex:1,
     padding: 5,
     color: '#FFFFFF',
   },
+
 });

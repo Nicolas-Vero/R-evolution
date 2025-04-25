@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { isIphoneX } from 'react-native-iphone-x-helper';
+
 
 export default class PlatformHelper {
     static getTopSafeHeight = () => {
@@ -7,7 +7,7 @@ export default class PlatformHelper {
             return 0;
         }
 
-        return isIphoneX() ? 44 : 20;
+        return 44;
     };
 
     static getBottomSafeHeight = () => {
@@ -15,6 +15,6 @@ export default class PlatformHelper {
             return 0;
         }
 
-        return isIphoneX() ? 20 : 0;
+        return 20;
     };
 }

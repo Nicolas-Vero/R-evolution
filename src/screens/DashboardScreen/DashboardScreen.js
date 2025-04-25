@@ -1,17 +1,22 @@
-import { withMappedNavigationParams } from 'react-navigation-props-mapper';
+import React from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
 import AbstractScreen from '../../components/abstracts/AbstractScreen/AbstractScreen';
 import DashboardScreenView from './DashboardScreenView';
 import DashboardScreenController from './DashboardScreenController';
 
-class DashboardScreen extends AbstractScreen {
-  constructor(props) {
-    super({
-      props,
-      screenName: 'DashboardScreen',
-      viewClass: DashboardScreenView,
-      controllerClass: DashboardScreenController,
-    });
-  }
-}
+const DashboardScreen = (props) => {
+  const navigation = useNavigation();
+  const route = useRoute();
 
-export default withMappedNavigationParams()(DashboardScreen);
+  return (
+    <AbstractScreen
+      props={{ ...props, navigation, route }}
+      screenName="DashboardScreen"
+      viewClass={DashboardScreenView}
+      controllerClass={DashboardScreenController}
+    />
+  );
+};
+
+export default DashboardScreen;

@@ -18,8 +18,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import SelectDropdown from 'react-native-select-dropdown';
 import styles from './ProfileCoachScreenStyle';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
-import { isIphoneX } from 'react-native-iphone-x-helper';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+
+
 import { Entypo } from '@expo/vector-icons';
 
 export default class ProfileCoachScreenView extends AbstractScreenView {
@@ -50,7 +50,7 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
               onSubmit={(values) => onContinuePress(values)}>
               {({ handleChange, handleBlur, setFieldValue, values }) => (
                 <View>
-                  <View style={{ paddingTop: isIphoneX() ? 30 : 10 }}>
+                  <View style={{ paddingTop: 30 }}>
                     <View style={styles.header}>
                       <View style={styles.headerLeft}>
                         <HeaderLight />
@@ -71,7 +71,7 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                                   }}
                                 />
                               ) : this.component.state.Coach
-                                  .profile_picture_url ? (
+                                .profile_picture_url ? (
                                 <Avatar
                                   size={105}
                                   rounded
@@ -241,7 +241,7 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                           );
                         }}
                         keyExtractor={(item) => item}
-                        //   extraData={selectedId}
+                      //   extraData={selectedId}
                       />
                     </View>
                     <Text style={[styles.text, { marginTop: 20 }]}>
@@ -380,7 +380,7 @@ export default class ProfileCoachScreenView extends AbstractScreenView {
                 </View>
               )}
             </Formik>
-            <KeyboardSpacer />
+
           </ScrollView>
         </View>
       );

@@ -1,21 +1,22 @@
+import React from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
-
-//TODO use for props
-import { withMappedNavigationParams } from 'react-navigation-props-mapper';
 import AbstractScreen from '../../components/abstracts/AbstractScreen/AbstractScreen';
 import BaseScreenView from './BaseScreenView';
 import BaseScreenController from './BaseScreenController';
 
-class BaseScreen extends AbstractScreen {
-  constructor(props) {
-    super({
-      props,
-      screenName: 'BaseScreen',
-      viewClass: BaseScreenView,
-      controllerClass: BaseScreenController,
-    });
-  }
-}
+const BaseScreen = (props) => {
+  const navigation = useNavigation();
+  const route = useRoute();
 
-export default withMappedNavigationParams()(BaseScreen);
+  return (
+    <AbstractScreen
+      props={{ ...props, navigation, route }}
+      screenName="BaseScreen"
+      viewClass={BaseScreenView}
+      controllerClass={BaseScreenController}
+    />
+  );
+};
+
+export default connect()(BaseScreen);

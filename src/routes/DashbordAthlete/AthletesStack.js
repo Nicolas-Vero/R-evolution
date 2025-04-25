@@ -1,22 +1,17 @@
-import { createStackNavigator } from 'react-navigation-stack';
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// Import des écrans
 import CoachSheetScreen from '../../AtlheteScreens/CoachSheetScreen/CoachSheetScreen';
 
-const AthletesStack = createStackNavigator(
-  {
-    CoachSheetScreen: {
-      screen: CoachSheetScreen,
-      navigationOptions: {
-        tabBarIcon: ({ tintColor }) => <Ionicons size={20} color={tintColor} />,
-        headerShown: false,
-      },
-    },
-  },
-  {
-    lazy: true,
-    swipeEnabled: true,
-    animationEnabled: true,
-    tabBarPosition: 'bottom',
-  },
-);
+const Stack = createNativeStackNavigator();
+
+const AthletesStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="CoachSheet" component={CoachSheetScreen} />
+    </Stack.Navigator>
+  );
+};
 
 export default AthletesStack;

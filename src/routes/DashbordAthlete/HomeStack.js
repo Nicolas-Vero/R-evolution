@@ -1,62 +1,25 @@
-import { createStackNavigator } from 'react-navigation-stack';
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// Import des écrans
 import HomeAthleteScreen from '../../AtlheteScreens/HomeAthleteScreen/HomeAthleteScreen';
 import AccountScreen from '../../AtlheteScreens/AccountScreen/AccountScreen';
 import ProfileAthleteScreen from '../../AtlheteScreens/ProfileAthleteScreen/ProfileAthleteScreen';
 import NotificationsScreen from '../../AtlheteScreens/NotificationsScreen/NotificationsScreen';
 import CoachSheetScreen from '../../AtlheteScreens/CoachSheetScreen/CoachSheetScreen';
 
-const HomeStack = createStackNavigator(
-  {
-    HomeAthleteScreen: {
-      screen: HomeAthleteScreen,
-      navigationOptions: {
-        headerShown: false,
-      },
-    },
+const Stack = createNativeStackNavigator();
 
-    NotificationsScreen: {
-      screen: NotificationsScreen,
-      navigationOptions: {
-        headerShown: false,
-        tabBarVisible: false,
-        headerVisible: false,
-        animationEnabled: true,
-      },
-    },
-    ProfileAthleteScreen: {
-      screen: ProfileAthleteScreen,
-      navigationOptions: {
-        headerShown: false,
-        tabBarVisible: false,
-        headerVisible: false,
-        animationEnabled: true,
-      },
-    },
-    AccountScreen: {
-      screen: AccountScreen,
-      navigationOptions: {
-        headerShown: false,
-        tabBarVisible: false,
-        headerVisible: false,
-        animationEnabled: true,
-      },
-    },
-    CoachSheetScreen: {
-      screen: CoachSheetScreen,
-      navigationOptions: {
-        headerShown: false,
-        tabBarVisible: false,
-        headerVisible: false,
-        animationEnabled: true,
-      },
-    },
-  },
-  {
-    lazy: true,
-    swipeEnabled: true,
-    animationEnabled: true,
-    tabBarPosition: 'bottom',
-  },
-);
+const HomeStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="HomeAthlete" component={HomeAthleteScreen} />
+      <Stack.Screen name="Notifications" component={NotificationsScreen} />
+      <Stack.Screen name="ProfileAthlete" component={ProfileAthleteScreen} />
+      <Stack.Screen name="Account" component={AccountScreen} />
+      <Stack.Screen name="CoachSheet" component={CoachSheetScreen} />
+    </Stack.Navigator>
+  );
+};
 
 export default HomeStack;

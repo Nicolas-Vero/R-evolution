@@ -25,7 +25,6 @@ import {
 import styles from './createPayementStyle';
 import { add_manual_payment, add_transaction } from '../../api/Coach';
 import { ScrollView } from 'react-native-gesture-handler';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
 export default class createPaymentScreen extends React.Component {
   state = {
     today: moment().format('l'),
@@ -310,7 +309,7 @@ export default class createPaymentScreen extends React.Component {
                                       }
                                     </View>
                                   </View>
-                                  <KeyboardSpacer />
+
                                 </ScrollView>
                                 <TouchableOpacity
                                   onPress={() => {

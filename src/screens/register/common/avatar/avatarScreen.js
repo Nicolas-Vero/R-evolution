@@ -1,11 +1,11 @@
-import React from 'react';
-import { View, TouchableOpacity, Image, Text } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, TouchableOpacity, Image, Text, Platform, Alert } from 'react-native';
 import { manipulateAsync } from 'expo-image-manipulator';
 import * as ImagePicker from 'expo-image-picker';
 import { Avatar } from 'react-native-elements';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import { auth } from '../../../../api/Coach';
 import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
 import styles from './avatarStyle';
@@ -18,188 +18,124 @@ import AuthService from '../../../../services/AuthService';
 import { upload_profile_picture } from '../../../../api/File';
 import SystemHelper from '../../../../helpers/SystemHelper';
 import { Button } from '../../../../components/Button';
+import { auth } from '../../../../api/Coach';
 
-export default class avatarScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      image: {},
-      isAthlete: props.navigation.state.params.item.userType === 'athlete',
-      base64Image: '',
-      isWorking: false,
-    };
-  }
-  async componentDidMount() {
-    {
+const AvatarScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
+
+  const passItem = route.params?.item || {}; // Sécurise les paramètres reçus
+  const isAthlete = passItem.userType === 'athlete';
+
+  const [image, setImage] = useState(null);
+  const [base64Image, setBase64Image] = useState('');
+  const [isWorking, setIsWorking] = useState(false);
+
+  // Demande de permissions pour la galerie
+  useEffect(() => {
+    (async () => {
       if (Platform.OS !== 'web') {
-        const { status } =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
+          Alert.alert('Permission requise', 'Nous avons besoin de l\'accès à votre galerie.');
         }
       }
-    }
-  }
+    })();
+  }, []);
 
-  onRegister = async () => {
-    if (this.state.isWorking) return;
+  const pickImage = useCallback(async () => {
+    setImage(null);
+    setBase64Image('');
 
-    this.setState({ isWorking: true });
-    const passItem = this.props.navigation.state.params.item;
-    const expo_token = await AuthService.registerForPushNotificationsAsync();
-    if (expo_token) {
-      passItem.expo_token = expo_token;
-    }
-    const { isAthlete } = this.state;
-
-    if (isAthlete) {
-      const res = await sign_up(passItem);
-
-      if (res.status === 200) {
-        this.props.navigation.popToTop();
-        this.props.navigation.push('loginScreen');
-        await this.upload(res.content.userId, true);
-
-        return;
-      }
-    } else {
-      const res = await auth(passItem);
-      if (res.status === 200) {
-        this.props.navigation.popToTop();
-        this.props.navigation.push('loginScreen');
-        await this.upload(res.content.userId, false);
-
-        return;
-      }
-    }
-    this.setState({ isWorking: false });
-  };
-
-  upload = async (userId, isAthlete) => {
-    if (this.state.base64Image !== '') {
-      await upload_profile_picture(
-        userId,
-        isAthlete ? 'athlete' : 'coach',
-        this.state.base64Image,
-      );
-    }
-  };
-
-  async loginAthlete(body) {
-    const login = await athlete_login(body);
-    if (login.status === 200) {
-      await this.setAuth(login.data, 'athlete');
-      await SystemHelper.sleep(200);
-      const user = await get_athlete_me();
-
-      if (user.status === 200) {
-        await AuthService.setUser(user.content);
-        this.props.navigation.navigate('DashboardStackAtlhete');
-      }
-    }
-
-    this.setState({ isWorking: false });
-  }
-
-  setAuth = async (data, type) => {
-    const toStore = {
-      user: { id: data.user.id, type },
-      headers: {
-        Authorization: 'Bearer ' + data.token,
-      },
-    };
-
-    await AuthService.setAuth(toStore);
-  };
-
-  pickImage = async () => {
-    this.setState({
-      image: {},
-      base64Image: '',
-    });
     let result = await ImagePicker.launchImageLibraryAsync({
       base64: true,
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
       const compressedImage = await manipulateAsync(
-        result.uri,
+        result.assets[0].uri,
         [{ resize: { width: 200, height: 200 } }],
         { compress: 0.7, base64: true },
       );
-      let fileExtension = result.uri.substr(result.uri.lastIndexOf('.') + 1);
 
-      this.setState({
-        image: result,
-        base64Image: `data:image/${fileExtension};base64,${compressedImage.base64}`,
-      });
+      setImage({ uri: result.assets[0].uri });
+      setBase64Image(`data:image/jpeg;base64,${compressedImage.base64}`);
+    }
+  }, []);
+
+  const upload = async (userId) => {
+    if (base64Image !== '') {
+      await upload_profile_picture(userId, isAthlete ? 'athlete' : 'coach', base64Image);
     }
   };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <LinearGradient
-          colors={['#060606', '#2D333C']}
-          start={{
-            x: 0,
-            y: 0,
-          }}
-          end={{
-            x: 1,
-            y: 1,
-          }}
-          style={styles.background}>
-          <Header title="LET'S GO" />
-          <View style={styles.content}>
-            <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-              <RegisterStepImageView step={this.state.isAthlete ? 8 : 13} />
-              <Text style={styles.title}>PHOTO DE PROFIL</Text>
-              <View
-                style={{
-                  marginTop: 56,
-                }}>
-                {this.state.image.uri ? (
-                  <Text style={styles.subTitle}>Superbe photo !</Text>
-                ) : (
-                  <Text style={styles.subTitle}>
-                    C'est toujours plus sympa avec {'\n'}une photo de profil
-                  </Text>
-                )}
-              </View>
-              <View style={styles.photoPickerContainer}>
-                <TouchableOpacity onPress={this.pickImage}>
-                  {this.state.image.uri ? (
-                    <View>
-                      <Avatar
-                        size="xlarge"
-                        rounded
-                        source={{ uri: this.state.image.uri }}
-                      />
-                    </View>
-                  ) : (
-                    <Image
-                      style={styles.previewImage}
-                      source={require('../../../../../assets/images/no_pp.jpg')}
-                    />
-                  )}
-                </TouchableOpacity>
-              </View>
+  const onRegister = async () => {
+    if (isWorking) return;
+    setIsWorking(true);
+
+    try {
+      const expo_token = await AuthService.registerForPushNotificationsAsync();
+      if (expo_token) {
+        passItem.expo_token = expo_token;
+      }
+
+      let res;
+      if (isAthlete) {
+        res = await sign_up(passItem);
+      } else {
+        res = await auth(passItem);
+      }
+
+      if (res.status === 200) {
+        await upload(res.content.userId);
+        navigation.popToTop();
+        navigation.replace('LoginScreen');
+      }
+    } catch (error) {
+      console.error("Erreur d'inscription:", error);
+    } finally {
+      setIsWorking(false);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <LinearGradient
+        colors={['#060606', '#2D333C']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.background}>
+        <Header title="LET'S GO" />
+        <View style={styles.content}>
+          <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+            <RegisterStepImageView step={isAthlete ? 8 : 13} />
+            <Text style={styles.title}>PHOTO DE PROFIL</Text>
+            <View style={{ marginTop: 56 }}>
+              <Text style={styles.subTitle}>
+                {image ? "Superbe photo !" : "Ajoute une photo de profil"}
+              </Text>
             </View>
-            <View style={styles.bottom}>
-              <Button
-                title="Créer ton compte"
-                customTextStyle={styles.buttonText}
-                onPress={this.onRegister}
-              />
+            <View style={styles.photoPickerContainer}>
+              <TouchableOpacity onPress={pickImage}>
+                {image ? (
+                  <Avatar size="xlarge" rounded source={image} />
+                ) : (
+                  <Image style={styles.previewImage} source={require('../../../../../assets/images/no_pp.jpg')} />
+                )}
+              </TouchableOpacity>
             </View>
           </View>
-        </LinearGradient>
-      </View>
-    );
-  }
-}
+          <View style={styles.bottom}>
+            <Button title="Créer ton compte" customTextStyle={styles.buttonText} onPress={onRegister} loading={isWorking} />
+          </View>
+        </View>
+      </LinearGradient>
+    </View>
+  );
+};
+
+export default AvatarScreen;

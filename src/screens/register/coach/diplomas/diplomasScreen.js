@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   View,
@@ -7,160 +7,132 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Entypo } from '@expo/vector-icons';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
-
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
 import { Button } from '../../../../components/Button';
 import Header from '../../../../components/Header';
 import styles from './diplomasStyle';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { FlatList } from 'react-native-gesture-handler';
-import { Entypo } from '@expo/vector-icons';
 
-export default class diplomasScreen extends React.Component {
-  constructor(props) {
-    super(props);
+const DiplomasScreen = () => {
+  const navigation = useNavigation(); // Récupérer la navigation
+  const route = useRoute(); // Récupérer les paramètres de la route
 
-    this.state = {
-      step: 'initial',
-      diplomas: [],
-      diplomasInput: '',
-      error: '',
-    };
-  }
+  const [diplomas, setDiplomas] = useState([]);
+  const [diplomasInput, setDiplomasInput] = useState('');
+  const [error, setError] = useState('');
 
-  onAddDiplomas = () => {
-    const { diplomas, diplomasInput } = this.state;
+  const onAddDiplomas = () => {
     if (diplomasInput === '') {
       return;
     }
-    diplomas.push(diplomasInput);
-    this.setState({ diplomas, diplomasInput: '', error: '' });
+    setDiplomas([...diplomas, diplomasInput]);
+    setDiplomasInput('');
+    setError('');
   };
 
-  onRemoveDiplomas = (index) => {
-    const { diplomas } = this.state;
-    if (index > -1) {
-      diplomas.splice(index, 1);
+  const onRemoveDiplomas = (index) => {
+    const updatedDiplomas = [...diplomas];
+    updatedDiplomas.splice(index, 1);
+    setDiplomas(updatedDiplomas);
+    if (updatedDiplomas.length === 0) {
+      setError('Veuillez ajouter un diplôme');
     }
+  };
+
+  const onNavigate = () => {
     if (diplomas.length === 0) {
-      this.setState({ error: 'Veuillez ajouter un diplôme' });
-    }
-    this.setState({ diplomas });
-  };
-
-  onChangeText = (val) => {
-    this.setState({ diplomasInput: val });
-  };
-
-  onNavigate = () => {
-    if (this.state.diplomas.length === 0) {
-      this.setState({ error: 'Veuillez ajouter un diplome' });
+      setError('Veuillez ajouter un diplôme');
       return;
     }
-    const passItem = this.props.navigation.state.params;
-    this.props.navigation.navigate('experienceCoachScreen', {
-      item: { ...passItem, diplomas: this.state.diplomas },
+
+    // Récupérer les paramètres passés depuis l'écran précédent
+    const passItem = route.params || {}; // Vérifier si params existe
+    navigation.navigate('ExperienceCoachScreen', {
+      item: { ...passItem, diplomas },
     });
   };
 
-  renderDiplomasInput = () => {
-    const { diplomasInput } = this.state;
-
-    return (
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <TextInput
-          placeholderTextColor="#979797"
-          placeholder="Entre le nom de ton diplôme"
-          value={diplomasInput}
-          onChangeText={(text) => this.onChangeText(text)}
-          style={styles.input}
-        />
-        <TouchableOpacity onPress={this.onAddDiplomas}>
-          <View style={styles.addDiplomasContainer}>
-            <FontAwesome name="plus-square" size={24} color="#2CDEE4" />
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  renderDiplomas = () => {
-    const { diplomas } = this.state;
-    return (
-      <FlatList
-        style={{ marginBottom: 50, paddingTop: 10 }}
-        data={diplomas}
-        contentContainerStyle={{
-          paddingBottom: 50,
-        }}
-        keyExtractor={(item) => item.toString()}
-        renderItem={({ item, index }) => {
-          return (
-            <View>
-              <View style={styles.itemDiplomas}>
-                <Text style={styles.diplomasText}>{item}</Text>
-              </View>
-              <View style={styles.removeDiplomas}>
-                <TouchableOpacity onPress={() => this.onRemoveDiplomas(index)}>
-                  <Entypo name="cross" size={18} />
-                </TouchableOpacity>
-              </View>
-            </View>
-          );
-        }}
+  const renderDiplomasInput = () => (
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <TextInput
+        placeholderTextColor="#979797"
+        placeholder="Entre le nom de ton diplôme"
+        value={diplomasInput}
+        onChangeText={setDiplomasInput}
+        style={styles.input}
       />
-    );
-  };
-  render() {
-    const { error } = this.state;
-    return (
-      <View style={styles.container}>
-        <LinearGradient
-          colors={['#060606', '#2D333C']}
-          start={{
-            x: 0,
-            y: 0,
-          }}
-          end={{
-            x: 1,
-            y: 1,
-          }}
-          style={styles.background}>
-          <Header title="LET'S GO" />
-          <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <RegisterStepImageView step={9} />
-            <View style={styles.content}>
-              <View style={styles.alignCenter}>
-                <View
-                  style={{
-                    height: heightPercentageToDP(72),
-                  }}>
-                  <Text style={styles.title}>DIPLÔME(S)</Text>
-                  <View style={styles.container}>
-                    <View style={styles.diplomasContainerr}>
-                      {this.renderDiplomasInput()}
-                      {error !== '' ? (
-                        <Text style={styles.errorText}>{error}</Text>
-                      ) : null}
-                      {this.renderDiplomas()}
-                    </View>
+      <TouchableOpacity onPress={onAddDiplomas}>
+        <View style={styles.addDiplomasContainer}>
+          <FontAwesome name="plus-square" size={24} color="#2CDEE4" />
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+
+  const renderDiplomas = () => (
+    <FlatList
+      style={{ marginBottom: 50, paddingTop: 10 }}
+      data={diplomas}
+      contentContainerStyle={{
+        paddingBottom: 50,
+      }}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({ item, index }) => (
+        <View>
+          <View style={styles.itemDiplomas}>
+            <Text style={styles.diplomasText}>{item}</Text>
+          </View>
+          <View style={styles.removeDiplomas}>
+            <TouchableOpacity onPress={() => onRemoveDiplomas(index)}>
+              <Entypo name="cross" size={18} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    />
+  );
+
+  return (
+    <View style={styles.container}>
+      <LinearGradient
+        colors={['#060606', '#2D333C']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.background}>
+        <Header title="LET'S GO" />
+        <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
+          <RegisterStepImageView step={9} />
+          <View style={styles.content}>
+            <View style={styles.alignCenter}>
+              <View
+                style={{
+                  height: heightPercentageToDP(72),
+                }}>
+                <Text style={styles.title}>DIPLÔME(S)</Text>
+                <View style={styles.container}>
+                  <View style={styles.diplomasContainerr}>
+                    {renderDiplomasInput()}
+                    {error !== '' ? <Text style={styles.errorText}>{error}</Text> : null}
+                    {renderDiplomas()}
                   </View>
-                  <Button
-                    loading={false}
-                    title="Suivant"
-                    customTextStyle={styles.nextButtonText}
-                    onPress={this.onNavigate}
-                  />
                 </View>
+                <Button
+                  loading={false}
+                  title="Suivant"
+                  customTextStyle={styles.nextButtonText}
+                  onPress={onNavigate}
+                />
               </View>
             </View>
-          </SafeAreaView>
-        </LinearGradient>
-      </View>
-    );
-  }
-}
+          </View>
+        </SafeAreaView>
+      </LinearGradient>
+    </View>
+  );
+};
+
+export default DiplomasScreen;

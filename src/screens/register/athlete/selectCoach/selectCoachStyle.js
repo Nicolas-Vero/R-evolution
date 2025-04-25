@@ -8,53 +8,68 @@ module.exports = StyleSheet.create({
     flex: 1,
   },
   background: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
+    flex: 1,
   },
   content: {
-    alignItems: 'center',
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
     textAlign: 'center',
+    marginTop: 64,
     fontFamily: 'RobotoBold',
     fontSize: 16,
     color: '#FFFF',
+  },
+  top: {
+    justifyContent: 'flex-start',
+    flex: 1,
+  },
+  bottom: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginTop: 50,
+    marginBottom: 50,
   },
 
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
-  dropdownContainer: {
-    marginTop: 20,
+  selectContainer: {
+    marginTop: 60,
     alignItems: 'center',
   },
   dropdownButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    height: 50,
     width: widthPercentageToDP(90),
+    borderWidth: 1,
     borderRadius: 3,
-    height: 38,
+    backgroundColor: 'white',
   },
   dropdownButtonText: {
-    fontSize: 15,
-    textAlign: 'left',
-    fontFamily: 'Roboto',
+    textAlign: 'center',
+    flex: 1,
+    fontSize: 16,
+    color: 'black',
   },
   dropdownRowText: {
     fontFamily: 'Roboto',
-    color: '#DFDFDF',
-    fontSize: 15,
-    textAlign: 'left',
-    marginLeft: 20,
+    justifyContent: 'center',
+    textAlign: 'center',
+    padding: 15,
+    height: 50,
+    borderRadius: 8,
+    borderBottomWidth: 0.25,
+    borderBottomColor: '#FFFF',
   },
-  dropdownBg: {
-    backgroundColor: '#282C3A',
-  },
-  dropdownRow: {
-    height: 40,
-    borderBottomColor: '#50525B',
+  dropdownMenuStyle: {
+    backgroundColor: '#50525B',
   },
   noWayContainer: {
     flexDirection: 'row',
@@ -81,5 +96,9 @@ module.exports = StyleSheet.create({
   nextButtonText: {
     fontFamily: 'RobotoBold',
     fontSize: 17,
+  },
+  safeArea: {
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    flex: 1,
   },
 });

@@ -1,171 +1,49 @@
-import { createStackNavigator } from 'react-navigation-stack';
-
-import entryScreen from '../screens/Auth/entry/entryScreen';
-
-//common
-import registerScreen from '../screens/register/common/register/registerScreen';
-import loginScreen from '../screens/Auth/login/loginScreen';
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import EntryScreen from '../screens/Auth/entry/EntryScreen';
+import LoginScreen from '../screens/Auth/login/LoginScreen';
+import RegisterScreen from '../screens/register/common/register/RegisterScreen';
 import forgetPasswordScreen from '../screens/Auth/forgetPassword/forgetPasswordScreen';
-import avatarScreen from '../screens/register/common/avatar/avatarScreen';
+import AvatarScreen from '../screens/register/common/avatar/AvatarScreen';
+import MensurationScreen from '../screens/register/athlete/mensuration/MensurationScreen';
+import ExperienceScreen from '../screens/register/athlete/experience/ExperienceScreen';
+import GoalScreen from '../screens/register/athlete/goal/GoalScreen';
+import HealthScreen from '../screens/register/athlete/health/HealthScreen';
+import SelectGymScreen from '../screens/register/athlete/selectGym/SelectGymScreen';
+import TrainingDayScreen from '../screens/register/athlete/trainingDay/TrainingDayScreen';
+import SelectCoachScreen from '../screens/register/athlete/selectCoach/SelectCoachScreen';
+import DiplomasScreen from '../screens/register/coach/diplomas/DiplomasScreen';
+import ExperienceCoachScreen from '../screens/register/coach/experience/ExperienceCoachScreen';
+import SelectGymCoachScreen from '../screens/register/coach/selectGym/SelectGymCoachScreen';
+import SpecialitiesScreen from '../screens/register/coach/specialities/SpecialitiesScreen';
 
-//athlete
-import mensurationScreen from '../screens/register/athlete/mensuration/mensurationScreen';
-import experienceScreen from '../screens/register/athlete/experience/experienceScreen';
-import goalScreen from '../screens/register/athlete/goal/goalScreen';
-import healthScreen from '../screens/register/athlete/health/healthScreen';
-import selectGymScreen from '../screens/register/athlete/selectGym/selectGymScreen';
-import trainingDayScreen from '../screens/register/athlete/trainingDay/trainingDayScreen';
-import selectCoachScreen from '../screens/register/athlete/selectCoach/selectCoachScreen';
+const Stack = createNativeStackNavigator();
 
-//coach
-import diplomasScreen from '../screens/register/coach/diplomas/diplomasScreen';
-import experienceCoachScreen from '../screens/register/coach/experience/experienceCoachScreen';
-import speclalitiesScreen from '../screens/register/coach/specialities/specialitiesScreen';
-import selectGymCoachScreen from '../screens/register/coach/selectGym/selectGymCoachScreen';
-
-const AuthStack = createStackNavigator(
-  {
-    AuthEntry: {
-      screen: entryScreen,
-      navigationOptions: {
-        headerShown: false,
-      },
-    },
-    loginScreen: {
-      screen: loginScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-        swipeEnabled: false,
-      },
-    },
-    registerScreen: {
-      screen: registerScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-        swipeEnabled: false,
-      },
-    },
-    forgetPasswordScreen: {
-      screen: forgetPasswordScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-        swipeEnabled: false,
-      },
-    },
-    mensurationScreen: {
-      screen: mensurationScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-        swipeEnabled: false,
-      },
-    },
-    experienceScreen: {
-      screen: experienceScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-        swipeEnabled: false,
-      },
-    },
-    goalScreen: {
-      screen: goalScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-        swipeEnabled: false,
-      },
-    },
-    healthScreen: {
-      screen: healthScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-      },
-    },
-    selectGymScreen: {
-      screen: selectGymScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-        swipeEnabled: false,
-      },
-    },
-    trainingDayScreen: {
-      screen: trainingDayScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-        swipeEnabled: false,
-      },
-    },
-    selectCoachScreen: {
-      screen: selectCoachScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-        swipeEnabled: false,
-      },
-    },
-    avatarScreen: {
-      screen: avatarScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-        swipeEnabled: false,
-      },
-    },
-    diplomasScreen: {
-      screen: diplomasScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-      },
-    },
-    experienceCoachScreen: {
-      screen: experienceCoachScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-      },
-    },
-    speclalitiesScreen: {
-      screen: speclalitiesScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-      },
-    },
-    selectGymCoachScreen: {
-      screen: selectGymCoachScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-      },
-    },
-  },
-  {
-    initialRouteName: 'AuthEntry',
-    lazy: true,
-    animationEnabled: true,
-    tabBarPosition: 'bottom',
-    navigationOptions: {
-      tabBarVisible: false,
-      headerVisible: false,
+const AuthStack = () => (
+  <Stack.Navigator
+    initialRouteName="AuthEntry"
+    screenOptions={{
+      headerShown: false,
       gestureEnabled: false,
-      swipeEnabled: false,
-      animationEnabled: true,
-    },
-
-    tabBarOptions: {
-      activeTintColor: 'white',
-      inactiveTintColor: 'grey',
-      showIcon: true,
-      allowFontScaling: false,
-    },
-  },
+      animation: 'fade',
+    }}>
+    <Stack.Screen name="AuthEntry" component={EntryScreen} />
+    <Stack.Screen name="LoginScreen" component={LoginScreen} />
+    <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+    <Stack.Screen name="forgetPasswordScreen" component={forgetPasswordScreen} />
+    <Stack.Screen name="MensurationScreen" component={MensurationScreen} />
+    <Stack.Screen name="ExperienceScreen" component={ExperienceScreen} />
+    <Stack.Screen name="GoalScreen" component={GoalScreen} />
+    <Stack.Screen name="HealthScreen" component={HealthScreen} />
+    <Stack.Screen name="SelectGymScreen" component={SelectGymScreen} />
+    <Stack.Screen name="TrainingDayScreen" component={TrainingDayScreen} />
+    <Stack.Screen name="SelectCoachScreen" component={SelectCoachScreen} />
+    <Stack.Screen name="AvatarScreen" component={AvatarScreen} />
+    <Stack.Screen name="DiplomasScreen" component={DiplomasScreen} />
+    <Stack.Screen name="ExperienceCoachScreen" component={ExperienceCoachScreen} />
+    <Stack.Screen name="SpecialitiesScreen" component={SpecialitiesScreen} />
+    <Stack.Screen name="SelectGymCoachScreen" component={SelectGymCoachScreen} />
+  </Stack.Navigator>
 );
+
 export default AuthStack;

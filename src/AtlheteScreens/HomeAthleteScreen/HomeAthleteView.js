@@ -17,12 +17,12 @@ import { convertSlotToDate } from '../../helpers/dateHelper';
 import RenewOfferDialog from '../../components/dialogs/renewOfferDialog/renewOfferDialog';
 import BookOfferDialog from '../../components/dialogs/bookSessionDialog/bookOfferDialog';
 import UnBookOfferDialog from '../../components/dialogs/unBookSessionDialog/unBookOfferDialog';
-import { isIphoneX } from 'react-native-iphone-x-helper';
+
 export default class HomeAthleteView extends AbstractScreenView {
   renderHeader() {
     const { navigate } = this.component.props.navigation;
     return (
-      <View style={{ paddingTop: isIphoneX() ? 30 : 20 }}>
+      <View style={{ paddingTop: 30 }}>
         <View style={styles.header}>
           <TouchableOpacity
             onPress={() => {
@@ -35,8 +35,8 @@ export default class HomeAthleteView extends AbstractScreenView {
                 source={
                   this.component.state.user.profile_picture_url
                     ? {
-                        uri: this.component.state.user.profile_picture_url,
-                      }
+                      uri: this.component.state.user.profile_picture_url,
+                    }
                     : require('../../../assets/images/no_pp.jpg')
                 }
               />
@@ -170,7 +170,7 @@ export default class HomeAthleteView extends AbstractScreenView {
         {this.renderInfos()}
         <Text style={styles.appointmentText}>AUJOURD'HUI</Text>
         {this.component.state.dayApointement &&
-        this.component.state.dayApointement.length ? (
+          this.component.state.dayApointement.length ? (
           <FlatList
             data={this.component.state.dayApointement}
             refreshing={this.component.state.refresh}
@@ -185,9 +185,9 @@ export default class HomeAthleteView extends AbstractScreenView {
                       source={
                         this.component.state.coach.profile_picture_url
                           ? {
-                              uri: this.component.state.coach
-                                .profile_picture_url,
-                            }
+                            uri: this.component.state.coach
+                              .profile_picture_url,
+                          }
                           : require('../../../assets/images/no_pp.jpg')
                       }
                     />
@@ -216,7 +216,7 @@ export default class HomeAthleteView extends AbstractScreenView {
         <Text style={styles.appointmentText}>À VENIR</Text>
 
         {this.component.state.upcomingApointement &&
-        this.component.state.upcomingApointement.length ? (
+          this.component.state.upcomingApointement.length ? (
           <FlatList
             style={{ maxHeight: heightPercentageToDP(45) }}
             data={this.component.state.upcomingApointement}
@@ -246,9 +246,9 @@ export default class HomeAthleteView extends AbstractScreenView {
                         source={
                           this.component.state.coach.profile_picture_url
                             ? {
-                                uri: this.component.state.coach
-                                  .profile_picture_url,
-                              }
+                              uri: this.component.state.coach
+                                .profile_picture_url,
+                            }
                             : require('../../../assets/images/no_pp.jpg')
                         }
                       />
@@ -349,13 +349,13 @@ export default class HomeAthleteView extends AbstractScreenView {
               const backgroundColor = isBefore
                 ? '#393637'
                 : item.availability === this.component.state.selectedDate
-                ? '#2CDEE4'
-                : '#1E2026';
+                  ? '#2CDEE4'
+                  : '#1E2026';
               const textColor = isBefore
                 ? '#979797'
                 : item.availability === this.component.state.selectedDate
-                ? 'black'
-                : 'white';
+                  ? 'black'
+                  : 'white';
               const borderWidth = item?.availability === curDate ? 2 : 0;
 
               return (

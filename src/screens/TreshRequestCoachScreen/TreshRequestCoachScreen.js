@@ -1,17 +1,22 @@
-import { withMappedNavigationParams } from 'react-navigation-props-mapper';
+import React from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
 import AbstractScreen from '../../components/abstracts/AbstractScreen/AbstractScreen';
 import TreshRequestCoachScreenView from './TreshRequestCoachScreenView';
 import TreshRequestCoachScreenController from './TreshRequestCoachScreenController';
 
-class TreshRequestCoachScreen extends AbstractScreen {
-  constructor(props) {
-    super({
-      props,
-      screenName: 'TreshRequestCoachScreen',
-      viewClass: TreshRequestCoachScreenView,
-      controllerClass: TreshRequestCoachScreenController,
-    });
-  }
-}
+const TreshRequestCoachScreen = (props) => {
+  const navigation = useNavigation();
+  const route = useRoute();
 
-export default withMappedNavigationParams()(TreshRequestCoachScreen);
+  return (
+    <AbstractScreen
+      props={{ ...props, navigation, route }}
+      screenName="TreshRequestCoachScreen"
+      viewClass={TreshRequestCoachScreenView}
+      controllerClass={TreshRequestCoachScreenController}
+    />
+  );
+};
+
+export default TreshRequestCoachScreen;

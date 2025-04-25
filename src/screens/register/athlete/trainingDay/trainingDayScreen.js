@@ -1,269 +1,144 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   View,
   SafeAreaView,
-  Keyboard,
   FlatList,
   TouchableOpacity,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
-import { Formik, FieldArray, Field } from 'formik';
+import { useFormik } from 'formik';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
 import { Button } from '../../../../components/Button';
 import styles from './trainingDayStyle';
 
-export default class trainingDayScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      step: 'initial',
-      // passItem: this.props.navigation.state.params.item,
-      multi: [6, 17],
-      SelectedDay: [
-        { day: 'L', selected: 0 },
-        { day: 'M', selected: 0 },
-        { day: 'ME', selected: 0 },
-        { day: 'J', selected: 0 },
-        { day: 'V', selected: 0 },
-        { day: 'S', selected: 0 },
-        { day: 'D', selected: 0 },
-      ],
-    };
-  }
+const TrainingDayScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
 
-  onNavigate = (item) => {
-    this.props.navigation.navigate('selectCoachScreen', { item: item });
+  const passItem = route.params?.item || {}; // Évite l'erreur `params undefined`
+
+  const [multi, setMulti] = useState([6, 17]);
+  const [selectedDays, setSelectedDays] = useState([
+    { day: 'L', selected: false, key: 'is_monday_preferred' },
+    { day: 'M', selected: false, key: 'is_tuesday_preferred' },
+    { day: 'ME', selected: false, key: 'is_wednesday_preferred' },
+    { day: 'J', selected: false, key: 'is_thursday_preferred' },
+    { day: 'V', selected: false, key: 'is_friday_preferred' },
+    { day: 'S', selected: false, key: 'is_saturday_preferred' },
+    { day: 'D', selected: false, key: 'is_sunday_preferred' },
+  ]);
+
+  const toggleDaySelection = (dayKey) => {
+    setSelectedDays((prevDays) =>
+      prevDays.map((day) =>
+        day.key === dayKey ? { ...day, selected: !day.selected } : day
+      )
+    );
   };
 
-  setDayChoice = (val) => {
-    this.setState({
-      SelectedDay: this.state.SelectedDay.map((item) =>
-        item.day === val
-          ? {
-              ...item,
-              selected: !item.selected,
-            }
-          : item,
-      ),
-    });
-  };
-  render() {
-    const passItem = this.props.navigation.state.params.item;
+  const formik = useFormik({
+    initialValues: {
+      days_preference: selectedDays.reduce((acc, day) => {
+        acc[day.key] = day.selected;
+        return acc;
+      }, {}),
+      time_preference: {
+        start_time: multi[0],
+        end_time: multi[1],
+      },
+    },
+    onSubmit: (values) => {
+      const updatedDays = selectedDays.reduce((acc, day) => {
+        acc[day.key] = day.selected;
+        return acc;
+      }, {});
 
-    return (
-      <View style={styles.container}>
-        <LinearGradient
-          colors={['#060606', '#2D333C']}
-          start={{
-            x: 0,
-            y: 0,
-          }}
-          end={{
-            x: 1,
-            y: 1,
-          }}
-          style={styles.background}>
+      const updatedValues = {
+        ...values,
+        days_preference: updatedDays,
+      };
+
+      navigation.navigate('SelectCoachScreen', { item: { ...passItem, ...updatedValues } });
+    },
+  });
+
+  return (
+    <View style={styles.container}>
+      <LinearGradient
+        colors={['#060606', '#2D333C']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.background}>
+        <SafeAreaView style={styles.safeArea}>
           <Header title="LET'S GO" />
           <RegisterStepImageView step={6} />
-          <Text style={styles.title}>À QUEL MOMENT DE LA JOURNÉE ?</Text>
-          <Formik
-            initialValues={{
-              days_preference: {
-                is_monday_preferred: false,
-                is_tuesday_preferred: false,
-                is_wednesday_preferred: false,
-                is_thursday_preferred: false,
-                is_friday_preferred: false,
-                is_saturday_preferred: false,
-                is_sunday_preferred: false,
-              },
-              time_preference: {
-                start_time: 6,
-                end_time: 17,
-              },
-            }}
-            onSubmit={(values) => {
-              const item = { ...passItem, ...values };
-              this.onNavigate(item);
-            }}>
-            {({ handleSubmit, isValid, validate }) => (
-              <View style={styles.content}>
-                <View style={styles.top}>
-                  <Field
-                    name="days_preference"
-                    id="days_preference"
-                    validate={validate}>
-                    {({ form: {} }) => {
-                      return (
-                        <View>
-                          <Text style={styles.subTitle}>
-                            ENTRE{' '}
-                            <Text style={styles.subTitleColored}>
-                              {this.state.multi[0]}H
-                            </Text>{' '}
-                            ET{' '}
-                            <Text style={styles.subTitleColored}>
-                              {this.state.multi[1]}H
-                            </Text>
-                          </Text>
-                          <View style={styles.sliderContainer}>
-                            <FieldArray
-                              name="days_preference"
-                              render={(arrayhelper) => (
-                                <MultiSlider
-                                  values={[
-                                    this.state.multi[0],
-                                    this.state.multi[1],
-                                  ]}
-                                  sliderLength={widthPercentageToDP(90)}
-                                  onValuesChange={(values) => {
-                                    this.setState({ multi: values });
-                                    arrayhelper.form.values.time_preference.start_time =
-                                      values[0];
-                                    arrayhelper.form.values.time_preference.end_time =
-                                      values[1];
-                                  }}
-                                  min={0}
-                                  max={24}
-                                  step={1}
-                                  snapped
-                                  style={{
-                                    padding: 0,
-                                    margin: 0,
-                                  }}
-                                  trackStyle={styles.sliderTrack}
-                                  markerStyle={styles.sliderMarker}
-                                  selectedStyle={styles.sliderSelected}
-                                  name="days_preference"
-                                />
-                              )}
-                            />
-                          </View>
-                          <Text style={styles.daysTitle}>
-                            QUEL(S) JOUR(S) ?
-                          </Text>
-                          <View style={{ alignItems: 'center' }}>
-                            <FieldArray
-                              name="days_preference"
-                              render={(arrayhelper) => (
-                                <FlatList
-                                  style={styles.flatlist}
-                                  horizontal={true}
-                                  data={this.state.SelectedDay}
-                                  extraData={this.state}
-                                  renderItem={({ item }) => {
-                                    const backgroundColor =
-                                      item.selected == 1
-                                        ? '#2CDEE4'
-                                        : '#2d3038';
-                                    const textColor =
-                                      item.selected == 1 ? 'black' : 'white';
-                                    return (
-                                      <View>
-                                        <TouchableOpacity
-                                          onPress={() => {
-                                            switch (item.day) {
-                                              case 'L':
-                                                arrayhelper.form.values.days_preference.is_monday_preferred =
-                                                  !arrayhelper.form.values
-                                                    .days_preference
-                                                    .is_monday_preferred;
-                                                this.setDayChoice('L');
-                                                break;
-                                              case 'M':
-                                                arrayhelper.form.values.days_preference.is_tuesday_preferred =
-                                                  !arrayhelper.form.values
-                                                    .days_preference
-                                                    .is_tuesday_preferred;
-                                                this.setDayChoice('M');
-                                                break;
-                                              case 'ME':
-                                                arrayhelper.form.values.days_preference.is_wednesday_preferred =
-                                                  !arrayhelper.form.values
-                                                    .days_preference
-                                                    .is_wednesday_preferred;
-                                                this.setDayChoice('ME');
-                                                break;
-                                              case 'J':
-                                                arrayhelper.form.values.days_preference.is_thursday_preferred =
-                                                  !arrayhelper.form.values
-                                                    .days_preference
-                                                    .is_thursday_preferred;
-                                                this.setDayChoice('J');
-                                                break;
-                                              case 'V':
-                                                arrayhelper.form.values.days_preference.is_friday_preferred =
-                                                  !arrayhelper.form.values
-                                                    .days_preference
-                                                    .is_friday_preferred;
-                                                this.setDayChoice('V');
-                                                break;
-                                              case 'S':
-                                                arrayhelper.form.values.days_preference.is_saturday_preferred =
-                                                  !arrayhelper.form.values
-                                                    .days_preference
-                                                    .is_saturday_preferred;
-                                                this.setDayChoice('S');
-                                                break;
-                                              case 'D':
-                                                arrayhelper.form.values.days_preference.is_sunday_preferred =
-                                                  !arrayhelper.form.values
-                                                    .days_preference
-                                                    .is_sunday_preferred;
-                                                this.setDayChoice('D');
-                                                break;
-                                              default:
-                                                break;
-                                            }
-                                          }}>
-                                          <View
-                                            style={[
-                                              styles.day,
-                                              {
-                                                backgroundColor:
-                                                  backgroundColor,
-                                              },
-                                            ]}>
-                                            <Text
-                                              style={{
-                                                fontSize: 13,
-                                                color: textColor,
-                                              }}>
-                                              {item.day}
-                                            </Text>
-                                          </View>
-                                        </TouchableOpacity>
-                                      </View>
-                                    );
-                                  }}
-                                  keyExtractor={(item) => item.day}
-                                />
-                              )}
-                            />
-                          </View>
-                        </View>
-                      );
-                    }}
-                  </Field>
-                </View>
-                <View style={styles.bottom}>
-                  <Button
-                    loading={false}
-                    disabled={!isValid}
-                    title="Suivant"
-                    customTextStyle={styles.nextButtonText}
-                    onPress={handleSubmit}
-                  />
-                </View>
-              </View>
-            )}
-          </Formik>
-        </LinearGradient>
-      </View>
-    );
-  }
-}
+          <Text style={styles.title}>À QUEL MlllllOMENT DE LA JOURNÉE ?</Text>
+
+          <View style={styles.content}>
+            <Text style={styles.subTitle}>
+              ENTRE <Text style={styles.subTitleColored}>{multi[0]}H</Text> ET
+              <Text style={styles.subTitleColored}>{multi[1]}H</Text>
+            </Text>
+            <View style={styles.sliderContainer}>
+              <MultiSlider
+                values={[multi[0], multi[1]]}
+                sliderLength={widthPercentageToDP(90)}
+                onValuesChange={(values) => {
+                  setMulti(values);
+                  formik.setFieldValue('time_preference.start_time', values[0]);
+                  formik.setFieldValue('time_preference.end_time', values[1]);
+                }}
+                min={0}
+                max={24}
+                step={1}
+                snapped
+                trackStyle={styles.sliderTrack}
+                markerStyle={styles.sliderMarker}
+                selectedStyle={styles.sliderSelected}
+              />
+            </View>
+
+            <Text style={styles.daysTitle}>QUEL(S) JOUR(S) ?</Text>
+            <FlatList
+              horizontal
+              data={selectedDays}
+              keyExtractor={(item) => item.key}
+              renderItem={({ item }) => {
+                const backgroundColor = item.selected ? '#2CDEE4' : '#2d3038';
+                const textColor = item.selected ? 'black' : 'white';
+
+                return (
+                  <TouchableOpacity
+                    onPress={() => {
+                      toggleDaySelection(item.key);
+                      formik.setFieldValue(`days_preference.${item.key}`, !item.selected);
+                    }}>
+                    <View style={[styles.day, { backgroundColor }]}>
+                      <Text style={{ fontSize: 13, color: textColor }}>{item.day}</Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              }}
+            />
+            <View style={styles.bottom}>
+              <Button
+                loading={false}
+                disabled={!formik.isValid}
+                title="Suivant"
+                customTextStyle={styles.nextButtonText}
+                onPress={formik.handleSubmit}
+              />
+            </View>
+          </View>
+        </SafeAreaView>
+      </LinearGradient>
+    </View>
+  );
+};
+
+export default TrainingDayScreen;

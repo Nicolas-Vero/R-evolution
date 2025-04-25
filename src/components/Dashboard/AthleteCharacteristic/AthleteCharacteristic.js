@@ -5,7 +5,7 @@ import ProgressBarAnimated from 'react-native-progress-bar-animated';
 
 import styles from './AthleteCharacteristicStyles';
 import * as Progress from 'react-native-progress';
-import { ProgressBar } from 'react-native-multicolor-progress-bar';
+//import { ProgressBar } from 'react-native-multicolor-progress-bar';
 
 const agesIndex = ['13-17', '18-24', '25-34', '35-44', '45-54', '+55'];
 export default class AthleteCharacteristic extends React.Component {
@@ -82,7 +82,7 @@ export default class AthleteCharacteristic extends React.Component {
               </Text>
             </View>
           </View>
-          <ProgressBar
+          {/* <ProgressBar
             textStyle={{ marginTop: 3 }}
             parentViewStyle={{ alignItems: 'stretch' }}
             backgroundBarStyle={styles.genderBar}
@@ -98,7 +98,7 @@ export default class AthleteCharacteristic extends React.Component {
                 nameToDisplay: `${(malesPercentage * 100).toFixed()}%`,
               },
             ]}
-          />
+          /> */}
           {/* <View style={styles.genderBar}>
             <View style={styles.genderBarWife}>
               <Text

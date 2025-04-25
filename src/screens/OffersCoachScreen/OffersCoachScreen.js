@@ -1,17 +1,17 @@
-import { withMappedNavigationParams } from 'react-navigation-props-mapper';
+import React from 'react';
 import AbstractScreen from '../../components/abstracts/AbstractScreen/AbstractScreen';
 import OffersCoachScreenController from './OffersCoachScreenController';
 import OffersScreenView from './OffersCoachScreenControllerView';
 
-class OffersCoachScreen extends AbstractScreen {
-  constructor(props) {
-    super({
-      props,
-      screenName: 'OffersCoachScreen',
-      viewClass: OffersScreenView,
-      controllerClass: OffersCoachScreenController,
-    });
-  }
-}
+const OffersCoachScreen = ({ route }) => {
+  return (
+    <AbstractScreen
+      screenName="OffersCoachScreen"
+      viewClass={OffersScreenView}
+      controllerClass={OffersCoachScreenController}
+      {...route.params} // Permet de passer les paramètres de navigation
+    />
+  );
+};
 
-export default withMappedNavigationParams()(OffersCoachScreen);
+export default OffersCoachScreen;

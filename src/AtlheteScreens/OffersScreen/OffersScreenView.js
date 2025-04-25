@@ -14,7 +14,7 @@ import AbstractScreenView from '../../components/abstracts/AbstractScreen/Abstra
 import RenewOfferDialog from '../../components/dialogs/renewOfferDialog/renewOfferDialog';
 
 import styles from './OffersScreenStyle';
-import { isIphoneX } from 'react-native-iphone-x-helper';
+
 
 const options = [
   { label: 'EN COURS', value: 'EN COURS' },
@@ -147,9 +147,9 @@ export default class OffersScreenView extends AbstractScreenView {
                       this.component.state.ActiveCourses.coach
                         .profile_picture_url
                         ? {
-                            uri: this.component.state.ActiveCourses.coach
-                              .profile_picture_url,
-                          }
+                          uri: this.component.state.ActiveCourses.coach
+                            .profile_picture_url,
+                        }
                         : require('../../../assets/images/no_pp.jpg')
                     }
                   />
@@ -173,11 +173,10 @@ export default class OffersScreenView extends AbstractScreenView {
                 </View>
                 <View style={styles.currentOfferInfos}>
                   <Text style={styles.currentOfferSessions}>
-                    {`${this.component.state.ActiveCourses.total_sessions} ${
-                      this.component.state.ActiveCourses.total_sessions > 1
+                    {`${this.component.state.ActiveCourses.total_sessions} ${this.component.state.ActiveCourses.total_sessions > 1
                         ? 'coachings'
                         : 'coaching'
-                    }`}
+                      }`}
                   </Text>
                   <Text style={styles.currentOfferPrice}>
                     {this.component.state.ActiveCourses.offer.price}€
@@ -185,10 +184,9 @@ export default class OffersScreenView extends AbstractScreenView {
                 </View>
                 <View style={styles.currentOfferSessionsLeftContainer}>
                   <Text style={styles.currentOfferSessionsLefText}>
-                    {`Nombre de séances restantes: ${
-                      this.component.state.ActiveCourses.total_sessions -
+                    {`Nombre de séances restantes: ${this.component.state.ActiveCourses.total_sessions -
                       this.component.state.ActiveCourses.booked_session
-                    }`}
+                      }`}
                   </Text>
                 </View>
               </LinearGradient>

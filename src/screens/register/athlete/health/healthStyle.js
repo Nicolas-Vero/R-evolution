@@ -1,4 +1,4 @@
-import { widthPercentageToDP } from 'react-native-responsive-screen';
+import { widthPercentageToDP, heightPercentageToDP } from 'react-native-responsive-screen';
 import { StyleSheet, Platform, StatusBar } from 'react-native';
 
 module.exports = StyleSheet.create({
@@ -34,18 +34,20 @@ module.exports = StyleSheet.create({
     color: '#FFFF',
   },
   subTitle: {
-    textAlign: 'center',
+    justifyContent: 'left',
     marginTop: 24,
+    marginBottom: 24,
     fontFamily: 'RobotoBold',
     fontSize: 16,
     color: '#FFFF',
   },
   safeArea: {
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    flex: 1,
   },
   healthContainer: {
+    width: '100%',
     alignItems: 'center',
-    marginTop: 24,
   },
   dropdownContainer: {
     width: 'auto',
@@ -76,9 +78,7 @@ module.exports = StyleSheet.create({
   },
   inputContainer: {
     marginTop: 24,
-    height: 125,
     width: widthPercentageToDP(93),
-    marginBottom: 30,
   },
   input: {
     backgroundColor: '#FFFFFF',
@@ -86,7 +86,8 @@ module.exports = StyleSheet.create({
     paddingHorizontal: 15,
     paddingTop: 10,
     paddingBottom: 10,
-    height: 120,
+    minHeight: 150,
+
     borderRadius: 3,
     justifyContent: 'flex-start',
   },

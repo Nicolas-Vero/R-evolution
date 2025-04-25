@@ -10,14 +10,14 @@ import { Image } from 'react-native';
 import { ScrollView } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import styles from './AthleteSheetCoachScreenStyle';
-import { isIphoneX } from 'react-native-iphone-x-helper';
+
 
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import CancelBookDialog from '../../components/dialogs/cancelBookDialog/cancelBookDialog';
 import SidappRefreshControl from '../../components/SidappRefreshControl/SidappRefreshControl';
 import { convertSlotToDate } from '../../helpers/dateHelper';
 import UnlinkAthleteDialog from '../../components/dialogs/unlinkAthleteDialog/unlinkAthleteDialog';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+
 export default class AthleteSheetCoachScreenView extends AbstractScreenView {
   renderCancelBookDialog = () => {
     return (
@@ -116,7 +116,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
     const { book } = this.component.state;
     return (
       <View style={styles.container}>
-        <View style={{ marginTop: isIphoneX() ? 20 : 0 }}>
+        <View style={{ marginTop: 20 }}>
           <View style={styles.header}>
             <HeaderLight goBack={this.controller.onBackPress} />
             <View style={styles.headerLeft}>
@@ -126,8 +126,8 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 source={
                   user.profile_picture_url
                     ? {
-                        uri: user.profile_picture_url,
-                      }
+                      uri: user.profile_picture_url,
+                    }
                     : require('../../../assets/images/no_pp.jpg')
                 }
               />
@@ -135,12 +135,12 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
             <Image style={styles.userStatusImage} source={badgeImage} />
           </View>
         </View>
-            <Text
-                style={styles.username}
-                numberOfLines={1}
-                ellipsizeMode="tail">
-                {user.first_name} {user.last_name}
-              </Text>
+        <Text
+          style={styles.username}
+          numberOfLines={1}
+          ellipsizeMode="tail">
+          {user.first_name} {user.last_name}
+        </Text>
 
         <View style={styles.content}>
           {!isProspect ? null : (
@@ -234,9 +234,9 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   {' '}
                   {user.commercial
                     ? user.commercial.first_name.concat(
-                        ' ',
-                        user.commercial.last_name,
-                      )
+                      ' ',
+                      user.commercial.last_name,
+                    )
                     : 'Pas de recommandation'}
                 </Text>
               ) : (
@@ -247,9 +247,9 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   {' '}
                   {user.commercial
                     ? user.commercial.first_name.concat(
-                        ' ',
-                        user.commercial.last_name,
-                      )
+                      ' ',
+                      user.commercial.last_name,
+                    )
                     : 'Pas de recommandation'}
                 </Text>
               )}
@@ -259,11 +259,10 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
               <Text style={styles.valueText}>
                 <Text style={styles.valueText}>
                   {ActiveCourses.offer
-                    ? `${ActiveCourses.offer.title} - ${sessionLeft} ${
-                        sessionLeft > 1
-                          ? 'séances restantes'
-                          : 'séance restante'
-                      } sur ${ActiveCourses.total_sessions}`
+                    ? `${ActiveCourses.offer.title} - ${sessionLeft} ${sessionLeft > 1
+                      ? 'séances restantes'
+                      : 'séance restante'
+                    } sur ${ActiveCourses.total_sessions}`
                     : 'Aucune offre'}
                 </Text>
               </Text>
@@ -280,9 +279,9 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   keyExtractor={(item) => item.id.toString()}
                   renderItem={({ item }) => {
                     const isDone =
-                    user.status === 'inactive' ? false :
-                      item.course_details?.booked_session ===
-                      item.course_details?.total_sessions;
+                      user.status === 'inactive' ? false :
+                        item.course_details?.booked_session ===
+                        item.course_details?.total_sessions;
                     return (
                       <TouchableOpacity
                         disabled={isDone}
@@ -450,18 +449,17 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                   {!user.athlete.experience_years
                     ? "Pas d'informations"
                     : user.athlete.experience_years > 0
-                    ? ` Plus de ${user.athlete.experience_years} an${
-                        user.athlete.experience_years === 1 ? '' : 's'
+                      ? ` Plus de ${user.athlete.experience_years} an${user.athlete.experience_years === 1 ? '' : 's'
                       }`
-                    : `Moins d'un an`}
+                      : `Moins d'un an`}
                 </Text>
               ) : (
                 <Text style={styles.valueText}>
                   {!user.experience_years
                     ? "Pas d'informations"
                     : user.experience_years > 0
-                    ? ` Plus de ${user.experience_years} ans`
-                    : `Moins d'un an`}
+                      ? ` Plus de ${user.experience_years} ans`
+                      : `Moins d'un an`}
                 </Text>
               )}
             </View>
@@ -513,7 +511,7 @@ export default class AthleteSheetCoachScreenView extends AbstractScreenView {
                 </Text>
               </TouchableOpacity>
             )}
-            <KeyboardSpacer />
+
           </ScrollView>
         </View>
       </View>

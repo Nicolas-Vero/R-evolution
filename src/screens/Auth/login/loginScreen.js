@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   SafeAreaView,
@@ -8,10 +8,12 @@ import {
   Text,
   KeyboardAvoidingView,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
-
 import { Formik } from 'formik';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Yup from 'yup';
+
 import AuthService from '../../../services/AuthService';
 import Header from '../../../components/Header';
 import { Button } from '../../../components/Button';
@@ -19,233 +21,142 @@ import styles from './loginStyle';
 import { coach_login, get_coach_me } from '../../../api/Coach';
 import { athlete_login, get_athlete_me } from '../../../api/Athlete';
 import { userType } from '../../../api/Auth';
-export default class loginScreen extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      error: null,
-      passwordError: null,
-    };
-  }
+const validationSchema = Yup.object().shape({
+  email: Yup.string().email('Email invalide').required('Email requis'),
+  password: Yup.string().required('Mot de passe requis'),
+});
 
-  async onLoginPress(values) {
-    const { email, password } = values;
-    const body = { email, password };
+const LoginScreen = ({ navigation }) => {
+  const passwordInputRef = useRef(null);
+  const [error, setError] = useState(null);
+  const [passwordError, setPasswordError] = useState(null);
 
-    if (!this.isLoginCorrect(email, password)) {
+  const onLoginPress = async ({ email, password }) => {
+    setError(null);
+    setPasswordError(null);
+
+    const userResponse = await userType(email);
+
+    if (userResponse.status !== 200) {
+      setError("Cet email n'existe pas");
       return;
     }
 
-    const user = await userType(email);
-    if (user.status !== 200) {
-      this.setState({
-        error: "Cet email n'existe pas",
-      });
-    }
-    if (user.content.type === 'coach') {
-      await this.loginCoach(body);
+    const loginFn =
+      userResponse.content.type === 'coach' ? coach_login : athlete_login;
+    const getUserFn =
+      userResponse.content.type === 'coach' ? get_coach_me : get_athlete_me;
+
+    const loginResponse = await loginFn({ email, password });
+
+    if (loginResponse.status !== 200) {
+      setPasswordError('Mot de passe incorrect');
       return;
     }
-    if (user.content.type === 'athlete') {
-      await this.loginAthlete(body);
-      return;
-    }
-  }
 
-  isLoginCorrect = (email, password) => {
-    if (!email || !password) {
-      this.setState({
-        error: email ? null : 'Veuillez renseigner votre email',
-        passwordError: password
-          ? null
-          : ' Veuillez renseigner votre mot de passe',
-      });
-
-      return false;
-    }
-
-    this.setState({
-      error: null,
-      passwordError: null,
-    });
-    return true;
-  };
-  isPasswordCorrect = (password) => {
-    if (!password) {
-      this.setState({
-        passwordError: 'Veuillez renseigner votre mot de passe',
-      });
-
-      return false;
-    }
-
-    this.setState({
-      passwordError: null,
+    await AuthService.setAuth({
+      user: { id: loginResponse.content.user.id, type: userResponse.content.type },
+      headers: { Authorization: `Bearer ${loginResponse.content.token}` },
     });
 
-    return true;
+    const user = await getUserFn();
+
+    if (user.status === 200) {
+      await AuthService.setUser(user.content);
+      await AuthService.checkExpoToken(user.content);
+
+      navigation.navigate(
+        userResponse.content.type === 'coach'
+          ? 'DashboardStack'
+          : 'DashboardStackAthlete',
+      );
+    }
   };
-  async loginCoach(body) {
-    const login = await coach_login(body);
-    if (login.status !== 200) {
-      this.setState({ passwordError: 'Mot de passe incorrect' });
 
-      return;
-    }
-    if (login.status === 200) {
-      this.setState({ passwordError: null });
-      await this.setAuth(login.content, 'coach');
-      const user = await get_coach_me();
-      if (user.status === 200) {
-        await AuthService.setUser(user.content);
-        await AuthService.checkExpoToken(user.content);
-        this.props.navigation.navigate('DashboardStack');
-      }
-
-      return;
-    }
-
-    this.setState({ password: '' });
-  }
-
-  async loginAthlete(body) {
-    const login = await athlete_login(body);
-    if (login.status !== 200) {
-      this.setState({ passwordError: 'Mot de passe incorrect' });
-
-      return;
-    }
-    if (login.status === 200) {
-      this.setState({ passwordError: null });
-      await this.setAuth(login.content, 'athlete');
-      const user = await get_athlete_me();
-      if (user.status === 200) {
-        await AuthService.setUser(user.content);
-        await AuthService.checkExpoToken(user.content);
-        this.props.navigation.navigate('DashboardStackAtlhete');
-      }
-
-      return;
-    }
-
-    this.setState({ password: '' });
-  }
-
-  async setAuth(data, type) {
-    const toStore = {
-      user: { id: data.user.id, type },
-      headers: {
-        Authorization: 'Bearer ' + data.token,
-      },
-    };
-
-    await AuthService.setAuth(toStore);
-  }
-  render() {
-    const { error, passwordError } = this.state;
-
-    return (
-      <View style={styles.container}>
-        <LinearGradient
-          colors={['black', '#2D333C']}
-          start={{
-            x: 0,
-            y: 0,
-          }}
-          end={{
-            x: 1,
-            y: 1,
-          }}
-          style={styles.background}>
-          <Header />
-          <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
+  return (
+    <View style={styles.container}>
+      <LinearGradient
+        colors={['black', '#2D333C']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.background}>
+        <Header />
+        <SafeAreaView style={styles.safeArea}>
+          <ScrollView keyboardShouldPersistTaps="handled">
             <View style={styles.logoContainer}>
               <Image
                 source={require('../../../../assets/images/logo.png')}
-                style={styles.image}></Image>
+                style={styles.image}
+              />
             </View>
-            <View style={styles.content}>
-              <Formik
-                initialValues={{
-                  email: '',
-                  password: '',
-                }}
-                onSubmit={(values, { onLoginPress }) => onLoginPress(values)}>
-                {({ handleChange, handleBlur, values }) => (
-                  <KeyboardAvoidingView>
-                    <View style={{ marginBottom: 15 }}>
-                      <TextInput
-                        placeholderTextColor="#979797"
-                        placeholder="Adresse e-mail"
-                        style={styles.input}
-                        onChangeText={handleChange('email')}
-                        autoCapitalize="none"
-                        onBlur={handleBlur('email')}
-                        value={values.email}
-                        onSubmitEditing={() =>
-                          this.passwordInput && this.passwordInput.focus()
-                        }
-                        returnKeyType="next"
-                      />
-                      {error && <Text style={styles.error}>{error}</Text>}
-                    </View>
-                    <TextInput
-                      placeholderTextColor="#979797"
-                      ref={(ref) => (this.passwordInput = ref)}
-                      placeholder="Mot de passe"
-                      secureTextEntry={true}
-                      style={styles.input}
-                      onChangeText={handleChange('password')}
-                      autoCapitalize="none"
-                      onBlur={handleBlur('password')}
-                      value={values.password}
-                      returnKeyType="done"
+
+            <Formik
+              initialValues={{ email: '', password: '' }}
+              validationSchema={validationSchema}
+              onSubmit={onLoginPress}>
+              {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                <KeyboardAvoidingView>
+                  <TextInput
+                    placeholder="Adresse e-mail"
+                    placeholderTextColor="#979797"
+                    style={styles.input}
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                    onChangeText={handleChange('email')}
+                    onBlur={handleBlur('email')}
+                    value={values.email}
+                    returnKeyType="next"
+                    onSubmitEditing={() => passwordInputRef.current.focus()}
+                  />
+                  {(errors.email && touched.email) || error ? (
+                    <Text style={styles.error}>{errors.email || error}</Text>
+                  ) : null}
+
+                  <TextInput
+                    ref={passwordInputRef}
+                    placeholder="Mot de passe"
+                    placeholderTextColor="#979797"
+                    style={styles.input}
+                    secureTextEntry
+                    autoCapitalize="none"
+                    onChangeText={handleChange('password')}
+                    onBlur={handleBlur('password')}
+                    value={values.password}
+                    returnKeyType="done"
+                  />
+                  {(errors.password && touched.password) || passwordError ? (
+                    <Text style={styles.error}>{errors.password || passwordError}</Text>
+                  ) : null}
+
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('forgetPasswordScreen')}>
+                    <Text style={styles.forgetPasswordText}>Mot de passe oublié ?</Text>
+                  </TouchableOpacity>
+
+                  <View style={styles.buttonContainer}>
+                    <Button
+                      title="Se connecter"
+                      onPress={handleSubmit}
+                      customTextStyle={styles.buttonText}
                     />
-                    {passwordError && (
-                      <Text style={styles.error}>{passwordError}</Text>
-                    )}
-                    <View>
-                      <TouchableOpacity
-                        onPress={() =>
-                          this.props.navigation.navigate('forgetPasswordScreen')
-                        }>
-                        <Text style={styles.forgetPasswordText}>
-                          Mot de passe oublié ?
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={styles.buttonContainer}>
-                      <Button
-                        style={styles.button}
-                        loading={false}
-                        title="Se connecter"
-                        customTextStyle={styles.buttonText}
-                        onPress={() => {
-                          this.onLoginPress(values);
-                        }}
-                      />
-                    </View>
-                    <View style={styles.notYetMemberContainer}>
-                      <Text style={styles.notYetMemberText}>
-                        Pas encore membre ?{' '}
-                      </Text>
-                      <TouchableOpacity
-                        onPress={() => {
-                          this.props.navigation.navigate('registerScreen');
-                        }}>
-                        <Text style={styles.notYetMemberTextColor}>
-                          Créer ton compte.
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  </KeyboardAvoidingView>
-                )}
-              </Formik>
-            </View>
-          </SafeAreaView>
-        </LinearGradient>
-      </View>
-    );
-  }
-}
+                  </View>
+
+                  <View style={styles.notYetMemberContainer}>
+                    <Text style={styles.notYetMemberText}>Pas encore membre ? </Text>
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('RegisterScreen')}>
+                      <Text style={styles.notYetMemberTextColor}>Créer ton compte.</Text>
+                    </TouchableOpacity>
+                  </View>
+                </KeyboardAvoidingView>
+              )}
+            </Formik>
+          </ScrollView>
+        </SafeAreaView>
+      </LinearGradient>
+    </View>
+  );
+};
+
+export default LoginScreen;

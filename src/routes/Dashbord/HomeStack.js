@@ -1,4 +1,6 @@
-import { createStackNavigator } from 'react-navigation-stack';
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+// Import des écrans
 import PendingRequestCoachScreen from '../../screens/PendingRequestCoachScreen/PendingRequestCoachScreen';
 import HomeCoachScreen from '../../screens/HomeCoachScreen/HomeCoachScreen';
 import AccountScreen from '../../screens/AccountScreen/AccountScreen';
@@ -9,86 +11,29 @@ import CreateReminderCoachScreen from '../../screens/CreateReminderCoachScreen/C
 import CreateBookCoachScreen from '../../screens/CreateBookCoachScreen/CreateBookCoachScreen';
 import AthleteSheetCoachScreen from '../../screens/AthleteSheetCoachScreen/AthleteSheetCoachScreen';
 import UpdateBookCoachScreen from '../../screens/UpdateBookCoachScreen/UpdateBookCoachScreen';
-const HomeStack = createStackNavigator(
-  {
-    homeCoachScreen: {
-      screen: HomeCoachScreen,
-      navigationOptions: {
+
+const Stack = createNativeStackNavigator();
+
+const HomeStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
         gestureEnabled: false,
         headerShown: false,
-        swipeEnabled: false,
-      },
-    },
-    CreateBookCoachScreen: {
-      screen: CreateBookCoachScreen,
-      navigationOptions: ({ navigation }) => ({
-        gestureEnabled: false,
-        headerShown: false,
-      }),
-    },
-    CreateReminderCoachScreen: {
-      screen: CreateReminderCoachScreen,
-      navigationOptions: ({ navigation }) => ({
-        gestureEnabled: false,
-        headerShown: false,
-      }),
-    },
-    ActivitiesCoachScreen: {
-      screen: ActivitiesCoachScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-      },
-    },
-    AccountScreen: {
-      screen: AccountScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-      },
-    },
-    ProfileCoachScreen: {
-      screen: ProfileCoachScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-      },
-    },
-    PendingRequestCoachScreen: {
-      screen: PendingRequestCoachScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-      },
-    },
-    TreshRequestCoachScreen: {
-      screen: TreshRequestCoachScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-      },
-    },
-    AthleteSheetCoachScreen: {
-      screen: AthleteSheetCoachScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-      },
-    },
-    UpdateBookCoachScreen: {
-      screen: UpdateBookCoachScreen,
-      navigationOptions: {
-        gestureEnabled: false,
-        headerShown: false,
-      },
-    }
-  },
-  {
-    lazy: true,
-    swipeEnabled: true,
-    animationEnabled: true,
-    tabBarPosition: 'bottom',
-  },
-);
+      }}
+    >
+      <Stack.Screen name="HomeCoachScreen" component={HomeCoachScreen} />
+      <Stack.Screen name="CreateBookCoachScreen" component={CreateBookCoachScreen} />
+      <Stack.Screen name="CreateReminderCoachScreen" component={CreateReminderCoachScreen} />
+      <Stack.Screen name="ActivitiesCoachScreen" component={ActivitiesCoachScreen} />
+      <Stack.Screen name="AccountScreen" component={AccountScreen} />
+      <Stack.Screen name="ProfileCoachScreen" component={ProfileCoachScreen} />
+      <Stack.Screen name="PendingRequestCoachScreen" component={PendingRequestCoachScreen} />
+      <Stack.Screen name="TreshRequestCoachScreen" component={TreshRequestCoachScreen} />
+      <Stack.Screen name="AthleteSheetCoachScreen" component={AthleteSheetCoachScreen} />
+      <Stack.Screen name="UpdateBookCoachScreen" component={UpdateBookCoachScreen} />
+    </Stack.Navigator>
+  );
+};
 
 export default HomeStack;

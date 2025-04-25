@@ -21,7 +21,6 @@ import {
   widthPercentageToDP,
 } from 'react-native-responsive-screen';
 
-import Slider from 'react-native-slider';
 import { ScrollView } from 'react-native-gesture-handler';
 export default class experience extends React.Component {
   constructor(props) {
@@ -50,7 +49,7 @@ export default class experience extends React.Component {
           style={styles.background}>
           <ScrollView>
             <SafeAreaView onPress={Keyboard.dismiss} style={styles.safeArea}>
-            <Header title="LET'S GO" />
+              <Header title="LET'S GO" />
               <View style={{ alignItems: 'center' }}>
                 <Image
                   source={require('../../assets/images/Group_2.png')}
@@ -110,7 +109,7 @@ export default class experience extends React.Component {
                                   alignItems: 'center',
                                   marginTop: 110,
                                 }}>
-                                <Slider
+                                {/* <Slider
                                   style={{ width: widthPercentageToDP(90) }}
                                   trackStyle={{
                                     height: 10,
@@ -133,7 +132,7 @@ export default class experience extends React.Component {
                                   maximumValue={10}
                                   minimumValue={0}
                                   step={1}
-                                />
+                                /> */}
                                 <View
                                   style={{
                                     marginTop: widthPercentageToDP(10),

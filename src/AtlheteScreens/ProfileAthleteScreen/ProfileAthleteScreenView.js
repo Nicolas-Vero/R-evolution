@@ -17,8 +17,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { widthPercentageToDP } from 'react-native-responsive-screen';
 import { AntDesign } from '@expo/vector-icons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
-import { isIphoneX } from 'react-native-iphone-x-helper';
+
 
 export default class ProfileAthleteScreenView extends AbstractScreenView {
   render() {
@@ -67,7 +66,7 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
             onSubmit={(values) => onContinuePress(values)}>
             {({ handleChange, handleBlur, setFieldValue, values }) => (
               <View>
-                <View style={{ paddingTop: isIphoneX() ? 30 : 10 }}>
+                <View style={{ paddingTop: 30 }}>
                   <View style={styles.header}>
                     <View style={styles.headerLeft}>
                       <HeaderLight />
@@ -85,7 +84,7 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                                 }}
                               />
                             ) : this.component.state.User
-                                .profile_picture_url ? (
+                              .profile_picture_url ? (
                               <Avatar
                                 size={105}
                                 rounded
@@ -334,9 +333,9 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                                             (item) =>
                                               item.day === 'L'
                                                 ? {
-                                                    ...item,
-                                                    selected: !item.selected,
-                                                  }
+                                                  ...item,
+                                                  selected: !item.selected,
+                                                }
                                                 : item,
                                           ),
                                       });
@@ -351,9 +350,9 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                                             (item) =>
                                               item.day === 'M'
                                                 ? {
-                                                    ...item,
-                                                    selected: !item.selected,
-                                                  }
+                                                  ...item,
+                                                  selected: !item.selected,
+                                                }
                                                 : item,
                                           ),
                                       });
@@ -368,9 +367,9 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                                             (item) =>
                                               item.day === 'ME'
                                                 ? {
-                                                    ...item,
-                                                    selected: !item.selected,
-                                                  }
+                                                  ...item,
+                                                  selected: !item.selected,
+                                                }
                                                 : item,
                                           ),
                                       });
@@ -385,9 +384,9 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                                             (item) =>
                                               item.day === 'J'
                                                 ? {
-                                                    ...item,
-                                                    selected: !item.selected,
-                                                  }
+                                                  ...item,
+                                                  selected: !item.selected,
+                                                }
                                                 : item,
                                           ),
                                       });
@@ -402,9 +401,9 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                                             (item) =>
                                               item.day === 'V'
                                                 ? {
-                                                    ...item,
-                                                    selected: !item.selected,
-                                                  }
+                                                  ...item,
+                                                  selected: !item.selected,
+                                                }
                                                 : item,
                                           ),
                                       });
@@ -419,9 +418,9 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                                             (item) =>
                                               item.day === 'S'
                                                 ? {
-                                                    ...item,
-                                                    selected: !item.selected,
-                                                  }
+                                                  ...item,
+                                                  selected: !item.selected,
+                                                }
                                                 : item,
                                           ),
                                       });
@@ -436,9 +435,9 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
                                             (item) =>
                                               item.day === 'D'
                                                 ? {
-                                                    ...item,
-                                                    selected: !item.selected,
-                                                  }
+                                                  ...item,
+                                                  selected: !item.selected,
+                                                }
                                                 : item,
                                           ),
                                       });
@@ -487,7 +486,7 @@ export default class ProfileAthleteScreenView extends AbstractScreenView {
               </View>
             )}
           </Formik>
-          <KeyboardSpacer />
+
         </ScrollView>
       </View>
     );

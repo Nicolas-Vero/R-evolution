@@ -7,181 +7,107 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-
 import { LinearGradient } from 'expo-linear-gradient';
-import { Formik, FieldArray, Field } from 'formik';
-
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 import SelectDropdown from 'react-native-select-dropdown';
 import { AntDesign } from '@expo/vector-icons';
 import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
 import { Button } from '../../../../components/Button';
 import styles from './healthStyle';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default class healthScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      step: 'initial',
-    };
-  }
+const HealthScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const passItem = route.params || {};
+  const data = ['OUI', 'NON'];
 
-  onNavigate = (item) => {
-    this.props.navigation.navigate('selectGymScreen', { item: item });
-  };
+  const validationSchema = Yup.object().shape({
+    health_issues: Yup.boolean(),
+    health_problem_description: Yup.string(),
+  });
 
-  render() {
-    const data = ['OUI', 'NON'];
-    const passItem = this.props.navigation.state.params.item;
-    return (
-      <View style={styles.container}>
-        <LinearGradient
-          colors={['#060606', '#2D333C']}
-          start={{
-            x: 0,
-            y: 0,
-          }}
-          end={{
-            x: 1,
-            y: 1,
-          }}
-          style={styles.background}>
+  return (
+    <View style={styles.container}>
+      <LinearGradient colors={['#060606', '#2D333C']} style={styles.background}>
+
+        <SafeAreaView style={styles.safeArea} onPress={Keyboard.dismiss}>
           <Header title="LET'S GO" />
-          <SafeAreaView style={styles.container} onPress={Keyboard.dismiss}>
-            <RegisterStepImageView step={4} />
-            <View style={styles.content}>
-              <Text style={styles.title}>
-                DES PROBLÈMES DE SANTÉ A SIGNALER ?
-              </Text>
-              <Formik
-                initialValues={{
-                  health_issues: false,
-                  health_problem_description: '',
-                }}
-                onSubmit={(values) => {
-                  const item = { ...passItem, ...values };
-                  this.onNavigate(item);
-                }}>
-                {({ handleSubmit, isValid, validate, ref }) => (
-                  <ScrollView
-                    contentContainerStyle={{
-                      flexGrow: 1,
-                      justifyContent: 'space-between',
-                      flexDirection: 'column',
-                      marginHorizontal: 16,
-                    }}>
-                    <View style={styles.top}>
-                      <Field
-                        name="health_issues"
-                        id="health_issues"
-                        validate={validate}>
-                        {() => {
-                          return (
-                            <View style={styles.top}>
-                              <View style={styles.healthContainer}>
-                                <FieldArray
-                                  name="health_issues"
-                                  render={(arrayhelper) => (
-                                    <View>
-                                      <View style={styles.dropdownContainer}>
-                                        <SelectDropdown
-                                          buttonStyle={styles.dropdownButton}
-                                          buttonTextStyle={
-                                            styles.dropdownButtonText
-                                          }
-                                          rowTextStyle={styles.dropdownRowText}
-                                          dropdownStyle={styles.dropdownBg}
-                                          rowStyle={styles.dropdownRow}
-                                          data={data}
-                                          defaultButtonText={'Choisir'}
-                                          onSelect={(selectedItem) => {
-                                            let value;
-                                            if (selectedItem == 'OUI') {
-                                              value = true;
-                                            } else {
-                                              value = false;
-                                            }
-                                            arrayhelper.form.values.health_issues =
-                                              value;
-                                          }}
-                                          renderDropdownIcon={() => {
-                                            return (
-                                              <AntDesign
-                                                name="down"
-                                                size={18}
-                                                color="black"
-                                              />
-                                            );
-                                          }}
-                                          dropdownIconPosition={'right'}
-                                          buttonTextAfterSelection={(
-                                            selectedItem,
-                                            index,
-                                          ) => {
-                                            // text represented after item is selected
-                                            // if data array is an array of objects then return selectedItem.property to render after item is selected
-                                            return selectedItem;
-                                          }}
-                                          rowTextForSelection={(
-                                            item,
-                                            index,
-                                          ) => {
-                                            // text represented for each item in dropdown
-                                            // if data array is an array of objects then return item.property to represent item in dropdown
-                                            return item;
-                                          }}
-                                        />
-                                      </View>
-                                      <View>
-                                        <Text style={styles.subTitle}>
-                                          INFORMATIONS COMPLÉMENTAIRES
-                                        </Text>
-                                        <View style={styles.inputContainer}>
-                                          <TextInput
-                                            keyboardType="default"
-                                            returnKeyType="done"
-                                            blurOnSubmit={true}
-                                            onSubmitEditing={() => {
-                                              Keyboard.dismiss();
-                                            }}
-                                            multiline={true}
-                                            style={styles.input}
-                                            placeholder="Description"
-                                            placeholderTextColor="#979797"
-                                            onChangeText={(text) =>
-                                              (arrayhelper.form.values.health_problem_description =
-                                                text)
-                                            }
-                                          />
-                                        </View>
-                                      </View>
-                                    </View>
-                                  )}
-                                />
-                              </View>
-                            </View>
-                          );
-                        }}
-                      </Field>
-                    </View>
-                    <View style={styles.bottom}>
-                      <Button
-                        loading={false}
-                        disabled={!isValid}
-                        title="Suivant"
-                        customTextStyle={styles.nextButtonText}
-                        onPress={handleSubmit}
+          <RegisterStepImageView step={4} />
+          <Formik
+            initialValues={{
+              health_issues: '',
+              health_problem_description: '',
+            }}
+            validationSchema={validationSchema}
+            onSubmit={(values) => {
+              const item = { ...passItem, ...values };
+              navigation.navigate('SelectGymScreen', { item });
+            }}
+          >
+            {({ handleSubmit, setFieldValue, values }) => (
+              <ScrollView
+                style={{ flex: 1, }}
+                contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between' }}
+                keyboardShouldPersistTaps="handled"
+              >
+
+                <View style={styles.healthContainer}>
+
+                  <View style={styles.inputContainer}>
+                    <Text style={styles.subTitle}>DES PROBLÈMES DE SANTÉ À SIGNALER ?</Text>
+
+
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Description"
+                      placeholderTextColor="#979797"
+                      multiline
+                      onChangeText={(text) =>
+                        setFieldValue('health_problem_description', text)
+                      }
+                      value={values.health_problem_description}
+                    />
+                  </View>
+                  <>
+                    <View style={styles.inputContainer}>
+                      <Text style={styles.subTitle}>INFORMATIONS COMPLÉMENTAIRES</Text>
+
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Description"
+                        placeholderTextColor="#979797"
+                        multiline
+                        onChangeText={(text) =>
+                          setFieldValue('health_problem_description', text)
+                        }
+                        value={values.health_problem_description}
                       />
                     </View>
-                    <KeyboardSpacer />
-                  </ScrollView>
-                )}
-              </Formik>
-            </View>
-          </SafeAreaView>
-        </LinearGradient>
-      </View>
-    );
-  }
-}
+                  </>
+
+                </View>
+                <View style={styles.bottom}>
+                  <Button
+                    title="Suivant"
+                    disabled={false}
+                    customTextStyle={styles.nextButtonText}
+                    onPress={handleSubmit}
+                  />
+
+                </View>
+              </ScrollView>
+            )}
+          </Formik>
+
+        </SafeAreaView>
+      </LinearGradient>
+
+    </View >
+  );
+};
+
+export default HealthScreen;

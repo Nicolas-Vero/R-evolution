@@ -8,7 +8,6 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
 import moment from 'moment';
 import { LinearGradient } from 'expo-linear-gradient';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
@@ -117,7 +116,7 @@ export default class UpdateBookCoachScreenView extends AbstractScreenView {
                   </TouchableOpacity>
                 </View>
               </View>
-              <KeyboardSpacer />
+
             </ScrollView>
           </View>
         </LinearGradient>

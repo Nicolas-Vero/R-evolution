@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   View,
   SafeAreaView,
@@ -7,215 +7,142 @@ import {
   Text,
   TextInput,
 } from 'react-native';
-
 import { LinearGradient } from 'expo-linear-gradient';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
-import { Formik, Field, FieldArray } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import Header from '../../../../components/Header';
 import RegisterStepImageView from '../../../../components/register/registerStepImage/RegisterStepImageView';
 import { Button } from '../../../../components/Button';
 import styles from './mensurationStyle';
 
-export default class mensurationScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      step: 'initial',
-      // passItem: this.props.navigation.state.params.item,
-      arrayofdiplomas: [],
-    };
-  }
+const MensurationScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const passItem = route.params || {};
 
-  onNavigate = (item) => {
-    this.props.navigation.navigate('experienceScreen', { item: item });
-  };
+  const weightInputRef = useRef(null);
+  const ageInputRef = useRef(null);
 
-  render() {
-    const passItem = this.props.navigation.state.params;
-    return (
-      <View style={styles.container}>
-        <LinearGradient
-          colors={['#060606', '#2D333C']}
-          start={{
-            x: 0,
-            y: 0,
-          }}
-          end={{
-            x: 1,
-            y: 1,
-          }}
-          style={styles.container}>
-          <Header title="LET'S GO" />
-          <RegisterStepImageView step={1} />
-          <View style={styles.content}>
-            <View>
-              <Text style={styles.title}>AIDE NOUS A MIEUX TE CONNAÎTRE</Text>
-            </View>
-            <Formik
-              initialValues={{
-                age: '',
-                weight: '',
-                size: '',
-              }}
-              onSubmit={(values) => {
-                const item = { ...passItem, ...values };
-                this.onNavigate(item);
-              }}
-              validationSchema={Yup.object().shape({
-                age: Yup.number()
-                  .typeError('Âge non valide')
-                  .min(15, 'Tu dois entrer un âge correct')
-                  .max(100, 'Tu dois entrer un âge correct')
-                  .required('Requis'),
-                weight: Yup.number()
-                  .typeError('Poids non valide')
-                  .max(300, 'Tu dois entrer un poids correct')
-                  .min(30, 'Tu dois entrer un poids correct')
-                  .required('Requis'),
-                size: Yup.number()
-                  .typeError('Taille non valide')
-                  .min(100, 'Tu dois entrer une taille correcte')
-                  .max(300, 'Tu dois entrer une taille correcte')
-                  .required('Requis'),
-              })}>
-              {({ handleSubmit, isValid, validate, ref }) => (
-                <ScrollView
-                  contentContainerStyle={{
-                    flexGrow: 1,
-                    justifyContent: 'space-between',
-                    flexDirection: 'column',
-                    marginHorizontal: 16,
-                  }}>
-                  <View style={styles.top}>
-                    <Field
-                      name="mensuration"
-                      id="mensuration"
-                      validate={validate}>
-                      {({ form: { touched, errors } }) => {
-                        return (
-                          <View style={{ alignItems: 'center' }}>
-                            <FieldArray
-                              name="mensuration"
-                              render={(arrayhelper) => (
-                                <View>
-                                  <View style={styles.inputContainer}>
-                                    <TextInput
-                                      style={{
-                                        ...styles.input,
-                                        borderWidth:
-                                          errors.size && touched.size ? 2 : 0,
-                                        borderColor:
-                                          errors.size && touched.size
-                                            ? '#FD7279'
-                                            : null,
-                                      }}
-                                      placeholder="Taille (en cm)"
-                                      onChangeText={(text) =>
-                                        (arrayhelper.form.values.size = text)
-                                      }
-                                      placeholderTextColor="#979797"
-                                      blurOnSubmit={false}
-                                      onSubmitEditing={() =>
-                                        this.weightInput &&
-                                        this.weightInput.focus()
-                                      }
-                                      returnKeyType="next"
-                                    />
-                                    {errors.size && touched.size && (
-                                      <View style={styles.errorInputContainer}>
-                                        <Text style={styles.errorInputText}>
-                                          {errors.size}
-                                        </Text>
-                                      </View>
-                                    )}
-                                  </View>
-                                  <View style={styles.inputContainer}>
-                                    <TextInput
-                                      placeholder="Poids"
-                                      onChangeText={(text) =>
-                                        (arrayhelper.form.values.weight = text)
-                                      }
-                                      style={{
-                                        ...styles.input,
-                                        borderWidth:
-                                          errors.weight && touched.weight
-                                            ? 2
-                                            : 0,
-                                        borderColor:
-                                          errors.weight && touched.weight
-                                            ? '#FD7279'
-                                            : null,
-                                      }}
-                                      ref={(ref) => (this.weightInput = ref)}
-                                      placeholderTextColor="#979797"
-                                      blurOnSubmit={false}
-                                      onSubmitEditing={() =>
-                                        this.ageInput && this.ageInput.focus()
-                                      }
-                                      returnKeyType="next"
-                                    />
-                                    {errors.weight && touched.weight && (
-                                      <View style={styles.errorInputContainer}>
-                                        <Text style={styles.errorInputText}>
-                                          {errors.weight}
-                                        </Text>
-                                      </View>
-                                    )}
-                                  </View>
-                                  <TextInput
-                                    style={{
-                                      ...styles.input,
-                                      borderWidth:
-                                        errors.size && touched.size ? 2 : 0,
-                                      borderColor:
-                                        errors.size && touched.size
-                                          ? '#FD7279'
-                                          : null,
-                                    }}
-                                    placeholder="Âge"
-                                    onChangeText={(text) =>
-                                      (arrayhelper.form.values.age = text)
-                                    }
-                                    ref={(ref) => (this.ageInput = ref)}
-                                    placeholderTextColor="#979797"
-                                    blurOnSubmit={false}
-                                    onSubmitEditing={() => Keyboard.dismiss()}
-                                    returnKeyType="done"
-                                  />
-                                  {errors.age && touched.age && (
-                                    <View style={styles.errorInputContainer}>
-                                      <Text style={styles.errorInputText}>
-                                        {errors.age}
-                                      </Text>
-                                    </View>
-                                  )}
-                                </View>
-                              )}
-                            />
-                          </View>
-                        );
-                      }}
-                    </Field>
-                  </View>
-                  <View style={styles.bottom}>
-                    <Button
-                      loading={false}
-                      disabled={!isValid}
-                      title="Suivant"
-                      customTextStyle={styles.buttonText}
-                      onPress={handleSubmit}
+  const validationSchema = Yup.object().shape({
+    age: Yup.number()
+      .typeError('Âge non valide')
+      .min(15, 'Tu dois entrer un âge correct')
+      .max(100, 'Tu dois entrer un âge correct')
+      .required('Requis'),
+    weight: Yup.number()
+      .typeError('Poids non valide')
+      .min(30, 'Tu dois entrer un poids correct')
+      .max(300, 'Tu dois entrer un poids correct')
+      .required('Requis'),
+    size: Yup.number()
+      .typeError('Taille non valide')
+      .min(100, 'Tu dois entrer une taille correcte')
+      .max(300, 'Tu dois entrer une taille correcte')
+      .required('Requis'),
+  });
+
+  return (
+    <View style={styles.container}>
+      <LinearGradient colors={['#060606', '#2D333C']} style={styles.container}>
+        <Header title="LET'S GO" />
+        <RegisterStepImageView step={1} />
+        <View style={styles.content}>
+          <Text style={styles.title}>AIDE-NOUS À MIEUX TE CONNAÎTRE</Text>
+
+          <Formik
+            initialValues={{ age: '', weight: '', size: '' }}
+            validationSchema={validationSchema}
+            onSubmit={(values) => {
+              const item = { ...passItem, ...values };
+              navigation.navigate('ExperienceScreen', { item });
+            }}
+          >
+            {({ handleSubmit, handleChange, values, errors, touched }) => (
+              <ScrollView
+                contentContainerStyle={{
+                  flexGrow: 1,
+                  justifyContent: 'space-between',
+                  marginHorizontal: 16,
+                }}
+              >
+                <View style={styles.top}>
+                  <View style={styles.inputContainer}>
+                    <TextInput
+                      style={[
+                        styles.input,
+                        errors.size && touched.size && { borderColor: '#FD7279', borderWidth: 2 },
+                      ]}
+                      placeholder="Taille (en cm)"
+                      placeholderTextColor="#979797"
+                      keyboardType="numeric"
+                      returnKeyType="next"
+                      onChangeText={handleChange('size')}
+                      value={values.size}
+                      onSubmitEditing={() => weightInputRef.current?.focus()}
                     />
+                    {errors.size && touched.size && (
+                      <Text style={styles.errorInputText}>{errors.size}</Text>
+                    )}
                   </View>
-                  <KeyboardSpacer />
-                </ScrollView>
-              )}
-            </Formik>
-          </View>
-        </LinearGradient>
-      </View>
-    );
-  }
-}
+
+                  <View style={styles.inputContainer}>
+                    <TextInput
+                      style={[
+                        styles.input,
+                        errors.weight && touched.weight && { borderColor: '#FD7279', borderWidth: 2 },
+                      ]}
+                      placeholder="Poids (en kg)"
+                      placeholderTextColor="#979797"
+                      keyboardType="numeric"
+                      returnKeyType="next"
+                      onChangeText={handleChange('weight')}
+                      value={values.weight}
+                      ref={weightInputRef}
+                      onSubmitEditing={() => ageInputRef.current?.focus()}
+                    />
+                    {errors.weight && touched.weight && (
+                      <Text style={styles.errorInputText}>{errors.weight}</Text>
+                    )}
+                  </View>
+
+                  <View style={styles.inputContainer}>
+                    <TextInput
+                      style={[
+                        styles.input,
+                        errors.age && touched.age && { borderColor: '#FD7279', borderWidth: 2 },
+                      ]}
+                      placeholder="Âge"
+                      placeholderTextColor="#979797"
+                      keyboardType="numeric"
+                      returnKeyType="done"
+                      onChangeText={handleChange('age')}
+                      value={values.age}
+                      ref={ageInputRef}
+                      onSubmitEditing={Keyboard.dismiss}
+                    />
+                    {errors.age && touched.age && (
+                      <Text style={styles.errorInputText}>{errors.age}</Text>
+                    )}
+                  </View>
+                </View>
+
+                <View style={styles.bottom}>
+                  <Button
+                    title="Suivant"
+                    disabled={!values.age || !values.weight || !values.size}
+                    customTextStyle={styles.buttonText}
+                    onPress={handleSubmit}
+                  />
+                </View>
+              </ScrollView>
+            )}
+          </Formik>
+        </View>
+      </LinearGradient>
+    </View>
+  );
+};
+
+export default MensurationScreen;

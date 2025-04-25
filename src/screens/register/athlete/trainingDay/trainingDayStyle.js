@@ -1,8 +1,4 @@
 import { StyleSheet, Platform, StatusBar } from 'react-native';
-import {
-  heightPercentageToDP,
-  widthPercentageToDP,
-} from 'react-native-responsive-screen';
 module.exports = StyleSheet.create({
   container: {
     flex: 1,
@@ -66,6 +62,7 @@ module.exports = StyleSheet.create({
   daysTitle: {
     textAlign: 'center',
     marginTop: 75,
+    marginBottom: 25,
     fontFamily: 'RobotoBold',
     fontSize: 16,
     color: '#FFFF',
@@ -86,5 +83,9 @@ module.exports = StyleSheet.create({
   nextButtonText: {
     fontFamily: 'RobotoBold',
     fontSize: 17,
+  },
+  safeArea: {
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    flex: 1,
   },
 });

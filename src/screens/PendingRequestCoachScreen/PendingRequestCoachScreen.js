@@ -1,17 +1,21 @@
-import { withMappedNavigationParams } from 'react-navigation-props-mapper';
+import React from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import AbstractScreen from '../../components/abstracts/AbstractScreen/AbstractScreen';
 import PendingRequestCoachScreenView from './PendingRequestCoachScreenView';
 import PendingRequestCoachScreenController from './PendingRequestCoachScreenController';
 
-class PendingRequestCoachScreen extends AbstractScreen {
-  constructor(props) {
-    super({
-      props,
-      screenName: 'PendingRequestCoachScreen',
-      viewClass: PendingRequestCoachScreenView,
-      controllerClass: PendingRequestCoachScreenController,
-    });
-  }
-}
+const PendingRequestCoachScreen = (props) => {
+  const navigation = useNavigation();
+  const route = useRoute();
 
-export default withMappedNavigationParams()(PendingRequestCoachScreen);
+  return (
+    <AbstractScreen
+      props={{ ...props, navigation, route }}
+      screenName="PendingRequestCoachScreen"
+      viewClass={PendingRequestCoachScreenView}
+      controllerClass={PendingRequestCoachScreenController}
+    />
+  );
+};
+
+export default PendingRequestCoachScreen;

@@ -1,9 +1,8 @@
-import React from 'react';
-import { Text, View, SafeAreaView, Keyboard } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, Text, View } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { Formik, FieldArray, Field } from 'formik';
-
 import SelectDropdown from 'react-native-select-dropdown';
 import { AntDesign } from '@expo/vector-icons';
 import * as Yup from 'yup';
@@ -14,107 +13,89 @@ import RegisterStepImageView from '../../../../components/register/registerStepI
 import { Button } from '../../../../components/Button';
 import styles from './selectGymStyle';
 
-export default class selectGymScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      step: 'initial',
-      Gymdata: [],
-      isLoaded: false,
-    };
-  }
+const SelectGymScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const passItem = route.params?.item || {};
 
-  componentDidMount() {
+  const [gymData, setGymData] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
     get_gym().then((res) => {
-      this.setState({ Gymdata: res.data });
-      this.setState({ isLoaded: true });
+      setGymData(res.data);
+      setIsLoaded(true);
     });
-  }
+  }, []);
 
-  onNavigate = (item) => {
-    this.props.navigation.navigate('trainingDayScreen', { item: item });
+  const onNavigate = (item) => {
+    navigation.navigate('TrainingDayScreen', { item });
   };
 
-  render() {
-    const passItem = this.props.navigation.state.params.item;
-    return (
-      <View style={styles.container}>
-        <LinearGradient
-          colors={['#060606', '#2D333C']}
-          start={{
-            x: 0,
-            y: 0,
-          }}
-          end={{
-            x: 1,
-            y: 1,
-          }}
-          style={styles.background}>
+  return (
+    <View style={styles.container}>
+      <LinearGradient
+        colors={['#060606', '#2D333C']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.background}>
+        <SafeAreaView style={styles.safeArea}>
           <Header title="LET'S GO" />
           <RegisterStepImageView step={5} />
           <Text style={styles.title}>DANS QUELLE SALLE PRATIQUES-TU ?</Text>
           <Formik
-            initialValues={{
-              preferred_gym_id: '',
-            }}
+            initialValues={{ preferred_gym_id: '' }}
             onSubmit={(values) => {
               const item = { ...passItem, ...values };
-              this.onNavigate(item);
+              onNavigate(item);
             }}
             validationSchema={Yup.object().shape({
               preferred_gym_id: Yup.string().required('Requis'),
             })}>
-            {({ handleSubmit, isValid, validate }) => (
+            {({ handleSubmit, isValid }) => (
               <View style={styles.content}>
                 <View style={styles.top}>
-                  <Field
-                    name="health_issues"
-                    id="health_issues"
-                    validate={validate}>
-                    {() => {
-                      return (
-                        <View style={styles.selectContainer}>
-                          <FieldArray
-                            name="preferred_gym_id"
-                            render={(arrayhelper) => (
-                              <SelectDropdown
-                                buttonStyle={styles.dropdownButton}
-                                buttonTextStyle={styles.dropdownButtonText}
-                                rowTextStyle={styles.dropdownRowText}
-                                dropdownStyle={styles.dropdownBg}
-                                rowStyle={styles.dropdownRow}
-                                data={this.state.Gymdata}
-                                defaultButtonText={
-                                  'Recherche le nom de ta salle'
-                                }
-                                onSelect={(selectedItem, index) => {
-                                  arrayhelper.form.values.preferred_gym_id =
-                                    selectedItem.id;
-                                }}
-                                renderDropdownIcon={() => {
-                                  return (
-                                    <AntDesign
-                                      name="down"
-                                      size={18}
-                                      color="black"
-                                    />
-                                  );
-                                }}
-                                dropdownIconPosition={'right'}
-                                buttonTextAfterSelection={(selectedItem) => {
-                                  return selectedItem.name;
-                                }}
-                                rowTextForSelection={(item, index) => {
-                                  return item.name;
-                                }}
-                              />
-                            )}
-                          />
-                        </View>
-                      );
-                    }}
+                  <Field name="preferred_gym_id">
+                    {({ form }) => (
+                      <View style={styles.selectContainer}>
+                        <FieldArray
+                          name="preferred_gym_id"
+                          render={() => (
+                            <SelectDropdown
+                              data={gymData}
+                              onSelect={(selectedItem) => {
+                                form.setFieldValue('preferred_gym_id', selectedItem.id);
+                              }}
+                              renderButton={(selectedItem) => (
+                                <View style={styles.dropdownButton}>
+                                  <Text style={styles.dropdownButtonText}>
+                                    {selectedItem?.name || 'Recherche le nom de ta salle'}
+                                  </Text>
+                                  <AntDesign name="down" size={18} color="black" style={styles.dropdownIcon} />
+                                </View>
+                              )}
+                              renderItem={(item, index, isSelected) => (
+                                <View style={styles.dropdownRow}>
+
+                                  <View
+                                    style={
+                                      styles.dropdownRow
+                                    }>
+                                    <Text style={styles.dropdownRowText}>{item.name}</Text>
+                                  </View>
+                                </View >
+
+                              )}
+                              showsVerticalScrollIndicator={true}
+                              dropdownStyle={styles.dropdownMenuStyle}
+                            />
+                          )}
+                        />
+                      </View>
+                    )}
                   </Field>
                 </View>
+
                 <View style={styles.bottom}>
                   <Button
                     loading={false}
@@ -127,8 +108,10 @@ export default class selectGymScreen extends React.Component {
               </View>
             )}
           </Formik>
-        </LinearGradient>
-      </View>
-    );
-  }
-}
+        </SafeAreaView>
+      </LinearGradient>
+    </View>
+  );
+};
+
+export default SelectGymScreen;

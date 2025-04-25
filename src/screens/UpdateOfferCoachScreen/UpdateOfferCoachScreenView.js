@@ -12,7 +12,7 @@ import { Button } from '../../components/Button';
 import Header from '../../components/Header';
 import styles from './UpdateOfferCoachScreenStyle';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+//
 export default class UpdateOfferCoachScreenView extends AbstractScreenView {
   getErrorMessage() {
     if (this.component.state.errorMessage !== '')
@@ -167,7 +167,7 @@ export default class UpdateOfferCoachScreenView extends AbstractScreenView {
               )}
             </Formik>
           </View>
-          <KeyboardSpacer />
+          {/*  */}
         </ScrollView>
       </View>
     );

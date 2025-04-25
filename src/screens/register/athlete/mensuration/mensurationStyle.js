@@ -19,8 +19,7 @@ module.exports = StyleSheet.create({
     color: '#FFFF',
   },
   top: {
-    justifyContent: 'flex-start',
-    flex: 1,
+    alignItems: 'center',
   },
   bottom: {
     flex: 1,

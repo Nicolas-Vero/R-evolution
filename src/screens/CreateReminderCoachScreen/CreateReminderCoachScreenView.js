@@ -15,7 +15,6 @@ import { Button } from '../../components/Button';
 import Header from '../../components/Header';
 import { isLoaded } from 'expo-font';
 import styles from './CreateReminderCoachScreenStyle';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
 import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import moment from 'moment';
 
@@ -192,7 +191,7 @@ export default class CreateReminderCoachScreenView extends AbstractScreenView {
                   </Formik>
                 </View>
               </SafeAreaView>
-              <KeyboardSpacer />
+
             </ScrollView>
           </View>
         </View>

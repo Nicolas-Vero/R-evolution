@@ -1,6 +1,5 @@
 import { StatusBar, View } from 'react-native';
 import React from 'react';
-import { SafeAreaView } from 'react-navigation';
 import AbstractComponentView from '../AbstractComponent/AbstractComponentView';
 import styles from './AbstractScreenStyle';
 import PlatformHelper from '../../../helpers/PlatformHelper';
@@ -24,14 +23,8 @@ export default class AbstractScreenView extends AbstractComponentView {
             {this.renderScreenAbsolute()}
           </View>
         )}
-        <SafeAreaView
-          style={[styles.safeAreaView]}
-          forceInset={{
-            bottom: 'never',
-            top: this.component.config.disableSafeArea ? 'never' : 'always',
-          }}>
-          {this.render()}
-        </SafeAreaView>
+
+        {this.render()}
       </View>
     );
   };

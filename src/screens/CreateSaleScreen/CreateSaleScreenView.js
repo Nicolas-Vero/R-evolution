@@ -21,8 +21,7 @@ import { Entypo } from '@expo/vector-icons';
 import DeleteSaleDialog from '../../components/dialogs/deleteSaleDialog/deleteSaleDialog';
 import ValidateSaleDialog from '../../components/dialogs/validateSaleDialog/validateSaleDialog';
 import { TextInputMask } from 'react-native-masked-text';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
-import { isIphoneX } from 'react-native-iphone-x-helper';
+
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import SaveSaleDialog from '../../components/dialogs/saveSaleDialog/SaveSaleDialog';
 import 'moment/locale/fr';
@@ -337,7 +336,7 @@ export default class CreateSaleScreenView extends AbstractScreenView {
     return (
       <View
         style={{
-          bottom: isIphoneX() ? 100 : 50,
+          bottom: 100,
         }}>
         <TouchableOpacity
           disabled={!isValid}
@@ -386,7 +385,7 @@ export default class CreateSaleScreenView extends AbstractScreenView {
             <View
               style={{
                 flex: 1,
-                height: heightPercentageToDP(isIphoneX() ? 80 : 70),
+                height: heightPercentageToDP(80),
               }}>
               {!selectedOffer && !item ? null : this.renderAddSale()}
               {!selectedOffer && !item ? null : this.renderOldSales()}
@@ -396,7 +395,7 @@ export default class CreateSaleScreenView extends AbstractScreenView {
             {this.renderDeleteSaleDialog()}
             {this.renderSaveSaleDialog()}
             {!selectedOffer && !item ? null : this.renderSaveButton()}
-            <KeyboardSpacer />
+
           </ScrollView>
         </LinearGradient>
       </View>
