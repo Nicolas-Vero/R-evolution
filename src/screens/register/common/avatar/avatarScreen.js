@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, TouchableOpacity, Image, Text, Platform, Alert } from 'react-native';
+import { View, TouchableOpacity, Image, Text, Platform, Alert, SafeAreaView } from 'react-native';
 import { manipulateAsync } from 'expo-image-manipulator';
 import * as ImagePicker from 'expo-image-picker';
 import { Avatar } from 'react-native-elements';
@@ -78,23 +78,24 @@ const AvatarScreen = () => {
     setIsWorking(true);
 
     try {
-      const expo_token = await AuthService.registerForPushNotificationsAsync();
-      if (expo_token) {
-        passItem.expo_token = expo_token;
-      }
+      console.log(passItem, '*************');
+      // const expo_token = await AuthService.registerForPushNotificationsAsync();
+      // if (expo_token) {
+      //   passItem.expo_token = expo_token;
+      // }
 
-      let res;
-      if (isAthlete) {
-        res = await sign_up(passItem);
-      } else {
-        res = await auth(passItem);
-      }
+      // let res;
+      // if (isAthlete) {
+      //   res = await sign_up(passItem);
+      // } else {
+      //   res = await auth(passItem);
+      // }
 
-      if (res.status === 200) {
-        await upload(res.content.userId);
-        navigation.popToTop();
-        navigation.replace('LoginScreen');
-      }
+      // if (res.status === 200) {
+      //   await upload(res.content.userId);
+      //   navigation.popToTop();
+      //   navigation.replace('LoginScreen');
+      // }
     } catch (error) {
       console.error("Erreur d'inscription:", error);
     } finally {
@@ -109,30 +110,32 @@ const AvatarScreen = () => {
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.background}>
-        <Header title="LET'S GO" />
-        <View style={styles.content}>
-          <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-            <RegisterStepImageView step={isAthlete ? 8 : 13} />
-            <Text style={styles.title}>PHOTO DE PROFIL</Text>
-            <View style={{ marginTop: 56 }}>
-              <Text style={styles.subTitle}>
-                {image ? "Superbe photo !" : "Ajoute une photo de profil"}
-              </Text>
+        <SafeAreaView style={styles.safeArea}>
+          <Header title="LET'S GO" />
+          <View style={styles.content}>
+            <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+              <RegisterStepImageView step={isAthlete ? 8 : 13} />
+              <Text style={styles.title}>PHOTO DE PROFIL</Text>
+              <View style={{ marginTop: 56 }}>
+                <Text style={styles.subTitle}>
+                  {image ? "Superbe photo !" : "Ajoute une photo de profil"}
+                </Text>
+              </View>
+              <View style={styles.photoPickerContainer}>
+                <TouchableOpacity onPress={pickImage}>
+                  {image ? (
+                    <Avatar size="xlarge" rounded source={image} />
+                  ) : (
+                    <Image style={styles.previewImage} source={require('../../../../../assets/images/no_pp.jpg')} />
+                  )}
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.photoPickerContainer}>
-              <TouchableOpacity onPress={pickImage}>
-                {image ? (
-                  <Avatar size="xlarge" rounded source={image} />
-                ) : (
-                  <Image style={styles.previewImage} source={require('../../../../../assets/images/no_pp.jpg')} />
-                )}
-              </TouchableOpacity>
+            <View style={styles.bottom}>
+              <Button title="Créer ton compte" customTextStyle={styles.buttonText} onPress={onRegister} loading={isWorking} />
             </View>
           </View>
-          <View style={styles.bottom}>
-            <Button title="Créer ton compte" customTextStyle={styles.buttonText} onPress={onRegister} loading={isWorking} />
-          </View>
-        </View>
+        </SafeAreaView>
       </LinearGradient>
     </View>
   );

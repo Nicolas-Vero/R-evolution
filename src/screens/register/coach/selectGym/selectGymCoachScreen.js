@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, SafeAreaView } from 'react-native';
+import { SafeAreaView, Text, View } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { heightPercentageToDP } from 'react-native-responsive-screen';
 import { Formik, FieldArray, Field } from 'formik';
-
 import SelectDropdown from 'react-native-select-dropdown';
 import { AntDesign } from '@expo/vector-icons';
 import * as Yup from 'yup';
@@ -18,8 +16,7 @@ import styles from './selectGymCoachStyle';
 const SelectGymCoachScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
-
-  const passItem = route.params?.item || {}; // Sécurise l'accès aux params
+  const passItem = route.params?.item || {};
 
   const [gymData, setGymData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -32,7 +29,7 @@ const SelectGymCoachScreen = () => {
   }, []);
 
   const onNavigate = (item) => {
-    navigation.navigate('avatarScreen', { item, isCoach: true });
+    navigation.navigate('AvatarScreen', { item, isCoach: true });
   };
 
   return (
@@ -45,52 +42,61 @@ const SelectGymCoachScreen = () => {
         <SafeAreaView style={styles.safeArea}>
           <Header title="LET'S GO" />
           <RegisterStepImageView step={12} />
-          <View style={styles.content}>
-            <Formik
-              initialValues={{ gym_id: '' }}
-              onSubmit={(values) => {
-                const item = { ...passItem, ...values };
-                onNavigate(item);
-              }}
-              validationSchema={Yup.object().shape({
-                gym_id: Yup.string().required('Requis'),
-              })}>
-              {({ handleSubmit, isValid }) => (
-                <View style={{ paddingBottom: 15 }}>
+          <Text style={styles.title}>DANS QUELLE SALLE PRATIQUES-TU ?</Text>
+          <Formik
+            initialValues={{ gym_id: '' }}
+            onSubmit={(values) => {
+              const item = { ...passItem, ...values };
+              onNavigate(item);
+            }}
+            validationSchema={Yup.object().shape({
+              gym_id: Yup.string().required('Requis'),
+            })}>
+            {({ handleSubmit, isValid }) => (
+              <View style={styles.content}>
+                <View style={styles.top}>
                   <Field name="gym_id">
                     {({ form }) => (
-                      <View style={{ height: heightPercentageToDP(72) }}>
-                        <Text style={styles.title}>
-                          DANS QUELLE SALLE PRATIQUES-TU ?
-                        </Text>
-                        <View style={styles.selectContainer}>
-                          <FieldArray
-                            name="gym_id"
-                            render={(arrayhelper) => (
-                              <SelectDropdown
-                                buttonStyle={styles.dropdownButton}
-                                buttonTextStyle={styles.dropdownButtonText}
-                                rowTextStyle={styles.dropdownRowText}
-                                dropdownStyle={styles.dropdownBg}
-                                rowStyle={styles.dropdownRow}
-                                data={gymData}
-                                defaultButtonText="Recherche le nom de ta salle"
-                                onSelect={(selectedItem) => {
-                                  form.setFieldValue('gym_id', selectedItem.id);
-                                }}
-                                renderDropdownIcon={() => (
-                                  <AntDesign name="down" size={24} color="black" />
-                                )}
-                                dropdownIconPosition="right"
-                                buttonTextAfterSelection={(selectedItem) => selectedItem.name}
-                                rowTextForSelection={(item) => item.name}
-                              />
-                            )}
-                          />
-                        </View>
+                      <View style={styles.selectContainer}>
+                        <FieldArray
+                          name="gym_id"
+                          render={() => (
+                            <SelectDropdown
+                              data={gymData}
+                              onSelect={(selectedItem) => {
+                                form.setFieldValue('gym_id', selectedItem.id);
+                              }}
+                              renderButton={(selectedItem) => (
+                                <View style={styles.dropdownButton}>
+                                  <Text style={styles.dropdownButtonText}>
+                                    {selectedItem?.name || 'Recherche le nom de ta salle'}
+                                  </Text>
+                                  <AntDesign name="down" size={18} color="black" style={styles.dropdownIcon} />
+                                </View>
+                              )}
+                              renderItem={(item, index, isSelected) => (
+                                <View style={styles.dropdownRow}>
+
+                                  <View
+                                    style={
+                                      styles.dropdownRow
+                                    }>
+                                    <Text style={styles.dropdownRowText}>{item.name}</Text>
+                                  </View>
+                                </View >
+
+                              )}
+                              showsVerticalScrollIndicator={true}
+                              dropdownStyle={styles.dropdownMenuStyle}
+                            />
+                          )}
+                        />
                       </View>
                     )}
                   </Field>
+                </View>
+
+                <View style={styles.bottom}>
                   <Button
                     loading={false}
                     disabled={!isValid}
@@ -99,9 +105,9 @@ const SelectGymCoachScreen = () => {
                     onPress={handleSubmit}
                   />
                 </View>
-              )}
-            </Formik>
-          </View>
+              </View>
+            )}
+          </Formik>
         </SafeAreaView>
       </LinearGradient>
     </View>

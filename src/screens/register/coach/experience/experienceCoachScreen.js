@@ -18,7 +18,7 @@ const ExperienceCoachScreen = () => {
   const passItem = route.params?.item || {}; // Évite undefined si params n'existe pas
 
   const onNavigate = (item) => {
-    navigation.navigate('speclalitiesScreen', { item });
+    navigation.navigate('SpecialitiesScreen', { item });
   };
 
   return (

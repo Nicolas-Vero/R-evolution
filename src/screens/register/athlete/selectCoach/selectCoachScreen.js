@@ -55,7 +55,7 @@ const SelectCoachScreen = () => {
   }, [preferredGymId]);
 
   const onNavigate = (item) => {
-    navigation.navigate('avatarScreen', { item });
+    navigation.navigate('AvatarScreen', { item });
   };
 
   if (!isLoaded) {
@@ -117,7 +117,7 @@ const SelectCoachScreen = () => {
                                     renderButton={(selectedItem) => (
                                       <View style={styles.dropdownButton}>
                                         <Text style={styles.dropdownButtonText}>
-                                          {`${selectedItem?.first_name}  ${selectedItem?.last_name} ` || 'Recherche ton coach'}
+                                          {selectedItem?.first_name ? `${selectedItem?.first_name}  ${selectedItem?.last_name} ` : 'Recherche ton coach'}
                                         </Text>
                                         <AntDesign name="down" size={18} color="black" style={styles.dropdownIcon} />
                                       </View>
@@ -180,7 +180,7 @@ const SelectCoachScreen = () => {
                                   renderButton={(selectedItem) => (
                                     <View style={styles.dropdownButton}>
                                       <Text style={styles.dropdownButtonText}>
-                                        {selectedItem?.name || 'Recherche ton commercial'}
+                                        {selectedItem?.first_name ? `${selectedItem?.first_name} ${selectedItem?.last_name}` : 'Recherche ton commercial'}
                                       </Text>
                                       <AntDesign name="down" size={18} color="black" style={styles.dropdownIcon} />
                                     </View>
@@ -193,7 +193,7 @@ const SelectCoachScreen = () => {
                                         style={
                                           styles.dropdownRow
                                         }>
-                                        <Text style={styles.dropdownRowText}>{item.name}</Text>
+                                        <Text style={styles.dropdownRowText}>{`${item?.first_name} ${item?.last_name}`}</Text>
                                       </View>
                                     </View >
 
