@@ -24,6 +24,7 @@ const GoalScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const passItem = route.params || {};
+  console.log('ressssss', passItem);
 
   const [specData, setSpecData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -50,8 +51,8 @@ const GoalScreen = () => {
             initialValues={{ goals: [] }}
             validationSchema={validationSchema}
             onSubmit={(values) => {
-              const item = { ...passItem, ...values };
-              navigation.navigate('HealthScreen', { item });
+              console.log('values', values, 'passItem', passItem);
+              navigation.navigate('HealthScreen', { ...passItem, ...values });
             }}
           >
             {({ handleSubmit, values, setFieldValue, errors }) => (

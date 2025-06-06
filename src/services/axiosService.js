@@ -42,12 +42,14 @@ export const request = async (
         return status < 500;
       },
     });
-
+    console.log(res.status, 'res', res.data);
     return {
       status: res.status,
       content: res.data,
     };
   } catch (err) {
+    console.log(err, 'err');
+
     if (err.response) {
       return {
         status: err.response.status,

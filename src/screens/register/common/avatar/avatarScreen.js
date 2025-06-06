@@ -25,6 +25,7 @@ const AvatarScreen = () => {
   const route = useRoute();
 
   const passItem = route.params?.item || {}; // Sécurise les paramètres reçus
+  console.log('passItem', passItem); 
   const isAthlete = passItem.userType === 'athlete';
 
   const [image, setImage] = useState(null);
@@ -78,26 +79,26 @@ const AvatarScreen = () => {
     setIsWorking(true);
 
     try {
-      console.log(passItem, '*************');
       // const expo_token = await AuthService.registerForPushNotificationsAsync();
       // if (expo_token) {
       //   passItem.expo_token = expo_token;
       // }
 
-      // let res;
-      // if (isAthlete) {
-      //   res = await sign_up(passItem);
-      // } else {
-      //   res = await auth(passItem);
-      // }
+      let res;
+      if (isAthlete) {
+        res = await sign_up(passItem);
+      } else {
+        res = await auth(passItem);
+      }
+      console.log('here', res, passItem)
 
-      // if (res.status === 200) {
-      //   await upload(res.content.userId);
-      //   navigation.popToTop();
-      //   navigation.replace('LoginScreen');
-      // }
+      if (res.status === 200) {
+        await upload(res.content.userId);
+        navigation.popToTop();
+        navigation.replace('LoginScreen');
+      }
     } catch (error) {
-      console.error("Erreur d'inscription:", error);
+      console.error("Erreur d'inscription:", error, passItem);
     } finally {
       setIsWorking(false);
     }

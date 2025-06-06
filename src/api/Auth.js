@@ -12,6 +12,7 @@ export const authentification = (params) => {
 };
 
 export const userType = async (params) => {
+  console.log(params);
   return await request('GET', false, `/auth/userType/${params}`);
 };
 

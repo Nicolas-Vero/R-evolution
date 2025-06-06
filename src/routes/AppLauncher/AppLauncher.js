@@ -28,7 +28,7 @@ export default class AppLauncher extends React.Component {
     let stack = 'Entry';
     if (auth) {
       stack =
-        auth.user.type === 'coach' ? 'DashboardStack' : 'DashboardStackAtlhete';
+        auth.user.type === 'coach' ? 'DashboardStack' : 'DashboardStackAthlete';
     }
 
     navigation.navigate(stack);

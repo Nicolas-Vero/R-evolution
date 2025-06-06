@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   TextInput,
@@ -10,117 +10,95 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import { LinearGradient } from 'expo-linear-gradient';
-import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import Header from '../../components/Header';
 import styles from './UpdateBookCoachScreenStyle';
 
-export default class UpdateBookCoachScreenView extends AbstractScreenView {
-  getErrorMessage() {
-    if (this.component.state.errorMessage !== '')
-      return (
-        <ResponsiveText style={{ alignSelf: 'center', fontSize: '3.5%' }}>
-          {this.component.state.errorMessage}
-        </ResponsiveText>
-      );
-    return (
-      <ResponsiveText
-        style={{
-          alignSelf: 'center',
-          fontSize: '3.5%',
-          opacity: 0,
-        }}>
-        Hidden Text
-      </ResponsiveText>
-    );
-  }
+const UpdateBookCoachScreenView = ({ route, onTitleChange, onDescriptionChange, onDeletePress, onUpdatePress, errorMessage = '', initialTitle = '', initialDescription = '' }) => {
+  const { date, time } = route.params;
 
-  render() {
-    const { title, description } = this.component.state;
-    return (
-      <View style={styles.container}>
-        <SafeAreaView style={styles.safeArea} />
-        <LinearGradient
-          colors={['black', '#2D333C']}
-          start={{
-            x: 0,
-            y: 0,
-          }}
-          end={{
-            x: 1,
-            y: 1,
-          }}
-          style={{ flex: 1 }}>
-          <Header title="RENDEZ-VOUS" />
-          <View style={styles.content}>
-            <View style={{ marginBottom: 15 }}>
-              <Text
-                style={{
-                  color: '#2CDEE4',
-                  fontFamily: 'Roboto',
-                  textAlign: 'center',
-                }}>
-                {`Le ${moment(this.component.props.date).format(
-                  'dddd D MMMM ',
-                )} ${this.component.props.time}`}
-              </Text>
-            </View>
-            <ScrollView
-              style={{ flex: 1 }}
-              contentContainerStyle={{
-                flexGrow: 1,
-                justifyContent: 'space-between',
-                flexDirection: 'column',
-                marginHorizontal: 16,
-              }}>
-              <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-                <View style={styles.inputContainer}>
-                  <TextInput
-                    placeholder="Titre"
-                    placeholderTextColor="#979797"
-                    style={styles.input}
-                    onChangeText={this.controller.onTitleChange}
-                    value={title}
-                    blurOnSubmit={false}
-                    onSubmitEditing={() =>
-                      this.descriptionInput && this.descriptionInput.focus()
-                    }
-                    returnKeyType="next"
-                  />
-                </View>
+  const [title, setTitle] = useState(initialTitle);
+  const [description, setDescription] = useState(initialDescription);
 
-                <View style={styles.inputContainer}>
-                  <TextInput
-                    multiline
-                    placeholder="Description"
-                    placeholderTextColor="#979797"
-                    style={styles.textArea}
-                    onChangeText={this.controller.onDescriptionChange}
-                    value={description}
-                    blurOnSubmit={false}
-                    onSubmitEditing={() => Keyboard && Keyboard.dismiss()}
-                    returnKeyType="done"
-                  />
-                </View>
-              </View>
-              <View style={styles.bottom}>
-                <View style={styles.buttonContainer}>
-                  <TouchableOpacity
-                    onPress={this.controller.onDeletePress}
-                    style={styles.deletedButton}>
-                    <Text style={styles.buttonText}>Supprimer</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={this.controller.onUpdatePress}
-                    style={styles.button}>
-                    <Text style={styles.buttonText}>Valider</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+  const descriptionInputRef = useRef();
 
-            </ScrollView>
+  const renderErrorMessage = () => (
+    <Text style={{ alignSelf: 'center', fontSize: '3.5%', opacity: errorMessage ? 1 : 0 }}>
+      {errorMessage || 'Hidden Text'}
+    </Text>
+  );
+
+  return (
+    <View style={styles.container}>
+      <SafeAreaView style={styles.safeArea} />
+      <LinearGradient colors={['black', '#2D333C']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={{ flex: 1 }}>
+        <Header title="RENDEZ-VOUS" />
+        <View style={styles.content}>
+          <View style={{ marginBottom: 15 }}>
+            <Text style={{ color: '#2CDEE4', fontFamily: 'Roboto', textAlign: 'center' }}>
+              {`Le ${moment(date).format('dddd D MMMM ')} ${time}`}
+            </Text>
           </View>
-        </LinearGradient>
-      </View>
-    );
-  }
-}
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{
+              flexGrow: 1,
+              justifyContent: 'space-between',
+              flexDirection: 'column',
+              marginHorizontal: 16,
+            }}>
+            <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  placeholder="Titre"
+                  placeholderTextColor="#979797"
+                  style={styles.input}
+                  onChangeText={(text) => {
+                    setTitle(text);
+                    onTitleChange && onTitleChange(text);
+                  }}
+                  value={title}
+                  blurOnSubmit={false}
+                  onSubmitEditing={() => descriptionInputRef.current?.focus()}
+                  returnKeyType="next"
+                />
+              </View>
+
+              <View style={styles.inputContainer}>
+                <TextInput
+                  multiline
+                  placeholder="Description"
+                  placeholderTextColor="#979797"
+                  style={styles.textArea}
+                  onChangeText={(text) => {
+                    setDescription(text);
+                    onDescriptionChange && onDescriptionChange(text);
+                  }}
+                  value={description}
+                  blurOnSubmit={false}
+                  onSubmitEditing={() => Keyboard.dismiss()}
+                  returnKeyType="done"
+                  ref={descriptionInputRef}
+                />
+              </View>
+
+              {renderErrorMessage()}
+            </View>
+
+            <View style={styles.bottom}>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity onPress={onDeletePress} style={styles.deletedButton}>
+                  <Text style={styles.buttonText}>Supprimer</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={onUpdatePress} style={styles.button}>
+                  <Text style={styles.buttonText}>Valider</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ScrollView>
+        </View>
+      </LinearGradient>
+    </View>
+  );
+};
+
+export default UpdateBookCoachScreenView;

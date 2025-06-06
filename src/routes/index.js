@@ -5,6 +5,7 @@ import DashboardStack from './DashboardStack';
 import DashboardStackAthlete from './DashboardStackAthlete';
 import AppLauncher from './AppLauncher/AppLauncher';
 import AuthStack from './AuthStack';
+import AppTabsNavigator from './DashbordAthlete/AppTabsNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ export default function AppNavigator() {
         <Stack.Screen name="Entry" component={AuthStack} />
         <Stack.Screen name="DashboardStack" component={DashboardStack} />
         <Stack.Screen name="DashboardStackAthlete" component={DashboardStackAthlete} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

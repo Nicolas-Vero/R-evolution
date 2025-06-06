@@ -45,7 +45,7 @@ const HealthScreen = () => {
             validationSchema={validationSchema}
             onSubmit={(values) => {
               const item = { ...passItem, ...values };
-              navigation.navigate('SelectGymScreen', { item });
+              navigation.navigate('SelectGymScreen', item);
             }}
           >
             {({ handleSubmit, setFieldValue, values }) => (

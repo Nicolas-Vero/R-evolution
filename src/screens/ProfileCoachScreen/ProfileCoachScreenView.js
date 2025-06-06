@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   View,
@@ -10,380 +10,238 @@ import {
   ScrollView,
 } from 'react-native';
 import { FieldArray, Formik } from 'formik';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, Entypo } from '@expo/vector-icons';
 import { Avatar, CheckBox } from 'react-native-elements';
 import { Button, DeleteButton } from '../../components/Button';
 import HeaderLight from '../../components/HeaderLight';
-import { FontAwesome } from '@expo/vector-icons';
 import SelectDropdown from 'react-native-select-dropdown';
 import styles from './ProfileCoachScreenStyle';
-import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 
+const ProfileCoachScreenView = ({ state, controller }) => {
+  const [diplomasTerm, setDiplomasTerm] = useState('');
+  const [specialitiesTerm, setSpecialitiesTerm] = useState('');
+  const [refresh, setRefresh] = useState(false);
 
-import { Entypo } from '@expo/vector-icons';
+  if (!state.loaded) {
+    return (
+      <View>
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
-export default class ProfileCoachScreenView extends AbstractScreenView {
-  render() {
-    // const { navigation } = this.compoment.props;
-    var term = '';
-    const arrayhelper = [];
-    if (!this.component.state.loaded) {
-      return (
-        <View>
-          <ActivityIndicator />
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.container}>
-          <ScrollView scrollIndicatorInsets={{ right: 1 }}>
-            <Formik
-              initialValues={{
-                gender: this.component.state.User.gender,
-                first_name: this.component.state.User.first_name,
-                last_name: this.component.state.User.last_name,
-                email: this.component.state.User.email,
-                phone: this.component.state.User.phone,
-                specialties: this.component.state.specData,
-                diplomas: this.component.state.arrayofdiplomas,
-              }}
-              onSubmit={(values) => onContinuePress(values)}>
-              {({ handleChange, handleBlur, setFieldValue, values }) => (
-                <View>
-                  <View style={{ paddingTop: 30 }}>
-                    <View style={styles.header}>
-                      <View style={styles.headerLeft}>
-                        <HeaderLight />
-                      </View>
-                      <View style={styles.headerMidle}>
-                        <FieldArray
-                          render={(arrayhelper) => (
-                            <TouchableOpacity
-                              onPress={(item) => {
-                                this.controller.pickImage(arrayhelper, item);
-                              }}>
-                              {this.component.state.image.uri ? (
-                                <Avatar
-                                  size={105}
-                                  rounded
-                                  source={{
-                                    uri: this.component.state.image.uri,
-                                  }}
-                                />
-                              ) : this.component.state.Coach
-                                .profile_picture_url ? (
-                                <Avatar
-                                  size={105}
-                                  rounded
-                                  source={{
-                                    uri: this.component.state.Coach
-                                      .profile_picture_url,
-                                  }}
-                                />
-                              ) : (
-                                <Image
-                                  style={styles.previewImage}
-                                  source={require('../../../assets/images/no_pp.jpg')}
-                                />
-                              )}
-                            </TouchableOpacity>
-                          )}
-                        />
-                      </View>
-                      <View style={styles.headerRight}></View>
-                    </View>
+  return (
+    <View style={styles.container}>
+      <ScrollView scrollIndicatorInsets={{ right: 1 }}>
+        <Formik
+          initialValues={{
+            gender: state.User.gender,
+            first_name: state.User.first_name,
+            last_name: state.User.last_name,
+            email: state.User.email,
+            phone: state.User.phone,
+            specialties: state.specData,
+            diplomas: state.arrayofdiplomas,
+          }}
+          onSubmit={(values) => controller.onSave(values)}
+        >
+          {({ handleChange, handleBlur, setFieldValue, values }) => (
+            <View>
+              <View style={{ paddingTop: 30 }}>
+                <View style={styles.header}>
+                  <View style={styles.headerLeft}>
+                    <HeaderLight />
                   </View>
-                  <View style={styles.content}>
-                    <View style={{ flexDirection: 'row', marginBottom: 5 }}>
-                      <CheckBox
-                        containerStyle={styles.checkBox}
-                        checkedColor="#2CDEE4"
-                        title="M"
-                        textStyle={{ color: '#fff' }}
-                        checkedIcon="dot-circle-o"
-                        uncheckedIcon="dot-circle-o"
-                        checked={values.gender === 'male'}
-                        value={values.gender}
-                        onPress={() => setFieldValue('gender', 'male')}
-                      />
-                      <CheckBox
-                        checkedColor="#2CDEE4"
-                        containerStyle={styles.checkBox}
-                        title="Mme"
-                        textStyle={{ color: 'white' }}
-                        checkedIcon="dot-circle-o"
-                        uncheckedIcon="dot-circle-o"
-                        checked={values.gender === 'female'}
-                        value={values.gender}
-                        onPress={() => setFieldValue('gender', 'female')}
-                      />
-                    </View>
-                    <Text style={styles.text}>Prénom</Text>
-                    <View style={styles.inputContainer}>
-                      <TextInput
-                        placeholder="Prénom"
-                        placeholderTextColor="#979797"
-                        style={styles.input}
-                        onChangeText={handleChange('first_name')}
-                        onBlur={handleBlur('first_name')}
-                        value={values.first_name}
-                      />
-                    </View>
-                    <Text style={styles.text}>Nom</Text>
-                    <View style={styles.inputContainer}>
-                      <TextInput
-                        placeholder="Nom"
-                        placeholderTextColor="#979797"
-                        style={styles.input}
-                        onChangeText={handleChange('last_name')}
-                        onBlur={handleBlur('last_name')}
-                        value={values.last_name}
-                      />
-                    </View>
-                    <Text style={styles.text}>Adresse e-mail</Text>
-                    <View style={styles.inputContainer}>
-                      <TextInput
-                        placeholder="Email"
-                        placeholderTextColor="#979797"
-                        style={styles.input}
-                        onChangeText={handleChange('email')}
-                        onBlur={handleBlur('email')}
-                        autoCapitalize="none"
-                      />
-                    </View>
-                    <Text style={styles.text}>Téléphone</Text>
-                    <View style={styles.inputContainer}>
-                      <TextInput
-                        placeholder="Téléphone"
-                        placeholderTextColor="#979797"
-                        style={styles.input}
-                        onChangeText={handleChange('phone')}
-                        onBlur={handleBlur('phone')}
-                        value={values.phone}
-                      />
-                    </View>
-                    <View style={{ marginVertical: 10 }}>
-                      <DeleteButton
-                        customContainerStyles={styles.changePasswordButton}
-                        customTextStyle={styles.changePasswordText}
-                        title="Modifier mon mot de passe"
-                      />
-                    </View>
-                    <View style={styles.inputContainer}>
-                      <Text style={styles.text}>Diplôme(s)</Text>
-                      <FieldArray
-                        render={() => (
-                          <View style={styles.inputWithButtonContainer}>
-                            <TextInput
-                              placeholder="Entre le nom de ton dîplôme"
-                              placeholderTextColor="#979797"
-                              name="diplomas"
-                              value={this.component.state.DiplomasTerm}
-                              onChangeText={(text) => {
-                                this.component.setState({
-                                  DiplomasTerm: text,
-                                });
-                              }}
-                              style={styles.inputWithButton}
-                            />
-                            <TouchableOpacity
-                              onPress={() => {
-                                this.component.state.arrayofdiplomas.push(
-                                  this.component.state.DiplomasTerm,
-                                );
-                                this.component.setState({
-                                  refresh: !this.component.state.refresh,
-                                });
-                                //TODO Diplomas, pas spécialités
-                                values.diplomas.push(
-                                  this.component.state.DiplomasTerm,
-                                );
-                              }}>
-                              <View style={styles.addButton}>
-                                <FontAwesome
-                                  name="plus-square"
-                                  size={25}
-                                  color="#2CDEE4"
-                                />
-                              </View>
-                            </TouchableOpacity>
-                          </View>
-                        )}
-                      />
-                    </View>
-                    <View style={styles.container3}>
-                      <FlatList
-                        data={this.component.state.arrayofdiplomas}
-                        // numColumns={3}
-                        renderItem={({ item, index }) => {
-                          return (
-                            <View>
-                              <View style={[styles.itemDiplomas]}>
-                                <Text style={styles.itemText}>{item}</Text>
-                              </View>
-                              <TouchableOpacity
-                                onPress={() => {
-                                  if (index > -1) {
-                                    this.component.state.arrayofdiplomas.splice(
-                                      index,
-                                      1,
-                                    );
-                                    values.diplomas.splice(index, 1);
-                                    this.component.setState({
-                                      refresh: !this.component.state.refresh,
-                                    });
-                                  }
-                                }}
-                                style={styles.deleteContainer}>
-                                <Entypo name="cross" size={18} />
-                              </TouchableOpacity>
-                            </View>
-                          );
-                        }}
-                        keyExtractor={(item) => item}
-                      //   extraData={selectedId}
-                      />
-                    </View>
-                    <Text style={[styles.text, { marginTop: 20 }]}>
-                      Spécialité(s)
-                    </Text>
-                    <View style={[styles.inputContainer, { marginTop: 5 }]}>
-                      <FieldArray
-                        render={(arrayhelper) => (
-                          <View style={styles.inputWithButtonContainer}>
-                            <TextInput
-                              placeholder="Entre une spécialité"
-                              placeholderTextColor="#979797"
-                              name="spécialité"
-                              value={this.component.state.SpecialitiesTerm}
-                              onChangeText={(text) => {
-                                this.component.setState({
-                                  SpecialitiesTerm: text,
-                                });
-                              }}
-                              style={styles.inputWithButton}
-                            />
-                            <TouchableOpacity
-                              onPress={() => {
-                                this.component.setState({
-                                  refresh: !this.component.state.refresh,
-                                });
-                                this.component.state.specData.push(
-                                  this.component.state.SpecialitiesTerm,
-                                );
-                                // values.specialties.push(
-                                //   this.component.state.SpecialitiesTerm,
-                                // );
-                                this.component.setState({
-                                  refresh: !this.component.state.refresh,
-                                });
-                              }}>
-                              <View style={styles.addButton}>
-                                <FontAwesome
-                                  name="plus-square"
-                                  size={25}
-                                  color="#2CDEE4"
-                                />
-                              </View>
-                            </TouchableOpacity>
-                          </View>
-                        )}
-                      />
-                      <FlatList
-                        style={{ marginTop: 5 }}
-                        data={this.component.state.specData}
-                        numColumns={3}
-                        keyExtractor={(item) => item}
-                        renderItem={({ item, index }) => {
-                          return (
-                            <View
-                              style={{
-                                marginLeft: index === 0 ? 0 : 7.5,
-                                marginRight: 7.5,
-                              }}>
-                              <View style={styles.item}>
-                                <Text style={styles.itemText}>{item}</Text>
-                              </View>
-                              <TouchableOpacity
-                                onPress={() => {
-                                  // const index =
-                                  //   this.component.state.specData.indexOf(
-                                  //     item,
-                                  //   );
-
-                                  // if (index > -1) {
-                                  //   this.component.state.specData.splice(
-                                  //     index,
-                                  //     1,
-                                  //   );
-                                  values.specialties.splice(index, 1);
-                                  this.component.setState({
-                                    refresh: !this.component.state.refresh,
-                                  });
-                                }}
-                                style={styles.deleteContainer}>
-                                <Entypo name="cross" size={18} />
-                              </TouchableOpacity>
-                            </View>
-                          );
-                        }}
-                      />
-                    </View>
-                    <View>
-                      <Text style={styles.text}>
-                        Dans quelle salle pratiques-tu ?
-                      </Text>
-                      <View style={{ alignItems: 'center' }}>
-                        <SelectDropdown
-                          buttonStyle={styles.dropdownButton}
-                          buttonTextStyle={styles.dropdownButtonText}
-                          rowTextStyle={styles.dropdownRowText}
-                          dropdownStyle={styles.dropdownBg}
-                          rowStyle={styles.dropdownRow}
-                          data={this.component.state.Gymdata}
-                          defaultButtonText={this.component.state.User.gym.name}
-                          onSelect={(selectedItem, index) => {
-                            if (
-                              arrayhelper?.form?.values?.gymPlace?.length > 1
-                            ) {
-                              arrayhelper?.pop();
-                            } else {
-                            }
-                            arrayhelper?.push(selectedItem);
-                          }}
-                          renderDropdownIcon={() => {
-                            return (
-                              <AntDesign name="down" size={18} color="black" />
-                            );
-                          }}
-                          dropdownIconPosition={'right'}
-                          buttonTextAfterSelection={(selectedItem, index) => {
-                            return selectedItem.name;
-                          }}
-                          rowTextForSelection={(item, index) => {
-                            return item.name;
-                          }}
-                        />
-                      </View>
-                    </View>
-                    <View style={styles.validateButton}>
-                      <Button
-                        loading={false}
-                        title="Valider les changements"
-                        customTextStyle={styles.validateButtonText}
-                        onPress={() => {
-                          this.controller.onSave(values);
-                        }}
-                      />
-                    </View>
+                  <View style={styles.headerMidle}>
+                    <TouchableOpacity onPress={() => controller.pickImage()}>
+                      {state.image.uri ? (
+                        <Avatar size={105} rounded source={{ uri: state.image.uri }} />
+                      ) : state.Coach.profile_picture_url ? (
+                        <Avatar size={105} rounded source={{ uri: state.Coach.profile_picture_url }} />
+                      ) : (
+                        <Image style={styles.previewImage} source={require('../../../assets/images/no_pp.jpg')} />
+                      )}
+                    </TouchableOpacity>
                   </View>
                 </View>
-              )}
-            </Formik>
+              </View>
 
-          </ScrollView>
-        </View>
-      );
-    }
-  }
-}
+              <View style={styles.content}>
+                <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+                  <CheckBox
+                    containerStyle={styles.checkBox}
+                    checkedColor="#2CDEE4"
+                    title="M"
+                    textStyle={{ color: '#fff' }}
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="dot-circle-o"
+                    checked={values.gender === 'male'}
+                    onPress={() => setFieldValue('gender', 'male')}
+                  />
+                  <CheckBox
+                    containerStyle={styles.checkBox}
+                    checkedColor="#2CDEE4"
+                    title="Mme"
+                    textStyle={{ color: '#fff' }}
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="dot-circle-o"
+                    checked={values.gender === 'female'}
+                    onPress={() => setFieldValue('gender', 'female')}
+                  />
+                </View>
+
+                {/* Champs texte */}
+                {['Prénom', 'Nom', 'Adresse e-mail', 'Téléphone'].map((label, idx) => {
+                  const key = ['first_name', 'last_name', 'email', 'phone'][idx];
+                  return (
+                    <View key={key}>
+                      <Text style={styles.text}>{label}</Text>
+                      <View style={styles.inputContainer}>
+                        <TextInput
+                          placeholder={label}
+                          placeholderTextColor="#979797"
+                          style={styles.input}
+                          onChangeText={handleChange(key)}
+                          onBlur={handleBlur(key)}
+                          value={values[key]}
+                          autoCapitalize={key === 'email' ? 'none' : 'sentences'}
+                        />
+                      </View>
+                    </View>
+                  );
+                })}
+
+                <View style={{ marginVertical: 10 }}>
+                  <DeleteButton
+                    customContainerStyles={styles.changePasswordButton}
+                    customTextStyle={styles.changePasswordText}
+                    title="Modifier mon mot de passe"
+                  />
+                </View>
+
+                {/* Diplômes */}
+                <Text style={styles.text}>Diplôme(s)</Text>
+                <View style={styles.inputWithButtonContainer}>
+                  <TextInput
+                    placeholder="Entre le nom de ton diplôme"
+                    placeholderTextColor="#979797"
+                    style={styles.inputWithButton}
+                    value={diplomasTerm}
+                    onChangeText={setDiplomasTerm}
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      values.diplomas.push(diplomasTerm);
+                      state.arrayofdiplomas.push(diplomasTerm);
+                      setDiplomasTerm('');
+                      setRefresh(!refresh);
+                    }}
+                  >
+                    <FontAwesome name="plus-square" size={25} color="#2CDEE4" />
+                  </TouchableOpacity>
+                </View>
+
+                <FlatList
+                  data={state.arrayofdiplomas}
+                  renderItem={({ item, index }) => (
+                    <View>
+                      <View style={styles.itemDiplomas}>
+                        <Text style={styles.itemText}>{item}</Text>
+                      </View>
+                      <TouchableOpacity
+                        onPress={() => {
+                          state.arrayofdiplomas.splice(index, 1);
+                          values.diplomas.splice(index, 1);
+                          setRefresh(!refresh);
+                        }}
+                        style={styles.deleteContainer}
+                      >
+                        <Entypo name="cross" size={18} />
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                  keyExtractor={(item) => item}
+                />
+
+                {/* Spécialités */}
+                <Text style={[styles.text, { marginTop: 20 }]}>Spécialité(s)</Text>
+                <View style={styles.inputWithButtonContainer}>
+                  <TextInput
+                    placeholder="Entre une spécialité"
+                    placeholderTextColor="#979797"
+                    style={styles.inputWithButton}
+                    value={specialitiesTerm}
+                    onChangeText={setSpecialitiesTerm}
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      state.specData.push(specialitiesTerm);
+                      values.specialties.push(specialitiesTerm);
+                      setSpecialitiesTerm('');
+                      setRefresh(!refresh);
+                    }}
+                  >
+                    <FontAwesome name="plus-square" size={25} color="#2CDEE4" />
+                  </TouchableOpacity>
+                </View>
+
+                <FlatList
+                  data={state.specData}
+                  numColumns={3}
+                  renderItem={({ item, index }) => (
+                    <View style={{ marginHorizontal: 7.5 }}>
+                      <View style={styles.item}>
+                        <Text style={styles.itemText}>{item}</Text>
+                      </View>
+                      <TouchableOpacity
+                        onPress={() => {
+                          state.specData.splice(index, 1);
+                          values.specialties.splice(index, 1);
+                          setRefresh(!refresh);
+                        }}
+                        style={styles.deleteContainer}
+                      >
+                        <Entypo name="cross" size={18} />
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                  keyExtractor={(item) => item}
+                />
+
+                {/* Sélecteur de salle */}
+                <Text style={styles.text}>Dans quelle salle pratiques-tu ?</Text>
+                <View style={{ alignItems: 'center' }}>
+                  <SelectDropdown
+                    buttonStyle={styles.dropdownButton}
+                    buttonTextStyle={styles.dropdownButtonText}
+                    data={state.Gymdata}
+                    defaultButtonText={state.User.gym.name}
+                    onSelect={(selectedItem) => {
+                      setFieldValue('gymPlace', [selectedItem]);
+                    }}
+                    renderDropdownIcon={() => (
+                      <AntDesign name="down" size={18} color="black" />
+                    )}
+                    buttonTextAfterSelection={(selectedItem) => selectedItem.name}
+                    rowTextForSelection={(item) => item.name}
+                  />
+                </View>
+
+                <View style={styles.validateButton}>
+                  <Button
+                    loading={false}
+                    title="Valider les changements"
+                    customTextStyle={styles.validateButtonText}
+                    onPress={() => controller.onSave(values)}
+                  />
+                </View>
+              </View>
+            </View>
+          )}
+        </Formik>
+      </ScrollView>
+    </View>
+  );
+};
+
+export default ProfileCoachScreenView;

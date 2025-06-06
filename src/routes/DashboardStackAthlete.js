@@ -9,7 +9,7 @@ import AppTabsNavigator from './DashbordAthlete/AppTabsNavigator';
 
 const Stack = createNativeStackNavigator();
 
-const DashboardStackAtlhete = () => {
+const DashboardStackAthlete = () => {
   return (
     <Stack.Navigator initialRouteName="AppTabsNavigator" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="AppTabsNavigator" component={AppTabsNavigator} />
@@ -20,4 +20,4 @@ const DashboardStackAtlhete = () => {
   );
 };
 
-export default DashboardStackAtlhete;
+export default DashboardStackAthlete;

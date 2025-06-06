@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import {
   TouchableOpacity,
   View,
@@ -14,7 +14,6 @@ import moment from 'moment';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
 import SwitchSelector from 'react-native-switch-selector';
 import { Avatar } from 'react-native-elements';
-import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 import Pager from '../../common/Carrousel';
 import { Calendar } from 'react-native-calendars';
 import MonthsSlider from '../../components/MonthsSlider';
@@ -25,54 +24,51 @@ import { LinearGradient } from 'expo-linear-gradient';
 import CoachAvaibility from '../../components/CoachAvaibility/CoachAvaibility';
 import { slots } from '../../helpers/dateHelper';
 import FilterTimesDialog from '../../components/dialogs/filterTimesDialog/filterTimesDialog';
-import { store } from '../../redux/store';
 import ChangeSlotDialog from '../../components/dialogs/changeSlotDialog/changeSlotDialog';
-export default class HomeCoachScreenView extends AbstractScreenView {
-  renderDialog() {
-    return (
-      <FilterTimesDialog
-        dialogVisible={this.component.state.dialogVisible}
-        onClose={this.controller.onDismissDialog}
-      />
-    );
-  }
+import { store } from '../../redux/store';
 
-  renderSlotDialog() {
-    const { selectedSlot, selectedDate } = this.component.state;
+const HomeCoachScreenView = ({
+  state,
+  controller,
+  navigation,
+}) => {
+  // Les ref et le state local éventuel ici si nécessaire
+  const [screen, setScreen] = useState(state.screen);
 
-    return selectedSlot ? (
-      <ChangeSlotDialog
-        dialogVisible={this.component.state.isChangeSLotDialogVisible}
-        onClose={this.controller.dismissChangeSlotDialog}
-        date={selectedDate}
-        slot={this.component.state.selectedSlot}
-      />
-    ) : null;
-  }
+  // Fonctions de rendu
+  const renderBadge = () => (
+    <View style={{ position: 'absolute', top: -2, right: -2, zIndex: 1 }}>
+      <View
+        style={{
+          width: 13,
+          height: 13,
+          borderRadius: 6.5,
+          backgroundColor: '#FD7279',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Text style={{ fontSize: 8, fontFamily: 'Roboto' }}>
+          {state.publicRequest}
+        </Text>
+      </View>
+    </View>
+  );
 
-  renderDay = (date, state, marking) => {
+  const renderDay = (date, calendarState, marking) => {
     const isSelected = marking;
-    const isToday = state === 'today';
-
+    const isToday = calendarState === 'today';
     const isBefore = moment().toDate() >= moment(date.dateString).toDate();
-    let textColor = isBefore
-      ? '#979797'
-      : isToday || !marking
-      ? '#fff'
-      : '#000';
-
+    let textColor = isBefore ? '#979797' : isToday || !marking ? '#fff' : '#000';
     let bg = marking && !isToday ? '#2CDEE4' : 'transparent';
     bg = marking && isToday ? '#2CDEE4' : bg;
-
     const badgeTextColor = isToday ? '#000' : marking ? '#fff' : '#000';
     const badgeBg = isToday ? '#2CDEE4' : isSelected ? '#393637' : '#2CDEE4';
-
     textColor = isToday ? '#2CDEE4' : textColor;
     textColor = isToday && marking ? '#000' : textColor;
     let renderBadge = false;
     if (
-      this.component.state.MonthBookingNumberPerDay[date.day - 1] > 0 &&
-      new Date(this.component.state.currentMonth).getMonth() + 1 === date.month
+      state.MonthBookingNumberPerDay[date.day - 1] > 0 &&
+      new Date(state.currentMonth).getMonth() + 1 === date.month
     ) {
       bg = marking ? '#2CDEE4' : '#393637';
       renderBadge = true;
@@ -81,13 +77,13 @@ export default class HomeCoachScreenView extends AbstractScreenView {
       <TouchableOpacity
         style={styles.dayContainerCalendar}
         onPress={() => {
-          this.controller.changeTaskList(date);
+          controller.changeTaskList(date);
         }}>
         {renderBadge ? (
           <View style={[styles.dateMonth, { backgroundColor: badgeBg }]}>
             <View>
               <Text style={[styles.dateMonthText, { color: badgeTextColor }]}>
-                {this.component.state.MonthBookingNumberPerDay[date.day - 1]}
+                {state.MonthBookingNumberPerDay[date.day - 1]}
               </Text>
             </View>
           </View>
@@ -97,8 +93,6 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             styles.day,
             {
               backgroundColor: bg,
-              // borderWidth: isToday ? 1 : 0,
-              // borderColor: isToday ? '#2CDEE4' : '#393637',
             },
           ]}>
           <Text style={[styles.dayTextCalendar, { color: textColor }]}>
@@ -109,76 +103,11 @@ export default class HomeCoachScreenView extends AbstractScreenView {
     );
   };
 
-  renderCalendarAndroid = () => {
-    const pageLength = this.component.state.page.length;
-    const isBigPhone = Dimensions.get('window').height >= 896;
-
-    return (
-      <View
-        style={{
-          marginTop: pageLength == 0 ? 15 : isBigPhone ? -20 : 0,
-        }}>
-        <ScrollView>
-          <LinearGradient
-            colors={['#23282E', '#141517']}
-            // locations={[-0.25, 1]}
-            start={{
-              x: 1,
-              y: 0,
-            }}
-            end={{
-              x: 1,
-              y: 1,
-            }}
-            style={{
-              borderRadius: 8,
-              marginHorizontal: 16,
-            }}>
-            {this.renderCalendar()}
-          </LinearGradient>
-        </ScrollView>
-      </View>
-    );
-  };
-  renderCalendarIos = () => {
-    const pageLength = this.component.state.page.length;
-    const isBigPhone = Dimensions.get('window').height >= 896;
-
-    return (
-      <ScrollView
-        style={{
-          marginTop: pageLength == 0 ? 15 : isBigPhone ? -20 : 0,
-        }}
-        contentInset={{ bottom: 80 }}>
-        <LinearGradient
-          colors={['#23282E', '#141517']}
-          // locations={[-0.25, 1]}
-          start={{
-            x: 1,
-            y: 0,
-          }}
-          end={{
-            x: 1,
-            y: 1,
-          }}
-          style={{
-            flex: 1,
-            maxHeight: 400,
-            borderRadius: 8,
-            marginHorizontal: 16,
-            alignItems: 'center',
-          }}>
-          {this.renderCalendar()}
-        </LinearGradient>
-      </ScrollView>
-    );
-  };
-
-  renderCalendar = () => {
-    const selected = this.component.state.selectedDate;
+  const renderCalendar = () => {
+    const selected = state.selectedDate;
     return (
       <Calendar
-        scrollEnabled={true}
+        scrollEnabled
         theme={{
           calendarBackground: 'transparent',
           textSectionTitleColor: 'white',
@@ -199,16 +128,16 @@ export default class HomeCoachScreenView extends AbstractScreenView {
           textDayHeaderFontSize: 16,
         }}
         onPressArrowLeft={async (subtractMonth) => {
-          await this.controller.bookingInMonth(-1);
+          await controller.bookingInMonth(-1);
           subtractMonth();
         }}
         onPressArrowRight={async (addMonth) => {
-          await this.controller.bookingInMonth(1);
+          await controller.bookingInMonth(1);
           addMonth();
         }}
-        enableSwipeMonths={true}
+        enableSwipeMonths
         firstDay={1}
-        disableMonthChange={true}
+        disableMonthChange
         markingType={'custom'}
         disabledByDefault
         markedDates={{
@@ -218,357 +147,316 @@ export default class HomeCoachScreenView extends AbstractScreenView {
             selectedTextColor: 'black',
           },
         }}
-        dayComponent={({ date, state, marking }) =>
-          this.renderDay(date, state, marking)
+        dayComponent={({ date, state: calendarState, marking }) =>
+          renderDay(date, calendarState, marking)
         }
-        onDayPress={(day) => this.controller.changeTaskList(day)}
+        onDayPress={(day) => controller.changeTaskList(day)}
         style={styles.calendar}
       />
     );
   };
-  renderPlanning = () => {
-    return (
-      <View style={{ marginTop: 25 }}>
-        <View style={styles.tabContainer}>
-          <Text
-            style={[
-              styles.currentDateText,
-              {
-                marginBottom: 15,
-              },
-            ]}>
-            {this.component.state.currentDate.toUpperCase()}
-          </Text>
-        </View>
-        <View style={styles.alignCenter}>
-          {this.component.state.page.length == 0 ? (
-            <View style={styles.noAppointmentContainer}>
-              <Text style={styles.noAppointmentText}>
-                Aucun rendez-vous prévu ce jour-là
-              </Text>
-            </View>
-          ) : this.component.state.carousselLoad ? (
-            <Pager pager={this.component.state.page} />
-          ) : (
-            <View style={styles.appointmentLoader}>
-              <ActivityIndicator />
-            </View>
-          )}
-        </View>
-        {Platform.OS === 'android'
-          ? this.renderCalendarAndroid()
-          : this.renderCalendarIos()}
-      </View>
-    );
-  };
 
-  renderAvailability = () => {
-    const { slotsToUse } = this.component.state;
+  const renderPlanning = () => (
+    <View style={{ marginTop: 25 }}>
+      <View style={styles.tabContainer}>
+        <Text style={[styles.currentDateText, { marginBottom: 15 }]}>
+          {state.currentDate?.toUpperCase()}
+        </Text>
+      </View>
+      <View style={styles.alignCenter}>
+        {state.page.length === 0 ? (
+          <View style={styles.noAppointmentContainer}>
+            <Text style={styles.noAppointmentText}>
+              Aucun rendez-vous prévu ce jour-là
+            </Text>
+          </View>
+        ) : state.carousselLoad ? (
+          <Pager pager={state.page} />
+        ) : (
+          <View style={styles.appointmentLoader}>
+            <ActivityIndicator />
+          </View>
+        )}
+      </View>
+      {Platform.OS === 'android' ? (
+        <View style={{ marginTop: state.page.length === 0 ? 15 : Dimensions.get('window').height >= 896 ? -20 : 0 }}>
+          <ScrollView>
+            <LinearGradient
+              colors={['#23282E', '#141517']}
+              start={{ x: 1, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{
+                borderRadius: 8,
+                marginHorizontal: 16,
+              }}>
+              {renderCalendar()}
+            </LinearGradient>
+          </ScrollView>
+        </View>
+      ) : (
+        <ScrollView
+          style={{ marginTop: state.page.length === 0 ? 15 : Dimensions.get('window').height >= 896 ? -20 : 0 }}
+          contentInset={{ bottom: 80 }}>
+          <LinearGradient
+            colors={['#23282E', '#141517']}
+            start={{ x: 1, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={{
+              flex: 1,
+              maxHeight: 400,
+              borderRadius: 8,
+              marginHorizontal: 16,
+              alignItems: 'center',
+            }}>
+            {renderCalendar()}
+          </LinearGradient>
+        </ScrollView>
+      )}
+    </View>
+  );
+
+  const renderAvailability = () => {
+    const { slotsToUse } = state;
     const curDate = moment().format('YYYY-MM-DD');
-    const { day } = this.component.state.currentAvailabilities;
+    const { day } = state.currentAvailabilities || {};
     const { coachFilteredTime } = store.getState();
 
-    return !slotsToUse.length ? null : (
+    if (!slotsToUse?.length) return null;
+    return (
       <View style={{ height: heightPercentageToDP(50) }}>
-        <View>
-          {this.renderDialog()}
-          {this.renderSlotDialog()}
-          <View style={{ marginVertical: 10 }}>
-            <MonthsSlider onChange={this.controller.onMonthChange.bind(this)} />
-          </View>
-          <View style={{ marginBottom: 34 }}>
-            <FlatList
-              ref={(ref) => (this.component.listRef = ref)}
-              horizontal={true}
-              data={this.component.state.availabilities}
-              refreshing={this.component.state.refreshing}
-              keyExtractor={() => String(Math.random(10))}
-              style={{ marginLeft: 16 }}
-              renderItem={({ item, index }) => {
-                const borderWidth = item?.availability === curDate ? 1 : 0;
-                const date = moment(item.availability).format('YYYY-MM-DD');
-                let isBefore =
-                  curDate !== date &&
-                  moment().toDate() >= moment(item.availability).toDate();
+        <FilterTimesDialog
+          dialogVisible={state.dialogVisible}
+          onClose={controller.onDismissDialog}
+        />
+        {state.selectedSlot && (
+          <ChangeSlotDialog
+            dialogVisible={state.isChangeSLotDialogVisible}
+            onClose={controller.dismissChangeSlotDialog}
+            date={state.selectedDate}
+            slot={state.selectedSlot}
+          />
+        )}
+        <View style={{ marginVertical: 10 }}>
+          <MonthsSlider onChange={controller.onMonthChange} />
+        </View>
+        <View style={{ marginBottom: 34 }}>
+          <FlatList
+            ref={controller.listRef}
+            horizontal
+            data={state.availabilities}
+            refreshing={state.refreshing}
+            keyExtractor={() => String(Math.random(10))}
+            style={{ marginLeft: 16 }}
+            renderItem={({ item, index }) => {
+              const borderWidth = item?.availability === curDate ? 1 : 0;
+              const date = moment(item.availability).format('YYYY-MM-DD');
+              let isBefore =
+                curDate !== date && moment().toDate() >= moment(item.availability).toDate();
 
-                const backgroundColor = isBefore
-                  ? '#393637'
-                  : item.availability === this.component.state.selectedDate
+              const backgroundColor = isBefore
+                ? '#393637'
+                : item.availability === state.selectedDate
                   ? '#2CDEE4'
                   : ['#2D333C', '#101010'];
-                const textColor = isBefore
-                  ? '#979797'
-                  : item.availability === this.component.state.selectedDate
+              const textColor = isBefore
+                ? '#979797'
+                : item.availability === state.selectedDate
                   ? 'black'
                   : 'white';
 
-                const colors = [];
-                if (isBefore) {
-                  colors.push('#393637', '#393637');
+              const colors = [];
+              if (isBefore) {
+                colors.push('#393637', '#393637');
+              } else if (item.availability === state.selectedDate) {
+                colors.push('#2CDEE4', '#2CDEE4');
+              } else {
+                colors.push('#252A30', '#1C1E22');
+              }
+              return (
+                <TouchableOpacity
+                  onPress={() => controller.getAvailabilities(item?.availability)}>
+                  <LinearGradient
+                    colors={colors}
+                    start={{ x: 0, y: 1 }}
+                    end={{ x: 1, y: 1 }}
+                    style={[
+                      styles.dayContainer,
+                      {
+                        backgroundColor,
+                        borderWidth,
+                        marginLeft: index === 0 ? 0 : 4,
+                        marginRight: 4,
+                      },
+                    ]}>
+                    <View style={styles.dayTextContainer}>
+                      <Text style={[styles.dayText, { color: textColor }]}>
+                        {item.availability_day}
+                      </Text>
+                      <Text style={[styles.dayTextNum, { color: textColor }]}>
+                        {item?.availability_day_num}
+                      </Text>
+                    </View>
+                  </LinearGradient>
+                </TouchableOpacity>
+              );
+            }}
+          />
+          <View style={styles.filterContainer}>
+            <TouchableOpacity onPress={controller.openDialog}>
+              <Image
+                style={styles.filterImage}
+                source={require('../../../assets/images/filtre.png')}
+              />
+            </TouchableOpacity>
+            <Text style={styles.filterInfoText}>
+              <Text>de</Text>
+              <Text style={styles.textColor}>
+                {` ${(slotsToUse[coachFilteredTime.start]).substring(0, 5)} `}
+              </Text>
+              <Text>à</Text>
+              <Text style={styles.textColor}>
+                {` ${slotsToUse[coachFilteredTime.end].substring(8, 13)}`}
+              </Text>
+            </Text>
+          </View>
+          <LinearGradient
+            colors={['#000', '#24292F']}
+            start={{ x: 1, y: 0 }}
+            end={{ x: 1, y: 1 }}>
+            <FlatList
+              contentContainerStyle={{ paddingBottom: 120 }}
+              style={{
+                maxHeight: heightPercentageToDP(60),
+                marginTop: 15,
+                marginHorizontal: 16,
+              }}
+              data={state.currentAvailabilities.slots}
+              keyExtractor={(item, index) => String(index)}
+              refreshControl={
+                <SidappRefreshControl
+                  refreshing={state.refreshing}
+                  onRefresh={controller.fetchData}
+                />
+              }
+              renderItem={({ item, index }) => {
+                if (coachFilteredTime) {
+                  if (coachFilteredTime.start && coachFilteredTime.end) {
+                    if (
+                      index < coachFilteredTime.start ||
+                      index > coachFilteredTime.end
+                    ) {
+                      return null;
+                    }
+                  } else if (
+                    coachFilteredTime.end &&
+                    index > coachFilteredTime.end
+                  ) {
+                    return null;
+                  }
+                }
+                let disable = false;
+                if (day < moment().format('YYYY-MM-DD')) {
+                  disable = true;
                 } else if (
-                  item.availability === this.component.state.selectedDate
+                  day === moment().format('YYYY-MM-DD') &&
+                  parseInt(slots[index].substring(0, 2)) <= moment().format('HH')
                 ) {
-                  colors.push('#2CDEE4', '#2CDEE4');
-                } else {
-                  colors.push('#252A30', '#1C1E22');
+                  disable = true;
                 }
                 return (
-                  <TouchableOpacity
-                    onPress={() => {
-                      this.controller.getAvailabilities(item?.availability);
-                    }}>
-                    <LinearGradient
-                      disable
-                      colors={colors}
-                      start={{
-                        x: 0,
-                        y: 1,
-                      }}
-                      end={{
-                        x: 1,
-                        y: 1,
-                      }}
-                      style={[
-                        styles.dayContainer,
-                        {
-                          backgroundColor,
-                          borderWidth,
-                          marginLeft: index === 0 ? 0 : 4,
-                          marginRight: 4,
-                        },
-                        ,
-                      ]}>
-                      <View style={styles.dayTextContainer}>
-                        <Text
-                          style={[
-                            styles.dayText,
-                            {
-                              color: textColor,
-                            },
-                          ]}>
-                          {item.availability_day}
-                        </Text>
-                        <Text
-                          style={[
-                            styles.dayTextNum,
-                            {
-                              color: textColor,
-                            },
-                          ]}>
-                          {item?.availability_day_num}
-                        </Text>
-                      </View>
-                    </LinearGradient>
-                  </TouchableOpacity>
+                  <CoachAvaibility
+                    disable={disable}
+                    index={index}
+                    slot={slotsToUse[index]}
+                    onSlotPress={controller.onSlotPress}
+                    item={item}
+                    day={day}
+                    onLinePress={controller.onLinePress}
+                    handler={() => controller.handler(day)}
+                    onAthletePress={controller.onAthletePress}
+                    onOtherBookPress={controller.onOtherBookPress}
+                  />
                 );
               }}
             />
-            <View style={styles.filterContainer}>
-              <TouchableOpacity
-                onPress={() => {
-                  this.controller.openDialog();
-                }}>
-                <Image
-                  style={styles.filterImage}
-                  source={require('../../../assets/images/filtre.png')}
-                />
-              </TouchableOpacity>
-              <Text style={styles.filterInfoText}>
-                <Text>de</Text>
-                <Text style={styles.textColor}>
-                  {` ${(slotsToUse[coachFilteredTime.start]).substring(
-                    0,
-                    5,
-                  )} `}
-                </Text>
-                <Text>à</Text>
-                <Text style={styles.textColor}>
-                  {` ${slotsToUse[coachFilteredTime.end].substring(8, 13)}`}
-                </Text>
+          </LinearGradient>
+        </View>
+      </View>
+    );
+  };
+
+  // Render principal
+  return (
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={{ backgroundColor: '#000', marginBottom: 20 }}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.navigate('AccountScreen')}>
+            <View style={styles.userInfoContainer}>
+              <Avatar
+                size={37}
+                rounded
+                source={
+                  state.user.profile_picture_url
+                    ? { uri: state.user.profile_picture_url }
+                    : require('../../../assets/images/no_pp.jpg')
+                }
+              />
+              <Text style={styles.username} numberOfLines={1} ellipsizeMode="tail">
+                {state.user.first_name} {state.user.last_name}
               </Text>
             </View>
-
-            <LinearGradient
-              colors={['#000', '#24292F']}
-              start={{ x: 1, y: 0 }}
-              end={{ x: 1, y: 1 }}>
-              <FlatList
-                contentContainerStyle={{ paddingBottom: 120 }}
-                style={{
-                  maxHeight: heightPercentageToDP(60),
-                  marginTop: 15,
-                  marginHorizontal: 16,
-                }}
-                data={this.component.state.currentAvailabilities.slots}
-                keyExtractor={(item, index) => String(index)}
-                refreshControl={
-                  <SidappRefreshControl
-                    refreshing={this.component.state.refreshing}
-                    onRefresh={this.controller.fetchData}
-                  />
-                }
-                renderItem={({ item, index }) => {
-                  if (coachFilteredTime) {
-                    if (coachFilteredTime.start && coachFilteredTime.end) {
-                      if (
-                        index < coachFilteredTime.start ||
-                        index > coachFilteredTime.end
-                      ) {
-                        return;
-                      }
-                    } else if (
-                      coachFilteredTime.end &&
-                      index > coachFilteredTime.end
-                    ) {
-                      return;
-                    }
-                  }
-
-                  let disable = false;
-
-                  if (day < moment().format('YYYY-MM-DD')) {
-                    disable = true;
-                  } else if (
-                    day === moment().format('YYYY-MM-DD') &&
-                    parseInt(slots[index].substring(0, 2)) <=
-                      moment().format('HH')
-                  ) {
-                    disable = true;
-                  }
-
-                  return (
-                    <CoachAvaibility
-                      disable={disable}
-                      index={index}
-                      slot={slotsToUse[index]}
-                      onSlotPress={this.controller.onSlotPress}
-                      item={item}
-                      day={day}
-                      onLinePress={this.controller.onLinePress}
-                      handler={() => this.controller.handler(day)}
-                      onAthletePress={this.controller.onAthletePress}
-                      onOtherBookPress={this.controller.onOtherBookPress}
-                    />
-                  );
-                }}
+          </TouchableOpacity>
+          <View style={styles.headerRight}>
+            <TouchableOpacity onPress={() => navigation.navigate('PendingRequestCoachScreen')}>
+              {state.publicRequest > 0 ? renderBadge() : null}
+              <Image
+                style={styles.headerRightImage}
+                source={require('../../../assets/images/Demande.png')}
               />
-            </LinearGradient>
-          </View>
-        </View>
-      </View>
-    );
-  };
-
-  renderBadge = () => {
-    return (
-      <View style={{ position: 'absolute', top: -2, right: -2, zIndex: 1 }}>
-        <View
-          style={{
-            width: 13,
-            height: 13,
-            borderRadius: 6.5,
-            backgroundColor: '#FD7279',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text style={{ fontSize: 8, fontFamily: 'Roboto' }}>
-            {this.component.state.publicRequest}
-          </Text>
-        </View>
-      </View>
-    );
-  };
-  render() {
-    const { navigate } = this.component.props.navigation;
-    return (
-      <View style={styles.container}>
-        <View style={{ backgroundColor: '#000', marginBottom: 20 }}>
-          <View style={styles.header}>
-            <TouchableOpacity
-              onPress={() => {
-                navigate('AccountScreen');
-              }}>
-              <View style={styles.userInfoContainer}>
-                <Avatar
-                  size={37}
-                  rounded
-                  source={
-                    this.component.state.user.profile_picture_url
-                      ? {
-                          uri: this.component.state.user.profile_picture_url,
-                        }
-                      : require('../../../assets/images/no_pp.jpg')
-                  }
-                />
-                <Text
-                  style={styles.username}
-                  numberOfLines={1}
-                  ellipsizeMode="tail">
-                  {this.component.state.user.first_name}{' '}
-                  {this.component.state.user.last_name}
-                </Text>
-              </View>
             </TouchableOpacity>
-            <View style={styles.headerRight}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigate('PendingRequestCoachScreen');
-                }}>
-                {this.component.state.publicRequest > 0
-                  ? this.renderBadge()
-                  : null}
-                <Image
-                  style={styles.headerRightImage}
-                  source={require('../../../assets/images/Demande.png')}
-                />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => {
-                  navigate('ActivitiesCoachScreen');
-                }}
-                style={styles.headerRightActivities}>
-                {/* {this.renderBadge()} */}
-                <Image
-                  style={styles.headerRightImage}
-                  source={require('../../../assets/images/Notif.png')}
-                />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity onPress={() => navigation.navigate('ActivitiesCoachScreen')} style={styles.headerRightActivities}>
+              <Image
+                style={styles.headerRightImage}
+                source={require('../../../assets/images/Notif.png')}
+              />
+            </TouchableOpacity>
           </View>
-          <View style={styles.headerBorder}></View>
         </View>
-        <View>
-          <View style={styles.alignCenter}>
-            <SwitchSelector
-              options={options}
-              initial={0}
-              onPress={(value) => this.component.setState({ screen: value })}
-              backgroundColor="#1E2025"
-              buttonColor="#2CDEE4"
-              selectedColor="#1E2025"
-              textColor="white"
-              borderRadius={10}
-              height={45}
-              style={{ width: 'auto' }}
-              hasPadding
-              fontSize={13}
-              selectedTextStyle={{
-                fontFamily: 'MontserratBoldItalic',
-                lineHeight: 15,
-              }}
-              textStyle={{
-                fontFamily: 'MontserratBoldItalic',
-                lineHeight: 15,
-              }}
-              borderColor="#1E2026"
-            />
-          </View>
-          {this.component.state.screen == 'Planning'
-            ? this.renderPlanning()
-            : this.renderAvailability()}
-        </View>
+        <View style={styles.headerBorder}></View>
       </View>
-    );
-  }
-}
+      <View>
+        <View style={styles.alignCenter}>
+          <SwitchSelector
+            options={options}
+            initial={0}
+            onPress={setScreen}
+            backgroundColor="#1E2025"
+            buttonColor="#2CDEE4"
+            selectedColor="#1E2025"
+            textColor="white"
+            borderRadius={10}
+            height={45}
+            style={{ width: 'auto' }}
+            hasPadding
+            fontSize={13}
+            selectedTextStyle={{
+              fontFamily: 'MontserratBoldItalic',
+              lineHeight: 15,
+            }}
+            textStyle={{
+              fontFamily: 'MontserratBoldItalic',
+              lineHeight: 15,
+            }}
+            borderColor="#1E2026"
+          />
+        </View>
+        {screen === 'Planning'
+          ? renderPlanning()
+          : renderAvailability()}
+      </View>
+    </View>
+  );
+};
+
+export default HomeCoachScreenView;

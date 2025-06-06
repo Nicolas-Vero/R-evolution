@@ -16,7 +16,7 @@ import styles from './selectGymStyle';
 const SelectGymScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const passItem = route.params?.item || {};
+  const passItem = route.params || {};
 
   const [gymData, setGymData] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -29,7 +29,7 @@ const SelectGymScreen = () => {
   }, []);
 
   const onNavigate = (item) => {
-    navigation.navigate('TrainingDayScreen', { item });
+    navigation.navigate('TrainingDayScreen', item);
   };
 
   return (
@@ -46,8 +46,8 @@ const SelectGymScreen = () => {
           <Formik
             initialValues={{ preferred_gym_id: '' }}
             onSubmit={(values) => {
-              const item = { ...passItem, ...values };
-              onNavigate(item);
+
+              onNavigate({ ...passItem, ...values });
             }}
             validationSchema={Yup.object().shape({
               preferred_gym_id: Yup.string().required('Requis'),

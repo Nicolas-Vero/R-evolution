@@ -22,16 +22,16 @@ export default function App() {
 
   useEffect(() => {
     async function initializeApp() {
-      try {
-        // Check for updates
-        const update = await Updates.checkForUpdateAsync();
-        if (update.isAvailable) {
-          await Updates.fetchUpdateAsync();
-          await Updates.reloadAsync();
-        }
-      } catch (e) {
-        console.error("Update check failed:", e);
-      }
+      // try {
+      //   // Check for updates
+      //   const update = await Updates.checkForUpdateAsync();
+      //   if (update.isAvailable) {
+      //     await Updates.fetchUpdateAsync();
+      //     await Updates.reloadAsync();
+      //   }
+      // } catch (e) {
+      //   console.error("Update check failed:", e);
+      // }
 
       await loadFonts();
       await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
@@ -50,7 +50,7 @@ export default function App() {
 
         if (user) {
           await AuthService.setUser(user.content);
-          await AuthService.checkExpoToken(user.content);
+          //   await AuthService.checkExpoToken(user.content);
         }
       }
 

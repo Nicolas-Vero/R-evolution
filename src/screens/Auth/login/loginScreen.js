@@ -37,7 +37,7 @@ const LoginScreen = ({ navigation }) => {
     setPasswordError(null);
 
     const userResponse = await userType(email);
-
+    console.log(userResponse);
     if (userResponse.status !== 200) {
       setError("Cet email n'existe pas");
       return;
@@ -64,7 +64,7 @@ const LoginScreen = ({ navigation }) => {
 
     if (user.status === 200) {
       await AuthService.setUser(user.content);
-      await AuthService.checkExpoToken(user.content);
+      //  await AuthService.checkExpoToken(user.content);
 
       navigation.navigate(
         userResponse.content.type === 'coach'

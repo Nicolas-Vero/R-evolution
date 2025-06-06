@@ -20,7 +20,7 @@ const TrainingDayScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const passItem = route.params?.item || {}; // Évite l'erreur `params undefined`
+  const passItem = route.params || {}; // Évite l'erreur `params undefined`
 
   const [multi, setMulti] = useState([6, 17]);
   const [selectedDays, setSelectedDays] = useState([
@@ -63,7 +63,7 @@ const TrainingDayScreen = () => {
         days_preference: updatedDays,
       };
 
-      navigation.navigate('SelectCoachScreen', { item: { ...passItem, ...updatedValues } });
+      navigation.navigate('SelectCoachScreen', { ...passItem, ...updatedValues });
     },
   });
 

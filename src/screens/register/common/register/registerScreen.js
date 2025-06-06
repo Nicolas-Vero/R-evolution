@@ -22,7 +22,7 @@ const RegisterScreen = ({ navigation }) => {
   const [termsCondition, setTermsCondition] = useState(false);
   const [emailError, setEmailError] = useState(null);
   const [phoneError, setPhoneError] = useState(null);
-  const [usertType, setUserType] = useState('athlete')
+  const [userType, setUserType] = useState('athlete')
   const handleNavigation = async (values) => {
     const emailRes = await isEmailExist(values.email);
     if (emailRes.data.userExist) {
@@ -75,12 +75,12 @@ const RegisterScreen = ({ navigation }) => {
 
   const initialValues = {
     gender: 'male',
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirm_password: '',
+    first_name: 'a',
+    last_name: 'a',
+    email: 'a@a.com',
+    phone: '1233567890',
+    password: 'aa',
+    confirm_password: 'aa',
     userType: 'athlete',
   };
   return (
@@ -106,13 +106,14 @@ const RegisterScreen = ({ navigation }) => {
               <Formik
                 initialValues={initialValues}
                 onSubmit={(values) => {
+                  console.log(values, 'OPOPO')
                   termsCondition
-                    ? navigation.navigate(usertType === 'athlete' ? 'MensurationScreen' : 'DiplomasScreen', values)
+                    ? navigation.navigate(userType === 'athlete' ? 'MensurationScreen' : 'DiplomasScreen', values)
                     : alert(
                       'Accepter les termes des conditions pour continuer.',
                     );
                 }}
-                validationSchema={usertType === 'athlete' ? validationSchemaAthlete : validationSchemaCoach}>
+                validationSchema={userType === 'athlete' ? validationSchemaAthlete : validationSchemaCoach}>
                 {({
                   handleChange,
                   handleBlur,

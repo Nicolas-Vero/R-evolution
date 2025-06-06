@@ -11,7 +11,6 @@ import { CheckBox, Text } from 'react-native-elements';
 import { Button } from '../../components/Button';
 import Header from '../../components/Header';
 import styles from './CreateOfferCoachScreenStyle';
-import AbstractScreenView from '../../components/abstracts/AbstractScreen/AbstractScreenView';
 
 const CreateOfferCoachScreenView = ({ controller }) => {
   const [offerType, setOfferType] = useState('Coaching');

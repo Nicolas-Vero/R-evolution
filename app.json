@@ -4,6 +4,7 @@
   "expo": {
     "name": "R_evolution",
     "slug": "R_evolution",
+    "owner": "nicolasvero",
     "version": "1.1.4",
     "assetBundlePatterns": ["**/*"],
     "icon": "./assets/icons/luncher.png",
@@ -22,6 +23,9 @@
     "extra": {
       "eas": {
         "projectId": "8830e0e0-f2e0-4712-9345-e2dd32b5da6f"
+      },
+      "expoClient": {
+        "experienceId": "@nicolasvero/R_evolution"
       }
     },
     "runtimeVersion": "1.0.0",

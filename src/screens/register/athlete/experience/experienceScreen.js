@@ -15,10 +15,11 @@ const ExperienceScreen = () => {
   const route = useRoute();
   const [step, setStep] = useState('initial');
 
-  const passItem = route.params?.item || {}; // Récupération des paramètres de navigation
+  const passItem = route.params || {}; // Récupération des paramètres de navigation
 
   const onNavigate = (item) => {
-    navigation.navigate('GoalScreen', { item });
+    console.log('itmmmmmmem', item);
+    navigation.navigate('GoalScreen', item);
   };
 
   return (
@@ -36,8 +37,8 @@ const ExperienceScreen = () => {
             <Formik
               initialValues={{ experience_years: '0' }}
               onSubmit={(values) => {
-                const item = { ...passItem, ...values };
-                onNavigate(item);
+                console.log('values', passItem);
+                onNavigate({ ...passItem, ...values });
               }}
             >
               {({ handleSubmit }) => (

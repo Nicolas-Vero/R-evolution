@@ -1,129 +1,64 @@
 import React from 'react';
-import { Image, View } from 'react-native';
+import { Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-//
+import { LinearGradient } from 'expo-linear-gradient';
 
-import OffresStack from './OffresStack';
 import HomeStack from './HomeStack';
+import OffresStack from './OffresStack';
 import MyAthletesStack from './MyAthletesStack';
 import DashboardCoachStack from './DashboardStack';
-import { LinearGradient } from 'expo-linear-gradient';
-// Auth import
 
-const AppTabsNavigator = createBottomTabNavigator(
-  {
-    HomeStack: {
-      screen: HomeStack,
-      navigationOptions: ({ navigation }) => ({
-        tabBarLabel: 'Home',
-        tabBarVisible: getTabBarVisiblility(navigation),
-        tabBarIcon: ({ tintColor }) => (
-          <Image
-            source={require('../../../assets/images/Calendar.png')}
-            style={{ height: 22, width: 22, resizeMode: 'contain', tintColor }}
-          />
-        ),
-      }),
-    },
-    OffresStack: {
-      screen: OffresStack,
-      navigationOptions: ({ navigation }) => ({
-        tabBarLabel: 'Offres',
-        tabBarVisible: getTabBarVisiblility(navigation),
-        tabBarIcon: ({ tintColor }) => (
-          <Image
-            source={require('../../../assets/images/Category.png')}
-            style={{ height: 20, width: 20, resizeMode: 'contain', tintColor }}
-          />
-        ),
-      }),
-    },
-    MyAthletesStack: {
-      screen: MyAthletesStack,
-      navigationOptions: ({ navigation }) => ({
-        tabBarLabel: 'Athlètes',
-        tabBarVisible: getTabBarVisiblility(navigation),
-        tabBarIcon: ({ tintColor }) => (
-          <Image
-            source={require('../../../assets/images/User.png')}
-            style={{ height: 20, width: 20, resizeMode: 'contain', tintColor }}
-          />
-        ),
-      }),
-    },
-    DashboardCoachStack: {
-      screen: DashboardCoachStack,
-      navigationOptions: ({ navigation }) => ({
-        tabBarLabel: 'Dashboard',
-        tabBarVisible: getTabBarVisiblility(navigation),
-        tabBarIcon: ({ tintColor }) => (
-          <Image
-            source={require('../../../assets/images/Chart.png')}
-            style={{ height: 26, width: 26, resizeMode: 'contain', tintColor }}
-          />
-        ),
-      }),
-    },
-  },
-  {
-    tabBarComponent: (props) => {
-      return (
-        <LinearGradient
-          colors={['#1A1E21', '#101010']}
-          start={{
-            x: 0,
-            y: 0,
-          }}
-          end={{
-            x: 1,
-            y: 1,
-          }}
-          style={{ height: 65 }}>
-          {/* <BottomTabBar
-            {...props}
-            style={{
-              backgroundColor: 'transparent',
-              borderTopColor: '#2CDEE4',
-              borderTopWidth: 0.5,
-            }}
-          /> */}
-        </LinearGradient>
-      );
-    },
-    lazy: true,
-    initialRouteName: 'HomeStack',
-    swipeEnabled: true,
-    animationEnabled: true,
-    tabBarPosition: 'bottom',
-    navigationOptions: {
-      tabBarVisible: true,
-      animationEnabled: true,
-      gestureEnabled: false,
-    },
+const Tab = createBottomTabNavigator();
 
-    tabBarOptions: {
-      activeTintColor: '#2CDEE4',
-      inactiveTintColor: 'white',
-      showIcon: true,
-      showLabel: false,
-      allowFontScaling: false,
-      style: {
-        borderTopColor: '#2CDEE4',
-        alignSelf: 'center',
-        backgroundColor: '#1E2026',
-      },
-    },
-  },
-);
+function GradientTabBarBackground() {
+  return (
+    <LinearGradient
+      colors={['#1A1E21', '#101010']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={{ height: 65 }}
+    />
+  );
+}
 
-const getTabBarVisiblility = (navigation) => {
-  const route = navigation.state.routes[navigation.state.routes.length - 1];
-  return [
-    'homeCoachScreen',
-    'OffersTrainingsCoachScreen',
-    'AthletesCoachScreen',
-    'DashboardScreen',
-  ].includes(route.routeName);
+const AppTabsNavigator = () => {
+  return (
+    <Tab.Navigator
+      initialRouteName="HomeStack"
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: 'transparent',
+          borderTopColor: '#2CDEE4',
+          borderTopWidth: 0.5,
+          height: 65,
+        },
+        tabBarBackground: () => <GradientTabBarBackground />,
+        tabBarActiveTintColor: '#2CDEE4',
+        tabBarInactiveTintColor: 'white',
+        tabBarIcon: ({ color }) => {
+          const icons = {
+            HomeStack: require('../../../assets/images/Calendar.png'),
+            OffresStack: require('../../../assets/images/Category.png'),
+            MyAthletesStack: require('../../../assets/images/User.png'),
+            DashboardCoachStack: require('../../../assets/images/Chart.png'),
+          };
+          return (
+            <Image
+              source={icons[route.name]}
+              style={{ height: 24, width: 24, resizeMode: 'contain', tintColor: color }}
+            />
+          );
+        },
+      })}
+    >
+      <Tab.Screen name="HomeStack" component={HomeStack} />
+      <Tab.Screen name="OffresStack" component={OffresStack} />
+      <Tab.Screen name="MyAthletesStack" component={MyAthletesStack} />
+      <Tab.Screen name="DashboardCoachStack" component={DashboardCoachStack} />
+    </Tab.Navigator>
+  );
 };
 
 export default AppTabsNavigator;
