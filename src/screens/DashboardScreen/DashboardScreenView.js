@@ -22,39 +22,42 @@ import AthleteGoalsGraph from '../../components/Dashboard/AthleteGoalsGraph/Athl
 import SaveGoalDialog from '../../components/dialogs/saveGoalDialog/saveGoalDialog';
 import ChoiceYearDialog from '../../components/dialogs/choiceYearDialog/choiceYearDialog';
 
+// === HOOK DIRECTEMENT INTÉGRÉ ICI ===
+import { useDashboardScreen } from './useDashboardScreen';
+
 const options = [
   { label: 'MON CA', value: 'CA' },
   { label: 'MES ATHLÈTES', value: 'athletes' },
 ];
 
-const DashboardScreenView = ({
-  screen,
-  setScreen,
-  year,
-  selectedMonthIndex,
-  turnOver,
-  sales,
-  prospects,
-  yearCA,
-  athletes,
-  athletesGoals,
-  isGoalModalVisible,
-  isYearModalVisible,
-  onMonthChange,
-  onDismissGoalDialog,
-  onGoalSubmit,
-  onDismissYearDialog,
-  onYearSubmit,
-  setGoalModalVisible,
-  setYearModalVisible,
-  goToSaleDetail,
-}) => {
-  const screenHeight = Dimensions.get('window').height;
+const DashboardScreenView = ({ navigation }) => {
+  const {
+    screen,
+    setScreen,
+    year,
+    selectedMonthIndex,
+    turnOver,
+    sales,
+    prospects,
+    yearCA,
+    athletes,
+    athletesGoals,
+    isGoalModalVisible,
+    isYearModalVisible,
+    onMonthChange,
+    handleGoalModalVisible,
+    handleDismissGoalDialog,
+    handleYearModalVisible,
+    handleDismissYearDialog,
+    onGoalSubmit,
+    onYearSubmit,
+    goToSaleDetail,
+  } = useDashboardScreen({ navigation });
 
   const renderGoalDialog = () => (
     <SaveGoalDialog
       dialogVisible={isGoalModalVisible}
-      onClose={onDismissGoalDialog}
+      onClose={handleDismissGoalDialog}
       onValidate={onGoalSubmit}
     />
   );
@@ -62,7 +65,7 @@ const DashboardScreenView = ({
   const renderYearDialog = () => (
     <ChoiceYearDialog
       dialogVisible={isYearModalVisible}
-      onClose={onDismissYearDialog}
+      onClose={handleDismissYearDialog}
       onValidate={onYearSubmit}
       currentYear={year}
     />
@@ -82,7 +85,7 @@ const DashboardScreenView = ({
           <View style={styles.caHeader}>
             <Text style={styles.caHeaderText}>CHIFFRE D'AFFAIRES</Text>
             <View style={styles.caGoalContainer}>
-              <Text style={styles.caHeaderText} onPress={setGoalModalVisible}>
+              <Text style={styles.caHeaderText} onPress={handleGoalModalVisible}>
                 OBJECTIF
               </Text>
               <AntDesign name="arrowright" size={12} color="white" />
@@ -106,7 +109,7 @@ const DashboardScreenView = ({
             <View style={styles.caHeader}>
               <Text style={styles.caHeaderText}>HISTORIQUE</Text>
               <View style={styles.caGoalContainer}>
-                <Text style={styles.caHeaderText} onPress={setYearModalVisible}>
+                <Text style={styles.caHeaderText} onPress={handleYearModalVisible}>
                   {year}
                 </Text>
                 <AntDesign name="arrowright" size={12} color="white" />
@@ -124,13 +127,17 @@ const DashboardScreenView = ({
 
   const renderAthletes = () => (
     <ScrollView style={styles.scrollView2}>
-      <AthleteGraph athletes={athletes.activity} />
-      <AthleteCharacteristic
-        athletes={{
-          ages: athletes.ages,
-          gender: athletes.gender,
-        }}
-      />
+      {athletes && athletes.activity && (
+        <AthleteGraph athletes={athletes.activity} />
+      )}
+      {athletes && (
+        <AthleteCharacteristic
+          athletes={{
+            ages: athletes.ages,
+            gender: athletes.gender,
+          }}
+        />
+      )}
       <AthleteGoalsGraph
         keys={Object.keys(athletesGoals)}
         values={Object.values(athletesGoals)}

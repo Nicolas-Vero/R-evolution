@@ -38,7 +38,7 @@ export default class AthleteGraph extends React.Component {
             <AnimatedCircularProgress
               size={150}
               width={15}
-              fill={athletes.percentage.toFixed() || 0}
+              fill={athletes?.percentage?.toFixed() || 0}
               rotation={180}
               lineCap={'round'}
               tintColor="#2CDEE4"

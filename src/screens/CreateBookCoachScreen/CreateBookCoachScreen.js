@@ -3,7 +3,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 import AbstractScreen from '../../components/abstracts/AbstractScreen/AbstractScreen';
 import CreateBookCoachScreenView from './CreateBookCoachScreenView';
-import CreateBookCoachScreenController from './CreateBookCoachScreenController';
+import CreateBookCoachScreenController from './useCreateBookCoachScreen';
 
 const CreateBookCoachScreen = ({ route }) => {
   const { date, time } = route.params;
